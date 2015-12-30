@@ -131,8 +131,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .EnemyShrapnel(type: .Scout),
             .Enemy(type: .Dozer),
             .EnemyShrapnel(type: .Dozer),
-            .Cursor(selected: false),
-            .Cursor(selected: true),
+            .Cursor,
             .Drone(upgrade: FiveUpgrades(1)),
             .Drone(upgrade: FiveUpgrades(2)),
             .Drone(upgrade: FiveUpgrades(3)),
@@ -163,11 +162,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .BaseBigTurret(upgrade: FiveUpgrades(3)),
             .BaseBigTurret(upgrade: FiveUpgrades(4)),
             .BaseBigTurret(upgrade: FiveUpgrades(5)),
-            .Base(upgrade: FiveUpgrades(1)),
-            .Base(upgrade: FiveUpgrades(2)),
-            .Base(upgrade: FiveUpgrades(3)),
-            .Base(upgrade: FiveUpgrades(4)),
-            .Base(upgrade: FiveUpgrades(5)),
+            .Base(upgrade: FiveUpgrades(1), health: 1),
+            .Base(upgrade: FiveUpgrades(2), health: 1),
+            .Base(upgrade: FiveUpgrades(3), health: 1),
+            .Base(upgrade: FiveUpgrades(4), health: 1),
+            .Base(upgrade: FiveUpgrades(5), health: 1),
         ]
 
         for id in ids {

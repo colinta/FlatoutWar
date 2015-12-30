@@ -9,20 +9,20 @@
 class DemoWorld: World {
 
     override func populate() {
-        super.populate()
-
         let playerNode = BasePlayerNode()
+        defaultNode = playerNode
         self << playerNode
+
+        let drone = DroneNode(at: CGPoint(100, 50))
+        self << drone
+
         let count = 30
-        let radius = CGFloat(50)
+        let radius = CGFloat(200)
         for angleIndex in 0...count {
-            let myRadius = radius + CGFloat(5 * angleIndex)
             let angle = TAU * CGFloat(angleIndex) / CGFloat(count)
-            timeline.after(CGFloat(angleIndex) / 15) {
-                let enemyNode = SoldierNode(at: CGPoint(r: myRadius, a: angle))
-                enemyNode.rotateTowards(node: playerNode)
-                self << enemyNode
-            }
+            let enemyNode = SoldierNode(at: CGPoint(r: radius, a: angle))
+            enemyNode.rotateTowards(node: playerNode)
+            self << enemyNode
         }
     }
 

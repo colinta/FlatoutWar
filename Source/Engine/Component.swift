@@ -6,7 +6,8 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-class Component {
+@objc
+class Component: NSObject, NSCoding {
     var enabled = true
 
     func update(dt: CGFloat, node: Node) {
@@ -15,10 +16,26 @@ class Component {
     func reset() {
     }
 
+    override init() {
+    }
+
+    required init?(coder: NSCoder) {
+        super.init()
+        enabled = coder.decodeBool("enabled") ?? true
+    }
+
+    func encodeWithCoder(encoder: NSCoder) {
+        encoder.encode(enabled, key: "enabled")
+    }
+
 }
 
-
-extension Component: Equatable {}
-func ==(lhs: Component, rhs: Component) -> Bool {
-    return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
-}
+class FiringComponent: Component {}
+class FollowNodeComponent: Component {}
+class GrowToComponent: Component {}
+class MoveableComponent: Component {}
+class PhaseComponent: Component {}
+class RammableComponent: Component {}
+class RammingComponent: Component {}
+class TraversingComponent: Component {}
+class WanderingComponent: Component {}

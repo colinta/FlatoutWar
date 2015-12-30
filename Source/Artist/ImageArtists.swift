@@ -100,9 +100,8 @@ extension ImageIdentifier {
             }
             artist.size = artist.size * 0.1
             return artist
-        case let .Cursor(selected):
+        case .Cursor:
             let artist = CursorArtist()
-            artist.selected = selected
             return artist
         case let .Drone(upgrade):
             let artist = DroneArtist()
@@ -112,8 +111,9 @@ extension ImageIdentifier {
         case let .Radar(upgrade):
             let artist = RadarArtist(upgrade: upgrade)
             return artist
-        case let .Base(upgrade):
+        case let .Base(upgrade, health):
             let artist = BaseArtist(upgrade: upgrade)
+            artist.health = health
             artist.size = CGSize(40)
             return artist
         case let .BaseSingleTurret(upgrade):

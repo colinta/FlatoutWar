@@ -7,4 +7,11 @@
 //
 
 class WorldView: SKView {
+
+    override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {
+        if motion == .MotionShake {
+            (scene as? WorldScene)?.gameShook()
+        }
+    }
+
 }

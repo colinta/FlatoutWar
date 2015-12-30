@@ -13,6 +13,11 @@ extension CGSize {
         height = size
     }
 
+    init(r: CGFloat) {
+        width = 2 * r
+        height = 2 * r
+    }
+
     init(_ width: CGFloat, _ height: CGFloat) {
         self.width = width
         self.height = height
@@ -29,11 +34,11 @@ extension CGSize {
     }
 
     var angle: CGFloat {
-        return CGFloat(atan2(self.height, self.width))
+        return CGFloat(atan2(height, width))
     }
 
     var length: CGFloat {
-        return CGFloat(sqrt(pow(self.width, 2) + CGFloat(pow(self.height, 2))))
+        return CGFloat(sqrt(pow(width, 2) + CGFloat(pow(height, 2))))
     }
 
 }

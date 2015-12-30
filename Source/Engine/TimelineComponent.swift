@@ -42,12 +42,12 @@ class TimelineComponent: Component {
 
     override func reset() {
         super.reset()
-        events = [Event]()
-        recurringEvents = [RecurringEvent]()
-        conditionEvents = [ConditionEvent]()
-        newEvents = [Event]()
-        newRecurringEvents = [RecurringEvent]()
-        newConditionEvents = [ConditionEvent]()
+        events.removeAll()
+        recurringEvents.removeAll()
+        conditionEvents.removeAll()
+        newEvents.removeAll()
+        newRecurringEvents.removeAll()
+        newConditionEvents.removeAll()
     }
 
     private func addEvent(event: Event) {
@@ -96,20 +96,20 @@ class TimelineComponent: Component {
             c -= 1
         }
         let untilBlock: ConditionBlock = { return c <= 0 }
-        every({ return interval }, startAt: startAt, until: untilBlock, block: wrappedBlock)
+        _every({ return interval }, startAt: startAt, until: untilBlock, block: wrappedBlock)
     }
 
     func every(interval: CGFloat, startAt: CGFloat = 0, block: Block) {
-        every({ return interval }, startAt: startAt, until: { return false }, block: block)
+        _every({ return interval }, startAt: startAt, until: { return false }, block: block)
     }
 
     func every(interval: CGFloat, startAt: CGFloat = 0, untilTime: CGFloat, block: Block) {
         let untilBlock = { return self.time > untilTime }
-        every({ return interval }, startAt: startAt, until: untilBlock, block: block)
+        _every({ return interval }, startAt: startAt, until: untilBlock, block: block)
     }
 
     func every(interval: CGFloat, startAt: CGFloat = 0, until untilBlock: ConditionBlock, block: Block) {
-        every({ return interval }, startAt: startAt, until: untilBlock, block: block)
+        _every({ return interval }, startAt: startAt, until: untilBlock, block: block)
     }
 
     func every(interval: ClosedInterval<CGFloat>, startAt: CGFloat = 0, untilTime: CGFloat? = nil, block: Block) {
@@ -134,16 +134,16 @@ class TimelineComponent: Component {
             c -= 1
         }
         let untilBlock: ConditionBlock = { return c <= 0 }
-        every({ return rand(min: min, max: max) }, startAt: startAt, until: untilBlock, block: wrappedBlock)
+        _every({ return rand(min: min, max: max) }, startAt: startAt, until: untilBlock, block: wrappedBlock)
     }
 
     func every(interval: ClosedInterval<CGFloat>, startAt: CGFloat = 0, until untilBlock: ConditionBlock, block: Block) {
         let min = interval.start
         let max = interval.end
-        every({ return rand(min: min, max: max) }, startAt: startAt, until: untilBlock, block: block)
+        _every({ return rand(min: min, max: max) }, startAt: startAt, until: untilBlock, block: block)
     }
 
-    func every(generator: () -> CGFloat, startAt: CGFloat = 0, until untilBlock: ConditionBlock, block: Block) {
+    private func _every(generator: () -> CGFloat, startAt: CGFloat = 0, until untilBlock: ConditionBlock, block: Block) {
         let entry: RecurringEvent = RecurringEvent(countdown: 0, generator: generator, startAt: startAt, until: untilBlock, lastRun: 0, block: block)
         addEvent(entry)
     }
@@ -156,26 +156,24 @@ class TimelineComponent: Component {
         running = true
         time += dt
 
-        var events = [Event]()
         for event in self.events {
             if time >= event.scheduledTime {
                 event.block()
             }
             else {
-                events << event
+                newEvents << event
             }
         }
-        self.events = events + newEvents
-        newEvents = [Event]()
+        self.events = newEvents
+        newEvents.removeAll()
 
-        var recurringEvents = [RecurringEvent]()
         for var event in self.recurringEvents {
             if event.until() {
                 continue
             }
 
             if time < event.startAt {
-                recurringEvents << event
+                newRecurringEvents << event
                 continue
             }
 
@@ -183,27 +181,26 @@ class TimelineComponent: Component {
                 event.block()
                 event.lastRun = 0
                 event.countdown = event.generator()
-                recurringEvents << event
+                newRecurringEvents << event
             }
             else {
                 event.lastRun += dt
-                recurringEvents << event
+                newRecurringEvents << event
             }
         }
-        self.recurringEvents = recurringEvents + newRecurringEvents
-        newRecurringEvents = [RecurringEvent]()
+        self.recurringEvents = newRecurringEvents
+        newRecurringEvents.removeAll()
 
-        var conditionEvents = [ConditionEvent]()
         for event in self.conditionEvents {
             if event.condition() {
                 event.block()
             }
             else {
-                conditionEvents << event
+                newConditionEvents << event
             }
         }
-        self.conditionEvents = conditionEvents + newConditionEvents
-        newConditionEvents = [ConditionEvent]()
+        self.conditionEvents = newConditionEvents
+        newConditionEvents.removeAll()
 
         running = false
     }

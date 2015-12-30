@@ -43,11 +43,11 @@ enum ImageIdentifier {
     case Button(type: ButtonType, touched: Bool)
     case Enemy(type: EnemyType)
     case EnemyShrapnel(type: EnemyType)
-    case Cursor(selected: Bool)
+    case Cursor
     case Drawer
     case Drone(upgrade: FiveUpgrades)
     case Radar(upgrade: FiveUpgrades)
-    case Base(upgrade: FiveUpgrades)
+    case Base(upgrade: FiveUpgrades, health: CGFloat)
     case BaseSingleTurret(upgrade: FiveUpgrades)
     case BaseDoubleTurret(upgrade: FiveUpgrades)
     case BaseBigTurret(upgrade: FiveUpgrades)
@@ -64,6 +64,8 @@ enum ImageIdentifier {
             switch letter {
             case ".":
                 nameLetter = "dot"
+            case "!":
+                nameLetter = "bang"
             case "-":
                 nameLetter = "dash"
             case "_":
@@ -82,14 +84,14 @@ enum ImageIdentifier {
             return "Enemy-type_\(type.name)"
         case let .EnemyShrapnel(type):
             return "EnemyShrapnel-type_\(type.name)"
-        case let .Cursor(selected):
-            return "Cursor-selected_\(selected)"
+        case .Cursor:
+            return "Cursor"
         case let .Drone(upgrade):
             return "Drone-upgrade_\(upgrade.name)"
         case let .Radar(upgrade):
             return "Radar-upgrade_\(upgrade.name)"
-        case let .Base(upgrade):
-            return "Base-upgrade_\(upgrade.name)"
+        case let .Base(upgrade, health):
+            return "Base-upgrade_\(upgrade.name)-health_\(round(health * 360))"
         case let .BaseSingleTurret(upgrade):
             return "BaseSingleTurret-upgrade_\(upgrade.name)"
         case let .BaseDoubleTurret(upgrade):
@@ -102,101 +104,4 @@ enum ImageIdentifier {
             return "\(self)"
         }
     }
-}
-
-protocol IntValue {
-    var int: Int { get }
-}
-
-enum FiveUpgrades: IntValue {
-    static let Default = FiveUpgrades.One
-    case One
-    case Two
-    case Three
-    case Four
-    case Five
-
-    init(_ val: Int) {
-        switch val {
-        case 1: self = .One
-        case 2: self = .Two
-        case 3: self = .Three
-        case 4: self = .Four
-        case 5: self = .Five
-        default: self = .Default
-        }
-    }
-
-    var int: Int {
-        switch self {
-        case One: return 1
-        case Two: return 2
-        case Three: return 3
-        case Four: return 4
-        case Five: return 5
-        }
-    }
-
-    var name: String {
-        return "\(self)"
-    }
-
-    var canUpgrade: Bool {
-        switch self {
-        case Five: return false
-        default: return true
-        }
-    }
-
-    var next: FiveUpgrades {
-        switch self {
-        case One: return .Two
-        case Two: return .Three
-        case Three: return .Four
-        case Four: return .Five
-        case Five: return .Five
-        }
-    }
-
-    var cost: Int {
-        switch self {
-        case One: return 10
-        case Two: return 25
-        case Three: return 50
-        case Four: return 100
-        case Five: return 0
-        }
-    }
-}
-
-func <(upgrade: IntValue, int: Int) -> Bool {
-    return upgrade.int < int
-}
-
-func <=(upgrade: IntValue, int: Int) -> Bool {
-    return upgrade.int <= int
-}
-
-func >(upgrade: IntValue, int: Int) -> Bool {
-    return upgrade.int > int
-}
-
-func >=(upgrade: IntValue, int: Int) -> Bool {
-    return upgrade.int >= int
-}
-
-func <(int: Int, upgrade: IntValue) -> Bool {
-    return int < upgrade.int
-}
-
-func <=(int: Int, upgrade: IntValue) -> Bool {
-    return int <= upgrade.int
-}
-
-func >(int: Int, upgrade: IntValue) -> Bool {
-    return int > upgrade.int
-}
-
-func >=(int: Int, upgrade: IntValue) -> Bool {
-    return int >= upgrade.int
 }

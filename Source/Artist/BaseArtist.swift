@@ -14,8 +14,10 @@ class BaseArtist: Artist {
     private let points: [CGPoint]
 
     private var path: CGPath
+    private var smallPath: CGPath
 
     override var size: CGSize { didSet { generatePaths() } }
+    var health = CGFloat(1.0) { didSet { generatePaths() } }
 
     required init(upgrade: FiveUpgrades) {
         self.upgrade = upgrade
@@ -32,11 +34,11 @@ class BaseArtist: Artist {
         }
         self.angles = angles
         self.points = points
+
         self.path = CGPathCreateMutable()
+        self.smallPath = CGPathCreateMutable()
 
         super.init()
-
-        shadowed = .Size(6)
     }
 
     required init() {
@@ -45,6 +47,7 @@ class BaseArtist: Artist {
 
     private func generatePaths() {
         self.path = generatePath()
+        self.smallPath = generatePath(max: health * TAU)
     }
 
     private func generatePath(max max: CGFloat? = nil) -> CGPath {
@@ -54,7 +57,8 @@ class BaseArtist: Artist {
             let a = angles[i]
             let p: CGPoint
             if let max = max where a > max {
-                p = CGPoint(r: 1, a: max + TAU_2)
+                let a = round(max * 360.0) / 360.0
+                p = CGPoint(r: 1, a: a + TAU_2)
             }
             else {
                 p = points[i]
@@ -78,15 +82,16 @@ class BaseArtist: Artist {
     }
 
     override func draw(context: CGContext) {
+        CGContextSetAlpha(context, 0.5)
         CGContextSetStrokeColorWithColor(context, stroke.CGColor)
         CGContextSetFillColorWithColor(context, fill.CGColor)
-        CGContextSetShadowWithColor(context, CGSizeZero, 6, fill.CGColor)
-
-        CGContextAddPath(context, path)
-        CGContextSetAlpha(context, 1)
+        CGContextAddPath(context, smallPath)
         CGContextDrawPath(context, .FillStroke)
 
-        CGContextSetShadowWithColor(context, CGSizeZero, 0, nil)
+        CGContextSetAlpha(context, 0.5)
+        CGContextAddPath(context, path)
+        CGContextDrawPath(context, .FillStroke)
+
         if upgrade > 1 {
             CGContextSetAlpha(context, 1)
             CGContextAddPath(context, path)

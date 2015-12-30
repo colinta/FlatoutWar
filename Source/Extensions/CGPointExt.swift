@@ -73,6 +73,41 @@ extension CGPoint {
         return CGRect(x: x - size.width / 2, y: y - size.height / 2, width: size.width, height: size.height)
     }
 
+
+    // calculates a position between self and the target
+    func pointTowards(target: CGPoint, speed: CGFloat, dt: CGFloat, radius: CGFloat? = nil) -> CGPoint? {
+        guard speed > 0 else {
+            return nil
+        }
+
+        let roughDistance = roughDistanceTo(target)
+        guard roughDistance > 0.00001 else {
+            return nil
+        }
+
+        if let radius = radius
+        where roughDistance < pow(radius, 2) {
+            return nil
+        }
+
+        let angle = atan2(target.y - self.y, target.x - self.x)
+        var dist = speed * dt
+
+        // if we are moving a decent amount, more than half a pixel, check to make
+        // sure we don't overshoot the target
+        if dist > 0.5 {
+            let totalDistance = sqrt(roughDistance)
+            if dist > totalDistance {
+                dist = totalDistance
+            }
+        }
+
+        guard dist > 0.00001 else {
+            return nil
+        }
+        return self + CGPoint(r: dist, a: angle)
+    }
+
     static func average(locations: [CGPoint]) -> CGPoint {
         var retVal = CGPointZero
         for location in locations {
