@@ -15,12 +15,14 @@ class TargetingComponent: Component {
             currentTargetPrevLocation = nil
         }
     }
+    var turret: SKNode?
     var reallySmart = false
     var bulletSpeed: CGFloat?
     var currentTargetVector: CGPoint?
     var currentTargetPrevLocation: CGPoint?
 
     override func reset() {
+        super.reset()
         currentTarget = nil
     }
 
@@ -36,16 +38,16 @@ class TargetingComponent: Component {
         super.encodeWithCoder(encoder)
     }
 
-    override func update(dt: CGFloat, node: Node) {
+    override func update(dt: CGFloat) {
         if let enemy = currentTarget
-            where !isViableTarget(node, enemy: enemy)
+            where !isViableTarget(enemy)
         {
             currentTarget = nil
         }
 
         let isRotating = node.rotateToComponent?.isRotating ?? false
         if let world = node.world where currentTarget == nil && !isRotating {
-            acquireTarget(node, world: world)
+            acquireTarget(world)
         }
 
         if let prevLocation = currentTargetPrevLocation, currentLocation = currentTarget?.position {
@@ -55,7 +57,7 @@ class TargetingComponent: Component {
         currentTargetPrevLocation = currentTarget?.position
     }
 
-    func isViableTarget(node: Node, enemy: Node) -> Bool {
+    func isViableTarget(enemy: Node) -> Bool {
         guard let world = node.world
             where world.enemies.contains(enemy) else
         {
@@ -64,7 +66,7 @@ class TargetingComponent: Component {
         guard let radius = radius else {
             return false
         }
-        let enemyPosition = node.convertPoint(CGPointZero, fromNode: enemy)
+        let enemyPosition = node.convertPoint(enemy.position, fromNode: enemy.parent!)
         guard enemyPosition.lengthWithin(radius) else
         {
             return false
@@ -74,7 +76,7 @@ class TargetingComponent: Component {
         guard let sweepAngle = sweepAngle else { return true }
 
         let angle = enemyPosition.angle
-        let normalized = deltaAngle(angle, destAngle: node.zRotation)
+        let normalized = deltaAngle(angle, destAngle: (turret ?? node).zRotation)
         let sweep: CGFloat
         let reallyCloseAdjustment = CGFloat(40)
         if enemyPosition.lengthWithin(reallyCloseAdjustment) {
@@ -86,26 +88,27 @@ class TargetingComponent: Component {
         return abs(normalized) <= sweep / 2.0
     }
 
-    func angleToTarget(node: Node) -> CGFloat? {
-        if let currentTarget = currentTarget {
-            if reallySmart {
-                if let currentVector = currentTargetVector,
-                    bulletSpeed = bulletSpeed
-                {
-                    let time = node.distanceTo(currentTarget) / bulletSpeed
-                    let predictedPosition = currentVector * time
-                    let relativePosition = node.convertPoint(predictedPosition, fromNode: currentTarget)
-                    return relativePosition.angle
-                }
-                return nil
-            }
-
-            return node.angleTo(currentTarget)
+    func angleToCurrentTarget() -> CGFloat? {
+        guard let currentTarget = currentTarget else {
+            return nil
         }
-        return nil
+
+        if reallySmart {
+            if let currentVector = currentTargetVector,
+                bulletSpeed = bulletSpeed
+            {
+                let time = node.distanceTo(currentTarget) / bulletSpeed
+                let predictedPosition = currentVector * time
+                let relativePosition = node.convertPoint(predictedPosition, fromNode: currentTarget)
+                return relativePosition.angle
+            }
+            return nil
+        }
+
+        return node.angleTo(currentTarget)
     }
 
-    private func acquireTarget(node: Node, world: World) {
+    private func acquireTarget(world: World) {
         if let currentTarget = currentTarget
         where currentTarget.world != node.world
         {
@@ -116,8 +119,8 @@ class TargetingComponent: Component {
         var bestDistance = CGFloat(0)
 
         for enemy in world.enemies {
-            if isViableTarget(node, enemy: enemy) {
-                let enemyPosition = node.convertPoint(CGPointZero, fromNode: enemy)
+            if isViableTarget(enemy) {
+                let enemyPosition = node.convertPoint(enemy.position, fromNode: enemy.parent!)
                 let enemyDistance = enemyPosition.roughLength
 
                 if bestTarget == nil {

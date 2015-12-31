@@ -17,7 +17,7 @@ class BaseArtist: Artist {
     private var smallPath: CGPath
 
     override var size: CGSize { didSet { generatePaths() } }
-    var health = CGFloat(1.0) { didSet { generatePaths() } }
+    var health = Float(1.0) { didSet { generatePaths() } }
 
     required init(upgrade: FiveUpgrades) {
         self.upgrade = upgrade
@@ -47,7 +47,7 @@ class BaseArtist: Artist {
 
     private func generatePaths() {
         self.path = generatePath()
-        self.smallPath = generatePath(max: health * TAU)
+        self.smallPath = generatePath(max: CGFloat(round(health * 360.0) / 360.0) * TAU)
     }
 
     private func generatePath(max max: CGFloat? = nil) -> CGPath {
@@ -57,8 +57,7 @@ class BaseArtist: Artist {
             let a = angles[i]
             let p: CGPoint
             if let max = max where a > max {
-                let a = round(max * 360.0) / 360.0
-                p = CGPoint(r: 1, a: a + TAU_2)
+                p = CGPoint(r: 1, a: max + TAU_2)
             }
             else {
                 p = points[i]

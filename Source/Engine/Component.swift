@@ -9,8 +9,9 @@
 @objc
 class Component: NSObject, NSCoding {
     var enabled = true
+    weak var node: Node!
 
-    func update(dt: CGFloat, node: Node) {
+    func update(dt: CGFloat) {
     }
 
     func reset() {
@@ -30,12 +31,10 @@ class Component: NSObject, NSCoding {
 
 }
 
-class FiringComponent: Component {}
 class FollowNodeComponent: Component {}
 class GrowToComponent: Component {}
 class MoveableComponent: Component {}
 class PhaseComponent: Component {}
 class RammableComponent: Component {}
 class RammingComponent: Component {}
-class TraversingComponent: Component {}
 class WanderingComponent: Component {}

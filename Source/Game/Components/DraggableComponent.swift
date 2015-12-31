@@ -19,23 +19,24 @@ class DraggableComponent: Component {
     var _onDragMove = [OnDragMove]()
 
     override func reset() {
+        super.reset()
         _onDragMove = []
     }
 
-    override func update(dt: CGFloat, node: Node) {
+    override func update(dt: CGFloat) {
         if let target = target {
             if let position = node.position.pointTowards(target, speed: speed, dt: dt) {
                 node.position = position
-                updateDragMoving(true, node: node)
+                updateDragMoving(true)
             }
             else {
                 self.target = nil
-                updateDragMoving(false, node: node)
+                updateDragMoving(false)
             }
         }
     }
 
-    private func updateDragMoving(isMoving: Bool, node: Node) {
+    private func updateDragMoving(isMoving: Bool) {
         if isDragMoving != isMoving {
             isDragMoving = isMoving
             for handler in _onDragMove {
@@ -55,10 +56,10 @@ class DraggableComponent: Component {
     func bindTo(touchableComponent touchableComponent: TouchableComponent) {
         touchableComponent.on(.DragBegan, draggingBegan)
         touchableComponent.on(.DragEnded, draggingEnded)
-        touchableComponent.onDraggedNode(draggingMoved)
+        touchableComponent.onDragged(draggingMoved)
     }
 
-    func draggingBegan(node: Node, location: CGPoint) {
+    func draggingBegan(location: CGPoint) {
         let shouldAdjustThreshold: CGFloat = 10
         shouldAdjust = location.lengthWithin(shouldAdjustThreshold)
         startingLocation = location
@@ -68,7 +69,7 @@ class DraggableComponent: Component {
         }
     }
 
-    func draggingMoved(node: Node, prevLocation: CGPoint, location: CGPoint) {
+    func draggingMoved(prevLocation: CGPoint, location: CGPoint) {
         guard let placeholder = placeholder, startingLocation = startingLocation else {
             return
         }
@@ -105,7 +106,7 @@ class DraggableComponent: Component {
         placeholder.position = draggingDelta
     }
 
-    func draggingEnded(node: Node, location: CGPoint) {
+    func draggingEnded(location: CGPoint) {
         guard let placeholder = placeholder else { return }
 
         let draggingTarget = placeholder.position

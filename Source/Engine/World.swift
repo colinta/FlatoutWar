@@ -8,18 +8,20 @@
 
 class World: Node {
     var timeline = TimelineComponent()
+    var timeRate = CGFloat(1)
+
     var touchedNode: Node?
     var defaultNode: Node?
     var selectedNode: Node? {
         willSet {
             if let selectedNode = selectedNode
             where selectedNode != newValue {
-                selectedNode.selectableComponent?.changeSelected(selectedNode, selected: false)
+                selectedNode.selectableComponent?.changeSelected(false)
             }
         }
         didSet {
             if let selectedNode = selectedNode {
-                selectedNode.selectableComponent?.changeSelected(selectedNode, selected: true)
+                selectedNode.selectableComponent?.changeSelected(true)
             }
         }
     }
@@ -108,6 +110,15 @@ extension World {
 
 extension World {
 
+    func updateWorld(dtReal: CGFloat) {
+        let dt = dtReal * timeRate
+        updateNodes(dt)
+    }
+
+}
+
+extension World {
+
     func selectNode(node: Node) {
         selectedNode = node
     }
@@ -129,14 +140,14 @@ extension World {
         guard let touchedNode = touchedNode else { return }
 
         let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchedNode.touchableComponent?.tapped(touchedNode, location: location)
+        touchedNode.touchableComponent?.tapped(location)
     }
 
     func worldPressed(worldLocation: CGPoint, duration: CGFloat) {
         guard let touchedNode = touchedNode else { return }
 
         let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchedNode.touchableComponent?.tapped(touchedNode, location: location)
+        touchedNode.touchableComponent?.pressed(location, duration: duration)
     }
 
     func worldTouchBegan(worldLocation: CGPoint) {
@@ -150,7 +161,7 @@ extension World {
         if let touchedNode = self.touchedNode {
             let location = convertPoint(worldLocation, toNode: touchedNode)
 
-            if let shouldAcceptTest = touchedNode.touchableComponent?.shouldAcceptTouch(touchedNode, location: location)
+            if let shouldAcceptTest = touchedNode.touchableComponent?.shouldAcceptTouch(location)
             where !shouldAcceptTest {
                 if touchedNode == selectedNode {
                     self.selectedNode = nil
@@ -158,7 +169,7 @@ extension World {
                 self.touchedNode = nil
             }
             else {
-                touchedNode.touchableComponent?.touchBegan(touchedNode, location: location)
+                touchedNode.touchableComponent?.touchBegan(location)
             }
         }
     }
@@ -167,7 +178,7 @@ extension World {
         guard let touchedNode = touchedNode else { return }
 
         let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchedNode.touchableComponent?.touchEnded(touchedNode, location: location)
+        touchedNode.touchableComponent?.touchEnded(location)
 
         self.touchedNode = nil
     }
@@ -176,21 +187,21 @@ extension World {
         guard let touchedNode = touchedNode else { return }
 
         let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchedNode.touchableComponent?.draggingBegan(touchedNode, location: location)
+        touchedNode.touchableComponent?.draggingBegan(location)
     }
 
     func worldDraggingMoved(worldLocation: CGPoint) {
         guard let touchedNode = touchedNode else { return }
 
         let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchedNode.touchableComponent?.draggingMoved(touchedNode, location: location)
+        touchedNode.touchableComponent?.draggingMoved(location)
     }
 
     func worldDraggingEnded(worldLocation: CGPoint) {
         guard let touchedNode = touchedNode else { return }
 
         let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchedNode.touchableComponent?.draggingEnded(touchedNode, location: location)
+        touchedNode.touchableComponent?.draggingEnded(location)
     }
 
 }
@@ -202,7 +213,7 @@ extension World {
                 touchableComponent = node.touchableComponent
             where node.enabled && node.visible {
                 let nodeLocation = convertPoint(worldLocation, toNode: node)
-                if touchableComponent.containsTouch(node, location: nodeLocation) {
+                if touchableComponent.containsTouch(nodeLocation) {
                     return node
                 }
             }

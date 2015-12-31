@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-class RotateToComponent: Component {
+class RotateToComponent: ApplyToNodeComponent {
     var currentAngle: CGFloat?
     var destAngle: CGFloat?
     private(set) var angularSpeed = CGFloat(0)
@@ -22,10 +22,16 @@ class RotateToComponent: Component {
         return (0.25).degrees < abs(deltaAngle(destAngle, destAngle: currentAngle))
     }
 
-    override func reset() {
+    override func defaultApplyTo() {
+        super.defaultApplyTo()
+        currentAngle = node.zRotation
     }
 
-    override func update(dt: CGFloat, node: Node) {
+    override func reset() {
+        super.reset()
+    }
+
+    override func update(dt: CGFloat) {
         guard let currentAngle = currentAngle, destAngle = destAngle else {
             return
         }
@@ -40,13 +46,18 @@ class RotateToComponent: Component {
             angularSpeed = maxAngularSpeed
         }
 
-        if let newAngle = angleTowards(destAngle, fromAngle: currentAngle, by: angularSpeed * dt) {
-            self.currentAngle = newAngle
+        let newAngle: CGFloat
+        if let angle = angleTowards(destAngle, fromAngle: currentAngle, by: angularSpeed * dt) {
+            newAngle = angle
         }
         else {
-            self.currentAngle = destAngle
+            newAngle = destAngle
             angularSpeed = 0
         }
+        self.currentAngle = newAngle
+
+        guard let applyTo = applyTo else { return }
+        applyTo.zRotation = newAngle
     }
 
 }

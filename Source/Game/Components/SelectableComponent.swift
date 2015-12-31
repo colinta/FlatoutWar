@@ -9,11 +9,12 @@
 class SelectableComponent: Component {
     var selecting = false
 
-    typealias OnSelected = (Node, Bool) -> Void
+    typealias OnSelected = (Bool) -> Void
     typealias SimpleOnSelected = (Bool) -> Void
     var _onSelected = [OnSelected]()
 
     override func reset() {
+        super.reset()
         _onSelected = []
     }
 
@@ -23,40 +24,40 @@ class SelectableComponent: Component {
         touchableComponent.on(.Up, onTouchEnded)
     }
 
-    func changeSelected(node: Node, selected: Bool) {
+    func changeSelected(selected: Bool) {
         for handler in _onSelected {
-            handler(node, selected)
+            handler(selected)
         }
     }
 
-    func onSelectedNode(handler: OnSelected) {
-        _onSelected << handler
-    }
-
     func onSelected(handler: SimpleOnSelected) {
-        _onSelected << { _, selected in handler(selected) }
+        _onSelected << { selected in handler(selected) }
     }
 
-    func onTouchIn(node: Node, location: CGPoint) {
+    func onTouchIn(location: CGPoint) {
+        guard enabled else { return }
+
         if node.world?.selectedNode != node {
             node.world?.selectNode(node)
             selecting = true
         }
     }
 
-    func onTouchOut(node: Node, location: CGPoint) {
+    func onTouchOut(location: CGPoint) {
+        guard enabled else { return }
+
         if node.world?.selectedNode == node && !selecting {
             node.world?.unselectNode(node)
         }
     }
 
-    func onTouchEnded(node: Node, location: CGPoint) {
+    func onTouchEnded(location: CGPoint) {
         selecting = false
     }
 
-    func selectedHandler(node: Node, selected: Bool) {
+    func selectedHandler(selected: Bool) {
         for handler in _onSelected {
-            handler(node, selected)
+            handler(selected)
         }
     }
 

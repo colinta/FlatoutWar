@@ -23,7 +23,7 @@ class SoldierNode: Node {
         enemyComponent.experience = 1
         enemyComponent.onAttacked { projectile in
             if let damage = projectile.projectileComponent?.damage {
-                self.healthComponent?.health -= damage
+                self.healthComponent?.inflict(damage)
                 self.generateShrapnel(damage)
             }
         }

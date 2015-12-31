@@ -6,7 +6,8 @@
 //  Copyright © 2015 colinta. All rights reserved.
 //
 
-class MoveToComponent: Component {
+class MoveToComponent: ApplyToNodeComponent {
+    var currentPosition: CGPoint?
     var target: CGPoint? {
         didSet {
             if _duration != nil && target != nil {
@@ -37,27 +38,35 @@ class MoveToComponent: Component {
         _onArrived << handler
     }
 
+    override func defaultApplyTo() {
+        super.defaultApplyTo()
+        currentPosition = node.position
+    }
+
     override func reset() {
+        super.reset()
         _onArrived = [OnArrived]()
     }
 
-    override func update(dt: CGFloat, node: Node) {
+    override func update(dt: CGFloat) {
         guard let target = target else { return }
+        guard let currentPosition = currentPosition else { return }
 
         let speed: CGFloat
         if let _speed = _speed {
             speed = _speed
         }
         else if let duration = _duration {
-            speed = max(0.1, (target - node.position).length / duration)
+            speed = max(0.1, (target - currentPosition).length / duration)
             _speed = speed
         }
         else {
             return
         }
 
-        if node.position.distanceTo(target, within: dt * speed) {
-            node.position = target
+        let newPosition: CGPoint
+        if currentPosition.distanceTo(target, within: dt * speed) {
+            newPosition = target
             for handler in _onArrived {
                 handler(node)
             }
@@ -65,10 +74,13 @@ class MoveToComponent: Component {
             self.target = nil
         }
         else {
-            let destAngle = node.position.angleTo(target)
+            let destAngle = currentPosition.angleTo(target)
             let vector = CGPoint(r: speed, a: destAngle)
-            let newCenter = node.position + dt * vector
-            node.position = newCenter
+            newPosition = currentPosition + dt * vector
         }
+        self.currentPosition = newPosition
+
+        guard let applyTo = applyTo else { return }
+        applyTo.position = newPosition
     }
 }

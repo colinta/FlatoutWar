@@ -16,7 +16,8 @@ class DemoWorld: World {
         let drone = DroneNode(at: CGPoint(100, 50))
         self << drone
 
-        let count = 30
+        timeRate = 1
+        let count = 1
         let radius = CGFloat(200)
         for angleIndex in 0...count {
             let angle = TAU * CGFloat(angleIndex) / CGFloat(count)

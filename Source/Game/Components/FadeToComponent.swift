@@ -6,7 +6,8 @@
 //  Copyright © 2015 colinta. All rights reserved.
 //
 
-class FadeToComponent: Component {
+class FadeToComponent: ApplyToNodeComponent {
+    var currentAlpha: CGFloat?
     var target: CGFloat? = 1 {
         didSet {
             if _duration != nil {
@@ -31,61 +32,70 @@ class FadeToComponent: Component {
         }
     }
 
-    typealias OnFaded = (Node) -> Void
+    typealias OnFaded = () -> Void
     private var _onFaded = [OnFaded]()
     func onFaded(handler: OnFaded) {
         _onFaded << handler
     }
 
+    override func defaultApplyTo() {
+        super.defaultApplyTo()
+        currentAlpha = node.alpha
+    }
+
     override func reset() {
+        super.reset()
         _onFaded = [OnFaded]()
     }
 
     func removeOnFaded() {
-        self.onFaded { node in
+        self.onFaded {
+            guard let node = self.node else { return }
             node.removeFromParent()
         }
     }
 
-    override func update(dt: CGFloat, node: Node) {
+    override func update(dt: CGFloat) {
         guard let target = target else { return }
+        guard let currentAlpha = currentAlpha else { return }
 
         let rate: CGFloat
         if let _rate = _rate {
             rate = _rate
         }
         else if let duration = _duration {
-            rate = CGFloat(abs(target - node.alpha)) / duration
+            rate = CGFloat(abs(target - currentAlpha)) / duration
             _rate = rate
         }
         else {
             rate = 0
         }
 
-        var current = node.alpha
-        if current < target {
-            current += rate * dt
-            if current > target {
-                current = target
+        let newAlpha: CGFloat
+        if currentAlpha < target {
+            newAlpha = min(currentAlpha + rate * dt, target)
+            if newAlpha == target {
                 self.target = nil
             }
         }
         else {
-            current -= rate * dt
-            if current < target {
-                current = target
+            newAlpha = max(currentAlpha - rate * dt, target)
+            if newAlpha == target {
                 self.target = nil
             }
         }
 
-        node.alpha = current
+        self.currentAlpha = newAlpha
 
         if self.target == nil {
             for handler in _onFaded {
-                handler(node)
+                handler()
             }
-            _onFaded = [OnFaded]()
+            _onFaded = []
         }
+
+        guard let applyTo = applyTo else { return }
+        applyTo.alpha = newAlpha
     }
 
 }

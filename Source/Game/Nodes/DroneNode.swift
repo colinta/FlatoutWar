@@ -37,7 +37,10 @@ class DroneNode: Node {
         draggingComponent.bindTo(touchableComponent: touchableComponent)
         draggingComponent.onDragMove { isMoving in
             self.alpha = isMoving ? 0.5 : 1
-            self.enabled = !isMoving
+            if self.cursor.selected && isMoving {
+                self.cursor.selected = false
+            }
+            selectableComponent.enabled = !isMoving
             self.world?.unselectNode(self)
         }
         addComponent(draggingComponent)

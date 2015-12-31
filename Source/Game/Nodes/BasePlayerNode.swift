@@ -7,6 +7,10 @@
 //
 
 class BasePlayerNode: Node {
+    static let ForceFireCooldown = CGFloat(0.4)
+    static let ForceFireDamageFactor = Float(0.667)
+    static let DefaultCooldown = CGFloat(1)
+
     var radar: SKSpriteNode!
     var base: SKSpriteNode!
     var turret: SKSpriteNode!
@@ -26,6 +30,9 @@ class BasePlayerNode: Node {
         addComponent(touchableComponent)
 
         let healthComponent = HealthComponent(health: 100)
+        healthComponent.onHurt { amount in
+            self.base.texture = SKTexture(id: .Base(upgrade: .One, health: healthComponent.healthPercent))
+        }
         addComponent(healthComponent)
 
         let playerComponent = PlayerComponent()
@@ -33,13 +40,21 @@ class BasePlayerNode: Node {
 
         let rotateToComponent = RotateToComponent()
         rotateToComponent.currentAngle = 0
+        rotateToComponent.applyTo = base
         addComponent(rotateToComponent)
 
         let targetingComponent = TargetingComponent()
         targetingComponent.sweepAngle = 30.degrees
         targetingComponent.radius = 300
+        targetingComponent.turret = base
         addComponent(targetingComponent)
 
+        let firingComponent = FiringComponent()
+        firingComponent.cooldown = 0.35
+        firingComponent.onFire { angle in
+            self.fireBullet(angle: angle)
+        }
+        addComponent(firingComponent)
     }
 
     required init?(coder: NSCoder) {
@@ -51,22 +66,6 @@ class BasePlayerNode: Node {
 
     override func encodeWithCoder(encoder: NSCoder) {
         super.encodeWithCoder(encoder)
-    }
-
-    func onTouchTapped(location: CGPoint) {
-        if !location.lengthWithin(self.radius) {
-            startRotatingTo(location.angle)
-        }
-    }
-
-    func onTouchDragged(prevLocation: CGPoint, location: CGPoint) {
-        let angle = prevLocation.angleTo(location, around: position)
-        let destAngle = rotateToComponent?.destAngle ?? 0
-        startRotatingTo(destAngle + angle)
-    }
-
-    private func startRotatingTo(angle: CGFloat) {
-        rotateToComponent?.destAngle = angle
     }
 
     override func populate() {
@@ -85,13 +84,73 @@ class BasePlayerNode: Node {
     }
 
     override func update(dt: CGFloat) {
-        if let destAngle = rotateToComponent?.destAngle,
-            currentAngle = rotateToComponent?.currentAngle
+        if let firingAngle = firingComponent?.angle,
+            isTouching = touchableComponent?.isTouching
+            where !isTouching
         {
-            radar.zRotation = destAngle
-            base.zRotation = currentAngle
+            turret.zRotation = firingAngle
+        }
+        else if let currentAngle = rotateToComponent?.currentAngle {
             turret.zRotation = currentAngle
         }
+
+        if let destAngle = rotateToComponent?.destAngle {
+            radar.zRotation = destAngle
+        }
+    }
+
+}
+
+// MARK: Fire Bullet
+
+extension BasePlayerNode {
+
+    private func fireBullet(angle angle: CGFloat) {
+        guard let world = world else {
+            return
+        }
+
+        let velocity: CGFloat = 125
+        let style: BulletNode.Style
+        if firingComponent?.forceFire ?? false {
+            style = .Fast
+        }
+        else {
+            style = .Slow
+        }
+        let bullet = BulletNode(velocity: CGPoint(r: velocity, a: angle), style: style)
+        bullet.position = self.position
+
+        bullet.damage = 1
+        bullet.size = BaseTurretBulletArtist.bulletSize(.One)
+        bullet.zRotation = angle
+        bullet.z = Z.Below
+        if firingComponent?.forceFire ?? false {
+            bullet.damage *= BasePlayerNode.ForceFireDamageFactor
+        }
+        world << bullet
+    }
+
+}
+
+// MARK: Touch events
+
+extension BasePlayerNode {
+
+    func onTouchTapped(location: CGPoint) {
+        if !location.lengthWithin(self.radius) {
+            startRotatingTo(location.angle)
+        }
+    }
+
+    func onTouchDragged(prevLocation: CGPoint, location: CGPoint) {
+        let angle = prevLocation.angleTo(location, around: position)
+        let destAngle = rotateToComponent?.destAngle ?? 0
+        startRotatingTo(destAngle + angle)
+    }
+
+    private func startRotatingTo(angle: CGFloat) {
+        rotateToComponent?.destAngle = angle
     }
 
 }

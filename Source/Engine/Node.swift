@@ -31,9 +31,9 @@ class Node: SKNode {
     var size = CGSizeZero
     var radius: CGFloat {
         if size.width == size.height {
-            return 0.7071067811865476 * size.width
+            return size.width / 2
         }
-        return size.length / 2
+        return (size.width + size.height) / 4
     }
 
     typealias OnDeath = Block
@@ -71,6 +71,8 @@ class Node: SKNode {
     weak var followNodeComponent: FollowNodeComponent?
     weak var growToComponent: GrowToComponent?
     weak var healthComponent: HealthComponent?
+    weak var keepMovingComponent: KeepMovingComponent?
+    weak var keepRotatingComponent: KeepRotatingComponent?
     weak var moveableComponent: MoveableComponent?
     weak var moveToComponent: MoveToComponent?
     weak var phaseComponent: PhaseComponent?
@@ -83,7 +85,6 @@ class Node: SKNode {
     weak var targetingComponent: TargetingComponent?
     weak var timelineComponent: TimelineComponent?
     weak var touchableComponent: TouchableComponent?
-    weak var traversingComponent: TraversingComponent?
     weak var wanderingComponent: WanderingComponent?
 
     convenience init(at point: CGPoint) {
@@ -126,7 +127,9 @@ extension Node {
 
     func updateNodes(dt: CGFloat) {
         for component in components {
-            component.update(dt, node: self)
+            if component.enabled {
+                component.update(dt)
+            }
         }
         update(dt)
         for sknode in children {
@@ -138,23 +141,51 @@ extension Node {
 
 }
 
-// MARK: Relative Positioning
+// MARK: Positions and Angles
 
 extension Node {
 
     func distanceTo(node: Node) -> CGFloat {
-        let position = convertPoint(CGPointZero, fromNode: node)
+        let position = convertPoint(node.position, fromNode: node.parent!)
         return position.length
     }
 
     func distanceTo(node: Node, within radius: CGFloat) -> Bool {
-        let position = convertPoint(CGPointZero, fromNode: node)
+        let position = convertPoint(node.position, fromNode: node.parent!)
         return position.lengthWithin(radius)
     }
 
     func angleTo(node: Node) -> CGFloat {
-        let position = convertPoint(CGPointZero, fromNode: node)
+        let position = convertPoint(node.position, fromNode: node.parent!)
         return position.angle
+    }
+
+    func rotateTowards(node: Node) {
+        let angle = angleTo(node)
+        zRotation = angle
+        rotateToComponent?.destAngle = angle
+    }
+
+    func touchingLocation(node: Node) -> CGPoint? {
+        if touches(node) {
+            let a = self.angleTo(node)
+            return position + CGPoint(r: radius, a: a)
+        }
+        return nil
+    }
+
+}
+
+// MARK: Node Intersections
+
+extension Node {
+
+    func touches(other: Node) -> Bool {
+        let radius = max(0.01, other.radius + self.radius)
+        if distanceTo(other, within: radius) {
+            return true
+        }
+        return false
     }
 
 }
@@ -164,6 +195,7 @@ extension Node {
 extension Node {
 
     func addComponent(component: Component) {
+        component.node = self
         components << component
 
         if let component = component as? DraggableComponent { draggableComponent = component }
@@ -173,6 +205,8 @@ extension Node {
         else if let component = component as? FollowNodeComponent { followNodeComponent = component }
         else if let component = component as? GrowToComponent { growToComponent = component }
         else if let component = component as? HealthComponent { healthComponent = component }
+        else if let component = component as? KeepMovingComponent { keepMovingComponent = component }
+        else if let component = component as? KeepRotatingComponent { keepRotatingComponent = component }
         else if let component = component as? MoveableComponent { moveableComponent = component }
         else if let component = component as? MoveToComponent { moveToComponent = component }
         else if let component = component as? PhaseComponent { phaseComponent = component }
@@ -185,7 +219,6 @@ extension Node {
         else if let component = component as? TargetingComponent { targetingComponent = component }
         else if let component = component as? TimelineComponent { timelineComponent = component }
         else if let component = component as? TouchableComponent { touchableComponent = component }
-        else if let component = component as? TraversingComponent { traversingComponent = component }
         else if let component = component as? WanderingComponent { wanderingComponent = component }
     }
 
@@ -198,6 +231,8 @@ extension Node {
             else if component == followNodeComponent { followNodeComponent = nil }
             else if component == growToComponent { growToComponent = nil }
             else if component == healthComponent { healthComponent = nil }
+            else if component == keepMovingComponent { keepMovingComponent = nil }
+            else if component == keepRotatingComponent { keepRotatingComponent = nil }
             else if component == moveableComponent { moveableComponent = nil }
             else if component == moveToComponent { moveToComponent = nil }
             else if component == phaseComponent { phaseComponent = nil }
@@ -210,7 +245,6 @@ extension Node {
             else if component == targetingComponent { targetingComponent = nil }
             else if component == timelineComponent { timelineComponent = nil }
             else if component == touchableComponent { touchableComponent = nil }
-            else if component == traversingComponent { traversingComponent = nil }
             else if component == wanderingComponent { wanderingComponent = nil }
 
             components.removeAtIndex(index)
@@ -226,6 +260,8 @@ extension Node {
             else if let component = component as? FollowNodeComponent { followNodeComponent = component }
             else if let component = component as? GrowToComponent { growToComponent = component }
             else if let component = component as? HealthComponent { healthComponent = component }
+            else if let component = component as? KeepMovingComponent { keepMovingComponent = component }
+            else if let component = component as? KeepRotatingComponent { keepRotatingComponent = component }
             else if let component = component as? MoveableComponent { moveableComponent = component }
             else if let component = component as? MoveToComponent { moveToComponent = component }
             else if let component = component as? PhaseComponent { phaseComponent = component }
@@ -238,7 +274,6 @@ extension Node {
             else if let component = component as? TargetingComponent { targetingComponent = component }
             else if let component = component as? TimelineComponent { timelineComponent = component }
             else if let component = component as? TouchableComponent { touchableComponent = component }
-            else if let component = component as? TraversingComponent { traversingComponent = component }
             else if let component = component as? WanderingComponent { wanderingComponent = component }
         }
     }

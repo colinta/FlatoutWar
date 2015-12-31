@@ -47,7 +47,7 @@ enum ImageIdentifier {
     case Drawer
     case Drone(upgrade: FiveUpgrades)
     case Radar(upgrade: FiveUpgrades)
-    case Base(upgrade: FiveUpgrades, health: CGFloat)
+    case Base(upgrade: FiveUpgrades, health: Float)
     case BaseSingleTurret(upgrade: FiveUpgrades)
     case BaseDoubleTurret(upgrade: FiveUpgrades)
     case BaseBigTurret(upgrade: FiveUpgrades)

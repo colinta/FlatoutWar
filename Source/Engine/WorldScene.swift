@@ -46,7 +46,7 @@ class WorldScene: SKScene {
     override func update(currentTime: NSTimeInterval) {
         if let prevTime = prevTime {
             let dt = CGFloat(currentTime - prevTime)
-            world.updateNodes(dt)
+            world.updateWorld(dt)
         }
         prevTime = currentTime
     }

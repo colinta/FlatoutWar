@@ -152,7 +152,7 @@ class TimelineComponent: Component {
         self.enabled = false
     }
 
-    override func update(dt: CGFloat, node: Node) {
+    override func update(dt: CGFloat) {
         running = true
         time += dt
 

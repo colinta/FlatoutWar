@@ -1,16 +1,16 @@
 //
-//  ProjectileComponent.swift
+//  BulletRecoilExplosionNode.swift
 //  FlatoutWar
 //
 //  Created by Colin Gray on 12/29/2015.
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-class ProjectileComponent: Component {
-    var damage: Float = 0
+class BulletRecoilExplosionNode: Node {
 
-    required override init() {
+    required init() {
         super.init()
+        size = CGSize(r: 20)
     }
 
     required init?(coder: NSCoder) {
@@ -21,10 +21,8 @@ class ProjectileComponent: Component {
         super.encodeWithCoder(encoder)
     }
 
-    override func reset() {
-    }
-
-    override func update(dt: CGFloat, node: Node) {
+    override func populate() {
+        // self << SKSpriteNode(id: .Enemy(type: .Soldier))
     }
 
 }

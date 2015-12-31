@@ -37,9 +37,10 @@ class PlayerComponent: Component {
     }
 
     override func reset() {
+        super.reset()
     }
 
-    override func update(dt: CGFloat, node: Node) {
+    override func update(dt: CGFloat) {
     }
 
 }

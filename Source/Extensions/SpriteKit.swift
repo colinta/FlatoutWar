@@ -6,9 +6,15 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
+extension SKTexture {
+    convenience init(id: ImageIdentifier) {
+        self.init(image: Artist.generate(id))
+    }
+}
+
 extension SKSpriteNode {
     convenience init(id: ImageIdentifier) {
-        let texture = SKTexture(image: Artist.generate(id))
+        let texture = SKTexture(id: id)
         self.init(texture: texture)
         self.setScale(0.5)
     }
@@ -16,7 +22,7 @@ extension SKSpriteNode {
 
 extension SKNode {
     func rotateTowards(node node: SKNode) {
-        let point = convertPoint(CGPointZero, fromNode: node)
+        let point = convertPoint(node.position, fromNode: node.parent!)
         rotateTowards(point: point)
     }
 

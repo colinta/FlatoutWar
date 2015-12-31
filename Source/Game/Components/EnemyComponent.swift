@@ -15,6 +15,7 @@ class EnemyComponent: Component {
     private(set) var currentTarget: Node?
 
     override func reset() {
+        super.reset()
         currentTarget = nil
         _onAttacked = [OnAttacked]()
     }
@@ -31,7 +32,7 @@ class EnemyComponent: Component {
         super.encodeWithCoder(encoder)
     }
 
-    func acquireTarget(node: Node, world: World) -> Node? {
+    func acquireTarget(world: World) -> Node? {
         if let currentTarget = currentTarget {
             if currentTarget.world == world {
                 return currentTarget
@@ -66,9 +67,9 @@ class EnemyComponent: Component {
         return bestTarget
     }
 
-    override func update(dt: CGFloat, node: Node) {
+    override func update(dt: CGFloat) {
         if let world = node.world {
-            currentTarget = acquireTarget(node, world: world)
+            currentTarget = acquireTarget(world)
         }
     }
 
