@@ -154,17 +154,17 @@ extension Node {
 extension Node {
 
     func distanceTo(node: Node) -> CGFloat {
-        let position = convertPoint(node.position, fromNode: node.parent!)
+        let position = convertPosition(node)
         return position.length
     }
 
     func distanceTo(node: Node, within radius: CGFloat) -> Bool {
-        let position = convertPoint(node.position, fromNode: node.parent!)
+        let position = convertPosition(node)
         return position.lengthWithin(radius)
     }
 
     func angleTo(node: Node) -> CGFloat {
-        let position = convertPoint(node.position, fromNode: node.parent!)
+        let position = convertPosition(node)
         return position.angle
     }
 

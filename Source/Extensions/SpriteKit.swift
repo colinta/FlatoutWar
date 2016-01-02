@@ -30,7 +30,7 @@ extension SKSpriteNode {
 }
 
 extension SKNode {
-    func convertPosition(node: Node) -> CGPoint {
+    func convertPosition(node: SKNode) -> CGPoint {
         if node.parent == self.parent {
             return convertPoint(node.position, fromNode: node.parent!)
         }
@@ -40,7 +40,7 @@ extension SKNode {
     }
 
     func rotateTowards(node node: SKNode) {
-        let point = convertPoint(node.position, fromNode: node.parent!)
+        let point = convertPosition(node)
         rotateTowards(point: point)
     }
 

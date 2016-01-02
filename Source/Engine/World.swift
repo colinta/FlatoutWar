@@ -131,7 +131,7 @@ extension World {
     private func clearStragglers() {
         let maxDistance = radius * 1.5
         for node in allChildNodes() {
-            if node.projectileComponent != nil && !convertPoint(node.position, fromNode: node.parent!).lengthWithin(maxDistance) {
+            if node.projectileComponent != nil && !convertPosition(node).lengthWithin(maxDistance) {
                 node.removeFromParent()
             }
         }

@@ -69,7 +69,7 @@ class TargetingComponent: Component {
         guard let radius = radius else {
             return false
         }
-        let enemyPosition = node.convertPoint(enemy.position, fromNode: enemy.parent!)
+        let enemyPosition = node.convertPosition(enemy)
         guard enemyPosition.lengthWithin(radius) else
         {
             return false
@@ -123,7 +123,7 @@ class TargetingComponent: Component {
 
         for enemy in world.enemies {
             if isViableTarget(enemy) {
-                let enemyPosition = node.convertPoint(enemy.position, fromNode: enemy.parent!)
+                let enemyPosition = node.convertPosition(enemy)
                 let enemyDistance = enemyPosition.roughLength
 
                 if bestTarget == nil {
