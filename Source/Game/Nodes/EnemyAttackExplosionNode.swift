@@ -1,17 +1,17 @@
 //
-//  EnemyExplosionNode.swift
+//  EnemyAttackExplosionNode.swift
 //  FlatoutWar
 //
 //  Created by Colin Gray on 1/1/2016.
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-private let numSprites = 25
-private let maxDistance: CGFloat = 100
-private let duration: CGFloat = 2
-private let maxLength: CGFloat = 10
+private let numSprites = 5
+private let maxDistance: CGFloat = 40
+private let duration: CGFloat = 0.4
+private let maxLength: CGFloat = 35
 
-class EnemyExplosionNode: Node {
+class EnemyAttackExplosionNode: Node {
     private var sprites = [SKSpriteNode]()
     private var phase: CGFloat = 0
 
@@ -35,6 +35,7 @@ class EnemyExplosionNode: Node {
     override func populate() {
         for _ in 0..<numSprites {
             let sprite = SKSpriteNode(id: .None)
+            sprite.anchorPoint = CGPoint(0, 0.5)
             sprites << sprite
             self << sprite
         }
@@ -47,14 +48,15 @@ class EnemyExplosionNode: Node {
             return
         }
 
-        let hue = Int(round(interpolate(phase, from: (0, 1), to: (48, 0))))
+        let amt = Int(round(interpolate(phase, from: (0, 1), to: (0, 0xff))))
+        let color = hex(r: amt, g: amt, b: 0xff)
         let distance = phase * maxDistance
         let length = min(distance, maxLength)
         let alpha = min(1, 4 * (1 - phase))
 
         for (i, sprite) in sprites.enumerate() {
-            let angle = CGFloat(i) / CGFloat(sprites.count) * TAU
-            sprite.textureId(.HueLine(length: length, hue: hue))
+            let angle = 175.degrees + 10.degrees * CGFloat(i) / CGFloat(sprites.count - 1)
+            sprite.textureId(.ColorLine(length: length, color: color))
             sprite.position = CGPoint(r: distance, a: angle)
             sprite.zRotation = angle
             sprite.alpha = alpha

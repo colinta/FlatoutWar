@@ -1,17 +1,17 @@
 //
-//  EnemyExplosionNode.swift
+//  PlayerExplosionNode.swift
 //  FlatoutWar
 //
 //  Created by Colin Gray on 1/1/2016.
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-private let numSprites = 25
-private let maxDistance: CGFloat = 100
-private let duration: CGFloat = 2
-private let maxLength: CGFloat = 10
+private let numSprites = 50
+private let maxDistance: CGFloat = 30
+private let duration: CGFloat = 3
+private let maxLength: CGFloat = 60
 
-class EnemyExplosionNode: Node {
+class PlayerExplosionNode: Node {
     private var sprites = [SKSpriteNode]()
     private var phase: CGFloat = 0
 
@@ -47,14 +47,15 @@ class EnemyExplosionNode: Node {
             return
         }
 
-        let hue = Int(round(interpolate(phase, from: (0, 1), to: (48, 0))))
+        let amt = Int(round(interpolate(phase, from: (0, 1), to: (0xff, 0))))
+        let color = hex(r: amt, g: amt, b: amt)
         let distance = phase * maxDistance
-        let length = min(distance, maxLength)
+        let length = min(4 * distance, maxLength)
         let alpha = min(1, 4 * (1 - phase))
 
         for (i, sprite) in sprites.enumerate() {
-            let angle = CGFloat(i) / CGFloat(sprites.count) * TAU
-            sprite.textureId(.HueLine(length: length, hue: hue))
+            let angle = (phase * TAU) + CGFloat(i) / CGFloat(sprites.count) * TAU
+            sprite.textureId(.ColorLine(length: length, color: color))
             sprite.position = CGPoint(r: distance, a: angle)
             sprite.zRotation = angle
             sprite.alpha = alpha

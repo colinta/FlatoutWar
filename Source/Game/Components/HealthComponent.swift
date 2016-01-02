@@ -15,7 +15,12 @@ class HealthComponent: Component {
     private var _onHurt = [OnHurt]()
     func onHurt(handler: OnHurt) { _onHurt << handler }
 
-    private var startingHealth: Float
+    var startingHealth: Float {
+        willSet {
+            health = newValue * healthPercent
+            died = false
+        }
+    }
     var healthPercent: Float { return max(min(health / startingHealth, 1), 0) }
     var died = false
     private var health: Float

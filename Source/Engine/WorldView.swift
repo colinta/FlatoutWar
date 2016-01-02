@@ -14,4 +14,8 @@ class WorldView: SKView {
         }
     }
 
+    func presentWorld(world: World) {
+        let scene = WorldScene(size: frame.size, world: world)
+        presentScene(scene)
+    }
 }

@@ -32,7 +32,7 @@ class FadeToComponent: ApplyToNodeComponent {
         }
     }
 
-    typealias OnFaded = () -> Void
+    typealias OnFaded = Block
     private var _onFaded = [OnFaded]()
     func onFaded(handler: OnFaded) {
         _onFaded << handler

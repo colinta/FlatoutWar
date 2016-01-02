@@ -6,33 +6,9 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-struct Letter: Equatable {
-    enum Style {
-        case Loop
-        case Line
-    }
-
-    let style: Style
-    let size: CGSize
-    let points: [[CGPoint]]
-}
-
-func ==(lhs: Letter, rhs: Letter) -> Bool {
-    if lhs.style == rhs.style && lhs.size == rhs.size && lhs.points.count == rhs.points.count {
-        for (index, point) in lhs.points.enumerate() {
-            if rhs.points[index] != point {
-                return false
-            }
-        }
-        return true
-    }
-    return false
-}
-
-typealias Font = [String: Letter]
-
 class TextArtist: Artist {
     var text = "" { didSet { calculateSize() }}
+    private var textScale: CGFloat = 4
     private var textSize = CGSizeZero
     var color = UIColor(hex: 0xFFFFFF)
     private var letterSpace = CGFloat(3)
@@ -51,7 +27,7 @@ class TextArtist: Artist {
     func calculateSize() {
         var size = CGSize(width: 0, height: 0)
         var isFirst = true
-        for char in (text.unicodeScalars.map { String($0) }) {
+        for char in (text.characters.map { String($0) }) {
             let letter = font[char] ?? (font[" "])!
             if !isFirst {
                 size.width += letterSpace
@@ -60,6 +36,7 @@ class TextArtist: Artist {
             size.width += letter.size.width
             size.height = max(letter.size.height, size.height)
         }
+        size *= textScale
         self.size = size
         self.textSize = size
     }
@@ -69,8 +46,9 @@ class TextArtist: Artist {
         CGContextSetStrokeColorWithColor(context, color.CGColor)
 
         CGContextSaveGState(context)
+        CGContextScaleCTM(context, textScale, textScale)
         CGContextTranslateCTM(context, (size.width - textSize.width) / 2, (size.height - textSize.height) / 2)
-        for char in (text.unicodeScalars.map { String($0) }) {
+        for char in (text.characters.map { String($0) }) {
             let letter = font[char] ?? (font[" "])!
             for path in letter.points {
                 var firstPoint = true

@@ -12,6 +12,17 @@ class World: Node {
     private var throttleStragglers = throttle(1)
     private var didPopulateWorld = false
 
+    var director: WorldView? {
+        return (scene as? WorldScene)?.view as? WorldView
+    }
+
+    var worldRadius: CGFloat {
+        if size.width == size.height {
+            return size.width * 0.7071067811865476
+        }
+        return sqrt(pow(size.width, 2) + pow(size.height, 2)) / 2
+    }
+
     var touchedNode: Node?
     var defaultNode: Node?
     var selectedNode: Node? {

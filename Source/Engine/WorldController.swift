@@ -14,8 +14,7 @@ class WorldController: UIViewController {
         self.worldView = view
         self.view = worldView
 
-        let scene = WorldScene(size: view.frame.size, world: DemoWorld())
-        view.presentScene(scene)
+        view.presentWorld(DemoWorld())
 
         // Configure the view.
         view.showsFPS = true

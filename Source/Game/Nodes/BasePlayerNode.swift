@@ -31,7 +31,7 @@ class BasePlayerNode: Node {
 
         let healthComponent = HealthComponent(health: 100)
         healthComponent.onHurt { amount in
-            self.base.texture = SKTexture.id(.Base(upgrade: .One, health: healthComponent.healthPercent))
+            self.base.textureId(.Base(upgrade: .One, health: healthComponent.healthPercent))
         }
         addComponent(healthComponent)
 

@@ -50,14 +50,12 @@ class BulletRecoilExplosionNode: Node {
 
         let hue = Int(round(interpolate(phase, from: (0, 1), to: (48, 0))))
         let distance = phase * maxDistance
-        let length = min(distance, maxLength)
+        let length = min(2 * distance, maxLength)
         let alpha = min(1, 4 * (1 - phase))
 
         for (i, sprite) in sprites.enumerate() {
             let angle = 135.degrees + 90.degrees * CGFloat(i) / CGFloat(sprites.count - 1)
-            let texture = SKTexture.id(.HueLine(length: length, hue: hue))
-            sprite.texture = texture
-            sprite.size = texture.size() * sprite.xScale
+            sprite.textureId(.HueLine(length: length, hue: hue))
             sprite.position = CGPoint(r: distance, a: angle)
             sprite.zRotation = angle
             sprite.alpha = alpha

@@ -131,6 +131,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .EnemyShrapnel(type: .Scout),
             .Enemy(type: .Dozer),
             .EnemyShrapnel(type: .Dozer),
+            .Enemy(type: .GiantSoldier),
+            .EnemyShrapnel(type: .GiantSoldier),
             .Cursor,
             .Drone(upgrade: FiveUpgrades(1)),
             .Drone(upgrade: FiveUpgrades(2)),

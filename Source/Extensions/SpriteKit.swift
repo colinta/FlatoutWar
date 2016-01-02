@@ -27,9 +27,16 @@ extension SKSpriteNode {
         self.init(texture: texture)
         self.setScale(0.5)
     }
+
+    func textureId(id: ImageIdentifier) {
+        let texture = SKTexture.id(id)
+        self.texture = texture
+        size = texture.size() * xScale
+    }
 }
 
 extension SKNode {
+
     func convertPosition(node: SKNode) -> CGPoint {
         if node.parent == self.parent {
             return convertPoint(node.position, fromNode: node.parent!)

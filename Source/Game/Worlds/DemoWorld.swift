@@ -45,6 +45,11 @@ class DemoWorld: World {
             enemyNode.rotateTowards(node: playerNode)
             self << enemyNode
         }
+
+        timeRate = 0.5
+        timeline.every(3.5) {
+            self << PlayerExplosionNode(at: CGPoint(x: 50, y: 0))
+        }
     }
 
 }

@@ -35,6 +35,7 @@ enum ImageIdentifier {
         case Leader
         case Scout
         case Dozer
+        case GiantSoldier
 
         var name: String { return "\(self)" }
     }

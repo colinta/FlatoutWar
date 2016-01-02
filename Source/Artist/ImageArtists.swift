@@ -70,6 +70,9 @@ extension ImageIdentifier {
             switch type {
             case .Soldier:
                 artist = EnemyArtist()
+            case .GiantSoldier:
+                artist = EnemyArtist()
+                artist.size *= 10
             case .Leader:
                 artist = BigEnemyArtist()
             case .Scout:

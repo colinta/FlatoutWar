@@ -52,7 +52,7 @@ func moveValue(current: CGFloat, towards dest: CGFloat, by amt: CGFloat) -> CGFl
         return min(current + amt, dest)
     }
     else if current > dest {
-        return max(dest, dest - amt)
+        return max(current - amt, dest)
     }
     else {
         return nil
@@ -92,4 +92,8 @@ func areaOf(a: CGPoint, _ b: CGPoint, _ c: CGPoint) -> CGFloat {
 
 func areaOf(a: CGPoint, _ b: CGPoint, _ c: CGPoint, _ d: CGPoint) -> CGFloat {
     return areaOf(a, b, c) + areaOf(c, d, a)
+}
+
+func hex(r r: Int, g: Int, b: Int) -> Int {
+    return r << 16 + g << 8 + b
 }

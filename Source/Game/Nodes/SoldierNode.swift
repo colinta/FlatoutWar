@@ -6,15 +6,16 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-private let initialHealth: Float = 2
+private let startingHealth: Float = 2
 
 class SoldierNode: Node {
+    var sprite: SKSpriteNode!
 
     required init() {
         super.init()
         size = CGSize(r: 5)
 
-        let healthComponent = HealthComponent(health: initialHealth)
+        let healthComponent = HealthComponent(health: startingHealth)
         healthComponent.onKilled {
             if let world = self.world {
                 let explosion = EnemyExplosionNode(at: self.position)
@@ -33,6 +34,19 @@ class SoldierNode: Node {
             }
         }
         addComponent(enemyComponent)
+
+        let rammingComponent = RammingComponent()
+        rammingComponent.maxSpeed = 25
+        rammingComponent.onRammed {
+            if let world = self.world {
+                let node = EnemyAttackExplosionNode(at: self.position)
+                node.zRotation = self.zRotation
+                world << node
+            }
+            self.removeFromParent()
+        }
+        rammingComponent.damage = 4
+        addComponent(rammingComponent)
     }
 
     required init?(coder: NSCoder) {
@@ -44,7 +58,19 @@ class SoldierNode: Node {
     }
 
     override func populate() {
-        self << SKSpriteNode(id: .Enemy(type: .Soldier))
+        sprite = SKSpriteNode(id: .None)
+        updateTexture()
+        self << sprite
+    }
+
+    func texture() -> SKTexture {
+        return SKTexture.id(.Enemy(type: .Soldier))
+    }
+
+    func updateTexture() {
+        let texture = self.texture()
+        sprite.texture = texture
+        sprite.size = texture.size() * sprite.xScale
     }
 
     func generateShrapnel(damage: Float) {

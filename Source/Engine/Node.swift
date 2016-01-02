@@ -86,7 +86,6 @@ class Node: SKNode {
     weak var phaseComponent: PhaseComponent?
     weak var playerComponent: PlayerComponent?
     weak var projectileComponent: ProjectileComponent?
-    weak var rammableComponent: RammableComponent?
     weak var rammingComponent: RammingComponent?
     weak var rotateToComponent: RotateToComponent?
     weak var selectableComponent: SelectableComponent?
@@ -219,7 +218,6 @@ extension Node {
         else if let component = component as? PhaseComponent { phaseComponent = component }
         else if let component = component as? PlayerComponent { playerComponent = component }
         else if let component = component as? ProjectileComponent { projectileComponent = component }
-        else if let component = component as? RammableComponent { rammableComponent = component }
         else if let component = component as? RammingComponent { rammingComponent = component }
         else if let component = component as? RotateToComponent { rotateToComponent = component }
         else if let component = component as? SelectableComponent { selectableComponent = component }
@@ -244,7 +242,6 @@ extension Node {
             else if component == phaseComponent { phaseComponent = nil }
             else if component == playerComponent { playerComponent = nil }
             else if component == projectileComponent { projectileComponent = nil }
-            else if component == rammableComponent { rammableComponent = nil }
             else if component == rammingComponent { rammingComponent = nil }
             else if component == rotateToComponent { rotateToComponent = nil }
             else if component == selectableComponent { selectableComponent = nil }
@@ -272,7 +269,6 @@ extension Node {
             else if let component = component as? PhaseComponent { phaseComponent = component }
             else if let component = component as? PlayerComponent { playerComponent = component }
             else if let component = component as? ProjectileComponent { projectileComponent = component }
-            else if let component = component as? RammableComponent { rammableComponent = component }
             else if let component = component as? RammingComponent { rammingComponent = component }
             else if let component = component as? RotateToComponent { rotateToComponent = component }
             else if let component = component as? SelectableComponent { selectableComponent = component }
