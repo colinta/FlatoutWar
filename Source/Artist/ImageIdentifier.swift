@@ -39,6 +39,7 @@ enum ImageIdentifier {
         var name: String { return "\(self)" }
     }
 
+    case None
     case Letter(String, size: LetterSize)
     case Button(type: ButtonType, touched: Bool)
     case Enemy(type: EnemyType)
@@ -53,12 +54,13 @@ enum ImageIdentifier {
     case BaseBigTurret(upgrade: FiveUpgrades)
     case BaseTurretBullet(upgrade: FiveUpgrades)
 
-    case Explosion
-    case EnemyExplosion
-    case PlayerExplosion
+    case ColorLine(length: CGFloat, color: Int)
+    case HueLine(length: CGFloat, hue: Int)
 
     var name: String {
         switch self {
+        case .None:
+            return ""
         case let .Letter(letter, size):
             let nameLetter: String
             switch letter {
@@ -100,6 +102,12 @@ enum ImageIdentifier {
             return "BaseBigTurret-upgrade_\(upgrade.name)"
         case let .BaseTurretBullet(upgrade):
             return "BaseTurretBullet-upgrade_\(upgrade.name)"
+        case let .ColorLine(length, color):
+            let roundedLength = Int(round(length * 20))
+            return "ColorLine-length_\(roundedLength)-color_\(color)"
+        case let .HueLine(length, hue):
+            let roundedLength = Int(round(length * 20))
+            return "HueLine-length_\(roundedLength)-hue_\(hue)"
         default:
             return "\(self)"
         }

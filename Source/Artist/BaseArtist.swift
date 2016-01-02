@@ -39,6 +39,7 @@ class BaseArtist: Artist {
         self.smallPath = CGPathCreateMutable()
 
         super.init()
+        size = CGSize(40)
     }
 
     required init() {

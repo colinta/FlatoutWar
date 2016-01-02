@@ -64,6 +64,15 @@ class Node: SKNode {
         super.removeFromParent()
     }
 
+    func allChildNodes() -> [Node] {
+        let nodes = children.filter { sknode in
+            return sknode is Node
+        } as! [Node]
+        return nodes + nodes.flatMap { childNode in
+            childNode.allChildNodes()
+        }
+    }
+
     weak var draggableComponent: DraggableComponent?
     weak var enemyComponent: EnemyComponent?
     weak var fadeToComponent: FadeToComponent?
@@ -73,7 +82,6 @@ class Node: SKNode {
     weak var healthComponent: HealthComponent?
     weak var keepMovingComponent: KeepMovingComponent?
     weak var keepRotatingComponent: KeepRotatingComponent?
-    weak var moveableComponent: MoveableComponent?
     weak var moveToComponent: MoveToComponent?
     weak var phaseComponent: PhaseComponent?
     weak var playerComponent: PlayerComponent?
@@ -169,7 +177,7 @@ extension Node {
     func touchingLocation(node: Node) -> CGPoint? {
         if touches(node) {
             let a = self.angleTo(node)
-            return position + CGPoint(r: radius, a: a)
+            return CGPoint(r: radius, a: a)
         }
         return nil
     }
@@ -207,7 +215,6 @@ extension Node {
         else if let component = component as? HealthComponent { healthComponent = component }
         else if let component = component as? KeepMovingComponent { keepMovingComponent = component }
         else if let component = component as? KeepRotatingComponent { keepRotatingComponent = component }
-        else if let component = component as? MoveableComponent { moveableComponent = component }
         else if let component = component as? MoveToComponent { moveToComponent = component }
         else if let component = component as? PhaseComponent { phaseComponent = component }
         else if let component = component as? PlayerComponent { playerComponent = component }
@@ -233,7 +240,6 @@ extension Node {
             else if component == healthComponent { healthComponent = nil }
             else if component == keepMovingComponent { keepMovingComponent = nil }
             else if component == keepRotatingComponent { keepRotatingComponent = nil }
-            else if component == moveableComponent { moveableComponent = nil }
             else if component == moveToComponent { moveToComponent = nil }
             else if component == phaseComponent { phaseComponent = nil }
             else if component == playerComponent { playerComponent = nil }
@@ -262,7 +268,6 @@ extension Node {
             else if let component = component as? HealthComponent { healthComponent = component }
             else if let component = component as? KeepMovingComponent { keepMovingComponent = component }
             else if let component = component as? KeepRotatingComponent { keepRotatingComponent = component }
-            else if let component = component as? MoveableComponent { moveableComponent = component }
             else if let component = component as? MoveToComponent { moveToComponent = component }
             else if let component = component as? PhaseComponent { phaseComponent = component }
             else if let component = component as? PlayerComponent { playerComponent = component }

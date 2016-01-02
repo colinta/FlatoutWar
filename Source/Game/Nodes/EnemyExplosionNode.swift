@@ -1,17 +1,17 @@
 //
-//  BulletRecoilExplosionNode.swift
+//  EnemyExplosionNode.swift
 //  FlatoutWar
 //
-//  Created by Colin Gray on 12/29/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+//  Created by Colin Gray on 1/1/2016.
+//  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-private let numSprites = 11
-private let maxDistance: CGFloat = 25
-private let duration: CGFloat = 1.5
-private let maxLength: CGFloat = 5
+private let numSprites = 25
+private let maxDistance: CGFloat = 100
+private let duration: CGFloat = 2
+private let maxLength: CGFloat = 10
 
-class BulletRecoilExplosionNode: Node {
+class EnemyExplosionNode: Node {
     private var sprites = [SKSpriteNode]()
     private var phase: CGFloat = 0
 
@@ -35,7 +35,6 @@ class BulletRecoilExplosionNode: Node {
     override func populate() {
         for _ in 0..<numSprites {
             let sprite = SKSpriteNode(id: .None)
-            sprite.anchorPoint = CGPoint(0, 0.5)
             sprites << sprite
             self << sprite
         }
@@ -54,7 +53,7 @@ class BulletRecoilExplosionNode: Node {
         let alpha = min(1, 4 * (1 - phase))
 
         for (i, sprite) in sprites.enumerate() {
-            let angle = 135.degrees + 90.degrees * CGFloat(i) / CGFloat(sprites.count - 1)
+            let angle = CGFloat(i) / CGFloat(sprites.count) * TAU
             let texture = SKTexture.id(.HueLine(length: length, hue: hue))
             sprite.texture = texture
             sprite.size = texture.size() * sprite.xScale

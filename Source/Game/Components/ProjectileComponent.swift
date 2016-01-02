@@ -8,7 +8,7 @@
 
 class ProjectileComponent: Component {
     var damage = Float(0)
-    typealias OnCollision = (projectile: Node, enemy: Node, location: CGPoint) -> Void
+    typealias OnCollision = (enemy: Node, location: CGPoint) -> Void
     var _onCollision = [OnCollision]()
     func onCollision(handler: OnCollision) { _onCollision << handler }
 
@@ -30,23 +30,20 @@ class ProjectileComponent: Component {
     }
 
     override func update(dt: CGFloat) {
-        let projectile = node
-        guard let world = projectile.world else {
+        guard let world = node.world else {
             return
         }
 
         for enemy in world.enemies {
             if let died = enemy.healthComponent?.died where died { continue }
 
-            if let location = projectile.touchingLocation(enemy) {
+            if let location = node.touchingLocation(enemy) {
                 for handler in _onCollision {
-                    handler(projectile: projectile, enemy: enemy, location: location)
+                    handler(enemy: enemy, location: location)
                 }
 
                 if let enemyComponent = enemy.enemyComponent {
-                    for handler in enemyComponent._onAttacked {
-                        handler(projectile: projectile)
-                    }
+                    enemyComponent.attacked(by: node)
                 }
 
                 break

@@ -33,8 +33,5 @@ class Component: NSObject, NSCoding {
 
 class FollowNodeComponent: Component {}
 class GrowToComponent: Component {}
-class MoveableComponent: Component {}
-class PhaseComponent: Component {}
 class RammableComponent: Component {}
 class RammingComponent: Component {}
-class WanderingComponent: Component {}

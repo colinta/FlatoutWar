@@ -11,6 +11,7 @@ class EnemyArtist: Artist {
 
     required init() {
         super.init()
+        size = CGSize(10)
         shadowed = .True
     }
 
@@ -24,6 +25,11 @@ class EnemyArtist: Artist {
 }
 
 class BigEnemyArtist: EnemyArtist {
+
+    required init() {
+        super.init()
+        size = CGSize(20)
+    }
 
     override func draw(context: CGContext) {
         let darkColor = UIColor(hex: 0x234B0C)
@@ -46,6 +52,7 @@ class FastEnemyArtist: EnemyArtist {
 
     required init() {
         super.init()
+        size = CGSize(10)
         color = UIColor(hex: 0xEED200)
     }
 
@@ -64,6 +71,15 @@ class FastEnemyArtist: EnemyArtist {
         CGContextAddLineToPoint(context, size.width * 0.25 - stroke, size.height)
         CGContextAddLineToPoint(context, size.width * 0.25 + stroke, size.height)
         CGContextDrawPath(context, .Fill)
+    }
+
+}
+
+class DozerEnemyArtist: EnemyArtist {
+
+    required init() {
+        super.init()
+        size = CGSize(width: 5, height: 50)
     }
 
 }

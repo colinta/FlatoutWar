@@ -23,6 +23,7 @@ class BaseTurretArtist: Artist {
         turretPath = CGPathCreateMutable()
         super.init()
         initialTurretPath()
+        size = CGSize(48)
     }
 
     required init() {
@@ -52,6 +53,15 @@ class BaseTurretArtist: Artist {
 
 class BaseDoubleTurretArtist: BaseTurretArtist {
     static let doubleDist = CGFloat(6)
+
+    required init(upgrade: FiveUpgrades) {
+        super.init(upgrade: upgrade)
+        size = CGSize(48)
+    }
+
+    required init() {
+        fatalError("init() has not been implemented")
+    }
 
     override func initialTurretPath() {
         CGPathMoveToPoint(turretPath, nil, -BaseTurretArtist.bigR, -BaseTurretArtist.tinyR)
@@ -87,6 +97,15 @@ class BaseBigTurretArtist: BaseTurretArtist {
     static let biggerR = CGFloat(7)
     static let smallerR = CGFloat(5.5)
     static let tinierR = CGFloat(2)
+
+    required init(upgrade: FiveUpgrades) {
+        super.init(upgrade: upgrade)
+        size = CGSize(48)
+    }
+
+    required init() {
+        fatalError("init() has not been implemented")
+    }
 
     override func initialTurretPath() {
         CGPathMoveToPoint(turretPath, nil, -BaseBigTurretArtist.biggerR, -BaseBigTurretArtist.tinierR)

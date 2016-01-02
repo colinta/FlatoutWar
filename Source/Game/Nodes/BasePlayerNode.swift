@@ -6,11 +6,11 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-class BasePlayerNode: Node {
-    static let ForceFireCooldown = CGFloat(0.4)
-    static let ForceFireDamageFactor = Float(0.667)
-    static let DefaultCooldown = CGFloat(1)
+private let forceFireCooldown = CGFloat(0.4)
+private let forceFireDamageFactor = Float(0.667)
+private let defaultCooldown = CGFloat(1)
 
+class BasePlayerNode: Node {
     var radar: SKSpriteNode!
     var base: SKSpriteNode!
     var turret: SKSpriteNode!
@@ -31,7 +31,7 @@ class BasePlayerNode: Node {
 
         let healthComponent = HealthComponent(health: 100)
         healthComponent.onHurt { amount in
-            self.base.texture = SKTexture(id: .Base(upgrade: .One, health: healthComponent.healthPercent))
+            self.base.texture = SKTexture.id(.Base(upgrade: .One, health: healthComponent.healthPercent))
         }
         addComponent(healthComponent)
 
@@ -125,8 +125,8 @@ extension BasePlayerNode {
         bullet.size = BaseTurretBulletArtist.bulletSize(.One)
         bullet.zRotation = angle
         bullet.z = Z.Below
-        if firingComponent?.forceFire ?? false {
-            bullet.damage *= BasePlayerNode.ForceFireDamageFactor
+        if firingComponent!.forceFire {
+            bullet.damage *= forceFireDamageFactor
         }
         world << bullet
     }

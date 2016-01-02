@@ -70,43 +70,23 @@ extension ImageIdentifier {
             switch type {
             case .Soldier:
                 artist = EnemyArtist()
-                artist.size = CGSize(10)
             case .Leader:
                 artist = BigEnemyArtist()
-                artist.size = CGSize(20)
             case .Scout:
                 artist = FastEnemyArtist()
-                artist.size = CGSize(10)
             case .Dozer:
-                artist = EnemyArtist()
-                artist.size = CGSize(width: 5, height: 50)
+                artist = DozerEnemyArtist()
             }
             return artist
         case let .EnemyShrapnel(type):
-            let artist: EnemyArtist
-            switch type {
-            case .Soldier:
-                artist = EnemyArtist()
-                artist.size = CGSize(10)
-            case .Leader:
-                artist = BigEnemyArtist()
-                artist.size = CGSize(20)
-            case .Scout:
-                artist = FastEnemyArtist()
-                artist.size = CGSize(10)
-            case .Dozer:
-                artist = EnemyArtist()
-                artist.size = CGSize(width: 5, height: 50)
-            }
+            let artist = ImageIdentifier.Enemy(type: type).artist
             artist.size = artist.size * 0.1
             return artist
         case .Cursor:
             let artist = CursorArtist()
             return artist
         case let .Drone(upgrade):
-            let artist = DroneArtist()
-            artist.size = CGSize(20)
-            artist.upgrade = upgrade
+            let artist = DroneArtist(upgrade: upgrade)
             return artist
         case let .Radar(upgrade):
             let artist = RadarArtist(upgrade: upgrade)
@@ -114,23 +94,26 @@ extension ImageIdentifier {
         case let .Base(upgrade, health):
             let artist = BaseArtist(upgrade: upgrade)
             artist.health = health
-            artist.size = CGSize(40)
             return artist
         case let .BaseSingleTurret(upgrade):
             let artist = BaseTurretArtist(upgrade: upgrade)
-            artist.size = CGSize(48)
             return artist
         case let .BaseDoubleTurret(upgrade):
             let artist = BaseDoubleTurretArtist(upgrade: upgrade)
-            artist.size = CGSize(48)
             return artist
         case let .BaseBigTurret(upgrade):
             let artist = BaseBigTurretArtist(upgrade: upgrade)
-            artist.size = CGSize(48)
             return artist
         case let .BaseTurretBullet(upgrade):
             let artist = BaseTurretBulletArtist(upgrade: upgrade)
-            artist.size = BaseTurretBulletArtist.bulletSize(upgrade)
+            return artist
+        case let .ColorLine(length, color):
+            let color = UIColor(hex: color)
+            let artist = LineArtist(length, color)
+            return artist
+        case let .HueLine(length, hue):
+            let color = UIColor(hue: CGFloat(hue) / 255, saturation: 1, brightness: 1, alpha: 1)
+            let artist = LineArtist(length, color)
             return artist
         default:
             return Artist()

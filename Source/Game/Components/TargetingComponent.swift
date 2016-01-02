@@ -50,7 +50,10 @@ class TargetingComponent: Component {
             acquireTarget(world)
         }
 
-        if let prevLocation = currentTargetPrevLocation, currentLocation = currentTarget?.position {
+        if let prevLocation = currentTargetPrevLocation,
+            currentLocation = currentTarget?.position
+        where reallySmart
+        {
             currentTargetVector = (currentLocation - prevLocation) / dt
         }
 
@@ -98,8 +101,8 @@ class TargetingComponent: Component {
                 bulletSpeed = bulletSpeed
             {
                 let time = node.distanceTo(currentTarget) / bulletSpeed
-                let predictedPosition = currentVector * time
-                let relativePosition = node.convertPoint(predictedPosition, fromNode: currentTarget)
+                let predictedPosition = currentTarget.position + currentVector * time
+                let relativePosition = node.convertPoint(predictedPosition, fromNode: currentTarget.parent!)
                 return relativePosition.angle
             }
             return nil

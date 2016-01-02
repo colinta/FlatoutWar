@@ -19,6 +19,7 @@ class CursorNode: Node {
     required init() {
         super.init()
         z = .Top
+        sprite.alpha = 0
         self << sprite
         size = sprite.size
     }
@@ -28,7 +29,7 @@ class CursorNode: Node {
         selected = coder.decode("selected") ?? false
         spriteScale = coder.decodeCGFloat("spriteScale") ?? 0
         sprite = coder.decode("sprite") ?? sprite
-        sprite.setScale(1)
+        sprite.setScale(0.5)
         size = sprite.size
         sprite.setScale(spriteScale)
     }

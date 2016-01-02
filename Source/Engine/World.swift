@@ -9,6 +9,8 @@
 class World: Node {
     var timeline = TimelineComponent()
     var timeRate = CGFloat(1)
+    private var throttleStragglers = throttle(1)
+    private var didPopulateWorld = false
 
     var touchedNode: Node?
     var defaultNode: Node?
@@ -50,9 +52,13 @@ class World: Node {
         super.encodeWithCoder(encoder)
     }
 
+    func populateWorld() {
+    }
+
 }
 
 extension World {
+
     private func resetCaches() {
         _cachedNodes = nil
         _cachedEnemies = nil
@@ -111,8 +117,24 @@ extension World {
 extension World {
 
     func updateWorld(dtReal: CGFloat) {
-        let dt = dtReal * timeRate
+        if !didPopulateWorld {
+            populateWorld()
+            didPopulateWorld = true
+        }
+
+        let dt = min(0.03, dtReal * timeRate)
         updateNodes(dt)
+
+        throttleStragglers(dt: dt, clearStragglers)
+    }
+
+    private func clearStragglers() {
+        let maxDistance = radius * 1.5
+        for node in allChildNodes() {
+            if node.projectileComponent != nil && !convertPoint(node.position, fromNode: node.parent!).lengthWithin(maxDistance) {
+                node.removeFromParent()
+            }
+        }
     }
 
 }

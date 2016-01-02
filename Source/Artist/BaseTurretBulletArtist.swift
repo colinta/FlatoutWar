@@ -28,6 +28,7 @@ class BaseTurretBulletArtist: Artist {
     required init(upgrade: FiveUpgrades) {
         self.upgrade = upgrade
         super.init()
+        size = BaseTurretBulletArtist.bulletSize(upgrade)
     }
 
     required init() {

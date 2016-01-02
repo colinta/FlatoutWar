@@ -32,6 +32,12 @@ class EnemyComponent: Component {
         super.encodeWithCoder(encoder)
     }
 
+    func attacked(by node: Node) {
+        for handler in _onAttacked {
+            handler(projectile: node)
+        }
+    }
+
     func acquireTarget(world: World) -> Node? {
         if let currentTarget = currentTarget {
             if currentTarget.world == world {

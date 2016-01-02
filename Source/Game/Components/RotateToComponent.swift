@@ -47,7 +47,7 @@ class RotateToComponent: ApplyToNodeComponent {
         }
 
         let newAngle: CGFloat
-        if let angle = angleTowards(destAngle, fromAngle: currentAngle, by: angularSpeed * dt) {
+        if let angle = moveAngle(currentAngle, towards: destAngle, by: angularSpeed * dt) {
             newAngle = angle
         }
         else {

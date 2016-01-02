@@ -28,6 +28,7 @@ class WorldScene: SKScene {
 
     required init(size: CGSize, world: World) {
         self.world = world
+        world.size = size / WorldScene.worldScale
         world.setScale(WorldScene.worldScale)
         super.init(size: size)
         anchorPoint = CGPoint(0.5, 0.5)
