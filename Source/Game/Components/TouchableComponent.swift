@@ -50,11 +50,11 @@ class TouchableComponent: Component {
     var isIgnoring = false
     var isTouching = false
     var isTouchingInside = false
-    var touchedFor = CGFloat(0)
+    var touchedFor: CGFloat = 0
     var prevLocation: CGPoint?
     var touchEvents = [TouchEvent: [OnTouchEvent]]()
-    var _onDragged = [OnDragged]()
-    var _onPressed = [OnPressed]()
+    var _onDragged: [OnDragged] = []
+    var _onPressed: [OnPressed] = []
     var containsTouchTest: TouchTest?
     var shouldAcceptTouchTest: TouchTest?
 

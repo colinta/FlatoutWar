@@ -47,8 +47,8 @@ class DroneArtist: Artist {
         CGContextSetFillColorWithColor(context, stroke.CGColor)
         CGContextSetLineWidth(context, 2)
 
-        let outerRadius = CGFloat(1)
-        let innerRadius = CGFloat(1.5)
+        let outerRadius: CGFloat = 1
+        let innerRadius: CGFloat = 1.5
         switch upgrade {
         case .Five:
             CGContextSetStrokeColorWithColor(context, UIColor.blackColor().CGColor)

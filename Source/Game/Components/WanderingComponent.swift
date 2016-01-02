@@ -19,15 +19,15 @@ class WanderingComponent: Component {
             }
         }
     }
-    var wanderingRadius = CGFloat(20)
-    var currentSpeed = CGFloat(0)
-    var acceleration = CGFloat(3)
-    var maxSpeed = CGFloat(4)
-    var maxTurningSpeed = CGFloat(3.5)
+    var wanderingRadius: CGFloat = 20
+    var currentSpeed: CGFloat = 0
+    var acceleration: CGFloat = 3
+    var maxSpeed: CGFloat = 4
+    var maxTurningSpeed: CGFloat = 3.5
 
     private var currentTargetLocation: CGPoint?
-    private var wanderingTimeLimit = CGFloat(0)
-    private var currentWanderingTime = CGFloat(0)
+    private var wanderingTimeLimit: CGFloat = 0
+    private var currentWanderingTime: CGFloat = 0
 
     override func update(dt: CGFloat) {
         let currentTargetLocation: CGPoint
@@ -48,7 +48,7 @@ class WanderingComponent: Component {
 
         var currentMaxSpeed = self.maxSpeed
         if let rotateToComponent = node.rotateToComponent {
-            rotateToComponent.destAngle = node.position.angleTo(currentTargetLocation)
+            rotateToComponent.target = node.position.angleTo(currentTargetLocation)
             if rotateToComponent.isRotating && currentMaxSpeed > maxTurningSpeed {
                 currentMaxSpeed = maxTurningSpeed
             }

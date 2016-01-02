@@ -28,6 +28,7 @@ class Node: SKNode {
     }
     var components: [Component] = []
     var world: World? { return (scene as? WorldScene)?.world }
+    var uiNode: SKNode? { return (scene as? WorldScene)?.uiNode }
     var size = CGSizeZero
     var radius: CGFloat {
         if size.width == size.height {
@@ -37,7 +38,7 @@ class Node: SKNode {
     }
 
     typealias OnDeath = Block
-    private var _onDeath = [OnDeath]()
+    private var _onDeath: [OnDeath] = []
     func onDeath(handler: OnDeath) { _onDeath << handler }
 
     func populate() {
@@ -170,7 +171,7 @@ extension Node {
     func rotateTowards(node: Node) {
         let angle = angleTo(node)
         zRotation = angle
-        rotateToComponent?.destAngle = angle
+        rotateToComponent?.target = angle
     }
 
     func touchingLocation(node: Node) -> CGPoint? {

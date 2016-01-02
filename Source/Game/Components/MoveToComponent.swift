@@ -15,7 +15,7 @@ class MoveToComponent: ApplyToNodeComponent {
             }
         }
     }
-    private var _speed: CGFloat? = CGFloat(100)
+    private var _speed: CGFloat? = 100
     var speed: CGFloat? {
         get { return _speed }
         set {
@@ -33,7 +33,7 @@ class MoveToComponent: ApplyToNodeComponent {
     }
 
     typealias OnArrived = (Node) -> Void
-    private var _onArrived = [OnArrived]()
+    private var _onArrived: [OnArrived] = []
     func onArrived(handler: OnArrived) {
         _onArrived << handler
     }
@@ -45,7 +45,7 @@ class MoveToComponent: ApplyToNodeComponent {
 
     override func reset() {
         super.reset()
-        _onArrived = [OnArrived]()
+        _onArrived = []
     }
 
     override func update(dt: CGFloat) {
@@ -70,7 +70,6 @@ class MoveToComponent: ApplyToNodeComponent {
             for handler in _onArrived {
                 handler(node)
             }
-            _onArrived = [OnArrived]()
             self.target = nil
         }
         else {

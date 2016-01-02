@@ -6,9 +6,9 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-private let forceFireCooldown = CGFloat(0.4)
-private let forceFireDamageFactor = Float(0.667)
-private let defaultCooldown = CGFloat(1)
+private let forceFireCooldown: CGFloat = 0.4
+private let forceFireDamageFactor: Float = 0.667
+private let defaultCooldown: CGFloat = 1
 
 class BasePlayerNode: Node {
     var radar: SKSpriteNode!
@@ -31,7 +31,7 @@ class BasePlayerNode: Node {
 
         let healthComponent = HealthComponent(health: 100)
         healthComponent.onHurt { amount in
-            self.base.textureId(.Base(upgrade: .One, health: healthComponent.healthPercent))
+            self.base.textureId(.Base(upgrade: .One, health: healthComponent.healthInt))
         }
         addComponent(healthComponent)
 
@@ -74,7 +74,7 @@ class BasePlayerNode: Node {
         radar.zPosition = Node.Z.Bottom.rawValue
         self << radar
 
-        base = SKSpriteNode(id: .Base(upgrade: .One, health: 1))
+        base = SKSpriteNode(id: .Base(upgrade: .One, health: 100))
         base.zPosition = Node.Z.Default.rawValue
         self << base
 
@@ -94,8 +94,8 @@ class BasePlayerNode: Node {
             turret.zRotation = currentAngle
         }
 
-        if let destAngle = rotateToComponent?.destAngle {
-            radar.zRotation = destAngle
+        if let target = rotateToComponent?.target {
+            radar.zRotation = target
         }
     }
 
@@ -145,12 +145,12 @@ extension BasePlayerNode {
 
     func onTouchDragged(prevLocation: CGPoint, location: CGPoint) {
         let angle = prevLocation.angleTo(location, around: position)
-        let destAngle = rotateToComponent?.destAngle ?? 0
+        let destAngle = rotateToComponent?.target ?? 0
         startRotatingTo(destAngle + angle)
     }
 
     private func startRotatingTo(angle: CGFloat) {
-        rotateToComponent?.destAngle = angle
+        rotateToComponent?.target = angle
     }
 
 }

@@ -7,8 +7,9 @@
 //
 
 class World: Node {
+    var cameraNode: Node?
     var timeline = TimelineComponent()
-    var timeRate = CGFloat(1)
+    var timeRate: CGFloat = 1
     private var throttleStragglers = throttle(1)
     private var didPopulateWorld = false
 
@@ -135,6 +136,10 @@ extension World {
 
         let dt = min(0.03, dtReal * timeRate)
         updateNodes(dt)
+
+        if let cameraNode = cameraNode {
+            position = -1 * cameraNode.position
+        }
 
         throttleStragglers(dt: dt, clearStragglers)
     }

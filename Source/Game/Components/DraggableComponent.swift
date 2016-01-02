@@ -16,7 +16,7 @@ class DraggableComponent: Component {
 
     typealias OnDragMove = (Node, Bool) -> Void
     typealias SimpleOnDragMove = (Bool) -> Void
-    var _onDragMove = [OnDragMove]()
+    var _onDragMove: [OnDragMove] = []
 
     override func reset() {
         super.reset()

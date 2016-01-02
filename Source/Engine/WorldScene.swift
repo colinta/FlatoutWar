@@ -11,7 +11,7 @@ private var DesiredSize = CGSize(width: 568, height: 320)
 
 class WorldScene: SKScene {
     var world: World
-    var ui = SKNode()
+    var uiNode = SKNode()
     var prevTime: NSTimeInterval?
     var touchSession: TouchSession?
 
@@ -34,12 +34,12 @@ class WorldScene: SKScene {
         anchorPoint = CGPoint(0.5, 0.5)
 
         self << world
-        self << ui
+        self << uiNode
     }
 
     required init?(coder: NSCoder) {
         world = coder.decode("world")
-        ui = coder.decode("ui")
+        uiNode = coder.decode("ui")
         prevTime = NSTimeInterval(coder.decodeFloat("prevTime") ?? 0)
         super.init(coder: coder)
     }

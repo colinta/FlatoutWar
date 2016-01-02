@@ -11,7 +11,7 @@ struct LightningBolt {
 
     init() {
         let offsetCount: Int = rand(50...100)
-        var offsets = [CGFloat]()
+        var offsets: [CGFloat] = []
         var tmpOffsets = [(left: LightningBolt.randomOffset(), right: LightningBolt.randomOffset())]
         for _ in 0...offsetCount {
             var current = tmpOffsets.last!
@@ -35,10 +35,10 @@ struct LightningBolt {
 
 class LightningArtist: Artist {
     var color = UIColor(hex: 0xFFFFFF)
-    var dt = CGFloat(0.01667)
-    var rate = CGFloat(2)
+    var dt: CGFloat = 0.01667
+    var rate: CGFloat = 2
     typealias BoltEntry = (phase: CGFloat, bolt: LightningBolt)
-    var bolts = [BoltEntry]()
+    var bolts: [BoltEntry] = []
 
     required init() {
         super.init()

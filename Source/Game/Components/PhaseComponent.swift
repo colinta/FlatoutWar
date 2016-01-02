@@ -9,16 +9,16 @@
 class PhaseComponent: Component {
     var loops = true
     var easing = Easing.Linear
-    private var _phase = CGFloat(0)
+    private var _phase: CGFloat = 0
     var phase: CGFloat {
         get { return easing.ease(time: _phase, initial: 0, final: 1) }
         set { _phase = newValue }
     }
-    var duration = CGFloat(0)
+    var duration: CGFloat = 0
 
     var value: CGFloat { return min + (max - min) * phase }
-    var min = CGFloat(0)
-    var max = CGFloat(0)
+    var min: CGFloat = 0
+    var max: CGFloat = 0
 
     override func update(dt: CGFloat) {
         guard duration > 0 else { return }

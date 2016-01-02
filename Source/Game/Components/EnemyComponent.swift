@@ -10,14 +10,14 @@ class EnemyComponent: Component {
     var experience: Float = 0
 
     typealias OnAttacked = (projectile: Node) -> Void
-    var _onAttacked = [OnAttacked]()
+    var _onAttacked: [OnAttacked] = []
     func onAttacked(handler: OnAttacked) { _onAttacked << handler }
     private(set) var currentTarget: Node?
 
     override func reset() {
         super.reset()
         currentTarget = nil
-        _onAttacked = [OnAttacked]()
+        _onAttacked = []
     }
 
     required override init() {
@@ -46,7 +46,7 @@ class EnemyComponent: Component {
         }
 
         var bestTarget: Node? = nil
-        var bestDistance = CGFloat(0)
+        var bestDistance: CGFloat = 0
         var bestPriority = PlayerComponent.Priority.Default
 
         for player in world.players {

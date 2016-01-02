@@ -7,7 +7,7 @@
 //
 
 class BulletNode: Node {
-    var damage = Float(10) { didSet { projectileComponent?.damage = damage } }
+    var damage: Float = 10 { didSet { projectileComponent?.damage = damage } }
 
     enum Style {
         case Fast

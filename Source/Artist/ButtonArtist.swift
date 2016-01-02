@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-private let touchedMargin = CGFloat(1.5)
+private let touchedMargin: CGFloat = 1.5
 
 enum ButtonStyle {
     case Octagon

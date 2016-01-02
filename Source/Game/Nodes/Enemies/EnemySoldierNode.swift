@@ -1,5 +1,5 @@
 //
-//  SoldierNode.swift
+//  EnemySoldierNode.swift
 //  FlatoutWar
 //
 //  Created by Colin Gray on 12/21/2015.
@@ -8,14 +8,17 @@
 
 private let startingHealth: Float = 2
 
-class SoldierNode: Node {
+class EnemySoldierNode: Node {
     var sprite: SKSpriteNode!
 
     required init() {
         super.init()
-        size = CGSize(r: 5)
+        size = CGSize(10)
 
         let healthComponent = HealthComponent(health: startingHealth)
+        healthComponent.onHurt { _ in
+            self.updateTexture()
+        }
         healthComponent.onKilled {
             if let world = self.world {
                 let explosion = EnemyExplosionNode(at: self.position)
@@ -63,12 +66,12 @@ class SoldierNode: Node {
         self << sprite
     }
 
-    func texture() -> SKTexture {
-        return SKTexture.id(.Enemy(type: .Soldier))
+    func enemyType() -> ImageIdentifier.EnemyType {
+        return .Leader
     }
 
     func updateTexture() {
-        let texture = self.texture()
+        let texture = SKTexture.id(.Enemy(type: enemyType(), health: healthComponent?.healthInt ?? 100))
         sprite.texture = texture
         sprite.size = texture.size() * sprite.xScale
     }
@@ -82,7 +85,7 @@ class SoldierNode: Node {
                 rotate.rate = rand(min: 1, max: 2)
                 node.addComponent(rotate)
 
-                let duration = CGFloat(0.5)
+                let duration: CGFloat = 0.5
 
                 let move = MoveToComponent()
                 let dest = CGPoint(r: rand(min: 15, max: 30), a: rand(TAU))

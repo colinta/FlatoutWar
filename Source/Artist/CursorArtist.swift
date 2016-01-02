@@ -15,7 +15,7 @@ class CursorArtist: Artist {
     }
 
     override func draw(context: CGContext) {
-        let lineWidth = CGFloat(2)
+        let lineWidth: CGFloat = 2
         let radius = middle.x - lineWidth / 2
         let numArcs = 18
         for i in 0..<numArcs {

@@ -1,5 +1,5 @@
 //
-//  LeaderNode.swift
+//  EnemyLeaderNode.swift
 //  FlatoutWar
 //
 //  Created by Colin Gray on 1/1/2016.
@@ -8,13 +8,14 @@
 
 private let startingHealth: Float = 6
 
-class LeaderNode: SoldierNode {
+class EnemyLeaderNode: EnemySoldierNode {
 
     required init() {
         super.init()
-        size = CGSize(r: 10)
+        size = CGSize(20)
         healthComponent!.startingHealth = startingHealth
         enemyComponent!.experience = 3
+        rammingComponent!.damage = 12
     }
 
     required init?(coder: NSCoder) {
@@ -25,8 +26,8 @@ class LeaderNode: SoldierNode {
         super.encodeWithCoder(encoder)
     }
 
-    override func texture() -> SKTexture {
-        return SKTexture.id(.Enemy(type: .Leader))
+    override func enemyType() -> ImageIdentifier.EnemyType {
+        return .Leader
     }
 
 }

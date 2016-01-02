@@ -20,6 +20,13 @@ class Component: NSObject, NSCoding {
     override init() {
     }
 
+    func removeFromNode() {
+        if let node = node {
+            node.removeComponent(self)
+        }
+        node = nil
+    }
+
     required init?(coder: NSCoder) {
         super.init()
         enabled = coder.decodeBool("enabled") ?? true

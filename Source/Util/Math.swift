@@ -32,9 +32,9 @@ func normalizeAngle(var angle: CGFloat) -> CGFloat {
     return angle
 }
 
-func deltaAngle(current: CGFloat, destAngle: CGFloat) -> CGFloat {
-    let ccw = normalizeAngle(destAngle - current)
-    let cw = normalizeAngle(current - destAngle)
+func deltaAngle(current: CGFloat, target: CGFloat) -> CGFloat {
+    let ccw = normalizeAngle(target - current)
+    let cw = normalizeAngle(current - target)
     if abs(ccw) < M_EPSILON || abs(cw) < M_EPSILON {
         return 0
     }
@@ -59,8 +59,8 @@ func moveValue(current: CGFloat, towards dest: CGFloat, by amt: CGFloat) -> CGFl
     }
 }
 
-func moveAngle(current: CGFloat, towards destAngle: CGFloat, by amt: CGFloat) -> CGFloat? {
-    let delta = deltaAngle(current, destAngle: destAngle)
+func moveAngle(current: CGFloat, towards target: CGFloat, by amt: CGFloat) -> CGFloat? {
+    let delta = deltaAngle(current, target: target)
     if abs(delta) < M_EPSILON || abs(delta) < amt {
         return nil
     }

@@ -11,7 +11,7 @@ class TextArtist: Artist {
     private var textScale: CGFloat = 4
     private var textSize = CGSizeZero
     var color = UIColor(hex: 0xFFFFFF)
-    private var letterSpace = CGFloat(3)
+    private var letterSpace: CGFloat = 3
     var font: Font = BigFont {
         didSet {
             if font == SmallFont {

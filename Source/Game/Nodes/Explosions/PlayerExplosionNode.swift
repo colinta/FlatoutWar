@@ -1,18 +1,18 @@
 //
-//  BulletRecoilExplosionNode.swift
+//  PlayerExplosionNode.swift
 //  FlatoutWar
 //
-//  Created by Colin Gray on 12/29/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+//  Created by Colin Gray on 1/1/2016.
+//  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-private let numSprites = 11
-private let maxDistance: CGFloat = 25
-private let duration: CGFloat = 1.5
-private let maxLength: CGFloat = 5
+private let numSprites = 50
+private let maxDistance: CGFloat = 30
+private let duration: CGFloat = 3
+private let maxLength: CGFloat = 60
 
-class BulletRecoilExplosionNode: Node {
-    private var sprites = [SKSpriteNode]()
+class PlayerExplosionNode: Node {
+    private var sprites: [SKSpriteNode] = []
     private var phase: CGFloat = 0
 
     required init() {
@@ -35,7 +35,6 @@ class BulletRecoilExplosionNode: Node {
     override func populate() {
         for _ in 0..<numSprites {
             let sprite = SKSpriteNode(id: .None)
-            sprite.anchorPoint = CGPoint(0, 0.5)
             sprites << sprite
             self << sprite
         }
@@ -48,14 +47,15 @@ class BulletRecoilExplosionNode: Node {
             return
         }
 
-        let hue = Int(round(interpolate(phase, from: (0, 1), to: (48, 0))))
+        let amt = Int(round(interpolate(phase, from: (0, 1), to: (0xff, 0))))
+        let color = hex(r: amt, g: amt, b: amt)
         let distance = phase * maxDistance
-        let length = min(2 * distance, maxLength)
+        let length = min(4 * distance, maxLength)
         let alpha = min(1, 4 * (1 - phase))
 
         for (i, sprite) in sprites.enumerate() {
-            let angle = 135.degrees + 90.degrees * CGFloat(i) / CGFloat(sprites.count - 1)
-            sprite.textureId(.HueLine(length: length, hue: hue))
+            let angle = (phase * TAU) + CGFloat(i) / CGFloat(sprites.count) * TAU
+            sprite.textureId(.ColorLine(length: length, color: color))
             sprite.position = CGPoint(r: distance, a: angle)
             sprite.zRotation = angle
             sprite.alpha = alpha

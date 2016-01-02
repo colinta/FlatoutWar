@@ -14,11 +14,13 @@ class TextNode: Node {
         didSet { updateTextNodes() }
     }
     var alignment: NSTextAlignment
+    var textSprite: SKNode
 
     required init() {
         text = ""
         font = .Big
         alignment = .Left
+        textSprite = SKNode()
         super.init()
         z = .UI
     }
@@ -28,7 +30,9 @@ class TextNode: Node {
     }
 
     private func updateTextNodes() {
-        let newSprite = SKNode()
+        textSprite.removeFromParent()
+        textSprite = SKNode()
+
         let chars = text.characters.map { String($0) }
         let sprites = chars.map { return SKSpriteNode(id: .Letter(String($0), size: font)) }
         let size = sprites.reduce(CGSizeZero) { size, sprite in
@@ -46,11 +50,11 @@ class TextNode: Node {
 
         for sprite in sprites {
             sprite.position.x = x
-            newSprite << sprite
+            textSprite << sprite
             x += sprite.size.width + letterSpace
         }
 
-        self << newSprite
+        self << textSprite
         self.size = size
     }
 

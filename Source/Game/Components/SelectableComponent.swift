@@ -11,7 +11,7 @@ class SelectableComponent: Component {
 
     typealias OnSelected = (Bool) -> Void
     typealias SimpleOnSelected = (Bool) -> Void
-    var _onSelected = [OnSelected]()
+    var _onSelected: [OnSelected] = []
 
     override func reset() {
         super.reset()

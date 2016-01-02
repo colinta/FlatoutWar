@@ -15,7 +15,7 @@ class FadeToComponent: ApplyToNodeComponent {
             }
         }
     }
-    private var _rate: CGFloat? = CGFloat(1.65)
+    private var _rate: CGFloat? = 1.65  // 0.6s
     var rate: CGFloat? {
         get { return _rate }
         set {
@@ -33,7 +33,7 @@ class FadeToComponent: ApplyToNodeComponent {
     }
 
     typealias OnFaded = Block
-    private var _onFaded = [OnFaded]()
+    private var _onFaded: [OnFaded] = []
     func onFaded(handler: OnFaded) {
         _onFaded << handler
     }
@@ -45,7 +45,7 @@ class FadeToComponent: ApplyToNodeComponent {
 
     override func reset() {
         super.reset()
-        _onFaded = [OnFaded]()
+        _onFaded = []
     }
 
     func removeOnFaded() {

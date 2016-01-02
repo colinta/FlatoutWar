@@ -41,20 +41,20 @@ class StartupWorld: World {
         timeline.at(5) {
             let enemyNode1pt = CGPoint(r: self.size.width/2, a: 0)
 
-            let enemyNode1 = SoldierNode()
+            let enemyNode1 = EnemySoldierNode()
             enemyNode1.position = enemyNode1pt
             enemyNode1.zRotation = TAU_2
             self << enemyNode1
 
             let enemyNode2pt = CGPoint(r: self.size.width/2 + 5, a: 10.degrees)
-            let enemyNode2 = SoldierNode()
+            let enemyNode2 = EnemySoldierNode()
             enemyNode2.position = enemyNode2pt
             enemyNode2.zRotation = TAU_2
             self << enemyNode2
         }
 
         timeline.at(10) {
-            let enemy = SoldierNode()
+            let enemy = EnemySoldierNode()
             enemy.position = CGPoint(r: self.worldRadius + 20, a: 175.degrees)
             enemy.zRotation = 0
             self << enemy
@@ -64,7 +64,7 @@ class StartupWorld: World {
         }
 
         timeline.at(15) {
-            self.removeComponent(zoomingComponent1)
+            zoomingComponent1.removeFromNode()
             self.addComponent(zoomingComponent2)
         }
 
@@ -81,7 +81,7 @@ class StartupWorld: World {
         }
 
         timeline.at(40) {
-            self.removeComponent(zoomingComponent2)
+            zoomingComponent2.removeFromNode()
             self.addComponent(zoomingComponent3)
         }
 
@@ -101,7 +101,7 @@ class StartupWorld: World {
             let touchableComponent = TouchableComponent()
             touchableComponent.containsTouchTest = { _ in return true }
             touchableComponent.on(.Up) { _ in
-                self.director?.presentWorld(DemoWorld())
+                self.director?.presentWorld(MainMenuWorld())
             }
             let node = Node()
             node.addComponent(touchableComponent)
@@ -125,7 +125,7 @@ class StartupWorld: World {
     }
 
     func drawTitle() {
-        var y = CGFloat(30)
+        var y: CGFloat = 30
         for text in ["FLATOUT", "WAR"] {
             let textNode = TextNode()
             textNode.position = CGPoint(x: 0, y: y)
@@ -135,19 +135,19 @@ class StartupWorld: World {
         }
     }
 
-    func spawn(_radius: CGFloat? = nil) -> SoldierNode {
+    func spawn(_radius: CGFloat? = nil) -> EnemySoldierNode {
         let radius = (_radius ?? worldRadius) + 20
         let location = CGPoint(r: radius, a: rand(TAU))
-        let enemyNode = SoldierNode(at: location)
+        let enemyNode = EnemySoldierNode(at: location)
         enemyNode.rotateTowards(playerNode)
         self << enemyNode
         return enemyNode
     }
 
-    func spawnGiant(_radius: CGFloat? = nil) -> SoldierNode {
+    func spawnGiant(_radius: CGFloat? = nil) -> EnemySoldierNode {
         let radius = (_radius ?? worldRadius) + 20
         let location = CGPoint(r: radius, a: rand(TAU))
-        let enemyNode = GiantSoldierNode(at: location)
+        let enemyNode = EnemyGiantNode(at: location)
         enemyNode.rotateTowards(playerNode)
         self << enemyNode
         return enemyNode

@@ -8,18 +8,32 @@
 
 class RotateToComponent: ApplyToNodeComponent {
     var currentAngle: CGFloat?
-    var destAngle: CGFloat?
-    private(set) var angularSpeed = CGFloat(0)
-    var maxAngularSpeed = CGFloat(4)
+    var target: CGFloat?
+    private(set) var angularSpeed: CGFloat = 0
+    var maxAngularSpeed: CGFloat = 4
     // angularAccel is optional, creates a "slow initial spin" effect
     // if it is nil, the maxAngularSpeed is set immediately
-    var angularAccel: CGFloat? = CGFloat(3)
+    var angularAccel: CGFloat? = 3
 
     var isRotating: Bool {
-        guard let currentAngle = currentAngle, destAngle = destAngle else {
+        guard let currentAngle = currentAngle, target = target else {
             return false
         }
-        return (0.25).degrees < abs(deltaAngle(destAngle, destAngle: currentAngle))
+        return (0.25).degrees < abs(deltaAngle(target, target: currentAngle))
+    }
+
+    typealias OnRotated = Block
+    private var _onRotated: [OnRotated] = []
+    func onRotated(handler: OnRotated) {
+        if target == nil {
+            handler()
+        }
+        _onRotated << handler
+    }
+
+    override func reset() {
+        super.reset()
+        _onRotated = []
     }
 
     override func defaultApplyTo() {
@@ -27,12 +41,8 @@ class RotateToComponent: ApplyToNodeComponent {
         currentAngle = node.zRotation
     }
 
-    override func reset() {
-        super.reset()
-    }
-
     override func update(dt: CGFloat) {
-        guard let currentAngle = currentAngle, destAngle = destAngle else {
+        guard let currentAngle = currentAngle, target = target else {
             return
         }
 
@@ -47,12 +57,17 @@ class RotateToComponent: ApplyToNodeComponent {
         }
 
         let newAngle: CGFloat
-        if let angle = moveAngle(currentAngle, towards: destAngle, by: angularSpeed * dt) {
+        if let angle = moveAngle(currentAngle, towards: target, by: angularSpeed * dt) {
             newAngle = angle
         }
         else {
-            newAngle = destAngle
+            newAngle = target
             angularSpeed = 0
+            self.target = nil
+
+            for handler in _onRotated {
+                handler()
+            }
         }
         self.currentAngle = newAngle
 

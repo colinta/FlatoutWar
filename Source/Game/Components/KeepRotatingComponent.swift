@@ -7,7 +7,7 @@
 //
 
 class KeepRotatingComponent: ApplyToNodeComponent {
-    var rate = CGFloat(1)
+    var rate: CGFloat = 1
 
     override func update(dt: CGFloat) {
         guard let applyTo = applyTo else {

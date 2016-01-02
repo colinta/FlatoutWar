@@ -17,14 +17,14 @@ class BaseArtist: Artist {
     private var smallPath: CGPath
 
     override var size: CGSize { didSet { generatePaths() } }
-    var health = Float(1.0) { didSet { generatePaths() } }
+    var health: CGFloat = 1.0 { didSet { generatePaths() } }
 
     required init(upgrade: FiveUpgrades) {
         self.upgrade = upgrade
 
         let pointCount: Int = 20
-        var angles = [CGFloat]()
-        var points = [CGPoint]()
+        var angles: [CGFloat] = []
+        var points: [CGPoint] = []
         let angleDelta = TAU / CGFloat(pointCount)
         let angleRand = angleDelta / 2
         for i in 0..<pointCount {

@@ -28,17 +28,17 @@ class TimelineComponent: Component {
         let block: Block
     }
 
-    var time = CGFloat(0)
+    var time: CGFloat = 0
 
     typealias StopRecurringBlock = Block
 
     private var running = false
-    private var events = [Event]()
-    private var recurringEvents = [RecurringEvent]()
-    private var conditionEvents = [ConditionEvent]()
-    private var newEvents = [Event]()
-    private var newRecurringEvents = [RecurringEvent]()
-    private var newConditionEvents = [ConditionEvent]()
+    private var events: [Event] = []
+    private var recurringEvents: [RecurringEvent] = []
+    private var conditionEvents: [ConditionEvent] = []
+    private var newEvents: [Event] = []
+    private var newRecurringEvents: [RecurringEvent] = []
+    private var newConditionEvents: [ConditionEvent] = []
 
     override func reset() {
         super.reset()

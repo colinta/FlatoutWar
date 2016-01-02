@@ -32,6 +32,20 @@ class ZoomToComponent: ApplyToNodeComponent {
         }
     }
 
+    typealias OnZoomed = Block
+    private var _onZoomed: [OnZoomed] = []
+    func onZoomed(handler: OnZoomed) {
+        if target == nil {
+            handler()
+        }
+        _onZoomed << handler
+    }
+
+    override func reset() {
+        super.reset()
+        _onZoomed = []
+    }
+
     override func defaultApplyTo() {
         super.defaultApplyTo()
         currentScale = node.xScale
@@ -49,23 +63,8 @@ class ZoomToComponent: ApplyToNodeComponent {
         super.encodeWithCoder(encoder)
     }
 
-    typealias OnZoomed = Block
-    private var _onZoomed = [OnZoomed]()
-    func onZoomed(handler: OnZoomed) {
-        if target == nil {
-            handler()
-        }
-        _onZoomed << handler
-    }
-
-    override func reset() {
-        super.reset()
-        _onZoomed = [OnZoomed]()
-    }
-
     override func update(dt: CGFloat) {
-        guard let target = target else { return }
-        guard let currentScale = currentScale else { return }
+        guard let target = target, currentScale = currentScale else { return }
 
         let rate: CGFloat
         if let _rate = _rate {
@@ -87,6 +86,7 @@ class ZoomToComponent: ApplyToNodeComponent {
             }
         }
         else {
+            self.currentScale = target
             self.target = nil
 
             for handler in _onZoomed {

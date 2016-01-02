@@ -7,7 +7,7 @@
 //
 
 class PercentArtist: Artist {
-    var complete = CGFloat(1.0)
+    var complete: CGFloat = 1.0
     var color = UIColor(hex: 0x3E8012)
 
     override func draw(context: CGContext) {

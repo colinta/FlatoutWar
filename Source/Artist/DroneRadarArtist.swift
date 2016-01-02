@@ -7,7 +7,7 @@
 //
 
 class DroneRadarArtist: Artist {
-    var phase = CGFloat(0)
+    var phase: CGFloat = 0
     var stroke = UIColor(hex: 0x25B1FF)
     var radarRadius: CGFloat?
 

@@ -7,14 +7,14 @@
 //
 
 class ProjectileComponent: Component {
-    var damage = Float(0)
+    var damage: Float = 0
     typealias OnCollision = (enemy: Node, location: CGPoint) -> Void
-    var _onCollision = [OnCollision]()
+    var _onCollision: [OnCollision] = []
     func onCollision(handler: OnCollision) { _onCollision << handler }
 
     override func reset() {
         super.reset()
-        _onCollision = [OnCollision]()
+        _onCollision = []
     }
 
     required override init() {

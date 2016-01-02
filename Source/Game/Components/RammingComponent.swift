@@ -13,7 +13,7 @@ class RammingComponent: Component {
     }
 
     typealias OnRammed = Block
-    var _onRammed = [OnRammed]()
+    var _onRammed: [OnRammed] = []
     func onRammed(handler: OnRammed) { _onRammed << handler }
 
     required override init() {
@@ -28,13 +28,13 @@ class RammingComponent: Component {
         super.encodeWithCoder(encoder)
     }
 
-    var acceleration = CGFloat(10)
-    var currentSpeed = CGFloat(0)
-    var maxSpeed = CGFloat(25)
-    var maxTurningSpeed = CGFloat(10)
+    var acceleration: CGFloat = 10
+    var currentSpeed: CGFloat = 0
+    var maxSpeed: CGFloat = 25
+    var maxTurningSpeed: CGFloat = 10
 
     override func reset() {
-        _onRammed = [OnRammed]()
+        _onRammed = []
     }
 
     func removeOnRammed() {
@@ -61,7 +61,7 @@ class RammingComponent: Component {
 
             let destAngle: CGFloat
             if let rotateToComponent = node.rotateToComponent {
-                rotateToComponent.destAngle = node.position.angleTo(currentTargetLocation)
+                rotateToComponent.target = node.position.angleTo(currentTargetLocation)
                 if rotateToComponent.isRotating && maxSpeed > maxTurningSpeed {
                     maxSpeed = maxTurningSpeed
                 }

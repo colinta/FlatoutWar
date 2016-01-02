@@ -42,7 +42,7 @@ class RadarArtist: Artist {
     override func draw(context: CGContext) {
         CGContextSetLineWidth(context, 1.pixels)
 
-        let innerRadius = CGFloat(25)
+        let innerRadius: CGFloat = 25
         let c0 = CGPoint(x: 0, y: middle.y)
         let centerRight = CGPoint(x: size.width, y: middle.y)
         let centerInner = CGPoint(x: innerRadius, y: middle.y)

@@ -26,7 +26,7 @@ func easeOutElastic(time time: CGFloat, initial: CGFloat = 0, final finalValue: 
     guard time > 0 else { return initial }
     guard time < 1 else { return finalValue }
 
-    let p = CGFloat(0.3)
+    let p: CGFloat = 0.3
     let s = CGFloat(p / 4.0)
 
     return (finalValue - initial) * pow(2, -10 * time) * sin((time - s) * TAU / p) + finalValue
@@ -39,7 +39,7 @@ func easeInElastic(time time: CGFloat, initial: CGFloat = 0, final finalValue: C
 }
 
 func easeInBack(time time: CGFloat, initial: CGFloat = 0, final finalValue: CGFloat = 1) -> CGFloat {
-    let s = CGFloat(1.70158)
+    let s: CGFloat = 1.70158
     return (finalValue - initial) * time * time * ((s+1) * time - s) + initial
 }
 

@@ -6,6 +6,31 @@
 //  Copyright © 2015 colinta. All rights reserved.
 //
 
+extension ImageIdentifier.EnemyType {
+    func artist(health healthInt: Int) -> Artist {
+        let artist: Artist
+        let health = CGFloat(healthInt) / 100
+        switch self {
+        case .Soldier:
+            artist = EnemySoldierArtist(health: health)
+        case .GiantSoldier:
+            artist = EnemySoldierArtist(health: health)
+            artist.size *= 10
+        case .Leader:
+            artist = EnemyLeaderArtist(health: health)
+        case .Scout:
+            artist = EnemyScoutArtist(health: health)
+        case .Dozer:
+            artist = EnemyDozerArtist(health: health)
+        case .Jet:
+            artist = EnemyJetArtist(health: health)
+        case .BigJet:
+            artist = EnemyBigJetArtist(health: health)
+        }
+        return artist
+    }
+}
+
 extension ImageIdentifier.LetterSize {
 
     var font: Font {
@@ -33,7 +58,7 @@ extension ImageIdentifier {
             case .Circle:
                 artist.style = .Circle
                 artist.size = CGSize(width: 24, height: 24)
-            case .Play:
+            case .Start:
                 artist.text = "START"
                 artist.style = .Octagon
             case .Setup:
@@ -65,24 +90,10 @@ extension ImageIdentifier {
                 artist.style = .Square
             }
             return artist
-        case let .Enemy(type):
-            let artist: EnemyArtist
-            switch type {
-            case .Soldier:
-                artist = EnemyArtist()
-            case .GiantSoldier:
-                artist = EnemyArtist()
-                artist.size *= 10
-            case .Leader:
-                artist = BigEnemyArtist()
-            case .Scout:
-                artist = FastEnemyArtist()
-            case .Dozer:
-                artist = DozerEnemyArtist()
-            }
-            return artist
-        case let .EnemyShrapnel(type):
-            let artist = ImageIdentifier.Enemy(type: type).artist
+        case let .Enemy(enemyType, health):
+            return enemyType.artist(health: health)
+        case let .EnemyShrapnel(enemyType):
+            let artist = enemyType.artist(health: 1)
             artist.size = artist.size * 0.1
             return artist
         case .Cursor:
@@ -94,9 +105,9 @@ extension ImageIdentifier {
         case let .Radar(upgrade):
             let artist = RadarArtist(upgrade: upgrade)
             return artist
-        case let .Base(upgrade, health):
+        case let .Base(upgrade, healthInt):
             let artist = BaseArtist(upgrade: upgrade)
-            artist.health = health
+            artist.health = CGFloat(healthInt) / 100
             return artist
         case let .BaseSingleTurret(upgrade):
             let artist = BaseTurretArtist(upgrade: upgrade)

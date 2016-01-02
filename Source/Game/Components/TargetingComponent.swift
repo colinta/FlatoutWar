@@ -79,9 +79,9 @@ class TargetingComponent: Component {
         guard let sweepAngle = sweepAngle else { return true }
 
         let angle = enemyPosition.angle
-        let normalized = deltaAngle(angle, destAngle: (turret ?? node).zRotation)
+        let normalized = deltaAngle(angle, target: (turret ?? node).zRotation)
         let sweep: CGFloat
-        let reallyCloseAdjustment = CGFloat(40)
+        let reallyCloseAdjustment: CGFloat = 40
         if enemyPosition.lengthWithin(reallyCloseAdjustment) {
             sweep = sweepAngle + 20.degrees
         }
@@ -119,7 +119,7 @@ class TargetingComponent: Component {
         }
 
         var bestTarget: Node? = currentTarget
-        var bestDistance = CGFloat(0)
+        var bestDistance: CGFloat = 0
 
         for enemy in world.enemies {
             if isViableTarget(enemy) {

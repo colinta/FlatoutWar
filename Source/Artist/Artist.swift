@@ -32,8 +32,8 @@ class Artist {
             middle = CGPoint(x: size.width / 2, y: size.height / 2)
         }
     }
-    var scale = CGFloat(1)
-    var alpha = CGFloat(1)
+    var scale: CGFloat = 1
+    var alpha: CGFloat = 1
 
     enum Shadowed {
         case False
@@ -117,10 +117,6 @@ extension Artist {
         let size = artist.imageSize(scale) * artist.scale
 
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
-
-        // let color = UIColor(hex: 0x0)
-        // color.setFill()
-        // UIRectFill(CGRect(origin: CGPointZero, size: size))
 
         artist.drawInContext(UIGraphicsGetCurrentContext()!, scale: scale)
         let image = UIGraphicsGetImageFromCurrentImageContext()

@@ -7,10 +7,10 @@
 //
 
 class BaseTurretArtist: Artist {
-    static let bigR = CGFloat(5)
-    static let smallR = CGFloat(3.5)
-    static let tinyR = CGFloat(1)
-    static let width = CGFloat(24)
+    static let bigR: CGFloat = 5
+    static let smallR: CGFloat = 3.5
+    static let tinyR: CGFloat = 1
+    static let width: CGFloat = 24
 
     private var turretPath: CGMutablePath
     var upgrade: FiveUpgrades
@@ -52,7 +52,7 @@ class BaseTurretArtist: Artist {
 
 
 class BaseDoubleTurretArtist: BaseTurretArtist {
-    static let doubleDist = CGFloat(6)
+    static let doubleDist: CGFloat = 6
 
     required init(upgrade: FiveUpgrades) {
         super.init(upgrade: upgrade)
@@ -94,9 +94,9 @@ class BaseDoubleTurretArtist: BaseTurretArtist {
 }
 
 class BaseBigTurretArtist: BaseTurretArtist {
-    static let biggerR = CGFloat(7)
-    static let smallerR = CGFloat(5.5)
-    static let tinierR = CGFloat(2)
+    static let biggerR: CGFloat = 7
+    static let smallerR: CGFloat = 5.5
+    static let tinierR: CGFloat = 2
 
     required init(upgrade: FiveUpgrades) {
         super.init(upgrade: upgrade)

@@ -30,12 +30,12 @@ class FiringComponent: Component {
     }
 
     typealias OnFire = (angle: CGFloat) -> Void
-    var _onFire = [OnFire]()
+    var _onFire: [OnFire] = []
     func onFire(handler: OnFire) { _onFire << handler }
 
     override func reset() {
         super.reset()
-        _onFire = [OnFire]()
+        _onFire = []
     }
 
     required override init() {

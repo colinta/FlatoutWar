@@ -16,7 +16,7 @@ enum ImageIdentifier {
 
     enum ButtonType {
         case Circle
-        case Play
+        case Start
         case Setup
         case Pause
         case Resume
@@ -37,19 +37,22 @@ enum ImageIdentifier {
         case Dozer
         case GiantSoldier
 
+        case Jet
+        case BigJet
+
         var name: String { return "\(self)" }
     }
 
     case None
     case Letter(String, size: LetterSize)
     case Button(type: ButtonType, touched: Bool)
-    case Enemy(type: EnemyType)
+    case Enemy(type: EnemyType, health: Int)
     case EnemyShrapnel(type: EnemyType)
     case Cursor
     case Drawer
     case Drone(upgrade: FiveUpgrades)
     case Radar(upgrade: FiveUpgrades)
-    case Base(upgrade: FiveUpgrades, health: Float)
+    case Base(upgrade: FiveUpgrades, health: Int)
     case BaseSingleTurret(upgrade: FiveUpgrades)
     case BaseDoubleTurret(upgrade: FiveUpgrades)
     case BaseBigTurret(upgrade: FiveUpgrades)
@@ -83,8 +86,8 @@ enum ImageIdentifier {
             return "Letter-letter_\(nameLetter)-size_\(size.name)"
         case let .Button(type, touched):
             return "Button-type_\(type.name)-touched_\(touched)"
-        case let .Enemy(type):
-            return "Enemy-type_\(type.name)"
+        case let .Enemy(type, health):
+            return "Enemy-type_\(type.name)-health_\(health)"
         case let .EnemyShrapnel(type):
             return "EnemyShrapnel-type_\(type.name)"
         case .Cursor:
@@ -94,7 +97,7 @@ enum ImageIdentifier {
         case let .Radar(upgrade):
             return "Radar-upgrade_\(upgrade.name)"
         case let .Base(upgrade, health):
-            return "Base-upgrade_\(upgrade.name)-health_\(round(health * 360))"
+            return "Base-upgrade_\(upgrade.name)-health_\(health)"
         case let .BaseSingleTurret(upgrade):
             return "BaseSingleTurret-upgrade_\(upgrade.name)"
         case let .BaseDoubleTurret(upgrade):

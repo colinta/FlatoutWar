@@ -38,10 +38,10 @@ class DemoWorld: World {
         // }
 
         let count = 30
-        let radius = CGFloat(200)
+        let radius: CGFloat = 200
         for angleIndex in 0...count {
             let angle = TAU * CGFloat(angleIndex) / CGFloat(count)
-            let enemyNode = SoldierNode(at: CGPoint(r: radius, a: angle))
+            let enemyNode = EnemySoldierNode(at: CGPoint(r: radius, a: angle))
             enemyNode.rotateTowards(node: playerNode)
             self << enemyNode
         }

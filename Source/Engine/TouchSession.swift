@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-private let MinDraggingDistance = CGFloat(4)
-private let MaxTappedDuration = CGFloat(0.375)
+private let MinDraggingDistance: CGFloat = 4
+private let MaxTappedDuration: CGFloat = 0.375
 
 class TouchSession {
     var touch: UITouch
