@@ -176,8 +176,16 @@ extension BasePlayerNode {
         startRotatingTo(destAngle + angle)
     }
 
-    private func startRotatingTo(angle: CGFloat) {
+    func startRotatingTo(angle: CGFloat) {
         rotateToComponent?.target = angle
+    }
+
+    override func rotateTo(angle: CGFloat) {
+        base.zRotation = angle
+        radar.zRotation = angle
+        turret.zRotation = angle
+        rotateToComponent?.currentAngle = angle
+        rotateToComponent?.target = nil
     }
 
 }
