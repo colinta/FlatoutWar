@@ -128,6 +128,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .Letter(">", size: .Small),
 
             .Button(style: .Circle),
+            .Button(style: .CircleSized(70)),
             .Button(style: .Square),
 
             .Enemy(type: .Soldier, health: 100),

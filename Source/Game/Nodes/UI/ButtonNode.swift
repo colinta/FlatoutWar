@@ -19,8 +19,9 @@ class ButtonNode: TextNode {
         }
     }
 
-    var _onTapped: Block?
-    func onTapped(handler: Block) { _onTapped = handler }
+    typealias OnTapped = Block
+    var _onTapped: OnTapped?
+    func onTapped(handler: OnTapped) { _onTapped = handler }
     func offTapped() { _onTapped = nil }
 
     override func setScale(scale: CGFloat) {
@@ -59,8 +60,8 @@ class ButtonNode: TextNode {
 
     private func updateButtonStyle() {
         switch style {
-        case .Square: size = CGSize(50)
-        case .Circle: size = CGSize(60)
+        case .Square, .SquareSized, .Circle, .CircleSized:
+            size = style.size
         default: break
         }
         buttonStyleNode.textureId(.Button(style: style))

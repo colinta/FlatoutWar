@@ -54,12 +54,12 @@ extension ImageIdentifier {
         case let .Button(style):
             let artist = ButtonArtist()
             switch style {
-            case .Square:
+            case .Square, .SquareSized:
                 artist.style = .Square
-                artist.size = CGSize(50)
-            case .Circle:
+                artist.size = style.size
+            case .Circle, .CircleSized:
                 artist.style = .Circle
-                artist.size = CGSize(60)
+                artist.size = style.size
             default:
                 break
             }

@@ -9,10 +9,30 @@
 enum ButtonStyle {
     case Octagon
     case Square
+    case SquareSized(Int)
     case Circle
+    case CircleSized(Int)
     case None
 
-    var name: String { return "\(self)" }
+    var size: CGSize {
+        switch self {
+        case .Square: return CGSize(50)
+        case .Circle: return CGSize(60)
+        case let .SquareSized(size): return CGSize(CGFloat(size))
+        case let .CircleSized(size): return CGSize(CGFloat(size))
+        default: return CGSizeZero
+        }
+    }
+
+    var name: String {
+        switch self {
+        case let .CircleSized(size):
+            return "\(self)-size_\(size)"
+        case let .SquareSized(size):
+            return "\(self)-size_\(size)"
+        default: return "\(self)"
+        }
+    }
 }
 
 class ButtonArtist: TextArtist {
@@ -56,10 +76,10 @@ class ButtonArtist: TextArtist {
             CGContextAddLineToPoint(context, size.width - 5, 0)
             CGContextClosePath(context)
             CGContextDrawPath(context, .Stroke)
-        case .Square:
+        case .Square, .SquareSized:
             CGContextAddRect(context, CGRect(origin: CGPointZero, size: size))
             CGContextDrawPath(context, .Stroke)
-        case .Circle:
+        case .Circle, .CircleSized:
             CGContextAddEllipseInRect(context, CGRect(origin: CGPointZero, size: size))
             CGContextDrawPath(context, .Stroke)
         case .None:
