@@ -11,8 +11,6 @@ class RapidFireTutorial: Tutorial {
     override func populateWorld() {
         super.populateWorld()
 
-        playerNode.touchableComponent?.enabled = false
-
         tutorialTextNode.text = "RAPID FIRE"
 
         timeline.at(1) {

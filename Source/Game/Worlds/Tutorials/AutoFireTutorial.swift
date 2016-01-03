@@ -11,8 +11,6 @@ class AutoFireTutorial: Tutorial {
     override func populateWorld() {
         super.populateWorld()
 
-        playerNode.touchableComponent?.enabled = false
-
         tutorialTextNode.text = "AUTO AIM"
 
         timeline.at(1) {

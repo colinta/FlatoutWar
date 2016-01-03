@@ -19,33 +19,7 @@ class DemoWorld: World {
         let drone = DroneNode(at: CGPoint(100, 50))
         self << drone
 
-        timeline.every(4, block: generateEnemyFormation(0))
-
-        let percentNode = PercentNode(at: CGPoint(x: -50, y: 0))
-        self << percentNode
-        var complete: CGFloat = 0
-        timeline.every(0.1) {
-            complete += 0.01
-            percentNode.complete = complete
-        }
-
-        let backButton = ButtonNode()
-        let nextButton = ButtonNode()
-
-        backButton.fixedPosition = .C(x: -27, y: 0)
-        backButton.text = "<"
-        backButton.size = CGSize(50)
-        backButton.style = .Square
-        backButton.visible = true
-        ui << backButton
-
-        nextButton.fixedPosition = .C(x: 27, y: 0)
-        nextButton.text = ">"
-        nextButton.size = CGSize(50)
-        nextButton.style = .Square
-        nextButton.visible = true
-        ui << nextButton
-
+        // timeline.every(4, block: generateEnemyFormation(0))
 
         // let minX = -size.width / 2 + 20, maxX = size.width / 2 - 20
         // let minY = -size.height / 2 + 20
@@ -69,7 +43,7 @@ class DemoWorld: World {
 
     // exp: 12
     func generateEnemyFormation(angle: CGFloat)() {
-        let center = CGPoint(r: radius, a: angle)
+        let center = CGPoint(r: outerRadius, a: angle)
 
         let enemyLeader = EnemyLeaderNode(at: center)
         enemyLeader.rotateTowards(playerNode)

@@ -13,7 +13,6 @@ class Tutorial: World {
     required init() {
         super.init()
         pauseable = false
-        cameraNode = Node(at: CGPoint(x: 80, y: -40))
     }
 
     required init?(coder: NSCoder) {
@@ -22,10 +21,12 @@ class Tutorial: World {
 
     override func populateWorld() {
         setScale(1.5)
+        cameraNode = Node(at: CGPoint(x: 80, y: -40))
 
         tutorialTextNode.font = .Small
         self << tutorialTextNode
 
+        playerNode.touchableComponent?.enabled = false
         playerNode.touchableComponent?.enabled = false
         self << playerNode
     }
