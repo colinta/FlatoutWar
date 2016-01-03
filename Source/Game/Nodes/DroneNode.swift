@@ -7,6 +7,7 @@
 //
 
 class DroneNode: Node {
+    static let DefaultSpeed: CGFloat = 30
     var cursor = CursorNode()
     var sprite = SKSpriteNode(id: .Drone(upgrade: .One))
     var placeholder = SKSpriteNode(id: .Drone(upgrade: .One))
@@ -53,6 +54,7 @@ class DroneNode: Node {
         addComponent(selectableComponent)
 
         let draggingComponent = DraggableComponent()
+        draggingComponent.speed = DroneNode.DefaultSpeed
         draggingComponent.placeholder = placeholder
         draggingComponent.bindTo(touchableComponent: touchableComponent)
         draggingComponent.onDragMove { isMoving in
