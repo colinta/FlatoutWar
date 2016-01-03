@@ -105,6 +105,11 @@ class Node: SKNode {
         position = point
     }
 
+    convenience init(fixed position: Position) {
+        self.init()
+        fixedPosition = position
+    }
+
     override required init() {
         super.init()
         populate()

@@ -7,46 +7,37 @@
 //
 
 enum Position {
-    case TL(x: CGFloat, y: CGFloat)
-    case T(x: CGFloat, y: CGFloat)
-    case TR(x: CGFloat, y: CGFloat)
-    case L(x: CGFloat, y: CGFloat)
-    case C(x: CGFloat, y: CGFloat)
-    case R(x: CGFloat, y: CGFloat)
-    case BL(x: CGFloat, y: CGFloat)
-    case B(x: CGFloat, y: CGFloat)
-    case BR(x: CGFloat, y: CGFloat)
+    case TopLeft(x: CGFloat, y: CGFloat)
+    case Top(x: CGFloat, y: CGFloat)
+    case TopRight(x: CGFloat, y: CGFloat)
+    case Left(x: CGFloat, y: CGFloat)
+    case Center(x: CGFloat, y: CGFloat)
+    case Right(x: CGFloat, y: CGFloat)
+    case BottomLeft(x: CGFloat, y: CGFloat)
+    case Bottom(x: CGFloat, y: CGFloat)
+    case BottomRight(x: CGFloat, y: CGFloat)
 
-    static func tl(pt: CGPoint) -> Position { return .TL(x: pt.x, y: pt.y) }
-    static func t(pt: CGPoint) -> Position { return .T(x: pt.x, y: pt.y) }
-    static func tr(pt: CGPoint) -> Position { return .TR(x: pt.x, y: pt.y) }
-    static func l(pt: CGPoint) -> Position { return .L(x: pt.x, y: pt.y) }
-    static func c(pt: CGPoint) -> Position { return .C(x: pt.x, y: pt.y) }
-    static func r(pt: CGPoint) -> Position { return .R(x: pt.x, y: pt.y) }
-    static func bl(pt: CGPoint) -> Position { return .BL(x: pt.x, y: pt.y) }
-    static func b(pt: CGPoint) -> Position { return .B(x: pt.x, y: pt.y) }
-    static func br(pt: CGPoint) -> Position { return .BR(x: pt.x, y: pt.y) }
-
-    func positionIn(size: CGSize) -> CGPoint {
+    func positionIn(screenSize size: CGSize) -> CGPoint {
         let half = size / 2
+
         switch self {
-        case let TL(x, y):
+        case let .TopLeft(x, y):
             return CGPoint(x: -half.width + x, y: half.height + y)
-        case let T(x, y):
+        case let .Top(x, y):
             return CGPoint(x: x, y: half.height + y)
-        case let TR(x, y):
+        case let .TopRight(x, y):
             return CGPoint(x: half.width + x, y: half.height + y)
-        case let L(x, y):
+        case let .Left(x, y):
             return CGPoint(x: -half.width + x, y: y)
-        case let C(x, y):
+        case let .Center(x, y):
             return CGPoint(x: x, y: y)
-        case let R(x, y):
+        case let .Right(x, y):
             return CGPoint(x: half.width + x, y: y)
-        case let BL(x, y):
+        case let .BottomLeft(x, y):
             return CGPoint(x: -half.width + x, y: -half.height + y)
-        case let B(x, y):
+        case let .Bottom(x, y):
             return CGPoint(x: x, y: -half.height + y)
-        case let BR(x, y):
+        case let .BottomRight(x, y):
             return CGPoint(x: half.width + x, y: -half.height + y)
         }
     }

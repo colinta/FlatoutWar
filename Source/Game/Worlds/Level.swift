@@ -31,21 +31,21 @@ class Level: World {
     required init() {
         super.init()
 
-        resumeButton.fixedPosition = .C(x: 0, y: 0)
+        resumeButton.fixedPosition = .Center(x: 0, y: 0)
         resumeButton.visible = false
         resumeButton.text = "RESUME"
         resumeButton.onTapped {
             self.unpause()
         }
 
-        restartButton.fixedPosition = .C(x: 0, y: -80)
+        restartButton.fixedPosition = .Center(x: 0, y: -80)
         restartButton.visible = false
         restartButton.text = "RESTART"
         restartButton.onTapped {
             self.restartWorld()
         }
 
-        quitButton.fixedPosition = .C(x: 0, y: 80)
+        quitButton.fixedPosition = .Center(x: 0, y: 80)
         quitButton.visible = false
         quitButton.text = "QUIT"
         quitButton.onTapped {
@@ -53,7 +53,7 @@ class Level: World {
         }
 
         pauseButton.setScale(0.5)
-        pauseButton.fixedPosition = .TR(x: -20, y: -20)
+        pauseButton.fixedPosition = .TopRight(x: -20, y: -20)
         pauseButton.text = "||"
         pauseButton.size = CGSize(80)
         pauseButton.onTapped { _ in
@@ -65,7 +65,7 @@ class Level: World {
             }
         }
 
-        backButton.fixedPosition = .C(x: -27, y: -80)
+        backButton.fixedPosition = .Center(x: -27, y: -80)
         backButton.text = "<"
         backButton.style = .Square
         backButton.size = CGSize(50)
@@ -74,7 +74,7 @@ class Level: World {
             self.director?.presentWorld(LevelSelectWorld())
         }
 
-        nextButton.fixedPosition = .C(x: 27, y: -80)
+        nextButton.fixedPosition = .Center(x: 27, y: -80)
         nextButton.text = ">"
         nextButton.style = .Square
         nextButton.size = CGSize(50)

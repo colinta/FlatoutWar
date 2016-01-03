@@ -414,8 +414,14 @@ extension World {
             } as! [Node]
 
             for node in uiNodes {
-                node.position = node.fixedPosition!.positionIn(screenSize)
+                node.position = node.fixedPosition!.positionIn(screenSize: screenSize)
             }
+        }
+    }
+
+    func updateFixedNode(node: Node) {
+        if let screenSize = screenSize, fixedPosition = node.fixedPosition {
+            node.position = fixedPosition.positionIn(screenSize: screenSize)
         }
     }
 
