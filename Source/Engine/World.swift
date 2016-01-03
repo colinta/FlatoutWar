@@ -214,6 +214,9 @@ extension World {
             ui.updateNodes(dt)
 
             if let cameraNode = cameraNode {
+                if cameraNode.world == nil {
+                    cameraNode.updateNodes(dt)
+                }
                 position = -1 * cameraNode.position
             }
 
