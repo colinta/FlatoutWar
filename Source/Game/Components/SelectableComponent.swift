@@ -20,7 +20,7 @@ class SelectableComponent: Component {
 
     func bindTo(touchableComponent touchableComponent: TouchableComponent) {
         touchableComponent.on(.DownInside, onTouchIn)
-        touchableComponent.on(.Pressed, onTouchPressed)
+        touchableComponent.on(.UpInside, onTouchPressed)
         touchableComponent.on(.Up, onTouchEnded)
     }
 
@@ -46,7 +46,7 @@ class SelectableComponent: Component {
     func onTouchPressed(location: CGPoint) {
         guard enabled else { return }
 
-        if node.world?.selectedNode == node && !selecting {
+        if !selecting {
             node.world?.unselectNode(node)
         }
     }

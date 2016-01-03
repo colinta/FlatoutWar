@@ -9,10 +9,11 @@
 class TouchableComponent: Component {
     enum TouchEvent {
         case Tapped
-        case Pressed
         case Down
         case DownInside
         case Up
+        case UpInside
+        case UpOutside
         case Enter
         case Exit
         case Moved
@@ -105,7 +106,10 @@ class TouchableComponent: Component {
         if !isIgnoring {
             if isTouchingInside {
                 trigger(.Exit, location: location)
-                trigger(.Pressed, location: location)
+                trigger(.UpInside, location: location)
+            }
+            else {
+                trigger(.UpOutside, location: location)
             }
             trigger(.Up, location: location)
         }

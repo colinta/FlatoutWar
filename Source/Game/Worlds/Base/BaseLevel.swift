@@ -247,7 +247,7 @@ class BaseLevel: Level {
 
         let enemyGhost = Node(at: CGPoint(r: outerRadius * 0.8, a: angle))
         let rammingComponent = RammingComponent()
-        rammingComponent.removeOnRammed()
+        rammingComponent.removeNodeOnRammed()
         rammingComponent.onRammed {
             enemyGhost.removeFromParent()
         }

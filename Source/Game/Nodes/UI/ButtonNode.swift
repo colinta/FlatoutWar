@@ -21,6 +21,7 @@ class ButtonNode: TextNode {
 
     var _onTapped: Block?
     func onTapped(handler: Block) { _onTapped = handler }
+    func offTapped() { _onTapped = nil }
 
     override func setScale(scale: CGFloat) {
         preferredScale = scale
@@ -46,7 +47,7 @@ class ButtonNode: TextNode {
         touchableComponent.on(.Exit) { _ in
             self.unhighlight()
         }
-        touchableComponent.on(.Pressed) { _ in
+        touchableComponent.on(.UpInside) { _ in
             self._onTapped?()
         }
         addComponent(touchableComponent)
@@ -57,7 +58,17 @@ class ButtonNode: TextNode {
     }
 
     private func updateButtonStyle() {
+        switch style {
+        case .Square: size = CGSize(50)
+        case .Circle: size = CGSize(60)
+        default: break
+        }
         buttonStyleNode.textureId(.Button(style: style))
+    }
+
+    override func updateTextNodes() {
+        super.updateTextNodes()
+        updateButtonStyle()
     }
 
     private func highlight() {

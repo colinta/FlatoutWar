@@ -32,7 +32,7 @@ class MoveToComponent: ApplyToNodeComponent {
         }
     }
 
-    typealias OnArrived = (Node) -> Void
+    typealias OnArrived = () -> Void
     private var _onArrived: [OnArrived] = []
     func onArrived(handler: OnArrived) {
         _onArrived << handler
@@ -68,7 +68,7 @@ class MoveToComponent: ApplyToNodeComponent {
         if currentPosition.distanceTo(target, within: dt * speed) {
             newPosition = target
             for handler in _onArrived {
-                handler(node)
+                handler()
             }
             self.target = nil
         }

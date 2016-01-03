@@ -59,7 +59,7 @@ extension ImageIdentifier {
                 artist.size = CGSize(50)
             case .Circle:
                 artist.style = .Circle
-                artist.size = CGSize(24)
+                artist.size = CGSize(60)
             default:
                 break
             }

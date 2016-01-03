@@ -21,12 +21,8 @@ class DroneNode: Node {
         super.init()
         size = sprite.size
 
-        cursor.visible = false
-        self << cursor
-
         placeholder.alpha = 0.5
         placeholder.hidden = false
-        self << placeholder
 
         let wanderingComponent = WanderingComponent()
         wanderingComponent.wanderingRadius = 10
@@ -89,6 +85,8 @@ class DroneNode: Node {
 
     override func populate() {
         self << sprite
+        self << cursor
+        self << placeholder
     }
 
 }

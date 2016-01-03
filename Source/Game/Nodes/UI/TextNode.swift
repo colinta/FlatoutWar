@@ -27,7 +27,7 @@ class TextNode: Node {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func updateTextNodes() {
+    func updateTextNodes() {
         textSprite.removeFromParent()
         textSprite = SKNode()
 

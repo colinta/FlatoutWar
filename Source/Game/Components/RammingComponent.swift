@@ -38,11 +38,10 @@ class RammingComponent: Component {
         _onRammed = []
     }
 
-    func removeOnRammed() {
+    func removeNodeOnRammed() {
         onRammed {
-            if let node = self.node {
-                node.removeFromParent()
-            }
+            guard let node = self.node else { return }
+            node.removeFromParent()
         }
     }
 

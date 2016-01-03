@@ -43,6 +43,7 @@ class AutoFireTutorial: Tutorial {
 
     func showFirstButton() {
         let tapButton = ButtonNode(at: CGPoint(x: 0, y: -50))
+        tapButton.style = .Circle
         tapButton.font = .Small
         tapButton.text = "TAP"
         tapButton.onTapped {
@@ -81,6 +82,7 @@ class AutoFireTutorial: Tutorial {
 
         timeline.after(1) {
             let tapButton = ButtonNode(at: CGPoint(x: 150, y: 0))
+            tapButton.style = .Circle
             tapButton.font = .Small
             tapButton.text = "TAP"
             tapButton.onTapped {

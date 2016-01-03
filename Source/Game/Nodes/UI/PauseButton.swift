@@ -11,7 +11,7 @@ class PauseButton: ButtonNode {
     required init() {
         super.init()
 
-        touchableComponent?.off(.Pressed)
+        touchableComponent?.off(.UpInside)
         touchableComponent?.on(.Down) { _ in
             self._onTapped?()
         }
