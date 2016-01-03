@@ -12,64 +12,81 @@ private var dAlphaDown: CGFloat = 4
 private var dRotation: CGFloat = 0.7
 
 class CursorNode: Node {
-    var selected = false
-    private var spriteScale: CGFloat = 0
+    var selected: Bool {
+        didSet {
+            if selected {
+                destAlpha = 1
+                destScale = 1
+                destScalePhase = xScale
+            }
+            else {
+                destAlpha = 0
+                destScale = 0
+                destScalePhase = xScale
+            }
+        }
+    }
+    private var destAlpha: CGFloat?
+    private var destScale: CGFloat?
+    private var destScalePhase: CGFloat?
     private var sprite = SKSpriteNode(id: .Cursor)
 
     required init() {
+        selected = false
         super.init()
         z = .Top
-        sprite.alpha = 0
+        alpha = 0
+        setScale(0)
         self << sprite
-        size = sprite.size
     }
 
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
         selected = coder.decode("selected") ?? false
-        spriteScale = coder.decodeCGFloat("spriteScale") ?? 0
+        super.init(coder: coder)
         sprite = coder.decode("sprite") ?? sprite
-        sprite.setScale(0.5)
-        size = sprite.size
-        sprite.setScale(spriteScale)
+        destAlpha = coder.decodeCGFloat("destAlpha")
+        destScale = coder.decodeCGFloat("destScale")
     }
 
     override func encodeWithCoder(encoder: NSCoder) {
         super.encodeWithCoder(encoder)
         encoder.encode(selected, key: "selected")
-        encoder.encode(CGFloat(selected ? 1 : 0), key: "spriteScale")
         encoder.encode(sprite, key: "sprite")
+        if let destAlpha = destAlpha {
+            encoder.encode(destAlpha, key: "destAlpha")
+        }
+        if let destScale = destScale {
+            encoder.encode(destScale, key: "destScale")
+        }
     }
 
     override func update(dt: CGFloat) {
-        let destAlpha: CGFloat
-        let destScale: CGFloat
-        if selected {
-            destAlpha = 1
-            destScale = 1
+        guard xScale > 0 || destScale != nil else {
+            return
         }
-        else {
-            destAlpha = 0
-            destScale = 0
-        }
-
-        if spriteScale < destScale {
-            spriteScale = min(spriteScale + dScale * dt, destScale)
-        }
-        else if spriteScale > destScale {
-            spriteScale = max(spriteScale - dScale * dt, destScale)
-        }
-        self.setScale(easeOutElastic(time: spriteScale))
-
-        let alpha = sprite.alpha
-        if alpha < destAlpha {
-            sprite.alpha = min(alpha + dAlphaUp * dt, destAlpha)
-        }
-        else if alpha > destAlpha {
-            sprite.alpha = max(alpha - dAlphaDown * dt, destAlpha)
-        }
-
         sprite.zRotation += dRotation * dt
+
+        if let destScale = destScale, destScalePhase = destScalePhase {
+            if let currentScale = moveValue(destScalePhase, towards: destScale, by: dScale * dt) {
+                let spriteScale = easeOutElastic(time: currentScale)
+                setScale(spriteScale)
+                size = sprite.size
+                self.destScalePhase = currentScale
+            }
+            else {
+                self.destScale = nil
+                self.destScalePhase = nil
+            }
+        }
+
+        if let destAlpha = destAlpha {
+            if let currentAlpha = moveValue(alpha, towards: destAlpha, by: (up: dAlphaUp * dt, down: dAlphaDown * dt)) {
+                alpha = currentAlpha
+            }
+            else {
+                self.destAlpha = nil
+            }
+        }
     }
 
 }

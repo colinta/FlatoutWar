@@ -59,6 +59,18 @@ func moveValue(current: CGFloat, towards dest: CGFloat, by amt: CGFloat) -> CGFl
     }
 }
 
+func moveValue(current: CGFloat, towards dest: CGFloat, by amts: (up: CGFloat, down: CGFloat)) -> CGFloat? {
+    if current < dest {
+        return min(current + amts.up, dest)
+    }
+    else if current > dest {
+        return max(current - amts.down, dest)
+    }
+    else {
+        return nil
+    }
+}
+
 func moveAngle(current: CGFloat, towards target: CGFloat, by amt: CGFloat) -> CGFloat? {
     let delta = deltaAngle(current, target: target)
     if abs(delta) < M_EPSILON || abs(delta) < amt {
