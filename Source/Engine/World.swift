@@ -104,6 +104,11 @@ class World: Node {
         super.encodeWithCoder(encoder)
     }
 
+    override func reset() {
+        super.reset()
+        _onNoMoreEnemies = []
+    }
+
     func populateWorld() {
     }
 
