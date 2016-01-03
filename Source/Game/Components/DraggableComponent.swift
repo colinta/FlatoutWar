@@ -10,17 +10,16 @@ class DraggableComponent: Component {
     var speed: CGFloat = 30
     var placeholder: SKNode?
     var target: CGPoint?
+    private(set) var isDragMoving = false
     private var startingLocation: CGPoint?
     private var shouldAdjust = false
-    private var isDragMoving = false
 
-    typealias OnDragMove = (Node, Bool) -> Void
-    typealias SimpleOnDragMove = (Bool) -> Void
-    var _onDragMove: [OnDragMove] = []
+    typealias OnDragChange = (Bool) -> Void
+    var _onDragChange: [OnDragChange] = []
 
     override func reset() {
         super.reset()
-        _onDragMove = []
+        _onDragChange = []
     }
 
     override func update(dt: CGFloat) {
@@ -39,18 +38,14 @@ class DraggableComponent: Component {
     private func updateDragMoving(isMoving: Bool) {
         if isDragMoving != isMoving {
             isDragMoving = isMoving
-            for handler in _onDragMove {
-                handler(node, isMoving)
+            for handler in _onDragChange {
+                handler(isMoving)
             }
         }
     }
 
-    func onDragMoveNode(handler: OnDragMove) {
-        _onDragMove << handler
-    }
-
-    func onDragMove(handler: SimpleOnDragMove) {
-        _onDragMove << { _, selected in handler(selected) }
+    func onDragChange(handler: OnDragChange) {
+        _onDragChange << handler
     }
 
     func bindTo(touchableComponent touchableComponent: TouchableComponent) {
@@ -65,7 +60,7 @@ class DraggableComponent: Component {
         startingLocation = location
         if let placeholder = placeholder {
             placeholder.hidden = false
-            placeholder.position = node.position
+            placeholder.position = CGPointZero
         }
     }
 

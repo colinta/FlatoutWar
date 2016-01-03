@@ -48,7 +48,11 @@ class FadeToComponent: ApplyToNodeComponent {
         _onFaded = []
     }
 
-    func removeNodeOnFadeout() {
+    func removeComponentOnFade() {
+        self.onFaded(removeFromNode)
+    }
+
+    func removeNodeOnFade() {
         self.onFaded {
             guard let node = self.node else { return }
             node.removeFromParent()

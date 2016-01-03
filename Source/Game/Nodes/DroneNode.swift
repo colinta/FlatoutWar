@@ -56,7 +56,7 @@ class DroneNode: Node {
         draggingComponent.speed = DroneNode.DefaultSpeed
         draggingComponent.placeholder = placeholder
         draggingComponent.bindTo(touchableComponent: touchableComponent)
-        draggingComponent.onDragMove { isMoving in
+        draggingComponent.onDragChange { isMoving in
             self.alpha = isMoving ? 0.5 : 1
             if self.cursor.selected && isMoving {
                 self.cursor.selected = false

@@ -99,7 +99,7 @@ class EnemySoldierNode: Node {
                 let fade = FadeToComponent()
                 fade.target = 0
                 fade.duration = duration
-                fade.removeNodeOnFadeout()
+                fade.removeNodeOnFade()
                 node.addComponent(fade)
 
                 world << node

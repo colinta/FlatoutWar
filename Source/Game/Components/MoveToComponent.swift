@@ -38,6 +38,17 @@ class MoveToComponent: ApplyToNodeComponent {
         _onArrived << handler
     }
 
+    func removeComponentOnArrived() {
+        self.onArrived(removeFromNode)
+    }
+
+    func removeNodeOnArrived() {
+        self.onArrived {
+            guard let node = self.node else { return }
+            node.removeFromParent()
+        }
+    }
+
     override func defaultApplyTo() {
         super.defaultApplyTo()
         currentPosition = node.position
