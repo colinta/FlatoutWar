@@ -8,6 +8,14 @@
 
 class DroneNode: Node {
     static let DefaultSpeed: CGFloat = 30
+    var overrideWandering: Bool? {
+        didSet {
+            if let overrideWandering = overrideWandering, enabled = wanderingComponent?.enabled where enabled {
+                wanderingComponent!.enabled = overrideWandering
+            }
+        }
+    }
+
     var cursor = CursorNode()
     var sprite = SKSpriteNode(id: .Drone(upgrade: .One))
     var placeholder = SKSpriteNode(id: .Drone(upgrade: .One))
@@ -24,6 +32,15 @@ class DroneNode: Node {
 
         placeholder.alpha = 0.5
         placeholder.hidden = false
+
+        // let playerComponent = PlayerComponent()
+        // addComponent(playerComponent)
+
+        // let healthComponent = HealthComponent(health: 100)
+        // healthComponent.onHurt { amount in
+        //     self.sprite.textureId(.Drone(upgrade: .One))
+        // }
+        // addComponent(healthComponent)
 
         let wanderingComponent = WanderingComponent()
         wanderingComponent.wanderingRadius = 10
@@ -64,7 +81,7 @@ class DroneNode: Node {
 
             firingComponent.enabled = !isMoving
             selectableComponent.enabled = !isMoving
-            wanderingComponent.enabled = !isMoving
+            wanderingComponent.enabled = !isMoving && (self.overrideWandering ?? true)
 
             self.world?.unselectNode(self)
         }

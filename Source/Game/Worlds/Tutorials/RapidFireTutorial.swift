@@ -42,13 +42,13 @@ class RapidFireTutorial: Tutorial {
                 self.playerNode.rotateToComponent?.target = self.playerNode.angleTo(holdButton)
             }
             holdButton.touchableComponent!.on(.Up) { _ in
-                self.playerNode.forceFire = false
+                self.playerNode.overrideForceFire = true
                 self.playerNode.firingComponent?.enabled = false
                 holdButton.text = "HOLD"
                 holdButton.moveToComponent?.removeFromNode()
             }
             holdButton.touchableComponent!.on(.Down) { _ in
-                self.playerNode.forceFire = true
+                self.playerNode.overrideForceFire = true
                 self.playerNode.firingComponent?.enabled = true
                 holdButton.text = "DRAG"
 
@@ -58,7 +58,7 @@ class RapidFireTutorial: Tutorial {
                 holdButton.addComponent(moveTo)
             }
             enemyNode.onDeath {
-                self.playerNode.forceFire = false
+                self.playerNode.overrideForceFire = false
                 holdButton.removeFromParent()
                 self.showSecondButton()
             }
@@ -105,13 +105,13 @@ class RapidFireTutorial: Tutorial {
                 self.playerNode.rotateToComponent?.target = angle
             }
             holdButton.touchableComponent!.on(.Up) { _ in
-                self.playerNode.forceFire = false
+                self.playerNode.overrideForceFire = false
                 self.playerNode.firingComponent?.enabled = false
                 holdButton.text = "HOLD"
                 holdButton.moveToComponent?.removeFromNode()
             }
             holdButton.touchableComponent!.on(.Down) { _ in
-                self.playerNode.forceFire = true
+                self.playerNode.overrideForceFire = true
                 self.playerNode.firingComponent?.enabled = true
                 holdButton.text = "DRAG"
 
@@ -130,7 +130,7 @@ class RapidFireTutorial: Tutorial {
     }
 
     func done() {
-        playerNode.forceFire = false
+        playerNode.overrideForceFire = false
         tutorialTextNode.text = "YOU GOT THIS!"
 
         let continueText = ButtonNode(at: CGPoint(x: 100, y: -40))

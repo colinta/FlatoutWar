@@ -10,8 +10,7 @@ class BaseLevel1: BaseLevel {
     override func populateWorld() {
         super.populateWorld()
 
-        // disable forceFire in level 1
-        playerNode.forceFire = false
+        playerNode.overrideForceFire = false
 
         // wave 1: two sources of weak enemies
         let wave1_1: CGFloat = rand(TAU)

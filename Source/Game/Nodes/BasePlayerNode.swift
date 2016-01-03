@@ -12,7 +12,7 @@ private let defaultCooldown: CGFloat = 0.35
 private let forceFireCooldown: CGFloat = 0.14
 
 class BasePlayerNode: Node {
-    var forceFire: Bool?
+    var overrideForceFire: Bool?
 
     var radar: SKSpriteNode!
     var base: SKSpriteNode!
@@ -27,10 +27,8 @@ class BasePlayerNode: Node {
 
         size = CGSize(40)
 
-        let touchableComponent = TouchableComponent()
-        touchableComponent.on(.Tapped, onTouchTapped)
-        touchableComponent.onDragged(onTouchDragged)
-        addComponent(touchableComponent)
+        let playerComponent = PlayerComponent()
+        addComponent(playerComponent)
 
         let healthComponent = HealthComponent(health: 100)
         healthComponent.onHurt { amount in
@@ -38,8 +36,10 @@ class BasePlayerNode: Node {
         }
         addComponent(healthComponent)
 
-        let playerComponent = PlayerComponent()
-        addComponent(playerComponent)
+        let touchableComponent = TouchableComponent()
+        touchableComponent.on(.Tapped, onTouchTapped)
+        touchableComponent.onDragged(onTouchDragged)
+        addComponent(touchableComponent)
 
         let rotateToComponent = RotateToComponent()
         rotateToComponent.currentAngle = 0
@@ -89,7 +89,7 @@ class BasePlayerNode: Node {
 
     override func update(dt: CGFloat) {
         let forceFire: Bool
-        if let overrideForceFire = self.forceFire {
+        if let overrideForceFire = self.overrideForceFire {
             forceFire = overrideForceFire
         }
         else if let touchedFor = touchableComponent?.touchedFor where touchedFor >= forceFireDuration {
