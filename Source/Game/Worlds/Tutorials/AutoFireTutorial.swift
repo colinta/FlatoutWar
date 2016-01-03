@@ -26,17 +26,7 @@ class AutoFireTutorial: Tutorial {
             (start: CGPoint(r: 150, a: -90.degrees), end: CGPoint(r: 100, a: -90.degrees)),
             (start: CGPoint(r: 160, a: -100.degrees), end: CGPoint(r: 110, a: -100.degrees)),
         ]
-        for locations in enemyLocations {
-            let enemyNode = EnemySoldierNode(at: locations.start)
-            enemyNode.rotateTowards(self.playerNode)
-            enemyNode.rammingComponent?.enabled = false
-            self << enemyNode
-
-            let moveTo = MoveToComponent()
-            moveTo.target = locations.end
-            moveTo.speed = EnemySoldierNode.DefaultSpeed
-            enemyNode.addComponent(moveTo)
-        }
+        showEnemies(enemyLocations)
     }
 
     func showFirstButton() {
@@ -99,12 +89,8 @@ class AutoFireTutorial: Tutorial {
     func done() {
         tutorialTextNode.text = "YOU GOT THIS!"
 
-        let continueText = ButtonNode(at: CGPoint(x: 100, y: -40))
-        continueText.font = .Small
-        continueText.text = "NEXT >"
-        continueText.onTapped {
+        addContinueButton {
             self.director?.presentWorld(BaseLevel1())
         }
-        self << continueText
     }
 }

@@ -54,4 +54,8 @@ class BaseLevel2: BaseLevel {
             }
         }
     }
+
+    override func goToNextLevel() {
+        director?.presentWorld(DroneTutorial())
+    }
 }

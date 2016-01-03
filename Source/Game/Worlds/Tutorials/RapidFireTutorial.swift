@@ -7,6 +7,7 @@
 //
 
 class RapidFireTutorial: Tutorial {
+    var shouldAimPlayer: Node?
 
     override func populateWorld() {
         super.populateWorld()
@@ -38,16 +39,8 @@ class RapidFireTutorial: Tutorial {
             let holdButton = ButtonNode(at: CGPoint(x: 200, y: 0))
             holdButton.font = .Small
             holdButton.text = "HOLD"
-            holdButton.touchableComponent!.onDragged { prevButtonLocation, buttonLocation in
-                self.playerNode.rotateToComponent?.target = self.playerNode.angleTo(holdButton)
-            }
-            holdButton.touchableComponent!.on(.Up) { _ in
-                self.playerNode.overrideForceFire = true
-                self.playerNode.firingComponent?.enabled = false
-                holdButton.text = "HOLD"
-                holdButton.moveToComponent?.removeFromNode()
-            }
             holdButton.touchableComponent!.on(.Down) { _ in
+                self.shouldAimPlayer = holdButton
                 self.playerNode.overrideForceFire = true
                 self.playerNode.firingComponent?.enabled = true
                 holdButton.text = "DRAG"
@@ -56,6 +49,13 @@ class RapidFireTutorial: Tutorial {
                 moveTo.target = CGPoint(x: 0, y: -90)
                 moveTo.speed = 80
                 holdButton.addComponent(moveTo)
+            }
+            holdButton.touchableComponent!.on(.Up) { _ in
+                self.shouldAimPlayer = nil
+                self.playerNode.overrideForceFire = false
+                self.playerNode.firingComponent?.enabled = false
+                holdButton.text = "HOLD"
+                holdButton.moveToComponent?.removeFromNode()
             }
             enemyNode.onDeath {
                 self.playerNode.overrideForceFire = false
@@ -133,13 +133,15 @@ class RapidFireTutorial: Tutorial {
         playerNode.overrideForceFire = false
         tutorialTextNode.text = "YOU GOT THIS!"
 
-        let continueText = ButtonNode(at: CGPoint(x: 100, y: -40))
-        continueText.font = .Small
-        continueText.text = "NEXT >"
-        continueText.onTapped {
+        addContinueButton {
             self.director?.presentWorld(BaseLevel2())
         }
-        self << continueText
+    }
+
+    override func update(dt: CGFloat) {
+        if let node = shouldAimPlayer {
+            self.playerNode.rotateTo(self.playerNode.angleTo(node))
+        }
     }
 
 }
