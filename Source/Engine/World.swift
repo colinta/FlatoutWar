@@ -262,6 +262,13 @@ extension World {
         touchedNode.touchableComponent?.tapped(location)
     }
 
+    func worldPressed(worldLocation: CGPoint) {
+        guard let touchedNode = touchedNode else { return }
+
+        let location = convertPoint(worldLocation, toNode: touchedNode)
+        touchedNode.touchableComponent?.pressed(location)
+    }
+
     func worldTouchBegan(worldLocation: CGPoint) {
         if let touchedNode = touchableNodeAtLocation(worldLocation) {
             self.touchedNode = touchedNode

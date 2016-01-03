@@ -60,7 +60,7 @@ class DraggableComponent: Component {
     }
 
     func draggingBegan(location: CGPoint) {
-        let shouldAdjustThreshold: CGFloat = 10
+        let shouldAdjustThreshold: CGFloat = (node.radius + 5) / WorldScene.worldScale
         shouldAdjust = location.lengthWithin(shouldAdjustThreshold)
         startingLocation = location
         if let placeholder = placeholder {
@@ -78,7 +78,7 @@ class DraggableComponent: Component {
         if shouldAdjust {
             let distance = location.distanceTo(startingLocation)
 
-            let fingerDistance: CGFloat = 60
+            let fingerDistance: CGFloat = 70 / WorldScene.worldScale
             let fingerThreshold = fingerDistance * 2
 
             var distanceDelta: CGFloat = 0

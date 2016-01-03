@@ -109,6 +109,7 @@ extension WorldScene {
                 if touchSession.isTap {
                     world.worldTapped(touchSession.currentLocation)
                 }
+                world.worldPressed(touchSession.currentLocation)
             }
 
             world.worldTouchEnded(touchSession.currentLocation)

@@ -20,7 +20,7 @@ class SelectableComponent: Component {
 
     func bindTo(touchableComponent touchableComponent: TouchableComponent) {
         touchableComponent.on(.DownInside, onTouchIn)
-        touchableComponent.on(.UpInside, onTouchPressed)
+        touchableComponent.on(.Pressed, onTouchPressed)
         touchableComponent.on(.Up, onTouchEnded)
     }
 

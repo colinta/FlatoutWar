@@ -8,19 +8,31 @@
 
 class TouchableComponent: Component {
     enum TouchEvent {
+        // a quick tap, no dragging
         case Tapped
-        case Down
-        case DownInside
-        case Up
-        case UpInside
-        case UpOutside
-        case Enter
-        case Exit
-        case Moved
-        case MovedInside
+        case TappedInside
+        case TappedOutside
+        // any length press, no dragging
+        case Pressed
+        case PressedInside
+        case PressedOutside
+        // drag events
         case DragBegan
         case DragMoved
         case DragEnded
+        // generic down/up/move
+        case Down
+        case DownInside
+        case DownOutside
+        case Up
+        case UpInside
+        case UpOutside
+        case Moved
+        case MovedInside
+        case MovedOutside
+        // useful for highlight effects
+        case Enter
+        case Exit
     }
 
     enum TouchTestShape {
@@ -81,6 +93,33 @@ class TouchableComponent: Component {
             self.touchedFor = touchedFor + dt
         }
     }
+}
+
+extension TouchableComponent {
+
+    func tapped(location: CGPoint) {
+        guard !isIgnoring else { return }
+
+        trigger(.Tapped, location: location)
+        if isTouchingInside {
+            trigger(.TappedInside, location: location)
+        }
+        else {
+            trigger(.TappedOutside, location: location)
+        }
+    }
+
+    func pressed(location: CGPoint) {
+        guard !isIgnoring else { return }
+
+        trigger(.Pressed, location: location)
+        if isTouchingInside {
+            trigger(.PressedInside, location: location)
+        }
+        else {
+            trigger(.PressedOutside, location: location)
+        }
+    }
 
     func touchBegan(location: CGPoint) {
         isIgnoring = !self.enabled
@@ -97,6 +136,10 @@ class TouchableComponent: Component {
         if isTouchingInside {
             trigger(.DownInside, location: location)
             trigger(.MovedInside, location: location)
+        }
+        else {
+            trigger(.DownOutside, location: location)
+            trigger(.MovedOutside, location: location)
         }
 
         prevLocation = location
@@ -158,6 +201,9 @@ class TouchableComponent: Component {
         if isTouchingInside {
             trigger(.MovedInside, location: location)
         }
+        else {
+            trigger(.MovedOutside, location: location)
+        }
 
         prevLocation = location
     }
@@ -165,12 +211,6 @@ class TouchableComponent: Component {
     func draggingEnded(location: CGPoint) {
         guard !isIgnoring else { return }
         trigger(.DragEnded, location: location)
-    }
-
-    func tapped(location: CGPoint) {
-        guard !isIgnoring else { return }
-
-        trigger(.Tapped, location: location)
     }
 
 }

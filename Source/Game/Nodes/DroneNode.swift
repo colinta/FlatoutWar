@@ -45,7 +45,6 @@ class DroneNode: Node {
 
         let touchableComponent = TouchableComponent()
         touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest(.Square)
-        touchableComponent.shouldAcceptTouchTest = touchableComponent.containsTouchTest
         addComponent(touchableComponent)
 
         let selectableComponent = SelectableComponent()
