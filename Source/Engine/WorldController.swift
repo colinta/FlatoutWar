@@ -14,9 +14,9 @@ class WorldController: UIViewController {
         self.worldView = view
         self.view = worldView
 
-        view.presentWorld(DemoWorld())
+        view.presentWorld(LevelSelectWorld())
+        // view.presentWorld(IntersectsTestWorld())
 
-        // Configure the view.
         view.showsFPS = true
         view.showsNodeCount = true
     }
@@ -32,4 +32,13 @@ class WorldController: UIViewController {
     override func prefersStatusBarHidden() -> Bool {
         return true
     }
+
+    func halt() {
+        (worldView?.scene as? WorldScene)?.world.halt()
+    }
+
+    func resume() {
+        (worldView?.scene as? WorldScene)?.world.resume()
+    }
+
 }

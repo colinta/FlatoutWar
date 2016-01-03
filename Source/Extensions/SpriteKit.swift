@@ -38,7 +38,10 @@ extension SKSpriteNode {
 extension SKNode {
 
     func convertPosition(node: SKNode) -> CGPoint {
-        if node.parent == self.parent {
+        if node.parent == nil || self.parent == nil {
+            return node.position - self.position
+        }
+        else if node.parent == self.parent {
             return convertPoint(node.position, fromNode: node.parent!)
         }
         else {

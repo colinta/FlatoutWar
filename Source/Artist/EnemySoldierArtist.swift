@@ -30,9 +30,9 @@ class EnemySoldierArtist: Artist {
             CGContextDrawPath(context, .Fill)
         }
         else {
-            let x = size.width * (1 - health)
+            let y = size.height * (1 - health)
 
-            CGContextAddRect(context, CGRect(x: x, y: 0, width: size.width - x, height: size.height))
+            CGContextAddRect(context, CGRect(x: 0, y: y, width: size.width, height: size.height - y))
             CGContextDrawPath(context, .Fill)
 
             CGContextSetAlpha(context, 0.25)

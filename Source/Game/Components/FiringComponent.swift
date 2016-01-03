@@ -7,6 +7,7 @@
 //
 
 class FiringComponent: Component {
+    weak var turret: SKNode?
     var cooldown: CGFloat = 1
     private(set) var angle: CGFloat?
     var lastFired: CGFloat = 0
@@ -62,9 +63,10 @@ class FiringComponent: Component {
 
         angle = nil
         if forceFire {
-            self.angle = node.zRotation
+            let angle = (turret ?? node).zRotation
+            self.angle = angle
             for handler in _onFire {
-                handler(angle: node.zRotation)
+                handler(angle: angle)
             }
             lastFired = cooldown
         }

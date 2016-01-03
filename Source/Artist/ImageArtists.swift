@@ -51,43 +51,17 @@ extension ImageIdentifier {
             artist.font = size.font
 
             return artist
-        case let .Button(type, touched):
+        case let .Button(style):
             let artist = ButtonArtist()
-            artist.touched = touched
-            switch type {
+            switch style {
+            case .Square:
+                artist.style = .Square
+                artist.size = CGSize(50)
             case .Circle:
                 artist.style = .Circle
-                artist.size = CGSize(width: 24, height: 24)
-            case .Start:
-                artist.text = "START"
-                artist.style = .Octagon
-            case .Setup:
-                artist.text = "SETUP"
-                artist.style = .Octagon
-            case .Pause:
-                artist.text = "||"
-                artist.style = .None
-            case .Resume:
-                artist.text = "RESUME"
-                artist.style = .Square
-            case .Restart:
-                artist.text = "RESTART"
-                artist.style = .Square
-            case .Quit:
-                artist.text = "QUIT"
-                artist.style = .Square
-            case .Back:
-                artist.text = "<"
-                artist.style = .Square
-            case .Next:
-                artist.text = ">"
-                artist.style = .Square
-            case .Prev:
-                artist.text = "<"
-                artist.style = .Square
-            case let .Level(lvl):
-                artist.text = "\(lvl)"
-                artist.style = .Square
+                artist.size = CGSize(24)
+            default:
+                break
             }
             return artist
         case let .Enemy(enemyType, health):
@@ -98,6 +72,10 @@ extension ImageIdentifier {
             return artist
         case .Cursor:
             let artist = CursorArtist()
+            return artist
+        case let .Percent(percent):
+            let artist = PercentArtist()
+            artist.complete = CGFloat(percent) / 100
             return artist
         case let .Drone(upgrade):
             let artist = DroneArtist(upgrade: upgrade)

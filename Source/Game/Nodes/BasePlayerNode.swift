@@ -6,11 +6,14 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-private let forceFireCooldown: CGFloat = 0.4
+private let forceFireDuration: CGFloat = 0.3
 private let forceFireDamageFactor: Float = 0.667
-private let defaultCooldown: CGFloat = 1
+private let defaultCooldown: CGFloat = 0.35
+private let forceFireCooldown: CGFloat = 0.14
 
 class BasePlayerNode: Node {
+    var forceFire: Bool?
+
     var radar: SKSpriteNode!
     var base: SKSpriteNode!
     var turret: SKSpriteNode!
@@ -22,7 +25,7 @@ class BasePlayerNode: Node {
     required init() {
         super.init()
 
-        size = CGSize(r: 20)
+        size = CGSize(40)
 
         let touchableComponent = TouchableComponent()
         touchableComponent.on(.Tapped, onTouchTapped)
@@ -50,7 +53,8 @@ class BasePlayerNode: Node {
         addComponent(targetingComponent)
 
         let firingComponent = FiringComponent()
-        firingComponent.cooldown = 0.35
+        firingComponent.turret = base
+        firingComponent.cooldown = defaultCooldown
         firingComponent.onFire { angle in
             self.fireBullet(angle: angle)
         }
@@ -71,19 +75,42 @@ class BasePlayerNode: Node {
     override func populate() {
         radar = SKSpriteNode(id: .Radar(upgrade: .One))
         radar.anchorPoint = CGPoint(0, 0.5)
-        radar.zPosition = Node.Z.Bottom.rawValue
+        radar.zPosition = Z.Bottom.rawValue
         self << radar
 
         base = SKSpriteNode(id: .Base(upgrade: .One, health: 100))
-        base.zPosition = Node.Z.Default.rawValue
+        base.zPosition = Z.Default.rawValue
         self << base
 
         turret = SKSpriteNode(id: .BaseSingleTurret(upgrade: .One))
-        turret.zPosition = Node.Z.Above.rawValue
+        turret.zPosition = Z.Above.rawValue
         self << turret
     }
 
     override func update(dt: CGFloat) {
+        let forceFire: Bool
+        if let overrideForceFire = self.forceFire {
+            forceFire = overrideForceFire
+        }
+        else if let touchedFor = touchableComponent?.touchedFor where touchedFor >= forceFireDuration {
+            forceFire = true
+        }
+        else {
+            forceFire = false
+        }
+        firingComponent?.forceFire = forceFire
+        firingComponent?.cooldown = (forceFire ? forceFireCooldown : defaultCooldown)
+
+        if let firingAngle = firingComponent?.angle,
+            isTouching = touchableComponent?.isTouching
+            where !isTouching
+        {
+            turret.zRotation = firingAngle
+        }
+        else {
+            turret.zRotation = zRotation
+        }
+
         if let firingAngle = firingComponent?.angle,
             isTouching = touchableComponent?.isTouching
             where !isTouching
@@ -94,7 +121,7 @@ class BasePlayerNode: Node {
             turret.zRotation = currentAngle
         }
 
-        if let target = rotateToComponent?.target {
+        if let target = rotateToComponent?.destAngle {
             radar.zRotation = target
         }
     }
@@ -145,7 +172,7 @@ extension BasePlayerNode {
 
     func onTouchDragged(prevLocation: CGPoint, location: CGPoint) {
         let angle = prevLocation.angleTo(location, around: position)
-        let destAngle = rotateToComponent?.target ?? 0
+        let destAngle = rotateToComponent?.destAngle ?? 0
         startRotatingTo(destAngle + angle)
     }
 

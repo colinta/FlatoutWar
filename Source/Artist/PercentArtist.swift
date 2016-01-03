@@ -9,6 +9,12 @@
 class PercentArtist: Artist {
     var complete: CGFloat = 1.0
     var color = UIColor(hex: 0x3E8012)
+    var completeColor = UIColor(hex: 0x5BBC1A)
+
+    required init() {
+        super.init()
+        size = CGSize(width: 40, height: 5)
+    }
 
     override func draw(context: CGContext) {
         CGContextSetAlpha(context, 0.5)
@@ -17,7 +23,7 @@ class PercentArtist: Artist {
         CGContextDrawPath(context, .Fill)
 
         let smallWidth = size.width * complete
-        CGContextSetFillColorWithColor(context, color.CGColor)
+        CGContextSetFillColorWithColor(context, completeColor.CGColor)
         CGContextAddRect(context, CGRect(x: 0, y: 0, width: smallWidth, height: size.height))
         CGContextDrawPath(context, .Fill)
     }

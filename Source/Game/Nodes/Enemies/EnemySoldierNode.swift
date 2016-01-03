@@ -9,6 +9,7 @@
 private let startingHealth: Float = 2
 
 class EnemySoldierNode: Node {
+    static let DefaultSpeed: CGFloat = 25
     var sprite: SKSpriteNode!
 
     required init() {
@@ -39,7 +40,7 @@ class EnemySoldierNode: Node {
         addComponent(enemyComponent)
 
         let rammingComponent = RammingComponent()
-        rammingComponent.maxSpeed = 25
+        rammingComponent.maxSpeed = EnemySoldierNode.DefaultSpeed
         rammingComponent.onRammed {
             if let world = self.world {
                 let node = EnemyAttackExplosionNode(at: self.position)
@@ -50,6 +51,8 @@ class EnemySoldierNode: Node {
         }
         rammingComponent.damage = 4
         addComponent(rammingComponent)
+
+        addComponent(RotateToComponent())
     }
 
     required init?(coder: NSCoder) {
@@ -67,7 +70,7 @@ class EnemySoldierNode: Node {
     }
 
     func enemyType() -> ImageIdentifier.EnemyType {
-        return .Leader
+        return .Soldier
     }
 
     func updateTexture() {
@@ -102,6 +105,46 @@ class EnemySoldierNode: Node {
                 world << node
             }
         }
+    }
+
+}
+
+extension EnemySoldierNode {
+
+    func scatter() {
+        let angle: CGFloat = zRotation + TAU_2 ± rand(TAU_4)
+        let dist: CGFloat = rand(min: 15, max: 30)
+        let dest = position + CGPoint(r: dist, a: angle)
+        self.rammingComponent?.enabled = true
+        self.rammingComponent?.tempTarget = dest
+    }
+
+    func follow(node: Node, scatter: Bool = true) {
+        if let followNodeComponent = self.followNodeComponent {
+            followNodeComponent.removeFromNode()
+        }
+
+        rammingComponent?.enabled = false
+        let followNodeComponent = FollowNodeComponent()
+        followNodeComponent.node = self
+        followNodeComponent.follow = node
+        if scatter {
+            node.healthComponent?.onKilled {
+                self.scatter()
+            }
+        }
+        node.onDeath { [weak self] in
+            if let wSelf = self {
+                wSelf.rammingComponent?.currentSpeed = node.rammingComponent?.currentSpeed ?? 0
+                wSelf.rammingComponent?.enabled = true
+                if let followNodeComponent = wSelf.followNodeComponent
+                    where followNodeComponent.follow == node
+                {
+                    followNodeComponent.removeFromNode()
+                }
+            }
+        }
+        addComponent(followNodeComponent)
     }
 
 }

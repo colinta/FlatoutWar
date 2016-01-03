@@ -8,30 +8,33 @@
 
 class LevelSelectWorld: World {
 
-    private func worldAtIndex(index: Int) -> World {
+    override func populateWorld() {
+        pauseable = false
+
         let worlds: [() -> World] = [
-            // { return BaseCampaign_Level1() },
-            // { return BaseCampaign_Level2() },
-            // { return BaseCampaign_Level3() },
-            // { return BaseCampaign_Level4() },
-            // { return BaseCampaign_Level5() },
-            // { return BaseCampaign_Level6() },
-            // { return BaseCampaign_Level7() },
-            // { return BaseCampaign_Level8() },
-            // { return BaseCampaign_Level9() },
-            // { return BaseCampaign_Level10() },
-            // { return BaseCampaign_Level11() },
-            // { return BaseCampaign_Level12() },
-            // { return BaseCampaign_Level13() },
-            // { return BaseCampaign_Level14() },
-            // { return BaseCampaign_Level15() },
+            { return BaseLevel1() },
+            { return BaseLevel2() },
+            { return BaseLevel3() },
+            { return BaseLevel4() },
+            { return BaseLevel5() },
+            { return BaseLevel6() },
+            { return BaseLevel7() },
+            { return BaseLevel8() },
+            { return BaseLevel9() },
+            { return BaseLevel10() },
+            { return BaseLevel11() },
+            // { return BaseLevel12() },
+            // { return BaseLevel13() },
+            // { return BaseLevel14() },
+            // { return BaseLevel15() },
+            // { return BaseLevel16() },
+            { return AutoFireTutorial() },
+            { return RapidFireTutorial() },
             { return DemoWorld() },
             { return CameraDemoWorld() },
+            { return IntersectsTestWorld() },
         ]
-        return worlds[index % worlds.count]()
-    }
 
-    override func populateWorld() {
         let textNode = TextNode(at: CGPoint(x: -165, y: -125))
         textNode.text = "BASE"
         self << textNode
@@ -57,14 +60,16 @@ class LevelSelectWorld: World {
         ]
         for pos in positions {
             let enemyNode = EnemySoldierNode(at: pos)
-            enemyNode.addComponent(WanderingComponent())
+            let wanderingComponent = WanderingComponent()
+            wanderingComponent.centeredAround = pos
+            enemyNode.addComponent(wanderingComponent)
             self << enemyNode
         }
 
         var levelIndex = 0
-        let completed = 5
+        let completed = worlds.count
         for j in 0..<4 {
-            let y = CGFloat(-70 + 60 * j)
+            let y = CGFloat(100 - 60 * j)
             for i in 0..<4 {
                 let x = CGFloat(-80 + 60 * i)
                 let myIndex = levelIndex
@@ -72,9 +77,14 @@ class LevelSelectWorld: World {
                 let button = ButtonNode(at: center)
                 button.enabled = levelIndex <= completed
                 button.text = "\(levelIndex + 1)"
-                button.size = CGSize(width: 15, height: 15)
+                button.size = CGSize(50)
+                button.style = .Square
                 button.onTapped {
-                    self.director?.presentWorld(self.worldAtIndex(myIndex))
+                    let nextWorld = worlds[myIndex % worlds.count]()
+                    if let nextWorld = nextWorld as? BaseLevel {
+                        nextWorld.shouldReturnToLevelSelect = true
+                    }
+                    self.director?.presentWorld(nextWorld)
                 }
                 self << button
                 levelIndex += 1

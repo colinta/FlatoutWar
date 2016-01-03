@@ -16,9 +16,11 @@ class TextArtist: Artist {
         didSet {
             if font == SmallFont {
                 letterSpace = 1
+                textScale = 3
             }
             else {
                 letterSpace = 3
+                textScale = 4
             }
             calculateSize()
         }

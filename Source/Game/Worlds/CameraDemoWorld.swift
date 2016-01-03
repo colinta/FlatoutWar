@@ -9,7 +9,7 @@
 class CameraDemoWorld: World {
 
     override func populateWorld() {
-        super.populateWorld()
+        pauseable = false
 
         let playerNode = BasePlayerNode()
         playerNode.targetingComponent?.enabled = false
@@ -18,7 +18,6 @@ class CameraDemoWorld: World {
 
         let cameraNode = EnemySoldierNode()
         cameraNode.rammingComponent?.enabled = false
-        cameraNode.addComponent(RotateToComponent())
         let wanderingComponent = WanderingComponent()
         wanderingComponent.wanderingRadius = 250
         wanderingComponent.centeredAround = CGPointZero

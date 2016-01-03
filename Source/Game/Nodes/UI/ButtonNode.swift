@@ -7,8 +7,25 @@
 //
 
 class ButtonNode: TextNode {
+    var style: ButtonStyle = .None {
+        didSet { updateButtonStyle() }
+    }
+    var preferredScale: CGFloat = 1
+
+    private var buttonStyleNode: SKSpriteNode!
+    override var enabled: Bool {
+        didSet {
+            alpha = enabled ? 1 : 0.25
+        }
+    }
+
     var _onTapped: Block?
     func onTapped(handler: Block) { _onTapped = handler }
+
+    override func setScale(scale: CGFloat) {
+        preferredScale = scale
+        super.setScale(scale)
+    }
 
     override func reset() {
         super.reset()
@@ -18,6 +35,9 @@ class ButtonNode: TextNode {
     required init() {
         super.init()
 
+        buttonStyleNode = SKSpriteNode(id: .None)
+        self << buttonStyleNode
+
         let touchableComponent = TouchableComponent()
         touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest()
         touchableComponent.on(.Enter) { _ in
@@ -26,7 +46,7 @@ class ButtonNode: TextNode {
         touchableComponent.on(.Exit) { _ in
             self.unhighlight()
         }
-        touchableComponent.on(.UpInside) { location in
+        touchableComponent.on(.Pressed) { _ in
             self._onTapped?()
         }
         addComponent(touchableComponent)
@@ -36,12 +56,16 @@ class ButtonNode: TextNode {
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func updateButtonStyle() {
+        buttonStyleNode.textureId(.Button(style: style))
+    }
+
     private func highlight() {
-        setScale(1.1)
+        super.setScale(preferredScale * 1.1)
     }
 
     private func unhighlight() {
-        setScale(1)
+        super.setScale(preferredScale)
     }
 
     override func update(dt: CGFloat) {

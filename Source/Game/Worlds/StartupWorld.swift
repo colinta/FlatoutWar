@@ -19,6 +19,8 @@ class StartupWorld: World {
     }
 
     override func populateWorld() {
+        pauseable = false
+
         defaultNode = playerNode
         self << playerNode
 
@@ -55,7 +57,7 @@ class StartupWorld: World {
 
         timeline.at(10) {
             let enemy = EnemySoldierNode()
-            enemy.position = CGPoint(r: self.worldRadius + 20, a: 175.degrees)
+            enemy.position = CGPoint(r: self.radius + 20, a: 175.degrees)
             enemy.zRotation = 0
             self << enemy
         }
@@ -92,7 +94,6 @@ class StartupWorld: World {
             }
             for enemy in self.enemies {
                 enemy.rammingComponent?.enabled = false
-                enemy.addComponent(RotateToComponent())
                 enemy.addComponent(WanderingComponent())
             }
             self.playerNode.removeFromParent()
@@ -101,7 +102,7 @@ class StartupWorld: World {
             let touchableComponent = TouchableComponent()
             touchableComponent.containsTouchTest = { _ in return true }
             touchableComponent.on(.Up) { _ in
-                self.director?.presentWorld(MainMenuWorld())
+                self.director?.presentWorld(AutoFireTutorial())
             }
             let node = Node()
             node.addComponent(touchableComponent)
@@ -136,7 +137,7 @@ class StartupWorld: World {
     }
 
     func spawn(_radius: CGFloat? = nil) -> EnemySoldierNode {
-        let radius = (_radius ?? worldRadius) + 20
+        let radius = (_radius ?? self.radius) + 20
         let location = CGPoint(r: radius, a: rand(TAU))
         let enemyNode = EnemySoldierNode(at: location)
         enemyNode.rotateTowards(playerNode)
@@ -145,7 +146,7 @@ class StartupWorld: World {
     }
 
     func spawnGiant(_radius: CGFloat? = nil) -> EnemySoldierNode {
-        let radius = (_radius ?? worldRadius) + 20
+        let radius = (_radius ?? self.radius) + 20
         let location = CGPoint(r: radius, a: rand(TAU))
         let enemyNode = EnemyGiantNode(at: location)
         enemyNode.rotateTowards(playerNode)

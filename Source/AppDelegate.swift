@@ -32,7 +32,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationDidEnterBackground(application: UIApplication) {
+        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
+        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+        (window?.rootViewController as? WorldController)?.halt()
+    }
+
+
+    func applicationDidBecomeActive(application: UIApplication) {
+        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+        (window?.rootViewController as? WorldController)?.resume()
     }
 
     private func generateImages() {
@@ -118,14 +127,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .Letter("<", size: .Small),
             .Letter(">", size: .Small),
 
-            .Button(type: .Circle, touched: true),
-            .Button(type: .Circle, touched: false),
-            .Button(type: .Start, touched: true),
-            .Button(type: .Start, touched: false),
-            .Button(type: .Setup, touched: true),
-            .Button(type: .Setup, touched: false),
-            .Button(type: .Pause, touched: true),
-            .Button(type: .Pause, touched: false),
+            .Button(style: .Circle),
+            .Button(style: .Square),
 
             .Enemy(type: .Soldier, health: 100),
             .EnemyShrapnel(type: .Soldier),

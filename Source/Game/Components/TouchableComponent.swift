@@ -9,13 +9,14 @@
 class TouchableComponent: Component {
     enum TouchEvent {
         case Tapped
+        case Pressed
         case Down
         case DownInside
         case Up
-        case UpInside
         case Enter
         case Exit
         case Moved
+        case MovedInside
         case DragBegan
         case DragMoved
         case DragEnded
@@ -44,7 +45,6 @@ class TouchableComponent: Component {
 
     typealias OnTouchEvent = (CGPoint) -> Void
     typealias OnDragged = (CGPoint, CGPoint) -> Void
-    typealias OnPressed = (CGPoint, CGFloat) -> Void
     typealias TouchTest = (Node, CGPoint) -> Bool
 
     var isIgnoring = false
@@ -54,7 +54,6 @@ class TouchableComponent: Component {
     var prevLocation: CGPoint?
     var touchEvents = [TouchEvent: [OnTouchEvent]]()
     var _onDragged: [OnDragged] = []
-    var _onPressed: [OnPressed] = []
     var containsTouchTest: TouchTest?
     var shouldAcceptTouchTest: TouchTest?
 
@@ -74,7 +73,6 @@ class TouchableComponent: Component {
         super.reset()
         touchEvents = [:]
         _onDragged = []
-        _onPressed = []
     }
 
     override func update(dt: CGFloat) {
@@ -97,6 +95,7 @@ class TouchableComponent: Component {
         touchUpdateInOut(location)
         if isTouchingInside {
             trigger(.DownInside, location: location)
+            trigger(.MovedInside, location: location)
         }
 
         prevLocation = location
@@ -106,11 +105,12 @@ class TouchableComponent: Component {
         if !isIgnoring {
             if isTouchingInside {
                 trigger(.Exit, location: location)
-                trigger(.UpInside, location: location)
+                trigger(.Pressed, location: location)
             }
             trigger(.Up, location: location)
         }
 
+        touchedFor = 0
         isIgnoring = false
         isTouching = false
         isTouchingInside = false
@@ -151,6 +151,9 @@ class TouchableComponent: Component {
         }
 
         touchUpdateInOut(location)
+        if isTouchingInside {
+            trigger(.MovedInside, location: location)
+        }
 
         prevLocation = location
     }
@@ -166,14 +169,6 @@ class TouchableComponent: Component {
         trigger(.Tapped, location: location)
     }
 
-    func pressed(location: CGPoint, duration: CGFloat) {
-        guard !isIgnoring else { return }
-
-        for handler in _onPressed {
-            handler(location, duration)
-        }
-    }
-
 }
 
 extension TouchableComponent {
@@ -182,8 +177,8 @@ extension TouchableComponent {
         _onDragged << handler
     }
 
-    func onPressed(handler: OnPressed) {
-        _onPressed << handler
+    func off(event: TouchEvent) {
+        touchEvents[event] = nil
     }
 
     func on(event: TouchEvent, _ handler: OnTouchEvent) {

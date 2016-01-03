@@ -6,20 +6,17 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-private let touchedMargin: CGFloat = 1.5
-
 enum ButtonStyle {
     case Octagon
     case Square
     case Circle
     case None
+
+    var name: String { return "\(self)" }
 }
 
 class ButtonArtist: TextArtist {
-    var style: ButtonStyle = .Octagon
-    var touched = false {
-        didSet { calculateSize() }
-    }
+    var style: ButtonStyle = .None
 
     override func calculateSize() {
         super.calculateSize()
@@ -36,16 +33,12 @@ class ButtonArtist: TextArtist {
         default:
             break
         }
-
-        if touched {
-            self.size += CGSize(touchedMargin * 2)
-        }
     }
 
     override func draw(context: CGContext) {
         super.draw(context)
 
-        CGContextSetLineWidth(context, 1.pixels)
+        CGContextSetLineWidth(context, 1)
         CGContextSetStrokeColorWithColor(context, color.CGColor)
 
         switch style {

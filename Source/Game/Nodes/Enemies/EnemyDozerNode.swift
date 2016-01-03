@@ -12,7 +12,8 @@ class EnemyDozerNode: EnemySoldierNode {
 
     required init() {
         super.init()
-        size = CGSize(r: 10)
+        size = CGSize(width: 5, height: 50)
+        shape = .Rect
         healthComponent!.startingHealth = startingHealth
         enemyComponent!.experience = 3
         rammingComponent!.maxSpeed = 20

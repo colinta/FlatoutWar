@@ -14,22 +14,6 @@ enum ImageIdentifier {
         var name: String { return "\(self)" }
     }
 
-    enum ButtonType {
-        case Circle
-        case Start
-        case Setup
-        case Pause
-        case Resume
-        case Restart
-        case Quit
-        case Back
-        case Next
-        case Prev
-        case Level(Int)
-
-        var name: String { return "\(self)" }
-    }
-
     enum EnemyType {
         case Soldier
         case Leader
@@ -45,11 +29,14 @@ enum ImageIdentifier {
 
     case None
     case Letter(String, size: LetterSize)
-    case Button(type: ButtonType, touched: Bool)
+    case Button(style: ButtonStyle)
+    case Percent(Int)
+
     case Enemy(type: EnemyType, health: Int)
     case EnemyShrapnel(type: EnemyType)
+
     case Cursor
-    case Drawer
+
     case Drone(upgrade: FiveUpgrades)
     case Radar(upgrade: FiveUpgrades)
     case Base(upgrade: FiveUpgrades, health: Int)
@@ -65,6 +52,8 @@ enum ImageIdentifier {
         switch self {
         case .None:
             return ""
+        case let .Percent(percent):
+            return "Percent-percent_\(percent)"
         case let .Letter(letter, size):
             let nameLetter: String
             switch letter {
@@ -84,8 +73,8 @@ enum ImageIdentifier {
                 nameLetter = letter
             }
             return "Letter-letter_\(nameLetter)-size_\(size.name)"
-        case let .Button(type, touched):
-            return "Button-type_\(type.name)-touched_\(touched)"
+        case let .Button(style):
+            return "Button-style_\(style.name)"
         case let .Enemy(type, health):
             return "Enemy-type_\(type.name)-health_\(health)"
         case let .EnemyShrapnel(type):

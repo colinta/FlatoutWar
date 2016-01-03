@@ -7,9 +7,15 @@
 //
 
 class RammingComponent: Component {
+    var acceleration: CGFloat = 10
+    var currentSpeed: CGFloat?
+    var maxSpeed: CGFloat = 25
+    var maxTurningSpeed: CGFloat = 10
     var damage: Float = 0
+    var target: Node?
+    var tempTarget: CGPoint?
     var currentTarget: Node? {
-        return node?.enemyComponent?.currentTarget
+        return target ?? node?.enemyComponent?.currentTarget
     }
 
     typealias OnRammed = Block
@@ -28,11 +34,6 @@ class RammingComponent: Component {
         super.encodeWithCoder(encoder)
     }
 
-    var acceleration: CGFloat = 10
-    var currentSpeed: CGFloat = 0
-    var maxSpeed: CGFloat = 25
-    var maxTurningSpeed: CGFloat = 10
-
     override func reset() {
         _onRammed = []
     }
@@ -46,17 +47,25 @@ class RammingComponent: Component {
     }
 
     override func update(dt: CGFloat) {
-        // if the node rammed into a target, destroy the node and create an explosion
-        if let target = currentTarget {
-            if node.touches(target) {
-                for handler in _onRammed {
-                    handler()
-                }
-                target.healthComponent?.inflict(damage)
-            }
+        if let tempTarget = tempTarget
+        where tempTarget.distanceTo(node.position, within: 1) {
+            self.tempTarget = nil
         }
 
-        if let currentTargetLocation = currentTarget?.position {
+        // if the node rammed into a target, call the handlers and remove this
+        // component (to prevent multiple ramming events)
+        if let target = currentTarget
+        where node.touches(target)
+        {
+            for handler in _onRammed {
+                handler()
+            }
+            target.healthComponent?.inflict(damage)
+            removeFromNode()
+            return
+        }
+
+        if let currentTargetLocation = (tempTarget ?? currentTarget?.position) {
             var maxSpeed = self.maxSpeed
 
             let destAngle: CGFloat
@@ -72,6 +81,7 @@ class RammingComponent: Component {
                 destAngle = node.position.angleTo(currentTargetLocation)
             }
 
+            var currentSpeed = self.currentSpeed ?? maxSpeed
             if currentSpeed < maxSpeed {
                 currentSpeed += dt * acceleration
                 if currentSpeed > maxSpeed {
@@ -88,6 +98,7 @@ class RammingComponent: Component {
             let vector = CGPoint(r: currentSpeed, a: destAngle)
             let newCenter = node.position + dt * vector
 
+            self.currentSpeed = currentSpeed
             node.position = newCenter
         }
     }

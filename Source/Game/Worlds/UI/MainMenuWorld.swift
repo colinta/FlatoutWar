@@ -9,12 +9,13 @@
 class MainMenuWorld: World {
 
     override func populateWorld() {
+        pauseable = false
+
         let textNode = TextNode(at: CGPoint(x: 0, y: 100))
         textNode.text = "FLATOUT WAR"
         self << textNode
 
         let enemyNode = EnemySoldierNode(at: CGPoint(x: -200, y: 0))
-        enemyNode.addComponent(RotateToComponent())
         let wanderingComponent = WanderingComponent()
         wanderingComponent.wanderingRadius = 50
         wanderingComponent.centeredAround = enemyNode.position

@@ -7,28 +7,19 @@
 //
 
 class Node: SKNode {
-    enum Z: CGFloat {
-        case UITop = 8
-        case UI = 7
-        case UIBottom = 6
-        case Top = 5
-        case Above = 2
-        case Default = 0
-        case Below = -2
-        case Bottom = -4
-    }
-
     var enabled = true
+    var fixedPosition: Position? {
+        didSet {
+            world?.updateFixedNodes()
+        }
+    }
     var z: Z = .Default {
         didSet { zPosition = z.rawValue }
     }
     var visible: Bool {
         get { return !hidden }
-        set { hidden = !visible }
+        set { hidden = !newValue }
     }
-    var components: [Component] = []
-    var world: World? { return (scene as? WorldScene)?.world }
-    var uiNode: SKNode? { return (scene as? WorldScene)?.uiNode }
     var size = CGSizeZero
     var radius: CGFloat {
         if size.width == size.height {
@@ -36,6 +27,20 @@ class Node: SKNode {
         }
         return (size.width + size.height) / 4
     }
+    var outerRadius: CGFloat {
+        if size.width == size.height {
+            return size.width * 0.7071067811865476
+        }
+        return sqrt(pow(size.width, 2) + pow(size.height, 2)) / 2
+    }
+
+    var shape: Shape = .Circle
+
+    var components: [Component] = []
+    var world: World? { return (scene as? WorldScene)?.world }
+    var isEnemy: Bool { return enemyComponent != nil }
+    var isPlayer: Bool { return playerComponent != nil }
+    var isProjectile: Bool { return projectileComponent != nil }
 
     typealias OnDeath = Block
     private var _onDeath: [OnDeath] = []
@@ -171,7 +176,8 @@ extension Node {
     func rotateTowards(node: Node) {
         let angle = angleTo(node)
         zRotation = angle
-        rotateToComponent?.target = angle
+        rotateToComponent?.currentAngle = angle
+        rotateToComponent?.target = nil
     }
 
     func touchingLocation(node: Node) -> CGPoint? {
@@ -189,11 +195,13 @@ extension Node {
 extension Node {
 
     func touches(other: Node) -> Bool {
-        let radius = max(0.01, other.radius + self.radius)
-        if distanceTo(other, within: radius) {
-            return true
+        if shape == .Rect || other.shape == .Rect {
+            return node(self, touches: other)
         }
-        return false
+        else {
+            let radius = max(0.01, other.radius + self.radius)
+            return distanceTo(other, within: radius)
+        }
     }
 
 }

@@ -8,7 +8,14 @@
 
 class RotateToComponent: ApplyToNodeComponent {
     var currentAngle: CGFloat?
-    var target: CGFloat?
+    var target: CGFloat? {
+        didSet {
+            if target != nil {
+                destAngle = target
+            }
+        }
+    }
+    private(set) var destAngle: CGFloat?
     private(set) var angularSpeed: CGFloat = 0
     var maxAngularSpeed: CGFloat = 4
     // angularAccel is optional, creates a "slow initial spin" effect
@@ -47,10 +54,7 @@ class RotateToComponent: ApplyToNodeComponent {
         }
 
         if let angularAccel = angularAccel {
-            angularSpeed += angularAccel * dt
-            if angularSpeed > maxAngularSpeed {
-                angularSpeed = maxAngularSpeed
-            }
+            angularSpeed = min(angularSpeed + angularAccel * dt, maxAngularSpeed)
         }
         else {
             angularSpeed = maxAngularSpeed

@@ -381,7 +381,7 @@ let BigFont: Font = [
             CGPoint(x: 4, y: 8)
         ]]
     ),
-    "1": Letter(style: .Loop, size: CGSize(width: 2, height: 8),
+    "1": Letter(style: .Loop, size: CGSize(width: 3, height: 8),
         points: [[
             CGPoint(x: 0.5, y: 1),
             CGPoint(x: -0.25, y: 1),

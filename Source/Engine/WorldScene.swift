@@ -11,7 +11,8 @@ private var DesiredSize = CGSize(width: 568, height: 320)
 
 class WorldScene: SKScene {
     var world: World
-    var uiNode = SKNode()
+    var worldScalingNode = SKNode()
+    var uiNode = Node()
     var prevTime: NSTimeInterval?
     var touchSession: TouchSession?
 
@@ -29,11 +30,13 @@ class WorldScene: SKScene {
     required init(size: CGSize, world: World) {
         self.world = world
         world.size = size / WorldScene.worldScale
-        world.setScale(WorldScene.worldScale)
+        world.screenSize = size
         super.init(size: size)
         anchorPoint = CGPoint(0.5, 0.5)
 
-        self << world
+        worldScalingNode.setScale(WorldScene.worldScale)
+        worldScalingNode << world
+        self << worldScalingNode
         self << uiNode
     }
 
@@ -106,7 +109,6 @@ extension WorldScene {
                 if touchSession.isTap {
                     world.worldTapped(touchSession.currentLocation)
                 }
-                world.worldPressed(touchSession.currentLocation, duration: touchSession.duration)
             }
 
             world.worldTouchEnded(touchSession.currentLocation)

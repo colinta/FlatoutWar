@@ -24,6 +24,7 @@ class Component: NSObject, NSCoding {
         if let node = node {
             node.removeComponent(self)
         }
+        reset()
         node = nil
     }
 
@@ -38,5 +39,4 @@ class Component: NSObject, NSCoding {
 
 }
 
-class FollowNodeComponent: Component {}
 class GrowToComponent: Component {}

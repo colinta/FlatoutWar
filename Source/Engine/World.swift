@@ -7,9 +7,46 @@
 //
 
 class World: Node {
+    var screenSize: CGSize! {
+        didSet {
+            updateFixedNodes()
+        }
+    }
     var cameraNode: Node?
+    var ui: Node! { return (scene as? WorldScene)?.uiNode }
     var timeline = TimelineComponent()
     var timeRate: CGFloat = 1
+
+    var pauseable = true
+    private var shouldBePaused = false
+    private var shouldBeHalted = false
+    var isUpdating = false
+    private var _halted = false
+    var halted: Bool {
+        get { return _halted }
+        set(halt) {
+            if halt {
+                self.halt()
+            }
+            else {
+                self.resume()
+            }
+        }
+    }
+
+    private var _paused = false
+    var worldPaused: Bool {
+        get { return _paused || _halted }
+        set(pause) {
+            if pause {
+                self.pause()
+            }
+            else {
+                self.unpause()
+            }
+        }
+    }
+
     private var throttleStragglers = throttle(1)
     private var didPopulateWorld = false
 
@@ -17,14 +54,8 @@ class World: Node {
         return (scene as? WorldScene)?.view as? WorldView
     }
 
-    var worldRadius: CGFloat {
-        if size.width == size.height {
-            return size.width * 0.7071067811865476
-        }
-        return sqrt(pow(size.width, 2) + pow(size.height, 2)) / 2
-    }
-
     var touchedNode: Node?
+    var currentNode: Node? { return selectedNode ?? defaultNode }
     var defaultNode: Node?
     var selectedNode: Node? {
         willSet {
@@ -46,6 +77,15 @@ class World: Node {
     var nodes: [Node] { return cachedNodes() }
     var enemies: [Node] { return cachedEnemies() }
     var players: [Node] { return cachedPlayers() }
+
+    typealias OnNoMoreEnemies = Block
+    private var _onNoMoreEnemies = [OnNoMoreEnemies]()
+    func onNoMoreEnemies(handler: OnNoMoreEnemies) {
+        if enemies.count == 0 {
+            handler()
+        }
+        _onNoMoreEnemies << handler
+    }
 
     required init() {
         super.init()
@@ -71,10 +111,14 @@ class World: Node {
 
 extension World {
 
-    private func resetCaches() {
+    private func resetCaches(isEnemy isEnemy: Bool, isPlayer: Bool) {
         _cachedNodes = nil
-        _cachedEnemies = nil
-        _cachedPlayers = nil
+        if isEnemy {
+            _cachedEnemies = nil
+        }
+        if isPlayer {
+            _cachedPlayers = nil
+        }
     }
 
     private func cachedNodes() -> [Node] {
@@ -107,21 +151,30 @@ extension World {
     // called by addChild
     override func insertChild(node: SKNode, atIndex index: Int) {
         super.insertChild(node, atIndex: index)
-        resetCaches()
+        if let node = node as? Node {
+            willAdd(node)
+            resetCaches(isEnemy: node.isEnemy ?? false, isPlayer: node.isPlayer ?? false)
+            if node.fixedPosition != nil {
+                updateFixedNodes()
+            }
+        }
     }
 
     override func removeAllChildren() {
         super.removeAllChildren()
-        resetCaches()
+        resetCaches(isEnemy: true, isPlayer: true)
     }
 
     override func removeChildrenInArray(nodes: [SKNode]) {
         super.removeChildrenInArray(nodes)
-        resetCaches()
+        resetCaches(isEnemy: true, isPlayer: true)
+    }
+
+    func willAdd(node: Node) {
     }
 
     func willRemove(node: Node) {
-        resetCaches()
+        resetCaches(isEnemy: node.isEnemy, isPlayer: node.isPlayer)
     }
 
 }
@@ -132,16 +185,44 @@ extension World {
         if !didPopulateWorld {
             populateWorld()
             didPopulateWorld = true
+            updateFixedNodes()
         }
+
+        let hadEnemies = enemies.count > 0
+
+        isUpdating = true
+        shouldBePaused = worldPaused
+        shouldBeHalted = halted
 
         let dt = min(0.03, dtReal * timeRate)
-        updateNodes(dt)
+        if !worldPaused {
+            updateNodes(dt)
 
-        if let cameraNode = cameraNode {
-            position = -1 * cameraNode.position
+            if enemies.count == 0 && hadEnemies {
+                for handler in _onNoMoreEnemies {
+                    handler()
+                }
+            }
         }
 
-        throttleStragglers(dt: dt, clearStragglers)
+        if !halted {
+            ui.updateNodes(dt)
+
+            if let cameraNode = cameraNode {
+                position = -1 * cameraNode.position
+            }
+
+            throttleStragglers(dt: dt, clearStragglers)
+        }
+
+        isUpdating = false
+
+        if shouldBePaused != worldPaused {
+            worldPaused = shouldBePaused
+        }
+        if shouldBeHalted != halted {
+            halted = shouldBeHalted
+        }
     }
 
     private func clearStragglers() {
@@ -181,19 +262,12 @@ extension World {
         touchedNode.touchableComponent?.tapped(location)
     }
 
-    func worldPressed(worldLocation: CGPoint, duration: CGFloat) {
-        guard let touchedNode = touchedNode else { return }
-
-        let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchedNode.touchableComponent?.pressed(location, duration: duration)
-    }
-
     func worldTouchBegan(worldLocation: CGPoint) {
         if let touchedNode = touchableNodeAtLocation(worldLocation) {
             self.touchedNode = touchedNode
         }
         else {
-            self.touchedNode = selectedNode ?? defaultNode
+            self.touchedNode = currentNode
         }
 
         if let touchedNode = self.touchedNode {
@@ -246,6 +320,16 @@ extension World {
 
 extension World {
     func touchableNodeAtLocation(worldLocation: CGPoint) -> Node? {
+        if let foundUi = touchableNodeAtLocation(worldLocation, inChildren: self.ui.children) {
+            return foundUi
+        }
+        if !worldPaused {
+            return touchableNodeAtLocation(worldLocation, inChildren: self.children)
+        }
+        return nil
+    }
+
+    private func touchableNodeAtLocation(worldLocation: CGPoint, inChildren children: [SKNode]) -> Node? {
         for node in children.reverse() {
             if let node = node as? Node,
                 touchableComponent = node.touchableComponent
@@ -257,6 +341,75 @@ extension World {
             }
         }
         return nil
+    }
+
+}
+
+extension World {
+
+    func onHalt() {}
+    final func halt() {
+        pause()
+        if isUpdating {
+            shouldBeHalted = true
+        }
+        else if !_halted {
+            _halted = true
+            onHalt()
+        }
+    }
+
+    func onResume() {}
+    final func resume() {
+        if isUpdating {
+            shouldBeHalted = false
+        }
+        else if _halted {
+            onResume()
+            _halted = false
+        }
+    }
+
+    func onPause() {}
+    final func pause() {
+        guard pauseable else { return }
+
+        if isUpdating {
+            shouldBePaused = true
+        }
+        else if !_paused {
+            _paused = true
+            onPause()
+        }
+    }
+
+    func onUnpause() {}
+    final func unpause() {
+        guard !_halted else { return }
+
+        if isUpdating {
+            shouldBePaused = false
+        }
+        else if _paused {
+            _paused = false
+            onUnpause()
+        }
+    }
+
+}
+
+extension World {
+
+    func updateFixedNodes() {
+        if let screenSize = screenSize, ui = ui {
+            let uiNodes = ui.children.filter { sknode in
+                return (sknode as? Node)?.fixedPosition != nil
+            } as! [Node]
+
+            for node in uiNodes {
+                node.position = node.fixedPosition!.positionIn(screenSize)
+            }
+        }
     }
 
 }

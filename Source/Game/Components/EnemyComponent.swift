@@ -7,7 +7,7 @@
 //
 
 class EnemyComponent: Component {
-    var experience: Float = 0
+    var experience: Int = 0
 
     typealias OnAttacked = (projectile: Node) -> Void
     var _onAttacked: [OnAttacked] = []
