@@ -1,12 +1,12 @@
 //
-//  PercentNode.swift
+//  PercentBar.swift
 //  FlatoutWar
 //
 //  Created by Colin Gray on 1/2/2016.
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-class PercentNode: Node {
+class PercentBar: Node {
     let sprite = SKSpriteNode(id: .Percent(0))
     var complete: CGFloat = 0 {
         didSet {

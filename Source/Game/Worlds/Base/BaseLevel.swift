@@ -70,7 +70,7 @@ extension BaseLevel {
 
         timeRate = 1
         if success {
-            let percentNode = PercentNode(at: CGPoint(x: 50, y: 0))
+            let percentNode = PercentBar(at: CGPoint(x: 50, y: 0))
             self << percentNode
 
             let totalText = TextNode(at: CGPoint(x: 100, y: 4))

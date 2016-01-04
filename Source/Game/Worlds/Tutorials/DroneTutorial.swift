@@ -40,7 +40,7 @@ class DroneTutorial: Tutorial {
     }
 
     func showTapButton() {
-        let tapButton = ButtonNode(at: drone.position + CGPoint(y: -10))
+        let tapButton = Button(at: drone.position + CGPoint(y: -10))
         tapButton.style = .Circle
         tapButton.font = .Small
         tapButton.text = "TAP"
@@ -59,7 +59,7 @@ class DroneTutorial: Tutorial {
 
         let holdStart = drone.position + CGPoint(x: 80, y: -10)
         let holdEnd = holdStart + CGPoint(x: 60)
-        let holdButton = ButtonNode(at: holdStart)
+        let holdButton = Button(at: holdStart)
         holdButton.style = .CircleSized(70)
         holdButton.font = .Small
         holdButton.text = "HOLD"
@@ -125,7 +125,7 @@ class DroneTutorial: Tutorial {
     func showSecondButton() {
         let holdStart = drone.position
         let holdEnd = holdStart + CGPoint(x: -60, y: 40)
-        let holdButton = ButtonNode(at: holdStart)
+        let holdButton = Button(at: holdStart)
         holdButton.style = .CircleSized(70)
         holdButton.font = .Small
         holdButton.text = "HOLD"

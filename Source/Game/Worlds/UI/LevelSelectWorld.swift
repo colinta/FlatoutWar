@@ -39,7 +39,7 @@ class LevelSelectWorld: World {
         textNode.text = "BASE"
         self << textNode
 
-        let backButton = ButtonNode(at: CGPoint(x: -200, y: 100))
+        let backButton = Button(at: CGPoint(x: -200, y: 100))
         backButton.text = "<"
         backButton.size = CGSize(width: 15, height: 15)
         backButton.onTapped { [unowned self] in
@@ -74,7 +74,7 @@ class LevelSelectWorld: World {
                 let x = CGFloat(-80 + 60 * i)
                 let myIndex = levelIndex
                 let center = CGPoint(x: x, y: y)
-                let button = ButtonNode(at: center)
+                let button = Button(at: center)
                 button.enabled = levelIndex <= completed
                 button.text = "\(levelIndex + 1)"
                 button.size = CGSize(50)

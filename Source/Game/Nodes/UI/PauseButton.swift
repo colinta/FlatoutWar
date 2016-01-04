@@ -6,7 +6,7 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-class PauseButton: ButtonNode {
+class PauseButton: Button {
 
     required init() {
         super.init()

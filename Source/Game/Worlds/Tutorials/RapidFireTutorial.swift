@@ -36,7 +36,7 @@ class RapidFireTutorial: Tutorial {
     func showFirstButton() {
         let enemyNode = self.showFirstEnemy()
         timeline.after(2.25) {
-            let holdButton = ButtonNode(at: CGPoint(x: 200, y: 0))
+            let holdButton = Button(at: CGPoint(x: 200, y: 0))
             holdButton.font = .Small
             holdButton.text = "HOLD"
             holdButton.touchableComponent!.on(.Down) { _ in
@@ -97,7 +97,7 @@ class RapidFireTutorial: Tutorial {
         let enemyAngle = showSecondEnemies()
 
         timeline.after(1) {
-            let holdButton = ButtonNode(at: CGPoint(x: 200, y: -90))
+            let holdButton = Button(at: CGPoint(x: 200, y: -90))
             holdButton.font = .Small
             holdButton.text = "HOLD"
             holdButton.touchableComponent!.on(.Moved) { buttonLocation in

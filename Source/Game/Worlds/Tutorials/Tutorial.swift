@@ -31,8 +31,8 @@ class Tutorial: World {
         cameraNode?.addComponent(moveTo)
     }
 
-    func addContinueButton(onTapped: ButtonNode.OnTapped) {
-        let continueButton = ButtonNode(fixed: .Right(x: -75, y: 0))
+    func addContinueButton(onTapped: Button.OnTapped) {
+        let continueButton = Button(fixed: .Right(x: -75, y: 0))
         continueButton.setScale(1.5)
         continueButton.font = .Small
         continueButton.text = "NEXT >"

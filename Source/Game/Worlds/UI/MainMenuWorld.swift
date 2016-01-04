@@ -23,14 +23,14 @@ class MainMenuWorld: World {
         enemyNode.addComponent(wanderingComponent)
         self << enemyNode
 
-        let startButtonNode = ButtonNode(at: CGPoint(x: 0, y: 0))
+        let startButtonNode = Button(at: CGPoint(x: 0, y: 0))
         startButtonNode.text = "START"
         startButtonNode.onTapped {
             self.director?.presentWorld(LevelSelectWorld())
         }
         self << startButtonNode
 
-        let setupButtonNode = ButtonNode(at: CGPoint(x: 0, y: -60))
+        let setupButtonNode = Button(at: CGPoint(x: 0, y: -60))
         setupButtonNode.text = "SETUP"
         setupButtonNode.onTapped {
             self.director?.presentWorld(StartupWorld())

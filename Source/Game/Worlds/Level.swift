@@ -10,11 +10,11 @@ private let debug = false
 
 class Level: World {
     let pauseButton = PauseButton()
-    let resumeButton = ButtonNode()
-    let restartButton = ButtonNode()
-    let backButton = ButtonNode()
-    let nextButton = ButtonNode()
-    let quitButton = ButtonNode()
+    let resumeButton = Button()
+    let restartButton = Button()
+    let backButton = Button()
+    let nextButton = Button()
+    let quitButton = Button()
 
     var possibleExperience = 0
     var gainedExperience = 0
