@@ -111,6 +111,7 @@ class Level: World {
 
     override func populateWorld() {
         super.populateWorld()
+        cameraNode = Node(at: CGPoint(x: 0, y: 0))
 
         ui << resumeButton
         ui << restartButton
@@ -147,11 +148,17 @@ class Level: World {
     override func worldShook() {
         print("at time \(timeline.time)")
         print("possibleExperience: \(possibleExperience)")
-        print("resetting keys")
     }
 
-    override func update(dt: CGFloat) {
-        super.update(dt)
+    func moveCamera(to target: CGPoint, handler: MoveToComponent.OnArrived? = nil) {
+        let moveTo = MoveToComponent()
+        moveTo.target = target
+        moveTo.speed = 80
+        if let handler = handler {
+            moveTo.onArrived(handler)
+        }
+        moveTo.removeComponentOnArrived()
+        cameraNode?.addComponent(moveTo)
     }
 
     var levelSuccess: Bool?

@@ -59,12 +59,12 @@ func moveValue(current: CGFloat, towards dest: CGFloat, by amt: CGFloat) -> CGFl
     }
 }
 
-func moveValue(current: CGFloat, towards dest: CGFloat, by amts: (up: CGFloat, down: CGFloat)) -> CGFloat? {
+func moveValue(current: CGFloat, towards dest: CGFloat, @autoclosure up: () -> CGFloat, @autoclosure down: () -> CGFloat) -> CGFloat? {
     if current < dest {
-        return min(current + amts.up, dest)
+        return min(current + up(), dest)
     }
     else if current > dest {
-        return max(current - amts.down, dest)
+        return max(current - down(), dest)
     }
     else {
         return nil

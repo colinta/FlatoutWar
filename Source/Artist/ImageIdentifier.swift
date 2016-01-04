@@ -101,8 +101,6 @@ enum ImageIdentifier {
         case let .HueLine(length, hue):
             let roundedLength = Int(round(length * 20))
             return "HueLine-length_\(roundedLength)-hue_\(hue)"
-        default:
-            return "\(self)"
         }
     }
 }

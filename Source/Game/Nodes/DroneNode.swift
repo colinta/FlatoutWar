@@ -74,15 +74,7 @@ class DroneNode: Node {
         draggingComponent.placeholder = placeholder
         draggingComponent.bindTo(touchableComponent: touchableComponent)
         draggingComponent.onDragChange { isMoving in
-            self.alpha = isMoving ? 0.5 : 1
-            if self.cursor.selected && isMoving {
-                self.cursor.selected = false
-            }
-
-            firingComponent.enabled = !isMoving
-            selectableComponent.enabled = !isMoving
-            wanderingComponent.enabled = !isMoving && (self.overrideWandering ?? true)
-
+            self.droneEnabled(!isMoving)
             self.world?.unselectNode(self)
         }
         addComponent(draggingComponent)
@@ -107,6 +99,19 @@ class DroneNode: Node {
         self << placeholder
     }
 
+}
+
+extension DroneNode {
+    func droneEnabled(enabled: Bool) {
+        self.alpha = enabled ? 1 : 0.5
+        if self.cursor.selected && !enabled {
+            self.cursor.selected = false
+        }
+
+        firingComponent!.enabled = enabled
+        selectableComponent!.enabled = enabled
+        wanderingComponent!.enabled = enabled && (self.overrideWandering ?? true)
+    }
 }
 
 // MARK: Fire Bullet

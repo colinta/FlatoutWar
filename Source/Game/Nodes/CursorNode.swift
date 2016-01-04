@@ -80,7 +80,7 @@ class CursorNode: Node {
         }
 
         if let destAlpha = destAlpha {
-            if let currentAlpha = moveValue(alpha, towards: destAlpha, by: (up: dAlphaUp * dt, down: dAlphaDown * dt)) {
+            if let currentAlpha = moveValue(alpha, towards: destAlpha, up: dAlphaUp * dt, down: dAlphaDown * dt) {
                 alpha = currentAlpha
             }
             else {

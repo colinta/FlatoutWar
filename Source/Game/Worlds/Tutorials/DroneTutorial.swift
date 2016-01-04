@@ -57,7 +57,7 @@ class DroneTutorial: Tutorial {
         let enemies = showEnemies([(start: CGPoint(r: 250, a: 0.degrees), end: CGPoint(r: 60, a: 0.degrees))])
         let enemyNode = enemies.first!
 
-        let holdStart = drone.position + CGPoint(x: 60, y: -10)
+        let holdStart = drone.position + CGPoint(x: 80, y: -10)
         let holdEnd = holdStart + CGPoint(x: 60)
         let holdButton = ButtonNode(at: holdStart)
         holdButton.style = .CircleSized(70)
@@ -66,12 +66,15 @@ class DroneTutorial: Tutorial {
         self << holdButton
 
         holdButton.touchableComponent!.onDragged { (prev_, location_) in
-            let prev = self.convertPoint(prev_, fromNode: holdButton)
-            let location = self.convertPoint(location_, fromNode: holdButton)
+            var prev = self.convertPoint(prev_, fromNode: holdButton)
+            var location = self.convertPoint(location_, fromNode: holdButton)
+            prev.y = 0
+            location.y = 0
             self.drone.draggableComponent?.draggingMoved(prev, location: location)
         }
         holdButton.touchableComponent!.on(.Down) { location_ in
-            let location = self.convertPoint(location_, fromNode: holdButton)
+            var location = self.convertPoint(location_, fromNode: holdButton)
+            location.y = 0
             self.drone.draggableComponent?.draggingBegan(location)
             holdButton.text = "DRAG"
 
@@ -87,7 +90,8 @@ class DroneTutorial: Tutorial {
             holdButton.addComponent(moveTo)
         }
         holdButton.touchableComponent!.on(.Up) { location_ in
-            let location = self.convertPoint(location_, fromNode: holdButton)
+            var location = self.convertPoint(location_, fromNode: holdButton)
+            location.y = 0
             self.drone.draggableComponent?.draggingEnded(location)
             holdButton.text = "HOLD"
             holdButton.moveToComponent?.removeFromNode()
@@ -106,12 +110,12 @@ class DroneTutorial: Tutorial {
         playerNode.startRotatingTo(0)
 
         let enemies = [
-            (start: CGPoint(r: 300, a: TAU_2), end: CGPoint(r: 60, a: TAU_2)),
-            (start: CGPoint(r: 300, a: TAU_2 + 5.degrees), end: CGPoint(r: 60, a: TAU_2 + 5.degrees)),
-            (start: CGPoint(r: 300, a: TAU_2 + 10.degrees), end: CGPoint(r: 60, a: TAU_2 + 10.degrees)),
-            (start: CGPoint(r: 375, a: TAU_2), end: CGPoint(r: 60, a: TAU_2)),
-            (start: CGPoint(r: 375, a: TAU_2 + 5.degrees), end: CGPoint(r: 60, a: TAU_2 + 5.degrees)),
-            (start: CGPoint(r: 375, a: TAU_2 + 10.degrees), end: CGPoint(r: 60, a: TAU_2 + 10.degrees)),
+            (start: CGPoint(r: 300, a: TAU_2), end: CGPoint(r: 40, a: TAU_2)),
+            (start: CGPoint(r: 300, a: TAU_2 + 5.degrees), end: CGPoint(r: 40, a: TAU_2 + 5.degrees)),
+            (start: CGPoint(r: 300, a: TAU_2 + 10.degrees), end: CGPoint(r: 40, a: TAU_2 + 10.degrees)),
+            (start: CGPoint(r: 375, a: TAU_2), end: CGPoint(r: 70, a: TAU_2)),
+            (start: CGPoint(r: 375, a: TAU_2 + 5.degrees), end: CGPoint(r: 70, a: TAU_2 + 5.degrees)),
+            (start: CGPoint(r: 375, a: TAU_2 + 10.degrees), end: CGPoint(r: 70, a: TAU_2 + 10.degrees)),
         ]
         showEnemies(enemies)
 
@@ -128,12 +132,15 @@ class DroneTutorial: Tutorial {
         self << holdButton
 
         holdButton.touchableComponent!.onDragged { (prev_, location_) in
-            let prev = self.convertPoint(prev_, fromNode: holdButton)
-            let location = self.convertPoint(location_, fromNode: holdButton)
+            var prev = self.convertPoint(prev_, fromNode: holdButton)
+            var location = self.convertPoint(location_, fromNode: holdButton)
+            prev.y = -2 * prev.x / 3
+            location.y = -2 * location.x / 3
             self.drone.draggableComponent?.draggingMoved(prev, location: location)
         }
         holdButton.touchableComponent!.on(.Down) { location_ in
-            let location = self.convertPoint(location_, fromNode: holdButton)
+            var location = self.convertPoint(location_, fromNode: holdButton)
+            location.y = -2 * location.x / 3
             self.drone.draggableComponent?.draggingBegan(location)
             holdButton.text = "DRAG"
 
@@ -143,7 +150,8 @@ class DroneTutorial: Tutorial {
             holdButton.addComponent(moveTo)
         }
         holdButton.touchableComponent!.on(.Up) { location_ in
-            let location = self.convertPoint(location_, fromNode: holdButton)
+            var location = self.convertPoint(location_, fromNode: holdButton)
+            location.y = -2 * location.x / 3
             self.drone.draggableComponent?.draggingEnded(location)
             holdButton.text = "HOLD"
             holdButton.moveToComponent?.removeFromNode()

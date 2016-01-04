@@ -41,7 +41,6 @@ class DemoWorld: World {
         // }
     }
 
-    // exp: 12
     func generateEnemyFormation(angle: CGFloat)() {
         let center = CGPoint(r: outerRadius, a: angle)
 

@@ -39,6 +39,10 @@ class BaseLevel: Level {
         self << playerNode
     }
 
+}
+
+extension BaseLevel {
+
     func goToNextLevel() {
         fatalError("goToNextLevel should be overridden")
     }
@@ -120,6 +124,36 @@ class BaseLevel: Level {
         }
     }
 
+}
+
+extension BaseLevel {
+
+    func introduceDrone() {
+        let drone = DroneNode()
+        drone.position = playerNode.position
+        drone.alpha = 0
+        self << drone
+
+        let fadeIn = FadeToComponent()
+        fadeIn.target = 1
+        fadeIn.duration = 1.4
+        fadeIn.removeComponentOnFade()
+        drone.addComponent(fadeIn)
+
+        let moveTo = MoveToComponent()
+        moveTo.target = CGPoint(-30, -60)
+        moveTo.speed = DroneNode.DefaultSpeed
+        moveTo.onArrived {
+            drone.droneEnabled(true)
+        }
+        moveTo.removeComponentOnArrived()
+        drone.addComponent(moveTo)
+    }
+
+}
+
+extension BaseLevel {
+
     func generateEnemy(genAngle: CGFloat, spread: CGFloat = 0.087266561)() {
         var angle = genAngle
         if spread > 0 {
@@ -143,7 +177,6 @@ class BaseLevel: Level {
         self << enemyNode
     }
 
-    // exp: 12
     func generateEnemyFormation(angle: CGFloat)() {
         let center = CGPoint(r: outerRadius, a: angle)
 
@@ -175,7 +208,6 @@ class BaseLevel: Level {
         }
     }
 
-    // exp: 7
     func generateDozers(genAngle: CGFloat, spread: CGFloat = 0.087266561)() {
         var angle = genAngle
         if spread > 0 {
@@ -200,7 +232,6 @@ class BaseLevel: Level {
         }
     }
 
-    // exp: 3
     func generateScoutEnemies(genAngle: CGFloat, spread: CGFloat = 0.087266561)() {
         var angle = genAngle
         let d = CGFloat(8)
@@ -215,7 +246,6 @@ class BaseLevel: Level {
         }
     }
 
-    // exp: 8
     func generateLeaderWithLinearFollowers(genAngle: CGFloat, spread: CGFloat = 0.087266561)() {
         var angle = genAngle
         if spread > 0 {
@@ -236,7 +266,6 @@ class BaseLevel: Level {
         }
     }
 
-    // exp == 11
     func generateLeaderWithCircularFollowers(genAngle: CGFloat, spread: CGFloat = 0.087266561)() {
         var angle = genAngle
         if spread > 0 {
