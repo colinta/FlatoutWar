@@ -21,7 +21,7 @@ class BaseLevel1: BaseLevel {
         // wave 2: one source of weak, one source of strong
         let wave2_1: CGFloat = rand(TAU)
         let wave2_2 = wave2_1 + TAU_4 ± rand(TAU_8)
-        timeline.every(1.5...3.0, startAt: 35, times: 10, block: self.generateEnemy(wave2_1))
+        timeline.every(1.5...3.0, startAt: 36, times: 10, block: self.generateEnemy(wave2_1))
         timeline.every(3...5, startAt: 35, times: 5, block: self.generateLeaderEnemy(wave2_2))
 
         // wave: random
