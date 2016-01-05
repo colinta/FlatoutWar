@@ -58,7 +58,9 @@ class RapidFireTutorial: Tutorial {
                 holdButton.moveToComponent?.removeFromNode()
             }
             enemyNode.onDeath {
+                self.shouldAimPlayer = nil
                 self.playerNode.overrideForceFire = false
+                self.playerNode.firingComponent?.enabled = true
                 holdButton.removeFromParent()
                 self.showSecondButton()
             }
@@ -102,7 +104,7 @@ class RapidFireTutorial: Tutorial {
             holdButton.text = "HOLD"
             holdButton.touchableComponent!.on(.Moved) { buttonLocation in
                 let angle = self.playerNode.angleTo(holdButton) + enemyAngle
-                self.playerNode.rotateToComponent?.target = angle
+                self.playerNode.rotateTo(angle)
             }
             holdButton.touchableComponent!.on(.Up) { _ in
                 self.playerNode.overrideForceFire = false

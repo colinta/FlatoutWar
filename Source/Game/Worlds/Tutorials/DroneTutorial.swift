@@ -71,6 +71,11 @@ class DroneTutorial: Tutorial {
             prev.y = 0
             location.y = 0
             self.drone.draggableComponent?.draggingMoved(prev, location: location)
+
+            if self.drone.placeholder.position.x > 60 {
+                self.drone.draggableComponent!.draggingEnded(location)
+                holdButton.removeFromParent()
+            }
         }
         holdButton.touchableComponent!.on(.Down) { location_ in
             var location = self.convertPoint(location_, fromNode: holdButton)
@@ -106,7 +111,11 @@ class DroneTutorial: Tutorial {
     func showSecondDemo() {
         tutorialTextNode.text = "NICE!"
 
-        drone.position = CGPoint(x: 30, y: -60)
+        let moveTo = MoveToComponent()
+        moveTo.target = CGPoint(x: 30, y: -60)
+        moveTo.speed = DroneNode.DefaultSpeed
+        moveTo.removeComponentOnArrived()
+        drone.addComponent(moveTo)
         playerNode.startRotatingTo(0)
 
         let enemies = [
@@ -137,6 +146,11 @@ class DroneTutorial: Tutorial {
             prev.y = -2 * prev.x / 3
             location.y = -2 * location.x / 3
             self.drone.draggableComponent?.draggingMoved(prev, location: location)
+
+            if self.drone.placeholder.position.x < -70 {
+                self.drone.draggableComponent!.draggingEnded(location)
+                holdButton.removeFromParent()
+            }
         }
         holdButton.touchableComponent!.on(.Down) { location_ in
             var location = self.convertPoint(location_, fromNode: holdButton)
