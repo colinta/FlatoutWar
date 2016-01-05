@@ -14,9 +14,7 @@ class WorldController: UIViewController {
         self.worldView = view
         self.view = worldView
 
-        // view.presentWorld(LevelSelectWorld())
-        view.presentWorld(DroneTutorial())
-        // view.presentWorld(DemoWorld())
+        view.presentWorld(BaseLevel3())
 
         view.showsFPS = true
         view.showsNodeCount = true
