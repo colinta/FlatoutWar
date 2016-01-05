@@ -42,7 +42,7 @@ class DemoWorld: World {
     }
 
     func generateEnemyFormation(angle: CGFloat)() {
-        let center = CGPoint(r: outerRadius, a: angle)
+        let center = outsideWorld(angle: angle)
 
         let enemyLeader = EnemyLeaderNode(at: center)
         enemyLeader.rotateTowards(playerNode)

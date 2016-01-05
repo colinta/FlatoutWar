@@ -10,16 +10,33 @@ class DraggableComponent: Component {
     var speed: CGFloat = 30
     var placeholder: SKNode?
     var target: CGPoint?
+    private var maxDistance: CGFloat?
+    private var centeredAround: Node?
     private(set) var isDragMoving = false
     private var startingLocation: CGPoint?
     private var shouldAdjust = false
 
     typealias OnDragChange = (Bool) -> Void
     var _onDragChange: [OnDragChange] = []
+    var _onDragging: [OnDragChange] = []
 
     override func reset() {
         super.reset()
         _onDragChange = []
+        _onDragging = []
+    }
+
+    func onDragChange(handler: OnDragChange) {
+        _onDragChange << handler
+    }
+
+    func onDragging(handler: OnDragChange) {
+        _onDragging << handler
+    }
+
+    func maintainDistance(dist: CGFloat, around: Node) {
+        self.maxDistance = dist
+        self.centeredAround = around
     }
 
     override func update(dt: CGFloat) {
@@ -44,10 +61,6 @@ class DraggableComponent: Component {
         }
     }
 
-    func onDragChange(handler: OnDragChange) {
-        _onDragChange << handler
-    }
-
     func bindTo(touchableComponent touchableComponent: TouchableComponent) {
         touchableComponent.on(.DragBegan, draggingBegan)
         touchableComponent.on(.DragEnded, draggingEnded)
@@ -61,6 +74,10 @@ class DraggableComponent: Component {
         if let placeholder = placeholder {
             placeholder.hidden = false
             placeholder.position = CGPointZero
+        }
+
+        for handler in _onDragging {
+            handler(true)
         }
     }
 
@@ -99,6 +116,27 @@ class DraggableComponent: Component {
         }
 
         placeholder.position = draggingDelta
+
+        // avoid all "player" nodes
+        if let players = node.world?.players {
+            for playerNode in players {
+                let dist = playerNode.radius + node.radius
+                if placeholder.distanceTo(playerNode, within: dist) {
+                    let angle = playerNode.angleTo(placeholder)
+                    let point = node.convertPoint(CGPoint(r: dist, a: angle), fromNode: node.parent!)
+                    placeholder.position = point
+                }
+            }
+        }
+
+        // stay within maxDistance, if applicable
+        if let maxDistance = maxDistance, centeredAround = centeredAround {
+            if !placeholder.distanceTo(centeredAround, within: maxDistance) {
+                let angle = centeredAround.angleTo(placeholder)
+                let point = node.convertPoint(CGPoint(r: maxDistance, a: angle), fromNode: node.parent!)
+                placeholder.position = point
+            }
+        }
     }
 
     func draggingEnded(location: CGPoint) {
@@ -110,6 +148,10 @@ class DraggableComponent: Component {
         let minDist: CGFloat = 3
         if !draggingTarget.distanceTo(node.position, within: minDist) {
             self.target = node.position + draggingTarget
+        }
+
+        for handler in _onDragging {
+            handler(false)
         }
     }
 

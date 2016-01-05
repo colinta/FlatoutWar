@@ -70,8 +70,9 @@ class ZoomToComponent: ApplyToNodeComponent {
         if let _rate = _rate {
             rate = _rate
         }
-        else if let duration = _duration {
-            rate = max(0.1, (target - currentScale) / duration)
+        else if let duration = _duration
+        where duration > 0 {
+            rate = (target - currentScale) / duration
             _rate = rate
         }
         else {

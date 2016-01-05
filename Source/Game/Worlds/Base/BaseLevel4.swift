@@ -9,5 +9,7 @@
 class BaseLevel4: BaseLevel {
     override func populateWorld() {
         super.populateWorld()
+
+        introduceDrone()
     }
 }

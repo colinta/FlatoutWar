@@ -30,7 +30,7 @@ class DroneNode: Node {
 
     required init() {
         super.init()
-        size = sprite.size
+        size = CGSize(20)
 
         placeholder.alpha = 0.5
         placeholder.hidden = false
@@ -85,6 +85,9 @@ class DroneNode: Node {
         draggingComponent.speed = DroneNode.DefaultSpeed
         draggingComponent.placeholder = placeholder
         draggingComponent.bindTo(touchableComponent: touchableComponent)
+        draggingComponent.onDragging { isDragging in
+            wanderingComponent.enabled = !isDragging
+        }
         draggingComponent.onDragChange { isMoving in
             self.droneEnabled(!isMoving)
             self.world?.unselectNode(self)

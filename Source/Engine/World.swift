@@ -17,6 +17,30 @@ class World: Node {
     var timeline = TimelineComponent()
     var timeRate: CGFloat = 1
 
+    func outsideWorld(angle _angle: CGFloat) -> CGPoint {
+        let angle = normalizeAngle(_angle)
+        let sizeAngle = size.angle
+        let radius: CGFloat
+        if angle > TAU - sizeAngle || angle <= sizeAngle {
+            radius = size.width / 2 / cos(angle)
+        }
+        else if angle > TAU_2 + sizeAngle {
+            radius = size.height / 2 / sin(angle)
+        }
+        else if angle > TAU_2 - sizeAngle {
+            radius = size.width / 2 / cos(angle)
+        }
+        else {
+            radius = size.height / 2 / sin(angle)
+        }
+
+        var point = CGPoint(r: abs(radius), a: angle)
+        if let cameraNode = cameraNode {
+            point += cameraNode.position
+        }
+        return point / xScale
+    }
+
     var pauseable = true
     private var shouldBePaused = false
     private var shouldBeHalted = false

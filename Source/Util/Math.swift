@@ -49,10 +49,10 @@ func deltaAngle(current: CGFloat, target: CGFloat) -> CGFloat {
 
 func moveValue(current: CGFloat, towards dest: CGFloat, by amt: CGFloat) -> CGFloat? {
     if current < dest {
-        return min(current + amt, dest)
+        return min(current + abs(amt), dest)
     }
     else if current > dest {
-        return max(current - amt, dest)
+        return max(current - abs(amt), dest)
     }
     else {
         return nil

@@ -26,7 +26,7 @@ class Level: World {
         return selectedNode ?? defaultNode
     }
 
-    let startupZoomingComponent = ZoomToComponent()
+    let cameraZoom = ZoomToComponent()
 
     required init() {
         super.init()
@@ -121,9 +121,9 @@ class Level: World {
         ui << nextButton
 
         setScale(2)
-        startupZoomingComponent.rate = 0.5
-        startupZoomingComponent.target = 1.0
-        timeline.at(1.75) { self.addComponent(self.startupZoomingComponent) }
+        cameraZoom.rate = 0.5
+        cameraZoom.target = 1.0
+        timeline.at(1.75) { self.addComponent(self.cameraZoom) }
     }
 
     override func willAdd(node: Node) {
@@ -150,15 +150,33 @@ class Level: World {
         print("possibleExperience: \(possibleExperience)")
     }
 
-    func moveCamera(to target: CGPoint, handler: MoveToComponent.OnArrived? = nil) {
+    func moveCamera(to target: CGPoint, zoom: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, handler: MoveToComponent.OnArrived? = nil) {
         let moveTo = MoveToComponent()
         moveTo.target = target
-        moveTo.speed = 80
+        if let duration = duration {
+            moveTo.duration = duration
+        }
+        else if let rate = rate {
+            moveTo.speed = rate
+        }
+        else {
+            moveTo.speed = 80
+        }
         if let handler = handler {
             moveTo.onArrived(handler)
         }
         moveTo.removeComponentOnArrived()
         cameraNode?.addComponent(moveTo)
+
+        if let zoom = zoom {
+            cameraZoom.target = zoom
+            if let duration = duration {
+                cameraZoom.duration = duration
+            }
+            else if let rate = rate {
+                cameraZoom.rate = rate
+            }
+        }
     }
 
     var levelSuccess: Bool?
@@ -174,8 +192,8 @@ class Level: World {
         timeline.removeFromNode()
         pauseButton.removeFromParent()
 
-        startupZoomingComponent.rate = 1.0
-        startupZoomingComponent.target = 2.0
+        cameraZoom.rate = 1.0
+        cameraZoom.target = 2.0
     }
 
     func restartWorld() {

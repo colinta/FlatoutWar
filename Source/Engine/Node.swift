@@ -27,6 +27,12 @@ class Node: SKNode {
         }
         return (size.width + size.height) / 4
     }
+    var innerRadius: CGFloat {
+        if size.width == size.height {
+            return size.width / 2
+        }
+        return min(size.width, size.height) / 2
+    }
     var outerRadius: CGFloat {
         if size.width == size.height {
             return size.width * 0.7071067811865476
@@ -162,21 +168,6 @@ extension Node {
 // MARK: Positions and Angles
 
 extension Node {
-
-    func distanceTo(node: Node) -> CGFloat {
-        let position = convertPosition(node)
-        return position.length
-    }
-
-    func distanceTo(node: Node, within radius: CGFloat) -> Bool {
-        let position = convertPosition(node)
-        return position.lengthWithin(radius)
-    }
-
-    func angleTo(node: Node) -> CGFloat {
-        let position = convertPosition(node)
-        return position.angle
-    }
 
     func rotateTo(angle: CGFloat) {
         zRotation = angle
