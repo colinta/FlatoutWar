@@ -50,6 +50,15 @@ class Tutorial: World {
         tutorialTextNode.setScale(1.5)
         ui << tutorialTextNode
 
+        let closeButton = Button(fixed: .TopRight(x: -15, y: -15))
+        closeButton.setScale(0.5)
+        closeButton.text = "×"
+        closeButton.size = CGSize(60)
+        closeButton.onTapped { _ in
+            self.goToNextWorld()
+        }
+        ui << closeButton
+
         playerNode.touchableComponent?.enabled = false
         playerNode.touchableComponent?.enabled = false
         self << playerNode
