@@ -166,9 +166,12 @@ class DroneTutorial: Tutorial {
     func done() {
         tutorialTextNode.text = "YOU GOT THIS!"
 
-        addContinueButton() {
-            self.director?.presentWorld(BaseLevel3())
-        }
+        addContinueButton()
     }
+
+    override func nextWorld() -> World {
+        return BaseLevel3()
+    }
+
 
 }

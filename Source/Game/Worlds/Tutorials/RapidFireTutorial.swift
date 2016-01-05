@@ -133,9 +133,11 @@ class RapidFireTutorial: Tutorial {
         playerNode.overrideForceFire = false
         tutorialTextNode.text = "YOU GOT THIS!"
 
-        addContinueButton {
-            self.director?.presentWorld(BaseLevel2())
-        }
+        addContinueButton()
+    }
+
+    override func nextWorld() -> World {
+        return BaseLevel2()
     }
 
     override func update(dt: CGFloat) {

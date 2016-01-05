@@ -89,8 +89,11 @@ class AutoFireTutorial: Tutorial {
     func done() {
         tutorialTextNode.text = "YOU GOT THIS!"
 
-        addContinueButton {
-            self.director?.presentWorld(BaseLevel1())
-        }
+        addContinueButton()
     }
+
+    override func nextWorld() -> World {
+        return BaseLevel1()
+    }
+
 }

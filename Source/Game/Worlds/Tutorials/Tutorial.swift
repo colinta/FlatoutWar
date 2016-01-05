@@ -31,12 +31,22 @@ class Tutorial: World {
         cameraNode?.addComponent(moveTo)
     }
 
-    func addContinueButton(onTapped: Button.OnTapped) {
+    func goToNextWorld() {
+        self.director?.presentWorld(nextWorld())
+    }
+
+    func nextWorld() -> World {
+        return LevelSelectWorld()
+    }
+
+    func addContinueButton() {
         let continueButton = Button(fixed: .Right(x: -75, y: 0))
         continueButton.setScale(1.5)
         continueButton.font = .Small
         continueButton.text = "NEXT >"
-        continueButton.onTapped(onTapped)
+        continueButton.onTapped {
+            self.goToNextWorld()
+        }
         ui << continueButton
         updateFixedNode(continueButton)
     }
