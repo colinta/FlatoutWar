@@ -103,17 +103,7 @@ class BasePlayerNode: Node {
 
         if let firingAngle = firingComponent?.angle,
             isTouching = touchableComponent?.isTouching
-            where !isTouching
-        {
-            turret.zRotation = firingAngle
-        }
-        else {
-            turret.zRotation = zRotation
-        }
-
-        if let firingAngle = firingComponent?.angle,
-            isTouching = touchableComponent?.isTouching
-            where !isTouching
+            where !isTouching || overrideForceFire == false
         {
             turret.zRotation = firingAngle
         }
