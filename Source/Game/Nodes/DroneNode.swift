@@ -17,6 +17,8 @@ class DroneNode: Node {
     }
 
     var cursor = CursorNode()
+    let radar1 = SKShapeNode()
+    let radar2 = SKShapeNode()
     var sprite = SKSpriteNode(id: .Drone(upgrade: .One))
     var placeholder = SKSpriteNode(id: .Drone(upgrade: .One))
 
@@ -27,6 +29,8 @@ class DroneNode: Node {
     }
 
     required init() {
+        radar1 = SKShapeNode()
+        radar2 = SKShapeNode()
         super.init()
         size = sprite.size
 
@@ -42,6 +46,16 @@ class DroneNode: Node {
         // }
         // addComponent(healthComponent)
 
+        let phaseComponent = PhaseComponent()
+        phaseComponent.duration = 3
+        addComponent(phaseComponent)
+
+        for radar in [radar1, radar2] {
+            radar.lineWidth = 1.pixels
+            radar.strokeColor = UIColor(hex: 0x25B1FF)
+            self << radar
+        }
+
         let wanderingComponent = WanderingComponent()
         wanderingComponent.wanderingRadius = 10
         addComponent(wanderingComponent)
@@ -49,7 +63,7 @@ class DroneNode: Node {
         let targetingComponent = TargetingComponent()
         targetingComponent.reallySmart = true
         targetingComponent.sweepAngle = nil
-        targetingComponent.radius = 100
+        targetingComponent.radius = 75
         targetingComponent.bulletSpeed = 125
         addComponent(targetingComponent)
 
@@ -97,6 +111,34 @@ class DroneNode: Node {
         self << sprite
         self << cursor
         self << placeholder
+    }
+
+    override func update(dt: CGFloat) {
+        let phase = phaseComponent!.phase
+        let radarRadius: CGFloat = targetingComponent!.radius!
+        if phase < 0.9 {
+            let path = CGPathCreateMutable()
+            let easedPhase = easeOutExpo(time: interpolate(phase, from: (0.5, 0.9), to: (0, 1)))
+            let alpha = interpolate(phase, from: (0.6, 0.8), to: (0.25, 0))
+            radar1.alpha = alpha
+            CGPathAddEllipseInRect(path, nil, CGPointZero.rectWithSize(CGSize(r: radarRadius * easedPhase)))
+            radar1.path = path
+        }
+        else {
+            radar1.alpha = 0
+        }
+
+        if phase > 0.6 {
+            let path = CGPathCreateMutable()
+            let easedPhase = easeOutExpo(time: interpolate(phase, from: (0.6, 1.0), to: (0, 1)))
+            let alpha = interpolate(phase, from: (0.8, 1.0), to: (0.25, 0))
+            radar2.alpha = alpha
+            CGPathAddEllipseInRect(path, nil, CGPointZero.rectWithSize(CGSize(r: radarRadius * easedPhase)))
+            radar2.path = path
+        }
+        else {
+            radar2.alpha = 0
+        }
     }
 
 }
