@@ -220,6 +220,9 @@ extension TouchableComponent {
     func onDragged(handler: OnDragged) {
         _onDragged << handler
     }
+    func offDragged() {
+        _onDragged = []
+    }
 
     func off(event: TouchEvent) {
         touchEvents[event] = nil
