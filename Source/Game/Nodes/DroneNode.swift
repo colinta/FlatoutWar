@@ -29,8 +29,6 @@ class DroneNode: Node {
     }
 
     required init() {
-        radar1 = SKShapeNode()
-        radar2 = SKShapeNode()
         super.init()
         size = sprite.size
 
