@@ -39,14 +39,6 @@ class BaseLevel: Level {
         self << playerNode
     }
 
-}
-
-extension BaseLevel {
-
-    func goToNextLevel() {
-        fatalError("goToNextLevel should be overridden")
-    }
-
     override final func goToNextWorld() {
         if shouldReturnToLevelSelect {
             director?.presentWorld(LevelSelectWorld())
@@ -54,6 +46,14 @@ extension BaseLevel {
         else {
             goToNextLevel()
         }
+    }
+
+}
+
+extension BaseLevel {
+
+    func goToNextLevel() {
+        fatalError("goToNextLevel should be overridden")
     }
 
     override func levelCompleted(var success success: Bool) {
