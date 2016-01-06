@@ -12,8 +12,8 @@ class RammingComponent: Component {
     var maxSpeed: CGFloat = 25
     var maxTurningSpeed: CGFloat = 10
     var damage: Float = 0
-    var target: Node?
-    var tempTarget: CGPoint?
+    var target: Node? { didSet { updateRotation() }}
+    var tempTarget: CGPoint? { didSet { updateRotation() }}
     var currentTarget: Node? {
         return target ?? node?.enemyComponent?.currentTarget
     }
@@ -36,10 +36,6 @@ class RammingComponent: Component {
 
     override func reset() {
         _onRammed = []
-    }
-
-    func removeComponentOnRammed() {
-        self.onRammed(removeFromNode)
     }
 
     func removeNodeOnRammed() {
@@ -69,40 +65,44 @@ class RammingComponent: Component {
         }
 
         if let currentTargetLocation = (tempTarget ?? currentTarget?.position) {
-            var maxSpeed = self.maxSpeed
+            moveTowards(dt, currentTargetLocation)
+        }
+    }
 
-            let destAngle: CGFloat
-            if let rotateToComponent = node.rotateToComponent {
-                rotateToComponent.target = node.position.angleTo(currentTargetLocation)
-                if rotateToComponent.isRotating && maxSpeed > maxTurningSpeed {
-                    maxSpeed = maxTurningSpeed
-                }
-                destAngle = node.zRotation
-            }
-            else {
-                node.zRotation = node.position.angleTo(currentTargetLocation)
-                destAngle = node.position.angleTo(currentTargetLocation)
-            }
+    func moveTowards(dt: CGFloat, _ currentTargetLocation: CGPoint) {
+        var maxSpeed = self.maxSpeed
 
-            var currentSpeed = self.currentSpeed ?? maxSpeed
-            if currentSpeed < maxSpeed {
-                currentSpeed += dt * acceleration
-                if currentSpeed > maxSpeed {
-                    currentSpeed = maxSpeed
-                }
+        let destAngle: CGFloat
+        if let rotateToComponent = node.rotateToComponent {
+            if rotateToComponent.isRotating {
+                maxSpeed = min(maxSpeed, maxTurningSpeed)
             }
-            else if currentSpeed > maxSpeed {
-                currentSpeed -= dt * acceleration
-                if currentSpeed < maxSpeed {
-                    currentSpeed = maxSpeed
-                }
-            }
+            destAngle = rotateToComponent.currentAngle ?? node.zRotation
+        }
+        else {
+            destAngle = node.position.angleTo(currentTargetLocation)
+            node.rotateTo(destAngle)
+        }
 
-            let vector = CGPoint(r: currentSpeed, a: destAngle)
-            let newCenter = node.position + dt * vector
+        var currentSpeed = maxSpeed
+        if let prevSpeed = self.currentSpeed,
+            newSpeed = moveValue(prevSpeed, towards: maxSpeed, by: dt * acceleration)
+        {
+            currentSpeed = newSpeed
+        }
 
-            self.currentSpeed = currentSpeed
-            node.position = newCenter
+        let vector = CGPoint(r: currentSpeed, a: destAngle)
+
+        let newCenter = node.position + dt * vector
+        self.currentSpeed = currentSpeed
+        node.position = newCenter
+    }
+
+    func updateRotation() {
+        if let rotateToComponent = node.rotateToComponent,
+            currentTargetLocation = (tempTarget ?? currentTarget?.position)
+        {
+            rotateToComponent.target = node.position.angleTo(currentTargetLocation)
         }
     }
 
