@@ -77,7 +77,7 @@ extension CGPoint {
     // calculates a position between self and the target
     func pointTowards(target: CGPoint, speed: CGFloat, dt: CGFloat, radius: CGFloat? = nil) -> CGPoint? {
         guard speed > 0 else {
-            return nil
+            return pointTowards(target, speed: -speed, dt: dt, radius: radius)
         }
 
         let roughDistance = roughDistanceTo(target)

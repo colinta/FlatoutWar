@@ -82,12 +82,4 @@ extension SKNode {
         }
     }
 
-    func rotateTowards(node node: SKNode) {
-        let point = convertPosition(node)
-        rotateTowards(point: point)
-    }
-
-    func rotateTowards(point point: CGPoint) {
-        zRotation = point.angle
-    }
 }
