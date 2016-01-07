@@ -1,4 +1,3 @@
-//
 //  IntersectsTestWorld.swift
 //  FlatoutWar
 //
@@ -6,14 +5,15 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-class IntersectsTestWorld: World {
+class IntersectsTestWorld: DemoWorld {
     let n1 = Node(at: CGPoint(x: 3, y: 0))
     let n2 = Node(at: CGPoint(x: -3, y: 0))
     let a1 = SKSpriteNode(id: .Enemy(type: .Dozer, health: 50))
     let a2 = SKSpriteNode(id: .Enemy(type: .Dozer, health: 50))
 
     override func populateWorld() {
-        pauseable = false
+        super.populateWorld()
+        playerNode.removeFromParent()
 
         n1 << a1
         n1.shape = .Rect

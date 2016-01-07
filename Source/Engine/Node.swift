@@ -8,6 +8,7 @@
 
 class Node: SKNode {
     var enabled = true
+    var timeRate: CGFloat = 1
     var fixedPosition: Position? {
         didSet {
             world?.updateFixedNodes()
@@ -89,6 +90,7 @@ class Node: SKNode {
     weak var enemyComponent: EnemyComponent?
     weak var fadeToComponent: FadeToComponent?
     weak var firingComponent: FiringComponent?
+    weak var flyingComponent: FlyingComponent?
     weak var followNodeComponent: FollowNodeComponent?
     weak var growToComponent: GrowToComponent?
     weak var healthComponent: HealthComponent?
@@ -149,7 +151,8 @@ class Node: SKNode {
 
 extension Node {
 
-    func updateNodes(dt: CGFloat) {
+    func updateNodes(dtReal: CGFloat) {
+        let dt = dtReal * timeRate
         for component in components {
             if component.enabled {
                 component.update(dt)
@@ -177,6 +180,11 @@ extension Node {
 
     func rotateTowards(node: Node) {
         let angle = angleTo(node)
+        rotateTo(angle)
+    }
+
+    func rotateTowards(point point: CGPoint) {
+        let angle = (point - position).angle
         rotateTo(angle)
     }
 
@@ -227,7 +235,10 @@ extension Node {
         else if let component = component as? PhaseComponent { phaseComponent = component }
         else if let component = component as? PlayerComponent { playerComponent = component }
         else if let component = component as? ProjectileComponent { projectileComponent = component }
-        else if let component = component as? RammingComponent { rammingComponent = component }
+        else if let component = component as? RammingComponent {
+            rammingComponent = component
+            if let component = component as? FlyingComponent { flyingComponent = component }
+        }
         else if let component = component as? RotateToComponent { rotateToComponent = component }
         else if let component = component as? SelectableComponent { selectableComponent = component }
         else if let component = component as? TargetingComponent { targetingComponent = component }
@@ -251,7 +262,10 @@ extension Node {
             else if component == phaseComponent { phaseComponent = nil }
             else if component == playerComponent { playerComponent = nil }
             else if component == projectileComponent { projectileComponent = nil }
-            else if component == rammingComponent { rammingComponent = nil }
+            else if component == rammingComponent {
+                rammingComponent = nil
+                flyingComponent = nil
+            }
             else if component == rotateToComponent { rotateToComponent = nil }
             else if component == selectableComponent { selectableComponent = nil }
             else if component == targetingComponent { targetingComponent = nil }
@@ -278,7 +292,10 @@ extension Node {
             else if let component = component as? PhaseComponent { phaseComponent = component }
             else if let component = component as? PlayerComponent { playerComponent = component }
             else if let component = component as? ProjectileComponent { projectileComponent = component }
-            else if let component = component as? RammingComponent { rammingComponent = component }
+            else if let component = component as? RammingComponent {
+                rammingComponent = component
+                if let component = component as? FlyingComponent { flyingComponent = component }
+            }
             else if let component = component as? RotateToComponent { rotateToComponent = component }
             else if let component = component as? SelectableComponent { selectableComponent = component }
             else if let component = component as? TargetingComponent { targetingComponent = component }

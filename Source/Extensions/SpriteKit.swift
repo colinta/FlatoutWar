@@ -38,6 +38,10 @@ extension SKSpriteNode {
 extension SKNode {
 
     func distanceTo(node: SKNode) -> CGFloat {
+        return sqrt(roughDistanceTo(node))
+    }
+
+    func roughDistanceTo(node: SKNode) -> CGFloat {
         let world = (self as? Node)?.world ?? (node as? Node)?.world
         if let world = world {
             let posSelf = world.convertPosition(self)
@@ -45,7 +49,7 @@ extension SKNode {
             return posSelf.distanceTo(posNode)
         }
         let position = convertPosition(node)
-        return position.length
+        return position.roughLength
     }
 
     func distanceTo(node: SKNode, within radius: CGFloat) -> Bool {

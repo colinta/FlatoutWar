@@ -9,7 +9,7 @@
 private let startingHealth: Float = 2
 
 class EnemySoldierNode: Node {
-    static let DefaultSpeed: CGFloat = 25
+    static let DefaultSoldierSpeed: CGFloat = 25
     var sprite: SKSpriteNode!
 
     required init() {
@@ -40,7 +40,10 @@ class EnemySoldierNode: Node {
         addComponent(enemyComponent)
 
         let rammingComponent = RammingComponent()
-        rammingComponent.maxSpeed = EnemySoldierNode.DefaultSpeed
+        enemyComponent.onTargetAcquired { target in
+            rammingComponent.target = target
+        }
+        rammingComponent.maxSpeed = EnemySoldierNode.DefaultSoldierSpeed
         rammingComponent.onRammed {
             if let world = self.world {
                 let node = EnemyAttackExplosionNode(at: self.position)
@@ -49,7 +52,7 @@ class EnemySoldierNode: Node {
             }
             self.removeFromParent()
         }
-        rammingComponent.damage = 4
+        rammingComponent.damage = startingHealth * 2
         addComponent(rammingComponent)
 
         addComponent(RotateToComponent())

@@ -33,4 +33,10 @@ extension Array {
         }
         return true
     }
+
+    func rand() -> Element? {
+        guard count > 0 else { return nil }
+        let i: Int = Int(arc4random_uniform(UInt32(count)))
+        return self[i]
+    }
 }

@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-class CameraDemoWorld: World {
+class CameraDemoWorld: DemoWorld {
 
     override func populateWorld() {
-        pauseable = false
+        super.populateWorld()
 
         let playerNode = BasePlayerNode()
         playerNode.targetingComponent?.enabled = false

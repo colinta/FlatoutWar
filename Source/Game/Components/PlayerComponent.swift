@@ -7,22 +7,7 @@
 //
 
 class PlayerComponent: Component {
-    enum Priority: IntValue {
-        case High
-        case Default
-        case Low
-
-        var int: Int {
-            switch self {
-            case High: return 3
-            case Default: return 2
-            case Low: return 1
-            }
-        }
-
-    }
-
-    var priority: Priority = .Default
+    var targetable: Bool = true
 
     required override init() {
         super.init()

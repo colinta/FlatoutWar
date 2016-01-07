@@ -15,11 +15,15 @@ class World: Node {
     var cameraNode: Node?
     var ui: Node! { return (scene as? WorldScene)?.uiNode }
     var timeline = TimelineComponent()
-    var timeRate: CGFloat = 1
 
-    func outsideWorld(angle _angle: CGFloat) -> CGPoint {
+    func outsideWorld(node: Node, angle _angle: CGFloat) -> CGPoint {
+        return outsideWorld(extra: node.radius, angle: _angle)
+    }
+
+    func outsideWorld(extra dist: CGFloat, angle _angle: CGFloat) -> CGPoint {
         let angle = normalizeAngle(_angle)
         let sizeAngle = size.angle
+
         let radius: CGFloat
         if angle > TAU - sizeAngle || angle <= sizeAngle {
             radius = size.width / 2 / cos(angle)
@@ -34,11 +38,11 @@ class World: Node {
             radius = size.height / 2 / sin(angle)
         }
 
-        var point = CGPoint(r: abs(radius), a: angle)
+        var point = CGPoint(r: abs(radius) + dist, a: angle)
         if let cameraNode = cameraNode {
             point += cameraNode.position
         }
-        return point / xScale
+        return point / max(xScale, 1)
     }
 
     var pauseable = true
@@ -203,6 +207,15 @@ extension World {
     }
 
     func willRemove(node: Node) {
+        if node === defaultNode {
+            defaultNode = nil
+        }
+        if node === selectedNode {
+            selectedNode = nil
+        }
+        if node === touchedNode {
+            touchedNode = nil
+        }
         resetCaches(isEnemy: node.isEnemy, isPlayer: node.isPlayer)
     }
 
@@ -372,7 +385,7 @@ extension World {
         for node in children.reverse() {
             if let node = node as? Node,
                 touchableComponent = node.touchableComponent
-            where node.enabled && node.visible {
+            where node.enabled && node.visible && touchableComponent.enabled {
                 let nodeLocation = convertPoint(worldLocation, toNode: node)
                 if touchableComponent.containsTouch(nodeLocation) {
                     return node

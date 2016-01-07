@@ -1,23 +1,35 @@
 //
-//  DemoWorld.swift
+//  Playground.swift
 //  FlatoutWar
 //
 //  Created by Colin Gray on 12/21/2015.
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-class DemoWorld: World {
-    let playerNode = BasePlayerNode()
+class Playground: DemoWorld {
 
     override func populateWorld() {
-        pauseable = false
+        super.populateWorld()
         timeRate = 1
 
-        defaultNode = playerNode
-        self << playerNode
-
         let drone = DroneNode(at: CGPoint(100, 50))
+        drone.draggableComponent?.maintainDistance(100, around: playerNode)
         self << drone
+
+        let soldier = EnemySoldierNode()
+        soldier.position = outsideWorld(soldier, angle: TAU_2)
+        soldier.rotateTowards(playerNode)
+        self << soldier
+
+        timeline.every(0.3, startAt: 3) {
+            let jet = EnemyJetNode()
+            jet.position = self.outsideWorld(jet, angle: TAU_2)
+            jet.flyingComponent?.target = self.playerNode
+            if let location = jet.flyingComponent?.currentFlyingTarget {
+                jet.rotateTowards(point: location)
+            }
+            self << jet
+        }
 
         // timeline.every(4, block: generateEnemyFormation(0))
 
@@ -39,12 +51,20 @@ class DemoWorld: World {
         //     sprite.position = CGPoint(x, y)
         //     self << sprite
         // }
+
+        let closeButton = Button(fixed: .TopRight(x: -15, y: -15))
+        closeButton.setScale(0.5)
+        closeButton.text = "×"
+        closeButton.size = CGSize(60)
+        closeButton.onTapped { _ in
+            self.director?.presentWorld(LevelSelectWorld())
+        }
+        ui << closeButton
     }
 
     func generateEnemyFormation(angle: CGFloat)() {
-        let center = outsideWorld(angle: angle)
-
-        let enemyLeader = EnemyLeaderNode(at: center)
+        let enemyLeader = EnemyLeaderNode()
+        let center = outsideWorld(enemyLeader, angle: angle)
         enemyLeader.rotateTowards(playerNode)
         self << enemyLeader
 

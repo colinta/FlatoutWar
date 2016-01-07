@@ -145,7 +145,7 @@ extension BaseLevel {
         moveTo.target = CGPoint(-30, -60)
         moveTo.speed = DroneNode.DefaultSpeed
         moveTo.onArrived {
-            drone.droneEnabled(true)
+            drone.droneEnabled(isMoving: false)
         }
         moveTo.removeComponentOnArrived()
         drone.addComponent(moveTo)
@@ -162,8 +162,8 @@ extension BaseLevel {
            angle = angle ± rand(spread)
         }
 
-        let location = outsideWorld(angle: angle)
-        let enemyNode = EnemySoldierNode(at: location)
+        let enemyNode = EnemySoldierNode()
+        enemyNode.position = outsideWorld(enemyNode, angle: angle)
         enemyNode.rotateTowards(playerNode)
         self << enemyNode
     }
@@ -173,16 +173,16 @@ extension BaseLevel {
         if spread > 0 {
             angle = angle ± rand(spread)
         }
-        let location = outsideWorld(angle: angle)
-        let enemyNode = EnemyLeaderNode(at: location)
+        let enemyNode = EnemyLeaderNode()
+        enemyNode.position = outsideWorld(enemyNode, angle: angle)
         enemyNode.rotateTowards(playerNode)
         self << enemyNode
     }
 
     func generateEnemyFormation(angle: CGFloat)() {
-        let center = outsideWorld(angle: angle)
-
-        let enemyLeader = EnemyLeaderNode(at: center)
+        let enemyLeader = EnemyLeaderNode()
+        let center = outsideWorld(enemyLeader, angle: angle)
+        enemyLeader.position = center
         enemyLeader.rotateTowards(playerNode)
         self << enemyLeader
 
@@ -215,10 +215,10 @@ extension BaseLevel {
         if spread > 0 {
             angle = angle ± rand(spread)
         }
-        let location = outsideWorld(angle: angle)
         let enemyCount = 4
         let height = CGFloat((enemyCount * 12) + 2)
-        let dozer = EnemyDozerNode(at: location)
+        let dozer = EnemyDozerNode()
+        dozer.position = outsideWorld(dozer, angle: angle)
         dozer.rotateTowards(playerNode)
         self << dozer
 
@@ -241,8 +241,8 @@ extension BaseLevel {
             angle = angle ± rand(spread)
         }
         for i in 0..<3 {
-            let location = outsideWorld(angle: angle) + CGPoint(r: CGFloat(i) * d, a: angle)
-            let enemyNode = EnemyScoutNode(at: location)
+            let enemyNode = EnemyScoutNode()
+            enemyNode.position = outsideWorld(enemyNode, angle: angle) + CGPoint(r: CGFloat(i) * d, a: angle)
             enemyNode.rotateTowards(playerNode)
             self << enemyNode
         }
@@ -254,13 +254,14 @@ extension BaseLevel {
             angle = angle ± rand(spread)
         }
         let dist = CGFloat(25)
-        let origin = outsideWorld(angle: angle)
-        let enemyLeader = EnemyLeaderNode(at: origin)
+        let enemyLeader = EnemyLeaderNode()
+        let leaderPosition = outsideWorld(enemyLeader, angle: angle)
+        enemyLeader.position = leaderPosition
         enemyLeader.rotateTowards(playerNode)
         self << enemyLeader
 
         for i in 0...4 {
-            let location = origin + CGVector(r: dist * CGFloat(i), a: angle)
+            let location = leaderPosition + CGVector(r: dist * CGFloat(i), a: angle)
             let enemy = EnemySoldierNode(at: location)
             enemy.rotateTowards(playerNode)
             enemy.follow(enemyLeader)
@@ -274,9 +275,9 @@ extension BaseLevel {
             angle = angle ± rand(spread)
         }
         let dist = CGFloat(30)
-        let origin = outsideWorld(angle: angle) + CGPoint(r: dist, a: angle)
 
-        let enemyGhost = Node(at: outsideWorld(angle: angle))
+        let enemyGhost = Node()
+        enemyGhost.position = outsideWorld(enemyGhost, angle: angle)
         let rammingComponent = RammingComponent()
         rammingComponent.removeNodeOnRammed()
         rammingComponent.onRammed {
@@ -286,7 +287,9 @@ extension BaseLevel {
         enemyGhost.addComponent(rammingComponent)
         self << enemyGhost
 
-        let enemyLeader = EnemyLeaderNode(at: origin)
+        let enemyLeader = EnemyLeaderNode()
+        let leaderPosition = outsideWorld(enemyLeader, angle: angle) + CGPoint(r: dist, a: angle)
+        enemyLeader.position = leaderPosition
         enemyLeader.rotateTowards(playerNode)
         enemyLeader.follow(enemyGhost)
         self << enemyLeader
@@ -294,7 +297,7 @@ extension BaseLevel {
         for i in 0..<5 {
             let enemyAngle = angle + TAU_2 + ((i - 2) * 20).degrees
             let vector = CGVector(r: dist, a: enemyAngle)
-            let enemy = EnemySoldierNode(at: origin + vector)
+            let enemy = EnemySoldierNode(at: leaderPosition + vector)
             enemy.rotateTowards(playerNode)
             enemy.follow(enemyGhost)
             self << enemy

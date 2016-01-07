@@ -10,9 +10,21 @@ class DraggableComponent: Component {
     var speed: CGFloat = 30
     var placeholder: SKNode?
     var target: CGPoint?
+    override var enabled: Bool {
+        didSet {
+            if !enabled {
+                draggingCanceled()
+                if isDragMoving {
+                    updateDragMoving(false)
+                }
+            }
+        }
+    }
     private var maxDistance: CGFloat?
     private var centeredAround: Node?
     private(set) var isDragMoving = false
+    private(set) var isIgnoring = false
+    private var isDragging = false
     private var startingLocation: CGPoint?
     private var shouldAdjust = false
 
@@ -68,6 +80,13 @@ class DraggableComponent: Component {
     }
 
     func draggingBegan(location: CGPoint) {
+        guard enabled && !isDragMoving else {
+            isIgnoring = true
+            return
+        }
+        isIgnoring = false
+        isDragging = true
+
         let shouldAdjustThreshold: CGFloat = (node.radius + 5) / WorldScene.worldScale
         shouldAdjust = location.lengthWithin(shouldAdjustThreshold)
         startingLocation = location
@@ -82,6 +101,8 @@ class DraggableComponent: Component {
     }
 
     func draggingMoved(prevLocation: CGPoint, location: CGPoint) {
+        guard !isIgnoring else { return }
+
         guard let placeholder = placeholder, startingLocation = startingLocation else {
             return
         }
@@ -120,11 +141,13 @@ class DraggableComponent: Component {
         // avoid all "player" nodes
         if let players = node.world?.players {
             for playerNode in players {
+                if playerNode == node { continue }
+
                 let dist = playerNode.radius + node.radius
                 if placeholder.distanceTo(playerNode, within: dist) {
                     let angle = playerNode.angleTo(placeholder)
                     let point = node.convertPoint(CGPoint(r: dist, a: angle), fromNode: node.parent!)
-                    placeholder.position = point
+                    placeholder.position = playerNode.position + point
                 }
             }
         }
@@ -139,17 +162,35 @@ class DraggableComponent: Component {
         }
     }
 
+    func draggingCanceled() {
+        guard isDragging else { return }
+
+        isIgnoring = true
+        placeholder?.hidden = true
+        self.target = nil
+        isDragging = false
+        for handler in _onDragging {
+            handler(false)
+        }
+    }
+
     func draggingEnded(location: CGPoint) {
+        guard !isIgnoring else {
+            isIgnoring = false
+            return
+        }
+
         guard let placeholder = placeholder else { return }
 
-        let draggingTarget = placeholder.position
         placeholder.hidden = true
 
+        let draggingTarget = placeholder.position
         let minDist: CGFloat = 3
         if !draggingTarget.distanceTo(node.position, within: minDist) {
             self.target = node.position + draggingTarget
         }
 
+        isDragging = false
         for handler in _onDragging {
             handler(false)
         }

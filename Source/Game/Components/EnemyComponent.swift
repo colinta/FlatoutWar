@@ -8,11 +8,15 @@
 
 class EnemyComponent: Component {
     var experience: Int = 0
+    private(set) var currentTarget: Node?
+
+    typealias OnTargetAcquired = (target: Node?) -> Void
+    var _onTargetAcquired: [OnTargetAcquired] = []
+    func onTargetAcquired(handler: OnTargetAcquired) { _onTargetAcquired << handler }
 
     typealias OnAttacked = (projectile: Node) -> Void
     var _onAttacked: [OnAttacked] = []
     func onAttacked(handler: OnAttacked) { _onAttacked << handler }
-    private(set) var currentTarget: Node?
 
     override func reset() {
         super.reset()
@@ -40,33 +44,24 @@ class EnemyComponent: Component {
 
     func acquireTarget(world: World) -> Node? {
         if let currentTarget = currentTarget {
-            if currentTarget.world == world {
+            if currentTarget.world == world && currentTarget.playerComponent!.targetable {
                 return currentTarget
             }
         }
 
         var bestTarget: Node? = nil
         var bestDistance: CGFloat = 0
-        var bestPriority = PlayerComponent.Priority.Default
 
         for player in world.players {
             let playerDistance = node.position.roughDistanceTo(player.position)
-            let playerPriority = player.playerComponent!.priority
 
             if bestTarget == nil {
                 bestTarget = player
                 bestDistance = playerDistance
-                bestPriority = playerPriority
             }
-            else if bestPriority < playerPriority {
+            else if playerDistance < bestDistance {
                 bestTarget = player
                 bestDistance = playerDistance
-                bestPriority = playerPriority
-            }
-            else if bestPriority == playerPriority && playerDistance < bestDistance {
-                bestTarget = player
-                bestDistance = playerDistance
-                bestPriority = playerPriority
             }
         }
 
@@ -74,9 +69,20 @@ class EnemyComponent: Component {
     }
 
     override func update(dt: CGFloat) {
-        if let world = node.world {
-            currentTarget = acquireTarget(world)
+        guard let world = node.world else { return }
+
+        let newTarget = acquireTarget(world)
+        if let newTarget = newTarget where newTarget != currentTarget {
+            for handler in _onTargetAcquired {
+                handler(target: newTarget)
+            }
         }
+        else if newTarget == nil && currentTarget != nil {
+            for handler in _onTargetAcquired {
+                handler(target: newTarget)
+            }
+        }
+        currentTarget = newTarget
     }
 
 }

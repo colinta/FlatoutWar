@@ -43,14 +43,18 @@ class TouchableComponent: Component {
             switch self {
             case .Square:
                 return { (node, location) in
-                    if abs(location.x) <= node.size.width / 2 && abs(location.y) <= node.size.height / 2 {
+                    let width = max(44, node.size.width)
+                    let height = max(44, node.size.height)
+                    if abs(location.x) <= width / 2 && abs(location.y) <= height / 2 {
                         return true
                     }
                     return false
                 }
             case .Circle:
                 return { (node, location) in
-                    return location.lengthWithin(min(node.size.width, node.size.height))
+                    let width = max(44, node.size.width)
+                    let height = max(44, node.size.height)
+                    return location.lengthWithin(min(width, height))
                 }
             }
         }

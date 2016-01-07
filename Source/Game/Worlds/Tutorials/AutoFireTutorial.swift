@@ -59,7 +59,7 @@ class AutoFireTutorial: Tutorial {
 
             let moveTo = MoveToComponent()
             moveTo.target = locations.end
-            moveTo.speed = EnemySoldierNode.DefaultSpeed
+            moveTo.speed = EnemySoldierNode.DefaultSoldierSpeed
             enemyNode.addComponent(moveTo)
         }
     }

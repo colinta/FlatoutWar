@@ -15,24 +15,24 @@ class LevelSelectWorld: World {
             { return BaseLevel1() },
             { return BaseLevel2() },
             { return BaseLevel3() },
-            { return BaseLevel4() },
-            { return BaseLevel5() },
-            { return BaseLevel6() },
-            { return BaseLevel7() },
-            { return BaseLevel8() },
-            { return BaseLevel9() },
-            { return BaseLevel10() },
-            { return BaseLevel11() },
+            // { return BaseLevel4() },
+            // { return BaseLevel5() },
+            // { return BaseLevel6() },
+            // { return BaseLevel7() },
+            // { return BaseLevel8() },
+            // { return BaseLevel9() },
+            // { return BaseLevel10() },
+            // { return BaseLevel11() },
             // { return BaseLevel12() },
             // { return BaseLevel13() },
             // { return BaseLevel14() },
             // { return BaseLevel15() },
-            // { return BaseLevel16() },
+            { return DroneTutorial() },
             { return AutoFireTutorial() },
             { return RapidFireTutorial() },
-            { return DemoWorld() },
             { return CameraDemoWorld() },
             { return IntersectsTestWorld() },
+            { return Playground() },
         ]
 
         let textNode = TextNode(at: CGPoint(x: -165, y: -125))
@@ -75,7 +75,7 @@ class LevelSelectWorld: World {
                 let myIndex = levelIndex
                 let center = CGPoint(x: x, y: y)
                 let button = Button(at: center)
-                button.enabled = levelIndex <= completed
+                button.enabled = levelIndex < completed
                 button.text = "\(levelIndex + 1)"
                 button.size = CGSize(50)
                 button.style = .Square

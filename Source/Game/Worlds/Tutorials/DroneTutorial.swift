@@ -184,7 +184,7 @@ class DroneTutorial: Tutorial {
     }
 
     override func nextWorld() -> World {
-        return BaseLevel3()
+        return Playground()
     }
 
 

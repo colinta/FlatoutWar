@@ -12,10 +12,10 @@ class RammingComponent: Component {
     var maxSpeed: CGFloat = 25
     var maxTurningSpeed: CGFloat = 10
     var damage: Float = 0
-    var target: Node? { didSet { updateRotation() }}
-    var tempTarget: CGPoint? { didSet { updateRotation() }}
-    var currentTarget: Node? {
-        return target ?? node?.enemyComponent?.currentTarget
+    var target: Node?
+    var tempTarget: CGPoint?
+    var currentTargetLocation: CGPoint? {
+        return tempTarget ?? target?.position
     }
 
     typealias OnRammed = Block
@@ -53,34 +53,36 @@ class RammingComponent: Component {
 
         // if the node rammed into a target, call the handlers and remove this
         // component (to prevent multiple ramming events)
-        if let target = currentTarget
-        where node.touches(target)
+        let targets = node.world?.players ?? target.map { [$0] }
+        if let targets = targets,
+            struckTarget = (targets.find { $0.playerComponent!.targetable && node.touches($0) })
         {
             for handler in _onRammed {
                 handler()
             }
-            target.healthComponent?.inflict(damage)
+            struckTarget.healthComponent?.inflict(damage)
             removeFromNode()
             return
         }
 
-        if let currentTargetLocation = (tempTarget ?? currentTarget?.position) {
-            moveTowards(dt, currentTargetLocation)
+        if let targetLocation = currentTargetLocation {
+            moveTowards(dt, targetLocation)
         }
     }
 
-    func moveTowards(dt: CGFloat, _ currentTargetLocation: CGPoint) {
+    func moveTowards(dt: CGFloat, _ targetLocation: CGPoint) {
         var maxSpeed = self.maxSpeed
 
         let destAngle: CGFloat
         if let rotateToComponent = node.rotateToComponent {
+            rotateToComponent.target = node.position.angleTo(targetLocation)
             if rotateToComponent.isRotating {
                 maxSpeed = min(maxSpeed, maxTurningSpeed)
             }
             destAngle = rotateToComponent.currentAngle ?? node.zRotation
         }
         else {
-            destAngle = node.position.angleTo(currentTargetLocation)
+            destAngle = node.position.angleTo(targetLocation)
             node.rotateTo(destAngle)
         }
 
@@ -96,14 +98,6 @@ class RammingComponent: Component {
         let newCenter = node.position + dt * vector
         self.currentSpeed = currentSpeed
         node.position = newCenter
-    }
-
-    func updateRotation() {
-        if let rotateToComponent = node.rotateToComponent,
-            currentTargetLocation = (tempTarget ?? currentTarget?.position)
-        {
-            rotateToComponent.target = node.position.angleTo(currentTargetLocation)
-        }
     }
 
 }

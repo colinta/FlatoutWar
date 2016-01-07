@@ -17,14 +17,14 @@ class HealthComponent: Component {
 
     var startingHealth: Float {
         willSet {
-            health = newValue * healthPercent
+            health = startingHealth
             died = false
         }
     }
     var healthPercent: Float { return max(min(health / startingHealth, 1), 0) }
     var healthInt: Int { return Int(healthPercent * 100) }
-    var died = false
-    private var health: Float
+    private(set) var died = false
+    private(set) var health: Float
 
     override func reset() {
         super.reset()
@@ -54,17 +54,19 @@ class HealthComponent: Component {
         encoder.encode(health, key: "health")
     }
 
+    func restore(damage: Float) {
+        inflict(-damage)
+    }
+
     func inflict(damage: Float) {
-        health -= damage
+        health = max(min(health - damage, startingHealth), 0)
+        for handler in _onHurt {
+            handler(damage: damage)
+        }
         if health <= 0 && !died {
+            died = true
             for handler in _onKilled {
                 handler()
-            }
-            died = true
-        }
-        else if health > 0 {
-            for handler in _onHurt {
-                handler(damage: damage)
             }
         }
     }

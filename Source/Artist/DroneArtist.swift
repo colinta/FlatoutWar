@@ -9,9 +9,11 @@
 class DroneArtist: Artist {
     var stroke = UIColor(hex: 0x25B1FF)
     var upgrade = FiveUpgrades.Default
+    var health: CGFloat
 
-    required init(upgrade: FiveUpgrades) {
+    required init(upgrade: FiveUpgrades, health: CGFloat) {
         self.upgrade = upgrade
+        self.health = health
 
         super.init()
         shadowed = .True
@@ -102,12 +104,29 @@ class DroneArtist: Artist {
 
             CGContextDrawPath(context, .Stroke)
         case .One:
-            CGContextMoveToPoint(context, middle.x, outerRadius)
-            CGContextAddLineToPoint(context, middle.x, size.height - outerRadius)
-            CGContextMoveToPoint(context, outerRadius, middle.y)
-            CGContextAddLineToPoint(context, size.width - outerRadius, middle.y)
+            if health == 1 {
+                CGContextMoveToPoint(context, middle.x, outerRadius)
+                CGContextAddLineToPoint(context, middle.x, size.height - outerRadius)
+                CGContextMoveToPoint(context, outerRadius, middle.y)
+                CGContextAddLineToPoint(context, size.width - outerRadius, middle.y)
 
-            CGContextDrawPath(context, .Stroke)
+                CGContextDrawPath(context, .Stroke)
+            }
+            else {
+                CGContextSetAlpha(context, 0.5)
+                CGContextMoveToPoint(context, outerRadius, middle.y)
+                CGContextAddLineToPoint(context, size.width - outerRadius, middle.y)
+                CGContextMoveToPoint(context, middle.x, outerRadius)
+                CGContextAddLineToPoint(context, middle.x, size.height - outerRadius)
+                CGContextDrawPath(context, .Stroke)
+
+                CGContextSetAlpha(context, 1)
+                CGContextMoveToPoint(context, interpolate(health, from: (1, 0), to: (outerRadius, size.width - outerRadius)), middle.y)
+                CGContextAddLineToPoint(context, size.width - outerRadius, middle.y)
+                CGContextMoveToPoint(context, middle.x, interpolate(health, from: (1, 0), to: (outerRadius, size.height - outerRadius)))
+                CGContextAddLineToPoint(context, middle.x, size.height - outerRadius)
+                CGContextDrawPath(context, .Stroke)
+            }
         }
     }
 

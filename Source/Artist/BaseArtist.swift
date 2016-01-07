@@ -16,10 +16,7 @@ class BaseArtist: Artist {
     private var path: CGPath
     private var smallPath: CGPath
 
-    override var size: CGSize { didSet { generatePaths() } }
-    var health: CGFloat = 1.0 { didSet { generatePaths() } }
-
-    required init(upgrade: FiveUpgrades) {
+    required init(upgrade: FiveUpgrades, health: CGFloat) {
         self.upgrade = upgrade
 
         let pointCount: Int = 20
@@ -40,13 +37,14 @@ class BaseArtist: Artist {
 
         super.init()
         size = CGSize(40)
+        generatePaths(health: health)
     }
 
     required init() {
         fatalError("init() has not been implemented")
     }
 
-    private func generatePaths() {
+    private func generatePaths(health health: CGFloat) {
         self.path = generatePath()
         self.smallPath = generatePath(max: CGFloat(round(health * 360.0) / 360.0) * TAU)
     }

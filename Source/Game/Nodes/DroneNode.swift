@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
+private let startingHealth: Float = 40
+
 class DroneNode: Node {
     static let DefaultSpeed: CGFloat = 30
     var overrideWandering: Bool? {
@@ -19,8 +21,9 @@ class DroneNode: Node {
     var cursor = CursorNode()
     let radar1 = SKShapeNode()
     let radar2 = SKShapeNode()
-    var sprite = SKSpriteNode(id: .Drone(upgrade: .One))
-    var placeholder = SKSpriteNode(id: .Drone(upgrade: .One))
+    var sprite = SKSpriteNode(id: .Drone(upgrade: .One, health: 100))
+    var placeholder = SKSpriteNode(id: .Drone(upgrade: .One, health: 100))
+    var lastHurt: CGFloat = 0
 
     override var position: CGPoint {
         didSet {
@@ -33,16 +36,14 @@ class DroneNode: Node {
         size = CGSize(20)
 
         placeholder.alpha = 0.5
-        placeholder.hidden = false
+        placeholder.hidden = true
 
-        // let playerComponent = PlayerComponent()
-        // addComponent(playerComponent)
+        let timeline = TimelineComponent()
+        lastHurt = 0
+        addComponent(timeline)
 
-        // let healthComponent = HealthComponent(health: 100)
-        // healthComponent.onHurt { amount in
-        //     self.sprite.textureId(.Drone(upgrade: .One))
-        // }
-        // addComponent(healthComponent)
+        let playerComponent = PlayerComponent()
+        addComponent(playerComponent)
 
         let phaseComponent = PhaseComponent()
         phaseComponent.duration = 3
@@ -66,11 +67,30 @@ class DroneNode: Node {
         addComponent(targetingComponent)
 
         let firingComponent = FiringComponent()
-        firingComponent.cooldown = 0.3
+        firingComponent.cooldown = 0.4
         firingComponent.onFire { angle in
             self.fireBullet(angle: angle)
         }
         addComponent(firingComponent)
+
+        let healthComponent = HealthComponent(health: startingHealth)
+        healthComponent.onHurt { damage in
+            self.sprite.textureId(.Drone(upgrade: .One, health: healthComponent.healthInt))
+            if damage > 0 {
+                self.lastHurt = 2
+            }
+        }
+        healthComponent.onKilled {
+            self.world?.unselectNode(self)
+            self.droneEnabled(isMoving: false)
+
+            timeline.after(10) {
+                healthComponent.startingHealth = startingHealth
+                self.sprite.textureId(.Drone(upgrade: .One, health: healthComponent.healthInt))
+                self.droneEnabled(isMoving: false)
+            }
+        }
+        addComponent(healthComponent)
 
         let touchableComponent = TouchableComponent()
         touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest(.Square)
@@ -89,7 +109,7 @@ class DroneNode: Node {
             wanderingComponent.enabled = !isDragging
         }
         draggingComponent.onDragChange { isMoving in
-            self.droneEnabled(!isMoving)
+            self.droneEnabled(isMoving: isMoving)
             self.world?.unselectNode(self)
         }
         addComponent(draggingComponent)
@@ -140,17 +160,37 @@ class DroneNode: Node {
         else {
             radar2.alpha = 0
         }
+
+        if self.lastHurt > 0 {
+            self.lastHurt -= 0.1
+        }
+        else if !draggableComponent!.isDragMoving {
+            self.healthComponent!.restore(startingHealth * Float(dt) / 10)
+        }
     }
 
 }
 
 extension DroneNode {
-    func droneEnabled(enabled: Bool) {
+    func droneEnabled(isMoving isMoving: Bool) {
+        let died = healthComponent!.died
+        self.selectableComponent!.enabled = !died
+        self.draggableComponent!.enabled = !died
+        self.touchableComponent!.enabled = !died
+        self.phaseComponent!.enabled = !died
+
+        let enabled = !isMoving && !died
+
+        firingComponent!.enabled = !died
+        playerComponent!.targetable = !died
+        self.alpha = died ? 0.5 : 0
+
         self.alpha = enabled ? 1 : 0.5
         if self.cursor.selected && !enabled {
             self.cursor.selected = false
         }
 
+        playerComponent!.targetable = enabled
         firingComponent!.enabled = enabled
         selectableComponent!.enabled = enabled
         wanderingComponent!.enabled = enabled && (self.overrideWandering ?? true)
