@@ -77,7 +77,7 @@ class Artist {
             }
         }
         else {
-            return CGPoint(0)
+            return CGPoint(1)
         }
     }
 
@@ -88,6 +88,8 @@ class Artist {
             width: offset.x * 2,
             height: offset.y * 2
         )
+        size.width = max(size.width, 1)
+        size.height = max(size.height, 1)
         return size
     }
 }
