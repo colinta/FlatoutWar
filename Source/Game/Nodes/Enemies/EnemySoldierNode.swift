@@ -133,7 +133,7 @@ extension EnemySoldierNode {
         }
 
         enemyComponent?.targetingEnabled = false
-        rammingComponent?.target = nil
+        rammingComponent?.currentTarget = nil
         // rammingComponent?.enabled = false
         let followNodeComponent = FollowNodeComponent()
         followNodeComponent.follow = leader
@@ -144,7 +144,7 @@ extension EnemySoldierNode {
             if let wSelf = self {
                 wSelf.rammingComponent?.currentSpeed = leader.rammingComponent?.currentSpeed ?? 0
                 // wSelf.rammingComponent?.enabled = true
-                wSelf.rammingComponent?.target = leader.enemyComponent?.currentTarget
+                wSelf.rammingComponent?.currentTarget = leader.rammingComponent?.currentTarget
                 wSelf.enemyComponent?.currentTarget = leader.enemyComponent?.currentTarget
                 wSelf.enemyComponent?.targetingEnabled = true
                 if let followNodeComponent = wSelf.followNodeComponent

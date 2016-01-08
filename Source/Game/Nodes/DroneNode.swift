@@ -114,6 +114,9 @@ class DroneNode: Node {
         draggingComponent.onDragChange { isMoving in
             self.droneEnabled(isMoving: isMoving)
             self.world?.unselectNode(self)
+            if !isMoving {
+                self.world?.reacquirePlayerTargets()
+            }
         }
         addComponent(draggingComponent)
     }

@@ -126,7 +126,7 @@ class Level: World {
         timeline.at(1.75) { self.addComponent(self.cameraZoom) }
     }
 
-    override func willAdd(node: Node) {
+    override func didAdd(node: Node) {
         if let healthComponent = node.healthComponent,
             enemyComponent = node.enemyComponent
         {
@@ -134,7 +134,7 @@ class Level: World {
             addToPossibleExperience(exp)
             healthComponent.onKilled { self.addToGainedExperience(exp) }
         }
-        super.willAdd(node)
+        super.didAdd(node)
     }
 
     func addToPossibleExperience(exp: Int) {

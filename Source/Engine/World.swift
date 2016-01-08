@@ -198,11 +198,36 @@ extension World {
     override func insertChild(node: SKNode, atIndex index: Int) {
         super.insertChild(node, atIndex: index)
         if let node = node as? Node {
-            willAdd(node)
-            resetCaches(isEnemy: node.isEnemy ?? false, isPlayer: node.isPlayer ?? false)
+            didAdd(node)
+
+            _cachedNodes = nodes + [node]
+
+            if node.isEnemy {
+                _cachedEnemies = enemies + [node]
+                reacquireEnemyTargets()
+            }
+
+            if node.isPlayer {
+                _cachedPlayers = players + [node]
+                reacquirePlayerTargets()
+            }
+
             if node.fixedPosition != nil {
                 updateFixedNodes()
             }
+        }
+    }
+
+    func reacquirePlayerTargets() {
+        for enemy in enemies {
+            enemy.rammingComponent?.currentTarget = nil
+            enemy.enemyComponent?.currentTarget = nil
+        }
+    }
+
+    func reacquireEnemyTargets() {
+        for player in players {
+            player.targetingComponent?.currentTarget = nil
         }
     }
 
@@ -216,7 +241,7 @@ extension World {
         resetCaches(isEnemy: true, isPlayer: true)
     }
 
-    func willAdd(node: Node) {
+    func didAdd(node: Node) {
     }
 
     func willRemove(node: Node) {

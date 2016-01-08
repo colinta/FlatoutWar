@@ -12,10 +12,10 @@ class RammingComponent: Component {
     var maxSpeed: CGFloat = 25
     var maxTurningSpeed: CGFloat = 10
     var damage: Float = 0
-    var target: Node?
+    var currentTarget: Node?
     var tempTarget: CGPoint?
     var currentTargetLocation: CGPoint? {
-        return tempTarget ?? target?.position
+        return tempTarget ?? currentTarget?.position
     }
     weak var intersectionNode: SKNode!
 
@@ -37,7 +37,7 @@ class RammingComponent: Component {
 
     func bindTo(enemyComponent enemyComponent: EnemyComponent) {
         enemyComponent.onTargetAcquired { target in
-            self.target = target
+            self.currentTarget = target
         }
     }
 
@@ -60,7 +60,7 @@ class RammingComponent: Component {
 
         // if the node rammed into a target, call the handlers and remove this
         // component (to prevent multiple ramming events)
-        let struckTarget = (node.world?.players ?? target.map { [$0] })?.find { player in
+        let struckTarget = (node.world?.players ?? currentTarget.map { [$0] })?.find { player in
             return player.playerComponent!.targetable && intersectionNode!.intersectsNode(player.playerComponent!.intersectionNode!)
         }
         if let struckTarget = struckTarget {

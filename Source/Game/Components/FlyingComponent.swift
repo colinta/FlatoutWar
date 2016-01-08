@@ -10,20 +10,20 @@ class FlyingComponent: RammingComponent {
     var currentFlyingTarget: CGPoint? { return flyingTargets.first }
     var flyingTargets: [CGPoint] = []
     override var currentTargetLocation: CGPoint? {
-        return tempTarget ?? currentFlyingTarget ?? target?.position
+        return tempTarget ?? currentFlyingTarget ?? currentTarget?.position
     }
-    override var target: Node? {
+    override var currentTarget: Node? {
         didSet {
-            if let target = target {
+            if let currentTarget = currentTarget {
                 let numTargets: Int = 2
                 var points: [CGPoint] = []
-                let dist = target.distanceTo(node)
-                let nodeAngle = target.angleTo(node)
+                let dist = currentTarget.distanceTo(node)
+                let nodeAngle = currentTarget.angleTo(node)
                 let segment = dist / CGFloat(numTargets + 1)
                 for i in 0..<numTargets {
                     let radius = CGFloat(numTargets - i) * segment ± rand(segment / 4)
                     let angle = nodeAngle ± rand((7.5 * CGFloat(numTargets - i)).degrees)
-                    points << (target.position + CGPoint(r: radius, a: angle))
+                    points << (currentTarget.position + CGPoint(r: radius, a: angle))
                 }
                 flyingTargets = points
             }
