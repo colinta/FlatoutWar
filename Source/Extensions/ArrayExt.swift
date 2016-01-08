@@ -39,4 +39,19 @@ extension Array {
         let i: Int = Int(arc4random_uniform(UInt32(count)))
         return self[i]
     }
+
+    func randWeighted(weightFn: (Element) -> Float) -> Element? {
+        guard count > 0 else { return nil }
+        let weights = self.map { weightFn($0) }
+        let totalWeight: Float = weights.reduce(0, combine: +)
+        var rnd: Float = Float(drand48() * Double(totalWeight))
+        for (i, el) in self.enumerate() {
+            rnd -= weights[i]
+            if rnd < 0 {
+                return el
+            }
+        }
+        return nil
+    }
+
 }

@@ -30,6 +30,7 @@ class EnemySoldierNode: Node {
         addComponent(healthComponent)
 
         let enemyComponent = EnemyComponent()
+        enemyComponent.intersectionNode = sprite
         enemyComponent.experience = 1
         enemyComponent.onAttacked { projectile in
             if let damage = projectile.projectileComponent?.damage {
@@ -37,12 +38,16 @@ class EnemySoldierNode: Node {
                 self.healthComponent?.inflict(damage)
             }
         }
+        enemyComponent.onTargetAcquired { target in
+            if let target = target {
+                self.rotateTowards(target)
+            }
+        }
         addComponent(enemyComponent)
 
         let rammingComponent = RammingComponent()
-        enemyComponent.onTargetAcquired { target in
-            rammingComponent.target = target
-        }
+        rammingComponent.intersectionNode = sprite
+        rammingComponent.bindTo(enemyComponent: enemyComponent)
         rammingComponent.maxSpeed = EnemySoldierNode.DefaultSoldierSpeed
         rammingComponent.onRammed {
             if let world = self.world {
@@ -122,26 +127,28 @@ extension EnemySoldierNode {
         self.rammingComponent?.tempTarget = dest
     }
 
-    func follow(node: Node, scatter: Bool = true) {
+    func follow(leader: Node, scatter: Bool = true) {
         if let followNodeComponent = self.followNodeComponent {
             followNodeComponent.removeFromNode()
         }
 
-        rammingComponent?.enabled = false
+        enemyComponent?.targetingEnabled = false
+        rammingComponent?.target = nil
+        // rammingComponent?.enabled = false
         let followNodeComponent = FollowNodeComponent()
-        followNodeComponent.node = self
-        followNodeComponent.follow = node
+        followNodeComponent.follow = leader
         if scatter {
-            node.healthComponent?.onKilled {
-                self.scatter()
-            }
+            leader.healthComponent?.onKilled(self.scatter)
         }
-        node.onDeath { [weak self] in
+        leader.onDeath { [weak self] in
             if let wSelf = self {
-                wSelf.rammingComponent?.currentSpeed = node.rammingComponent?.currentSpeed ?? 0
-                wSelf.rammingComponent?.enabled = true
+                wSelf.rammingComponent?.currentSpeed = leader.rammingComponent?.currentSpeed ?? 0
+                // wSelf.rammingComponent?.enabled = true
+                wSelf.rammingComponent?.target = leader.enemyComponent?.currentTarget
+                wSelf.enemyComponent?.currentTarget = leader.enemyComponent?.currentTarget
+                wSelf.enemyComponent?.targetingEnabled = true
                 if let followNodeComponent = wSelf.followNodeComponent
-                    where followNodeComponent.follow == node
+                    where followNodeComponent.follow == leader
                 {
                     followNodeComponent.removeFromNode()
                 }

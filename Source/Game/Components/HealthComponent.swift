@@ -16,7 +16,7 @@ class HealthComponent: Component {
     func onHurt(handler: OnHurt) { _onHurt << handler }
 
     var startingHealth: Float {
-        willSet {
+        didSet {
             health = startingHealth
             died = false
         }

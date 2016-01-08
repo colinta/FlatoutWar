@@ -34,7 +34,7 @@ extension CGPoint {
     }
 
     var length: CGFloat {
-        return CGFloat(sqrt(pow(self.x, 2) + CGFloat(pow(self.y, 2))))
+        return CGFloat(sqrt(pow(self.x, 2) + pow(self.y, 2)))
     }
 
     var angle: CGFloat {
@@ -42,11 +42,11 @@ extension CGPoint {
     }
 
     var roughLength: CGFloat {
-        return CGFloat(pow(self.x, 2)) + CGFloat(pow(self.y, 2))
+        return CGFloat(pow(self.x, 2) + pow(self.y, 2))
     }
 
     func roughDistanceTo(other: CGPoint) -> CGFloat {
-        return CGFloat(pow(other.x - self.x, 2)) + CGFloat(pow(other.y - self.y, 2))
+        return CGFloat(pow(other.x - self.x, 2) + pow(other.y - self.y, 2))
     }
 
     func distanceTo(other: CGPoint) -> CGFloat {

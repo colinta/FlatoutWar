@@ -21,7 +21,7 @@ class DroneTutorial: Tutorial {
     func showDrone() {
         drone.position = playerNode.position
         drone.alpha = 0
-        drone.touchableComponent?.enabled = false
+        drone.overrideTouchable = false
         drone.overrideWandering = false
         self << drone
 
@@ -184,7 +184,7 @@ class DroneTutorial: Tutorial {
     }
 
     override func nextWorld() -> World {
-        return Playground()
+        return BaseLevel3()
     }
 
 

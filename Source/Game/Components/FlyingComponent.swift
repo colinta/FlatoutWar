@@ -26,8 +26,6 @@ class FlyingComponent: RammingComponent {
                     points << (target.position + CGPoint(r: radius, a: angle))
                 }
                 flyingTargets = points
-                print("=============== \(__FILE__) line \(__LINE__) ===============\n" +
-                      "flyingTargets: \(flyingTargets)")
             }
             else {
                 flyingTargets = []
@@ -53,36 +51,6 @@ class FlyingComponent: RammingComponent {
             self.flyingTargets.removeAtIndex(0)
         }
         super.update(dt)
-    }
-
-    override func moveTowards(dt: CGFloat, _ currentTargetLocation: CGPoint) {
-        var maxSpeed = self.maxSpeed
-
-        let destAngle: CGFloat
-        if let rotateToComponent = node.rotateToComponent {
-            rotateToComponent.target = node.position.angleTo(currentTargetLocation)
-            if rotateToComponent.isRotating {
-                maxSpeed = min(maxSpeed, maxTurningSpeed)
-            }
-            destAngle = rotateToComponent.currentAngle ?? node.zRotation
-        }
-        else {
-            destAngle = node.position.angleTo(currentTargetLocation)
-            node.rotateTo(destAngle)
-        }
-
-        var currentSpeed = maxSpeed
-        if let prevSpeed = self.currentSpeed,
-            newSpeed = moveValue(prevSpeed, towards: maxSpeed, by: dt * acceleration)
-        {
-            currentSpeed = newSpeed
-        }
-
-        let vector = CGPoint(r: currentSpeed, a: destAngle)
-
-        let newCenter = node.position + dt * vector
-        self.currentSpeed = currentSpeed
-        node.position = newCenter
     }
 
 }

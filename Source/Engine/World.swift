@@ -16,8 +16,12 @@ class World: Node {
     var ui: Node! { return (scene as? WorldScene)?.uiNode }
     var timeline = TimelineComponent()
 
-    func outsideWorld(node: Node, angle _angle: CGFloat) -> CGPoint {
-        return outsideWorld(extra: node.radius, angle: _angle)
+    func outsideWorld(angle angle: CGFloat) -> CGPoint {
+        return outsideWorld(extra: 0, angle: angle)
+    }
+
+    func outsideWorld(node: Node, angle: CGFloat) -> CGPoint {
+        return outsideWorld(extra: node.radius, angle: angle)
     }
 
     func outsideWorld(extra dist: CGFloat, angle _angle: CGFloat) -> CGPoint {
@@ -25,24 +29,33 @@ class World: Node {
         let sizeAngle = size.angle
 
         let radius: CGFloat
+        let offset: CGPoint
         if angle > TAU - sizeAngle || angle <= sizeAngle {
+            // right side
             radius = size.width / 2 / cos(angle)
+            offset = CGPoint(x: dist)
         }
         else if angle > TAU_2 + sizeAngle {
+            // top
             radius = size.height / 2 / sin(angle)
+            offset = CGPoint(y: -dist)
         }
         else if angle > TAU_2 - sizeAngle {
+            // left side
             radius = size.width / 2 / cos(angle)
+            offset = CGPoint(x: -dist)
         }
         else {
+            // bottom
             radius = size.height / 2 / sin(angle)
+            offset = CGPoint(y: dist)
         }
 
-        var point = CGPoint(r: abs(radius) + dist, a: angle)
+        var point = CGPoint(r: abs(radius), a: angle) + offset
         if let cameraNode = cameraNode {
             point += cameraNode.position
         }
-        return point / max(xScale, 1)
+        return point / min(xScale, 1)
     }
 
     var pauseable = true
@@ -251,7 +264,7 @@ extension World {
             ui.updateNodes(dt)
 
             if let cameraNode = cameraNode {
-                if cameraNode.world == nil {
+                if cameraNode.world == nil && !worldPaused {
                     cameraNode.updateNodes(dt)
                 }
                 position = -1 * cameraNode.position
@@ -271,7 +284,7 @@ extension World {
     }
 
     private func clearStragglers() {
-        let maxDistance = radius * 1.5
+        let maxDistance = outerRadius * 2
         for node in allChildNodes() {
             if node.projectileComponent != nil && !convertPosition(node).lengthWithin(maxDistance) {
                 node.removeFromParent()

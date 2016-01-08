@@ -172,20 +172,10 @@ extension Node {
 
 extension Node {
 
-    func rotateTo(angle: CGFloat) {
-        zRotation = angle
+    override func rotateTo(angle: CGFloat) {
+        super.rotateTo(angle)
         rotateToComponent?.currentAngle = angle
         rotateToComponent?.target = nil
-    }
-
-    func rotateTowards(node: Node) {
-        let angle = angleTo(node)
-        rotateTo(angle)
-    }
-
-    func rotateTowards(point point: CGPoint) {
-        let angle = (point - position).angle
-        rotateTo(angle)
     }
 
     func touchingLocation(node: Node) -> CGPoint? {

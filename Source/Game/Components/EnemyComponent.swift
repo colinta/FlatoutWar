@@ -7,8 +7,15 @@
 //
 
 class EnemyComponent: Component {
+    private var _targetable: Bool = true
+    var targetable: Bool {
+        get { return _targetable && enabled }
+        set { _targetable = newValue }
+    }
+    var targetingEnabled: Bool = true
     var experience: Int = 0
-    private(set) var currentTarget: Node?
+    var currentTarget: Node?
+    weak var intersectionNode: SKNode!
 
     typealias OnTargetAcquired = (target: Node?) -> Void
     var _onTargetAcquired: [OnTargetAcquired] = []
@@ -43,46 +50,54 @@ class EnemyComponent: Component {
     }
 
     func acquireTarget(world: World) -> Node? {
-        if let currentTarget = currentTarget {
-            if currentTarget.world == world && currentTarget.playerComponent!.targetable {
-                return currentTarget
-            }
+        guard targetingEnabled else { return nil }
+
+        if let currentTarget = currentTarget
+        where currentTarget.world == world && currentTarget.playerComponent!.targetable
+        {
+            return currentTarget
         }
 
-        var bestTarget: Node? = nil
-        var bestDistance: CGFloat = 0
-
-        for player in world.players {
-            let playerDistance = node.position.roughDistanceTo(player.position)
-
-            if bestTarget == nil {
-                bestTarget = player
-                bestDistance = playerDistance
-            }
-            else if playerDistance < bestDistance {
-                bestTarget = player
-                bestDistance = playerDistance
-            }
+        let targets = world.players.filter { player in
+            return player.playerComponent!.targetable
+        }.map { (player) -> (player: Node, dist: CGFloat) in
+            return (player: player, dist: node.position.distanceTo(player.position))
+        }.sort { a, b in
+            return a.dist < b.dist
         }
+        guard targets.count > 0 else { return nil }
 
-        return bestTarget
+        var minDist = targets[0].dist
+        var maxDist = targets[0].dist
+        for entry in targets {
+            minDist = min(minDist, entry.dist)
+            maxDist = max(maxDist, entry.dist)
+        }
+        let threshold = minDist + max((maxDist - minDist) * 0.25, 40)
+        return targets.filter { entry in
+            return entry.dist < threshold
+        }.randWeighted { entry in
+            return Float(entry.dist)
+        }?.player
     }
 
     override func update(dt: CGFloat) {
         guard let world = node.world else { return }
 
-        let newTarget = acquireTarget(world)
-        if let newTarget = newTarget where newTarget != currentTarget {
-            for handler in _onTargetAcquired {
-                handler(target: newTarget)
+        if targetingEnabled {
+            let newTarget = acquireTarget(world)
+            if let newTarget = newTarget where newTarget != currentTarget {
+                for handler in _onTargetAcquired {
+                    handler(target: newTarget)
+                }
             }
-        }
-        else if newTarget == nil && currentTarget != nil {
-            for handler in _onTargetAcquired {
-                handler(target: newTarget)
+            else if newTarget == nil && currentTarget != nil {
+                for handler in _onTargetAcquired {
+                    handler(target: newTarget)
+                }
             }
+            currentTarget = newTarget
         }
-        currentTarget = newTarget
     }
 
 }

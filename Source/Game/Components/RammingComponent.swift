@@ -17,6 +17,7 @@ class RammingComponent: Component {
     var currentTargetLocation: CGPoint? {
         return tempTarget ?? target?.position
     }
+    weak var intersectionNode: SKNode!
 
     typealias OnRammed = Block
     var _onRammed: [OnRammed] = []
@@ -32,6 +33,12 @@ class RammingComponent: Component {
 
     override func encodeWithCoder(encoder: NSCoder) {
         super.encodeWithCoder(encoder)
+    }
+
+    func bindTo(enemyComponent enemyComponent: EnemyComponent) {
+        enemyComponent.onTargetAcquired { target in
+            self.target = target
+        }
     }
 
     override func reset() {
@@ -53,14 +60,16 @@ class RammingComponent: Component {
 
         // if the node rammed into a target, call the handlers and remove this
         // component (to prevent multiple ramming events)
-        let targets = node.world?.players ?? target.map { [$0] }
-        if let targets = targets,
-            struckTarget = (targets.find { $0.playerComponent!.targetable && node.touches($0) })
-        {
+        let struckTarget = (node.world?.players ?? target.map { [$0] })?.find { player in
+            return player.playerComponent!.targetable && intersectionNode!.intersectsNode(player.playerComponent!.intersectionNode!)
+        }
+        if let struckTarget = struckTarget {
             for handler in _onRammed {
                 handler()
             }
-            struckTarget.healthComponent?.inflict(damage)
+            if damage > 0 {
+                struckTarget.healthComponent?.inflict(damage)
+            }
             removeFromNode()
             return
         }

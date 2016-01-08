@@ -61,12 +61,12 @@ class TargetingComponent: Component {
     }
 
     func isViableTarget(enemy: Node) -> Bool {
+        guard let radius = radius else {
+            return false
+        }
         guard let world = node.world
             where world.enemies.contains(enemy) else
         {
-            return false
-        }
-        guard let radius = radius else {
             return false
         }
         let enemyPosition = node.convertPosition(enemy)
@@ -74,7 +74,9 @@ class TargetingComponent: Component {
         {
             return false
         }
-
+        guard enemy.enemyComponent!.targetable else {
+            return false
+        }
         // no sweepAngle means 360° targeting
         guard let sweepAngle = sweepAngle else { return true }
 

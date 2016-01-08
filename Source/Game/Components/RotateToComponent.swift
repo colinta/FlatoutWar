@@ -13,9 +13,6 @@ class RotateToComponent: ApplyToNodeComponent {
             if target != nil {
                 destAngle = target
             }
-            else {
-                destAngle = currentAngle
-            }
         }
     }
     private(set) var destAngle: CGFloat?

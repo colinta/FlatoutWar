@@ -192,8 +192,7 @@ class Level: World {
         timeline.removeFromNode()
         pauseButton.removeFromParent()
 
-        cameraZoom.rate = 1.0
-        cameraZoom.target = 2.0
+        moveCamera(to: CGPointZero, zoom: 2, duration: 1)
     }
 
     func restartWorld() {

@@ -53,7 +53,6 @@ class AutoFireTutorial: Tutorial {
         ]
         for locations in enemyLocations {
             let enemyNode = EnemySoldierNode(at: locations.start)
-            enemyNode.rotateTowards(self.playerNode)
             enemyNode.rammingComponent?.enabled = false
             self << enemyNode
 

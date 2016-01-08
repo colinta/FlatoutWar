@@ -13,12 +13,13 @@ class BaseLevel2: BaseLevel {
         // wave 1: one sources of weak enemies in a wave
         let wave1 = TAU_2 ± rand(size.angle)
         var spread = CGFloat(2.5)
-        var div = CGFloat(0.5)
         timeline.every(0.45, startAt: 0, times: 40) {
-            let angle = wave1 + spread.degrees * sin(self.timeline.time / div)
-            self.generateEnemy(angle, spread: 0)()
-            spread += 0.3
-            div /= 0.99
+            let angle = wave1 + rand(spread.degrees)
+
+            let enemyNode = EnemySoldierNode()
+            enemyNode.position = CGPoint(r: self.outerRadius, a: angle)
+            self << enemyNode
+            spread += 0.75
         }
 
         // wave 2: Dozers
@@ -48,7 +49,7 @@ class BaseLevel2: BaseLevel {
         timeline.every(1, startAt: 130, times: 10, block: self.generateScoutEnemies(wave5, spread: TAU_8))
 
         // success
-        timeline.at(126) {
+        timeline.at(140) {
             self.onNoMoreEnemies {
                 self.levelCompleted(success: true)
             }

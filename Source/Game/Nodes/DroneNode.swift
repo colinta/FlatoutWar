@@ -12,8 +12,15 @@ class DroneNode: Node {
     static let DefaultSpeed: CGFloat = 30
     var overrideWandering: Bool? {
         didSet {
-            if let overrideWandering = overrideWandering, enabled = wanderingComponent?.enabled where enabled {
+            if let overrideWandering = overrideWandering {
                 wanderingComponent!.enabled = overrideWandering
+            }
+        }
+    }
+    var overrideTouchable: Bool? {
+        didSet {
+            if let overrideTouchable = overrideTouchable {
+                touchableComponent!.enabled = overrideTouchable
             }
         }
     }
@@ -23,7 +30,6 @@ class DroneNode: Node {
     let radar2 = SKShapeNode()
     var sprite = SKSpriteNode(id: .Drone(upgrade: .One, health: 100))
     var placeholder = SKSpriteNode(id: .Drone(upgrade: .One, health: 100))
-    var lastHurt: CGFloat = 0
 
     override var position: CGPoint {
         didSet {
@@ -39,10 +45,10 @@ class DroneNode: Node {
         placeholder.hidden = true
 
         let timeline = TimelineComponent()
-        lastHurt = 0
         addComponent(timeline)
 
         let playerComponent = PlayerComponent()
+        playerComponent.intersectionNode = sprite
         addComponent(playerComponent)
 
         let phaseComponent = PhaseComponent()
@@ -76,15 +82,12 @@ class DroneNode: Node {
         let healthComponent = HealthComponent(health: startingHealth)
         healthComponent.onHurt { damage in
             self.sprite.textureId(.Drone(upgrade: .One, health: healthComponent.healthInt))
-            if damage > 0 {
-                self.lastHurt = 2
-            }
         }
         healthComponent.onKilled {
             self.world?.unselectNode(self)
             self.droneEnabled(isMoving: false)
 
-            timeline.after(10) {
+            timeline.after(20) {
                 healthComponent.startingHealth = startingHealth
                 self.sprite.textureId(.Drone(upgrade: .One, health: healthComponent.healthInt))
                 self.droneEnabled(isMoving: false)
@@ -160,13 +163,6 @@ class DroneNode: Node {
         else {
             radar2.alpha = 0
         }
-
-        if self.lastHurt > 0 {
-            self.lastHurt -= 0.1
-        }
-        else if !draggableComponent!.isDragMoving {
-            self.healthComponent!.restore(startingHealth * Float(dt) / 10)
-        }
     }
 
 }
@@ -176,7 +172,7 @@ extension DroneNode {
         let died = healthComponent!.died
         self.selectableComponent!.enabled = !died
         self.draggableComponent!.enabled = !died
-        self.touchableComponent!.enabled = !died
+        self.touchableComponent!.enabled = !died && (overrideTouchable ?? true)
         self.phaseComponent!.enabled = !died
 
         let enabled = !isMoving && !died
@@ -193,7 +189,7 @@ extension DroneNode {
         playerComponent!.targetable = enabled
         firingComponent!.enabled = enabled
         selectableComponent!.enabled = enabled
-        wanderingComponent!.enabled = enabled && (self.overrideWandering ?? true)
+        wanderingComponent!.enabled = enabled && (overrideWandering ?? true)
     }
 }
 

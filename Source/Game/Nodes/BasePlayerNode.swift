@@ -28,13 +28,14 @@ class BasePlayerNode: Node {
         size = CGSize(40)
 
         let playerComponent = PlayerComponent()
+        playerComponent.intersectionNode = base
         addComponent(playerComponent)
 
-        let healthComponent = HealthComponent(health: 100)
-        healthComponent.onHurt { amount in
-            self.base.textureId(.Base(upgrade: .One, health: healthComponent.healthInt))
-        }
-        addComponent(healthComponent)
+        // let healthComponent = HealthComponent(health: 100)
+        // healthComponent.onHurt { amount in
+        //     self.base.textureId(.Base(upgrade: .One, health: healthComponent.healthInt))
+        // }
+        // addComponent(healthComponent)
 
         let touchableComponent = TouchableComponent()
         touchableComponent.on(.Tapped, onTouchTapped)
@@ -111,8 +112,8 @@ class BasePlayerNode: Node {
             turret.zRotation = currentAngle
         }
 
-        if let target = rotateToComponent?.destAngle {
-            radar.zRotation = target
+        if let angle = rotateToComponent?.destAngle {
+            radar.zRotation = angle
         }
     }
 

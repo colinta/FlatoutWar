@@ -8,6 +8,7 @@
 
 class PlayerComponent: Component {
     var targetable: Bool = true
+    weak var intersectionNode: SKNode!
 
     required override init() {
         super.init()

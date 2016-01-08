@@ -102,7 +102,7 @@ class StartupWorld: World {
             let touchableComponent = TouchableComponent()
             touchableComponent.containsTouchTest = { _ in return true }
             touchableComponent.on(.Up) { _ in
-                self.director?.presentWorld(AutoFireTutorial())
+                self.director?.presentWorld(MainMenuWorld())
             }
             let node = Node()
             node.addComponent(touchableComponent)

@@ -16,11 +16,15 @@ class EnemyJetNode: EnemySoldierNode {
         size = CGSize(8)
 
         rammingComponent!.removeFromNode()
+        enemyComponent!.onTargetAcquired { target in
+            if let target = target {
+                self.rotateTowards(target)
+            }
+        }
 
         let flyingComponent = FlyingComponent()
-        enemyComponent!.onTargetAcquired { target in
-            flyingComponent.target = target
-        }
+        flyingComponent.intersectionNode = sprite
+        flyingComponent.bindTo(enemyComponent: enemyComponent!)
         flyingComponent.maxSpeed = EnemyJetNode.DefaultJetSpeed
         flyingComponent.maxTurningSpeed = EnemyJetNode.DefaultJetSpeed
         flyingComponent.onRammed {
@@ -35,7 +39,7 @@ class EnemyJetNode: EnemySoldierNode {
         addComponent(flyingComponent)
 
         healthComponent!.startingHealth = startingHealth
-        enemyComponent!.experience = 2
+        enemyComponent!.experience = 1
     }
 
     required init?(coder: NSCoder) {

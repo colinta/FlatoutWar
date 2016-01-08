@@ -8,6 +8,7 @@
 
 class BulletNode: Node {
     var damage: Float = 10 { didSet { projectileComponent?.damage = damage } }
+    let sprite = SKSpriteNode(id: .BaseTurretBullet(upgrade: .One))
 
     enum Style {
         case Fast
@@ -17,12 +18,13 @@ class BulletNode: Node {
     required init(velocity: CGPoint, style: Style) {
         super.init()
 
-        self << SKSpriteNode(id: .BaseTurretBullet(upgrade: .One))
+        self << sprite
         size = BaseTurretBulletArtist.bulletSize(.One)
 
         addComponent(KeepMovingComponent(velocity: velocity))
 
         let projectileComponent = ProjectileComponent()
+        projectileComponent.intersectionNode = sprite
         projectileComponent.damage = damage
         projectileComponent.onCollision { (enemy, location) in
             if let world = self.world {
