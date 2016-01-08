@@ -31,11 +31,11 @@ class BasePlayerNode: Node {
         playerComponent.intersectionNode = base
         addComponent(playerComponent)
 
-        // let healthComponent = HealthComponent(health: 100)
-        // healthComponent.onHurt { amount in
-        //     self.base.textureId(.Base(upgrade: .One, health: healthComponent.healthInt))
-        // }
-        // addComponent(healthComponent)
+        let healthComponent = HealthComponent(health: 100)
+        healthComponent.onHurt { amount in
+            self.base.textureId(.Base(upgrade: .One, health: healthComponent.healthInt))
+        }
+        addComponent(healthComponent)
 
         let touchableComponent = TouchableComponent()
         touchableComponent.on(.Tapped, onTouchTapped)
