@@ -30,7 +30,7 @@ enum ImageIdentifier {
     case None
     case Letter(String, size: LetterSize)
     case Button(style: ButtonStyle)
-    case Percent(Int)
+    case Percent(Int, style: PercentStyle)
 
     case Enemy(type: EnemyType, health: Int)
     case EnemyShrapnel(type: EnemyType)
@@ -52,8 +52,8 @@ enum ImageIdentifier {
         switch self {
         case .None:
             return ""
-        case let .Percent(percent):
-            return "Percent-percent_\(percent)"
+        case let .Percent(percent, style):
+            return "Percent-percent_\(percent)-style_\(style)"
         case let .Letter(letter, size):
             let nameLetter: String
             switch letter {

@@ -73,8 +73,8 @@ extension ImageIdentifier {
         case .Cursor:
             let artist = CursorArtist()
             return artist
-        case let .Percent(percent):
-            let artist = PercentArtist()
+        case let .Percent(percent, style):
+            let artist = PercentArtist(style: style)
             artist.complete = CGFloat(percent) / 100
             return artist
         case let .Drone(upgrade, healthInt):

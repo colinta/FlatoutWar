@@ -7,11 +7,16 @@
 //
 
 class PercentBar: Node {
-    let sprite = SKSpriteNode(id: .Percent(0))
+    let sprite = SKSpriteNode(id: .Percent(0, style: .Default))
+    var style: PercentStyle = .Default
     var complete: CGFloat = 0 {
         didSet {
-            sprite.textureId(.Percent(Int(round(complete * 100))))
+            updateSprite()
         }
+    }
+
+    private func updateSprite() {
+        sprite.textureId(.Percent(Int(round(complete * 100)), style: style))
     }
 
     required init() {
