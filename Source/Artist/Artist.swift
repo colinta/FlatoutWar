@@ -77,7 +77,7 @@ class Artist {
             }
         }
         else {
-            return CGPoint(1)
+            return CGPoint(0)
         }
     }
 
