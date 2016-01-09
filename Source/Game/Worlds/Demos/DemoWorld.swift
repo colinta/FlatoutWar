@@ -15,10 +15,7 @@ class DemoWorld: World {
         defaultNode = playerNode
         self << playerNode
 
-        let closeButton = Button(fixed: .TopRight(x: -15, y: -15))
-        closeButton.setScale(0.5)
-        closeButton.text = "×"
-        closeButton.size = CGSize(60)
+        let closeButton = CloseButton()
         closeButton.onTapped { _ in
             self.director?.presentWorld(LevelSelectWorld())
         }

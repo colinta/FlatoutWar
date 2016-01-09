@@ -7,7 +7,16 @@
 //
 
 class BaseLevel12: BaseLevel {
+
+    override func loadConfig() -> BaseConfig { return BaseLevel12Config() }
+    override func tutorial() -> Tutorial { return DroneTutorial() }
+
     override func populateWorld() {
         super.populateWorld()
     }
+
+    override func nextLevel() -> BaseLevel {
+        return BaseLevel13()
+    }
+
 }

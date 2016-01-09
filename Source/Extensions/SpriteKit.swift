@@ -25,10 +25,13 @@ extension SKSpriteNode {
     convenience init(id: ImageIdentifier) {
         let texture = SKTexture.id(id)
         self.init(texture: texture)
-        self.setScale(0.5)
+        setScale(0.5)
     }
 
     func textureId(id: ImageIdentifier) {
+        if self.texture == nil {
+            setScale(0.5)
+        }
         let texture = SKTexture.id(id)
         self.texture = texture
         size = texture.size() * xScale

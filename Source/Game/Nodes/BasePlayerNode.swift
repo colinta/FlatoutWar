@@ -6,17 +6,24 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-private let forceFireDuration: CGFloat = 0.3
-private let forceFireDamageFactor: Float = 0.667
-private let defaultCooldown: CGFloat = 0.35
-private let forceFireCooldown: CGFloat = 0.14
+private let ForceFireDuration: CGFloat = 0.3
+private let ForceFireDamageFactor: Float = 0.667
+private let DefaultCooldown: CGFloat = 0.35
+private let ForceFireCooldown: CGFloat = 0.14
+private let ForceFireBurnoutUp: CGFloat = 6
+private let ForceFireBurnoutDown: CGFloat = 4
 
 class BasePlayerNode: Node {
     var overrideForceFire: Bool?
+    var forceFireBurnout = false
 
-    var radar: SKSpriteNode!
-    var base: SKSpriteNode!
-    var turret: SKSpriteNode!
+    var radar = SKSpriteNode()
+    var base = SKSpriteNode()
+    var turret = SKSpriteNode()
+    let forceFirePercent = PercentBar()
+    private var forceFireCooldown: CGFloat {
+        return forceFireBurnout ? DefaultCooldown : ForceFireCooldown
+    }
 
     override func reset() {
         super.reset()
@@ -26,6 +33,24 @@ class BasePlayerNode: Node {
         super.init()
 
         size = CGSize(40)
+
+        radar.textureId(.Radar(upgrade: .One))
+        radar.anchorPoint = CGPoint(0, 0.5)
+        radar.zPosition = Z.Bottom.rawValue
+        self << radar
+
+        base.zPosition = Z.Default.rawValue
+        base.textureId(.Base(upgrade: .One, health: 100))
+        self << base
+
+        turret.zPosition = Z.Default.rawValue + 0.5
+        turret.textureId(.BaseSingleTurret(upgrade: .One))
+        self << turret
+
+        forceFirePercent.style = .Heat
+        forceFirePercent.position = CGPoint(x: 25)
+        forceFirePercent.complete = 0
+        self << forceFirePercent
 
         let playerComponent = PlayerComponent()
         playerComponent.intersectionNode = base
@@ -55,7 +80,7 @@ class BasePlayerNode: Node {
 
         let firingComponent = FiringComponent()
         firingComponent.turret = base
-        firingComponent.cooldown = defaultCooldown
+        firingComponent.cooldown = DefaultCooldown
         firingComponent.onFire { angle in
             self.fireBullet(angle: angle)
         }
@@ -73,34 +98,34 @@ class BasePlayerNode: Node {
         super.encodeWithCoder(encoder)
     }
 
-    override func populate() {
-        radar = SKSpriteNode(id: .Radar(upgrade: .One))
-        radar.anchorPoint = CGPoint(0, 0.5)
-        radar.zPosition = Z.Bottom.rawValue
-        self << radar
-
-        base = SKSpriteNode(id: .Base(upgrade: .One, health: 100))
-        base.zPosition = Z.Default.rawValue
-        self << base
-
-        turret = SKSpriteNode(id: .BaseSingleTurret(upgrade: .One))
-        turret.zPosition = Z.Above.rawValue
-        self << turret
-    }
-
     override func update(dt: CGFloat) {
         let forceFire: Bool
         if let overrideForceFire = self.overrideForceFire {
             forceFire = overrideForceFire
         }
-        else if let touchedFor = touchableComponent?.touchedFor where touchedFor >= forceFireDuration {
+        else if let touchedFor = touchableComponent?.touchedFor
+        where touchedFor >= ForceFireDuration {
             forceFire = true
         }
         else {
             forceFire = false
         }
+
+        if forceFire && !forceFireBurnout {
+            forceFirePercent.complete += dt / ForceFireBurnoutUp
+            if forceFirePercent.complete == 1 {
+                forceFireBurnout = true
+            }
+        }
+        else {
+            forceFirePercent.complete -= dt / ForceFireBurnoutDown
+            if forceFirePercent.complete == 0 {
+                forceFireBurnout = false
+            }
+        }
+
         firingComponent?.forceFire = forceFire
-        firingComponent?.cooldown = (forceFire ? forceFireCooldown : defaultCooldown)
+        firingComponent?.cooldown = (forceFire ? forceFireCooldown : DefaultCooldown)
 
         if let firingAngle = firingComponent?.angle,
             isTouching = touchableComponent?.isTouching
@@ -143,8 +168,8 @@ extension BasePlayerNode {
         bullet.size = BaseTurretBulletArtist.bulletSize(.One)
         bullet.zRotation = angle
         bullet.z = Z.Below
-        if firingComponent!.forceFire {
-            bullet.damage *= forceFireDamageFactor
+        if firingComponent!.forceFire && !forceFireBurnout {
+            bullet.damage *= ForceFireDamageFactor
         }
         world << bullet
     }

@@ -7,16 +7,7 @@
 //
 
 class StartupWorld: World {
-    var playerNode: BasePlayerNode
-
-    required init() {
-        playerNode = BasePlayerNode()
-        super.init()
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    var playerNode = BasePlayerNode()
 
     override func populateWorld() {
         pauseable = false
@@ -32,36 +23,29 @@ class StartupWorld: World {
         zoomingComponent2.rate = 0.025
         zoomingComponent2.target = 0.5
 
-        let zoomingComponent3 = ZoomToComponent()
-        zoomingComponent3.rate = 2
-        zoomingComponent3.target = 2
-
         timeline.at(1) {
             self.addComponent(zoomingComponent1)
         }
 
         timeline.at(5) {
-            let enemyNode1pt = CGPoint(r: self.size.width/2, a: 0)
-
             let enemyNode1 = EnemySoldierNode()
-            enemyNode1.position = enemyNode1pt
+            enemyNode1.position = self.outsideWorld(angle: 0)
             enemyNode1.zRotation = TAU_2
             self << enemyNode1
 
-            let enemyNode2pt = CGPoint(r: self.size.width/2 + 5, a: 10.degrees)
             let enemyNode2 = EnemySoldierNode()
-            enemyNode2.position = enemyNode2pt
+            enemyNode2.position = self.outsideWorld(angle: 10.degrees)
             enemyNode2.zRotation = TAU_2
             self << enemyNode2
         }
 
         timeline.at(10) {
             let enemy = EnemySoldierNode()
-            enemy.position = CGPoint(r: self.radius + 20, a: 175.degrees)
+            enemy.position = self.outsideWorld(enemy, angle: 135.degrees)
             enemy.zRotation = 0
             self << enemy
         }
-        timeline.every(3, startAt: 13, times: 9) {
+        timeline.every(3, startAt: 13, times: 4) {
             self.spawn()
         }
 
@@ -82,20 +66,22 @@ class StartupWorld: World {
             }
         }
 
-        timeline.at(40) {
-            zoomingComponent2.removeFromNode()
-            self.addComponent(zoomingComponent3)
+        timeline.at(30) {
+            for node in self.nodes {
+                node.addComponent(FadeToComponent(fadeOut: 8))
+            }
+        }
+
+        timeline.at(37) {
+            self.timeline.every(1) {
+                self.explosions()
+            }
         }
 
         timeline.at(41) {
-            self << PlayerExplosionNode(at: self.playerNode.position)
-            self.timeline.every(1) {
-                self.explosion()
-            }
-            for enemy in self.enemies {
-                enemy.rammingComponent?.enabled = false
-                enemy.addComponent(WanderingComponent())
-            }
+            zoomingComponent2.removeFromNode()
+            self.setScale(2)
+
             self.playerNode.removeFromParent()
             self.drawTitle()
 
@@ -111,8 +97,15 @@ class StartupWorld: World {
         }
     }
 
-    func explosion() {
-        for _ in 0..<3 {
+    override func didAdd(node: Node) {
+        super.didAdd(node)
+        if node.isEnemy || node.isPlayer || node.isProjectile {
+            node.alpha = playerNode.alpha
+        }
+    }
+
+    func explosions(count: Int = 3) {
+        for _ in 0..<count {
             let x: CGFloat = rand(min: -size.width, max: size.width) as CGFloat
             let y: CGFloat = rand(min: -size.height, max: size.height) as CGFloat
             let location = CGPoint(
@@ -137,18 +130,18 @@ class StartupWorld: World {
     }
 
     func spawn(_radius: CGFloat? = nil) -> EnemySoldierNode {
-        let radius = (_radius ?? self.radius) + 20
-        let location = CGPoint(r: radius, a: rand(TAU))
-        let enemyNode = EnemySoldierNode(at: location)
+        let radius = (_radius ?? outerRadius / xScale)
+        let enemyNode = EnemySoldierNode()
+        enemyNode.position = CGPoint(r: radius, a: rand(TAU))
         enemyNode.rotateTowards(playerNode)
         self << enemyNode
         return enemyNode
     }
 
     func spawnGiant(_radius: CGFloat? = nil) -> EnemySoldierNode {
-        let radius = (_radius ?? self.radius) + 20
-        let location = CGPoint(r: radius, a: rand(TAU))
-        let enemyNode = EnemyGiantNode(at: location)
+        let radius = (_radius ?? outerRadius / xScale)
+        let enemyNode = EnemyGiantNode()
+        enemyNode.position = CGPoint(r: radius, a: rand(TAU))
         enemyNode.rotateTowards(playerNode)
         self << enemyNode
         return enemyNode

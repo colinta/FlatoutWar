@@ -52,8 +52,8 @@ class TouchableComponent: Component {
                 }
             case .Circle:
                 return { (node, location) in
-                    let width = max(44, node.size.width)
-                    let height = max(44, node.size.height)
+                    let width = max(44, node.size.width) / 2
+                    let height = max(44, node.size.height) / 2
                     return location.lengthWithin(min(width, height))
                 }
             }

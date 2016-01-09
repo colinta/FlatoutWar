@@ -21,7 +21,12 @@ class PercentArtist: Artist {
     required init(style: PercentStyle) {
         self.style = style
         super.init()
-        size = CGSize(width: 40, height: 5)
+        switch style {
+        case .Green:
+            size = CGSize(width: 40, height: 5)
+        case .Heat:
+            size = CGSize(width: 4, height: 35)
+        }
     }
 
     required convenience init() {
@@ -29,15 +34,29 @@ class PercentArtist: Artist {
     }
 
     override func draw(context: CGContext) {
-        CGContextSetAlpha(context, 0.5)
-        CGContextSetFillColorWithColor(context, color.CGColor)
-        CGContextAddRect(context, CGRect(origin: CGPoint(x: 0, y: 0), size: size))
-        CGContextDrawPath(context, .Fill)
+        switch style {
+        case .Green:
+            CGContextSetAlpha(context, 0.5)
+            CGContextSetFillColorWithColor(context, color.CGColor)
+            CGContextAddRect(context, CGRect(origin: CGPoint(x: 0, y: 0), size: size))
+            CGContextDrawPath(context, .Fill)
 
-        let smallWidth = size.width * complete
-        CGContextSetFillColorWithColor(context, completeColor.CGColor)
-        CGContextAddRect(context, CGRect(x: 0, y: 0, width: smallWidth, height: size.height))
-        CGContextDrawPath(context, .Fill)
+            let smallWidth = size.width * complete
+            CGContextSetFillColorWithColor(context, completeColor.CGColor)
+            CGContextAddRect(context, CGRect(x: 0, y: 0, width: smallWidth, height: size.height))
+            CGContextDrawPath(context, .Fill)
+        case .Heat:
+            let smallHeight = size.height * complete
+            CGContextAddRect(context, CGRect(x: 0, y: size.height - smallHeight, width: size.width, height: smallHeight))
+            CGContextClip(context)
+
+            let colorSpace = CGColorSpaceCreateDeviceRGB()
+            let components: [CGFloat] = [1.0, 1.0, 0, 1,
+                                      1.0, 0, 0, 1]
+            let locations: [CGFloat] = [0, 1]
+            let gradient = CGGradientCreateWithColorComponents(colorSpace, components, locations, 2)!
+            CGContextDrawLinearGradient(context, gradient, CGPoint(y: 0), CGPoint(y: size.height), [])
+        }
     }
 
 }

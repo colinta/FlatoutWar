@@ -204,7 +204,6 @@ extension World {
 
             if node.isEnemy {
                 _cachedEnemies = enemies + [node]
-                reacquireEnemyTargets()
             }
 
             if node.isPlayer {
@@ -336,6 +335,7 @@ extension World {
 extension World {
 
     func worldShook() {
+        print("at time \(timeline.time)")
     }
 
     func worldTapped(worldLocation: CGPoint) {
@@ -469,6 +469,7 @@ extension World {
         }
         else if !_paused {
             _paused = true
+            (scene as? WorldScene)?.worldPaused()
             onPause()
         }
     }
@@ -482,6 +483,7 @@ extension World {
         }
         else if _paused {
             _paused = false
+            (scene as? WorldScene)?.worldUnpaused()
             onUnpause()
         }
     }

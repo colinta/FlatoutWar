@@ -15,6 +15,15 @@ class WorldController: UIViewController {
         self.view = worldView
 
         view.presentWorld(BaseLevel3())
+        // view.presentWorld({
+        //     let world = BaseUpgradeWorld()
+        //     let level = BaseLevel4()
+        //     level.config.storedPlayers = [
+        //         DroneNode(at: CGPoint(-100, 40)),
+        //     ]
+        //     world.nextWorld = level
+        //     return world
+        // }())
 
         view.showsFPS = true
         view.showsNodeCount = true

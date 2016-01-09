@@ -29,6 +29,14 @@ class FollowNodeComponent: Component {
         self.follow = follow
     }
 
+    override func didAddToNode() {
+        super.didAddToNode()
+        guard let follow = follow else { return }
+
+        vector = CGVector(dx: node.position.x - follow.position.x, dy: node.position.y - follow.position.y)
+        deltaAngle = node.zRotation - follow.zRotation
+    }
+
     override func update(dt: CGFloat) {
         guard let follow = follow else { return }
 
@@ -46,7 +54,7 @@ class FollowNodeComponent: Component {
         }
 
         node.position = follow.position + vector
-        node.zRotation = follow.zRotation + deltaAngle
+        node.rotateTo(follow.zRotation + deltaAngle)
     }
 
 }

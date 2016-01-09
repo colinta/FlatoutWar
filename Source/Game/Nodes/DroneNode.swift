@@ -41,6 +41,10 @@ class DroneNode: Node {
         super.init()
         size = CGSize(20)
 
+        self << sprite
+        self << cursor
+        self << placeholder
+
         placeholder.alpha = 0.5
         placeholder.hidden = true
 
@@ -52,6 +56,7 @@ class DroneNode: Node {
         addComponent(playerComponent)
 
         let phaseComponent = PhaseComponent()
+        phaseComponent.phase = rand(1)
         phaseComponent.duration = 3
         addComponent(phaseComponent)
 
@@ -132,12 +137,6 @@ class DroneNode: Node {
         super.encodeWithCoder(encoder)
         encoder.encode(cursor, key: "cursor")
         encoder.encode(sprite, key: "sprite")
-    }
-
-    override func populate() {
-        self << sprite
-        self << cursor
-        self << placeholder
     }
 
     override func update(dt: CGFloat) {

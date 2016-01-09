@@ -183,9 +183,4 @@ class DroneTutorial: Tutorial {
         addContinueButton()
     }
 
-    override func nextWorld() -> World {
-        return BaseLevel3()
-    }
-
-
 }

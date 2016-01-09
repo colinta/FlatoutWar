@@ -11,28 +11,23 @@ class LevelSelectWorld: World {
     override func populateWorld() {
         pauseable = false
 
-        let worlds: [() -> World] = [
+        let worlds: [() -> BaseLevel] = [
             { return BaseLevel1() },
             { return BaseLevel2() },
             { return BaseLevel3() },
-            // { return BaseLevel4() },
-            // { return BaseLevel5() },
-            // { return BaseLevel6() },
-            // { return BaseLevel7() },
-            // { return BaseLevel8() },
-            // { return BaseLevel9() },
-            // { return BaseLevel10() },
-            // { return BaseLevel11() },
-            // { return BaseLevel12() },
-            // { return BaseLevel13() },
-            // { return BaseLevel14() },
-            // { return BaseLevel15() },
-            { return DroneTutorial() },
-            { return AutoFireTutorial() },
-            { return RapidFireTutorial() },
-            { return CameraDemoWorld() },
-            { return IntersectsTestWorld() },
-            { return Playground() },
+            { return BaseLevel4() },
+            { return BaseLevel5() },
+            { return BaseLevel6() },
+            { return BaseLevel7() },
+            { return BaseLevel8() },
+            { return BaseLevel9() },
+            { return BaseLevel10() },
+            { return BaseLevel11() },
+            { return BaseLevel12() },
+            { return BaseLevel13() },
+            { return BaseLevel14() },
+            { return BaseLevel15() },
+            { return BaseLevel16() },
         ]
 
         let textNode = TextNode(at: CGPoint(x: -165, y: -125))
@@ -47,7 +42,15 @@ class LevelSelectWorld: World {
         }
         self << backButton
 
-        let positions = [
+        let tutorialButton = Button(at: CGPoint(x: -200, y: 20))
+        tutorialButton.text = "?"
+        tutorialButton.size = CGSize(width: 15, height: 15)
+        tutorialButton.onTapped { [unowned self] in
+            self.director?.presentWorld(TutorialSelectWorld())
+        }
+        self << tutorialButton
+
+        let enemyPositions = [
             CGPoint(x: 180, y:-20),
             CGPoint(x: 200, y:-20),
             CGPoint(x: 220, y:-20),
@@ -58,7 +61,7 @@ class LevelSelectWorld: World {
             CGPoint(x: 200, y: 20),
             CGPoint(x: 220, y: 20),
         ]
-        for pos in positions {
+        for pos in enemyPositions {
             let enemyNode = EnemySoldierNode(at: pos)
             let wanderingComponent = WanderingComponent()
             wanderingComponent.centeredAround = pos
@@ -80,11 +83,9 @@ class LevelSelectWorld: World {
                 button.size = CGSize(50)
                 button.style = .Square
                 button.onTapped {
-                    let nextWorld = worlds[myIndex % worlds.count]()
-                    if let nextWorld = nextWorld as? BaseLevel {
-                        nextWorld.shouldReturnToLevelSelect = true
-                    }
-                    self.director?.presentWorld(nextWorld)
+                    let nextLevel = worlds[myIndex % worlds.count]()
+                    nextLevel.shouldReturnToLevelSelect = true
+                    self.director?.presentWorld(nextLevel.tutorialOrLevel())
                 }
                 self << button
                 levelIndex += 1

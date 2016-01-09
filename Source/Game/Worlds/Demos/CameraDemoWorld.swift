@@ -11,13 +11,9 @@ class CameraDemoWorld: DemoWorld {
     override func populateWorld() {
         super.populateWorld()
 
-        let playerNode = BasePlayerNode()
-        playerNode.targetingComponent?.enabled = false
-        defaultNode = playerNode
-        self << playerNode
-
         let cameraNode = EnemySoldierNode()
         cameraNode.rammingComponent?.enabled = false
+        cameraNode.enemyComponent?.targetable = false
         let wanderingComponent = WanderingComponent()
         wanderingComponent.wanderingRadius = 250
         wanderingComponent.centeredAround = CGPointZero

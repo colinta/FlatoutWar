@@ -91,8 +91,4 @@ class AutoFireTutorial: Tutorial {
         addContinueButton()
     }
 
-    override func nextWorld() -> World {
-        return BaseLevel1()
-    }
-
 }

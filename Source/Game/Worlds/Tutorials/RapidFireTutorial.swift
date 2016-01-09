@@ -7,7 +7,6 @@
 //
 
 class RapidFireTutorial: Tutorial {
-    var shouldAimPlayer: Node?
 
     override func populateWorld() {
         super.populateWorld()
@@ -35,12 +34,11 @@ class RapidFireTutorial: Tutorial {
 
     func showFirstButton() {
         let enemyNode = self.showFirstEnemy()
-        timeline.after(2.25) {
+        timeline.after(1.5) {
             let holdButton = Button(at: CGPoint(x: 200, y: 0))
             holdButton.font = .Small
             holdButton.text = "HOLD"
             holdButton.touchableComponent!.on(.Down) { _ in
-                self.shouldAimPlayer = holdButton
                 self.playerNode.overrideForceFire = true
                 self.playerNode.firingComponent?.enabled = true
                 holdButton.text = "DRAG"
@@ -50,17 +48,18 @@ class RapidFireTutorial: Tutorial {
                 moveTo.speed = 80
                 holdButton.addComponent(moveTo)
             }
+            holdButton.touchableComponent!.onDragged { prevButtonLocation, buttonLocation in
+                self.playerNode.rotateToComponent?.target = self.playerNode.angleTo(holdButton)
+            }
             holdButton.touchableComponent!.on(.Up) { _ in
-                self.shouldAimPlayer = nil
                 self.playerNode.overrideForceFire = false
                 self.playerNode.firingComponent?.enabled = false
                 holdButton.text = "HOLD"
                 holdButton.moveToComponent?.removeFromNode()
             }
             enemyNode.onDeath {
-                self.shouldAimPlayer = nil
                 self.playerNode.overrideForceFire = false
-                self.playerNode.firingComponent?.enabled = true
+                self.playerNode.firingComponent?.enabled = false
                 holdButton.removeFromParent()
                 self.showSecondButton()
             }
@@ -71,14 +70,14 @@ class RapidFireTutorial: Tutorial {
     func showSecondEnemies() -> CGFloat {
         let angle = -67.75.degrees
         let enemyLocations = [
-            (start: CGPoint(r: 235, a: angle), end: CGPoint(r: 35, a: angle)),
+            (start: CGPoint(r: 235, a: angle), end: CGPoint(r: 50, a: angle)),
             (start: CGPoint(r: 250, a: angle), end: CGPoint(r: 50, a: angle)),
-            (start: CGPoint(r: 265, a: angle), end: CGPoint(r: 65, a: angle)),
-            (start: CGPoint(r: 280, a: angle), end: CGPoint(r: 80, a: angle)),
-            (start: CGPoint(r: 295, a: angle), end: CGPoint(r: 95, a: angle)),
-            (start: CGPoint(r: 310, a: angle), end: CGPoint(r: 110, a: angle)),
-            (start: CGPoint(r: 325, a: angle), end: CGPoint(r: 125, a: angle)),
-            (start: CGPoint(r: 340, a: angle), end: CGPoint(r: 140, a: angle)),
+            (start: CGPoint(r: 265, a: angle), end: CGPoint(r: 50, a: angle)),
+            (start: CGPoint(r: 280, a: angle), end: CGPoint(r: 50, a: angle)),
+            (start: CGPoint(r: 295, a: angle), end: CGPoint(r: 50, a: angle)),
+            (start: CGPoint(r: 310, a: angle), end: CGPoint(r: 50, a: angle)),
+            (start: CGPoint(r: 325, a: angle), end: CGPoint(r: 50, a: angle)),
+            (start: CGPoint(r: 340, a: angle), end: CGPoint(r: 50, a: angle)),
         ]
         for locations in enemyLocations {
             let enemyNode = EnemySoldierNode(at: locations.start)
@@ -136,16 +135,6 @@ class RapidFireTutorial: Tutorial {
         tutorialTextNode.text = "YOU GOT THIS!"
 
         addContinueButton()
-    }
-
-    override func nextWorld() -> World {
-        return BaseLevel2()
-    }
-
-    override func update(dt: CGFloat) {
-        if let node = shouldAimPlayer {
-            self.playerNode.rotateTo(self.playerNode.angleTo(node))
-        }
     }
 
 }

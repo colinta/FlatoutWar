@@ -18,6 +18,12 @@ class PlayerExplosionNode: Node {
     required init() {
         super.init()
         z = .Bottom
+
+        for _ in 0..<numSprites {
+            let sprite = SKSpriteNode(id: .None)
+            sprites << sprite
+            self << sprite
+        }
     }
 
     required init?(coder: NSCoder) {
@@ -30,14 +36,6 @@ class PlayerExplosionNode: Node {
         super.encodeWithCoder(encoder)
         encoder.encode(phase, key: "phase")
         encoder.encode(sprites, key: "sprites")
-    }
-
-    override func populate() {
-        for _ in 0..<numSprites {
-            let sprite = SKSpriteNode(id: .None)
-            sprites << sprite
-            self << sprite
-        }
     }
 
     override func update(dt: CGFloat) {

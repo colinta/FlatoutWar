@@ -16,6 +16,10 @@ class EnemySoldierNode: Node {
         super.init()
         size = CGSize(10)
 
+        sprite = SKSpriteNode(id: .None)
+        updateTexture()
+        self << sprite
+
         let healthComponent = HealthComponent(health: startingHealth)
         healthComponent.onHurt { _ in
             self.updateTexture()
@@ -71,12 +75,6 @@ class EnemySoldierNode: Node {
         super.encodeWithCoder(encoder)
     }
 
-    override func populate() {
-        sprite = SKSpriteNode(id: .None)
-        updateTexture()
-        self << sprite
-    }
-
     func enemyType() -> ImageIdentifier.EnemyType {
         return .Soldier
     }
@@ -128,14 +126,10 @@ extension EnemySoldierNode {
     }
 
     func follow(leader: Node, scatter: Bool = true) {
-        if let followNodeComponent = self.followNodeComponent {
-            followNodeComponent.removeFromNode()
-        }
+        let followNodeComponent = self.followNodeComponent ?? FollowNodeComponent()
 
         enemyComponent?.targetingEnabled = false
         rammingComponent?.currentTarget = nil
-        // rammingComponent?.enabled = false
-        let followNodeComponent = FollowNodeComponent()
         followNodeComponent.follow = leader
         if scatter {
             leader.healthComponent?.onKilled(self.scatter)
@@ -143,15 +137,10 @@ extension EnemySoldierNode {
         leader.onDeath { [weak self] in
             if let wSelf = self {
                 wSelf.rammingComponent?.currentSpeed = leader.rammingComponent?.currentSpeed ?? 0
-                // wSelf.rammingComponent?.enabled = true
                 wSelf.rammingComponent?.currentTarget = leader.rammingComponent?.currentTarget
                 wSelf.enemyComponent?.currentTarget = leader.enemyComponent?.currentTarget
                 wSelf.enemyComponent?.targetingEnabled = true
-                if let followNodeComponent = wSelf.followNodeComponent
-                    where followNodeComponent.follow == leader
-                {
-                    followNodeComponent.removeFromNode()
-                }
+                wSelf.followNodeComponent?.removeFromNode()
             }
         }
         addComponent(followNodeComponent)

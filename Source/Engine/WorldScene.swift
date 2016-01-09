@@ -11,7 +11,9 @@ private var DesiredSize = CGSize(width: 568, height: 320)
 
 class WorldScene: SKScene {
     var world: World
-    var worldScalingNode = SKNode()
+    private var worldScalingNode = SKNode()
+    private var blurryNode = SKEffectNode()
+    private var pauseNode: SKNode?
     var uiNode = Node()
     var prevTime: NSTimeInterval?
     var touchSession: TouchSession?
@@ -37,7 +39,33 @@ class WorldScene: SKScene {
         worldScalingNode.setScale(WorldScene.worldScale)
         worldScalingNode << world
         self << worldScalingNode
+
+        blurryNode.shouldEnableEffects = true
+        let blur = CIFilter(name: "CIGaussianBlur", withInputParameters: ["inputRadius": 10])
+        blurryNode.filter = blur
+
         self << uiNode
+    }
+
+    func worldPaused() {
+        if let texture = view?.textureFromNode(self) {
+            let sprite = SKSpriteNode(texture: texture)
+            blurryNode << sprite
+            if let texture = view?.textureFromNode(blurryNode) {
+                blurryNode.removeAllChildren()
+                pauseNode = SKSpriteNode(texture: texture)
+                self << pauseNode!
+                world.hidden = true
+            }
+        }
+    }
+
+    func worldUnpaused() {
+        world.hidden = false
+        if let pauseNode = pauseNode {
+            pauseNode.removeFromParent()
+        }
+        blurryNode.removeAllChildren()
     }
 
     required init?(coder: NSCoder) {

@@ -8,6 +8,9 @@
 
 class BaseLevel3: BaseLevel {
 
+    override func loadConfig() -> BaseConfig { return BaseLevel3Config() }
+    override func tutorial() -> Tutorial { return DroneTutorial() }
+
     override func populateWorld() {
         super.populateWorld()
 
@@ -18,16 +21,11 @@ class BaseLevel3: BaseLevel {
         // wave 1: two sources of weak, one source of strong
         beginWave1(at: 3)
         beginWave2(at: 35)
-        beginWave3(at: 75)
-        timeline.at(100) {
-            self.onNoMoreEnemies {
-                self.levelCompleted(success: true)
-            }
-        }
+        beginWave3(at: 72)
     }
 
-    override func goToNextLevel() {
-        director?.presentWorld(BaseLevel4())
+    override func nextLevel() -> BaseLevel {
+        return BaseLevel4()
     }
 
     func beginWave1(at startTime: CGFloat) {
@@ -43,7 +41,7 @@ class BaseLevel3: BaseLevel {
 
     func beginWave2(at startTime: CGFloat) {
         timeline.at(startTime) {
-            self.moveCamera(to: CGPoint(x: -120, y: 0), zoom: 0.75, duration: 3)
+            self.moveCamera(to: CGPoint(x: -120, y: 0), duration: 3)
         }
         let wave2_1 = TAU_2 + rand(TAU_16)
         let wave2_2 = TAU_2 - rand(TAU_16)
@@ -62,13 +60,13 @@ class BaseLevel3: BaseLevel {
         timeline.every(0.5, startAt: startTime + 12, times: 20) {
             let jet = EnemyJetNode()
             jet.name = "jet"
-            jet.position = self.outsideWorld(jet, angle: jetAngle) + CGPoint(y: ±rand(20))
+            jet.position = self.outsideWorld(jet, angle: jetAngle) + CGPoint(x: ±rand(20))
             self << jet
         }
         timeline.every(0.4, startAt: startTime + 12, times: 20) {
             let jet = EnemyJetNode()
             jet.name = "jet"
-            jet.position = self.outsideWorld(jet, angle: TAU_2) + CGPoint(y: ±rand(20))
+            jet.position = self.outsideWorld(jet, angle: TAU_2) + CGPoint(x: ±rand(20))
             self << jet
         }
     }

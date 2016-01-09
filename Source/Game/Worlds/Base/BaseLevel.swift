@@ -13,6 +13,21 @@ class BaseLevel: Level {
         }
     }
     var shouldReturnToLevelSelect = false
+    private var _config: BaseConfig?
+    var config: BaseConfig {
+        if let config = _config {
+            return config
+        }
+        let config = loadConfig()
+        _config = config
+        return config
+    }
+
+    func loadConfig() -> BaseConfig {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func tutorial() -> Tutorial { fatalError("tutorial() has not been implemented in \(self.dynamicType)") }
 
     required init() {
         super.init()
@@ -37,14 +52,22 @@ class BaseLevel: Level {
         super.populateWorld()
         defaultNode = playerNode
         self << playerNode
+
+        timeline.when({ self.possibleExperience >= self.config.possibleExperience }) {
+            self.onNoMoreEnemies {
+                self.levelCompleted(success: true)
+            }
+        }
     }
 
-    override final func goToNextWorld() {
+    override func goToNextWorld() {
         if shouldReturnToLevelSelect {
             director?.presentWorld(LevelSelectWorld())
         }
         else {
-            goToNextLevel()
+            let nextLevel = self.nextLevel()
+            nextLevel.config.storedPlayers = self.players
+            self.director?.presentWorld(nextLevel.tutorialOrLevel())
         }
     }
 
@@ -52,8 +75,29 @@ class BaseLevel: Level {
 
 extension BaseLevel {
 
-    func goToNextLevel() {
-        fatalError("goToNextLevel should be overridden")
+    func tutorialOrLevel() -> World {
+        if config.hasTutorial && !config.seenTutorial {
+            config.seenTutorial = true
+
+            let tutorial = self.tutorial()
+            tutorial.nextWorld = self
+            return tutorial
+        }
+        else if config.canUpgrade {
+            let upgradeWorld = BaseUpgradeWorld()
+            upgradeWorld.nextWorld = self
+            return upgradeWorld
+        }
+        return self
+    }
+
+
+}
+
+extension BaseLevel {
+
+    func nextLevel() -> BaseLevel {
+        fatalError("nextLevel() has not been implemented by \(self.dynamicType)")
     }
 
     override func levelCompleted(var success success: Bool) {
@@ -64,12 +108,12 @@ extension BaseLevel {
 
         super.levelCompleted(success: success)
 
-
         let finalTimeline = TimelineComponent()
         addComponent(finalTimeline)
 
-        timeRate = 1
         if success {
+            config.gainedExperience = gainedExperience
+
             let percentNode = PercentBar(at: CGPoint(x: 50, y: 0))
             self << percentNode
 
@@ -141,14 +185,7 @@ extension BaseLevel {
         fadeIn.removeComponentOnFade()
         drone.addComponent(fadeIn)
 
-        let moveTo = MoveToComponent()
-        moveTo.target = CGPoint(-30, -60)
-        moveTo.speed = DroneNode.DefaultSpeed
-        moveTo.onArrived {
-            drone.droneEnabled(isMoving: false)
-        }
-        moveTo.removeComponentOnArrived()
-        drone.addComponent(moveTo)
+        drone.draggableComponent?.target = CGPoint(-30, -60)
         return drone
     }
 
@@ -156,14 +193,19 @@ extension BaseLevel {
 
 extension BaseLevel {
 
-    func generateEnemy(genAngle: CGFloat, spread: CGFloat = 0.087266561)() {
+    func generateEnemy(genAngle: CGFloat, spread: CGFloat = 0.087266561, fixed: Bool = false)() {
         var angle = genAngle
         if spread > 0 {
            angle = angle ± rand(spread)
         }
 
         let enemyNode = EnemySoldierNode()
-        enemyNode.position = outsideWorld(enemyNode, angle: angle)
+        if fixed {
+            enemyNode.position = CGPoint(r: outerRadius, a: angle)
+        }
+        else {
+            enemyNode.position = outsideWorld(enemyNode, angle: angle)
+        }
         self << enemyNode
     }
 
@@ -178,12 +220,12 @@ extension BaseLevel {
     }
 
     func generateEnemyFormation(angle: CGFloat)() {
+        let dist = CGFloat(25)
         let enemyLeader = EnemyLeaderNode()
-        let center = outsideWorld(enemyLeader, angle: angle)
+        let center = outsideWorld(extra: enemyLeader.radius + dist * 1.5, angle: angle)
         enemyLeader.position = center
         self << enemyLeader
 
-        let dist = CGFloat(25)
         let left = CGVector(r: dist, a: angle + TAU_4)
         let right = CGVector(r: dist, a: angle - TAU_4)
         let back = center + CGVector(r: dist, a: angle)
@@ -206,7 +248,7 @@ extension BaseLevel {
         }
     }
 
-    func generateDozers(genAngle: CGFloat, spread: CGFloat = 0.087266561)() {
+    func generateDozer(genAngle: CGFloat, spread: CGFloat = 0.087266561)() {
         var angle = genAngle
         if spread > 0 {
             angle = angle ± rand(spread)

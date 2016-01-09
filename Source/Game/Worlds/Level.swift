@@ -146,27 +146,31 @@ class Level: World {
     }
 
     override func worldShook() {
-        print("at time \(timeline.time)")
+        super.worldShook()
+        if timeRate == 2 { timeRate = 1 }
+        else { timeRate = 2 }
         print("possibleExperience: \(possibleExperience)")
     }
 
-    func moveCamera(to target: CGPoint, zoom: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, handler: MoveToComponent.OnArrived? = nil) {
-        let moveTo = MoveToComponent()
-        moveTo.target = target
-        if let duration = duration {
-            moveTo.duration = duration
+    func moveCamera(to target: CGPoint? = nil, zoom: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, handler: MoveToComponent.OnArrived? = nil) {
+        if let target = target {
+            let moveTo = MoveToComponent()
+            moveTo.target = target
+            if let duration = duration {
+                moveTo.duration = duration
+            }
+            else if let rate = rate {
+                moveTo.speed = rate
+            }
+            else {
+                moveTo.speed = 80
+            }
+            if let handler = handler {
+                moveTo.onArrived(handler)
+            }
+            moveTo.removeComponentOnArrived()
+            cameraNode?.addComponent(moveTo)
         }
-        else if let rate = rate {
-            moveTo.speed = rate
-        }
-        else {
-            moveTo.speed = 80
-        }
-        if let handler = handler {
-            moveTo.onArrived(handler)
-        }
-        moveTo.removeComponentOnArrived()
-        cameraNode?.addComponent(moveTo)
 
         if let zoom = zoom {
             cameraZoom.target = zoom

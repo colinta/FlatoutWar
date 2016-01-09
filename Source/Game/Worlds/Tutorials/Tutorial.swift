@@ -8,6 +8,7 @@
 
 class Tutorial: World {
     let tutorialTextNode = TextNode()
+    var nextWorld: World?
     let playerNode = BasePlayerNode()
     typealias Locations = [(start: CGPoint, end: CGPoint)]
 
@@ -32,11 +33,7 @@ class Tutorial: World {
     }
 
     func goToNextWorld() {
-        self.director?.presentWorld(nextWorld())
-    }
-
-    func nextWorld() -> World {
-        return LevelSelectWorld()
+        self.director?.presentWorld(nextWorld ?? LevelSelectWorld())
     }
 
     func addContinueButton() {
@@ -60,10 +57,7 @@ class Tutorial: World {
         tutorialTextNode.setScale(1.5)
         ui << tutorialTextNode
 
-        let closeButton = Button(fixed: .TopRight(x: -15, y: -15))
-        closeButton.setScale(0.5)
-        closeButton.text = "×"
-        closeButton.size = CGSize(60)
+        let closeButton = CloseButton()
         closeButton.onTapped { _ in
             self.goToNextWorld()
         }

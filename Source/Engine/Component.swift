@@ -20,6 +20,9 @@ class Component: NSObject, NSCoding {
     override init() {
     }
 
+    func didAddToNode() {
+    }
+
     func removeFromNode() {
         if let node = node {
             node.removeComponent(self)

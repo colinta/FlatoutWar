@@ -53,9 +53,6 @@ class Node: SKNode {
     private var _onDeath: [OnDeath] = []
     func onDeath(handler: OnDeath) { _onDeath << handler }
 
-    func populate() {
-    }
-
     func reset() {
         for component in components {
             component.reset()
@@ -120,7 +117,6 @@ class Node: SKNode {
 
     override required init() {
         super.init()
-        populate()
     }
 
     required init?(coder: NSCoder) {
@@ -235,6 +231,8 @@ extension Node {
         else if let component = component as? TimelineComponent { timelineComponent = component }
         else if let component = component as? TouchableComponent { touchableComponent = component }
         else if let component = component as? WanderingComponent { wanderingComponent = component }
+
+        component.didAddToNode()
     }
 
     func removeComponent(component: Component) {

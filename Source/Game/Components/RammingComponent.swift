@@ -61,7 +61,7 @@ class RammingComponent: Component {
         // if the node rammed into a target, call the handlers and remove this
         // component (to prevent multiple ramming events)
         let struckTarget = (node.world?.players ?? currentTarget.map { [$0] })?.find { player in
-            return player.playerComponent!.targetable && intersectionNode!.intersectsNode(player.playerComponent!.intersectionNode!)
+            return player.playerComponent!.targetable && intersectionNode!.intersectsNode(player.playerComponent!.intersectionNode!) && node.touches(player)
         }
         if let struckTarget = struckTarget {
             for handler in _onRammed {
