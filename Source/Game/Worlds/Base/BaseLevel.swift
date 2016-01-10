@@ -248,6 +248,24 @@ extension BaseLevel {
         }
     }
 
+    func generateEnemyPair(angle: CGFloat)() {
+        let dist = CGFloat(13)
+        let ghost = generateEnemyGhost(angle: angle, extra: 10)
+
+        let left = CGVector(r: dist, a: angle + TAU_4)
+        let right = CGVector(r: dist, a: angle - TAU_4)
+
+        let origins = [
+            ghost.position + left,
+            ghost.position + right,
+        ]
+        for origin in origins {
+            let enemy = EnemySoldierNode(at: origin)
+            enemy.follow(ghost)
+            self << enemy
+        }
+    }
+
     func generateDozer(genAngle: CGFloat, spread: CGFloat = 0.087266561)() {
         var angle = genAngle
         if spread > 0 {
@@ -307,10 +325,43 @@ extension BaseLevel {
         if spread > 0 {
             angle = angle ± rand(spread)
         }
-        let dist = CGFloat(30)
 
-        let ghostPosition = outsideWorld(extra: 40, angle: angle)
-        let enemyGhost = Node(at: ghostPosition)
+        let ghost = generateEnemyGhost(angle: angle, extra: 40)
+
+        let dist = CGFloat(30)
+        var enemies: [Node] = []
+        let enemyLeader = EnemyLeaderNode()
+        enemyLeader.name = "enemyLeader"
+        let leaderPosition = ghost.position + CGPoint(r: dist + enemyLeader.radius, a: angle)
+        enemyLeader.position = leaderPosition
+        enemyLeader.follow(ghost)
+        self << enemyLeader
+        enemies << enemyLeader
+
+        let count = 5
+        let angleDelta = TAU / CGFloat(count)
+        for i in 0..<count {
+            let enemyAngle = CGFloat(i) * angleDelta ± rand(angleDelta / 2)
+            let vector = CGVector(r: dist, a: enemyAngle)
+            let enemy = EnemySoldierNode(at: leaderPosition + vector)
+            enemy.follow(ghost)
+            self << enemy
+            enemies << enemy
+            enemy.name = "enemy"
+        }
+
+       ghost.enemyComponent!.onTargetAcquired { target in
+           if let target = target {
+               for enemy in enemies {
+                   enemy.rotateTowards(target)
+               }
+           }
+       }
+    }
+
+    private func generateEnemyGhost(angle angle: CGFloat, extra: CGFloat = 0) -> Node {
+        let position = outsideWorld(extra: extra, angle: angle)
+        let enemyGhost = Node(at: position)
         enemyGhost.name = "enemyGhost"
         let enemyComponent = EnemyComponent()
         enemyComponent.targetable = false
@@ -323,34 +374,7 @@ extension BaseLevel {
         rammingComponent.bindTo(enemyComponent: enemyComponent)
         self << enemyGhost
 
-        var enemies: [Node] = []
-        let enemyLeader = EnemyLeaderNode()
-        enemyLeader.name = "enemyLeader"
-        let leaderPosition = ghostPosition + CGPoint(r: dist + enemyLeader.radius, a: angle)
-        enemyLeader.position = leaderPosition
-        enemyLeader.follow(enemyGhost)
-        self << enemyLeader
-        enemies << enemyLeader
-
-        let count = 5
-        let angleDelta = TAU / CGFloat(count)
-        for i in 0..<count {
-            let enemyAngle = CGFloat(i) * angleDelta ± rand(angleDelta / 2)
-            let vector = CGVector(r: dist, a: enemyAngle)
-            let enemy = EnemySoldierNode(at: leaderPosition + vector)
-            enemy.follow(enemyGhost)
-            self << enemy
-            enemies << enemy
-            enemy.name = "enemy"
-        }
-
-       enemyComponent.onTargetAcquired { target in
-           if let target = target {
-               for enemy in enemies {
-                   enemy.rotateTowards(target)
-               }
-           }
-       }
+        return enemyGhost
     }
 
 }
