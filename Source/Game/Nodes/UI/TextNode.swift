@@ -10,7 +10,7 @@ class TextNode: Node {
     var text: String {
         didSet { updateTextNodes() }
     }
-    var font: ImageIdentifier.LetterSize {
+    var font: ImageIdentifier.Size {
         didSet { updateTextNodes() }
     }
     var textSprite: SKNode

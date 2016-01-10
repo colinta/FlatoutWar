@@ -66,7 +66,6 @@ class BaseLevel: Level {
         }
         else {
             let nextLevel = self.nextLevel()
-            nextLevel.config.storedPlayers = self.players
             self.director?.presentWorld(nextLevel.tutorialOrLevel())
         }
     }
@@ -113,6 +112,7 @@ extension BaseLevel {
 
         if success {
             config.gainedExperience = gainedExperience
+            nextLevel().config.storedPlayers = self.players
 
             let percentNode = PercentBar(at: CGPoint(x: 50, y: 0))
             self << percentNode

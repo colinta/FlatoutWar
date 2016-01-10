@@ -28,11 +28,7 @@ class EnemyJetNode: EnemySoldierNode {
         flyingComponent.maxSpeed = EnemyJetNode.DefaultJetSpeed
         flyingComponent.maxTurningSpeed = EnemyJetNode.DefaultJetSpeed
         flyingComponent.onRammed {
-            if let world = self.world {
-                let node = EnemyAttackExplosionNode(at: self.position)
-                node.zRotation = self.zRotation
-                world << node
-            }
+            self.generateExplosion()
             self.removeFromParent()
         }
         flyingComponent.damage = startingHealth * 2

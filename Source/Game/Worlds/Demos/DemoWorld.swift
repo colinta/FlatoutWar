@@ -17,9 +17,15 @@ class DemoWorld: World {
 
         let closeButton = CloseButton()
         closeButton.onTapped { _ in
-            self.director?.presentWorld(LevelSelectWorld())
+            self.director?.presentWorld(TutorialSelectWorld())
         }
         ui << closeButton
+    }
+
+    override func worldShook() {
+        super.worldShook()
+        if timeRate == 0.25 { timeRate = 1 }
+        else { timeRate = 0.25 }
     }
 
 }

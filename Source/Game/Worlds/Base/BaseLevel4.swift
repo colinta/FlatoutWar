@@ -13,10 +13,21 @@ class BaseLevel4: BaseLevel {
 
     override func populateWorld() {
         super.populateWorld()
+
+        for node in config.storedPlayers {
+            self << node
+        }
+
+        beginWave1(at: 3)
     }
 
     override func nextLevel() -> BaseLevel {
         return BaseLevel5()
+    }
+
+    func beginWave1(at startTime: CGFloat) {
+        timeline.every(1, startAt: startTime) {
+        }
     }
 
 }

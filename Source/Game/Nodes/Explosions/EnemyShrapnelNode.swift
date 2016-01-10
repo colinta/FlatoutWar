@@ -8,9 +8,33 @@
 
 class EnemyShrapnelNode: Node {
 
-    required init(type: ImageIdentifier.EnemyType) {
+    required init(type: ImageIdentifier.EnemyType, size: ImageIdentifier.Size) {
         super.init()
-        self << SKSpriteNode(id: .EnemyShrapnel(type: type))
+        self << SKSpriteNode(id: .EnemyShrapnel(type: type, size: size))
+    }
+
+    func setupAround(node: Node, at location: CGPoint? = nil) {
+        position = location ?? node.position
+        zRotation = node.zRotation
+
+        let duration: CGFloat = 0.5
+
+        let rotate = KeepRotatingComponent()
+        rotate.rate = rand(min: 1, max: 2)
+        addComponent(rotate)
+
+        let move = MoveToComponent()
+        let dist: CGFloat = 30
+        let dest = CGPoint(r: rand(min: dist, max: dist + 30), a: rand(TAU))
+        move.target = node.position + dest
+        move.duration = duration
+        addComponent(move)
+
+        let fade = FadeToComponent()
+        fade.target = 0
+        fade.duration = duration
+        fade.removeNodeOnFade()
+        addComponent(fade)
     }
 
     required init() {

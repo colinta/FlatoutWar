@@ -31,7 +31,7 @@ extension ImageIdentifier.EnemyType {
     }
 }
 
-extension ImageIdentifier.LetterSize {
+extension ImageIdentifier.Size {
 
     var font: Font {
         switch self {
@@ -66,9 +66,14 @@ extension ImageIdentifier {
             return artist
         case let .Enemy(enemyType, health):
             return enemyType.artist(health: health)
-        case let .EnemyShrapnel(enemyType):
-            let artist = enemyType.artist(health: 1)
-            artist.size = artist.size * 0.1
+        case let .EnemyShrapnel(enemyType, size):
+            let artist = enemyType.artist(health: 100)
+            switch size {
+            case .Small:
+                artist.size = artist.size * 0.1
+            case .Big:
+                artist.size = artist.size * 0.5
+            }
             return artist
         case .Cursor:
             let artist = CursorArtist()

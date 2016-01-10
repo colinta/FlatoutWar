@@ -56,7 +56,7 @@ class StartupWorld: World {
 
         timeline.at(25) {
             for _ in 0..<100 {
-                let enemy = self.spawn(rand(min: 400, max: 1000))
+                let enemy = self.spawn(rand(min: 600, max: 800))
                 enemy.rammingComponent?.maxSpeed = 50
             }
 

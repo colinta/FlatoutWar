@@ -54,11 +54,7 @@ class EnemySoldierNode: Node {
         rammingComponent.bindTo(enemyComponent: enemyComponent)
         rammingComponent.maxSpeed = EnemySoldierNode.DefaultSoldierSpeed
         rammingComponent.onRammed {
-            if let world = self.world {
-                let node = EnemyAttackExplosionNode(at: self.position)
-                node.zRotation = self.zRotation
-                world << node
-            }
+            self.generateExplosion()
             self.removeFromParent()
         }
         rammingComponent.damage = startingHealth * 2
@@ -85,29 +81,33 @@ class EnemySoldierNode: Node {
         sprite.size = texture.size() * sprite.xScale
     }
 
+    func generateExplosion() {
+        if let world = self.world {
+            let node = EnemyAttackExplosionNode(at: self.position)
+            node.zRotation = self.zRotation
+            world << node
+
+            let locations = [
+                world.convertPoint(CGPoint(x: radius / 2, y: radius / 2), fromNode: self),
+                world.convertPoint(CGPoint(x: radius / 2, y:-radius / 2), fromNode: self),
+                world.convertPoint(CGPoint(x:-radius / 2, y: radius / 2), fromNode: self),
+                world.convertPoint(CGPoint(x:-radius / 2, y:-radius / 2), fromNode: self),
+            ]
+            4.times { (i: Int) in
+                let node = EnemyShrapnelNode(type: enemyType(), size: .Big)
+                node.setupAround(self, at: locations[i])
+                let dest = CGPoint(r: rand(min: 60, max: 90), a: zRotation + TAU_2)
+                node.moveToComponent?.target = node.position + dest
+                world << node
+            }
+        }
+    }
+
     func generateShrapnel(damage: Float) {
         if let world = self.world {
             Int(damage * 10).times {
-                let node = EnemyShrapnelNode(type: .Soldier)
-                node.position = self.position
-                let rotate = KeepRotatingComponent()
-                rotate.rate = rand(min: 1, max: 2)
-                node.addComponent(rotate)
-
-                let duration: CGFloat = 0.5
-
-                let move = MoveToComponent()
-                let dest = CGPoint(r: rand(min: 15, max: 30), a: rand(TAU))
-                move.target = self.position + dest
-                move.duration = duration
-                node.addComponent(move)
-
-                let fade = FadeToComponent()
-                fade.target = 0
-                fade.duration = duration
-                fade.removeNodeOnFade()
-                node.addComponent(fade)
-
+                let node = EnemyShrapnelNode(type: enemyType(), size: .Small)
+                node.setupAround(self)
                 world << node
             }
         }

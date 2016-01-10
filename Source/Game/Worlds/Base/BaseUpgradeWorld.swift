@@ -14,7 +14,7 @@ class BaseUpgradeWorld: World {
     let upgradeTextNode = TextNode()
     let buildTextNode = TextNode()
 
-    var currentNodes: [(Node, CGPoint)] = []
+    var storedNodes: [(Node, CGPoint)] = []
     var buildNodes: [(Node, CGPoint)] = []
     var upgradeNodes: [(Node, CGPoint)] = []
 
@@ -49,10 +49,10 @@ class BaseUpgradeWorld: World {
             CGPoint(-50, -120),
         ]
         var locationIndex = 0
-        let nodes = [playerNode] + nextWorld.config.storedPlayers
+        let nodes = [playerNode] + Array(nextWorld.config.storedPlayers[0..<(locations.count - 1)])
         for node in nodes {
             node.position = locations[locationIndex]
-            currentNodes << (node, node.position)
+            storedNodes << (node, node.position)
 
             locationIndex += 1
             self << node
@@ -70,7 +70,7 @@ class BaseUpgradeWorld: World {
             let moveTo = MoveToComponent()
             upgradeTextNode.addComponent(moveTo)
 
-            currentNodes << (upgradeTextNode, upgradeTextNode.position)
+            storedNodes << (upgradeTextNode, upgradeTextNode.position)
         }
 
         do {
@@ -85,10 +85,15 @@ class BaseUpgradeWorld: World {
             buildTextNode.addComponent(moveTo)
 
             buildNodes << (buildTextNode, buildTextNode.position)
+
+            let drone = DroneNode(at: CGPoint(x: 175, y: -20))
+            self << drone
+            buildNodes << (drone, drone.position)
         }
 
         let closeButton = CloseButton()
         closeButton.onTapped { _ in
+            self.nextWorld.config.storedPlayers = self.storedNodes.map { (node, pt) in return node }
             self.director?.presentWorld(self.nextWorld)
         }
         ui << closeButton
@@ -212,17 +217,17 @@ class BaseUpgradeWorld: World {
         else if node is DroneNode {
             let originalNode = Node()
             originalNode << SKSpriteNode(id: .Drone(upgrade: .One, health: 100))
-            originalNode.position = CGPoint(x: 125, y: 30)
+            originalNode.position = CGPoint(x: 175, y: 30)
 
             let arrowNode = TextNode()
             arrowNode.text = "↓"
             arrowNode.font = .Small
             arrowNode.setScale(1.5)
-            arrowNode.position = CGPoint(x: 125, y: -20)
+            arrowNode.position = CGPoint(x: 175, y: -20)
 
             let upgradeNode = Node()
             upgradeNode << SKSpriteNode(id: .Drone(upgrade: .Two, health: 100))
-            upgradeNode.position = CGPoint(x: 125, y: -70)
+            upgradeNode.position = CGPoint(x: 175, y: -70)
 
             newNodes = [originalNode, arrowNode, upgradeNode]
         }

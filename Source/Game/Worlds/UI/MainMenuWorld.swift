@@ -26,7 +26,7 @@ class MainMenuWorld: World {
         let startButtonNode = Button(at: CGPoint(x: 0, y: 0))
         startButtonNode.text = "START"
         startButtonNode.onTapped {
-            self.director?.presentWorld(LevelSelectWorld())
+            self.director?.presentWorld(BaseLevel1().tutorialOrLevel())
         }
         self << startButtonNode
 

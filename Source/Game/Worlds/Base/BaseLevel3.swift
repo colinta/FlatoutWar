@@ -18,7 +18,6 @@ class BaseLevel3: BaseLevel {
             self.introduceDrone()
         }
 
-        // wave 1: two sources of weak, one source of strong
         beginWave1(at: 3)
         beginWave2(at: 35)
         beginWave3(at: 72)

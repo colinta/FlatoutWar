@@ -7,7 +7,7 @@
 //
 
 enum ImageIdentifier {
-    enum LetterSize {
+    enum Size {
         case Small
         case Big
 
@@ -28,12 +28,12 @@ enum ImageIdentifier {
     }
 
     case None
-    case Letter(String, size: LetterSize)
+    case Letter(String, size: Size)
     case Button(style: ButtonStyle)
     case Percent(Int, style: PercentStyle)
 
     case Enemy(type: EnemyType, health: Int)
-    case EnemyShrapnel(type: EnemyType)
+    case EnemyShrapnel(type: EnemyType, size: Size)
 
     case Cursor
 
@@ -77,8 +77,8 @@ enum ImageIdentifier {
             return "Button-style_\(style.name)"
         case let .Enemy(type, health):
             return "Enemy-type_\(type.name)-health_\(health)"
-        case let .EnemyShrapnel(type):
-            return "EnemyShrapnel-type_\(type.name)"
+        case let .EnemyShrapnel(type, size):
+            return "EnemyShrapnel-type_\(type.name)-size_\(size.name)"
         case .Cursor:
             return "Cursor"
         case let .Drone(upgrade, health):
