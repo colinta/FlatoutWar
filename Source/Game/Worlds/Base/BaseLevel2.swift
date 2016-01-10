@@ -56,17 +56,17 @@ class BaseLevel2: BaseLevel {
     // fast enemies waves
     func beginWave4(at startTime: CGFloat) {
         timeline.every(6, startAt: startTime, times: 5) {
-            self.generateScoutEnemies(self.randSideAngle())()
+            self.generateScouts(self.randSideAngle())()
         }
         timeline.every(2, startAt: startTime + 35, times: 5) {
-            self.generateScoutEnemies(self.randSideAngle())()
+            self.generateScouts(self.randSideAngle())()
         }
     }
 
     // fast enemies waves
     func beginWave5(at startTime: CGFloat) {
         let wave5 = self.randSideAngle()
-        timeline.every(1, startAt: startTime, times: 10, block: self.generateScoutEnemies(wave5, spread: TAU_8))
+        timeline.every(1, startAt: startTime, times: 10, block: self.generateScouts(wave5, spread: TAU_8))
     }
 
     override func nextLevel() -> BaseLevel {

@@ -270,7 +270,7 @@ extension BaseLevel {
         }
     }
 
-    func generateScoutEnemies(genAngle: CGFloat, spread: CGFloat = 0.087266561)() {
+    func generateScouts(genAngle: CGFloat, spread: CGFloat = 0.087266561)() {
         var angle = genAngle
         let d = CGFloat(8)
         if spread > 0 {
