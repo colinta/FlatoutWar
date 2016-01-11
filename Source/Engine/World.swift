@@ -13,7 +13,7 @@ class World: Node {
         }
     }
     var cameraNode: Node?
-    var ui: Node! { return (scene as? WorldScene)?.uiNode }
+    var ui = Node()
     var timeline = TimelineComponent()
 
     func outsideWorld(angle angle: CGFloat) -> CGPoint {
@@ -493,7 +493,7 @@ extension World {
 extension World {
 
     func updateFixedNodes() {
-        if let screenSize = screenSize, ui = ui {
+        if let screenSize = screenSize {
             let uiNodes = ui.children.filter { sknode in
                 return (sknode as? Node)?.fixedPosition != nil
             } as! [Node]

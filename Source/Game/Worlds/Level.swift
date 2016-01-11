@@ -74,12 +74,19 @@ class Level: World {
             self.director?.presentWorld(LevelSelectWorld())
         }
 
-        nextButton.fixedPosition = .Center(x: 27, y: -80)
+        nextButton.fixedPosition = .Bottom(x: 27, y: 80)
         nextButton.text = ">"
         nextButton.style = .Square
         nextButton.size = CGSize(50)
         nextButton.visible = false
         nextButton.onTapped(self.goToNextWorld)
+
+        ui << resumeButton
+        ui << restartButton
+        ui << quitButton
+        ui << pauseButton
+        ui << backButton
+        ui << nextButton
     }
 
     required init?(coder: NSCoder) {
@@ -112,13 +119,6 @@ class Level: World {
     override func populateWorld() {
         super.populateWorld()
         cameraNode = Node(at: CGPoint(x: 0, y: 0))
-
-        ui << resumeButton
-        ui << restartButton
-        ui << quitButton
-        ui << pauseButton
-        ui << backButton
-        ui << nextButton
 
         setScale(2)
         cameraZoom.rate = 0.5

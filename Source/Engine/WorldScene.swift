@@ -14,7 +14,7 @@ class WorldScene: SKScene {
     private var worldScalingNode = SKNode()
     private var blurryNode = SKEffectNode()
     private var pauseNode: SKNode?
-    var uiNode = Node()
+    var uiNode: Node
     var prevTime: NSTimeInterval?
     var touchSession: TouchSession?
 
@@ -33,6 +33,7 @@ class WorldScene: SKScene {
         self.world = world
         world.size = size / WorldScene.worldScale
         world.screenSize = size
+        uiNode = world.ui
         super.init(size: size)
         anchorPoint = CGPoint(0.5, 0.5)
 
