@@ -27,6 +27,7 @@ class Level: World {
     }
 
     let cameraZoom = ZoomToComponent()
+    let cameraMove = MoveToComponent()
 
     required init() {
         super.init()
@@ -123,7 +124,10 @@ class Level: World {
         setScale(2)
         cameraZoom.rate = 0.5
         cameraZoom.target = 1.0
-        timeline.at(1.75) { self.addComponent(self.cameraZoom) }
+        timeline.at(1.75) {
+            self.addComponent(self.cameraZoom)
+            self.cameraNode!.addComponent(self.cameraMove)
+        }
     }
 
     override func didAdd(node: Node) {
@@ -154,22 +158,20 @@ class Level: World {
 
     func moveCamera(to target: CGPoint? = nil, zoom: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, handler: MoveToComponent.OnArrived? = nil) {
         if let target = target {
-            let moveTo = MoveToComponent()
-            moveTo.target = target
+            cameraMove.target = target
             if let duration = duration {
-                moveTo.duration = duration
+                cameraMove.duration = duration
             }
             else if let rate = rate {
-                moveTo.speed = rate
+                cameraMove.speed = rate
             }
             else {
-                moveTo.speed = 80
+                cameraMove.speed = 80
             }
             if let handler = handler {
-                moveTo.onArrived(handler)
+                cameraMove.onArrived(handler)
             }
-            moveTo.removeComponentOnArrived()
-            cameraNode?.addComponent(moveTo)
+            cameraMove.resetOnArrived()
         }
 
         if let zoom = zoom {

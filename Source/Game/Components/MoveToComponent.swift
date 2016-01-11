@@ -49,6 +49,12 @@ class MoveToComponent: ApplyToNodeComponent {
         }
     }
 
+    func resetOnArrived() {
+        self.onArrived {
+            self._onArrived = []
+        }
+    }
+
     override func defaultApplyTo() {
         super.defaultApplyTo()
         currentPosition = node.position
