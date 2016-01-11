@@ -110,6 +110,10 @@ extension BaseLevel {
         let finalTimeline = TimelineComponent()
         addComponent(finalTimeline)
 
+        for node in players + enemies {
+            node.enabled = false
+        }
+
         if success {
             config.gainedExperience = gainedExperience
             nextLevel().config.storedPlayers = self.players
