@@ -15,10 +15,13 @@ class BaseLevel4: BaseLevel {
         super.populateWorld()
 
         for node in config.storedPlayers {
+            customizeNode(node)
             self << node
         }
 
-        beginWave1(at: 3)
+        beginWave1(at: 4)
+        beginWave2(at: 45)
+        moveCamera(to: CGPoint(150, 50), duration: 2)
     }
 
     override func nextLevel() -> BaseLevel {
@@ -26,8 +29,12 @@ class BaseLevel4: BaseLevel {
     }
 
     func beginWave1(at startTime: CGFloat) {
-        timeline.every(1, startAt: startTime) {
-        }
+        timeline.every(0.39, startAt: startTime, times: 10, block: generateEnemyPair(rand(TAU * 3 / 8)))
+        timeline.every(0.39, startAt: startTime + 15, times: 10, block: generateEnemyPair(rand(TAU * 3 / 8)))
+        timeline.every(0.39, startAt: startTime + 25, times: 10, block: generateEnemyPair(rand(TAU * 3 / 8)))
+    }
+
+    func beginWave2(at startTime: CGFloat) {
     }
 
 }
