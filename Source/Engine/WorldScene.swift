@@ -48,14 +48,16 @@ class WorldScene: SKScene {
     }
 
     func worldPaused() {
-        if let texture = view?.textureFromNode(self) {
-            let sprite = SKSpriteNode(texture: texture)
-            blurryNode << sprite
-            if let texture = view?.textureFromNode(blurryNode) {
-                blurryNode.removeAllChildren()
-                pauseNode = SKSpriteNode(texture: texture)
-                self << pauseNode!
-                world.hidden = true
+        if let view = view {
+            if let texture = view.textureFromNode(self) {
+                let sprite = SKSpriteNode(texture: texture)
+                blurryNode << sprite
+                if let texture = view.textureFromNode(blurryNode) {
+                    blurryNode.removeAllChildren()
+                    pauseNode = SKSpriteNode(texture: texture)
+                    self << pauseNode!
+                    world.hidden = true
+                }
             }
         }
     }
