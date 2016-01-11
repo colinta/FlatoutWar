@@ -143,10 +143,10 @@ class DroneNode: Node {
         let phase = phaseComponent!.phase
         let radarRadius: CGFloat = targetingComponent!.radius!
         if phase < 0.9 {
-            let path = CGPathCreateMutable()
             let easedPhase = easeOutExpo(time: interpolate(phase, from: (0.5, 0.9), to: (0, 1)))
             let alpha = interpolate(phase, from: (0.6, 0.8), to: (0.25, 0))
             radar1.alpha = alpha
+            let path = CGPathCreateMutable()
             CGPathAddEllipseInRect(path, nil, CGPointZero.rectWithSize(CGSize(r: radarRadius * easedPhase)))
             radar1.path = path
         }
@@ -154,11 +154,17 @@ class DroneNode: Node {
             radar1.alpha = 0
         }
 
-        if phase > 0.6 {
+        if selectableComponent!.selected {
+            radar2.alpha = 1
             let path = CGPathCreateMutable()
+            CGPathAddEllipseInRect(path, nil, CGPointZero.rectWithSize(CGSize(r: radarRadius)))
+            radar2.path = path
+        }
+        else if phase > 0.6 {
             let easedPhase = easeOutExpo(time: interpolate(phase, from: (0.6, 1.0), to: (0, 1)))
             let alpha = interpolate(phase, from: (0.8, 1.0), to: (0.25, 0))
             radar2.alpha = alpha
+            let path = CGPathCreateMutable()
             CGPathAddEllipseInRect(path, nil, CGPointZero.rectWithSize(CGSize(r: radarRadius * easedPhase)))
             radar2.path = path
         }
