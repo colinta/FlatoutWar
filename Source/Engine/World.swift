@@ -281,6 +281,7 @@ extension World {
                 for handler in _onNoMoreEnemies {
                     handler()
                 }
+                _onNoMoreEnemies = []
             }
         }
 
