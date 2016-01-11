@@ -265,7 +265,7 @@ extension BaseLevel {
     }
 
     func generateEnemyPair(angle: CGFloat)() {
-        let dist = CGFloat(13)
+        let dist = CGFloat(5)
         let ghost = generateEnemyGhost(angle: angle, extra: 10)
 
         let left = CGVector(r: dist, a: angle + TAU_4)
