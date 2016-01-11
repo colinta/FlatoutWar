@@ -34,18 +34,24 @@ class AutoFireTutorial: Tutorial {
         tapButton.style = .Circle
         tapButton.font = .Small
         tapButton.text = "TAP"
-        tapButton.onTapped {
-            self.playerNode.rotateToComponent?.target = self.playerNode.angleTo(tapButton)
-            tapButton.removeFromParent()
-
-            self.timeline.after(4.5) {
-                self.showSecondButton()
-            }
+        tapButton.touchableComponent?.on(.Tapped) { tapLocation in
+            let location = self.playerNode.convertPosition(tapButton) + tapLocation
+            self.playerNode.rotateToComponent?.target = location.angle
         }
+
+        onNoMoreEnemies {
+            self.playerNode.targetingComponent?.currentTarget = nil
+            tapButton.removeFromParent()
+            self.showSecondEnemies()
+        }
+
         self << tapButton
+        defaultNode = tapButton
     }
 
     func showSecondEnemies() {
+        tutorialTextNode.text = "NICE!"
+
         let enemyLocations = [
             (start: CGPoint(r: 250, a: 0.degrees), end: CGPoint(r: 35, a: 0.degrees)),
             (start: CGPoint(r: 260, a: 10.degrees), end: CGPoint(r: 35, a: 10.degrees)),
@@ -61,28 +67,30 @@ class AutoFireTutorial: Tutorial {
             moveTo.speed = EnemySoldierNode.DefaultSoldierSpeed
             enemyNode.addComponent(moveTo)
         }
+
+        timeline.after(1) {
+            self.showSecondButton()
+        }
     }
 
     func showSecondButton() {
-        tutorialTextNode.text = "NICE!"
-        showSecondEnemies()
+        let tapButton = Button(at: CGPoint(x: 150, y: 0))
+        tapButton.style = .Circle
+        tapButton.font = .Small
+        tapButton.text = "TAP"
 
-        timeline.after(1) {
-            let tapButton = Button(at: CGPoint(x: 150, y: 0))
-            tapButton.style = .Circle
-            tapButton.font = .Small
-            tapButton.text = "TAP"
-            tapButton.onTapped {
-                self.playerNode.targetingComponent?.currentTarget = nil
-                self.playerNode.rotateToComponent?.target = self.playerNode.angleTo(tapButton)
-                tapButton.removeFromParent()
-
-                self.timeline.after(5.5) {
-                    self.done()
-                }
-            }
-            self << tapButton
+        tapButton.touchableComponent?.on(.Tapped) { tapLocation in
+            self.playerNode.aimAt(node: tapButton, location: tapLocation)
         }
+
+        self.onNoMoreEnemies {
+            tapButton.removeFromParent()
+            self.done()
+        }
+
+        self.defaultNode = tapButton
+
+        self << tapButton
     }
 
     func done() {

@@ -12,7 +12,7 @@ class TutorialSelectWorld: World {
         pauseable = false
 
         let worlds: [(String, () -> World)] = [
-            ("AUTO FIRE TUTORIAL", { return AutoFireTutorial() }),
+            ("AUTO AIM TUTORIAL", { return AutoFireTutorial() }),
             ("RAPID FIRE TUTORIAL", { return RapidFireTutorial() }),
             ("DRONE TUTORIAL", { return DroneTutorial() }),
             ("", { return TutorialSelectWorld() }),

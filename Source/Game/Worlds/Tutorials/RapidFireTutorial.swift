@@ -14,11 +14,11 @@ class RapidFireTutorial: Tutorial {
         tutorialTextNode.text = "RAPID FIRE"
 
         timeline.at(1) {
-            self.showFirstButton()
+            self.showFirstEnemy()
         }
     }
 
-    func showFirstEnemy() -> EnemySoldierNode {
+    func showFirstEnemy() {
         let locations = (start: CGPoint(x: 0, y: -150), end: CGPoint(x: 0, y: -50))
         let enemyNode = EnemyLeaderNode(at: locations.start)
         enemyNode.rotateTowards(self.playerNode)
@@ -29,45 +29,44 @@ class RapidFireTutorial: Tutorial {
         moveTo.target = locations.end
         moveTo.speed = EnemySoldierNode.DefaultSoldierSpeed
         enemyNode.addComponent(moveTo)
-        return enemyNode
+
+        timeline.after(1.5, block: showFirstButton)
     }
 
     func showFirstButton() {
-        let enemyNode = self.showFirstEnemy()
-        timeline.after(1.5) {
-            let holdButton = Button(at: CGPoint(x: 200, y: 0))
-            holdButton.font = .Small
-            holdButton.text = "HOLD"
-            holdButton.touchableComponent!.on(.Down) { _ in
-                self.playerNode.overrideForceFire = true
-                self.playerNode.firingComponent?.enabled = true
-                holdButton.text = "DRAG"
+        let holdButton = Button(at: CGPoint(x: 200, y: 0))
+        holdButton.font = .Small
+        holdButton.text = "HOLD"
+        holdButton.touchableComponent!.onDragged { prevLoc, loc in
+            let prevWorldLoc = self.convertPoint(prevLoc, fromNode: holdButton)
+            let worldLoc = self.convertPoint(loc, fromNode: holdButton)
 
-                let moveTo = MoveToComponent()
-                moveTo.target = CGPoint(x: 0, y: -90)
-                moveTo.speed = 80
-                holdButton.addComponent(moveTo)
-            }
-            holdButton.touchableComponent!.onDragged { prevButtonLocation, buttonLocation in
-                self.playerNode.rotateToComponent?.target = self.playerNode.angleTo(holdButton)
-            }
-            holdButton.touchableComponent!.on(.Up) { _ in
-                self.playerNode.overrideForceFire = false
-                self.playerNode.firingComponent?.enabled = false
-                holdButton.text = "HOLD"
-                holdButton.moveToComponent?.removeFromNode()
-            }
-            enemyNode.onDeath {
-                self.playerNode.overrideForceFire = false
-                self.playerNode.firingComponent?.enabled = false
-                holdButton.removeFromParent()
-                self.showSecondButton()
-            }
-            self << holdButton
+            let prevPlayerLoc = self.convertPoint(prevWorldLoc, toNode: self.playerNode)
+            let playerLoc = self.convertPoint(worldLoc, toNode: self.playerNode)
+            self.playerNode.onTouchDragged(prevPlayerLoc, location: playerLoc)
         }
+        holdButton.touchableComponent!.on(.Down) { _ in
+            self.playerNode.overrideForceFire = true
+            self.playerNode.firingComponent?.enabled = true
+            holdButton.text = "DRAG"
+        }
+        holdButton.touchableComponent!.on(.Up) { _ in
+            self.playerNode.overrideForceFire = false
+            self.playerNode.firingComponent?.enabled = false
+            holdButton.text = "HOLD"
+        }
+        onNoMoreEnemies {
+            self.playerNode.overrideForceFire = false
+            self.playerNode.firingComponent?.enabled = false
+            holdButton.removeFromParent()
+            self.showSecondEnemies()
+        }
+        self << holdButton
     }
 
-    func showSecondEnemies() -> CGFloat {
+    func showSecondEnemies() {
+        tutorialTextNode.text = "NICE!"
+
         let angle = -67.75.degrees
         let enemyLocations = [
             (start: CGPoint(r: 235, a: angle), end: CGPoint(r: 50, a: angle)),
@@ -90,43 +89,40 @@ class RapidFireTutorial: Tutorial {
             moveTo.speed = EnemySoldierNode.DefaultSoldierSpeed
             enemyNode.addComponent(moveTo)
         }
-        return angle
+
+        timeline.after(1, block: showSecondButton)
     }
 
     func showSecondButton() {
-        tutorialTextNode.text = "NICE!"
-        let enemyAngle = showSecondEnemies()
+        let holdButton = Button(at: CGPoint(x: 200, y: -90))
+        holdButton.font = .Small
+        holdButton.text = "HOLD"
+        holdButton.touchableComponent!.onDragged { prevLoc, loc in
+            let prevWorldLoc = self.convertPoint(prevLoc, fromNode: holdButton)
+            let worldLoc = self.convertPoint(loc, fromNode: holdButton)
 
-        timeline.after(1) {
-            let holdButton = Button(at: CGPoint(x: 200, y: -90))
-            holdButton.font = .Small
+            let prevPlayerLoc = self.convertPoint(prevWorldLoc, toNode: self.playerNode)
+            let playerLoc = self.convertPoint(worldLoc, toNode: self.playerNode)
+            self.playerNode.onTouchDragged(prevPlayerLoc, location: playerLoc)
+
+            self.playerNode.overrideForceFire = true
+            self.playerNode.firingComponent?.enabled = true
+        }
+        holdButton.touchableComponent!.on(.Up) { _ in
+            self.playerNode.overrideForceFire = false
+            self.playerNode.firingComponent?.enabled = false
             holdButton.text = "HOLD"
-            holdButton.touchableComponent!.on(.Moved) { buttonLocation in
-                let angle = self.playerNode.angleTo(holdButton) + enemyAngle
-                self.playerNode.rotateTo(angle)
-            }
-            holdButton.touchableComponent!.on(.Up) { _ in
-                self.playerNode.overrideForceFire = false
-                self.playerNode.firingComponent?.enabled = false
-                holdButton.text = "HOLD"
-                holdButton.moveToComponent?.removeFromNode()
-            }
-            holdButton.touchableComponent!.on(.Down) { _ in
-                self.playerNode.overrideForceFire = true
-                self.playerNode.firingComponent?.enabled = true
-                holdButton.text = "DRAG"
+        }
+        holdButton.touchableComponent!.on(.Down) { _ in
+            self.playerNode.overrideForceFire = true
+            self.playerNode.firingComponent?.enabled = true
+            holdButton.text = "DRAG"
+        }
+        self << holdButton
 
-                let moveTo = MoveToComponent()
-                moveTo.target = CGPoint(x: 200, y: 0)
-                moveTo.speed = 40
-                holdButton.addComponent(moveTo)
-            }
-            self << holdButton
-
-            self.onNoMoreEnemies {
-                holdButton.removeFromParent()
-                self.done()
-            }
+        self.onNoMoreEnemies {
+            holdButton.removeFromParent()
+            self.done()
         }
     }
 

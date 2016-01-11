@@ -144,6 +144,25 @@ class BasePlayerNode: Node {
 
 }
 
+// MARK: public helpers
+
+extension BasePlayerNode {
+
+    func aimAt(node node: Node, location: CGPoint? = nil) {
+        let location = self.convertPosition(node) + (location ?? CGPointZero)
+        aimAt(location: location)
+    }
+
+    func aimAt(location location: CGPoint) {
+        aimAt(angle: location.angle)
+    }
+
+    func aimAt(angle angle: CGFloat) {
+        self.rotateToComponent?.target = angle
+    }
+
+}
+
 // MARK: Fire Bullet
 
 extension BasePlayerNode {
