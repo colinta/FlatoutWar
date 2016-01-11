@@ -178,19 +178,31 @@ extension BaseLevel {
 
     func introduceDrone() -> DroneNode {
         let drone = DroneNode()
-        drone.draggableComponent?.maintainDistance(100, around: playerNode)
         drone.position = playerNode.position
-        drone.alpha = 0
         self << drone
+        customizeNode(drone)
 
-        let fadeIn = FadeToComponent()
-        fadeIn.target = 1
-        fadeIn.duration = 1.4
-        fadeIn.removeComponentOnFade()
-        drone.addComponent(fadeIn)
-
-        drone.draggableComponent?.target = CGPoint(-30, -60)
         return drone
+    }
+
+}
+
+extension BaseLevel {
+
+    func customizeNode(node: Node) {
+        if let drone = node as? DroneNode {
+            drone.draggableComponent?.maintainDistance(100, around: playerNode)
+            drone.alpha = 0
+
+            let fadeIn = FadeToComponent()
+            fadeIn.target = 1
+            fadeIn.duration = 1.4
+            fadeIn.removeComponentOnFade()
+            drone.addComponent(fadeIn)
+
+            drone.draggableComponent?.target = drone.position
+            drone.position = playerNode.position
+        }
     }
 
 }
