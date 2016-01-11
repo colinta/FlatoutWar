@@ -55,13 +55,16 @@ class RapidFireTutorial: Tutorial {
             self.playerNode.firingComponent?.enabled = false
             holdButton.text = "HOLD"
         }
+
         onNoMoreEnemies {
             self.playerNode.overrideForceFire = false
             self.playerNode.firingComponent?.enabled = false
             holdButton.removeFromParent()
             self.showSecondEnemies()
         }
+
         self << holdButton
+        defaultNode = holdButton
     }
 
     func showSecondEnemies() {
@@ -119,6 +122,7 @@ class RapidFireTutorial: Tutorial {
             holdButton.text = "DRAG"
         }
         self << holdButton
+        defaultNode = holdButton
 
         self.onNoMoreEnemies {
             holdButton.removeFromParent()
