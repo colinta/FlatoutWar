@@ -75,6 +75,9 @@ class EnemyComponent: Component {
         }
         let threshold = minDist + max((maxDist - minDist) * 0.25, 40)
         return targets.filter { entry in
+            if entry.player is BasePlayerNode {
+                return true
+            }
             return entry.dist < threshold
         }.randWeighted { entry in
             return Float(entry.dist)
