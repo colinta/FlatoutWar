@@ -7,7 +7,8 @@
 //
 
 class SelectableComponent: Component {
-    var selecting = false
+    var selected = false
+    private var selecting = false
 
     typealias OnSelected = (Bool) -> Void
     typealias SimpleOnSelected = (Bool) -> Void
@@ -25,6 +26,7 @@ class SelectableComponent: Component {
     }
 
     func changeSelected(selected: Bool) {
+        self.selected = selected
         for handler in _onSelected {
             handler(selected)
         }
