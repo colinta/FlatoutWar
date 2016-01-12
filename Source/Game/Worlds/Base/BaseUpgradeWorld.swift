@@ -49,15 +49,17 @@ class BaseUpgradeWorld: World {
             CGPoint(-50, -120),
         ]
         var locationIndex = 0
-        let nodes = [playerNode] + Array(nextWorld.config.storedPlayers[0..<(locations.count - 1)])
+        let nodes = [playerNode] + nextWorld.config.storedPlayers
         for node in nodes {
             node.position = locations[locationIndex]
             storedNodes << (node, node.position)
-
-            locationIndex += 1
+            customizeNode(node)
             self << node
 
-            customizeNode(node)
+            locationIndex += 1
+            if locationIndex == locations.count {
+                break
+            }
         }
 
         do {
