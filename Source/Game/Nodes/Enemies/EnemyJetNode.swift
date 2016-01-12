@@ -28,7 +28,7 @@ class EnemyJetNode: EnemySoldierNode {
         flyingComponent.maxSpeed = EnemyJetNode.DefaultJetSpeed
         flyingComponent.maxTurningSpeed = EnemyJetNode.DefaultJetSpeed
         flyingComponent.onRammed {
-            self.generateExplosion()
+            self.generateRammingExplosion()
             self.removeFromParent()
         }
         flyingComponent.damage = startingHealth * 2

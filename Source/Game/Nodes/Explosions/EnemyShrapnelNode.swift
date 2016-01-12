@@ -24,8 +24,9 @@ class EnemyShrapnelNode: Node {
         addComponent(rotate)
 
         let move = MoveToComponent()
-        let dist: CGFloat = 30
-        let dest = CGPoint(r: rand(min: dist, max: dist + 30), a: rand(TAU))
+        let minDist: CGFloat = node.radius * 3
+        let maxDist: CGFloat = node.radius * 6
+        let dest = CGPoint(r: rand(min: minDist, max: maxDist), a: rand(TAU))
         move.target = node.position + dest
         move.duration = duration
         addComponent(move)
