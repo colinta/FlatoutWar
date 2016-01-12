@@ -20,6 +20,17 @@ class DemoWorld: World {
             self.director?.presentWorld(TutorialSelectWorld())
         }
         ui << closeButton
+
+        let restartButton = Button()
+        restartButton.fixedPosition = .TopLeft(x: 15, y: -15)
+        restartButton.setScale(0.5)
+        restartButton.font = .Small
+        restartButton.size = CGSize(60)
+        restartButton.text = "O"
+        restartButton.onTapped { _ in
+            self.restartWorld()
+        }
+        ui << restartButton
     }
 
     override func worldShook() {
