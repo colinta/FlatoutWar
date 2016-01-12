@@ -317,6 +317,13 @@ extension BaseLevel {
         }
     }
 
+    func generateJet(genAngle: CGFloat, spread: CGFloat = 0.087266561)() {
+        let jet = EnemyJetNode()
+        jet.name = "jet"
+        jet.position = self.outsideWorld(jet, angle: genAngle) + CGPoint(y: ±rand(spread))
+        self << jet
+    }
+
     func generateLeaderWithLinearFollowers(genAngle: CGFloat, spread: CGFloat = 0.087266561)() {
         var angle = genAngle
         if spread > 0 {
