@@ -70,7 +70,7 @@ class TargetingComponent: Component {
             return false
         }
         let enemyPosition = node.convertPosition(enemy)
-        guard enemyPosition.lengthWithin(radius) else
+        guard enemyPosition.lengthWithin(radius + enemy.radius) else
         {
             return false
         }
