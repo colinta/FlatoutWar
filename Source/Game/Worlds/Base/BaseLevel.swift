@@ -333,6 +333,29 @@ extension BaseLevel {
         self << jet
     }
 
+    func generateBigJet(genAngle: CGFloat, spread: CGFloat = 0.087266561)() {
+        let jet = EnemyBigJetNode()
+        jet.name = "bigjet"
+        jet.position = self.outsideWorld(jet, angle: genAngle) + CGPoint(y: ±rand(spread))
+        self << jet
+    }
+
+    func generateBigJetWithFollowers(genAngle: CGFloat, spread: CGFloat = 0.087266561)() {
+        let jet = EnemyBigJetNode()
+        jet.name = "bigjet leader"
+        jet.position = self.outsideWorld(jet, angle: genAngle) + CGPoint(y: ±rand(spread))
+        self << jet
+
+        let dist: CGFloat = 8
+        for i in 0..<10 {
+            let location = jet.position + CGVector(r: dist * CGFloat(i), a: genAngle)
+            let enemy = EnemyJetNode(at: location)
+            enemy.name = "bigjet follower"
+            enemy.follow(jet)
+            self << enemy
+        }
+    }
+
     func generateLeaderWithLinearFollowers(genAngle: CGFloat, spread: CGFloat = 0.087266561)() {
         var angle = genAngle
         if spread > 0 {
@@ -392,6 +415,18 @@ extension BaseLevel {
                }
            }
        }
+    }
+
+    func generateGiant(genAngle: CGFloat, spread: CGFloat = 0.087266561)() {
+        var angle = genAngle
+        if spread > 0 {
+           angle = angle ± rand(spread)
+        }
+
+        let enemyNode = EnemyGiantNode()
+        enemyNode.name = "giant"
+        enemyNode.position = outsideWorld(enemyNode, angle: angle)
+        self << enemyNode
     }
 
     private func generateEnemyGhost(angle angle: CGFloat, extra: CGFloat = 0) -> Node {
