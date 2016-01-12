@@ -132,9 +132,9 @@ extension BaseLevel {
             self << currentText
 
             let maxCount = CGFloat(gainedExperience)
-            var countEmUp = CGFloat(0)
-            var countEmUpIncrement = CGFloat(0.1)
-            let countEmUpRate = CGFloat(0.03)
+            var countEmUp: CGFloat = 0
+            var countEmUpIncrement: CGFloat = 0.1
+            let countEmUpRate: CGFloat = 0.03
             finalTimeline.every(countEmUpRate, startAt: 2, until: { countEmUp >= maxCount }) {
                 countEmUp = min(countEmUp + countEmUpIncrement, maxCount)
                 countEmUpIncrement *= 1.05
@@ -216,6 +216,7 @@ extension BaseLevel {
         }
 
         let enemyNode = EnemySoldierNode()
+        enemyNode.name = "soldier"
         if constRadius {
             enemyNode.position = CGPoint(r: outerRadius, a: angle)
         }
@@ -231,13 +232,15 @@ extension BaseLevel {
             angle = angle ± rand(spread)
         }
         let enemyNode = EnemyLeaderNode()
+        enemyNode.name = "leader"
         enemyNode.position = outsideWorld(enemyNode, angle: angle)
         self << enemyNode
     }
 
     func generateEnemyFormation(angle: CGFloat)() {
-        let dist = CGFloat(25)
+        let dist: CGFloat = 25
         let enemyLeader = EnemyLeaderNode()
+        enemyLeader.name = "formation leader"
         let center = outsideWorld(extra: enemyLeader.radius + dist * 1.5, angle: angle)
         enemyLeader.position = center
         self << enemyLeader
@@ -259,14 +262,16 @@ extension BaseLevel {
         ]
         for origin in origins {
             let enemy = EnemySoldierNode(at: origin)
+            enemy.name = "formation soldier"
             enemy.follow(enemyLeader)
             self << enemy
         }
     }
 
     func generateEnemyPair(angle: CGFloat)() {
-        let dist = CGFloat(5)
+        let dist: CGFloat = 5
         let ghost = generateEnemyGhost(angle: angle, extra: 10)
+        ghost.name = "pair ghost"
 
         let left = CGVector(r: dist, a: angle + TAU_4)
         let right = CGVector(r: dist, a: angle - TAU_4)
@@ -277,8 +282,9 @@ extension BaseLevel {
         ]
         for origin in origins {
             let enemy = EnemySoldierNode(at: origin)
-            enemy.follow(ghost)
+            enemy.name = "pair soldier"
             self << enemy
+            enemy.follow(ghost)
         }
     }
 
@@ -288,8 +294,9 @@ extension BaseLevel {
             angle = angle ± rand(spread)
         }
         let enemyCount = 4
-        let height = CGFloat((enemyCount * 12) + 2)
+        let height: CGFloat = CGFloat(enemyCount * 12) + 2
         let dozer = EnemyDozerNode()
+        dozer.name = "dozer"
         dozer.position = outsideWorld(dozer, angle: angle)
         self << dozer
 
@@ -299,6 +306,7 @@ extension BaseLevel {
             let r = interpolate(CGFloat(i), from: (0, 3), to: (min, max))
             let location = dozer.position + CGPoint(r: 10, a: angle) + CGPoint(r: r, a: angle + 90.degrees)
             let enemy = EnemySoldierNode(at: location)
+            enemy.name = "dozer soldier"
             enemy.follow(dozer, scatter: false)
             self << enemy
         }
@@ -306,12 +314,13 @@ extension BaseLevel {
 
     func generateScouts(genAngle: CGFloat, spread: CGFloat = 0.087266561)() {
         var angle = genAngle
-        let d = CGFloat(8)
+        let d: CGFloat = 8
         if spread > 0 {
             angle = angle ± rand(spread)
         }
         for i in 0..<3 {
             let enemyNode = EnemyScoutNode()
+            enemyNode.name = "scout"
             enemyNode.position = outsideWorld(enemyNode, angle: angle) + CGPoint(r: CGFloat(i) * d, a: angle)
             self << enemyNode
         }
@@ -329,15 +338,17 @@ extension BaseLevel {
         if spread > 0 {
             angle = angle ± rand(spread)
         }
-        let dist = CGFloat(25)
+        let dist: CGFloat = 25
         let enemyLeader = EnemyLeaderNode()
         let leaderPosition = outsideWorld(enemyLeader, angle: angle)
         enemyLeader.position = leaderPosition
+        enemyLeader.name = "linear leader"
         self << enemyLeader
 
-        for i in 0...4 {
+        for i in 0..<5 {
             let location = leaderPosition + CGVector(r: dist * CGFloat(i), a: angle)
             let enemy = EnemySoldierNode(at: location)
+            enemy.name = "linear soldier"
             enemy.follow(enemyLeader)
             self << enemy
         }
@@ -350,11 +361,12 @@ extension BaseLevel {
         }
 
         let ghost = generateEnemyGhost(angle: angle, extra: 40)
+        ghost.name = "circular ghost"
 
-        let dist = CGFloat(30)
+        let dist: CGFloat = 30
         var enemies: [Node] = []
         let enemyLeader = EnemyLeaderNode()
-        enemyLeader.name = "enemyLeader"
+        enemyLeader.name = "circular leader"
         let leaderPosition = ghost.position + CGPoint(r: dist + enemyLeader.radius, a: angle)
         enemyLeader.position = leaderPosition
         enemyLeader.follow(ghost)
@@ -367,10 +379,10 @@ extension BaseLevel {
             let enemyAngle = CGFloat(i) * angleDelta ± rand(angleDelta / 2)
             let vector = CGVector(r: dist, a: enemyAngle)
             let enemy = EnemySoldierNode(at: leaderPosition + vector)
+            enemy.name = "circular soldier"
             enemy.follow(ghost)
             self << enemy
             enemies << enemy
-            enemy.name = "enemy"
         }
 
        ghost.enemyComponent!.onTargetAcquired { target in
@@ -385,7 +397,7 @@ extension BaseLevel {
     private func generateEnemyGhost(angle angle: CGFloat, extra: CGFloat = 0) -> Node {
         let position = outsideWorld(extra: extra, angle: angle)
         let enemyGhost = Node(at: position)
-        enemyGhost.name = "enemyGhost"
+        enemyGhost.name = "ghost"
         let enemyComponent = EnemyComponent()
         enemyComponent.targetable = false
         enemyGhost.addComponent(enemyComponent)
