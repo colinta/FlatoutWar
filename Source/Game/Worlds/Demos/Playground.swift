@@ -12,19 +12,15 @@ class Playground: DemoWorld {
         super.populateWorld()
         timeRate = 1
 
-        let drone = DroneNode(at: CGPoint(100, 50))
-        drone.draggableComponent?.maintainDistance(100, around: playerNode)
-        self << drone
-
         let soldier = EnemySoldierNode()
-        soldier.position = outsideWorld(soldier, angle: TAU_2)
+        soldier.position = CGPoint(-250, 0)
+        soldier.name = "leader"
         self << soldier
 
-        timeline.every(0.5, startAt: 3) {
-            let jet = EnemyJetNode()
-            jet.position = self.outsideWorld(jet, angle: TAU_2)
-            self << jet
-        }
+        let enemy = EnemyLeaderNode(at: CGPoint(-300, 0))
+        enemy.name = "follower"
+        self << enemy
+        enemy.follow(soldier)
     }
 
 }
