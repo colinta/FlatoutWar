@@ -140,9 +140,17 @@ class DroneNode: Node {
     }
 
     override func update(dt: CGFloat) {
-        let phase = phaseComponent!.phase
+        let phase: CGFloat
+        if selectableComponent!.selected {
+            phase = 0.7
+            phaseComponent!.phase = 0.7
+        }
+        else {
+            phase = phaseComponent!.phase
+        }
+
         let radarRadius: CGFloat = targetingComponent!.radius!
-        if phase < 0.9 {
+        if phase <= 0.9 {
             let easedPhase = easeOutExpo(time: interpolate(phase, from: (0.5, 0.9), to: (0, 1)))
             let alpha = interpolate(phase, from: (0.6, 0.8), to: (0.25, 0))
             radar1.alpha = alpha
@@ -154,13 +162,7 @@ class DroneNode: Node {
             radar1.alpha = 0
         }
 
-        if selectableComponent!.selected {
-            radar2.alpha = 1
-            let path = CGPathCreateMutable()
-            CGPathAddEllipseInRect(path, nil, CGPointZero.rectWithSize(CGSize(r: radarRadius)))
-            radar2.path = path
-        }
-        else if phase > 0.6 {
+        if phase > 0.6 {
             let easedPhase = easeOutExpo(time: interpolate(phase, from: (0.6, 1.0), to: (0, 1)))
             let alpha = interpolate(phase, from: (0.8, 1.0), to: (0.25, 0))
             radar2.alpha = alpha
