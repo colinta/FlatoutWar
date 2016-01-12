@@ -42,7 +42,11 @@ class WorldScene: SKScene {
         self << worldScalingNode
 
         blurryNode.shouldEnableEffects = true
-        let blur = CIFilter(name: "CIGaussianBlur", withInputParameters: ["inputRadius": 10])
+        // let blur = CIFilter(name: "CIGaussianBlur", withInputParameters: ["inputRadius": 10])
+        let blur = CIFilter(name: "CIColorMonochrome", withInputParameters: [
+            "inputIntensity": 0.5,
+            "inputColor": CIColor(color: .blackColor())
+        ])
         blurryNode.filter = blur
 
         self << uiNode
