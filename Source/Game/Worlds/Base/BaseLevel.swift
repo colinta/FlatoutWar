@@ -209,14 +209,14 @@ extension BaseLevel {
 
 extension BaseLevel {
 
-    func generateEnemy(genAngle: CGFloat, spread: CGFloat = 0.087266561, fixed: Bool = false)() {
+    func generateEnemy(genAngle: CGFloat, spread: CGFloat = 0.087266561, constRadius: Bool = false)() {
         var angle = genAngle
         if spread > 0 {
            angle = angle ± rand(spread)
         }
 
         let enemyNode = EnemySoldierNode()
-        if fixed {
+        if constRadius {
             enemyNode.position = CGPoint(r: outerRadius, a: angle)
         }
         else {

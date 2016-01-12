@@ -42,7 +42,7 @@ class BaseLevel1: BaseLevel {
     // random
     func beginWave3(at startTime: CGFloat) {
         timeline.every(0.5...2, startAt: startTime, times: 20) {
-            self.generateEnemy(rand(TAU), fixed: true)()
+            self.generateEnemy(rand(TAU), constRadius: true)()
         }
     }
 
