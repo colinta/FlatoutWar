@@ -6,7 +6,7 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-private let startingHealth: Float = 25
+private let startingHealth: Float = 40
 
 class EnemyGiantNode: EnemySoldierNode {
 
