@@ -201,8 +201,4 @@ class Level: World {
         moveCamera(to: CGPointZero, zoom: 2, duration: 1)
     }
 
-    func restartWorld() {
-        director?.presentWorld(self.dynamicType.init())
-    }
-
 }

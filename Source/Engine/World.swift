@@ -153,6 +153,10 @@ class World: Node {
     func populateWorld() {
     }
 
+    func restartWorld() {
+        director?.presentWorld(self.dynamicType.init())
+    }
+
 }
 
 extension World {
