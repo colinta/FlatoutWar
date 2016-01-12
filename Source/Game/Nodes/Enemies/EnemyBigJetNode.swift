@@ -27,7 +27,7 @@ class EnemyBigJetNode: EnemyJetNode {
     }
 
     override func enemyType() -> ImageIdentifier.EnemyType {
-        return .Jet
+        return .BigJet
     }
 
 }
