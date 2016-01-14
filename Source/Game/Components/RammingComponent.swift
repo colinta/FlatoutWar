@@ -13,7 +13,14 @@ class RammingComponent: Component {
     var maxTurningSpeed: CGFloat = 10
     var damage: Float = 0
     var currentTarget: Node?
-    var tempTarget: CGPoint?
+    var tempTarget: CGPoint? {
+        didSet {
+            if let target = tempTarget {
+                tempTargetCountdown = max(3, 2 * (target - node.position).length / maxSpeed)
+            }
+        }
+    }
+    var tempTargetCountdown: CGFloat = 0
     var currentTargetLocation: CGPoint? {
         return tempTarget ?? currentTarget?.position
     }
@@ -54,8 +61,12 @@ class RammingComponent: Component {
 
     override func update(dt: CGFloat) {
         if let tempTarget = tempTarget
-        where tempTarget.distanceTo(node.position, within: 1) {
+        where tempTarget.distanceTo(node.position, within: 1) || tempTargetCountdown < 0
+        {
             self.tempTarget = nil
+        }
+        else if tempTarget != nil {
+            tempTargetCountdown -= dt
         }
 
         // if the node rammed into a target, call the handlers and remove this
@@ -86,7 +97,7 @@ class RammingComponent: Component {
         if let rotateToComponent = node.rotateToComponent {
             rotateToComponent.target = node.position.angleTo(targetLocation)
             if rotateToComponent.isRotating {
-                maxSpeed = min(maxSpeed, maxTurningSpeed)
+                maxSpeed = maxTurningSpeed
             }
             destAngle = rotateToComponent.currentAngle ?? node.zRotation
         }

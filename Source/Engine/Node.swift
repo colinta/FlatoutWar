@@ -88,7 +88,7 @@ class Node: SKNode {
     weak var fadeToComponent: FadeToComponent?
     weak var firingComponent: FiringComponent?
     weak var flyingComponent: FlyingComponent?
-    weak var followNodeComponent: FollowNodeComponent?
+    weak var followComponent: FollowComponent?
     weak var growToComponent: GrowToComponent?
     weak var healthComponent: HealthComponent?
     weak var keepMovingComponent: KeepMovingComponent?
@@ -148,6 +148,8 @@ class Node: SKNode {
 extension Node {
 
     func updateNodes(dtReal: CGFloat) {
+        guard enabled else { return }
+
         let dt = dtReal * timeRate
         for component in components {
             if component.enabled {
@@ -212,7 +214,7 @@ extension Node {
         else if let component = component as? EnemyComponent { enemyComponent = component }
         else if let component = component as? FadeToComponent { fadeToComponent = component }
         else if let component = component as? FiringComponent { firingComponent = component }
-        else if let component = component as? FollowNodeComponent { followNodeComponent = component }
+        else if let component = component as? FollowComponent { followComponent = component }
         else if let component = component as? GrowToComponent { growToComponent = component }
         else if let component = component as? HealthComponent { healthComponent = component }
         else if let component = component as? KeepMovingComponent { keepMovingComponent = component }
@@ -241,7 +243,7 @@ extension Node {
             else if component == enemyComponent { enemyComponent = nil }
             else if component == fadeToComponent { fadeToComponent = nil }
             else if component == firingComponent { firingComponent = nil }
-            else if component == followNodeComponent { followNodeComponent = nil }
+            else if component == followComponent { followComponent = nil }
             else if component == growToComponent { growToComponent = nil }
             else if component == healthComponent { healthComponent = nil }
             else if component == keepMovingComponent { keepMovingComponent = nil }
@@ -271,7 +273,7 @@ extension Node {
             else if let component = component as? EnemyComponent { enemyComponent = component }
             else if let component = component as? FadeToComponent { fadeToComponent = component }
             else if let component = component as? FiringComponent { firingComponent = component }
-            else if let component = component as? FollowNodeComponent { followNodeComponent = component }
+            else if let component = component as? FollowComponent { followComponent = component }
             else if let component = component as? GrowToComponent { growToComponent = component }
             else if let component = component as? HealthComponent { healthComponent = component }
             else if let component = component as? KeepMovingComponent { keepMovingComponent = component }

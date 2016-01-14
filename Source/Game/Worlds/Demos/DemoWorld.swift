@@ -35,8 +35,8 @@ class DemoWorld: World {
 
     override func worldShook() {
         super.worldShook()
-        if timeRate == 0.25 { timeRate = 1 }
-        else { timeRate = 0.25 }
+        if timeRate == 0.5 { timeRate = 1 }
+        else { timeRate = 0.5 }
     }
 
 }

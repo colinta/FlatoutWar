@@ -128,6 +128,7 @@ class EnemySoldierNode: Node {
 extension EnemySoldierNode {
 
     func scatter() {
+        self.followComponent?.removeFromNode()
         let angle: CGFloat = zRotation + TAU_2 ± rand(TAU_4)
         let dist: CGFloat = rand(min: 15, max: 30)
         let dest = position + CGPoint(r: dist, a: angle)
@@ -135,12 +136,14 @@ extension EnemySoldierNode {
         self.rammingComponent?.tempTarget = dest
     }
 
-    func follow(leader: Node, scatter: Bool = true) {
-        let followNodeComponent = self.followNodeComponent ?? FollowNodeComponent()
+    func follow(leader: Node, scatter: Bool = true, component: FollowComponent? = nil) {
+        let followComponent = component ?? self.followComponent ?? FollowNodeComponent()
 
         enemyComponent?.targetingEnabled = false
         rammingComponent?.currentTarget = nil
-        followNodeComponent.follow = leader
+
+        followComponent.follow = leader
+
         if scatter {
             leader.healthComponent?.onKilled(self.scatter)
         }
@@ -150,10 +153,10 @@ extension EnemySoldierNode {
                 wSelf.rammingComponent?.currentTarget = leader.rammingComponent?.currentTarget
                 wSelf.enemyComponent?.currentTarget = leader.enemyComponent?.currentTarget
                 wSelf.enemyComponent?.targetingEnabled = true
-                wSelf.followNodeComponent?.removeFromNode()
+                wSelf.followComponent?.removeFromNode()
             }
         }
-        addComponent(followNodeComponent)
+        addComponent(followComponent)
     }
 
 }

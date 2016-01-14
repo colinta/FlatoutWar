@@ -44,8 +44,12 @@ class BaseLevel3: BaseLevel {
         }
         let wave2_1 = TAU_2 + rand(TAU_16)
         let wave2_2 = TAU_2 - rand(TAU_16)
-        timeline.every(0.5, startAt: startTime + 4, times: 20, block: generateEnemy(wave2_1, spread: TAU_16))
-        timeline.every(0.5, startAt: startTime + 10, times: 20, block: generateEnemy(wave2_2, spread: TAU_16))
+        timeline.every(0.5, startAt: startTime + 4, times: 20, block: {
+            self.generateEnemy(wave2_1, spread: TAU_16)()
+        })
+        timeline.every(0.5, startAt: startTime + 10, times: 20, block: {
+            self.generateEnemy(wave2_2, spread: TAU_16)()
+        })
     }
 
     func beginWave3(at startTime: CGFloat) {

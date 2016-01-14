@@ -9,17 +9,16 @@
 class FlyingComponent: RammingComponent {
     var currentFlyingTarget: CGPoint? { return flyingTargets.first }
     var flyingTargets: [CGPoint] = []
-    override var currentTargetLocation: CGPoint? {
-        return tempTarget ?? currentFlyingTarget ?? currentTarget?.position
-    }
     override var currentTarget: Node? {
         didSet {
             if let currentTarget = currentTarget {
-                var points: [CGPoint] = []
-                let dist = currentTarget.distanceTo(node)
-                let numTargets: Int = Int(dist / 200)
                 let nodeAngle = currentTarget.angleTo(node)
+                let dist = currentTarget.distanceTo(node)
+
+                let numTargets: Int = Int(dist / 200)
                 let segment = dist / CGFloat(numTargets + 1)
+
+                var points: [CGPoint] = []
                 for i in 0..<numTargets {
                     let radius = CGFloat(numTargets - i) * segment ± rand(segment / 4)
                     let angle = nodeAngle ± rand(15.degrees)
@@ -29,6 +28,10 @@ class FlyingComponent: RammingComponent {
             }
             else {
                 flyingTargets = []
+            }
+
+            if tempTarget == nil {
+                tempTarget = flyingTargets.first
             }
         }
     }
@@ -46,10 +49,16 @@ class FlyingComponent: RammingComponent {
     }
 
     override func update(dt: CGFloat) {
-        if let flyingTarget = currentFlyingTarget
-        where flyingTarget.distanceTo(node.position, within: 1) {
-            self.flyingTargets.removeAtIndex(0)
+        if let flyingTarget = currentFlyingTarget {
+            if flyingTarget.distanceTo(node.position, within: 1) || (tempTargetCountdown < 0 && tempTarget == flyingTarget) {
+                self.flyingTargets.removeAtIndex(0)
+            }
+
+            if tempTarget == nil {
+                self.tempTarget = flyingTarget
+            }
         }
+
         super.update(dt)
     }
 
