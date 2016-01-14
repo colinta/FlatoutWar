@@ -203,6 +203,12 @@ extension BaseLevel {
             drone.draggableComponent?.target = drone.position
             drone.position = playerNode.position
         }
+
+        let position = node.position
+        if !position.lengthWithin(100) {
+            let angle = position.angle
+            node.position = CGPoint(r: 100, a: angle)
+        }
     }
 
 }
