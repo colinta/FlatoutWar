@@ -13,7 +13,7 @@ class Button: TextNode {
     var preferredScale: CGFloat = 1
 
     private var buttonStyleNode: SKSpriteNode!
-    override var enabled: Bool {
+    var enabled = true {
         didSet {
             alpha = enabled ? 1 : 0.25
         }
@@ -60,7 +60,7 @@ class Button: TextNode {
 
     private func updateButtonStyle() {
         switch style {
-        case .Square, .SquareSized, .Circle, .CircleSized:
+        case .Square, .SquareSized, .Circle, .CircleSized, .RectSized:
             size = style.size
         default: break
         }

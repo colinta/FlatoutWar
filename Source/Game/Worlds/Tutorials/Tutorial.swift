@@ -33,7 +33,7 @@ class Tutorial: World {
     }
 
     func goToNextWorld() {
-        self.director?.presentWorld(nextWorld ?? LevelSelectWorld())
+        self.director?.presentWorld(nextWorld ?? BaseLevelSelectWorld())
     }
 
     func addContinueButton() {

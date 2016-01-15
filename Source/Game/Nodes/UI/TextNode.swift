@@ -14,6 +14,9 @@ class TextNode: Node {
         didSet { updateTextNodes() }
     }
     var textSprite: SKNode
+    var color: Int? {
+        didSet { updateTextNodes() }
+    }
 
     required init() {
         text = ""
@@ -37,8 +40,14 @@ class TextNode: Node {
         case .Small: letterSpace = 1
         }
 
-        let chars = text.characters.map { String($0) }
-        let sprites = chars.map { return SKSpriteNode(id: .Letter(String($0), size: font)) }
+        let sprites = text.characters.map { (char: Character) -> SKSpriteNode in
+            if let color = self.color where color != 0xFFFFFF {
+                return SKSpriteNode(id: .Letter(String(char), size: font, color: color))
+            }
+            else {
+                return SKSpriteNode(id: .WhiteLetter(String(char), size: font))
+            }
+        }
         var first = true
         let size = sprites.reduce(CGSizeZero) { size, sprite in
             let width = size.width + sprite.size.width + (first ? 0 : letterSpace)

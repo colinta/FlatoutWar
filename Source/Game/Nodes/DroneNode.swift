@@ -8,8 +8,17 @@
 
 private let startingHealth: Float = 40
 
-class DroneNode: Node {
+class DroneNode: Node, DraggableNode, PlayerNode {
     static let DefaultSpeed: CGFloat = 30
+
+    var upgrade: FiveUpgrades = .One {
+        didSet {
+            sprite.textureId(.Drone(upgrade: upgrade, health: healthComponent?.healthInt ?? 100))
+            placeholder.textureId(.Drone(upgrade: upgrade, health: 100))
+            targetingComponent?.radius = upgrade.droneRadarRadius
+            targetingComponent?.bulletSpeed = upgrade.droneBulletSpeed
+        }
+    }
     var overrideWandering: Bool? {
         didSet {
             if let overrideWandering = overrideWandering {
@@ -28,8 +37,8 @@ class DroneNode: Node {
     var cursor = CursorNode()
     let radar1 = SKShapeNode()
     let radar2 = SKShapeNode()
-    var sprite = SKSpriteNode(id: .Drone(upgrade: .One, health: 100))
-    var placeholder = SKSpriteNode(id: .Drone(upgrade: .One, health: 100))
+    var sprite = SKSpriteNode()
+    let placeholder = SKSpriteNode()
 
     override var position: CGPoint {
         didSet {
@@ -40,6 +49,9 @@ class DroneNode: Node {
     required init() {
         super.init()
         size = CGSize(20)
+
+        sprite.textureId(.Drone(upgrade: upgrade, health: 100))
+        placeholder.textureId(.Drone(upgrade: upgrade, health: 100))
 
         self << sprite
         self << cursor
@@ -57,7 +69,7 @@ class DroneNode: Node {
 
         let phaseComponent = PhaseComponent()
         phaseComponent.phase = rand(1)
-        phaseComponent.duration = 3
+        phaseComponent.duration = rand(min: 2.5, max: 4.5)
         addComponent(phaseComponent)
 
         for radar in [radar1, radar2] {
@@ -73,8 +85,8 @@ class DroneNode: Node {
         let targetingComponent = TargetingComponent()
         targetingComponent.reallySmart = true
         targetingComponent.sweepAngle = nil
-        targetingComponent.radius = 75
-        targetingComponent.bulletSpeed = 125
+        targetingComponent.radius = upgrade.droneRadarRadius
+        targetingComponent.bulletSpeed = upgrade.droneBulletSpeed
         addComponent(targetingComponent)
 
         let firingComponent = FiringComponent()
@@ -109,21 +121,20 @@ class DroneNode: Node {
         selectableComponent.onSelected(onSelected)
         addComponent(selectableComponent)
 
-        let draggingComponent = DraggableComponent()
-        draggingComponent.speed = DroneNode.DefaultSpeed
-        draggingComponent.placeholder = placeholder
-        draggingComponent.bindTo(touchableComponent: touchableComponent)
-        draggingComponent.onDragging { isDragging in
+        let draggableComponent = DraggableComponent()
+        draggableComponent.speed = DroneNode.DefaultSpeed
+        draggableComponent.bindTo(touchableComponent: touchableComponent)
+        draggableComponent.onDragging { (isDragging, location) in
             wanderingComponent.enabled = !isDragging
         }
-        draggingComponent.onDragChange { isMoving in
+        draggableComponent.onDragChange { isMoving in
             self.droneEnabled(isMoving: isMoving)
             self.world?.unselectNode(self)
             if !isMoving {
                 self.world?.reacquirePlayerTargets()
             }
         }
-        addComponent(draggingComponent)
+        addComponent(draggableComponent)
     }
 
     required init?(coder: NSCoder) {
@@ -142,8 +153,8 @@ class DroneNode: Node {
     override func update(dt: CGFloat) {
         let phase: CGFloat
         if selectableComponent!.selected {
-            phase = 0.7
-            phaseComponent!.phase = 0.7
+            phase = 0.9
+            phaseComponent!.phase = phase
         }
         else {
             phase = phaseComponent!.phase
@@ -175,9 +186,42 @@ class DroneNode: Node {
         }
     }
 
+    override func applyUpgrade(upgradeType: UpgradeType) {
+        switch upgradeType {
+        case .Upgrade: upgrade = (upgrade + 1) ?? upgrade
+        default: break
+        }
+    }
+
+    override func availableUpgrades() -> [UpgradeInfo] {
+        var upgrades: [UpgradeInfo] = []
+
+        if let nextDroneUpgrade = upgrade + 1 {
+            let current = Node()
+            current << SKSpriteNode(id: .Drone(upgrade: self.upgrade, health: 100))
+
+            let upgrade = Node()
+            upgrade << SKSpriteNode(id: .Drone(upgrade: nextDroneUpgrade, health: 100))
+
+            let cost: Int
+            switch nextDroneUpgrade {
+                case .Two: cost = 100
+                case .Three: cost = 150
+                case .Four: cost = 200
+                case .Five: cost = 300
+                default: cost = 0
+            }
+
+            upgrades << (currentNode: current, upgradeNode: upgrade, cost: cost, upgradeType: .Upgrade)
+        }
+
+        return upgrades
+    }
+
 }
 
 extension DroneNode {
+
     func droneEnabled(isMoving isMoving: Bool) {
         let died = healthComponent!.died
         self.selectableComponent!.enabled = !died
@@ -231,6 +275,30 @@ extension DroneNode {
 
     func onSelected(selected: Bool) {
         cursor.selected = selected
+    }
+
+}
+
+extension FiveUpgrades {
+
+    var droneRadarRadius: CGFloat {
+        switch self {
+            case .One: return 75
+            case .Two: return 85
+            case .Three: return 95
+            case .Four: return 105
+            case .Five: return 135
+        }
+    }
+
+    var droneBulletSpeed: CGFloat {
+        switch self {
+            case .One: return 125
+            case .Two: return 125
+            case .Three: return 125
+            case .Four: return 125
+            case .Five: return 125
+        }
     }
 
 }

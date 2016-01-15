@@ -45,16 +45,25 @@ extension ImageIdentifier {
 
     var artist: Artist {
         switch self {
-        case let .Letter(letter, size):
+        case .None:
+            return Artist()
+        case let .WhiteLetter(letter, size):
             let artist = TextArtist()
             artist.text = letter
             artist.font = size.font
 
             return artist
+        case let .Letter(letter, size, color):
+            let artist = TextArtist()
+            artist.text = letter
+            artist.font = size.font
+            artist.color = UIColor(hex: color)
+
+            return artist
         case let .Button(style):
             let artist = ButtonArtist()
             switch style {
-            case .Square, .SquareSized:
+            case .Square, .SquareSized, .RectSized:
                 artist.style = .Square
                 artist.size = style.size
             case .Circle, .CircleSized:
@@ -113,8 +122,24 @@ extension ImageIdentifier {
             let color = UIColor(hue: CGFloat(hue) / 255, saturation: 1, brightness: 1, alpha: 1)
             let artist = LineArtist(length, color)
             return artist
-        default:
-            return Artist()
+        case let .ColorBox(size, color):
+            let color = UIColor(hex: color)
+            let artist = BoxArtist(size, color)
+            return artist
+        case let .HueBox(size, hue):
+            let color = UIColor(hue: CGFloat(hue) / 255, saturation: 1, brightness: 1, alpha: 1)
+            let artist = BoxArtist(size, color)
+            return artist
+        case let .FillColorBox(size, color):
+            let color = UIColor(hex: color)
+            let artist = BoxArtist(size, color)
+            artist.drawingMode = .Fill
+            return artist
+        case let .FillHueBox(size, hue):
+            let color = UIColor(hue: CGFloat(hue) / 255, saturation: 1, brightness: 1, alpha: 1)
+            let artist = BoxArtist(size, color)
+            artist.drawingMode = .Fill
+            return artist
         }
     }
 

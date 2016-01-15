@@ -6,35 +6,28 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-class Playground: DemoWorld {
+class Playground: World {
 
     override func populateWorld() {
-        super.populateWorld()
-        timeRate = 1
-        playerNode.position = CGPoint(0, -20)
-        playerNode.enabled = false
+        let b = Node()
+        self << b
 
-        let n = SKShapeNode(circleOfRadius: 3)
-        n.position = CGPoint(245, -4)
-        self << n
+        let moveTo = MoveToComponent()
+        moveTo.target = CGPoint(r: 100, a: rand(TAU))
+        moveTo.duration = 10
+        b.addComponent(moveTo)
 
-        let soldier = EnemySoldierNode()
-        soldier.position = CGPoint(250, 0)
-        soldier.rammingComponent?.tempTarget = n.position
-        soldier.name = "soldier"
-        soldier.rotateTowards(point: CGPointZero)
-        self << soldier
+        50.times {
+            let n = Node()
+            n << SKShapeNode(circleOfRadius: 5)
+            b << n
 
-        let m = SKShapeNode(circleOfRadius: 3)
-        m.position = CGPoint(240, 80)
-        self << m
-
-        let jet = EnemyJetNode()
-        jet.position = CGPoint(250, 100)
-        jet.rammingComponent?.tempTarget = m.position
-        jet.name = "Jet"
-        jet.rotateTowards(point: CGPointZero)
-        self << jet
+            let wandering = WanderingComponent()
+            wandering.wanderingRadius = 100
+            wandering.maxSpeed = 100
+            wandering.centeredAround = CGPointZero
+            n.addComponent(wandering)
+        }
     }
 
 }

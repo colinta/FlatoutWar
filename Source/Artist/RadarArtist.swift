@@ -9,25 +9,18 @@
 class RadarArtist: Artist {
     var sweepAngle: CGFloat
     var radius: CGFloat
-    var color = UIColor(hex: 0xFCF10C)
+    var color: UIColor
 
     required init(upgrade: FiveUpgrades) {
+        radius = upgrade.radarRadius
+        sweepAngle = upgrade.radarSweepAngle / 2
+
         switch upgrade {
-        case .One:
-            radius = 300
-            sweepAngle = 15.degrees
-        case .Two:
-            radius = 312
-            sweepAngle = 17.5.degrees
-        case .Three:
-            radius = 324
-            sweepAngle = 20.degrees
-        case .Four:
-            radius = 336
-            sweepAngle = 22.5.degrees
-        case .Five:
-            radius = 360
-            sweepAngle = 26.degrees
+            case .One: color = UIColor(hex: 0xFCF10C)
+            case .Two: color = UIColor(hex: 0xEFDD15)
+            case .Three: color = UIColor(hex: 0xEBAD13)
+            case .Four: color = UIColor(hex: 0xE59311)
+            case .Five: color = UIColor(hex: 0xDD6610)
         }
 
         super.init()

@@ -20,11 +20,11 @@ class WanderingComponent: Component {
         }
     }
     var wanderingRadius: CGFloat = 20
-    var currentSpeed: CGFloat = 0
     var acceleration: CGFloat = 3
     var maxSpeed: CGFloat = 4
     var maxTurningSpeed: CGFloat = 3.5
 
+    private var currentSpeed: CGFloat = 0
     private var currentTargetLocation: CGPoint?
     private var wanderingTimeLimit: CGFloat = 0
     private var currentWanderingTime: CGFloat = 0

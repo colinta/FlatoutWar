@@ -7,7 +7,6 @@
 //
 
 class MoveToComponent: ApplyToNodeComponent {
-    var currentPosition: CGPoint?
     var target: CGPoint? {
         didSet {
             if _duration != nil && target != nil {
@@ -15,6 +14,7 @@ class MoveToComponent: ApplyToNodeComponent {
             }
         }
     }
+
     private var _speed: CGFloat? = 100
     var speed: CGFloat? {
         get { return _speed }
@@ -31,6 +31,8 @@ class MoveToComponent: ApplyToNodeComponent {
             _speed = nil
         }
     }
+
+    private var currentPosition: CGPoint?
 
     typealias OnArrived = () -> Void
     private var _onArrived: [OnArrived] = []

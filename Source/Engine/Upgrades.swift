@@ -14,14 +14,25 @@ enum FiveUpgrades: IntValue {
     case Four
     case Five
 
-    init(_ val: Int) {
+    init?(_ val: Int) {
         switch val {
         case 1: self = .One
         case 2: self = .Two
         case 3: self = .Three
         case 4: self = .Four
         case 5: self = .Five
-        default: self = .Default
+        default: return nil
+        }
+    }
+
+    init(safe val: Int?) {
+        switch val ?? 1 {
+        case 1: self = .One
+        case 2: self = .Two
+        case 3: self = .Three
+        case 4: self = .Four
+        case 5: self = .Five
+        default: self = .One
         }
     }
 
@@ -66,3 +77,15 @@ enum FiveUpgrades: IntValue {
         }
     }
 }
+
+func +(upgrade: FiveUpgrades, int: Int) -> FiveUpgrades? {
+    return FiveUpgrades(upgrade.int + int)
+}
+
+enum UpgradeType {
+    case Upgrade
+    case RadarUpgrade
+    case TurretUpgrade
+}
+
+typealias UpgradeInfo = (currentNode: Node, upgradeNode: Node, cost: Int, upgradeType: UpgradeType)

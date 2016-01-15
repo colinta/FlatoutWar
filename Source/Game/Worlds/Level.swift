@@ -50,7 +50,7 @@ class Level: World {
         quitButton.visible = false
         quitButton.text = "QUIT"
         quitButton.onTapped {
-            self.director?.presentWorld(LevelSelectWorld())
+            self.goToLevelSelect()
         }
 
         pauseButton.setScale(0.5)
@@ -66,16 +66,16 @@ class Level: World {
             }
         }
 
-        backButton.fixedPosition = .Center(x: -27, y: -80)
+        backButton.fixedPosition = .Bottom(x: -27, y: 100)
         backButton.text = "<"
         backButton.style = .Square
         backButton.size = CGSize(50)
         backButton.visible = false
         backButton.onTapped {
-            self.director?.presentWorld(LevelSelectWorld())
+            self.goToLevelSelect()
         }
 
-        nextButton.fixedPosition = .Bottom(x: 27, y: 80)
+        nextButton.fixedPosition = .Bottom(x: 27, y: 100)
         nextButton.text = ">"
         nextButton.style = .Square
         nextButton.size = CGSize(50)
@@ -94,6 +94,10 @@ class Level: World {
         fatalError("init(coder:) has not been implemented")
     }
 
+    func goToLevelSelect() {
+        fatalError("goToLevelSelect should be overridden")
+    }
+
     func goToNextWorld() {
         fatalError("goToNextWorld should be overridden")
     }
@@ -105,7 +109,7 @@ class Level: World {
 
     override func onPause() {
         resumeButton.visible = true
-        restartButton.visible = true
+        // restartButton.visible = true
         quitButton.visible = true
     }
 
@@ -151,8 +155,8 @@ class Level: World {
 
     override func worldShook() {
         super.worldShook()
-        if timeRate == 2 { timeRate = 1 }
-        else { timeRate = 2 }
+        if timeRate == 0.5 { timeRate = 1 }
+        else { timeRate = 0.5 }
         print("possibleExperience: \(possibleExperience)")
     }
 

@@ -1,33 +1,33 @@
 //
-//  LevelSelectWorld.swift
+//  BaseLevelSelectWorld.swift
 //  FlatoutWar
 //
 //  Created by Colin Gray on 7/27/2015.
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-class LevelSelectWorld: World {
+class BaseLevelSelectWorld: World {
 
     override func populateWorld() {
         pauseable = false
 
-        let worlds: [() -> BaseLevel] = [
-            { return BaseLevel1() },
-            { return BaseLevel2() },
-            { return BaseLevel3() },
-            { return BaseLevel4() },
-            { return BaseLevel5() },
-            { return BaseLevel6() },
-            { return BaseLevel7() },
-            { return BaseLevel8() },
-            { return BaseLevel9() },
-            { return BaseLevel10() },
-            { return BaseLevel11() },
-            { return BaseLevel12() },
-            { return BaseLevel13() },
-            { return BaseLevel14() },
-            { return BaseLevel15() },
-            { return BaseLevel16() },
+        let worlds: [BaseLevel] = [
+            BaseLevel1(),
+            BaseLevel2(),
+            BaseLevel3(),
+            BaseLevel4(),
+            BaseLevel5(),
+            BaseLevel6(),
+            BaseLevel7(),
+            BaseLevel8(),
+            BaseLevel9(),
+            BaseLevel10(),
+            BaseLevel11(),
+            BaseLevel12(),
+            BaseLevel13(),
+            BaseLevel14(),
+            BaseLevel15(),
+            BaseLevel16(),
         ]
 
         let textNode = TextNode(at: CGPoint(x: -165, y: -125))
@@ -70,24 +70,24 @@ class LevelSelectWorld: World {
         }
 
         var levelIndex = 0
-        let completed = worlds.count
+        var prevLevel: BaseLevel?
         for j in 0..<4 {
             let y = CGFloat(100 - 60 * j)
             for i in 0..<4 {
                 let x = CGFloat(-80 + 60 * i)
-                let myIndex = levelIndex
+                let level = worlds[levelIndex % worlds.count]
                 let center = CGPoint(x: x, y: y)
                 let button = Button(at: center)
-                button.enabled = levelIndex < completed
+                button.enabled = prevLevel?.config.levelCompleted ?? true
                 button.text = "\(levelIndex + 1)"
                 button.size = CGSize(50)
                 button.style = .Square
                 button.onTapped {
-                    let nextLevel = worlds[myIndex % worlds.count]()
-                    nextLevel.shouldReturnToLevelSelect = true
-                    self.director?.presentWorld(nextLevel.tutorialOrLevel())
+                    level.shouldReturnToLevelSelect = true
+                    self.director?.presentWorld(level.tutorialOrLevel())
                 }
                 self << button
+                prevLevel = level
                 levelIndex += 1
             }
         }

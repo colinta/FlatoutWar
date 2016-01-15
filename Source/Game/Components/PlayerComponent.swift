@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
+protocol PlayerNode: class {
+}
+
 class PlayerComponent: Component {
     var targetable: Bool = true
     weak var intersectionNode: SKNode!

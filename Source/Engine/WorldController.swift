@@ -14,7 +14,9 @@ class WorldController: UIViewController {
         self.worldView = view
         self.view = worldView
 
-        view.presentWorld(Playground())
+        let upgradeWorld = BaseUpgradeWorld()
+        upgradeWorld.nextWorld = BaseLevel4()
+        view.presentWorld(upgradeWorld)
 
         view.showsFPS = true
         view.showsNodeCount = true

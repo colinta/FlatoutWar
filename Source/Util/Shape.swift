@@ -9,10 +9,84 @@
 enum Shape {
     case Circle
     case Rect
-    case Triangle
+
+    func touchTest(node: Node, and other: Node) -> Bool {
+        if node.shape == .Rect || other.shape == .Rect {
+            return squareTouchTest(node, and: other)
+        }
+        else {
+            return circleTouchTest(node, and: other)
+        }
+    }
+
+    func circleTouchTest(node: Node, and other: Node) -> Bool {
+        let radius = max(0.01, other.radius + node.radius)
+        return node.distanceTo(other, within: radius)
+    }
+
+    func squareTouchTest(node: Node, and other: Node) -> Bool {
+        guard !node.distanceTo(other, within: 0.001) else { return true }
+        guard node.distanceTo(other, within: other.outerRadius + node.outerRadius) else { return false }
+
+        if let myCorners = nodeCorners(node), mySegments = nodeSegments(node),
+            otherCorners = nodeCorners(other), otherSegments = nodeSegments(other)
+        {
+            // check corners
+            if myCorners.count == 4 {
+                let myArea = areaOf(myCorners[0], myCorners[1], myCorners[2], myCorners[3])
+                for corner in otherCorners {
+                    if contains(node, worldPoint: corner, preCalc: (corners: myCorners, area: myArea)) {
+                        return true
+                    }
+                }
+            }
+
+            if otherCorners.count == 4 {
+                let otherArea = areaOf(otherCorners[0], otherCorners[1], otherCorners[2], otherCorners[3])
+                for corner in myCorners {
+                    if contains(other, worldPoint: corner, preCalc: (corners: otherCorners, area: otherArea)) {
+                        return true
+                    }
+                }
+            }
+
+            // check segments
+            return mySegments.any { s1 in
+                return otherSegments.any { s2 in
+                    return s1.intersects(s2)
+                }
+            }
+        }
+        return false
+    }
+
+    func contains(node: Node, worldPoint point: CGPoint, preCalc: (corners: [CGPoint], area: CGFloat)? = nil) -> Bool {
+        if let preCalc = preCalc {
+            let (corners, myArea) = preCalc
+            let area = areaOf(point, corners[0], corners[1]) +
+                areaOf(point, corners[1], corners[2]) +
+                areaOf(point, corners[2], corners[3]) +
+                areaOf(point, corners[3], corners[0])
+            return abs(area - myArea) < 0.001
+        }
+
+        let myCorners = nodeCorners(node)
+        if let myCorners = myCorners where myCorners.count == 4 {
+            let myArea = areaOf(myCorners[0], myCorners[1], myCorners[2], myCorners[3])
+            let area = areaOf(point, myCorners[0], myCorners[1]) +
+                areaOf(point, myCorners[1], myCorners[2]) +
+                areaOf(point, myCorners[2], myCorners[3]) +
+                areaOf(point, myCorners[3], myCorners[0])
+            return abs(area - myArea) < 0.001
+        }
+        else if let myCorners = myCorners where myCorners.count == 2 {
+            return Segment(p1: myCorners[0], p2: myCorners[1]).intersects(Segment(p1: point, p2: point))
+        }
+        return false
+    }
 }
 
-func nodeCorners(node: Node) -> [CGPoint]? {
+private func nodeCorners(node: Node) -> [CGPoint]? {
     if let location = node.world?.convertPosition(node) {
         let size = node.size
         let rotation = node.zRotation
@@ -41,7 +115,7 @@ func nodeCorners(node: Node) -> [CGPoint]? {
     return nil
 }
 
-func nodeSegments(node: Node) -> [Segment]? {
+private func nodeSegments(node: Node) -> [Segment]? {
     if let corners = nodeCorners(node), last = corners.last {
         var prev = last
         var segments = [Segment]()
@@ -52,65 +126,4 @@ func nodeSegments(node: Node) -> [Segment]? {
         return segments
     }
     return nil
-}
-
-func node(node: Node, touches other: Node) -> Bool {
-    guard !node.distanceTo(other, within: 0.001) else { return true }
-    guard node.distanceTo(other, within: other.outerRadius + node.outerRadius) else { return false }
-
-    if let myCorners = nodeCorners(node), mySegments = nodeSegments(node),
-        otherCorners = nodeCorners(other), otherSegments = nodeSegments(other)
-    {
-        // check corners
-        if myCorners.count == 4 {
-            let myArea = areaOf(myCorners[0], myCorners[1], myCorners[2], myCorners[3])
-            for corner in otherCorners {
-                if contains(node, worldPoint: corner, preCalc: (corners: myCorners, area: myArea)) {
-                    return true
-                }
-            }
-        }
-
-        if otherCorners.count == 4 {
-            let otherArea = areaOf(otherCorners[0], otherCorners[1], otherCorners[2], otherCorners[3])
-            for corner in myCorners {
-                if contains(other, worldPoint: corner, preCalc: (corners: otherCorners, area: otherArea)) {
-                    return true
-                }
-            }
-        }
-
-        // check segments
-        return mySegments.any { s1 in
-            return otherSegments.any { s2 in
-                return s1.intersects(s2)
-            }
-        }
-    }
-    return false
-}
-
-func contains(node: Node, worldPoint point: CGPoint, preCalc: (corners: [CGPoint], area: CGFloat)? = nil) -> Bool {
-    if let preCalc = preCalc {
-        let (corners, myArea) = preCalc
-        let area = areaOf(point, corners[0], corners[1]) +
-            areaOf(point, corners[1], corners[2]) +
-            areaOf(point, corners[2], corners[3]) +
-            areaOf(point, corners[3], corners[0])
-        return abs(area - myArea) < 0.001
-    }
-
-    let myCorners = nodeCorners(node)
-    if let myCorners = myCorners where myCorners.count == 4 {
-        let myArea = areaOf(myCorners[0], myCorners[1], myCorners[2], myCorners[3])
-        let area = areaOf(point, myCorners[0], myCorners[1]) +
-            areaOf(point, myCorners[1], myCorners[2]) +
-            areaOf(point, myCorners[2], myCorners[3]) +
-            areaOf(point, myCorners[3], myCorners[0])
-        return abs(area - myArea) < 0.001
-    }
-    else if let myCorners = myCorners where myCorners.count == 2 {
-        return Segment(p1: myCorners[0], p2: myCorners[1]).intersects(Segment(p1: point, p2: point))
-    }
-    return false
 }

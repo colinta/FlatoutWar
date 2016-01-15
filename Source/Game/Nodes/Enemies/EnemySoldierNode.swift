@@ -8,7 +8,7 @@
 
 private let startingHealth: Float = 2
 
-class EnemySoldierNode: Node {
+class EnemySoldierNode: Node, EnemyNode {
     static let DefaultSoldierSpeed: CGFloat = 25
     var sprite: SKSpriteNode!
 

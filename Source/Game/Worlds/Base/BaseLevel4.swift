@@ -16,7 +16,6 @@ class BaseLevel4: BaseLevel {
 
         for node in config.storedPlayers {
             customizeNode(node)
-            self << node
         }
 
         moveCamera(to: CGPoint(150, 50), duration: 2)
@@ -48,7 +47,8 @@ class BaseLevel4: BaseLevel {
         }
         timeline.at(startTime + 3, block: generateGiant(size.angle))
         timeline.at(startTime + 4, block: generateGiant(size.angle - TAU_16))
-        timeline.every(2, startAt: startTime, times: 10, block: generateEnemy(rand(±size.angle)))
+        timeline.at(startTime + 4.75, block: generateGiant(size.angle + TAU_16))
+        timeline.every(1.5...2.5, startAt: startTime, times: 10, block: generateEnemy(rand(±size.angle)))
     }
 
 }

@@ -1,5 +1,5 @@
 //
-//  LineArtist.swift
+//  GenericArtist.swift
 //  FlatoutWar
 //
 //  Created by Colin Gray on 1/1/2016.
@@ -30,6 +30,33 @@ class LineArtist: Artist {
         CGContextMoveToPoint(context, p1.x, p1.y)
         CGContextAddLineToPoint(context, p2.x, p2.y)
         CGContextDrawPath(context, .Stroke)
+    }
+
+}
+
+
+class BoxArtist: Artist {
+    let color: UIColor
+    var drawingMode: CGPathDrawingMode = .Stroke
+    private let lineThickness: CGFloat = 1
+
+    required init(_ size: CGSize, _ color: UIColor) {
+        self.color = color
+        super.init()
+        self.size = size
+    }
+
+    required init() {
+        fatalError("init() has not been implemented")
+    }
+
+    override func draw(context: CGContext) {
+        let lineWidth = lineThickness.pixels
+        CGContextSetLineWidth(context, lineWidth)
+        CGContextSetStrokeColorWithColor(context, color.CGColor)
+        CGContextSetFillColorWithColor(context, color.CGColor)
+        CGContextAddRect(context, CGRect(origin: CGPointZero, size: size))
+        CGContextDrawPath(context, drawingMode)
     }
 
 }

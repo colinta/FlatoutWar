@@ -28,6 +28,14 @@ let SmallFont: Font = [
         CGPoint(x: 2, y: 6),
         CGPoint(x: 4, y: 4),
     ]]),
+    "→": Letter(style: .Line, size: CGSize(width: 6, height: 4), points: [[
+        CGPoint(x: 0, y: 2),
+        CGPoint(x: 6, y: 2),
+    ], [
+        CGPoint(x: 4, y: 0),
+        CGPoint(x: 6, y: 2),
+        CGPoint(x: 4, y: 4),
+    ]]),
     "-": Letter(style: .Line, size: defaultSize, points: [[
         CGPoint(x: 0, y: 3),
         CGPoint(x: 4, y: 3),
@@ -209,10 +217,10 @@ let SmallFont: Font = [
         CGPoint(x: 4, y: 6),
     ]]),
     "N": Letter(style: .Line, size: defaultSize, points: [[
-        CGPoint(x: 0, y: 6),
+        CGPoint(x: 0, y: 6.5),
         CGPoint(x: 0, y: 0),
         CGPoint(x: 4, y: 6),
-        CGPoint(x: 4, y: 0),
+        CGPoint(x: 4, y: -0.5),
     ]]),
     "O": Letter(style: .Loop, size: defaultSize, points: [[
         CGPoint(x: 0, y: 0),

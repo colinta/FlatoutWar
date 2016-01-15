@@ -7,9 +7,15 @@
 //
 
 class BaseLevel: Level {
-    var playerNode: BasePlayerNode! {
+    private var shouldPopulatePlayer = false
+    var playerNode = BasePlayerNode() {
+        willSet {
+            if playerNode != newValue {
+                playerNode.removeFromParent()
+            }
+        }
         didSet {
-            self.updatePlayer(playerNode)
+            updatePlayer(playerNode)
         }
     }
     var shouldReturnToLevelSelect = false
@@ -31,9 +37,6 @@ class BaseLevel: Level {
 
     required init() {
         super.init()
-
-        playerNode = BasePlayerNode()
-        updatePlayer(playerNode)
     }
 
     required init?(coder: NSCoder) {
@@ -46,12 +49,16 @@ class BaseLevel: Level {
                 self.levelCompleted(success: false)
             }
         }
+
+        self << playerNode
+        defaultNode = playerNode
     }
 
     override func populateWorld() {
         super.populateWorld()
-        defaultNode = playerNode
-        self << playerNode
+
+        shouldPopulatePlayer = true
+        updatePlayer(playerNode)
 
         timeline.when({ self.possibleExperience >= self.config.possibleExperience }) {
             self.onNoMoreEnemies {
@@ -60,9 +67,13 @@ class BaseLevel: Level {
         }
     }
 
+    override func goToLevelSelect() {
+        director?.presentWorld(BaseLevelSelectWorld())
+    }
+
     override func goToNextWorld() {
         if shouldReturnToLevelSelect {
-            director?.presentWorld(LevelSelectWorld())
+            director?.presentWorld(BaseLevelSelectWorld())
         }
         else {
             let nextLevel = self.nextLevel()
@@ -111,11 +122,11 @@ extension BaseLevel {
         addComponent(finalTimeline)
 
         for node in players + enemies {
-            node.enabled = false
+            node.frozen = true
         }
 
         if success {
-            config.gainedExperience = gainedExperience
+            config.updateMaxGainedExperience(gainedExperience)
             nextLevel().config.storedPlayers = self.players
 
             let percentNode = PercentBar(at: CGPoint(x: 50, y: 0))
@@ -147,8 +158,14 @@ extension BaseLevel {
             finalTimeline.when({ countEmUp >= maxCount }) {
                 currentText.text = "\(self.gainedExperience)"
 
-                self.backButton.visible = true
-                self.nextButton.visible = true
+                if self.shouldReturnToLevelSelect {
+                    self.backButton.visible = true
+                    self.backButton.fixedPosition = .Bottom(x: 0, y: 100)
+                }
+                else {
+                    self.backButton.visible = true
+                    self.nextButton.visible = true
+                }
             }
 
             finalTimeline.every(1) {
@@ -176,13 +193,10 @@ extension BaseLevel {
 
 extension BaseLevel {
 
-    func introduceDrone() -> DroneNode {
+    func introduceDrone() {
         let drone = DroneNode()
-        drone.position = playerNode.position
-        self << drone
+        drone.position = CGPoint(-30, -60)
         customizeNode(drone)
-
-        return drone
     }
 
 }
@@ -190,8 +204,10 @@ extension BaseLevel {
 extension BaseLevel {
 
     func customizeNode(node: Node) {
-        if let drone = node as? DroneNode {
-            drone.draggableComponent?.maintainDistance(100, around: playerNode)
+        if let playerNode = node as? BasePlayerNode {
+            self.playerNode = playerNode
+        }
+        else if let drone = node as? DroneNode {
             drone.alpha = 0
 
             let fadeIn = FadeToComponent()
@@ -200,15 +216,10 @@ extension BaseLevel {
             fadeIn.removeComponentOnFade()
             drone.addComponent(fadeIn)
 
-            drone.draggableComponent?.target = drone.position
-            drone.position = playerNode.position
+            self << drone
         }
 
-        let position = node.position
-        if !position.lengthWithin(100) {
-            let angle = position.angle
-            node.position = CGPoint(r: 100, a: angle)
-        }
+        node.draggableComponent?.maintainDistance(100, around: playerNode)
     }
 
 }

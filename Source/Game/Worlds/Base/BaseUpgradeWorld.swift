@@ -10,9 +10,18 @@ private let BigOffset = CGPoint(x: 400, y: 0)
 
 class BaseUpgradeWorld: World {
     var nextWorld: BaseLevel!
-    let playerNode = BasePlayerNode()
+    let config = BaseConfigSummary()
+    var levelConfig: BaseConfig { return nextWorld.config }
+
+    var playerNode: BasePlayerNode!
+    let playersOffset = CGPoint(-125, -20)
+
+    let experienceTextNode = TextNode()
     let upgradeTextNode = TextNode()
     let buildTextNode = TextNode()
+
+    let greenBox = SKSpriteNode()
+    let redBox = SKSpriteNode()
 
     var storedNodes: [(Node, CGPoint)] = []
     var buildNodes: [(Node, CGPoint)] = []
@@ -21,50 +30,35 @@ class BaseUpgradeWorld: World {
     override func populateWorld() {
         super.populateWorld()
 
+        let boxSize = CGSize(width: size.width / 2, height: size.height)
+        greenBox.position = CGPoint(x: -size.width / 4)
+        greenBox.textureId(.FillColorBox(size: boxSize, color: 0x149C10))
+        redBox.position = CGPoint(x: size.width / 4)
+        redBox.textureId(.FillColorBox(size: boxSize, color: 0x8F000A))
+        for box in [greenBox, redBox] {
+            box.hidden = true
+            box.alpha = 0.5
+            box.zPosition = Z.Bottom.rawValue
+            self << box
+        }
+
         setScale(1)
 
-        let locations = [
-            CGPoint(-200, 80),
-            CGPoint(-200, 30),
-            CGPoint(-200, -20),
-            CGPoint(-200, -70),
-            CGPoint(-200, -120),
-
-            CGPoint(-150, 80),
-            CGPoint(-150, 30),
-            CGPoint(-150, -20),
-            CGPoint(-150, -70),
-            CGPoint(-150, -120),
-
-            CGPoint(-100, 80),
-            CGPoint(-100, 30),
-            CGPoint(-100, -20),
-            CGPoint(-100, -70),
-            CGPoint(-100, -120),
-
-            CGPoint(-50, 80),
-            CGPoint(-50, 30),
-            CGPoint(-50, -20),
-            CGPoint(-50, -70),
-            CGPoint(-50, -120),
-        ]
-        var locationIndex = 0
-        let nodes = [playerNode] + nextWorld.config.storedPlayers
+        let nodes = nextWorld.config.storedPlayers
         for node in nodes {
-            node.position = locations[locationIndex]
-            storedNodes << (node, node.position)
-            customizeNode(node)
-            self << node
-
-            locationIndex += 1
-            if locationIndex == locations.count {
-                break
-            }
+            node.position = node.position + playersOffset
+            addStoredNode(node)
         }
+
+        experienceTextNode.position = CGPoint(y: 135)
+        experienceTextNode.text = "\(config.availableExperience)"
+        experienceTextNode.font = .Small
+        experienceTextNode.setScale(2)
+        self << experienceTextNode
 
         do {
             upgradeTextNode.text = "UPGRADE"
-            upgradeTextNode.position = CGPoint(x: -120, y: 140)
+            upgradeTextNode.position = CGPoint(x: -180, y: 140)
             upgradeTextNode.font = .Small
             upgradeTextNode.setScale(1.5)
             self << upgradeTextNode
@@ -77,50 +71,134 @@ class BaseUpgradeWorld: World {
 
         do {
             buildTextNode.text = "BUILD"
-            buildTextNode.position = CGPoint(x: 120, y: 140)
+            buildTextNode.position = CGPoint(x: 180, y: 140)
             buildTextNode.font = .Small
             buildTextNode.setScale(1.5)
             self << buildTextNode
 
-            let moveTo = MoveToComponent()
-            moveTo.duration = 0.5
-            buildTextNode.addComponent(moveTo)
+            buildTextNode.addComponent({
+                let moveTo = MoveToComponent()
+                moveTo.duration = 0.5
+                return moveTo
+            }())
 
             buildNodes << (buildTextNode, buildTextNode.position)
 
-            let drone = DroneNode(at: CGPoint(x: 175, y: -20))
-            self << drone
-            buildNodes << (drone, drone.position)
+            var buildableNodes: [(Node, Int)] = []
+            let drone = DroneNode(at: CGPoint(x: 125, y: -20))
+
+            buildableNodes << (drone, 1000)
+
+            for (node, cost) in buildableNodes{
+                customizeBuildNode(node, cost: cost)
+                self << node
+            }
         }
 
-        let closeButton = CloseButton()
+        let closeButton = Button()
+        closeButton.position = CGPoint(0, -135)
+        closeButton.font = .Small
+        closeButton.text = "DONE"
+        closeButton.setScale(1.5)
         closeButton.onTapped { _ in
-            self.nextWorld.config.storedPlayers = self.storedNodes.map { (node, pt) in return node }
+            self.nextWorld.config.storedPlayers = self.storedNodes.map { (node, pt) in
+                node.position = node.position - self.playersOffset
+                return node
+            }
             self.director?.presentWorld(self.nextWorld)
         }
-        ui << closeButton
+        self << closeButton
     }
 
-    private func customizeNode(node: Node) {
-        if let node = node as? BasePlayerNode {
-            node.radar.removeFromParent()
-            node.overrideForceFire = false
-        }
-        else if let node = node as? DroneNode {
-            node.wanderingComponent?.enabled = false
-            node.radar1.removeFromParent()
-            node.radar2.removeFromParent()
-            node.phaseComponent?.enabled = false
-        }
+    private func addStoredNode(node: Node) {
+        customizeUpgradeNode(node)
+        self << node
+    }
+
+    private func customizeBuildNode(node: Node, cost: Int) {
+        let originalPosition = node.position
+
+        let moveTo1 = MoveToComponent()
+        moveTo1.duration = 0.5
+        node.addComponent(moveTo1)
+
+        let costTextNode = TextNode(at: node.position + CGPoint(x: 50))
+        costTextNode.text = cost.description
+        costTextNode.font = .Small
+        self << costTextNode
+
+        let moveTo2 = MoveToComponent()
+        moveTo2.duration = 0.5
+        costTextNode.addComponent(moveTo2)
+
+        buildNodes << (node, node.position)
+        buildNodes << (costTextNode, costTextNode.position)
+
+        node.touchableComponent?.removeFromNode()
+        node.draggableComponent?.removeFromNode()
+        node.wanderingComponent?.removeFromNode()
 
         let cursor = CursorNode()
         node << cursor
 
-        let selectableComponent = SelectableComponent()
+        let touchableComponent = TouchableComponent()
+        touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest(.Circle)
+        touchableComponent.on(.DownInside) { _ in
+            let canAfford = self.config.canAfford(cost)
+            self.experienceTextNode.color = canAfford ? nil : 0xAE000E
+            self.redBox.hidden = canAfford
+            self.greenBox.hidden = !canAfford
+        }
+        touchableComponent.on(.Up) { _ in
+            self.redBox.hidden = true
+            self.greenBox.hidden = true
+            self.experienceTextNode.color = nil
+        }
+        node.addComponent(touchableComponent)
+
+        let draggableComponent = DraggableComponent()
+        draggableComponent.speed = nil
+        draggableComponent.overrideShouldAdjust = false
+        draggableComponent.bindTo(touchableComponent: touchableComponent)
+        draggableComponent.onDragging { (isDragging, nodeLocation) in
+            let location = self.convertPoint(nodeLocation, fromNode: node)
+            let canAfford = self.config.canAfford(cost)
+
+            if !isDragging {
+                if location.x < 0 && canAfford {
+                    let newNode = node.dynamicType.init()
+                    newNode.position = location
+                    self.addStoredNode(newNode)
+                }
+
+                draggableComponent.target = nil
+                node.position = originalPosition
+            }
+        }
+
+        node.addComponent(draggableComponent)
+    }
+
+    private func customizeUpgradeNode(node: Node) {
+        storedNodes << (node, node.position)
+
+        if let player = node as? BasePlayerNode {
+            playerNode = player
+            player.rotateTo(TAU_3_4)
+            player.overrideForceFire = false
+        }
+
         node.touchableComponent?.removeFromNode()
+        node.draggableComponent?.removeFromNode()
+        node.wanderingComponent?.removeFromNode()
+
+        let cursor = CursorNode()
+        node << cursor
 
         let touchableComponent = TouchableComponent()
         touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest(.Circle)
+
+        let selectableComponent = SelectableComponent()
         selectableComponent.bindTo(touchableComponent: touchableComponent)
         selectableComponent.onSelected { selected in
             cursor.selected = selected
@@ -139,99 +217,88 @@ class BaseUpgradeWorld: World {
             }
 
             for (node, dest) in self.buildNodes {
-                node.moveToComponent?.target = dest + offset
+                if let moveToComponent = node.moveToComponent {
+                    moveToComponent.target = dest + offset
+                }
+                else {
+                    print("you need to add MoveToComponent to \(node)")
+                }
             }
         }
         node.addComponent(touchableComponent)
         node.addComponent(selectableComponent)
+
+        if node is DraggableNode {
+            let draggableComponent = DraggableComponent()
+            draggableComponent.speed = nil
+            draggableComponent.bindTo(touchableComponent: touchableComponent)
+            draggableComponent.onDragChange { isMoving in
+                self.world?.unselectNode(node)
+            }
+            draggableComponent.maintainDistance(100, around: playerNode)
+            node.addComponent(draggableComponent)
+        }
     }
 
-    private func showUpgradesFor(node: Node) {
+    private func showUpgradesFor(node: Node, animated: Bool = true) {
+        for (node, _) in upgradeNodes {
+            node.removeFromParent()
+        }
+
         var newNodes: [Node] = []
 
-        if node is BasePlayerNode {
-            let originalBase = Node()
-            originalBase << {
-                let node = SKSpriteNode(id: .Base(upgrade: .One, health: 100))
-                node.zPosition = Z.Default.rawValue
-                return node
-            }()
-            originalBase << {
-                let node = SKSpriteNode(id: .BaseSingleTurret(upgrade: .One))
-                node.zPosition = Z.Above.rawValue
-                return node
-            }()
-            originalBase.position = CGPoint(x: 125, y: 30)
+        let leftX: CGFloat = 55
+        let midX: CGFloat = 105
+        let upgradeOffset: CGFloat = -37
+        let textOffset: CGFloat = 30
+        let textX: CGFloat = 200
 
-            let arrowBase = TextNode()
-            arrowBase.text = "↓"
-            arrowBase.font = .Small
-            arrowBase.setScale(1.5)
-            arrowBase.position = CGPoint(x: 125, y: -20)
-
-            let upgradeBase = Node()
-            upgradeBase << {
-                let node = SKSpriteNode(id: .Base(upgrade: .Two, health: 100))
-                node.zPosition = Z.Default.rawValue
-                return node
-            }()
-            upgradeBase << {
-                let node = SKSpriteNode(id: .BaseSingleTurret(upgrade: .One))
-                node.zPosition = Z.Above.rawValue
-                return node
-            }()
-            upgradeBase.position = CGPoint(x: 125, y: -70)
-
-            let originalTurret = Node()
-            originalTurret << {
-                let node = SKSpriteNode(id: .Base(upgrade: .One, health: 100))
-                node.zPosition = Z.Default.rawValue
-                return node
-            }()
-            originalTurret << {
-                let node = SKSpriteNode(id: .BaseSingleTurret(upgrade: .One))
-                node.zPosition = Z.Above.rawValue
-                return node
-            }()
-            originalTurret.position = CGPoint(x: 225, y: 30)
-
-            let arrowTurret = TextNode()
-            arrowTurret.text = "↓"
-            arrowTurret.font = .Small
-            arrowTurret.setScale(1.5)
-            arrowTurret.position = CGPoint(x: 225, y: -20)
-
-            let upgradeTurret = Node()
-            upgradeTurret << {
-                let node = SKSpriteNode(id: .Base(upgrade: .One, health: 100))
-                node.zPosition = Z.Default.rawValue
-                return node
-            }()
-            upgradeTurret << {
-                let node = SKSpriteNode(id: .BaseSingleTurret(upgrade: .Two))
-                node.zPosition = Z.Above.rawValue
-                return node
-            }()
-            upgradeTurret.position = CGPoint(x: 225, y: -70)
-
-            newNodes = [originalBase, arrowBase, upgradeBase, originalTurret, arrowTurret, upgradeTurret]
-        }
-        else if node is DroneNode {
-            let originalNode = Node()
-            originalNode << SKSpriteNode(id: .Drone(upgrade: .One, health: 100))
-            originalNode.position = CGPoint(x: 175, y: 30)
+        let availableUpgrades = node.availableUpgrades()
+        var y: CGFloat = -70 + CGFloat(availableUpgrades.count) * 50
+        for (currentNode, upgradeNode, cost, upgradeType) in availableUpgrades {
+            currentNode.position = CGPoint(x: leftX, y: y)
 
             let arrowNode = TextNode()
-            arrowNode.text = "↓"
+            arrowNode.text = "→"
             arrowNode.font = .Small
             arrowNode.setScale(1.5)
-            arrowNode.position = CGPoint(x: 175, y: -20)
+            arrowNode.position = CGPoint(x: midX, y: y)
 
-            let upgradeNode = Node()
-            upgradeNode << SKSpriteNode(id: .Drone(upgrade: .Two, health: 100))
-            upgradeNode.position = CGPoint(x: 175, y: -70)
+            let purchaseButton = Button(at: CGPoint(x: textX, y: y))
+            purchaseButton.style = .RectSized(140, 50)
+            let purchaseText = TextNode(at: CGPoint(x: textOffset))
+            purchaseText.text = "\(cost)"
+            purchaseText.font = .Small
+            purchaseText.setScale(1.5)
+            purchaseButton << purchaseText
 
-            newNodes = [originalNode, arrowNode, upgradeNode]
+            if config.canAfford(cost) {
+                purchaseText.color = nil
+                purchaseButton.enabled = true
+            }
+            else {
+                purchaseText.color = 0xC5C5C5
+                purchaseButton.enabled = false
+            }
+
+            purchaseButton.onTapped {
+                self.spendExperience(cost)
+                node.applyUpgrade(upgradeType)
+                self.showUpgradesFor(node, animated: false)
+            }
+
+
+            let crop = SKCropNode()
+            crop.maskNode = SKSpriteNode(id: .FillColorBox(size: CGSize(212.5, 50), color: 0xffffff))
+            crop << upgradeNode
+            crop.position = CGPoint(x: upgradeOffset, y: 0)
+            purchaseButton << crop
+
+            newNodes << currentNode
+            newNodes << arrowNode
+            newNodes << purchaseButton
+
+            y -= availableUpgrades.count == 3 ? 80 : 100
         }
 
         upgradeNodes = []
@@ -242,8 +309,30 @@ class BaseUpgradeWorld: World {
             let moveTo = MoveToComponent()
             moveTo.duration = 0.5
             moveTo.target = node.position
-            node.position = node.position + BigOffset
+            if animated {
+                node.position = node.position + BigOffset
+            }
             node.addComponent(moveTo)
+        }
+    }
+
+    private func spendExperience(cost: Int) {
+        config.spent(cost)
+    }
+
+    private var currentDelta = 1
+
+    override func update(dt: CGFloat) {
+        super.update(dt)
+
+        let available = config.availableExperience
+        if let current = Int(experienceTextNode.text) where current != available {
+            let newValue = max(available, current - currentDelta)
+            experienceTextNode.text = "\(newValue)"
+            currentDelta += 1
+        }
+        else {
+            currentDelta = 1
         }
     }
 

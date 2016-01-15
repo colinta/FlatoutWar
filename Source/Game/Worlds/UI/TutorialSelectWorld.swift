@@ -29,7 +29,7 @@ class TutorialSelectWorld: World {
         backButton.text = "<"
         backButton.size = CGSize(width: 15, height: 15)
         backButton.onTapped { [unowned self] in
-            self.director?.presentWorld(LevelSelectWorld())
+            self.director?.presentWorld(BaseLevelSelectWorld())
         }
         self << backButton
 

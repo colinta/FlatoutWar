@@ -22,10 +22,11 @@ extension SKTexture {
 }
 
 extension SKSpriteNode {
-    convenience init(id: ImageIdentifier) {
+    convenience init(id: ImageIdentifier, at position: CGPoint = CGPointZero) {
         let texture = SKTexture.id(id)
         self.init(texture: texture)
         setScale(0.5)
+        self.position = position
     }
 
     func textureId(id: ImageIdentifier) {

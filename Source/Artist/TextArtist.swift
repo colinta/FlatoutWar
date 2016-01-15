@@ -8,10 +8,7 @@
 
 class TextArtist: Artist {
     var text = "" { didSet { calculateSize() }}
-    private var textScale: CGFloat = 4
-    private var textSize = CGSizeZero
     var color = UIColor(hex: 0xFFFFFF)
-    private var letterSpace: CGFloat = 3
     var font: Font = BigFont {
         didSet {
             if font == SmallFont {
@@ -25,6 +22,9 @@ class TextArtist: Artist {
             calculateSize()
         }
     }
+    private var textScale: CGFloat = 4
+    private var textSize = CGSizeZero
+    private var letterSpace: CGFloat = 3
 
     func calculateSize() {
         var size = CGSize(width: 0, height: 0)

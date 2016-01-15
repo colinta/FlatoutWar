@@ -15,7 +15,7 @@ class FlyingComponent: RammingComponent {
                 let nodeAngle = currentTarget.angleTo(node)
                 let dist = currentTarget.distanceTo(node)
 
-                let numTargets: Int = Int(dist / 200)
+                let numTargets: Int = Int(dist / 150)
                 let segment = dist / CGFloat(numTargets + 1)
 
                 var points: [CGPoint] = []

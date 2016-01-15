@@ -181,7 +181,7 @@ extension World {
 
     private func cachedEnemies() -> [Node] {
         let cached = _cachedEnemies ?? nodes.filter { node in
-            return node.enemyComponent != nil
+            return node.isEnemy
         }
         _cachedEnemies = cached
         return cached
@@ -189,7 +189,7 @@ extension World {
 
     private func cachedPlayers() -> [Node] {
         let cached = _cachedPlayers ?? nodes.filter { node in
-            return node.playerComponent != nil
+            return node.isPlayer
         }
         _cachedPlayers = cached
         return cached
@@ -207,11 +207,11 @@ extension World {
             _cachedNodes = nodes + [node]
 
             if node.isEnemy {
-                _cachedEnemies = enemies + [node]
+                _cachedEnemies = (_cachedEnemies ?? []) + [node]
             }
 
             if node.isPlayer {
-                _cachedPlayers = players + [node]
+                _cachedPlayers = (_cachedPlayers ?? []) + [node]
                 reacquirePlayerTargets()
             }
 
@@ -428,7 +428,7 @@ extension World {
         for node in children.reverse() {
             if let node = node as? Node,
                 touchableComponent = node.touchableComponent
-            where node.enabled && node.visible && touchableComponent.enabled {
+            where !node.frozen && node.visible && touchableComponent.enabled {
                 let nodeLocation = convertPoint(worldLocation, toNode: node)
                 if touchableComponent.containsTouch(nodeLocation) {
                     return node

@@ -28,7 +28,8 @@ enum ImageIdentifier {
     }
 
     case None
-    case Letter(String, size: Size)
+    case WhiteLetter(String, size: Size)
+    case Letter(String, size: Size, color: Int)
     case Button(style: ButtonStyle)
     case Percent(Int, style: PercentStyle)
 
@@ -47,6 +48,10 @@ enum ImageIdentifier {
 
     case ColorLine(length: CGFloat, color: Int)
     case HueLine(length: CGFloat, hue: Int)
+    case ColorBox(size: CGSize, color: Int)
+    case HueBox(size: CGSize, hue: Int)
+    case FillColorBox(size: CGSize, color: Int)
+    case FillHueBox(size: CGSize, hue: Int)
 
     var name: String {
         switch self {
@@ -54,7 +59,7 @@ enum ImageIdentifier {
             return ""
         case let .Percent(percent, style):
             return "Percent-percent_\(percent)-style_\(style)"
-        case let .Letter(letter, size):
+        case let .WhiteLetter(letter, size):
             let nameLetter: String
             switch letter {
             case ".":
@@ -72,7 +77,26 @@ enum ImageIdentifier {
             default:
                 nameLetter = letter
             }
-            return "Letter-letter_\(nameLetter)-size_\(size.name)"
+            return "WhiteLetter-letter_\(nameLetter)-size_\(size.name)"
+        case let .Letter(letter, size, color):
+            let nameLetter: String
+            switch letter {
+            case ".":
+                nameLetter = "dot"
+            case "!":
+                nameLetter = "bang"
+            case "-":
+                nameLetter = "dash"
+            case "_":
+                nameLetter = "lodash"
+            case "<":
+                nameLetter = "lt"
+            case ">":
+                nameLetter = "gt"
+            default:
+                nameLetter = letter
+            }
+            return "Letter-letter_\(nameLetter)-size_\(size.name)-color_\(color)"
         case let .Button(style):
             return "Button-style_\(style.name)"
         case let .Enemy(type, health):
@@ -101,6 +125,14 @@ enum ImageIdentifier {
         case let .HueLine(length, hue):
             let roundedLength = Int(round(length * 20))
             return "HueLine-length_\(roundedLength)-hue_\(hue)"
+        case let .ColorBox(size, color):
+            return "ColorBox-size\(Int(size.width))x\(Int(size.height))-color_\(color)"
+        case let .HueBox(size, hue):
+            return "HueBox-size\(Int(size.width))x\(Int(size.height))-hue_\(hue)"
+        case let .FillColorBox(size, color):
+            return "FillColorBox-size\(Int(size.width))x\(Int(size.height))-color_\(color)"
+        case let .FillHueBox(size, hue):
+            return "FillHueBox-size\(Int(size.width))x\(Int(size.height))-hue_\(hue)"
         }
     }
 }

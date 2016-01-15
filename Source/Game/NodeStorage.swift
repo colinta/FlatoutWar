@@ -9,6 +9,7 @@
 class NodeStorage {
     enum Type: Int {
         case Drone
+        case BasePlayer
     }
 
     static func fromDefaults(defaults: NSDictionary) -> Node? {
@@ -17,7 +18,15 @@ class NodeStorage {
 
         let node: Node
         switch type {
-        case .Drone: node = DroneNode()
+        case .BasePlayer:
+            let player = BasePlayerNode()
+            player.radarUpgrade = FiveUpgrades(safe: defaults["radarUpgrade"] as? Int)
+            player.turretUpgrade = FiveUpgrades(safe: defaults["turretUpgrade"] as? Int)
+            node = player
+        case .Drone:
+            let drone = DroneNode()
+            drone.upgrade = FiveUpgrades(safe: defaults["upgrade"] as? Int)
+            node = drone
         }
 
         if let x = defaults["position.x"] as? Float,
@@ -29,16 +38,22 @@ class NodeStorage {
     }
 
     static func toDefaults(node: Node) -> NSDictionary? {
+        let defaults = NSMutableDictionary()
         var type: Type?
-        if node is DroneNode {
+        if let node = node as? BasePlayerNode {
+            type = .BasePlayer
+            defaults["radarUpgrade"] = node.radarUpgrade.int
+            defaults["turretUpgrade"] = node.turretUpgrade.int
+        }
+        else if let node = node as? DroneNode {
             type = .Drone
+            defaults["upgrade"] = node.upgrade.int
         }
         else {
             type = nil
         }
 
         if let type = type {
-            let defaults = NSMutableDictionary()
             defaults["type"] = type.rawValue
             defaults["position.x"] = Float(node.position.x)
             defaults["position.y"] = Float(node.position.y)

@@ -6,10 +6,16 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
+protocol DraggableNode: class {
+    var placeholder: SKSpriteNode { get }
+}
+
 class DraggableComponent: Component {
-    var speed: CGFloat = 30
-    var placeholder: SKNode?
+    var speed: CGFloat? = 30
+    var placeholder: SKNode? { return (node as? DraggableNode)?.placeholder }
     var target: CGPoint?
+    var overrideShouldAdjust: Bool?
+
     override var enabled: Bool {
         didSet {
             if !enabled {
@@ -29,8 +35,9 @@ class DraggableComponent: Component {
     private var shouldAdjust = false
 
     typealias OnDragChange = (Bool) -> Void
+    typealias OnDragging = (Bool, CGPoint) -> Void
     var _onDragChange: [OnDragChange] = []
-    var _onDragging: [OnDragChange] = []
+    var _onDragging: [OnDragging] = []
 
     override func reset() {
         super.reset()
@@ -38,26 +45,46 @@ class DraggableComponent: Component {
         _onDragging = []
     }
 
+    override func didAddToNode() {
+        super.didAddToNode()
+
+        if let around = centeredAround, dist = maxDistance
+            where !node.distanceTo(around, within: dist)
+        {
+            let angle = around.angleTo(node)
+            node.position = around.position + CGPoint(r: dist, a: angle)
+        }
+
+    }
+
     func onDragChange(handler: OnDragChange) {
         _onDragChange << handler
     }
 
-    func onDragging(handler: OnDragChange) {
+    func onDragging(handler: OnDragging) {
         _onDragging << handler
     }
 
     func maintainDistance(dist: CGFloat, around: Node) {
+        if let node = node where !node.distanceTo(around, within: dist) {
+            let angle = around.angleTo(node)
+            node.position = around.position + CGPoint(r: dist, a: angle)
+        }
+
         self.maxDistance = dist
         self.centeredAround = around
     }
 
     override func update(dt: CGFloat) {
         if let target = target {
-            if let position = node.position.pointTowards(target, speed: speed, dt: dt) {
+            if let speed = speed,
+                position = node.position.pointTowards(target, speed: speed, dt: dt)
+            {
                 node.position = position
                 updateDragMoving(true)
             }
             else {
+                node.position = target
                 self.target = nil
                 updateDragMoving(false)
             }
@@ -87,8 +114,14 @@ class DraggableComponent: Component {
         isIgnoring = false
         isDragging = true
 
-        let shouldAdjustThreshold: CGFloat = (node.radius + 5) / WorldScene.worldScale
-        shouldAdjust = location.lengthWithin(shouldAdjustThreshold)
+        if let overrideShouldAdjust = overrideShouldAdjust {
+            shouldAdjust = overrideShouldAdjust
+        }
+        else {
+            let shouldAdjustThreshold: CGFloat = (node.radius + 5) / WorldScene.worldScale
+            shouldAdjust = location.lengthWithin(shouldAdjustThreshold)
+        }
+
         startingLocation = location
         if let placeholder = placeholder {
             placeholder.hidden = false
@@ -96,7 +129,7 @@ class DraggableComponent: Component {
         }
 
         for handler in _onDragging {
-            handler(true)
+            handler(true, location)
         }
     }
 
@@ -146,8 +179,8 @@ class DraggableComponent: Component {
                 let dist = playerNode.radius + node.radius
                 if placeholder.distanceTo(playerNode, within: dist) {
                     let angle = playerNode.angleTo(placeholder)
-                    let point = node.convertPoint(CGPoint(r: dist, a: angle), fromNode: node.parent!)
-                    placeholder.position = playerNode.position + point
+                    let point = node.convertPoint(playerNode.position + CGPoint(r: dist, a: angle), fromNode: node.parent!)
+                    placeholder.position = point
                 }
             }
         }
@@ -156,9 +189,13 @@ class DraggableComponent: Component {
         if let maxDistance = maxDistance, centeredAround = centeredAround {
             if !placeholder.distanceTo(centeredAround, within: maxDistance) {
                 let angle = centeredAround.angleTo(placeholder)
-                let point = node.convertPoint(CGPoint(r: maxDistance, a: angle), fromNode: node.parent!)
+                let point = node.convertPoint(centeredAround.position + CGPoint(r: maxDistance, a: angle), fromNode: node.parent!)
                 placeholder.position = point
             }
+        }
+
+        for handler in _onDragging {
+            handler(true, location)
         }
     }
 
@@ -170,7 +207,7 @@ class DraggableComponent: Component {
         self.target = nil
         isDragging = false
         for handler in _onDragging {
-            handler(false)
+            handler(false, placeholder?.position ?? CGPointZero)
         }
     }
 
@@ -192,7 +229,7 @@ class DraggableComponent: Component {
 
         isDragging = false
         for handler in _onDragging {
-            handler(false)
+            handler(false, location)
         }
     }
 

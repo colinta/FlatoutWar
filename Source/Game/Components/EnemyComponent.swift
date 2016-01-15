@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
+protocol EnemyNode: class {
+}
+
 class EnemyComponent: Component {
     private var _targetable: Bool = true
     var targetable: Bool {

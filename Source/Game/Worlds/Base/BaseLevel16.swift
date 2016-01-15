@@ -16,7 +16,7 @@ class BaseLevel16: BaseLevel {
     }
 
     override func goToNextWorld() {
-        director?.presentWorld(LevelSelectWorld())
+        director?.presentWorld(BaseLevelSelectWorld())
     }
 
 }

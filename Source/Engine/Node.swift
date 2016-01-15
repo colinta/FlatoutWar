@@ -7,7 +7,7 @@
 //
 
 class Node: SKNode {
-    var enabled = true
+    var frozen = false
     var timeRate: CGFloat = 1
     var fixedPosition: Position? {
         didSet {
@@ -45,8 +45,12 @@ class Node: SKNode {
 
     var components: [Component] = []
     var world: World? { return (scene as? WorldScene)?.world }
-    var isEnemy: Bool { return enemyComponent != nil }
-    var isPlayer: Bool { return playerComponent != nil }
+    var isEnemy: Bool {
+        return self is EnemyNode
+    }
+    var isPlayer: Bool {
+        return self is PlayerNode
+    }
     var isProjectile: Bool { return projectileComponent != nil }
 
     typealias OnDeath = Block
@@ -122,7 +126,7 @@ class Node: SKNode {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         components = coder.decode("components") ?? []
-        enabled = coder.decodeBool("enabled") ?? true
+        frozen = coder.decodeBool("frozen") ?? true
         size = coder.decodeSize("size") ?? CGSizeZero
         if let z = coder.decodeCGFloat("z") {
             self.z = Z(rawValue: z) ?? .Default
@@ -135,10 +139,17 @@ class Node: SKNode {
 
     override func encodeWithCoder(encoder: NSCoder) {
         encoder.encode(components, key: "components")
-        encoder.encode(enabled, key: "enabled")
+        encoder.encode(frozen, key: "frozen")
         encoder.encode(size, key: "size")
         encoder.encode(z.rawValue, key: "z")
         super.encodeWithCoder(encoder)
+    }
+
+    func applyUpgrade(type: UpgradeType) {
+    }
+
+    func availableUpgrades() -> [UpgradeInfo] {
+        return []
     }
 
 }
@@ -148,7 +159,7 @@ class Node: SKNode {
 extension Node {
 
     func updateNodes(dtReal: CGFloat) {
-        guard enabled else { return }
+        guard !frozen else { return }
 
         let dt = dtReal * timeRate
         for component in components {
@@ -191,13 +202,7 @@ extension Node {
 extension Node {
 
     func touches(other: Node) -> Bool {
-        if shape == .Rect || other.shape == .Rect {
-            return node(self, touches: other)
-        }
-        else {
-            let radius = max(0.01, other.radius + self.radius)
-            return distanceTo(other, within: radius)
-        }
+        return shape.touchTest(self, and: other)
     }
 
 }
