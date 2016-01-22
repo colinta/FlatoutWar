@@ -3,7 +3,7 @@ project do |p|
     p.class_prefix = "FW"
     p.organization = "colinta"
 
-    p.debug_configuration(:Debug).settings["ENABLE_TESTABILITY"] = "YES"
+    p.debug_configuration.settings["ENABLE_TESTABILITY"] = "YES"
 end
 
 application_for :ios, 8.0, :swift do |target|
