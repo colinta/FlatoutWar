@@ -197,9 +197,6 @@ class DroneNode: Node, DraggableNode, PlayerNode {
         var upgrades: [UpgradeInfo] = []
 
         if let nextDroneUpgrade = upgrade + 1 {
-            let current = Node()
-            current << SKSpriteNode(id: .Drone(upgrade: self.upgrade, health: 100))
-
             let upgrade = Node()
             upgrade << SKSpriteNode(id: .Drone(upgrade: nextDroneUpgrade, health: 100))
 
@@ -212,7 +209,7 @@ class DroneNode: Node, DraggableNode, PlayerNode {
                 default: cost = 0
             }
 
-            upgrades << (currentNode: current, upgradeNode: upgrade, cost: cost, upgradeType: .Upgrade)
+            upgrades << (upgradeNode: upgrade, cost: cost, upgradeType: .Upgrade)
         }
 
         return upgrades

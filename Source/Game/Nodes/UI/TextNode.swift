@@ -17,6 +17,9 @@ class TextNode: Node {
     var color: Int? {
         didSet { updateTextNodes() }
     }
+    var alignment: NSTextAlignment = .Center {
+        didSet { updateTextNodes() }
+    }
 
     required init() {
         text = ""
@@ -56,7 +59,15 @@ class TextNode: Node {
             return CGSize(width, height)
         }
 
-        var x = -size.width / 2
+        var x: CGFloat
+        switch alignment {
+            case .Left:
+                x = 0
+            case .Right:
+                x = -size.width
+            default:
+                x = -size.width / 2
+        }
         for sprite in sprites {
             x += sprite.size.width / 2
             sprite.position.x = x

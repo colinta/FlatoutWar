@@ -47,6 +47,11 @@ class BaseUpgradeWorld: World {
         let nodes = nextWorld.config.storedPlayers
         for node in nodes {
             node.position = node.position + playersOffset
+            if let player = node as? BasePlayerNode {
+                playerNode = player
+            }
+        }
+        for node in nodes {
             addStoredNode(node)
         }
 
@@ -122,8 +127,9 @@ class BaseUpgradeWorld: World {
         moveTo1.duration = 0.5
         node.addComponent(moveTo1)
 
-        let costTextNode = TextNode(at: node.position + CGPoint(x: 50))
+        let costTextNode = TextNode(at: node.position + CGPoint(x: node.radius + 3))
         costTextNode.text = cost.description
+        costTextNode.alignment = .Left
         costTextNode.font = .Small
         self << costTextNode
 
@@ -183,7 +189,6 @@ class BaseUpgradeWorld: World {
         storedNodes << (node, node.position)
 
         if let player = node as? BasePlayerNode {
-            playerNode = player
             player.rotateTo(TAU_3_4)
             player.overrideForceFire = false
         }
@@ -247,24 +252,14 @@ class BaseUpgradeWorld: World {
 
         var newNodes: [Node] = []
 
-        let leftX: CGFloat = 55
-        let midX: CGFloat = 105
+        let leftX: CGFloat = 100
         let upgradeOffset: CGFloat = -37
         let textOffset: CGFloat = 30
-        let textX: CGFloat = 200
 
         let availableUpgrades = node.availableUpgrades()
-        var y: CGFloat = -70 + CGFloat(availableUpgrades.count) * 50
-        for (currentNode, upgradeNode, cost, upgradeType) in availableUpgrades {
-            currentNode.position = CGPoint(x: leftX, y: y)
-
-            let arrowNode = TextNode()
-            arrowNode.text = "→"
-            arrowNode.font = .Small
-            arrowNode.setScale(1.5)
-            arrowNode.position = CGPoint(x: midX, y: y)
-
-            let purchaseButton = Button(at: CGPoint(x: textX, y: y))
+        var y: CGFloat = -40 + CGFloat(availableUpgrades.count) * 40
+        for (upgradeNode, cost, upgradeType) in availableUpgrades {
+            let purchaseButton = Button(at: CGPoint(x: leftX, y: y))
             purchaseButton.style = .RectSized(140, 50)
             let purchaseText = TextNode(at: CGPoint(x: textOffset))
             purchaseText.text = "\(cost)"
@@ -274,11 +269,9 @@ class BaseUpgradeWorld: World {
 
             if config.canAfford(cost) {
                 purchaseText.color = nil
-                purchaseButton.enabled = true
             }
             else {
                 purchaseText.color = 0xC5C5C5
-                purchaseButton.enabled = false
             }
 
             purchaseButton.onTapped {
@@ -287,18 +280,15 @@ class BaseUpgradeWorld: World {
                 self.showUpgradesFor(node, animated: false)
             }
 
-
-            let crop = SKCropNode()
+            let crop = CropNode()
             crop.maskNode = SKSpriteNode(id: .FillColorBox(size: CGSize(212.5, 50), color: 0xffffff))
             crop << upgradeNode
             crop.position = CGPoint(x: upgradeOffset, y: 0)
             purchaseButton << crop
 
-            newNodes << currentNode
-            newNodes << arrowNode
             newNodes << purchaseButton
 
-            y -= availableUpgrades.count == 3 ? 80 : 100
+            y -= 80
         }
 
         upgradeNodes = []

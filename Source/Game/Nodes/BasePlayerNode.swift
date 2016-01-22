@@ -19,6 +19,8 @@ class BasePlayerNode: Node, PlayerNode {
     var baseUpgrade: FiveUpgrades = .One {
         didSet {
             base.textureId(.Base(upgrade: baseUpgrade, health: healthComponent?.healthInt ?? 100))
+            rotateToComponent?.maxAngularSpeed = baseUpgrade.baseAngularSpeed
+            rotateToComponent?.angularAccel = baseUpgrade.baseAngularAccel
         }
     }
     var radarUpgrade: FiveUpgrades = .One {
@@ -27,7 +29,10 @@ class BasePlayerNode: Node, PlayerNode {
         }
     }
     var turretUpgrade: FiveUpgrades = .One {
-        didSet { turret.textureId(.BaseSingleTurret(upgrade: turretUpgrade)) }
+        didSet {
+            turret.textureId(.BaseSingleTurret(upgrade: turretUpgrade))
+            firingComponent?.cooldown = turretUpgrade.turretCooldown
+        }
     }
 
     var radar = SKSpriteNode()
@@ -83,6 +88,8 @@ class BasePlayerNode: Node, PlayerNode {
         let rotateToComponent = RotateToComponent()
         rotateToComponent.currentAngle = 0
         rotateToComponent.applyTo = base
+        rotateToComponent.maxAngularSpeed = baseUpgrade.baseAngularSpeed
+        rotateToComponent.angularAccel = baseUpgrade.baseAngularAccel
         addComponent(rotateToComponent)
 
         let targetingComponent = TargetingComponent()
@@ -93,7 +100,7 @@ class BasePlayerNode: Node, PlayerNode {
 
         let firingComponent = FiringComponent()
         firingComponent.turret = base
-        firingComponent.cooldown = DefaultCooldown
+        firingComponent.cooldown = turretUpgrade.turretCooldown
         firingComponent.onFire { angle in
             self.fireBullet(angle: angle)
         }
@@ -117,7 +124,7 @@ class BasePlayerNode: Node, PlayerNode {
             forceFire = overrideForceFire
         }
         else if let touchedFor = touchableComponent?.touchedFor
-        where touchedFor >= turretUpgrade.forceFireDuration {
+        where touchedFor > turretUpgrade.turretForceFireDuration {
             forceFire = true
         }
         else {
@@ -168,29 +175,7 @@ class BasePlayerNode: Node, PlayerNode {
         var upgrades: [UpgradeInfo] = []
 
         if let nextBaseUpgrade = baseUpgrade + 1 {
-            let current = Node()
-            current << {
-                let node = SKSpriteNode(id: .Base(upgrade: baseUpgrade, health: 100))
-                node.zPosition = Z.Default.rawValue
-                return node
-            }()
-            current << {
-                let node = SKSpriteNode(id: .BaseSingleTurret(upgrade: turretUpgrade))
-                node.zPosition = Z.Above.rawValue
-                return node
-            }()
-
-            let upgrade = Node()
-            upgrade << {
-                let node = SKSpriteNode(id: .Base(upgrade: nextBaseUpgrade, health: 100))
-                node.zPosition = Z.Default.rawValue
-                return node
-            }()
-            upgrade << {
-                let node = SKSpriteNode(id: .BaseSingleTurret(upgrade: turretUpgrade))
-                node.zPosition = Z.Above.rawValue
-                return node
-            }()
+            let upgrade = BasePlayerRotatingDemoNode(baseUpgrade: nextBaseUpgrade, radarUpgrade: radarUpgrade, turretUpgrade: turretUpgrade)
 
             let cost: Int
             switch nextBaseUpgrade {
@@ -201,28 +186,10 @@ class BasePlayerNode: Node, PlayerNode {
                 default: cost = 0
             }
 
-            upgrades << (currentNode: current, upgradeNode: upgrade, cost: cost, upgradeType: .Upgrade)
+            upgrades << (upgradeNode: upgrade, cost: cost, upgradeType: .Upgrade)
         }
 
         if let nextRadarUpgrade = radarUpgrade + 1 {
-            let current = Node()
-            current << {
-                let node = SKSpriteNode(id: .Base(upgrade: baseUpgrade, health: 100))
-                node.zPosition = Z.Default.rawValue
-                return node
-            }()
-            current << {
-                let node = SKSpriteNode(id: .Radar(upgrade: radarUpgrade))
-                node.anchorPoint = CGPoint(0, 0.5)
-                node.zPosition = Z.Below.rawValue
-                return node
-            }()
-            current << {
-                let node = SKSpriteNode(id: .BaseSingleTurret(upgrade: turretUpgrade))
-                node.zPosition = Z.Above.rawValue
-                return node
-            }()
-
             let upgrade = Node()
             upgrade << {
                 let node = SKSpriteNode(id: .Base(upgrade: baseUpgrade, health: 100))
@@ -250,7 +217,7 @@ class BasePlayerNode: Node, PlayerNode {
                 default: cost = 0
             }
 
-            upgrades << (currentNode: current, upgradeNode: upgrade, cost: cost, upgradeType: .RadarUpgrade)
+            upgrades << (upgradeNode: upgrade, cost: cost, upgradeType: .RadarUpgrade)
         }
 
         if let nextTurretUpgrade = turretUpgrade + 1 {
@@ -266,17 +233,7 @@ class BasePlayerNode: Node, PlayerNode {
                 return node
             }()
 
-            let upgrade = Node()
-            upgrade << {
-                let node = SKSpriteNode(id: .Base(upgrade: radarUpgrade, health: 100))
-                node.zPosition = Z.Default.rawValue
-                return node
-            }()
-            upgrade << {
-                let node = SKSpriteNode(id: .BaseSingleTurret(upgrade: nextTurretUpgrade))
-                node.zPosition = Z.Above.rawValue
-                return node
-            }()
+            let upgrade = BasePlayerFiringDemoNode(baseUpgrade: baseUpgrade, radarUpgrade: radarUpgrade, turretUpgrade: nextTurretUpgrade)
 
             let cost: Int
             switch nextTurretUpgrade {
@@ -287,7 +244,7 @@ class BasePlayerNode: Node, PlayerNode {
                 default: cost = 0
             }
 
-            upgrades << (currentNode: current, upgradeNode: upgrade, cost: cost, upgradeType: .TurretUpgrade)
+            upgrades << (upgradeNode: upgrade, cost: cost, upgradeType: .TurretUpgrade)
         }
 
         return upgrades
@@ -334,7 +291,7 @@ extension BasePlayerNode {
         let bullet = BulletNode(velocity: CGPoint(r: velocity, a: angle), style: style)
         bullet.position = self.position
 
-        bullet.damage = turretUpgrade.bulletDamage
+        bullet.damage = turretUpgrade.turretBulletDamage
         bullet.size = BaseTurretBulletArtist.bulletSize(.One)
         bullet.zRotation = angle
         bullet.z = Z.Below
@@ -378,7 +335,7 @@ extension BasePlayerNode {
 
 extension FiveUpgrades {
 
-    var forceFireDuration: CGFloat {
+    var turretForceFireDuration: CGFloat {
         switch self {
             case .One: return 0.3
             case .Two: return 0.25
@@ -389,7 +346,7 @@ extension FiveUpgrades {
     }
 
 
-    var bulletDamage: Float {
+    var turretBulletDamage: Float {
         switch self {
             case .One: return 1
             case .Two: return 1.1
@@ -399,7 +356,17 @@ extension FiveUpgrades {
         }
     }
 
-    var angularSpeed: CGFloat {
+    var turretCooldown: CGFloat {
+        switch self {
+            case .One: return 0.35
+            case .Two: return 0.35
+            case .Three: return 0.35
+            case .Four: return 0.35
+            case .Five: return 0.35
+        }
+    }
+
+    var baseAngularSpeed: CGFloat {
         switch self {
             case .One: return 4
             case .Two: return 6
@@ -409,7 +376,7 @@ extension FiveUpgrades {
         }
     }
 
-    var angularAccel: CGFloat? {
+    var baseAngularAccel: CGFloat? {
         switch self {
             case .One: return 3
             case .Two: return 6

@@ -88,4 +88,4 @@ enum UpgradeType {
     case TurretUpgrade
 }
 
-typealias UpgradeInfo = (currentNode: Node, upgradeNode: Node, cost: Int, upgradeType: UpgradeType)
+typealias UpgradeInfo = (upgradeNode: SKNode, cost: Int, upgradeType: UpgradeType)
