@@ -9,46 +9,67 @@
 class BaseLevel4: BaseLevel {
 
     override func loadConfig() -> BaseConfig { return BaseLevel4Config() }
-    override func tutorial() -> Tutorial { return DroneTutorial() }
-
-    override func populateWorld() {
-        super.populateWorld()
-
-        for node in config.storedPlayers {
-            customizeNode(node)
-        }
-
-        moveCamera(to: CGPoint(150, 50), duration: 2)
-        beginWave1(at: 4)
-        beginWave2(at: 50)
-        beginWave3(at: 90)
-    }
-
+    override func tutorial() -> Tutorial { return RapidFireTutorial() }
     override func nextLevel() -> BaseLevel {
         return BaseLevel5()
     }
 
+    override func populateWorld() {
+        super.populateWorld()
+
+        beginWave1(at: 3)
+        beginWave2(at: 32)
+        beginWave3(at: 60)
+        beginWave4(at: 80)
+        beginWave5(at: 130)
+    }
+
+    // one sources of weak enemies in a wave
     func beginWave1(at startTime: CGFloat) {
-        timeline.every(0.39, startAt: startTime, times: 10, block: generateEnemyPair(rand(min: -size.angle, max: TAU_4)))
-        timeline.every(0.39, startAt: startTime + 15, times: 10, block: generateEnemyPair(rand(min: -size.angle, max: TAU_4)))
-        timeline.every(0.39, startAt: startTime + 28, times: 10, block: generateEnemyPair(rand(min: -size.angle, max: TAU_4)))
+        let wave1 = TAU_2 ± rand(size.angle)
+        var spread = CGFloat(2.5)
+        timeline.every(0.45, startAt: startTime, times: 40) {
+            let angle = wave1 + rand(spread.degrees)
+
+            let enemyNode = EnemySoldierNode()
+            enemyNode.position = CGPoint(r: self.outerRadius, a: angle)
+            self << enemyNode
+            spread += 0.75
+        }
     }
 
+    // Dozers
     func beginWave2(at startTime: CGFloat) {
-        timeline.every(6...8, startAt: startTime, times: 4) {
-            let angle: CGFloat = rand(min: -self.size.angle, max: TAU_4)
-            self.generateBigJetWithFollowers(angle, spread: 0)()
+        let wave2 = self.randSideAngle()
+        timeline.every(4...6, startAt: startTime, times: 5, block: self.generateDozer(wave2, spread: TAU_8))
+    }
+
+    // wide waves
+    func beginWave3(at startTime: CGFloat) {
+        timeline.every(6, startAt: startTime, times: 8) {
+            let angle: CGFloat = self.randSideAngle()
+            let delta = 5.degrees
+            for i in 0..<5 {
+                let myAngle = angle + CGFloat(i - 2) * delta
+                self.timeline.after(CGFloat(i) * 0.1, block: self.generateEnemy(myAngle, spread: 0))
+            }
         }
     }
 
-    func beginWave3(at startTime: CGFloat) {
-        timeline.at(startTime) {
-            self.moveCamera(to: CGPoint(200, 75), zoom: 0.75, duration: 3)
+    // fast enemies waves
+    func beginWave4(at startTime: CGFloat) {
+        timeline.every(6, startAt: startTime, times: 5) {
+            self.generateScouts(self.randSideAngle())()
         }
-        timeline.at(startTime + 3, block: generateGiant(size.angle))
-        timeline.at(startTime + 4, block: generateGiant(size.angle - TAU_16))
-        timeline.at(startTime + 4.75, block: generateGiant(size.angle + TAU_16))
-        timeline.every(1.5...2.5, startAt: startTime, times: 10, block: generateEnemy(rand(±size.angle)))
+        timeline.every(2, startAt: startTime + 35, times: 5) {
+            self.generateScouts(self.randSideAngle())()
+        }
+    }
+
+    // fast enemies waves
+    func beginWave5(at startTime: CGFloat) {
+        let wave5 = self.randSideAngle()
+        timeline.every(1, startAt: startTime, times: 10, block: self.generateScouts(wave5, spread: TAU_8))
     }
 
 }

@@ -57,6 +57,12 @@ class BaseLevel: Level {
     override func populateWorld() {
         super.populateWorld()
 
+        if config.canUpgrade {
+            for node in config.storedPlayers {
+                customizeNode(node)
+            }
+        }
+
         shouldPopulatePlayer = true
         updatePlayer(playerNode)
 
@@ -176,16 +182,12 @@ extension BaseLevel {
         else {
             let playerCenter = playerNode.position
             playerNode.removeFromParent()
-            let explosion = PlayerExplosionNode(at: playerCenter)
+            let explosion = PlayerExplosionNode()
+            explosion.position = playerCenter
             self << explosion
 
             quitButton.visible = true
             restartButton.visible = true
-
-            finalTimeline.every(2) {
-                let explosion = PlayerExplosionNode(at: playerCenter)
-                self << explosion
-            }
         }
     }
 

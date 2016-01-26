@@ -9,12 +9,13 @@
 class BaseConfig {
     var key: String { return "\(self.dynamicType)" }
 
+    var hasTutorial: Bool { return false }
+    var canUpgrade: Bool { return false }
     var possibleExperience: Int { return 0 }
+
     var gainedExperience: Int {
         get { return Defaults["Config-\(key)-gainedExperience"].int ?? 0 }
     }
-    var hasTutorial: Bool { return false }
-    var canUpgrade: Bool { return false }
     var seenTutorial: Bool {
         get { return Defaults["Config-\(key)-seenTutorial"].bool ?? false }
         set { Defaults["Config-\(key)-seenTutorial"] = newValue }

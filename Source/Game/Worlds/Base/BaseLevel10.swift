@@ -9,14 +9,12 @@
 class BaseLevel10: BaseLevel {
 
     override func loadConfig() -> BaseConfig { return BaseLevel10Config() }
-    override func tutorial() -> Tutorial { return DroneTutorial() }
+    override func nextLevel() -> BaseLevel {
+        return BaseLevel11()
+    }
 
     override func populateWorld() {
         super.populateWorld()
-    }
-
-    override func nextLevel() -> BaseLevel {
-        return BaseLevel11()
     }
 
 }

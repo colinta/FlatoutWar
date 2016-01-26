@@ -7,7 +7,6 @@
 //
 
 class BaseLevel5Config: BaseConfig {
-    override var canUpgrade: Bool { return true }
-    override var possibleExperience: Int { return 0 }
+    override var possibleExperience: Int { return 1000 }
 
 }
