@@ -18,8 +18,16 @@ func easeOutExpo(time time: CGFloat, initial: CGFloat = 0, final finalValue: CGF
     guard time > 0 else { return initial }
     guard time < 1 else { return finalValue }
     let delta = finalValue - initial
-    let dist: CGFloat = pow(2, -10 * time)
-    return delta * (-dist + 1) + initial
+    let dist: CGFloat = 1 - pow(2, -10 * time)
+    return delta * dist + initial
+}
+
+func easeOutCubic(time time: CGFloat, initial: CGFloat = 0, final finalValue: CGFloat = 1) -> CGFloat {
+    guard time > 0 else { return initial }
+    guard time < 1 else { return finalValue }
+    let delta = finalValue - initial
+    let dist = pow(time - 1, 3) + 1
+    return delta * dist + initial
 }
 
 func easeOutElastic(time time: CGFloat, initial: CGFloat = 0, final finalValue: CGFloat = 1) -> CGFloat {
@@ -27,7 +35,7 @@ func easeOutElastic(time time: CGFloat, initial: CGFloat = 0, final finalValue: 
     guard time < 1 else { return finalValue }
 
     let p: CGFloat = 0.3
-    let s = CGFloat(p / 4.0)
+    let s = p / 4
 
     return (finalValue - initial) * pow(2, -10 * time) * sin((time - s) * TAU / p) + finalValue
 }
@@ -40,22 +48,24 @@ func easeInElastic(time time: CGFloat, initial: CGFloat = 0, final finalValue: C
 
 func easeInBack(time time: CGFloat, initial: CGFloat = 0, final finalValue: CGFloat = 1) -> CGFloat {
     let s: CGFloat = 1.70158
-    return (finalValue - initial) * time * time * ((s+1) * time - s) + initial
+    return (finalValue - initial) * time * time * ((s + 1) * time - s) + initial
 }
 
 enum Easing {
     case Linear
-    case EaseOutExpo
-    case EaseOutElastic
     case EaseInBack
+    case EaseOutCubic
+    case EaseOutElastic
+    case EaseOutExpo
     case Custom(EasingEquation)
 
     var ease: EasingEquation {
         switch self {
         case Linear: return easeLinear
-        case EaseOutExpo: return easeOutExpo
-        case EaseOutElastic: return easeOutElastic
         case EaseInBack: return easeInBack
+        case EaseOutCubic: return easeOutCubic
+        case EaseOutElastic: return easeOutElastic
+        case EaseOutExpo: return easeOutExpo
         case let Custom(eq): return eq
         }
     }

@@ -102,6 +102,11 @@ extension ImageIdentifier {
             let health = CGFloat(healthInt) / 100
             let artist = BaseArtist(upgrade: upgrade, health: health)
             return artist
+        case let .BaseExplosion(index, total):
+            let spread = TAU / CGFloat(total)
+            let angle = -spread * CGFloat(index)
+            let artist = BaseExplosionArtist(angle: angle, spread: spread)
+            return artist
         case let .BaseSingleTurret(upgrade):
             let artist = BaseTurretArtist(upgrade: upgrade)
             return artist

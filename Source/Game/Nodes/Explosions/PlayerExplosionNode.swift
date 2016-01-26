@@ -6,7 +6,7 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-private let numSprites = 50
+private let numSprites = 20
 private let maxDistance: CGFloat = 30
 private let duration: CGFloat = 3
 private let maxLength: CGFloat = 60
@@ -19,8 +19,8 @@ class PlayerExplosionNode: Node {
         super.init()
         z = .Bottom
 
-        for _ in 0..<numSprites {
-            let sprite = SKSpriteNode(id: .None)
+        for index in 0..<numSprites {
+            let sprite = SKSpriteNode(id: .BaseExplosion(index: index, total: numSprites))
             sprites << sprite
             self << sprite
         }
@@ -45,17 +45,12 @@ class PlayerExplosionNode: Node {
             return
         }
 
-        let amt = Int(round(interpolate(phase, from: (0, 1), to: (0xff, 0))))
-        let color = hex(r: amt, g: amt, b: amt)
-        let distance = phase * maxDistance
-        let length = min(4 * distance, maxLength)
-        let alpha = min(1, 4 * (1 - phase))
+        let distance = easeOutCubic(time: phase, final: maxDistance)
+        let alpha = easeOutCubic(time: phase, initial: 1, final: 0)
 
         for (i, sprite) in sprites.enumerate() {
-            let angle = (phase * TAU) + CGFloat(i) / CGFloat(sprites.count) * TAU
-            sprite.textureId(.ColorLine(length: length, color: color))
+            let angle = TAU / CGFloat(sprites.count) * CGFloat(i)
             sprite.position = CGPoint(r: distance, a: angle)
-            sprite.zRotation = angle
             sprite.alpha = alpha
         }
     }

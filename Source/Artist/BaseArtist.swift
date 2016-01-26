@@ -122,3 +122,41 @@ class BaseArtist: Artist {
     }
 
 }
+
+class BaseExplosionArtist: Artist {
+    var stroke = UIColor(hex: 0xFAA564)
+    var fill = UIColor(hex: 0xEC942B)
+    let angle: CGFloat
+    let spread: CGFloat
+
+    required init(angle: CGFloat, spread: CGFloat) {
+        self.angle = angle
+        self.spread = spread
+        super.init()
+        size = CGSize(40)
+    }
+
+    required init() {
+        fatalError("init() has not been implemented")
+    }
+
+    override func draw(context: CGContext) {
+        CGContextSetAlpha(context, 0.5)
+        CGContextSetStrokeColorWithColor(context, stroke.CGColor)
+        CGContextSetFillColorWithColor(context, fill.CGColor)
+
+        let angle2 = angle + spread ± rand(2.degrees)
+        let p1 = middle + CGPoint(r: size.width / 2, a: angle)
+        let p2 = middle + CGPoint(r: size.width / 2, a: angle2)
+        CGContextMoveToPoint(context, middle.x, middle.y)
+        CGContextAddLineToPoint(context, p1.x, p1.y)
+        CGContextAddLineToPoint(context, p2.x, p2.y)
+        CGContextClosePath(context)
+        CGContextDrawPath(context, .Fill)
+
+        CGContextMoveToPoint(context, p1.x, p1.y)
+        CGContextAddLineToPoint(context, p2.x, p2.y)
+        CGContextDrawPath(context, .Stroke)
+    }
+
+}
