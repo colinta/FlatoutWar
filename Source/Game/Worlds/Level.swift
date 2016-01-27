@@ -32,7 +32,7 @@ class Level: World {
     required init() {
         super.init()
 
-        resumeButton.fixedPosition = .Center(x: 0, y: 0)
+        resumeButton.fixedPosition = .Center(x: 0, y: -80)
         resumeButton.visible = false
         resumeButton.text = "RESUME"
         resumeButton.onTapped {
@@ -109,15 +109,13 @@ class Level: World {
 
     override func onPause() {
         resumeButton.visible = true
-        // restartButton.visible = true
         quitButton.visible = true
     }
 
     override func onUnpause() {
         if !worldPaused {
-            resumeButton.visible = false
-            restartButton.visible = false
             quitButton.visible = false
+            resumeButton.visible = false
         }
     }
 
