@@ -23,9 +23,9 @@ class BaseLevel9: BaseLevel {
     }
 
     func beginWave1(at startTime: CGFloat) {
-        timeline.every(0.39, startAt: startTime, times: 10, block: generateEnemyPair(rand(min: -size.angle, max: TAU_4)))
-        timeline.every(0.39, startAt: startTime + 15, times: 10, block: generateEnemyPair(rand(min: -size.angle, max: TAU_4)))
-        timeline.every(0.39, startAt: startTime + 28, times: 10, block: generateEnemyPair(rand(min: -size.angle, max: TAU_4)))
+        timeline.at(startTime, block: generateEnemyColumn(rand(min: -size.angle, max: TAU_4)))
+        timeline.at(startTime + 15, block: generateEnemyColumn(rand(min: -size.angle, max: TAU_4)))
+        timeline.at(startTime + 28, block: generateEnemyColumn(rand(min: -size.angle, max: TAU_4)))
     }
 
     func beginWave2(at startTime: CGFloat) {
