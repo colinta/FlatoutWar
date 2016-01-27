@@ -11,7 +11,13 @@ protocol PlayerNode: class {
 
 class PlayerComponent: Component {
     var targetable: Bool = true
-    weak var intersectionNode: SKNode!
+    weak var intersectionNode: SKNode! {
+        didSet {
+            if intersectionNode.frame.size == CGSizeZero {
+                fatalError("intersectionNodes should not have zero size")
+            }
+        }
+    }
 
     required override init() {
         super.init()

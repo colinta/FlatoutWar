@@ -8,7 +8,13 @@
 
 class ProjectileComponent: Component {
     var damage: Float = 0
-    weak var intersectionNode: SKNode!
+    weak var intersectionNode: SKNode! {
+        didSet {
+            if intersectionNode.frame.size == CGSizeZero {
+                fatalError("intersectionNodes should not have zero size")
+            }
+        }
+    }
     typealias OnCollision = (enemy: Node, location: CGPoint) -> Void
     var _onCollision: [OnCollision] = []
     func onCollision(handler: OnCollision) { _onCollision << handler }
@@ -38,7 +44,9 @@ class ProjectileComponent: Component {
         for enemy in world.enemies {
             if let died = enemy.healthComponent?.died where died { continue }
 
-            if enemy.enemyComponent!.targetable && intersectionNode!.intersectsNode(enemy.enemyComponent!.intersectionNode!) {
+            if enemy.enemyComponent!.targetable &&
+                intersectionNode!.intersectsNode(enemy.enemyComponent!.intersectionNode!)
+            {
                 if let location = node.touchingLocation(enemy) {
                     for handler in _onCollision {
                         handler(enemy: enemy, location: location)

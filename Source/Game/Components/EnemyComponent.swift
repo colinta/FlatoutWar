@@ -18,7 +18,13 @@ class EnemyComponent: Component {
     var targetingEnabled: Bool = true
     var experience: Int = 0
     var currentTarget: Node?
-    weak var intersectionNode: SKNode!
+    weak var intersectionNode: SKNode! {
+        didSet {
+            if intersectionNode.frame.size == CGSizeZero {
+                fatalError("intersectionNodes should not have zero size")
+            }
+        }
+    }
 
     typealias OnTargetAcquired = (target: Node?) -> Void
     var _onTargetAcquired: [OnTargetAcquired] = []

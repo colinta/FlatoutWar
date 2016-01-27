@@ -24,7 +24,13 @@ class RammingComponent: Component {
     var currentTargetLocation: CGPoint? {
         return tempTarget ?? currentTarget?.position
     }
-    weak var intersectionNode: SKNode!
+    weak var intersectionNode: SKNode! {
+        didSet {
+            if intersectionNode.frame.size == CGSizeZero {
+                fatalError("intersectionNodes should not have zero size")
+            }
+        }
+    }
 
     typealias OnRammed = Block
     var _onRammed: [OnRammed] = []
@@ -59,6 +65,15 @@ class RammingComponent: Component {
         }
     }
 
+    private func struckTarget() -> Node? {
+        if let players = (node.world?.players ?? currentTarget.map { [$0] }) {
+            return players.find { player in
+                return player.playerComponent!.targetable && intersectionNode!.intersectsNode(player.playerComponent!.intersectionNode!) && node.touches(player)
+            }
+        }
+        return nil
+    }
+
     override func update(dt: CGFloat) {
         if let tempTarget = tempTarget
         where tempTarget.distanceTo(node.position, within: 1) || tempTargetCountdown < 0
@@ -71,9 +86,7 @@ class RammingComponent: Component {
 
         // if the node rammed into a target, call the handlers and remove this
         // component (to prevent multiple ramming events)
-        let struckTarget = (node.world?.players ?? currentTarget.map { [$0] })?.find { player in
-            return player.playerComponent!.targetable && intersectionNode!.intersectsNode(player.playerComponent!.intersectionNode!) && node.touches(player)
-        }
+        let struckTarget = self.struckTarget()
         if let struckTarget = struckTarget {
             for handler in _onRammed {
                 handler()
