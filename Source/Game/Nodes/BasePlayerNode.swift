@@ -14,7 +14,7 @@ private let ForceFireBurnoutUp: CGFloat = 6
 private let ForceFireBurnoutDown: CGFloat = 4
 
 class BasePlayerNode: Node, PlayerNode {
-    var overrideForceFire: Bool?
+    var forceFireEnabled: Bool?
     var forceFireBurnout = false
     var baseUpgrade: FiveUpgrades = .One {
         didSet {
@@ -120,8 +120,8 @@ class BasePlayerNode: Node, PlayerNode {
 
     override func update(dt: CGFloat) {
         let forceFire: Bool
-        if let overrideForceFire = self.overrideForceFire {
-            forceFire = overrideForceFire
+        if let forceFireEnabled = self.forceFireEnabled {
+            forceFire = forceFireEnabled
         }
         else if let touchedFor = touchableComponent?.touchedFor
         where touchedFor > turretUpgrade.turretForceFireDuration {
@@ -149,7 +149,7 @@ class BasePlayerNode: Node, PlayerNode {
 
         if let firingAngle = firingComponent?.angle,
             isTouching = touchableComponent?.isTouching
-            where !isTouching || overrideForceFire == false
+            where !isTouching || forceFireEnabled == false
         {
             turret.zRotation = firingAngle
         }

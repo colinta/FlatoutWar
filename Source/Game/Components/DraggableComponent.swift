@@ -14,7 +14,7 @@ class DraggableComponent: Component {
     var speed: CGFloat? = 30
     var placeholder: SKNode? { return (node as? DraggableNode)?.placeholder }
     var target: CGPoint?
-    var overrideShouldAdjust: Bool?
+    var shouldAdjustEnabled: Bool?
 
     override var enabled: Bool {
         didSet {
@@ -114,8 +114,8 @@ class DraggableComponent: Component {
         isIgnoring = false
         isDragging = true
 
-        if let overrideShouldAdjust = overrideShouldAdjust {
-            shouldAdjust = overrideShouldAdjust
+        if let shouldAdjustEnabled = shouldAdjustEnabled {
+            shouldAdjust = shouldAdjustEnabled
         }
         else {
             let shouldAdjustThreshold: CGFloat = (node.radius + 5) / WorldScene.worldScale

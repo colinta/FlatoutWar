@@ -46,18 +46,18 @@ class RapidFireTutorial: Tutorial {
             self.playerNode.onTouchDragged(prevPlayerLoc, location: playerLoc)
         }
         holdButton.touchableComponent!.on(.Down) { _ in
-            self.playerNode.overrideForceFire = true
+            self.playerNode.forceFireEnabled = true
             self.playerNode.firingComponent?.enabled = true
             holdButton.text = "DRAG"
         }
         holdButton.touchableComponent!.on(.Up) { _ in
-            self.playerNode.overrideForceFire = false
+            self.playerNode.forceFireEnabled = false
             self.playerNode.firingComponent?.enabled = false
             holdButton.text = "HOLD"
         }
 
         onNoMoreEnemies {
-            self.playerNode.overrideForceFire = false
+            self.playerNode.forceFireEnabled = false
             self.playerNode.firingComponent?.enabled = false
             holdButton.removeFromParent()
             self.showSecondEnemies()
@@ -108,16 +108,16 @@ class RapidFireTutorial: Tutorial {
             let playerLoc = self.convertPoint(worldLoc, toNode: self.playerNode)
             self.playerNode.onTouchDragged(prevPlayerLoc, location: playerLoc)
 
-            self.playerNode.overrideForceFire = true
+            self.playerNode.forceFireEnabled = true
             self.playerNode.firingComponent?.enabled = true
         }
         holdButton.touchableComponent!.on(.Up) { _ in
-            self.playerNode.overrideForceFire = false
+            self.playerNode.forceFireEnabled = false
             self.playerNode.firingComponent?.enabled = false
             holdButton.text = "HOLD"
         }
         holdButton.touchableComponent!.on(.Down) { _ in
-            self.playerNode.overrideForceFire = true
+            self.playerNode.forceFireEnabled = true
             self.playerNode.firingComponent?.enabled = true
             holdButton.text = "DRAG"
         }
@@ -131,7 +131,7 @@ class RapidFireTutorial: Tutorial {
     }
 
     func done() {
-        playerNode.overrideForceFire = false
+        playerNode.forceFireEnabled = false
         tutorialTextNode.text = "YOU GOT THIS!"
 
         addContinueButton()

@@ -21,8 +21,8 @@ class DroneTutorial: Tutorial {
     func showDrone() {
         drone.position = playerNode.position
         drone.alpha = 0
-        drone.overrideTouchable = false
-        drone.overrideWandering = false
+        drone.touchableEnabled = false
+        drone.wanderingEnabled = false
         self << drone
 
         let fadeIn = FadeToComponent()

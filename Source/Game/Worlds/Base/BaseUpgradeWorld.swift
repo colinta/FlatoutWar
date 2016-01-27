@@ -164,7 +164,7 @@ class BaseUpgradeWorld: World {
 
         let draggableComponent = DraggableComponent()
         draggableComponent.speed = nil
-        draggableComponent.overrideShouldAdjust = false
+        draggableComponent.shouldAdjustEnabled = false
         draggableComponent.bindTo(touchableComponent: touchableComponent)
         draggableComponent.onDragging { (isDragging, nodeLocation) in
             let location = self.convertPoint(nodeLocation, fromNode: node)
@@ -190,7 +190,7 @@ class BaseUpgradeWorld: World {
 
         if let player = node as? BasePlayerNode {
             player.rotateTo(TAU_3_4)
-            player.overrideForceFire = false
+            player.forceFireEnabled = false
         }
 
         node.touchableComponent?.removeFromNode()

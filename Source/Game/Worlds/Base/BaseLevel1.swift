@@ -14,7 +14,7 @@ class BaseLevel1: BaseLevel {
     override func populateWorld() {
         super.populateWorld()
 
-        playerNode.overrideForceFire = false
+        playerNode.forceFireEnabled = false
 
         beginWave1(at: 3)
         beginWave2(at: 35)

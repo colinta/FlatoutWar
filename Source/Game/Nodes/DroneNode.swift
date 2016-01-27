@@ -19,17 +19,17 @@ class DroneNode: Node, DraggableNode, PlayerNode {
             targetingComponent?.bulletSpeed = upgrade.droneBulletSpeed
         }
     }
-    var overrideWandering: Bool? {
+    var wanderingEnabled: Bool? {
         didSet {
-            if let overrideWandering = overrideWandering {
-                wanderingComponent!.enabled = overrideWandering
+            if let wanderingEnabled = wanderingEnabled {
+                wanderingComponent!.enabled = wanderingEnabled
             }
         }
     }
-    var overrideTouchable: Bool? {
+    var touchableEnabled: Bool? {
         didSet {
-            if let overrideTouchable = overrideTouchable {
-                touchableComponent!.enabled = overrideTouchable
+            if let touchableEnabled = touchableEnabled {
+                touchableComponent!.enabled = touchableEnabled
             }
         }
     }
@@ -223,7 +223,7 @@ extension DroneNode {
         let died = healthComponent!.died
         self.selectableComponent!.enabled = !died
         self.draggableComponent!.enabled = !died
-        self.touchableComponent!.enabled = !died && (overrideTouchable ?? true)
+        self.touchableComponent!.enabled = !died && (touchableEnabled ?? true)
         self.phaseComponent!.enabled = !died
 
         let enabled = !isMoving && !died
@@ -240,7 +240,7 @@ extension DroneNode {
         playerComponent!.targetable = enabled
         firingComponent!.enabled = enabled
         selectableComponent!.enabled = enabled
-        wanderingComponent!.enabled = enabled && (overrideWandering ?? true)
+        wanderingComponent!.enabled = enabled && (wanderingEnabled ?? true)
     }
 }
 
