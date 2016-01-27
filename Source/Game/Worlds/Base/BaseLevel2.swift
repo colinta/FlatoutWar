@@ -23,7 +23,6 @@ class BaseLevel2: BaseLevel {
         beginWave3(at: 83)
     }
 
-
     // two sources of weak enemies
     func beginWave1(at startTime: CGFloat) {
         let wave1_1: CGFloat = rand(TAU)
