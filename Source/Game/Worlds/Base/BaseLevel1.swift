@@ -46,12 +46,16 @@ class BaseLevel1: BaseLevel {
         }
     }
 
-    // two waves of formations
+    // four sources of weak enemies
     func beginWave4(at startTime: CGFloat) {
         let wave4_1: CGFloat = randSideAngle()
-        let wave4_2 = wave4_1 + TAU_4 - rand(TAU_8)
-        timeline.every(3...5, startAt: startTime, times: 6, block: self.generateEnemyPair(wave4_1))
-        timeline.every(2...5, startAt: startTime + 3, times: 5, block: self.generateEnemyPair(wave4_2))
+        let wave4_2 = wave4_1 ± (TAU_16 + rand(TAU_16))
+        let wave4_3 = wave4_1 ± (TAU_4 - rand(TAU_16))
+        let wave4_4 = wave4_3 ± (TAU_16 + rand(TAU_16))
+        timeline.every(3...5, startAt: startTime, times: 6, block: self.generateEnemy(wave4_1))
+        timeline.every(3...5, startAt: startTime, times: 6, block: self.generateEnemy(wave4_2))
+        timeline.every(2...5, startAt: startTime + 3, times: 5, block: self.generateEnemy(wave4_3))
+        timeline.every(2...5, startAt: startTime + 3, times: 5, block: self.generateEnemy(wave4_4))
     }
 
     // three sources of weak enemies
