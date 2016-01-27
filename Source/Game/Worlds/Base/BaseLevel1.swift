@@ -48,20 +48,22 @@ class BaseLevel1: BaseLevel {
 
     // two waves of formations
     func beginWave4(at startTime: CGFloat) {
-        timeline.at(startTime, block: self.generateEnemyFormation(randSideAngle()))
-        timeline.at(startTime + 15, block: self.generateEnemyFormation(randSideAngle()))
+        let wave4_1: CGFloat = randSideAngle()
+        let wave4_2 = wave4_1 + TAU_4 - rand(TAU_8)
+        timeline.every(3...5, startAt: startTime, times: 6, block: self.generateEnemyPair(wave4_1))
+        timeline.every(2...5, startAt: startTime + 3, times: 5, block: self.generateEnemyPair(wave4_2))
     }
 
     // three sources of weak enemies
     func beginWave5(at startTime: CGFloat) {
-        let wave4_1: CGFloat = rand(TAU)
-        let wave4_2 = wave4_1 + TAU_4 - rand(TAU_8)
-        let wave4_3 = wave4_1 - TAU_4 + rand(TAU_8)
-        let wave4_4 = wave4_1 ± rand(TAU_8)
-        timeline.every(3...4, startAt: startTime, times: 4, block: self.generateEnemy(wave4_1))
-        timeline.every(2...3, startAt: startTime + 5, times: 4, block: self.generateEnemy(wave4_2))
-        timeline.every(2, startAt: startTime + 10, times: 4, block: self.generateEnemy(wave4_3))
-        timeline.every(1, startAt: startTime + 15, times: 6, block: self.generateEnemy(wave4_4))
+        let wave5_1: CGFloat = rand(TAU)
+        let wave5_2 = wave5_1 + TAU_4 - rand(TAU_8)
+        let wave5_3 = wave5_1 - TAU_4 + rand(TAU_8)
+        let wave5_4 = wave5_1 ± rand(TAU_8)
+        timeline.every(3...4, startAt: startTime, times: 4, block: self.generateEnemy(wave5_1))
+        timeline.every(2...3, startAt: startTime + 5, times: 4, block: self.generateEnemy(wave5_2))
+        timeline.every(2, startAt: startTime + 10, times: 4, block: self.generateEnemy(wave5_3))
+        timeline.every(1, startAt: startTime + 15, times: 6, block: self.generateEnemy(wave5_4))
     }
 
     override func nextLevel() -> BaseLevel {
