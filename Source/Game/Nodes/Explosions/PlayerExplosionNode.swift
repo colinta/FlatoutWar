@@ -7,12 +7,12 @@
 //
 
 private let numSprites = 20
-private let maxDistance: CGFloat = 30
+private let maxDistance: CGFloat = 40
 private let duration: CGFloat = 3
 private let maxLength: CGFloat = 60
 
 class PlayerExplosionNode: Node {
-    private var sprites: [SKSpriteNode] = []
+    private var sprites: [(SKSpriteNode, CGFloat, CGFloat)] = []
     private var phase: CGFloat = 0
 
     required init() {
@@ -21,37 +21,29 @@ class PlayerExplosionNode: Node {
 
         for index in 0..<numSprites {
             let sprite = SKSpriteNode(id: .BaseExplosion(index: index, total: numSprites))
-            sprites << sprite
+            sprites << (sprite, (±rand(30...90) as CGFloat).degrees, maxDistance * rand(min: 0.1, max: 1))
             self << sprite
         }
     }
 
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        phase = coder.decodeCGFloat("phase") ?? 0
-        sprites = coder.decode("sprites") ?? []
-    }
-
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
-        encoder.encode(phase, key: "phase")
-        encoder.encode(sprites, key: "sprites")
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func update(dt: CGFloat) {
         phase += dt / duration
         guard phase <= 1 else {
-            removeFromParent()
             return
         }
 
-        let distance = easeOutCubic(time: phase, final: maxDistance)
-        let alpha = easeOutCubic(time: phase, initial: 1, final: 0)
+        let distance = easeOutCubic(time: phase)
+        let alpha = easeOutCubic(time: phase, initial: 1, final: 0.25)
 
-        for (i, sprite) in sprites.enumerate() {
+        for (i, (sprite, rotation, maxDistance)) in sprites.enumerate() {
             let angle = TAU / CGFloat(sprites.count) * CGFloat(i)
-            sprite.position = CGPoint(r: distance, a: angle)
+            sprite.position = CGPoint(r: distance * maxDistance, a: angle)
             sprite.alpha = alpha
+            sprite.zRotation = rotation * distance
         }
     }
 
