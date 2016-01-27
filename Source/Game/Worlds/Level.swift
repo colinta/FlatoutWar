@@ -153,8 +153,10 @@ class Level: World {
 
     override func worldShook() {
         super.worldShook()
-        if timeRate == 0.5 { timeRate = 1 }
+        if timeRate == 0.5 { timeRate = 4 }
+        else if timeRate == 4 { timeRate = 1 }
         else { timeRate = 0.5 }
+        print("timeRate: \(timeRate)")
         print("possibleExperience: \(possibleExperience)")
     }
 
@@ -189,6 +191,8 @@ class Level: World {
 
     var levelSuccess: Bool?
     func levelCompleted(success success: Bool) {
+        print("possibleExperience: \(possibleExperience)")
+        print("gainedExperience: \(gainedExperience)")
         guard levelSuccess == nil else {
             return
         }
