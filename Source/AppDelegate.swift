@@ -14,28 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        for config in [
-            BaseLevel1Config(),
-            BaseLevel2Config(),
-            BaseLevel3Config(),
-            BaseLevel4Config(),
-        ] {
-            config.updateMaxGainedExperience(config.possibleExperience)
-        }
-        BaseLevel3Config().storedPlayers = [
-            DroneNode(at: CGPoint(-60, -30)),
-            BasePlayerNode(),
-        ]
-        BaseLevel4Config().storedPlayers = [
-            DroneNode(at: CGPoint(-60, 0)),
-            BasePlayerNode(),
-        ]
-        BaseLevel5Config().storedPlayers = [
-            DroneNode(at: CGPoint(141, 141)),
-            BasePlayerNode(),
-        ]
-        Defaults["Config-BaseConfigSummary-spentExperience"] = nil
-
         let window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window = window
 
