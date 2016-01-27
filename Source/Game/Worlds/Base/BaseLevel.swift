@@ -313,6 +313,34 @@ extension BaseLevel {
         }
     }
 
+    func generateEnemyColumn(screenAngle: CGFloat)() {
+        let ghost = generateEnemyGhost(angle: screenAngle, extra: 10)
+        ghost.name = "pair ghost"
+        ghost.rotateTowards(point: CGPointZero)
+
+        let numPairs = 10
+        var r: CGFloat = 0
+        let dist: CGFloat = 5
+        for _ in 0..<numPairs {
+            let angle = ghost.position.angle
+            let left = CGVector(r: dist, a: angle + TAU_4) + CGVector(r: r, a: angle)
+            let right = CGVector(r: dist, a: angle - TAU_4) + CGVector(r: r, a: angle)
+            r += 2 * dist
+
+            let origins = [
+                ghost.position + left,
+                ghost.position + right,
+            ]
+            for origin in origins {
+                let enemy = EnemySoldierNode(at: origin)
+                enemy.name = "pair soldier"
+                enemy.rotateTo(ghost.zRotation)
+                enemy.follow(ghost)
+                self << enemy
+            }
+        }
+    }
+
     func generateDozer(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561)() {
         var screenAngle = genScreenAngle
         if spread > 0 {
@@ -500,14 +528,19 @@ extension BaseLevel {
     private func generateEnemyGhost(angle screenAngle: CGFloat, extra: CGFloat = 0) -> Node {
         let position = outsideWorld(extra: extra, angle: screenAngle)
         let enemyGhost = Node(at: position)
+        let sprite = SKNode.size(EnemySoldierNode().size)
+        enemyGhost << sprite
         enemyGhost.name = "ghost"
         let enemyComponent = EnemyComponent()
         enemyComponent.targetable = false
         enemyGhost.addComponent(enemyComponent)
 
         let rammingComponent = RammingComponent()
-        rammingComponent.intersectionNode = enemyGhost
-        rammingComponent.removeNodeOnRammed()
+        rammingComponent.intersectionNode = sprite
+        rammingComponent.onRammed {
+            enemyGhost.removeFromParent()
+        }
+
         enemyGhost.addComponent(rammingComponent)
         rammingComponent.bindTo(enemyComponent: enemyComponent)
         self << enemyGhost

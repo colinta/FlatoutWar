@@ -40,6 +40,9 @@ extension SKSpriteNode {
 }
 
 extension SKNode {
+    static func size(size: CGSize) -> SKNode {
+        return SKSpriteNode(texture: nil, size: size)
+    }
 
     func isParentOf(child: SKNode) -> Bool {
         return child.inParentHierarchy(self)
