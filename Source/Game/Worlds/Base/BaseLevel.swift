@@ -291,7 +291,7 @@ extension BaseLevel {
     }
 
     func generateEnemyPair(screenAngle: CGFloat)() {
-        let dist: CGFloat = 5
+        let dist: CGFloat = 5.5
         let ghost = generateEnemyGhost(angle: screenAngle, extra: 10)
         ghost.name = "pair ghost"
         ghost.rotateTowards(point: CGPointZero)
