@@ -74,11 +74,15 @@ class RammingComponent: Component {
         return nil
     }
 
+    func removeTempTarget() {
+        tempTarget = nil
+    }
+
     override func update(dt: CGFloat) {
         if let tempTarget = tempTarget
         where tempTarget.distanceTo(node.position, within: 1) || tempTargetCountdown < 0
         {
-            self.tempTarget = nil
+            removeTempTarget()
         }
         else if tempTarget != nil {
             tempTargetCountdown -= dt

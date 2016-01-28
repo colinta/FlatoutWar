@@ -48,15 +48,21 @@ class FlyingComponent: RammingComponent {
         super.encodeWithCoder(encoder)
     }
 
-    override func update(dt: CGFloat) {
-        if let flyingTarget = currentFlyingTarget {
-            if flyingTarget.distanceTo(node.position, within: 1) || (tempTargetCountdown < 0 && tempTarget == flyingTarget) {
-                self.flyingTargets.removeAtIndex(0)
-            }
+    override func removeTempTarget() {
+        if let flyingTarget = currentFlyingTarget
+        where flyingTarget == tempTarget {
+            self.flyingTargets.removeAtIndex(0)
+            tempTarget = currentFlyingTarget
+        }
+        else {
+            super.removeTempTarget()
+        }
+    }
 
-            if tempTarget == nil {
-                self.tempTarget = flyingTarget
-            }
+    override func update(dt: CGFloat) {
+        if let flyingTarget = currentFlyingTarget
+        where tempTarget == nil {
+            self.tempTarget = flyingTarget
         }
 
         super.update(dt)
