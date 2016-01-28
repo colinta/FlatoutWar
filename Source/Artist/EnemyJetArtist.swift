@@ -9,6 +9,7 @@
 class EnemyJetArtist: Artist {
     private var color = UIColor(hex: 0xFA5BDD)
     private var health: CGFloat
+    private var innerX: CGFloat { return size.width / 5 }
 
     required init(health: CGFloat) {
         self.health = health
@@ -28,16 +29,19 @@ class EnemyJetArtist: Artist {
         if health == 1 {
             CGContextMoveToPoint(context, size.width, middle.y)
             CGContextAddLineToPoint(context, 0, size.height)
+            CGContextAddLineToPoint(context, innerX, middle.y)
             CGContextAddLineToPoint(context, 0, 0)
             CGContextClosePath(context)
             CGContextDrawPath(context, .Fill)
         }
         else {
             let x = size.width * (1 - health)
+            let healthX = max(innerX, x)
             let deltaY = health * size.height / 2
 
             CGContextMoveToPoint(context, size.width, middle.y)
             CGContextAddLineToPoint(context, x, middle.y + deltaY)
+            CGContextAddLineToPoint(context, healthX, middle.y)
             CGContextAddLineToPoint(context, x, middle.y - deltaY)
             CGContextClosePath(context)
             CGContextDrawPath(context, .Fill)
@@ -45,6 +49,7 @@ class EnemyJetArtist: Artist {
             CGContextSetAlpha(context, 0.25)
             CGContextMoveToPoint(context, size.width, middle.y)
             CGContextAddLineToPoint(context, 0, size.height)
+            CGContextAddLineToPoint(context, innerX, middle.y)
             CGContextAddLineToPoint(context, 0, 0)
             CGContextClosePath(context)
             CGContextDrawPath(context, .Fill)
