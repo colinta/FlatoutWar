@@ -7,6 +7,6 @@
 //
 
 class BaseLevel3Config: BaseConfig {
-    override var possibleExperience: Int { return 1000 }
+    override var possibleExperience: Int { return 130 }
 
 }
