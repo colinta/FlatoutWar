@@ -12,7 +12,7 @@ private var DesiredSize = CGSize(width: 568, height: 320)
 class WorldScene: SKScene {
     var world: World
     private var worldScalingNode = SKNode()
-    private var blurryNode = SKEffectNode()
+    private var effectNode = SKEffectNode()
     private var pauseNode: SKNode?
     var uiNode: Node
     var prevTime: NSTimeInterval?
@@ -41,13 +41,13 @@ class WorldScene: SKScene {
         worldScalingNode << world
         self << worldScalingNode
 
-        blurryNode.shouldEnableEffects = false
+        effectNode.shouldEnableEffects = true
         // let blur = CIFilter(name: "CIGaussianBlur", withInputParameters: ["inputRadius": 10])
         let blur = CIFilter(name: "CIColorMonochrome", withInputParameters: [
             "inputIntensity": 0.5,
             "inputColor": CIColor(color: .blackColor())
         ])
-        blurryNode.filter = blur
+        effectNode.filter = blur
 
         self << uiNode
     }
@@ -55,10 +55,10 @@ class WorldScene: SKScene {
     func worldPaused() {
         if let view = view {
             if let texture = view.textureFromNode(self) {
+                effectNode.removeAllChildren()
                 let sprite = SKSpriteNode(texture: texture)
-                blurryNode << sprite
-                if let texture = view.textureFromNode(blurryNode) {
-                    blurryNode.removeAllChildren()
+                effectNode << sprite
+                if let texture = view.textureFromNode(effectNode) {
                     pauseNode = SKSpriteNode(texture: texture)
                     self << pauseNode!
                     world.hidden = true
@@ -72,7 +72,7 @@ class WorldScene: SKScene {
         if let pauseNode = pauseNode {
             pauseNode.removeFromParent()
         }
-        blurryNode.removeAllChildren()
+        effectNode.removeAllChildren()
     }
 
     required init?(coder: NSCoder) {
