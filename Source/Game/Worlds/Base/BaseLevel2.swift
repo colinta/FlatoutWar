@@ -49,4 +49,38 @@ class BaseLevel2: BaseLevel {
         timeline.at(startTime + 45, block: self.generateEnemyFormation(randSideAngle()))
     }
 
+    func generateEnemyFormation(screenAngle: CGFloat)() {
+        let dist: CGFloat = 25
+        let enemyLeader = EnemyLeaderNode()
+        enemyLeader.name = "formation leader"
+        let center = outsideWorld(extra: enemyLeader.radius + dist * 1.5, angle: screenAngle)
+        enemyLeader.position = center
+        enemyLeader.rotateTowards(point: CGPointZero)
+        self << enemyLeader
+
+        let angle = center.angle
+        let left = CGVector(r: dist, a: angle + TAU_4)
+        let right = CGVector(r: dist, a: angle - TAU_4)
+        let back = center + CGVector(r: dist, a: angle)
+        let back2 = center + CGVector(r: 2 * dist, a: angle)
+
+        let origins = [
+            center + left,
+            center + right,
+            back + left,
+            back,
+            back + right,
+            back2 + left,
+            back2,
+            back2 + right,
+        ]
+        for origin in origins {
+            let enemy = EnemySoldierNode(at: origin)
+            enemy.name = "formation soldier"
+            enemy.rotateTo(enemyLeader.zRotation)
+            enemy.follow(enemyLeader)
+            self << enemy
+        }
+    }
+
 }

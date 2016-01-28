@@ -256,117 +256,6 @@ extension BaseLevel {
         self << enemyNode
     }
 
-    func generateEnemyFormation(screenAngle: CGFloat)() {
-        let dist: CGFloat = 25
-        let enemyLeader = EnemyLeaderNode()
-        enemyLeader.name = "formation leader"
-        let center = outsideWorld(extra: enemyLeader.radius + dist * 1.5, angle: screenAngle)
-        enemyLeader.position = center
-        enemyLeader.rotateTowards(point: CGPointZero)
-        self << enemyLeader
-
-        let angle = center.angle
-        let left = CGVector(r: dist, a: angle + TAU_4)
-        let right = CGVector(r: dist, a: angle - TAU_4)
-        let back = center + CGVector(r: dist, a: angle)
-        let back2 = center + CGVector(r: 2 * dist, a: angle)
-
-        let origins = [
-            center + left,
-            center + right,
-            back + left,
-            back,
-            back + right,
-            back2 + left,
-            back2,
-            back2 + right,
-        ]
-        for origin in origins {
-            let enemy = EnemySoldierNode(at: origin)
-            enemy.name = "formation soldier"
-            enemy.rotateTo(enemyLeader.zRotation)
-            enemy.follow(enemyLeader)
-            self << enemy
-        }
-    }
-
-    func generateEnemyPair(screenAngle: CGFloat)() {
-        let dist: CGFloat = 5.5
-        let ghost = generateEnemyGhost(angle: screenAngle, extra: 10)
-        ghost.name = "pair ghost"
-        ghost.rotateTowards(point: CGPointZero)
-
-        let angle = ghost.position.angle
-        let left = CGVector(r: dist, a: angle + TAU_4)
-        let right = CGVector(r: dist, a: angle - TAU_4)
-
-        let origins = [
-            ghost.position + left,
-            ghost.position + right,
-        ]
-        for origin in origins {
-            let enemy = EnemySoldierNode(at: origin)
-            enemy.name = "pair soldier"
-            enemy.rotateTo(ghost.zRotation)
-            enemy.follow(ghost)
-            self << enemy
-        }
-    }
-
-    func generateEnemyColumn(screenAngle: CGFloat)() {
-        let ghost = generateEnemyGhost(angle: screenAngle, extra: 10)
-        ghost.name = "pair ghost"
-        ghost.rotateTowards(point: CGPointZero)
-
-        let numPairs = 10
-        var r: CGFloat = 0
-        let dist: CGFloat = 5
-        for _ in 0..<numPairs {
-            let angle = ghost.position.angle
-            let left = CGVector(r: dist, a: angle + TAU_4) + CGVector(r: r, a: angle)
-            let right = CGVector(r: dist, a: angle - TAU_4) + CGVector(r: r, a: angle)
-            r += 2 * dist
-
-            let origins = [
-                ghost.position + left,
-                ghost.position + right,
-            ]
-            for origin in origins {
-                let enemy = EnemySoldierNode(at: origin)
-                enemy.name = "pair soldier"
-                enemy.rotateTo(ghost.zRotation)
-                enemy.follow(ghost)
-                self << enemy
-            }
-        }
-    }
-
-    func generateDozer(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561)() {
-        var screenAngle = genScreenAngle
-        if spread > 0 {
-            screenAngle = screenAngle ± rand(spread)
-        }
-        let enemyCount = 4
-        let height: CGFloat = CGFloat(enemyCount * 12) + 2
-        let dozer = EnemyDozerNode()
-        dozer.name = "dozer"
-        dozer.position = outsideWorld(dozer, angle: screenAngle)
-        dozer.rotateTowards(point: CGPointZero)
-        self << dozer
-
-        let min = -height / 2 + 5
-        let max = height / 2 - 5
-        for i in 0..<enemyCount {
-            let r = interpolate(CGFloat(i), from: (0, 3), to: (min, max))
-            let location = dozer.position + CGPoint(r: 10, a: screenAngle) + CGPoint(r: r, a: screenAngle + 90.degrees)
-            let enemy = EnemySoldierNode(at: location)
-            enemy.name = "dozer soldier"
-            enemy.rotateTo(dozer.zRotation)
-            enemy.follow(dozer, scatter: false)
-            self << enemy
-        }
-    }
-
     func generateScouts(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561)() {
         var screenAngle = genScreenAngle
         let d: CGFloat = 8
@@ -460,7 +349,7 @@ extension BaseLevel {
         enemyLeader.name = "linear leader"
         self << enemyLeader
 
-        for i in 0..<5 {
+        for i in 1...5 {
             let location = leaderPosition + CGVector(r: dist * CGFloat(i), a: screenAngle)
             let enemy = EnemySoldierNode(at: location)
             enemy.name = "linear soldier"
@@ -525,7 +414,7 @@ extension BaseLevel {
         self << enemyNode
     }
 
-    private func generateEnemyGhost(angle screenAngle: CGFloat, extra: CGFloat = 0) -> Node {
+    func generateEnemyGhost(angle screenAngle: CGFloat, extra: CGFloat = 0) -> Node {
         let position = outsideWorld(extra: extra, angle: screenAngle)
         let enemyGhost = Node(at: position)
         let sprite = SKNode.size(EnemySoldierNode().size)
