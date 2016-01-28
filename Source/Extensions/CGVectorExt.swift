@@ -22,6 +22,13 @@ func +(lhs: CGVector, rhs: CGVector) -> CGVector {
         )
 }
 
+func -(lhs: CGVector, rhs: CGVector) -> CGVector {
+    return CGVector(
+        dx: lhs.dx - rhs.dx,
+        dy: lhs.dy - rhs.dy
+        )
+}
+
 func *(lhs: CGVector, rhs: CGFloat) -> CGVector { return rhs * lhs }
 func *(lhs: CGFloat, rhs: CGVector) -> CGVector {
     return CGVector(
@@ -35,5 +42,12 @@ func +(lhs: CGPoint, rhs: CGVector) -> CGPoint {
     return CGPoint(
         x: lhs.x + rhs.dx,
         y: lhs.y + rhs.dy
+        )
+}
+
+func -(lhs: CGPoint, rhs: CGVector) -> CGPoint {
+    return CGPoint(
+        x: lhs.x - rhs.dx,
+        y: lhs.y - rhs.dy
         )
 }
