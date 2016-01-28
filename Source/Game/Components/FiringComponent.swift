@@ -11,21 +11,10 @@ class FiringComponent: Component {
     var cooldown: CGFloat = 1
     private(set) var angle: CGFloat?
     var lastFired: CGFloat = 0
-    var cantFire: CGFloat = 0
     var forceFire = false {
         willSet {
-            if newValue != forceFire {
-                if !newValue {
-                    if cantFire <= 0 {
-                        cantFire = cooldown * 2
-                    }
-                }
-                else {
-                    if cantFire <= cooldown {
-                        lastFired = cooldown
-                        cantFire = 0
-                    }
-                }
+            if newValue != forceFire && lastFired <= 0 {
+                lastFired = cooldown
             }
         }
     }
@@ -54,10 +43,6 @@ class FiringComponent: Component {
     override func update(dt: CGFloat) {
         guard lastFired <= 0 else {
             lastFired -= dt
-            return
-        }
-        guard cantFire <= 0 else {
-            cantFire -= dt
             return
         }
 

@@ -124,7 +124,7 @@ class BasePlayerNode: Node, PlayerNode {
             forceFire = forceFireEnabled
         }
         else if let touchedFor = touchableComponent?.touchedFor
-        where touchedFor > turretUpgrade.turretForceFireDuration {
+        where touchedFor > 0 {
             forceFire = true
         }
         else {
@@ -334,17 +334,6 @@ extension BasePlayerNode {
 }
 
 extension FiveUpgrades {
-
-    var turretForceFireDuration: CGFloat {
-        switch self {
-            case .One: return 0.3
-            case .Two: return 0.25
-            case .Three: return 0.2
-            case .Four: return 0.15
-            case .Five: return 0
-        }
-    }
-
 
     var turretBulletDamage: Float {
         switch self {
