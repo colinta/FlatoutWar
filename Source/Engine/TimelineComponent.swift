@@ -7,7 +7,6 @@
 //
 
 class TimelineComponent: Component {
-    typealias ConditionBlock = () -> Bool
 
     private struct RecurringEvent {
         var countdown: CGFloat

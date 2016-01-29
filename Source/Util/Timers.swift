@@ -15,6 +15,7 @@ public func inForeground(block: Block) {
 }
 
 public typealias Block = () -> Void
+public typealias ConditionBlock = () -> Bool
 public typealias ThrottledBlock = (dt: CGFloat, Block) -> Void
 public typealias CancellableBlock = Bool -> Void
 public typealias TakesIndexBlock = (Int) -> Void
