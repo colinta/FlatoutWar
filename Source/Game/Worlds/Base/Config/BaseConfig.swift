@@ -9,7 +9,6 @@
 class BaseConfig {
     var key: String { return "\(self.dynamicType)" }
 
-    var hasTutorial: Bool { return false }
     var canUpgrade: Bool { return false }
     var possibleExperience: Int { return 0 }
 
@@ -44,6 +43,14 @@ class BaseConfig {
 
     func updateMaxGainedExperience(exp: Int) {
         Defaults["Config-\(key)-gainedExperience"] = min(max(exp, gainedExperience), possibleExperience)
+    }
+
+    func nextLevel() -> BaseLevel {
+        fatalError("nextLevel() has not been implemented by \(self.dynamicType)")
+    }
+
+    func tutorial() -> Tutorial? {
+        return nil
     }
 
 }

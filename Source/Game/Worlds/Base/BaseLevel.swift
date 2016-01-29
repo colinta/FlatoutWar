@@ -33,8 +33,6 @@ class BaseLevel: Level {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func tutorial() -> Tutorial { fatalError("tutorial() has not been implemented in \(self.dynamicType)") }
-
     required init() {
         super.init()
     }
@@ -82,7 +80,7 @@ class BaseLevel: Level {
             director?.presentWorld(BaseLevelSelectWorld())
         }
         else {
-            let nextLevel = self.nextLevel()
+            let nextLevel = config.nextLevel()
             self.director?.presentWorld(nextLevel.tutorialOrLevel())
         }
     }
@@ -92,10 +90,9 @@ class BaseLevel: Level {
 extension BaseLevel {
 
     func tutorialOrLevel() -> World {
-        if config.hasTutorial && !config.seenTutorial {
+        if let tutorial = config.tutorial() where !config.seenTutorial {
             config.seenTutorial = true
 
-            let tutorial = self.tutorial()
             tutorial.nextWorld = self
             return tutorial
         }
@@ -111,10 +108,6 @@ extension BaseLevel {
 }
 
 extension BaseLevel {
-
-    func nextLevel() -> BaseLevel {
-        fatalError("nextLevel() has not been implemented by \(self.dynamicType)")
-    }
 
     override func levelCompleted(var success success: Bool) {
         // sanity check against a kamikaze triggering a "successful" completion
@@ -133,7 +126,7 @@ extension BaseLevel {
 
         if success {
             config.updateMaxGainedExperience(gainedExperience)
-            nextLevel().config.storedPlayers = self.players
+            config.nextLevel().config.storedPlayers = self.players
 
             let percentNode = PercentBar(at: CGPoint(x: 50, y: 0))
             self << percentNode

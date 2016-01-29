@@ -7,7 +7,10 @@
 //
 
 class BaseLevel1Config: BaseConfig {
-    override var hasTutorial: Bool { return true }
     override var possibleExperience: Int { return 110 }
+    override func tutorial() -> Tutorial? { return AutoFireTutorial() }
+    override func nextLevel() -> BaseLevel {
+        return BaseLevel2()
+    }
 
 }

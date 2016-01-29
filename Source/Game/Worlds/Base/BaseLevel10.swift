@@ -9,9 +9,6 @@
 class BaseLevel10: BaseLevel {
 
     override func loadConfig() -> BaseConfig { return BaseLevel10Config() }
-    override func nextLevel() -> BaseLevel {
-        return BaseLevel11()
-    }
 
     override func populateWorld() {
         super.populateWorld()

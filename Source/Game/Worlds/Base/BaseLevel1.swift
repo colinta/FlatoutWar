@@ -9,7 +9,6 @@
 class BaseLevel1: BaseLevel {
 
     override func loadConfig() -> BaseConfig { return BaseLevel1Config() }
-    override func tutorial() -> Tutorial { return AutoFireTutorial() }
 
     override func populateWorld() {
         super.populateWorld()
@@ -72,10 +71,6 @@ class BaseLevel1: BaseLevel {
         timeline.every(2...3, startAt: startTime + 5, times: 4, block: self.generateEnemy(wave5_2))
         timeline.every(2, startAt: startTime + 10, times: 4, block: self.generateEnemy(wave5_3))
         timeline.every(1, startAt: startTime + 15, times: 6, block: self.generateEnemy(wave5_4))
-    }
-
-    override func nextLevel() -> BaseLevel {
-        return BaseLevel2()
     }
 
 }

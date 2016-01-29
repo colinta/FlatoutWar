@@ -8,5 +8,8 @@
 
 class BaseLevel8Config: BaseConfig {
     override var possibleExperience: Int { return 1000 }
+    override func nextLevel() -> BaseLevel {
+        return BaseLevel9()
+    }
 
 }
