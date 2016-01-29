@@ -160,6 +160,7 @@ extension Node {
 
     func updateNodes(dtReal: CGFloat) {
         guard !frozen else { return }
+        guard world != nil else { return }
 
         let dt = dtReal * timeRate
         for component in components {

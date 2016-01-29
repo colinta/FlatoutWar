@@ -277,9 +277,15 @@ extension World {
         shouldBePaused = worldPaused
         shouldBeHalted = halted
 
+        if let cameraNode = cameraNode where cameraNode.world == nil {
+            self << cameraNode
+        }
+
         let dt = min(0.03, dtReal * timeRate)
         if !worldPaused {
             updateNodes(dt)
+
+            throttleStragglers(dt: dt, clearStragglers)
 
             if enemies.count == 0 && hadEnemies {
                 for handler in _onNoMoreEnemies {
@@ -293,13 +299,8 @@ extension World {
             ui.updateNodes(dt)
 
             if let cameraNode = cameraNode {
-                if cameraNode.world == nil && !worldPaused {
-                    cameraNode.updateNodes(dt)
-                }
                 position = -1 * cameraNode.position
             }
-
-            throttleStragglers(dt: dt, clearStragglers)
         }
 
         isUpdating = false
