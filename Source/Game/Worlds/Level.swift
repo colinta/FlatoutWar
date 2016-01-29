@@ -159,8 +159,8 @@ class Level: World {
         cameraNode = Node(at: CGPoint(x: 0, y: 0))
 
         setScale(2)
-        cameraZoom.rate = 0.5
         cameraZoom.target = 1.0
+        cameraZoom.duration = 2
         timeline.at(1.75) {
             self.addComponent(self.cameraZoom)
             self.cameraNode!.addComponent(self.cameraMove)
