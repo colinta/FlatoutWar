@@ -78,7 +78,8 @@ class BaseLevelSelectWorld: World {
                 let level = worlds[levelIndex % worlds.count]
                 let center = CGPoint(x: x, y: y)
                 let button = Button(at: center)
-                button.enabled = prevLevel?.config.levelCompleted ?? true
+                let completed = prevLevel?.config.levelCompleted ?? true
+                button.enabled = completed
                 button.text = "\(levelIndex + 1)"
                 button.size = CGSize(50)
                 button.style = .Square
@@ -89,6 +90,43 @@ class BaseLevelSelectWorld: World {
                 self << button
                 prevLevel = level
                 levelIndex += 1
+
+                if completed {
+                    let amt: CGFloat = level.config.percentGainedExperience
+                    let box = SKSpriteNode()
+                    let boxSize = CGSize(width: button.size.width, height: amt * button.size.height)
+                    box.position.y = -(button.size.height - boxSize.height) / 2
+                    let color: Int
+                    if level.config.gainedExperience == level.config.possibleExperience {
+                        color = 0xA0D3A0 // green
+                    }
+                    else {
+                        let red: (CGFloat, CGFloat)
+                        let green: (CGFloat, CGFloat)
+                        let blue: (CGFloat, CGFloat)
+                        if amt < 0.5 {
+                            let target = 0xA83846  // red
+                            red = (0, 2 * CGFloat(target >> 16 & 0xff))
+                            green = (0, 2 * CGFloat(target >> 8 & 0xff))
+                            blue = (0, 2 * CGFloat(target & 0xff))
+                        }
+                        else {
+                            let target = 0xF1EC3E  // yellow
+                            red = (0, CGFloat(target >> 16 & 0xff))
+                            green = (0, CGFloat(target >> 8 & 0xff))
+                            blue = (0, CGFloat(target & 0xff))
+                        }
+                        color = Int(
+                            red: Int(interpolate(amt, from: (0, 1), to: red)),
+                            green: Int(interpolate(amt, from: (0, 1), to: green)),
+                            blue: Int(interpolate(amt, from: (0, 1), to: blue))
+                        )
+                    }
+                    box.textureId(.FillColorBox(size: boxSize, color: color))
+                    box.alpha = 1
+                    box.zPosition = Z.Bottom.rawValue
+                    button << box
+                }
             }
         }
     }

@@ -16,6 +16,9 @@ class BaseConfig {
     var gainedExperience: Int {
         get { return Defaults["Config-\(key)-gainedExperience"].int ?? 0 }
     }
+    var percentGainedExperience: CGFloat {
+        return min(CGFloat(gainedExperience) / CGFloat(possibleExperience), 1)
+    }
     var seenTutorial: Bool {
         get { return Defaults["Config-\(key)-seenTutorial"].bool ?? false }
         set { Defaults["Config-\(key)-seenTutorial"] = newValue }
@@ -40,7 +43,7 @@ class BaseConfig {
     }
 
     func updateMaxGainedExperience(exp: Int) {
-        Defaults["Config-\(key)-gainedExperience"] = max(exp, gainedExperience)
+        Defaults["Config-\(key)-gainedExperience"] = min(max(exp, gainedExperience), possibleExperience)
     }
 
 }
