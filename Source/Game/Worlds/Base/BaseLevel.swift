@@ -7,7 +7,7 @@
 //
 
 class BaseLevel: Level {
-    private var shouldPopulatePlayer = false
+    private var shouldPopulatePlayer = true
     var playerNode = BasePlayerNode() {
         willSet {
             if playerNode != newValue {
@@ -50,19 +50,19 @@ class BaseLevel: Level {
 
         self << playerNode
         defaultNode = playerNode
+        shouldPopulatePlayer = false
     }
 
     override func populateWorld() {
         super.populateWorld()
 
-        if config.canUpgrade {
-            for node in config.storedPlayers {
-                customizeNode(node)
-            }
+        if shouldPopulatePlayer {
+            updatePlayer(playerNode)
         }
 
-        shouldPopulatePlayer = true
-        updatePlayer(playerNode)
+        for node in config.storedPlayers {
+            customizeNode(node)
+        }
 
         timeline.when({ self.possibleExperience >= self.config.possibleExperience }) {
             self.onNoMoreEnemies {
