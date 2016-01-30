@@ -10,17 +10,18 @@
 let M_EPSILON: CGFloat = 0.00872664153575897
 
 let TAU = CGFloat(2 * M_PI)
+let τ = TAU
 let TAU_2 = CGFloat(M_PI)
 
-let TAU_3_4 = CGFloat(3 * M_PI / 2)
-let TAU_4 = CGFloat(M_PI / 2)
+let TAU_3_4 = CGFloat(1.5 * M_PI)
+let TAU_4 = CGFloat(0.5 * M_PI)
 
-let TAU_8 = CGFloat(M_PI / 4)
-let TAU_3_8 = CGFloat(3 * M_PI / 4)
-let TAU_5_8 = CGFloat(5 * M_PI / 4)
-let TAU_7_8 = CGFloat(7 * M_PI / 4)
+let TAU_8 = CGFloat(0.25 * M_PI)
+let TAU_3_8 = CGFloat(0.75 * M_PI)
+let TAU_5_8 = CGFloat(1.25 * M_PI)
+let TAU_7_8 = CGFloat(1.75 * M_PI)
 
-let TAU_16 = CGFloat(M_PI / 8)
+let TAU_16 = CGFloat(0.125 * M_PI)
 
 func normalizeAngle(var angle: CGFloat) -> CGFloat {
     while angle < 0 {
