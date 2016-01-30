@@ -53,6 +53,9 @@ class BaseLevel: Level {
         shouldPopulatePlayer = false
     }
 
+    func populateLevel() {
+    }
+
     override func populateWorld() {
         super.populateWorld()
 
@@ -69,6 +72,8 @@ class BaseLevel: Level {
                 self.levelCompleted(success: true)
             }
         }
+
+        self.populateLevel()
     }
 
     override func goToLevelSelect() {

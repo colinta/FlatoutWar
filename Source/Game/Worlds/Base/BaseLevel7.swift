@@ -10,8 +10,7 @@ class BaseLevel7: BaseLevel {
 
     override func loadConfig() -> BaseConfig { return BaseLevel7Config() }
 
-    override func populateWorld() {
-        super.populateWorld()
+    override func populateLevel() {
 
         timeline.after(1) {
             self.introduceDrone()

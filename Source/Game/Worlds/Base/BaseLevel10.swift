@@ -10,8 +10,17 @@ class BaseLevel10: BaseLevel {
 
     override func loadConfig() -> BaseConfig { return BaseLevel10Config() }
 
-    override func populateWorld() {
-        super.populateWorld()
+    override func populateLevel() {
+        beginWave1()
+    }
+
+    func beginWave1() {
+        let nextStep = afterN {
+            self.onNoMoreEnemies { self.beginWave2() }
+        }
+    }
+
+    func beginWave2() {
     }
 
 }

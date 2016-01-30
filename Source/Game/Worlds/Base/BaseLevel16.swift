@@ -13,8 +13,17 @@ class BaseLevel16: BaseLevel {
         director?.presentWorld(BaseLevelSelectWorld())
     }
 
-    override func populateWorld() {
-        super.populateWorld()
+    override func populateLevel() {
+        beginWave1()
+    }
+
+    func beginWave1() {
+        let nextStep = afterN {
+            self.onNoMoreEnemies { self.beginWave2() }
+        }
+    }
+
+    func beginWave2() {
     }
 
 }

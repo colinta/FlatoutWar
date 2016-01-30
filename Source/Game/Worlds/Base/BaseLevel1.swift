@@ -10,8 +10,7 @@ class BaseLevel1: BaseLevel {
 
     override func loadConfig() -> BaseConfig { return BaseLevel1Config() }
 
-    override func populateWorld() {
-        super.populateWorld()
+    override func populateLevel() {
 
         playerNode.forceFireEnabled = false
 

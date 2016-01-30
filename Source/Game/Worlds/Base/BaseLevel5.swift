@@ -10,8 +10,19 @@ class BaseLevel5: BaseLevel {
 
     override func loadConfig() -> BaseConfig { return BaseLevel5Config() }
 
-    override func populateWorld() {
-        super.populateWorld()
+    override func populateLevel() {
+        beginWave1()
+    }
+
+    func beginWave1() {
+        let nextStep = afterN {
+            self.onNoMoreEnemies { self.beginWave2() }
+        }
+
+        timeline.at(.Delayed(), block: generateEnemy(0))
+    }
+
+    func beginWave2() {
     }
 
 }
