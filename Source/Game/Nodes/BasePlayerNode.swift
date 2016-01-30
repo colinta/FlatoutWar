@@ -309,6 +309,7 @@ extension BasePlayerNode {
 
     func onTouchTapped(location: CGPoint) {
         if !location.lengthWithin(self.radius) {
+            targetingComponent?.currentTarget = nil
             startRotatingTo(location.angle)
         }
     }
