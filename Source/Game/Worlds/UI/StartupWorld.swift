@@ -45,7 +45,7 @@ class StartupWorld: World {
             enemy.zRotation = 0
             self << enemy
         }
-        timeline.every(3, startAt: 13, times: 4) {
+        timeline.every(3, start: .At(13), times: 4) {
             self.spawn()
         }
 

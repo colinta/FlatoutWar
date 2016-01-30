@@ -15,31 +15,38 @@ class BaseLevel9: BaseLevel {
 
         moveCamera(to: CGPoint(150, 50), duration: 2)
         beginWave1(at: 4)
-        beginWave2(at: 50)
-        beginWave3(at: 90)
     }
 
-    func beginWave1(at startTime: CGFloat) {
-        timeline.at(startTime, block: generateEnemyColumn(rand(min: -size.angle, max: TAU_4)))
-        timeline.at(startTime + 15, block: generateEnemyColumn(rand(min: -size.angle, max: TAU_4)))
-        timeline.at(startTime + 28, block: generateEnemyColumn(rand(min: -size.angle, max: TAU_4)))
+    func beginWave1(at delay: CGFloat) {
+        let nextStep = afterN {
+            self.onNoMoreEnemies { self.beginWave2() }
+        }
+
+        timeline.at(.After(delay), block: generateEnemyColumn(rand(min: -size.angle, max: TAU_4)))
+        timeline.at(.After(delay + 15), block: generateEnemyColumn(rand(min: -size.angle, max: TAU_4)))
+        timeline.at(.After(delay + 28), block: generateEnemyColumn(rand(min: -size.angle, max: TAU_4)))
+        timeline.at(.After(delay + 28), block: nextStep())
     }
 
-    func beginWave2(at startTime: CGFloat) {
-        timeline.every(6...8, startAt: startTime, times: 4) {
+    func beginWave2() {
+        let nextStep = afterN {
+            self.onNoMoreEnemies { self.beginWave3() }
+        }
+
+        timeline.every(6...8, start: .Delayed(), times: 4, finally: nextStep()) {
             let angle: CGFloat = rand(min: -self.size.angle, max: TAU_4)
             self.generateBigJetWithFollowers(angle, spread: 0)()
         }
     }
 
-    func beginWave3(at startTime: CGFloat) {
-        timeline.at(startTime) {
+    func beginWave3() {
+        timeline.at(.Delayed()) {
             self.moveCamera(to: CGPoint(200, 75), zoom: 0.75, duration: 3)
         }
-        timeline.at(startTime + 3, block: generateGiant(size.angle))
-        timeline.at(startTime + 4, block: generateGiant(size.angle - TAU_16))
-        timeline.at(startTime + 4.75, block: generateGiant(size.angle + TAU_16))
-        timeline.every(1.5...2.5, startAt: startTime, times: 10, block: generateEnemy(rand(±size.angle)))
+        timeline.at(.Delayed(3), block: generateGiant(size.angle))
+        timeline.at(.Delayed(4), block: generateGiant(size.angle - TAU_16))
+        timeline.at(.Delayed(4.75), block: generateGiant(size.angle + TAU_16))
+        timeline.every(1.5...2.5, start: .Delayed(), times: 10, block: generateEnemy(rand(±size.angle)))
     }
 
     func generateEnemyColumn(screenAngle: CGFloat)() {

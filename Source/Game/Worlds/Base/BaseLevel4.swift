@@ -13,18 +13,18 @@ class BaseLevel4: BaseLevel {
     override func populateWorld() {
         super.populateWorld()
 
-        beginWave1(at: 3)
-        beginWave2(at: 32)
-        beginWave3(at: 60)
-        beginWave4(at: 80)
-        beginWave5(at: 130)
+        beginWave1()
     }
 
     // one sources of weak enemies in a wave
-    func beginWave1(at startTime: CGFloat) {
+    func beginWave1() {
+        let nextStep = afterN {
+            self.onNoMoreEnemies { self.beginWave2() }
+        }
+
         let wave1 = TAU_2 ± rand(size.angle)
         var spread = CGFloat(2.5)
-        timeline.every(0.45, startAt: startTime, times: 40) {
+        timeline.every(0.45, start: .Delayed(), times: 40, finally: nextStep()) {
             let angle = wave1 + rand(spread.degrees)
 
             let enemyNode = EnemySoldierNode()
@@ -35,14 +35,22 @@ class BaseLevel4: BaseLevel {
     }
 
     // Dozers
-    func beginWave2(at startTime: CGFloat) {
+    func beginWave2() {
+        let nextStep = afterN {
+            self.onNoMoreEnemies { self.beginWave3() }
+        }
+
         let wave2 = self.randSideAngle()
-        timeline.every(4...6, startAt: startTime, times: 5, block: self.generateDozer(wave2, spread: TAU_8))
+        timeline.every(4...6, start: .Delayed(), times: 5, finally: nextStep(), block: self.generateDozer(wave2, spread: TAU_8))
     }
 
     // wide waves
-    func beginWave3(at startTime: CGFloat) {
-        timeline.every(6, startAt: startTime, times: 8) {
+    func beginWave3() {
+        let nextStep = afterN {
+            self.onNoMoreEnemies { self.beginWave4() }
+        }
+
+        timeline.every(6, start: .Delayed(), times: 8, finally: nextStep()) {
             let angle: CGFloat = self.randSideAngle()
             let delta = 5.degrees
             for i in 0..<5 {
@@ -53,19 +61,23 @@ class BaseLevel4: BaseLevel {
     }
 
     // fast enemies waves
-    func beginWave4(at startTime: CGFloat) {
-        timeline.every(6, startAt: startTime, times: 5) {
+    func beginWave4() {
+        let nextStep = afterN {
+            self.onNoMoreEnemies { self.beginWave5() }
+        }
+
+        timeline.every(6, start: .Delayed(), times: 5, finally: nextStep()) {
             self.generateScouts(self.randSideAngle())()
         }
-        timeline.every(2, startAt: startTime + 35, times: 5) {
+        timeline.every(2, start: .Delayed(35), times: 5, finally: nextStep()) {
             self.generateScouts(self.randSideAngle())()
         }
     }
 
     // fast enemies waves
-    func beginWave5(at startTime: CGFloat) {
+    func beginWave5() {
         let wave5 = self.randSideAngle()
-        timeline.every(1, startAt: startTime, times: 10, block: self.generateScouts(wave5, spread: TAU_8))
+        timeline.every(1, start: .Delayed(), times: 10, block: self.generateScouts(wave5, spread: TAU_8))
     }
 
     func generateDozer(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561)() {

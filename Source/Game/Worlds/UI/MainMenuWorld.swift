@@ -31,7 +31,7 @@ class MainMenuWorld: World {
             self << enemyNode
         }
 
-        timeline.every(5...7, startAt: 1) {
+        timeline.every(5...7, start: .At(1)) {
             let startAngle: CGFloat = rand(TAU)
             let flyAngle: CGFloat = startAngle + TAU_2 ± rand(TAU_16)
             let velocity = CGPoint(r: 100, a: flyAngle)

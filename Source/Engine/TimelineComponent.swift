@@ -7,6 +7,32 @@
 //
 
 class TimelineComponent: Component {
+    enum TimeDescriptor: IntegerLiteralConvertible, FloatLiteralConvertible {
+        init(integerLiteral time: Int) {
+            self = At(CGFloat(time))
+        }
+        init(floatLiteral time: Float) {
+            self = At(CGFloat(time))
+        }
+        static func Delayed(dt: CGFloat = 0) -> TimeDescriptor {
+            return After(dt + 3)
+        }
+
+        case At(CGFloat)
+        case After(CGFloat)
+        case Now
+
+        func toTime(now: CGFloat) -> CGFloat {
+            switch self {
+            case let .At(t):
+                return t
+            case let .After(dt):
+                return now + dt
+            case .Now:
+                return now
+            }
+        }
+    }
 
     private struct RecurringEvent {
         var countdown: CGFloat
@@ -15,6 +41,7 @@ class TimelineComponent: Component {
         let until: ConditionBlock
         var lastRun: CGFloat
         let block: Block
+        let finallyBlock: Block
     }
 
     private struct Event {
@@ -76,8 +103,8 @@ class TimelineComponent: Component {
         }
     }
 
-    func at(scheduledTime: CGFloat, block: Block) {
-        addEvent(Event(scheduledTime: scheduledTime, block: block))
+    func at(scheduledTime: TimeDescriptor, block: Block) {
+        addEvent(Event(scheduledTime: scheduledTime.toTime(time), block: block))
     }
 
     func after(scheduledTime: CGFloat, block: Block) {
@@ -88,30 +115,30 @@ class TimelineComponent: Component {
         addEvent(ConditionEvent(condition: condition, block: block))
     }
 
-    func every(interval: CGFloat, startAt: CGFloat = 0, times: Int, block: Block) {
+    func every(interval: CGFloat, start: TimeDescriptor = .After(0), times: Int, finally finallyBlock: Block? = nil, block: Block) {
         var c = times
         let wrappedBlock: Block = {
             block()
             c -= 1
         }
         let untilBlock: ConditionBlock = { return c <= 0 }
-        _every({ return interval }, startAt: startAt, until: untilBlock, block: wrappedBlock)
+        _every({ return interval }, start: start, until: untilBlock, finally: finallyBlock, block: wrappedBlock)
     }
 
-    func every(interval: CGFloat, startAt: CGFloat = 0, block: Block) {
-        _every({ return interval }, startAt: startAt, until: { return false }, block: block)
+    func every(interval: CGFloat, start: TimeDescriptor = .After(0), finally finallyBlock: Block? = nil, block: Block) {
+        _every({ return interval }, start: start, until: { return false }, finally: finallyBlock, block: block)
     }
 
-    func every(interval: CGFloat, startAt: CGFloat = 0, untilTime: CGFloat, block: Block) {
+    func every(interval: CGFloat, start: TimeDescriptor = .After(0), untilTime: CGFloat, finally finallyBlock: Block? = nil, block: Block) {
         let untilBlock = { return self.time > untilTime }
-        _every({ return interval }, startAt: startAt, until: untilBlock, block: block)
+        _every({ return interval }, start: start, until: untilBlock, finally: finallyBlock, block: block)
     }
 
-    func every(interval: CGFloat, startAt: CGFloat = 0, until untilBlock: ConditionBlock, block: Block) {
-        _every({ return interval }, startAt: startAt, until: untilBlock, block: block)
+    func every(interval: CGFloat, start: TimeDescriptor = .After(0), until untilBlock: ConditionBlock, finally finallyBlock: Block? = nil, block: Block) {
+        _every({ return interval }, start: start, until: untilBlock, finally: finallyBlock, block: block)
     }
 
-    func every(interval: ClosedInterval<CGFloat>, startAt: CGFloat = 0, untilTime: CGFloat? = nil, block: Block) {
+    func every(interval: ClosedInterval<CGFloat>, start: TimeDescriptor = .After(0), untilTime: CGFloat? = nil, finally finallyBlock: Block? = nil, block: Block) {
         let untilBlock: ConditionBlock
         if let untilTime = untilTime {
             untilBlock = { return self.time > untilTime }
@@ -119,10 +146,10 @@ class TimelineComponent: Component {
         else {
             untilBlock = { return false }
         }
-        every(interval, startAt: startAt, until: untilBlock, block: block)
+        every(interval, start: start, until: untilBlock, finally: finallyBlock, block: block)
     }
 
-    func every(interval: ClosedInterval<CGFloat>, startAt: CGFloat = 0, times: Int, block: Block) {
+    func every(interval: ClosedInterval<CGFloat>, start: TimeDescriptor = .After(0), times: Int, finally finallyBlock: Block? = nil, block: Block) {
         guard times > 0 else { return }
 
         let min = interval.start
@@ -133,17 +160,24 @@ class TimelineComponent: Component {
             c -= 1
         }
         let untilBlock: ConditionBlock = { return c <= 0 }
-        _every({ return rand(min: min, max: max) }, startAt: startAt, until: untilBlock, block: wrappedBlock)
+        _every({ return rand(min: min, max: max) }, start: start, until: untilBlock, finally: finallyBlock, block: wrappedBlock)
     }
 
-    func every(interval: ClosedInterval<CGFloat>, startAt: CGFloat = 0, until untilBlock: ConditionBlock, block: Block) {
+    func every(interval: ClosedInterval<CGFloat>, start: TimeDescriptor = .After(0), until untilBlock: ConditionBlock, finally finallyBlock: Block? = nil, block: Block) {
         let min = interval.start
         let max = interval.end
-        _every({ return rand(min: min, max: max) }, startAt: startAt, until: untilBlock, block: block)
+        _every({ return rand(min: min, max: max) }, start: start, until: untilBlock, finally: finallyBlock, block: block)
     }
 
-    private func _every(generator: () -> CGFloat, startAt: CGFloat = 0, until untilBlock: ConditionBlock, block: Block) {
-        let entry: RecurringEvent = RecurringEvent(countdown: 0, generator: generator, startAt: startAt, until: untilBlock, lastRun: 0, block: block)
+    private func _every(generator: () -> CGFloat, start: TimeDescriptor = .After(0), until untilBlock: ConditionBlock, finally optFinallyBlock: Block? = nil, block: Block) {
+        let finallyBlock: Block
+        if let block = optFinallyBlock {
+            finallyBlock = block
+        }
+        else {
+            finallyBlock = {}
+        }
+        let entry: RecurringEvent = RecurringEvent(countdown: 0, generator: generator, startAt: start.toTime(time), until: untilBlock, lastRun: 0, block: block, finallyBlock: finallyBlock)
         addEvent(entry)
     }
 
@@ -168,6 +202,7 @@ class TimelineComponent: Component {
 
         for var event in self.recurringEvents {
             if event.until() {
+                event.finallyBlock()
                 continue
             }
 

@@ -145,7 +145,7 @@ extension BaseLevel {
             var countEmUp: CGFloat = 0
             var countEmUpIncrement: CGFloat = 0.1
             let countEmUpRate: CGFloat = 0.03
-            finalTimeline.every(countEmUpRate, startAt: 2, until: { countEmUp >= maxCount }) {
+            finalTimeline.every(countEmUpRate, start: 2, until: { countEmUp >= maxCount }) {
                 countEmUp = min(countEmUp + countEmUpIncrement, maxCount)
                 countEmUpIncrement *= 1.05
 

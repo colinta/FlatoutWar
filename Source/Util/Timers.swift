@@ -64,6 +64,19 @@ extension Int {
     }
 }
 
+public func afterN(block: Block) -> (() -> Block) {
+    var remaining = 0
+    return {
+        remaining += 1
+        return {
+            remaining -= 1
+            if remaining == 0 {
+                block()
+            }
+        }
+    }
+}
+
 public func after(times: Int, block: Block) -> Block {
     if times == 0 {
         block()
