@@ -33,10 +33,10 @@ class BaseLevel9: BaseLevel {
             self.onNoMoreEnemies { self.beginWave3() }
         }
 
-        timeline.every(6...8, start: .Delayed(), times: 4, finally: nextStep()) {
+        timeline.every(6...8, start: .Delayed(), times: 4) {
             let angle: CGFloat = rand(min: -self.size.angle, max: TAU_4)
             self.generateBigJetWithFollowers(angle, spread: 0)()
-        }
+        } ~~> nextStep()
     }
 
     func beginWave3() {

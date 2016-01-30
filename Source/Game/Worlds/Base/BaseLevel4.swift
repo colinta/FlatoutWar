@@ -24,14 +24,14 @@ class BaseLevel4: BaseLevel {
 
         let wave1 = TAU_2 ± rand(size.angle)
         var spread = CGFloat(2.5)
-        timeline.every(0.45, start: .Delayed(), times: 40, finally: nextStep()) {
+        timeline.every(0.45, start: .Delayed(), times: 40) {
             let angle = wave1 + rand(spread.degrees)
 
             let enemyNode = EnemySoldierNode()
             enemyNode.position = CGPoint(r: self.outerRadius, a: angle)
             self << enemyNode
             spread += 0.75
-        }
+        } ~~> nextStep()
     }
 
     // Dozers
@@ -41,7 +41,7 @@ class BaseLevel4: BaseLevel {
         }
 
         let wave2 = self.randSideAngle()
-        timeline.every(4...6, start: .Delayed(), times: 5, finally: nextStep(), block: self.generateDozer(wave2, spread: TAU_8))
+        timeline.every(4...6, start: .Delayed(), times: 5, block: self.generateDozer(wave2, spread: TAU_8)) ~~> nextStep()
     }
 
     // wide waves
@@ -50,14 +50,14 @@ class BaseLevel4: BaseLevel {
             self.onNoMoreEnemies { self.beginWave4() }
         }
 
-        timeline.every(6, start: .Delayed(), times: 8, finally: nextStep()) {
+        timeline.every(6, start: .Delayed(), times: 8) {
             let angle: CGFloat = self.randSideAngle()
             let delta = 5.degrees
             for i in 0..<5 {
                 let myAngle = angle + CGFloat(i - 2) * delta
                 self.timeline.after(CGFloat(i) * 0.1, block: self.generateEnemy(myAngle, spread: 0))
             }
-        }
+        } ~~> nextStep()
     }
 
     // fast enemies waves
@@ -66,12 +66,12 @@ class BaseLevel4: BaseLevel {
             self.onNoMoreEnemies { self.beginWave5() }
         }
 
-        timeline.every(6, start: .Delayed(), times: 5, finally: nextStep()) {
+        timeline.every(6, start: .Delayed(), times: 5) {
             self.generateScouts(self.randSideAngle())()
-        }
-        timeline.every(2, start: .Delayed(35), times: 5, finally: nextStep()) {
+        } ~~> nextStep()
+        timeline.every(2, start: .Delayed(35), times: 5) {
             self.generateScouts(self.randSideAngle())()
-        }
+        } ~~> nextStep()
     }
 
     // fast enemies waves

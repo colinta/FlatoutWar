@@ -26,8 +26,8 @@ class BaseLevel1: BaseLevel {
 
         let wave1_1: CGFloat = rand(TAU)
         let wave1_2 = wave1_1 + TAU_2 ± rand(min: TAU_8, max: TAU_4)
-        timeline.every(1.5...2.5, start: .Delayed(), times: 15, finally: nextStep(), block: self.generateEnemy(wave1_1))
-        timeline.every(1.5...4, start: .Delayed(), times: 10, finally: nextStep(), block: self.generateEnemy(wave1_2))
+        timeline.every(1.5...2.5, start: .Delayed(), times: 15, block: self.generateEnemy(wave1_1)) ~~> nextStep()
+        timeline.every(1.5...4, start: .Delayed(), times: 10, block: self.generateEnemy(wave1_2)) ~~> nextStep()
     }
 
     // one source of weak, one source of strong
@@ -38,8 +38,8 @@ class BaseLevel1: BaseLevel {
 
         let wave2_leader = size.angle
         let wave2_soldier: CGFloat = -size.angle ± rand(TAU_16)
-        timeline.every(3...5, start: .Delayed(), times: 5, finally: nextStep(), block: self.generateLeaderEnemy(wave2_leader))
-        timeline.every(1.5...3.0, start: .Delayed(1), times: 10, finally: nextStep(), block: self.generateEnemy(wave2_soldier))
+        timeline.every(3...5, start: .Delayed(), times: 5, block: self.generateLeaderEnemy(wave2_leader)) ~~> nextStep()
+        timeline.every(1.5...3.0, start: .Delayed(1), times: 10, block: self.generateEnemy(wave2_soldier)) ~~> nextStep()
     }
 
     // random
@@ -48,9 +48,9 @@ class BaseLevel1: BaseLevel {
             self.onNoMoreEnemies { self.beginWave4() }
         }
 
-        timeline.every(0.5...2, start: .Delayed(), times: 20, finally: nextStep()) {
+        timeline.every(0.5...2, start: .Delayed(), times: 20) {
             self.generateEnemy(rand(TAU), constRadius: true)()
-        }
+        } ~~> nextStep()
     }
 
     // four sources of weak enemies
@@ -63,14 +63,14 @@ class BaseLevel1: BaseLevel {
         let wave4_2 = wave4_1 ± rand(min: 10.degrees, max: 20.degrees)
         let wave4_3 = wave4_1 ± (TAU_4 - rand(TAU_16))
         let wave4_4 = wave4_3 ± rand(min: 10.degrees, max: 20.degrees)
-        timeline.every(3...5, start: .Delayed(), times: 6, finally: nextStep(), block: {
+        timeline.every(3...5, start: .Delayed(), times: 6) {
             self.generateEnemy(wave4_1)()
             self.generateEnemy(wave4_2)()
-        })
-        timeline.every(3...6, start: .Delayed(3), times: 5, finally: nextStep()) {
+        } ~~> nextStep()
+        timeline.every(3...6, start: .Delayed(3), times: 5) {
             self.generateEnemy(wave4_3)()
             self.generateEnemy(wave4_4)()
-        }
+        } ~~> nextStep()
     }
 
     // four sources of weak enemies

@@ -27,12 +27,12 @@ class BaseLevel7: BaseLevel {
 
         let wave1_weak_1: CGFloat = ±rand(TAU_8)
         let wave1_weak_2: CGFloat = wave1_weak_1 ± rand(min: TAU_16, max: TAU_8)
-        timeline.every(1.5...3.0, start: .Delayed(), times: 10, finally: nextStep(), block: generateEnemy(wave1_weak_1))
-        timeline.every(1.5...3.0, start: .Delayed(), times: 10, finally: nextStep(), block: generateEnemy(wave1_weak_2))
+        timeline.every(1.5...3.0, start: .Delayed(), times: 10, block: generateEnemy(wave1_weak_1)) ~~> nextStep()
+        timeline.every(1.5...3.0, start: .Delayed(), times: 10, block: generateEnemy(wave1_weak_2)) ~~> nextStep()
 
         let wave1_strong_1 = TAU_2 ± rand(TAU_16)
-        timeline.every(3...6, start: .Delayed(), times: 5, finally: nextStep(), block: generateLeaderEnemy(wave1_strong_1, spread: TAU_16))
-        timeline.every(1.5...3, start: .Delayed(), times: 10, finally: nextStep(), block: generateEnemy(wave1_strong_1, spread: TAU_4))
+        timeline.every(3...6, start: .Delayed(), times: 5, block: generateLeaderEnemy(wave1_strong_1, spread: TAU_16)) ~~> nextStep()
+        timeline.every(1.5...3, start: .Delayed(), times: 10, block: generateEnemy(wave1_strong_1, spread: TAU_4)) ~~> nextStep()
     }
 
     func beginWave2() {
@@ -45,12 +45,12 @@ class BaseLevel7: BaseLevel {
         }
         let wave2_1 = TAU_2 + rand(TAU_16)
         let wave2_2 = TAU_2 - rand(TAU_16)
-        timeline.every(0.5, start: .Delayed(4), times: 20, finally: nextStep()) {
+        timeline.every(0.5, start: .Delayed(4), times: 20) {
             self.generateEnemy(wave2_1, spread: TAU_16)()
-        }
-        timeline.every(0.5, start: .Delayed(10), times: 20, finally: nextStep()) {
+        } ~~> nextStep()
+        timeline.every(0.5, start: .Delayed(10), times: 20) {
             self.generateEnemy(wave2_2, spread: TAU_16)()
-        }
+        } ~~> nextStep()
     }
 
     func beginWave3() {

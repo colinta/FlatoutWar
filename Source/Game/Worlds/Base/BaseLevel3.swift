@@ -26,8 +26,8 @@ class BaseLevel3: BaseLevel {
 
         let wave1_1 = randSideAngle(.Right)
         let wave1_2 = wave1_1 ± (TAU_16 + rand(TAU_16))
-        timeline.every(0.5...2.5, start: .After(delay), times: 5, finally: nextStep(), block: generateEnemyPair(wave1_1))
-        timeline.every(0.5...2.5, start: .After(delay + 3), times: 4, finally: nextStep(), block: generateEnemyPair(wave1_2))
+        timeline.every(0.5...2.5, start: .After(delay), times: 5, block: generateEnemyPair(wave1_1)) ~~> nextStep()
+        timeline.every(0.5...2.5, start: .After(delay + 3), times: 4, block: generateEnemyPair(wave1_2)) ~~> nextStep()
     }
 
     func beginWave2() {
@@ -37,8 +37,8 @@ class BaseLevel3: BaseLevel {
 
         let wave2_1 = randSideAngle(.Right)
         let wave2_2 = wave2_1 ± (TAU_8 + rand(TAU_16))
-        timeline.every(2...5, start: .Delayed(), times: 5, finally: nextStep(), block: generateEnemyTrio(wave2_1))
-        timeline.every(3...6, start: .Delayed(4), times: 4, finally: nextStep(), block: generateEnemyTrio(wave2_2))
+        timeline.every(2...5, start: .Delayed(), times: 5, block: generateEnemyTrio(wave2_1)) ~~> nextStep()
+        timeline.every(3...6, start: .Delayed(4), times: 4, block: generateEnemyTrio(wave2_2)) ~~> nextStep()
     }
 
     func beginWave3() {
@@ -46,10 +46,10 @@ class BaseLevel3: BaseLevel {
             self.onNoMoreEnemies { self.beginWave4() }
         }
 
-        timeline.every(3...7, start: .Delayed(), times: 5, finally: nextStep()) {
+        timeline.every(3...7, start: .Delayed(), times: 5) {
             let wave3_1 = self.randSideAngle(.Right)
             self.generateLeaderWithLinearFollowers(wave3_1)()
-        }
+        } ~~> nextStep()
     }
 
     func beginWave4() {
