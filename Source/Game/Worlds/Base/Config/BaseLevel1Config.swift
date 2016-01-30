@@ -13,4 +13,9 @@ class BaseLevel1Config: BaseConfig {
         return BaseLevel2()
     }
 
+    override var storedPlayers: [Node] {
+        get { return [BasePlayerNode()] }
+        set { }
+    }
+
 }
