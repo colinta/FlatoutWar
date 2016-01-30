@@ -90,8 +90,8 @@ class BaseLevel: Level {
 extension BaseLevel {
 
     func tutorialOrLevel() -> World {
-        if let tutorial = config.tutorial() where !config.seenTutorial {
-            config.seenTutorial = true
+        if let tutorial = config.tutorial() where !tutorial.seen {
+            tutorial.seen = true
 
             tutorial.nextWorld = self
             return tutorial
