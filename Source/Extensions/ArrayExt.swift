@@ -55,3 +55,11 @@ extension Array {
     }
 
 }
+
+extension RangeReplaceableCollectionType where Generator.Element: Equatable {
+    mutating func remove(item: Generator.Element) {
+        if let index = self.indexOf(item) {
+            removeAtIndex(index)
+        }
+    }
+}

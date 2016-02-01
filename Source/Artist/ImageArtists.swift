@@ -31,6 +31,35 @@ extension ImageIdentifier.EnemyType {
     }
 }
 
+extension ImageIdentifier.PowerupType {
+    func artist() -> Artist {
+        switch self {
+            case .Decoy:
+                return DecoyPowerupArtist()
+            case .Mines:
+                return MinesPowerupArtist()
+            case .Grenades:
+                return GrenadesPowerupArtist()
+            case .Bomber:
+                return BomberPowerupArtist()
+            case .Shield:
+                return ShieldPowerupArtist()
+            case .Soldiers:
+                return SoldiersPowerupArtist()
+            case .Hourglass:
+                return HourglassPowerupArtist()
+            case .Pulse:
+                return PulsePowerupArtist()
+            case .Laser:
+                return LaserPowerupArtist()
+            case .Net:
+                return NetPowerupArtist()
+            case .Coffee:
+                return CoffeePowerupArtist()
+        }
+    }
+}
+
 extension ImageIdentifier.Size {
 
     var font: Font {
@@ -87,6 +116,8 @@ extension ImageIdentifier {
         case .Cursor:
             let artist = CursorArtist()
             return artist
+        case let .Powerup(type):
+            return type.artist()
         case let .Percent(percent, style):
             let artist = PercentArtist(style: style)
             artist.complete = CGFloat(percent) / 100

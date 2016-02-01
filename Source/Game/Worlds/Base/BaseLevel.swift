@@ -28,6 +28,7 @@ class BaseLevel: Level {
         _config = config
         return config
     }
+    var powerup: Powerup?
 
     func loadConfig() -> BaseConfig {
         fatalError("init(coder:) has not been implemented")
@@ -53,11 +54,29 @@ class BaseLevel: Level {
         shouldPopulatePlayer = false
     }
 
+    private func beginLevel(delay delay: Bool) {
+        let zoomOut = {
+            self.cameraZoom.target = 1.0
+            self.cameraZoom.rate = 0.5
+        }
+
+        if delay {
+            timeline.after(1.75, block: zoomOut)
+        }
+        else {
+            zoomOut()
+        }
+
+        populateLevel()
+    }
+
     func populateLevel() {
     }
 
     override func populateWorld() {
         super.populateWorld()
+
+        setScale(2)
 
         if shouldPopulatePlayer {
             updatePlayer(playerNode)
@@ -73,7 +92,12 @@ class BaseLevel: Level {
             }
         }
 
-        self.populateLevel()
+        if config.canPowerup {
+            self.beginPowerups()
+        }
+        else {
+            self.beginLevel(delay: true)
+        }
     }
 
     override func goToLevelSelect() {
@@ -94,17 +118,63 @@ class BaseLevel: Level {
 
 extension BaseLevel {
 
+    func beginPowerups() {
+        disablePlayers()
+        var availablePowerups = config.availablePowerups
+        var powerups: [Powerup] = []
+        3.times {
+            if let powerup = availablePowerups.randWeighted({ $0.weight.rawValue }) {
+                powerups << powerup
+                availablePowerups.remove(powerup)
+            }
+        }
+
+        var buttons: [Node] = []
+        for (index, powerup) in powerups.enumerate() {
+            let start: Position = .Left(
+                x: -150,
+                y: 80 - CGFloat(index) * 80
+            )
+            let button = powerup.button(at: start)
+            ui << button
+            buttons << button
+
+            button.onTapped {
+                self.enablePlayers()
+                self.powerup = powerup
+                powerup.addToLevel(self, start: button.position, dest: CGPoint(-260, 140))
+                self.beginLevel(delay: false)
+
+                for node in buttons {
+                    node.fadeTo(0, duration: 0.3, removeNode: true)
+                }
+            }
+        }
+
+        timeline.after(1.75) {
+            self.cameraZoom.target = 1.5
+            self.cameraZoom.duration = 1
+
+            for (index, button) in buttons.enumerate() {
+                let dest: Position = .Left(
+                    x: 40,
+                    y: 50 - CGFloat(index) * 50
+                )
+
+                button.moveTo(dest, duration: 1)
+            }
+        }
+    }
+}
+
+extension BaseLevel {
+
     func tutorialOrLevel() -> World {
         if let tutorial = config.tutorial() where !tutorial.seen {
             tutorial.seen = true
 
             tutorial.nextWorld = self
             return tutorial
-        }
-        else if config.canUpgrade {
-            let upgradeWorld = BaseUpgradeWorld()
-            upgradeWorld.nextWorld = self
-            return upgradeWorld
         }
         return self
     }

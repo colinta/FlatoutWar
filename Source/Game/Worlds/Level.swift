@@ -164,13 +164,8 @@ class Level: World {
         super.populateWorld()
         cameraNode = Node(at: CGPoint(x: 0, y: 0))
 
-        setScale(2)
-        cameraZoom.target = 1.0
-        cameraZoom.duration = 2
-        timeline.at(1.75) {
-            self.addComponent(self.cameraZoom)
-            self.cameraNode!.addComponent(self.cameraMove)
-        }
+        self.addComponent(self.cameraZoom)
+        self.cameraNode!.addComponent(self.cameraMove)
     }
 
     override func didAdd(node: Node) {

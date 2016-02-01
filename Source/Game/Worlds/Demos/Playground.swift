@@ -9,24 +9,27 @@
 class Playground: World {
 
     override func populateWorld() {
-        let b = Node()
-        self << b
+        let powerups = Powerup.All
+        let r: CGFloat = 80
+        for (index, powerup) in powerups.enumerate() {
+            let a = TAU / CGFloat(powerups.count) * CGFloat(index)
+            let n = Node(at: CGPoint(r: r, a: a))
+            n << powerup.buttonIcon()
+            self << n
+        }
+    }
 
-        let moveTo = MoveToComponent()
-        moveTo.target = CGPoint(r: 100, a: rand(TAU))
-        moveTo.duration = 10
-        b.addComponent(moveTo)
-
-        50.times {
-            let n = Node()
-            n << SKShapeNode(circleOfRadius: 5)
-            b << n
-
-            let wandering = WanderingComponent()
-            wandering.wanderingRadius = 100
-            wandering.maxSpeed = 100
-            wandering.centeredAround = CGPointZero
-            n.addComponent(wandering)
+    override func worldTouchEnded(worldLocation: CGPoint) {
+        super.worldTouchEnded(worldLocation)
+        if timeRate < 1 {
+            cameraNode = Node(at: .Zero)
+            setScale(1)
+            timeRate = 1
+        }
+        else {
+            cameraNode = Node(at: worldLocation * 3)
+            setScale(3)
+            timeRate = 0.1
         }
     }
 

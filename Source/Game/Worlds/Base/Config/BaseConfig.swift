@@ -9,9 +9,12 @@
 class BaseConfig {
     var configKey: String { return "\(self.dynamicType)" }
 
+    // display powerup at startup?
+    var canPowerup: Bool { return true }
+    // display upgrades at level end?
     var canUpgrade: Bool { return true }
-    var possibleExperience: Int { return 0 }
 
+    var possibleExperience: Int { return 0 }
     var gainedExperience: Int {
         get { return Defaults["Config-\(configKey)-gainedExperience"].int ?? 0 }
     }
@@ -36,6 +39,8 @@ class BaseConfig {
             Defaults["Config-\(configKey)-storedPlayers"] = storage
         }
     }
+
+    let availablePowerups: [Powerup] = Powerup.All
 
     func updateMaxGainedExperience(exp: Int) {
         Defaults["Config-\(configKey)-gainedExperience"] = min(max(exp, gainedExperience), possibleExperience)

@@ -7,6 +7,8 @@
 //
 
 class BaseLevel4Config: BaseConfig {
+    override var canUpgrade: Bool { return false }
+
     override var possibleExperience: Int { return 175 }
     override func tutorial() -> Tutorial? { return RapidFireTutorial() }
     override func nextLevel() -> BaseLevel {
