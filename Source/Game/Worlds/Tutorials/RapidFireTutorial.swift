@@ -35,7 +35,6 @@ class RapidFireTutorial: Tutorial {
 
     func showFirstButton() {
         let holdButton = Button(at: CGPoint(x: 200, y: 0))
-        holdButton.font = .Small
         holdButton.text = "HOLD"
         holdButton.touchableComponent!.onDragged { prevLoc, loc in
             let prevWorldLoc = self.convertPoint(prevLoc, fromNode: holdButton)
@@ -98,7 +97,6 @@ class RapidFireTutorial: Tutorial {
 
     func showSecondButton() {
         let holdButton = Button(at: CGPoint(x: 200, y: -90))
-        holdButton.font = .Small
         holdButton.text = "HOLD"
         holdButton.touchableComponent!.onDragged { prevLoc, loc in
             let prevWorldLoc = self.convertPoint(prevLoc, fromNode: holdButton)

@@ -13,6 +13,7 @@ class MainMenuWorld: World {
 
         let textNode = TextNode(at: CGPoint(x: 0, y: 100))
         textNode.text = "FLATOUT WAR"
+        textNode.font = .Big
         self << textNode
 
         let howMany: Int = rand(8...15)
@@ -76,6 +77,7 @@ class MainMenuWorld: World {
 
         let startButtonNode = Button(at: CGPoint(x: 0, y: 0))
         startButtonNode.text = "START"
+        startButtonNode.font = .Big
         startButtonNode.onTapped {
             self.director?.presentWorld(BaseLevel1().tutorialOrLevel())
         }
@@ -83,6 +85,7 @@ class MainMenuWorld: World {
 
         let setupButtonNode = Button(at: CGPoint(x: 0, y: -60))
         setupButtonNode.text = "SETUP"
+        setupButtonNode.font = .Big
         setupButtonNode.onTapped {
             self.director?.presentWorld(StartupWorld())
         }

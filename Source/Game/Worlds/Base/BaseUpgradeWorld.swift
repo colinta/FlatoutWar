@@ -57,14 +57,12 @@ class BaseUpgradeWorld: World {
 
         experienceTextNode.position = CGPoint(y: 135)
         experienceTextNode.text = "\(config.availableExperience)"
-        experienceTextNode.font = .Small
         experienceTextNode.setScale(2)
         self << experienceTextNode
 
         do {
             upgradeTextNode.text = "UPGRADE"
             upgradeTextNode.position = CGPoint(x: -180, y: 140)
-            upgradeTextNode.font = .Small
             upgradeTextNode.setScale(1.5)
             self << upgradeTextNode
 
@@ -77,7 +75,6 @@ class BaseUpgradeWorld: World {
         do {
             buildTextNode.text = "BUILD"
             buildTextNode.position = CGPoint(x: 180, y: 140)
-            buildTextNode.font = .Small
             buildTextNode.setScale(1.5)
             self << buildTextNode
 
@@ -102,7 +99,6 @@ class BaseUpgradeWorld: World {
 
         let closeButton = Button()
         closeButton.position = CGPoint(0, -135)
-        closeButton.font = .Small
         closeButton.text = "DONE"
         closeButton.setScale(1.5)
         closeButton.onTapped { _ in
@@ -130,7 +126,6 @@ class BaseUpgradeWorld: World {
         let costTextNode = TextNode(at: node.position + CGPoint(x: node.radius + 3))
         costTextNode.text = cost.description
         costTextNode.alignment = .Left
-        costTextNode.font = .Small
         self << costTextNode
 
         let moveTo2 = MoveToComponent()
@@ -263,7 +258,6 @@ class BaseUpgradeWorld: World {
             purchaseButton.style = .RectSized(140, 50)
             let purchaseText = TextNode(at: CGPoint(x: textOffset))
             purchaseText.text = "\(cost)"
-            purchaseText.font = .Small
             purchaseText.setScale(1.5)
             purchaseButton << purchaseText
 

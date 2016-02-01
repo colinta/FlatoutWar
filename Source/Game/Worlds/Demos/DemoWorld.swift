@@ -24,7 +24,6 @@ class DemoWorld: World {
         let restartButton = Button()
         restartButton.fixedPosition = .TopLeft(x: 15, y: -15)
         restartButton.setScale(0.5)
-        restartButton.font = .Small
         restartButton.size = CGSize(60)
         restartButton.text = "O"
         restartButton.onTapped { _ in

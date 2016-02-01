@@ -23,7 +23,7 @@ class TextNode: Node {
 
     required init() {
         text = ""
-        font = .Big
+        font = .Small
         textSprite = SKNode()
         super.init()
         z = .UI

@@ -23,10 +23,12 @@ class TutorialSelectWorld: World {
 
         let textNode = TextNode(at: CGPoint(x: -165, y: -125))
         textNode.text = "BASE"
+        textNode.font = .Big
         self << textNode
 
         let backButton = Button(at: CGPoint(x: -200, y: 100))
         backButton.text = "<"
+        backButton.font = .Big
         backButton.size = CGSize(width: 15, height: 15)
         backButton.onTapped { [unowned self] in
             self.director?.presentWorld(BaseLevelSelectWorld())
@@ -59,7 +61,6 @@ class TutorialSelectWorld: World {
             let y = CGFloat(100 - 35 * levelIndex)
             let center = CGPoint(x: 40, y: y)
             let button = Button(at: center)
-            button.font = .Small
             button.text = name
             button.size.height = 25
             button.onTapped {

@@ -123,6 +123,7 @@ class StartupWorld: World {
         for text in ["FLATOUT", "WAR"] {
             let textNode = TextNode()
             textNode.position = CGPoint(x: 0, y: y)
+            textNode.font = .Big
             y += textNode.size.height - 60
             textNode.text = text
             self << textNode

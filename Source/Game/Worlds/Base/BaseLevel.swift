@@ -133,12 +133,12 @@ extension BaseLevel {
 
             let totalText = TextNode(at: CGPoint(x: 100, y: 4))
             totalText.text = "\(possibleExperience)"
-            totalText.font = .Small
+            totalText.font = .Big
             self << totalText
 
             let currentText = TextNode(at: CGPoint(x: 30, y: -20))
             currentText.text = "0"
-            currentText.font = .Small
+            currentText.font = .Big
             self << currentText
 
             let maxCount = CGFloat(gainedExperience)

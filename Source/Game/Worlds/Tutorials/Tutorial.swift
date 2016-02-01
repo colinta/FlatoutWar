@@ -45,7 +45,6 @@ class Tutorial: World {
     func addContinueButton() {
         let continueButton = Button(fixed: .Right(x: -75, y: 0))
         continueButton.setScale(1.5)
-        continueButton.font = .Small
         continueButton.text = "NEXT >"
         continueButton.onTapped {
             self.goToNextWorld()
@@ -59,7 +58,6 @@ class Tutorial: World {
         cameraNode = Node(at: CGPoint(x: 80, y: -80))
 
         tutorialTextNode.fixedPosition = .Top(x: 0, y: -20)
-        tutorialTextNode.font = .Small
         tutorialTextNode.setScale(1.5)
         ui << tutorialTextNode
 

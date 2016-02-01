@@ -32,10 +32,12 @@ class BaseLevelSelectWorld: World {
 
         let textNode = TextNode(at: CGPoint(x: -165, y: -125))
         textNode.text = "BASE"
+        textNode.font = .Big
         self << textNode
 
         let backButton = Button(at: CGPoint(x: -200, y: 100))
         backButton.text = "<"
+        backButton.font = .Big
         backButton.size = CGSize(width: 15, height: 15)
         backButton.onTapped { [unowned self] in
             self.director?.presentWorld(MainMenuWorld())
@@ -44,6 +46,7 @@ class BaseLevelSelectWorld: World {
 
         let tutorialButton = Button(at: CGPoint(x: -200, y: 20))
         tutorialButton.text = "?"
+        tutorialButton.font = .Big
         tutorialButton.size = CGSize(width: 15, height: 15)
         tutorialButton.onTapped { [unowned self] in
             self.director?.presentWorld(TutorialSelectWorld())
@@ -83,6 +86,7 @@ class BaseLevelSelectWorld: World {
                 button.text = "\(levelIndex + 1)"
                 button.size = CGSize(50)
                 button.style = .Square
+                button.font = .Big
                 button.onTapped {
                     level.shouldReturnToLevelSelect = true
                     self.director?.presentWorld(level.tutorialOrLevel())

@@ -35,6 +35,7 @@ class Level: World {
         resumeButton.fixedPosition = .Center(x: 0, y: -80)
         resumeButton.visible = false
         resumeButton.text = "RESUME"
+        resumeButton.font = .Big
         resumeButton.onTapped {
             self.unpause()
         }
@@ -42,6 +43,7 @@ class Level: World {
         restartButton.fixedPosition = .Center(x: 0, y: -80)
         restartButton.visible = false
         restartButton.text = "RESTART"
+        restartButton.font = .Big
         restartButton.onTapped {
             self.restartWorld()
         }
@@ -49,6 +51,7 @@ class Level: World {
         quitButton.fixedPosition = .Center(x: 0, y: 80)
         quitButton.visible = false
         quitButton.text = "QUIT"
+        quitButton.font = .Big
         quitButton.onTapped {
             self.goToLevelSelect()
         }
@@ -56,6 +59,7 @@ class Level: World {
         pauseButton.setScale(0.5)
         pauseButton.fixedPosition = .TopRight(x: -20, y: -20)
         pauseButton.text = "||"
+        pauseButton.font = .Big
         pauseButton.size = CGSize(80)
         pauseButton.onTapped { _ in
             if self.worldPaused {
@@ -71,6 +75,7 @@ class Level: World {
         backButton.style = .Square
         backButton.size = CGSize(50)
         backButton.visible = false
+        backButton.font = .Big
         backButton.onTapped {
             self.goToLevelSelect()
         }
@@ -80,6 +85,7 @@ class Level: World {
         nextButton.style = .Square
         nextButton.size = CGSize(50)
         nextButton.visible = false
+        nextButton.font = .Big
         nextButton.onTapped(self.goToNextWorld)
 
         ui << resumeButton

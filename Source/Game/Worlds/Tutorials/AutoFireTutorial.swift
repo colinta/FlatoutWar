@@ -32,7 +32,6 @@ class AutoFireTutorial: Tutorial {
     func showFirstButton() {
         let tapButton = Button(at: CGPoint(x: 0, y: -50))
         tapButton.style = .Circle
-        tapButton.font = .Small
         tapButton.text = "TAP"
         tapButton.touchableComponent?.on(.Tapped) { tapLocation in
             let location = self.playerNode.convertPosition(tapButton) + tapLocation
@@ -76,7 +75,6 @@ class AutoFireTutorial: Tutorial {
     func showSecondButton() {
         let tapButton = Button(at: CGPoint(x: 150, y: 0))
         tapButton.style = .Circle
-        tapButton.font = .Small
         tapButton.text = "TAP"
 
         tapButton.touchableComponent?.on(.Tapped) { tapLocation in
