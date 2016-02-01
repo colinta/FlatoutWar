@@ -354,6 +354,7 @@ extension World {
 
     func worldTapped(worldLocation: CGPoint) {
         guard let touchedNode = touchedNode else { return }
+        guard !touchedNode.frozen else { return }
 
         let location = convertPoint(worldLocation, toNode: touchedNode)
         touchedNode.touchableComponent?.tapped(location)
@@ -361,6 +362,7 @@ extension World {
 
     func worldPressed(worldLocation: CGPoint) {
         guard let touchedNode = touchedNode else { return }
+        guard !touchedNode.frozen else { return }
 
         let location = convertPoint(worldLocation, toNode: touchedNode)
         touchedNode.touchableComponent?.pressed(location)
@@ -372,6 +374,11 @@ extension World {
         }
         else {
             self.touchedNode = currentNode
+        }
+
+        if let touchedNode = touchedNode where touchedNode.frozen {
+            self.touchedNode = nil
+            return
         }
 
         if let touchedNode = self.touchedNode {
