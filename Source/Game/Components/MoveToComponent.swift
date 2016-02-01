@@ -20,7 +20,6 @@ class MoveToComponent: ApplyToNodeComponent {
         get { return _speed }
         set {
             _speed = newValue
-            _duration = nil
         }
     }
     private var _duration: CGFloat?
@@ -100,5 +99,28 @@ class MoveToComponent: ApplyToNodeComponent {
 
         guard let applyTo = applyTo else { return }
         applyTo.position = newPosition
+    }
+}
+
+
+extension Node {
+    func moveTo(dest: Position, duration: CGFloat? = nil, speed: CGFloat? = nil) -> MoveToComponent {
+        let screenSize = world?.screenSize ?? CGSize.Zero
+        let position = dest.positionIn(screenSize: screenSize)
+        return moveTo(position, duration: duration, speed: speed)
+    }
+
+    func moveTo(dest: CGPoint, duration: CGFloat? = nil, speed: CGFloat? = nil) -> MoveToComponent {
+        let moveTo = moveToComponent ?? MoveToComponent()
+        moveTo.currentPosition = position
+        moveTo.target = dest
+        moveTo.duration = duration
+        moveTo.speed = speed
+        moveTo.removeComponentOnArrived()
+        if moveToComponent == nil {
+            addComponent(moveTo)
+        }
+
+        return moveTo
     }
 }

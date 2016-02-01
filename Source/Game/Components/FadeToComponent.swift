@@ -20,7 +20,6 @@ class FadeToComponent: ApplyToNodeComponent {
         get { return _rate }
         set {
             _rate = newValue
-            _duration = nil
         }
     }
     private var _duration: CGFloat?
@@ -116,4 +115,29 @@ class FadeToComponent: ApplyToNodeComponent {
         applyTo.alpha = newAlpha
     }
 
+}
+
+
+extension Node {
+
+    func fadeTo(alpha: CGFloat, duration: CGFloat? = nil, rate: CGFloat? = nil, removeNode: Bool = false) -> FadeToComponent {
+        let fade = fadeToComponent ?? FadeToComponent()
+        fade.currentAlpha = self.alpha
+        fade.target = alpha
+        fade.duration = duration
+        fade.rate = rate
+
+        if removeNode {
+            fade.removeNodeOnFade()
+        }
+        else {
+            fade.removeComponentOnFade()
+        }
+
+        if fadeToComponent == nil {
+            addComponent(fade)
+        }
+
+        return fade
+    }
 }
