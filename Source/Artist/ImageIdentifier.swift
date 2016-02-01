@@ -39,9 +39,11 @@ enum ImageIdentifier {
     case Cursor
 
     case Drone(upgrade: FiveUpgrades, health: Int)
-    case Radar(upgrade: FiveUpgrades)
+
     case Base(upgrade: FiveUpgrades, health: Int)
+    case BaseRadar(upgrade: FiveUpgrades)
     case BaseExplosion(index: Int, total: Int)
+
     case BaseSingleTurret(upgrade: FiveUpgrades)
     case BaseDoubleTurret(upgrade: FiveUpgrades)
     case BaseBigTurret(upgrade: FiveUpgrades)
@@ -108,12 +110,12 @@ enum ImageIdentifier {
             return "Cursor"
         case let .Drone(upgrade, health):
             return "Drone-upgrade_\(upgrade.name)-health_\(health)"
-        case let .Radar(upgrade):
-            return "Radar-upgrade_\(upgrade.name)"
-        case let .BaseExplosion(index, total):
-            return "BaseExplosion-index_\(index)-total_\(total)"
         case let .Base(upgrade, health):
             return "Base-upgrade_\(upgrade.name)-health_\(health)"
+        case let .BaseRadar(upgrade):
+            return "BaseRadar-upgrade_\(upgrade.name)"
+        case let .BaseExplosion(index, total):
+            return "BaseExplosion-index_\(index)-total_\(total)"
         case let .BaseSingleTurret(upgrade):
             return "BaseSingleTurret-upgrade_\(upgrade.name)"
         case let .BaseDoubleTurret(upgrade):

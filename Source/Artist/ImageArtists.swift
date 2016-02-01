@@ -95,12 +95,12 @@ extension ImageIdentifier {
             let health = CGFloat(healthInt) / 100
             let artist = DroneArtist(upgrade: upgrade, health: health)
             return artist
-        case let .Radar(upgrade):
-            let artist = RadarArtist(upgrade: upgrade)
-            return artist
         case let .Base(upgrade, healthInt):
             let health = CGFloat(healthInt) / 100
             let artist = BaseArtist(upgrade: upgrade, health: health)
+            return artist
+        case let .BaseRadar(upgrade):
+            let artist = RadarArtist(upgrade: upgrade)
             return artist
         case let .BaseExplosion(index, total):
             let spread = TAU / CGFloat(total)

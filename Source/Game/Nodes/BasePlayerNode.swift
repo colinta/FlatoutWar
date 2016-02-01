@@ -25,7 +25,7 @@ class BasePlayerNode: Node, PlayerNode {
     }
     var radarUpgrade: FiveUpgrades = .One {
         didSet {
-            radar.textureId(.Radar(upgrade: radarUpgrade))
+            radar.textureId(.BaseRadar(upgrade: radarUpgrade))
         }
     }
     var turretUpgrade: FiveUpgrades = .One {
@@ -52,7 +52,7 @@ class BasePlayerNode: Node, PlayerNode {
 
         size = CGSize(40)
 
-        radar.textureId(.Radar(upgrade: radarUpgrade))
+        radar.textureId(.BaseRadar(upgrade: radarUpgrade))
         radar.anchorPoint = CGPoint(0, 0.5)
         radar.zPosition = Z.Bottom.rawValue
         self << radar
@@ -197,7 +197,7 @@ class BasePlayerNode: Node, PlayerNode {
                 return node
             }()
             upgrade << {
-                let node = SKSpriteNode(id: .Radar(upgrade: nextRadarUpgrade))
+                let node = SKSpriteNode(id: .BaseRadar(upgrade: nextRadarUpgrade))
                 node.anchorPoint = CGPoint(0, 0.5)
                 node.zPosition = Z.Below.rawValue
                 return node
