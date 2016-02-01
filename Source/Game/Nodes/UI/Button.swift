@@ -11,6 +11,7 @@ class Button: TextNode {
         didSet { updateButtonStyle() }
     }
     var preferredScale: CGFloat = 1
+    var margins: UIEdgeInsets = UIEdgeInsetsZero
 
     private var buttonStyleNode: SKSpriteNode!
     var enabled = true {
@@ -41,7 +42,9 @@ class Button: TextNode {
         self << buttonStyleNode
 
         let touchableComponent = TouchableComponent()
-        touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest()
+        touchableComponent.containsTouchTest = { [unowned self] (_, location) in
+            return self.containsTouchTest(location)
+        }
         touchableComponent.on(.Enter) { _ in
             self.highlight()
         }
@@ -58,18 +61,52 @@ class Button: TextNode {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func updateButtonStyle() {
-        switch style {
-        case .Square, .SquareSized, .Circle, .CircleSized, .RectSized:
-            size = style.size
-        default: break
-        }
-        buttonStyleNode.textureId(.Button(style: style))
-    }
-
     override func updateTextNodes() {
         super.updateTextNodes()
         updateButtonStyle()
+    }
+
+    func containsTouchTest(location: CGPoint) -> Bool {
+        let width = max(44, size.width)
+        let height = max(44, size.height)
+
+        var minX: CGFloat, maxX: CGFloat
+        var minY = -height / 2
+        var maxY = height / 2
+
+        switch style {
+        case .None:
+            switch alignment {
+            case .Left:
+                minX = 0
+                maxX = width
+            case .Right:
+                minX = -width
+                maxX = 0
+            default:
+                minX = -width / 2
+                maxX = width / 2
+            }
+        default:
+            minX = -width / 2
+            maxX = width / 2
+        }
+
+        minX -= margins.left
+        maxX += margins.right
+        minY -= margins.bottom
+        maxY += margins.top
+
+        return location.x >= minX && location.x <= maxX && abs(location.y) <= height / 2
+    }
+
+    private func updateButtonStyle() {
+        switch style {
+        case .None: break
+        default:
+            size = style.size
+        }
+        buttonStyleNode.textureId(.Button(style: style))
     }
 
     private func highlight() {
