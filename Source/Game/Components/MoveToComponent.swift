@@ -9,6 +9,10 @@
 class MoveToComponent: ApplyToNodeComponent {
     var target: CGPoint? {
         didSet {
+            if node != nil {
+                currentPosition = node.position
+            }
+
             if _duration != nil && target != nil {
                 _speed = nil
             }

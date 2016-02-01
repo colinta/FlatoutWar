@@ -10,6 +10,10 @@ class ZoomToComponent: ApplyToNodeComponent {
     var currentScale: CGFloat?
     var target: CGFloat? {
         didSet {
+            if node != nil {
+                currentScale = node.xScale
+            }
+
             if _duration != nil && target != nil {
                 _rate = nil
             }
