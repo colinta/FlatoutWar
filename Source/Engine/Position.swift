@@ -1,5 +1,5 @@
 //
-//  FixedPosition.swift
+//  Position.swift
 //  FlatoutWar
 //
 //  Created by Colin Gray on 1/2/2016.
