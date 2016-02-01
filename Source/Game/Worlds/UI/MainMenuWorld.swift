@@ -92,19 +92,15 @@ class MainMenuWorld: World {
     override func worldTouchEnded(worldLocation: CGPoint) {
         super.worldTouchEnded(worldLocation)
         if timeRate < 1 {
-            worldShook()
+            cameraNode = Node(at: .Zero)
+            setScale(1)
+            timeRate = 1
         }
         else {
             cameraNode = Node(at: worldLocation * 3)
             setScale(3)
             timeRate = 0.1
         }
-    }
-
-    override func worldShook() {
-        cameraNode = Node(at: CGPointZero)
-        setScale(1)
-        timeRate = 1
     }
 
 }

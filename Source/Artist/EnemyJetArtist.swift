@@ -24,7 +24,7 @@ class EnemyJetArtist: Artist {
 
     override func draw(context: CGContext) {
         CGContextSetFillColorWithColor(context, color.CGColor)
-        CGContextSetShadowWithColor(context, CGSizeZero, 5, color.CGColor)
+        CGContextSetShadowWithColor(context, .Zero, 5, color.CGColor)
 
         if health == 1 {
             CGContextMoveToPoint(context, size.width, middle.y)

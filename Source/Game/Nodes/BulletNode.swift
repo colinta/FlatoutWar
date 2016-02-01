@@ -76,7 +76,7 @@ class BulletArtist: Artist {
         CGContextSetStrokeColorWithColor(context, color.CGColor)
         CGContextSetFillColorWithColor(context, color.CGColor)
         if bulletSize.width == bulletSize.height {
-            CGContextAddEllipseInRect(context, CGRect(origin: CGPointZero, size: size))
+            CGContextAddEllipseInRect(context, CGRect(origin: .Zero, size: size))
             CGContextDrawPath(context, .Fill)
         }
         else {

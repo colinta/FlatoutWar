@@ -21,7 +21,7 @@ enum ButtonStyle {
         case let .SquareSized(size): return CGSize(CGFloat(size))
         case let .RectSized(width, height): return CGSize(CGFloat(width), CGFloat(height))
         case let .CircleSized(size): return CGSize(CGFloat(size))
-        default: return CGSizeZero
+        default: return .Zero
         }
     }
 
@@ -66,10 +66,10 @@ class ButtonArtist: TextArtist {
 
         switch style {
         case .Square, .SquareSized, .RectSized:
-            CGContextAddRect(context, CGRect(origin: CGPointZero, size: size))
+            CGContextAddRect(context, CGRect(origin: .Zero, size: size))
             CGContextDrawPath(context, .Stroke)
         case .Circle, .CircleSized:
-            CGContextAddEllipseInRect(context, CGRect(origin: CGPointZero, size: size))
+            CGContextAddEllipseInRect(context, CGRect(origin: .Zero, size: size))
             CGContextDrawPath(context, .Stroke)
         case .None:
             break

@@ -7,6 +7,7 @@
 //
 
 extension CGPoint {
+    static let Zero = CGPoint(0, 0)
 
     init(_ loc: CGFloat) {
         x = loc
@@ -109,7 +110,7 @@ extension CGPoint {
     }
 
     static func average(locations: [CGPoint]) -> CGPoint {
-        var retVal = CGPointZero
+        var retVal: CGPoint = .Zero
         for location in locations {
             retVal.x += location.x / CGFloat(locations.count)
             retVal.y += location.y / CGFloat(locations.count)

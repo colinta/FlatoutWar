@@ -239,7 +239,7 @@ class Level: World {
         timeline.removeFromNode()
         pauseButton.removeFromParent()
 
-        moveCamera(to: CGPointZero, zoom: 2, duration: 1)
+        moveCamera(to: .Zero, zoom: 2, duration: 1)
     }
 
 }

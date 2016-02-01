@@ -52,7 +52,7 @@ class BaseLevel9: BaseLevel {
     func generateEnemyColumn(screenAngle: CGFloat)() {
         let ghost = generateEnemyGhost(angle: screenAngle, extra: 10)
         ghost.name = "pair ghost"
-        ghost.rotateTowards(point: CGPointZero)
+        ghost.rotateTowards(point: .Zero)
 
         let numPairs = 10
         var r: CGFloat = 0

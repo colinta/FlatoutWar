@@ -90,7 +90,7 @@ class BaseLevel4: BaseLevel {
         let dozer = EnemyDozerNode()
         dozer.name = "dozer"
         dozer.position = outsideWorld(dozer, angle: screenAngle)
-        dozer.rotateTowards(point: CGPointZero)
+        dozer.rotateTowards(point: .Zero)
         self << dozer
 
         let min = -height / 2 + 5

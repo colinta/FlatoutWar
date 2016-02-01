@@ -81,7 +81,7 @@ class LightningArtist: Artist {
             }
 
             CGContextSetAlpha(context, entry.phase)
-            CGContextSetShadowWithColor(context, CGSizeZero, 3, color.CGColor)
+            CGContextSetShadowWithColor(context, .Zero, 3, color.CGColor)
             CGContextSetStrokeColorWithColor(context, color.CGColor)
             CGContextDrawPath(context, .Stroke)
         }

@@ -72,7 +72,7 @@ class BaseLevel3: BaseLevel {
         let dist: CGFloat = 5.5
         let ghost = generateEnemyGhost(angle: screenAngle, extra: 10)
         ghost.name = "pair ghost"
-        ghost.rotateTowards(point: CGPointZero)
+        ghost.rotateTowards(point: .Zero)
 
         let angle = ghost.position.angle
         let left = CGVector(r: dist, a: angle + TAU_4)
@@ -95,7 +95,7 @@ class BaseLevel3: BaseLevel {
         let dist: CGFloat = 5.5
         let ghost = generateEnemyGhost(angle: screenAngle, extra: 10)
         ghost.name = "pair ghost"
-        ghost.rotateTowards(point: CGPointZero)
+        ghost.rotateTowards(point: .Zero)
 
         let angle = ghost.position.angle
         let left = CGVector(r: dist, a: angle + TAU_4)
@@ -120,7 +120,7 @@ class BaseLevel3: BaseLevel {
         let dist: CGFloat = 5.5
         let ghost = generateEnemyGhost(angle: screenAngle, extra: 10)
         ghost.name = "pair ghost"
-        ghost.rotateTowards(point: CGPointZero)
+        ghost.rotateTowards(point: .Zero)
 
         let angle = ghost.position.angle
         let left = CGVector(r: dist, a: angle + TAU_4)

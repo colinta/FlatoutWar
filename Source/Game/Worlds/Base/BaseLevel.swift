@@ -313,7 +313,7 @@ extension BaseLevel {
         let jet = EnemyBigJetNode()
         jet.name = "bigjet leader"
         jet.position = self.outsideWorld(jet, angle: genScreenAngle) + CGPoint(y: ±rand(spread))
-        jet.rotateTowards(point: CGPointZero)
+        jet.rotateTowards(point: .Zero)
         self << jet
 
         let dist: CGFloat = 10
@@ -338,7 +338,7 @@ extension BaseLevel {
         let enemyLeader = EnemyLeaderNode()
         let leaderPosition = outsideWorld(enemyLeader, angle: screenAngle)
         enemyLeader.position = leaderPosition
-        enemyLeader.rotateTowards(point: CGPointZero)
+        enemyLeader.rotateTowards(point: .Zero)
         enemyLeader.name = "linear leader"
         self << enemyLeader
 
@@ -360,7 +360,7 @@ extension BaseLevel {
 
         let ghost = generateEnemyGhost(angle: screenAngle, extra: 40)
         ghost.name = "circular ghost"
-        ghost.rotateTowards(point: CGPointZero)
+        ghost.rotateTowards(point: .Zero)
 
         let dist: CGFloat = 30
         var enemies: [Node] = []

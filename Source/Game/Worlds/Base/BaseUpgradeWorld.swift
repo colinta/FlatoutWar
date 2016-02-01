@@ -214,7 +214,7 @@ class BaseUpgradeWorld: World {
                 self.showUpgradesFor(node)
             }
             else {
-                offset = CGPointZero
+                offset = .Zero
                 for (node, dest) in self.upgradeNodes {
                     node.moveToComponent?.target = dest + BigOffset
                 }

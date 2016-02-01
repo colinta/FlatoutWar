@@ -52,7 +52,7 @@ class TextNode: Node {
             }
         }
         var first = true
-        let size = sprites.reduce(CGSizeZero) { size, sprite in
+        let size = sprites.reduce(CGSize.Zero) { size, sprite in
             let width = size.width + sprite.size.width + (first ? 0 : letterSpace)
             let height = max(size.height, sprite.size.height)
             first = false

@@ -23,10 +23,10 @@ class EnemySoldierArtist: Artist {
 
     override func draw(context: CGContext) {
         CGContextSetFillColorWithColor(context, color.CGColor)
-        CGContextSetShadowWithColor(context, CGSizeZero, 5, color.CGColor)
+        CGContextSetShadowWithColor(context, .Zero, 5, color.CGColor)
 
         if health == 1 {
-            CGContextAddRect(context, CGRect(origin: CGPointZero, size: size))
+            CGContextAddRect(context, CGRect(origin: .Zero, size: size))
             CGContextDrawPath(context, .Fill)
         }
         else {
@@ -36,7 +36,7 @@ class EnemySoldierArtist: Artist {
             CGContextDrawPath(context, .Fill)
 
             CGContextSetAlpha(context, 0.25)
-            CGContextAddRect(context, CGRect(origin: CGPointZero, size: size))
+            CGContextAddRect(context, CGRect(origin: .Zero, size: size))
             CGContextDrawPath(context, .Fill)
         }
     }

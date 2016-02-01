@@ -23,7 +23,7 @@ class ShapeArtist: Artist {
 class RectArtist: ShapeArtist {
     override func draw(context: CGContext) {
         super.draw(context)
-        CGContextAddRect(context, CGRect(origin: CGPointZero, size: size))
+        CGContextAddRect(context, CGRect(origin: .Zero, size: size))
         CGContextDrawPath(context, drawingMode)
     }
 }
@@ -31,7 +31,7 @@ class RectArtist: ShapeArtist {
 class CircleArtist: ShapeArtist {
     override func draw(context: CGContext) {
         super.draw(context)
-        CGContextAddEllipseInRect(context, CGRect(origin: CGPointZero, size: size))
+        CGContextAddEllipseInRect(context, CGRect(origin: .Zero, size: size))
         CGContextDrawPath(context, drawingMode)
     }
 }

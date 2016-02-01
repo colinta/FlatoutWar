@@ -55,7 +55,7 @@ class BoxArtist: Artist {
         CGContextSetLineWidth(context, lineWidth)
         CGContextSetStrokeColorWithColor(context, color.CGColor)
         CGContextSetFillColorWithColor(context, color.CGColor)
-        CGContextAddRect(context, CGRect(origin: CGPointZero, size: size))
+        CGContextAddRect(context, CGRect(origin: .Zero, size: size))
         CGContextDrawPath(context, drawingMode)
     }
 

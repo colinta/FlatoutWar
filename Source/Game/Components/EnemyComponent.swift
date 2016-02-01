@@ -20,7 +20,7 @@ class EnemyComponent: Component {
     var currentTarget: Node?
     weak var intersectionNode: SKNode! {
         didSet {
-            if intersectionNode.frame.size == CGSizeZero {
+            if intersectionNode.frame.size == .Zero {
                 fatalError("intersectionNodes should not have zero size")
             }
         }
