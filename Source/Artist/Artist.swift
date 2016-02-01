@@ -33,6 +33,7 @@ class Artist {
         }
     }
     var scale: CGFloat = 1
+    var rotation: CGFloat = 0
     var alpha: CGFloat = 1
 
     enum Shadowed {
@@ -53,6 +54,12 @@ class Artist {
 
         let offset = drawingOffset(scale)
         CGContextTranslateCTM(context, offset.x, offset.y)
+
+        if rotation != 0 {
+            CGContextTranslateCTM(context, size.width / 2, size.height / 2)
+            CGContextRotateCTM(context, rotation)
+            CGContextTranslateCTM(context, -size.width / 2, -size.height / 2)
+        }
         draw(context, scale: scale)
         CGContextRestoreGState(context)
     }
