@@ -128,6 +128,14 @@ class World: Node {
         _onNoMoreEnemies << handler
     }
 
+    func disablePlayers() { setPlayersEnabled(false) }
+    func enablePlayers() { setPlayersEnabled(true) }
+    private func setPlayersEnabled(enabled: Bool) {
+        for player in players {
+            player.frozen = !enabled
+        }
+    }
+
     required init() {
         super.init()
         self.addComponent(timeline)
