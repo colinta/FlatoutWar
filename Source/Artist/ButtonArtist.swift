@@ -7,7 +7,6 @@
 //
 
 enum ButtonStyle {
-    case Octagon
     case Square
     case SquareSized(Int)
     case RectSized(Int, Int)
@@ -46,7 +45,7 @@ class ButtonArtist: TextArtist {
         super.calculateSize()
 
         switch style {
-        case .Octagon, .Square:
+        case .Square:
             self.size.width += 10
             self.size.height += 8
         case .Circle:
@@ -66,20 +65,6 @@ class ButtonArtist: TextArtist {
         CGContextSetStrokeColorWithColor(context, color.CGColor)
 
         switch style {
-        case .Octagon:
-            CGContextMoveToPoint(context, 5, 0)
-            CGContextAddLineToPoint(context, 0, 4)
-            CGContextAddLineToPoint(context, 0, size.height - 4)
-            CGContextAddLineToPoint(context, 3.75, size.height - 1)
-            CGContextAddLineToPoint(context, size.width - 3.75, size.height - 1)
-            CGContextAddLineToPoint(context, 3.75, size.height - 1)
-            CGContextAddLineToPoint(context, 5, size.height)
-            CGContextAddLineToPoint(context, size.width - 5, size.height)
-            CGContextAddLineToPoint(context, size.width, size.height - 4)
-            CGContextAddLineToPoint(context, size.width, 4)
-            CGContextAddLineToPoint(context, size.width - 5, 0)
-            CGContextClosePath(context)
-            CGContextDrawPath(context, .Stroke)
         case .Square, .SquareSized, .RectSized:
             CGContextAddRect(context, CGRect(origin: CGPointZero, size: size))
             CGContextDrawPath(context, .Stroke)
