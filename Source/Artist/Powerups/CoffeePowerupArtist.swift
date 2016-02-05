@@ -13,8 +13,13 @@ class CoffeePowerupArtist: PowerupArtist {
         let bigR: CGFloat = 10
         let smallR: CGFloat = 3
         let mugHeight: CGFloat = size.height * 0.6
+        let handleHeight = mugHeight * 0.8
+        let handleThickness: CGFloat = 3
+        let handleWidth: CGFloat = 8
+        let handleLeft: CGFloat = 2
+        let handleUp: CGFloat = 3
 
-        CGContextTranslateCTM(context, size.width - bigR * 2, size.height - mugHeight / 2 - smallR)
+        CGContextTranslateCTM(context, bigR + handleWidth / 2, size.height - mugHeight / 2 - smallR)
         CGContextMoveToPoint(context, -bigR, mugHeight / 2)
         CGContextAddLineToPoint(context, -bigR, -mugHeight / 2)
 
@@ -55,11 +60,7 @@ class CoffeePowerupArtist: PowerupArtist {
             CGContextRestoreGState(context)
         }
 
-        let handleHeight = mugHeight * 0.8
-        let handleThickness: CGFloat = 3
-        let handleWidth: CGFloat = 8
-        let handleLeft: CGFloat = 2
-        let handleUp: CGFloat = 3
+        // mug handle
         CGContextTranslateCTM(context, bigR - handleLeft, 0)
         for pathFill in [true, false] {
             CGContextMoveToPoint(context, 0, -handleHeight / 2 + handleUp)

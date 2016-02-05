@@ -48,8 +48,8 @@ class RammingComponent: Component {
         super.encodeWithCoder(encoder)
     }
 
-    func bindTo(enemyComponent enemyComponent: EnemyComponent) {
-        enemyComponent.onTargetAcquired { target in
+    func bindTo(targetingComponent targetingComponent: PlayerTargetingComponent) {
+        targetingComponent.onTargetAcquired { target in
             self.currentTarget = target
         }
     }
@@ -92,14 +92,22 @@ class RammingComponent: Component {
         // component (to prevent multiple ramming events)
         let struckTarget = self.struckTarget()
         if let struckTarget = struckTarget {
-            for handler in _onRammed {
-                handler()
-            }
+            let enemyDamage = min(struckTarget.healthComponent?.health ?? 0, node.healthComponent?.health ?? 0)
+
             if damage > 0 {
                 struckTarget.healthComponent?.inflict(damage)
             }
-            removeFromNode()
-            return
+
+            switch struckTarget.playerComponent!.rammedBehavior {
+            case .Damaged:
+                for handler in _onRammed {
+                    handler()
+                }
+                removeFromNode()
+                return
+            case .Attacks:
+                node.healthComponent?.inflict(enemyDamage)
+            }
         }
 
         if let targetLocation = currentTargetLocation {

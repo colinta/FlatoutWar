@@ -118,6 +118,8 @@ extension ImageIdentifier {
             return artist
         case let .Powerup(type):
             return type.artist()
+        case .NoPowerup:
+            return NoPowerupArtist()
         case let .Percent(percent, style):
             let artist = PercentArtist(style: style)
             artist.complete = CGFloat(percent) / 100

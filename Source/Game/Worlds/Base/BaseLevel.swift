@@ -118,6 +118,19 @@ class BaseLevel: Level {
 
 extension BaseLevel {
 
+    func chosePowerup(powerup: Powerup?, start: CGPoint, button: Node, buttons: [Node]) {
+        self.enablePlayers()
+        self.powerup = powerup
+        if let powerup = powerup {
+            powerup.addToLevel(self, start: start, dest: .TopLeft(x: 20, y: -20))
+        }
+        self.beginLevel(delay: false)
+
+        for node in buttons {
+            node.fadeTo(0, duration: 0.3, removeNode: true)
+        }
+    }
+
     func beginPowerups() {
         disablePlayers()
         var availablePowerups = config.availablePowerups
@@ -128,27 +141,31 @@ extension BaseLevel {
                 availablePowerups.remove(powerup)
             }
         }
+        powerups[0] = DecoyPowerup()
 
         var buttons: [Node] = []
-        for (index, powerup) in powerups.enumerate() {
+        for powerup in powerups {
+            let (button, icon) = powerup.button()
+            buttons << button
+
+            button.onTapped(.Disable).onTapped {
+                self.chosePowerup(powerup, start: button.position + icon.position, button: button, buttons: buttons)
+            }
+        }
+
+        let (noPowerup, _) = Powerup.generateButton("NONE", icon: SKSpriteNode(id: .NoPowerup))
+        buttons << noPowerup
+        noPowerup.onTapped(.Disable).onTapped {
+            self.chosePowerup(nil, start: CGPoint.Zero, button: noPowerup, buttons: buttons)
+        }
+
+        for (index, button) in buttons.enumerate() {
             let start: Position = .Left(
                 x: -150,
                 y: 80 - CGFloat(index) * 80
             )
-            let button = powerup.button(at: start)
+            button.fixedPosition = start
             ui << button
-            buttons << button
-
-            button.onTapped {
-                self.enablePlayers()
-                self.powerup = powerup
-                powerup.addToLevel(self, start: button.position, dest: CGPoint(-260, 140))
-                self.beginLevel(delay: false)
-
-                for node in buttons {
-                    node.fadeTo(0, duration: 0.3, removeNode: true)
-                }
-            }
         }
 
         timeline.after(1.75) {
@@ -191,6 +208,8 @@ extension BaseLevel {
         }
 
         super.levelCompleted(success: success)
+
+        powerup?.levelCompleted(success: success)
 
         let finalTimeline = TimelineComponent()
         addComponent(finalTimeline)
@@ -461,7 +480,7 @@ extension BaseLevel {
             enemies << enemy
         }
 
-       ghost.enemyComponent!.onTargetAcquired { target in
+       ghost.playerTargetingComponent!.onTargetAcquired { target in
            if let target = target {
                for enemy in enemies {
                    enemy.rotateTowards(target)
@@ -488,9 +507,8 @@ extension BaseLevel {
         let sprite = SKNode.size(EnemySoldierNode().size)
         enemyGhost << sprite
         enemyGhost.name = "ghost"
-        let enemyComponent = EnemyComponent()
-        enemyComponent.targetable = false
-        enemyGhost.addComponent(enemyComponent)
+        let targetingComponent = PlayerTargetingComponent()
+        enemyGhost.addComponent(targetingComponent)
 
         let rammingComponent = RammingComponent()
         rammingComponent.intersectionNode = sprite
@@ -499,7 +517,7 @@ extension BaseLevel {
         }
 
         enemyGhost.addComponent(rammingComponent)
-        rammingComponent.bindTo(enemyComponent: enemyComponent)
+        rammingComponent.bindTo(targetingComponent: targetingComponent)
         self << enemyGhost
 
         return enemyGhost

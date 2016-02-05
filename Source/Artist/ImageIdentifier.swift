@@ -52,6 +52,7 @@ enum ImageIdentifier {
 
     case Cursor
     case Powerup(type: PowerupType)
+    case NoPowerup
 
     case Drone(upgrade: FiveUpgrades, health: Int)
 
@@ -125,6 +126,8 @@ enum ImageIdentifier {
             return "Cursor"
         case let .Powerup(type):
             return "Powerup-type_\(type)"
+        case .NoPowerup:
+            return "NoPowerup"
         case let .Drone(upgrade, health):
             return "Drone-upgrade_\(upgrade.name)-health_\(health)"
         case let .Base(upgrade, health):

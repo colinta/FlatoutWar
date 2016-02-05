@@ -7,6 +7,10 @@
 //
 
 class Button: TextNode {
+    enum ButtonBehavior {
+        case Disable
+    }
+
     var style: ButtonStyle = .None {
         didSet { updateButtonStyle() }
     }
@@ -14,16 +18,31 @@ class Button: TextNode {
     var margins: UIEdgeInsets = UIEdgeInsetsZero
 
     private var buttonStyleNode: SKSpriteNode!
+    private var alphaOverride = true
+    override var alpha: CGFloat {
+        didSet {
+            alphaOverride = false
+        }
+    }
     var enabled = true {
         didSet {
-            alpha = enabled ? 1 : 0.25
+            if alphaOverride {
+                alpha = enabled ? 1 : 0.25
+            }
         }
     }
 
+    func onTapped(behavior: ButtonBehavior) -> Self {
+        onTapped {
+            self.touchableComponent?.enabled = false
+        }
+        return self
+    }
+
     typealias OnTapped = Block
-    var _onTapped: OnTapped?
-    func onTapped(handler: OnTapped) { _onTapped = handler }
-    func offTapped() { _onTapped = nil }
+    var _onTapped: [OnTapped] = []
+    func onTapped(handler: OnTapped) { _onTapped  << handler }
+    func offTapped() { _onTapped = [] }
 
     override func setScale(scale: CGFloat) {
         preferredScale = scale
@@ -32,7 +51,7 @@ class Button: TextNode {
 
     override func reset() {
         super.reset()
-        _onTapped = nil
+        _onTapped = []
     }
 
     required init() {
@@ -52,7 +71,9 @@ class Button: TextNode {
             self.unhighlight()
         }
         touchableComponent.on(.UpInside) { _ in
-            self._onTapped?()
+            for handler in self._onTapped {
+                handler()
+            }
         }
         addComponent(touchableComponent)
     }

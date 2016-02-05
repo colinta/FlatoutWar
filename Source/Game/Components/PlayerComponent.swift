@@ -6,11 +6,14 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-protocol PlayerNode: class {
-}
-
 class PlayerComponent: Component {
+    enum Rammed {
+        case Damaged
+        case Attacks
+    }
+
     var targetable: Bool = true
+    var rammedBehavior: Rammed = .Damaged
     weak var intersectionNode: SKNode! {
         didSet {
             if intersectionNode.frame.size == .Zero {

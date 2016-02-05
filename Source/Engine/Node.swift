@@ -46,10 +46,10 @@ class Node: SKNode {
     var components: [Component] = []
     var world: World? { return (scene as? WorldScene)?.world }
     var isEnemy: Bool {
-        return self is EnemyNode
+        return self.enemyComponent != nil
     }
     var isPlayer: Bool {
-        return self is PlayerNode
+        return self.playerComponent != nil
     }
     var isProjectile: Bool { return projectileComponent != nil }
 
@@ -62,29 +62,6 @@ class Node: SKNode {
             component.reset()
         }
         _onDeath = []
-    }
-
-    func update(dt: CGFloat) {
-    }
-
-    override func removeFromParent() {
-        if let world = world {
-            world.willRemove(self)
-            for handler in _onDeath {
-                handler()
-            }
-            reset()
-        }
-        super.removeFromParent()
-    }
-
-    func allChildNodes() -> [Node] {
-        let nodes = children.filter { sknode in
-            return sknode is Node
-        } as! [Node]
-        return nodes + nodes.flatMap { childNode in
-            childNode.allChildNodes()
-        }
     }
 
     weak var draggableComponent: DraggableComponent?
@@ -100,6 +77,7 @@ class Node: SKNode {
     weak var moveToComponent: MoveToComponent?
     weak var phaseComponent: PhaseComponent?
     weak var playerComponent: PlayerComponent?
+    weak var playerTargetingComponent: PlayerTargetingComponent?
     weak var projectileComponent: ProjectileComponent?
     weak var rammingComponent: RammingComponent?
     weak var rotateToComponent: RotateToComponent?
@@ -143,6 +121,29 @@ class Node: SKNode {
         encoder.encode(size, key: "size")
         encoder.encode(z.rawValue, key: "z")
         super.encodeWithCoder(encoder)
+    }
+
+    func update(dt: CGFloat) {
+    }
+
+    override func removeFromParent() {
+        if let world = world {
+            world.willRemove(self)
+            for handler in _onDeath {
+                handler()
+            }
+            reset()
+        }
+        super.removeFromParent()
+    }
+
+    func allChildNodes() -> [Node] {
+        let nodes = children.filter { sknode in
+            return sknode is Node
+        } as! [Node]
+        return nodes + nodes.flatMap { childNode in
+            childNode.allChildNodes()
+        }
     }
 
     func applyUpgrade(type: UpgradeType) {
@@ -228,6 +229,7 @@ extension Node {
         else if let component = component as? MoveToComponent { moveToComponent = component }
         else if let component = component as? PhaseComponent { phaseComponent = component }
         else if let component = component as? PlayerComponent { playerComponent = component }
+        else if let component = component as? PlayerTargetingComponent { playerTargetingComponent = component }
         else if let component = component as? ProjectileComponent { projectileComponent = component }
         else if let component = component as? RammingComponent {
             rammingComponent = component
@@ -257,6 +259,7 @@ extension Node {
             else if component == moveToComponent { moveToComponent = nil }
             else if component == phaseComponent { phaseComponent = nil }
             else if component == playerComponent { playerComponent = nil }
+            else if component == playerTargetingComponent { playerTargetingComponent = nil }
             else if component == projectileComponent { projectileComponent = nil }
             else if component == rammingComponent {
                 rammingComponent = nil
@@ -287,6 +290,7 @@ extension Node {
             else if let component = component as? MoveToComponent { moveToComponent = component }
             else if let component = component as? PhaseComponent { phaseComponent = component }
             else if let component = component as? PlayerComponent { playerComponent = component }
+            else if let component = component as? PlayerTargetingComponent { playerTargetingComponent = component }
             else if let component = component as? ProjectileComponent { projectileComponent = component }
             else if let component = component as? RammingComponent {
                 rammingComponent = component

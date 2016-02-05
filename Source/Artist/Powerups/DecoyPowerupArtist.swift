@@ -10,14 +10,14 @@ class DecoyPowerupArtist: PowerupArtist {
     override func draw(context: CGContext) {
         super.draw(context)
 
+        let scaleDown: CGFloat = 0.75
         CGContextTranslateCTM(context, middle.x, middle.y)
+        CGContextScaleCTM(context, scaleDown, scaleDown)
+        CGContextRotateCTM(context, -45.degrees)
 
-        CGContextScaleCTM(context, 0.75, 0.75)
-        let playerSize = CGSize(40)
+        let playerSize = CGSize(size.width / scaleDown)
         CGContextAddEllipseInRect(context, CGPoint.Zero.rectWithSize(playerSize))
         CGContextDrawPath(context, .FillStroke)
-
-        CGContextRotateCTM(context, -45.degrees)
 
         let bigR: CGFloat = 5
         let smallR: CGFloat = 3.5

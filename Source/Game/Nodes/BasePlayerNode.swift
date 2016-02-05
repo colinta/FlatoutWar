@@ -13,7 +13,7 @@ private let ForceFireCooldown: CGFloat = 0.14
 private let ForceFireBurnoutUp: CGFloat = 6
 private let ForceFireBurnoutDown: CGFloat = 4
 
-class BasePlayerNode: Node, PlayerNode {
+class BasePlayerNode: Node {
     var forceFireEnabled: Bool?
     var forceFireBurnout = false
     var baseUpgrade: FiveUpgrades = .One {
@@ -290,6 +290,7 @@ extension BasePlayerNode {
         }
         let bullet = BulletNode(velocity: CGPoint(r: velocity, a: angle), style: style)
         bullet.position = self.position
+        bullet.timeRate = self.timeRate
 
         bullet.damage = turretUpgrade.turretBulletDamage
         bullet.size = BaseTurretBulletArtist.bulletSize(.One)

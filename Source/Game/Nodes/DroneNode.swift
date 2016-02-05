@@ -8,7 +8,7 @@
 
 private let startingHealth: Float = 40
 
-class DroneNode: Node, DraggableNode, PlayerNode {
+class DroneNode: Node, DraggableNode {
     static let DefaultSpeed: CGFloat = 30
 
     var upgrade: FiveUpgrades = .One {

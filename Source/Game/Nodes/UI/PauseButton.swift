@@ -13,7 +13,9 @@ class PauseButton: Button {
 
         touchableComponent?.off(.UpInside)
         touchableComponent?.on(.Down) { _ in
-            self._onTapped?()
+            for handler in self._onTapped {
+                handler()
+            }
         }
     }
 

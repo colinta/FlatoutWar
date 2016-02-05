@@ -8,7 +8,7 @@
 
 private let startingHealth: Float = 2
 
-class EnemySoldierNode: Node, EnemyNode {
+class EnemySoldierNode: Node {
     static let DefaultSoldierSpeed: CGFloat = 25
     var sprite: SKSpriteNode!
 
@@ -39,16 +39,19 @@ class EnemySoldierNode: Node, EnemyNode {
                 self.healthComponent?.inflict(damage)
             }
         }
-        enemyComponent.onTargetAcquired { target in
+        addComponent(enemyComponent)
+
+        let targetingComponent = PlayerTargetingComponent()
+        targetingComponent.onTargetAcquired { target in
             if let target = target {
                 self.rotateTowards(target)
             }
         }
-        addComponent(enemyComponent)
+        addComponent(targetingComponent)
 
         let rammingComponent = RammingComponent()
         rammingComponent.intersectionNode = sprite
-        rammingComponent.bindTo(enemyComponent: enemyComponent)
+        rammingComponent.bindTo(targetingComponent: targetingComponent)
         rammingComponent.maxSpeed = EnemySoldierNode.DefaultSoldierSpeed
         rammingComponent.onRammed {
             self.generateRammingExplosion()
@@ -139,7 +142,7 @@ extension EnemySoldierNode {
     func follow(leader: Node, scatter: Bool = true, component: FollowComponent? = nil) {
         let followComponent = component ?? self.followComponent ?? FollowNodeComponent()
 
-        enemyComponent?.targetingEnabled = false
+        playerTargetingComponent?.targetingEnabled = false
         rammingComponent?.currentTarget = nil
 
         followComponent.follow = leader
@@ -151,8 +154,8 @@ extension EnemySoldierNode {
             if let wSelf = self {
                 wSelf.rammingComponent?.currentSpeed = leader.rammingComponent?.currentSpeed ?? 0
                 wSelf.rammingComponent?.currentTarget = leader.rammingComponent?.currentTarget
-                wSelf.enemyComponent?.currentTarget = leader.enemyComponent?.currentTarget
-                wSelf.enemyComponent?.targetingEnabled = true
+                wSelf.playerTargetingComponent?.currentTarget = leader.playerTargetingComponent?.currentTarget
+                wSelf.playerTargetingComponent?.targetingEnabled = true
                 wSelf.followComponent?.removeFromNode()
             }
         }

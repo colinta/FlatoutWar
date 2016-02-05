@@ -6,6 +6,8 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
+private let PowerupYOffset: CGFloat = 40
+
 class Powerup {
     enum Weight: Float {
         case Common = 10
@@ -29,29 +31,87 @@ class Powerup {
 
     var weight: Weight { return .Common }
     var name: String { return "" }
+    var count: Int { return 1 }
+    var powerupType: ImageIdentifier.PowerupType? { return .None }
 
-    func button(at position: Position) -> Button {
-        let button = Button(fixed: position)
+    var powerupButtons: [Button] = []
+    var powerupEnabled = true
+
+    weak var level: BaseLevel?
+    weak var playerNode: Node? { return level?.playerNode }
+
+    static func generateButton(name: String, icon: SKSpriteNode) -> (Button, SKNode) {
+        let button = Button()
         button.text = name
         button.alignment = .Left
 
-        let icon = buttonIcon()
         icon.position = CGPoint(x: -icon.size.width / 2 - 4)
         button.margins.left = icon.size.width
         button << icon
 
-        return button
+        return (button, icon)
+    }
+
+    func button() -> (Button, SKNode) {
+        return Powerup.generateButton(name, icon: buttonIcon())
     }
 
     func buttonIcon() -> SKSpriteNode {
+        if let powerupType = powerupType {
+            return SKSpriteNode(id: .Powerup(type: powerupType))
+        }
         return SKSpriteNode(id: .None)
     }
 
-    func addToLevel(level: Node, start: CGPoint, dest: CGPoint) {
-        let button = Button(at: start)
-        button << buttonIcon()
-        button.moveTo(dest, duration: 1)
-        level << button
+    func addToLevel(level: BaseLevel, start: CGPoint, dest: Position) {
+        self.level = level
+
+        var alpha: CGFloat = 1
+        var offset: CGFloat = 0
+        var enabled = true
+        count.times {
+            let button = Button(at: start)
+            button.alpha = alpha
+            button.enabled = enabled
+            button << buttonIcon()
+            level.ui << button
+            button.onTapped(.Disable).onTapped(self.checkPowerupAvailability)
+            powerupButtons << button
+
+            button.moveTo(dest + CGPoint(y: offset), duration: 1)
+            enabled = false
+            alpha = 0.5
+            offset -= PowerupYOffset
+        }
+    }
+
+    func checkPowerupAvailability() {
+        guard powerupEnabled else { return }
+
+        if let button = powerupButtons.first {
+            button.fadeTo(0, duration: 1, removeNode: true)
+            powerupButtons.removeAtIndex(0)
+            activate()
+        }
+    }
+
+    func activate() {
+        var alpha: CGFloat = 1
+        var enabled = true
+        let duration: CGFloat = 0.3
+        for button in powerupButtons {
+            let newPosition = button.position + CGPoint(y: PowerupYOffset)
+            button.enabled = enabled
+
+            button.moveTo(newPosition, duration: duration)
+            button.fadeTo(alpha, duration: duration)
+            alpha = 0.5
+            enabled = false
+        }
+    }
+
+    func levelCompleted(success success: Bool) {
+        powerupEnabled = false
     }
 
 }
@@ -63,37 +123,68 @@ func ==(lhs: Powerup, rhs: Powerup) -> Bool {
 
 class DecoyPowerup: Powerup {
     override var name: String { return "DECOY" }
+    override var count: Int { return 3 }
+    override var powerupType: ImageIdentifier.PowerupType? { return .Decoy }
 
     required override init() {
         super.init()
     }
 
-    override func buttonIcon() -> SKSpriteNode {
-        return SKSpriteNode(id: .Powerup(type: .Decoy))
+    override func activate() {
+        super.activate()
+        powerupEnabled = false
+
+        if let level = level {
+            let decoy = BaseDecoyNode(at: level.playerNode.position)
+            decoy.alpha = 0
+            level << decoy
+
+            let prevDefault = level.defaultNode
+            level.defaultNode = decoy
+
+            let touchComponent = TouchableComponent()
+            touchComponent.on(.Down) { location in
+                let position = decoy.convertPoint(location, toNode: level)
+                decoy.moveTo(position, duration: 1)
+                decoy.fadeTo(1, duration: 1)
+                level.defaultNode = prevDefault
+
+                level << EnemyExplosionNode(at: position)
+
+                self.powerupEnabled = true
+            }
+            decoy.addComponent(touchComponent)
+        }
+
     }
 
 }
 
 class MinesPowerup: Powerup {
     override var name: String { return "MINES" }
+    override var powerupType: ImageIdentifier.PowerupType? { return .Mines }
+
     required override init() {
         super.init()
     }
 
-    override func buttonIcon() -> SKSpriteNode {
-        return SKSpriteNode(id: .Powerup(type: .Mines))
+    override func activate() {
+        super.activate()
     }
 
 }
 
 class GrenadesPowerup: Powerup {
     override var name: String { return "GRENADES" }
+    override var count: Int { return 3 }
+    override var powerupType: ImageIdentifier.PowerupType? { return .Grenades }
+
     required override init() {
         super.init()
     }
 
-    override func buttonIcon() -> SKSpriteNode {
-        return SKSpriteNode(id: .Powerup(type: .Grenades))
+    override func activate() {
+        super.activate()
     }
 
 }
@@ -101,37 +192,43 @@ class GrenadesPowerup: Powerup {
 class BomberPowerup: Powerup {
     override var name: String { return "BOMBER" }
     override var weight: Weight { return .Rare }
+    override var powerupType: ImageIdentifier.PowerupType? { return .Bomber }
 
     required override init() {
         super.init()
     }
 
-    override func buttonIcon() -> SKSpriteNode {
-        return SKSpriteNode(id: .Powerup(type: .Bomber))
+    override func activate() {
+        super.activate()
     }
 
 }
 
 class ShieldPowerup: Powerup {
     override var name: String { return "SHIELD" }
+    override var powerupType: ImageIdentifier.PowerupType? { return .Shield }
+
     required override init() {
         super.init()
     }
 
-    override func buttonIcon() -> SKSpriteNode {
-        return SKSpriteNode(id: .Powerup(type: .Shield))
+    override func activate() {
+        super.activate()
     }
 
 }
 
 class SoldiersPowerup: Powerup {
     override var name: String { return "SOLDIERS" }
+    override var count: Int { return 3 }
+    override var powerupType: ImageIdentifier.PowerupType? { return .Soldiers }
+
     required override init() {
         super.init()
     }
 
-    override func buttonIcon() -> SKSpriteNode {
-        return SKSpriteNode(id: .Powerup(type: .Soldiers))
+    override func activate() {
+        super.activate()
     }
 
 }
@@ -139,25 +236,30 @@ class SoldiersPowerup: Powerup {
 class HourglassPowerup: Powerup {
     override var name: String { return "HOURGLASS" }
     override var weight: Weight { return .Special }
+    override var count: Int { return 2 }
+    override var powerupType: ImageIdentifier.PowerupType? { return .Hourglass }
 
     required override init() {
         super.init()
     }
 
-    override func buttonIcon() -> SKSpriteNode {
-        return SKSpriteNode(id: .Powerup(type: .Hourglass))
+    override func activate() {
+        super.activate()
     }
 
 }
 
 class PulsePowerup: Powerup {
     override var name: String { return "PULSE" }
+    override var count: Int { return 3 }
+    override var powerupType: ImageIdentifier.PowerupType? { return .Pulse }
+
     required override init() {
         super.init()
     }
 
-    override func buttonIcon() -> SKSpriteNode {
-        return SKSpriteNode(id: .Powerup(type: .Pulse))
+    override func activate() {
+        super.activate()
     }
 
 }
@@ -165,25 +267,30 @@ class PulsePowerup: Powerup {
 class LaserPowerup: Powerup {
     override var name: String { return "LASER" }
     override var weight: Weight { return .Special }
+    override var count: Int { return 2 }
+    override var powerupType: ImageIdentifier.PowerupType? { return .Laser }
 
     required override init() {
         super.init()
     }
 
-    override func buttonIcon() -> SKSpriteNode {
-        return SKSpriteNode(id: .Powerup(type: .Laser))
+    override func activate() {
+        super.activate()
     }
 
 }
 
 class NetPowerup: Powerup {
     override var name: String { return "NET" }
+    override var count: Int { return 5 }
+    override var powerupType: ImageIdentifier.PowerupType? { return .Net }
+
     required override init() {
         super.init()
     }
 
-    override func buttonIcon() -> SKSpriteNode {
-        return SKSpriteNode(id: .Powerup(type: .Net))
+    override func activate() {
+        super.activate()
     }
 
 }
@@ -191,13 +298,33 @@ class NetPowerup: Powerup {
 class CoffeePowerup: Powerup {
     override var name: String { return "COFFEE" }
     override var weight: Weight { return .Rare }
+    override var count: Int { return 2 }
+    override var powerupType: ImageIdentifier.PowerupType? { return .Coffee }
+
+    static let CoffeeTimeout: CGFloat = 10
 
     required override init() {
         super.init()
     }
 
-    override func buttonIcon() -> SKSpriteNode {
-        return SKSpriteNode(id: .Powerup(type: .Coffee))
+    override func activate() {
+        super.activate()
+
+        powerupEnabled = false
+        playerNode?.timeRate = 3
+        level?.timeline.after(CoffeePowerup.CoffeeTimeout) {
+            self.caffeineWithdrawal()
+        }
+    }
+
+    override func levelCompleted(success success: Bool) {
+        super.levelCompleted(success: success)
+        caffeineWithdrawal()
+    }
+
+    func caffeineWithdrawal() {
+        playerNode?.timeRate = 1
+        powerupEnabled = true
     }
 
 }

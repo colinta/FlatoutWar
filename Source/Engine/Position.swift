@@ -42,3 +42,27 @@ enum Position {
         }
     }
 }
+
+
+func +(lhs: Position, rhs: CGPoint) -> Position {
+    switch lhs {
+    case let .TopLeft(x, y):
+        return .TopLeft(x: x + rhs.x, y: y + rhs.y)
+    case let .Top(x, y):
+        return .Top(x: x + rhs.x, y: y + rhs.y)
+    case let .TopRight(x, y):
+        return .TopRight(x: x + rhs.x, y: y + rhs.y)
+    case let .Left(x, y):
+        return .Left(x: x + rhs.x, y: y + rhs.y)
+    case let .Center(x, y):
+        return .Center(x: x + rhs.x, y: y + rhs.y)
+    case let .Right(x, y):
+        return .Right(x: x + rhs.x, y: y + rhs.y)
+    case let .BottomLeft(x, y):
+        return .BottomLeft(x: x + rhs.x, y: y + rhs.y)
+    case let .Bottom(x, y):
+        return .Bottom(x: x + rhs.x, y: y + rhs.y)
+    case let .BottomRight(x, y):
+        return .BottomRight(x: x + rhs.x, y: y + rhs.y)
+    }
+}

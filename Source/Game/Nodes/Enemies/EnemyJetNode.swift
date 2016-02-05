@@ -16,7 +16,7 @@ class EnemyJetNode: EnemySoldierNode {
         size = CGSize(8)
 
         rammingComponent!.removeFromNode()
-        enemyComponent!.onTargetAcquired { target in
+        playerTargetingComponent!.onTargetAcquired { target in
             if let target = target {
                 self.rotateTowards(target)
             }
@@ -24,7 +24,7 @@ class EnemyJetNode: EnemySoldierNode {
 
         let flyingComponent = FlyingComponent()
         flyingComponent.intersectionNode = sprite
-        flyingComponent.bindTo(enemyComponent: enemyComponent!)
+        flyingComponent.bindTo(targetingComponent: playerTargetingComponent!)
         flyingComponent.maxSpeed = EnemyJetNode.DefaultJetSpeed
         flyingComponent.maxTurningSpeed = EnemyJetNode.DefaultJetSpeed
         flyingComponent.onRammed {

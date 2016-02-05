@@ -9,10 +9,6 @@
 class MoveToComponent: ApplyToNodeComponent {
     var target: CGPoint? {
         didSet {
-            if node != nil {
-                currentPosition = node.position
-            }
-
             if _duration != nil && target != nil {
                 _speed = nil
             }
@@ -35,7 +31,7 @@ class MoveToComponent: ApplyToNodeComponent {
         }
     }
 
-    private var currentPosition: CGPoint?
+    private var currentPosition: CGPoint { return node.position }
 
     typealias OnArrived = () -> Void
     private var _onArrived: [OnArrived] = []
@@ -60,11 +56,6 @@ class MoveToComponent: ApplyToNodeComponent {
         }
     }
 
-    override func defaultApplyTo() {
-        super.defaultApplyTo()
-        currentPosition = node.position
-    }
-
     override func reset() {
         super.reset()
         _onArrived = []
@@ -72,7 +63,6 @@ class MoveToComponent: ApplyToNodeComponent {
 
     override func update(dt: CGFloat) {
         guard let target = target else { return }
-        guard let currentPosition = currentPosition else { return }
 
         let speed: CGFloat
         if let _speed = _speed {
@@ -99,7 +89,6 @@ class MoveToComponent: ApplyToNodeComponent {
             let vector = CGPoint(r: speed, a: destAngle)
             newPosition = currentPosition + dt * vector
         }
-        self.currentPosition = newPosition
 
         guard let applyTo = applyTo else { return }
         applyTo.position = newPosition
@@ -109,14 +98,14 @@ class MoveToComponent: ApplyToNodeComponent {
 
 extension Node {
     func moveTo(dest: Position, duration: CGFloat? = nil, speed: CGFloat? = nil) -> MoveToComponent {
-        let screenSize = world?.screenSize ?? CGSize.Zero
+        let screenSize = world!.screenSize
         let position = dest.positionIn(screenSize: screenSize)
-        return moveTo(position, duration: duration, speed: speed)
+        let moveTo = self.moveTo(position, duration: duration, speed: speed)
+        return moveTo
     }
 
     func moveTo(dest: CGPoint, duration: CGFloat? = nil, speed: CGFloat? = nil) -> MoveToComponent {
         let moveTo = moveToComponent ?? MoveToComponent()
-        moveTo.currentPosition = position
         moveTo.target = dest
         moveTo.duration = duration
         moveTo.speed = speed

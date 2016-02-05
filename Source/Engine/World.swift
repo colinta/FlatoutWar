@@ -13,7 +13,7 @@ class World: Node {
         }
     }
     var cameraNode: Node?
-    var ui = Node()
+    var ui = UINode()
     var timeline = TimelineComponent()
 
     func outsideWorld(angle angle: CGFloat) -> CGPoint {
@@ -206,7 +206,7 @@ extension World {
 
 extension World {
 
-    // called by addChild
+    // also called by addChild
     override func insertChild(node: SKNode, atIndex index: Int) {
         super.insertChild(node, atIndex: index)
         if let node = node as? Node {
@@ -232,7 +232,7 @@ extension World {
     func reacquirePlayerTargets() {
         for enemy in enemies {
             enemy.rammingComponent?.currentTarget = nil
-            enemy.enemyComponent?.currentTarget = nil
+            enemy.playerTargetingComponent?.currentTarget = nil
         }
     }
 
