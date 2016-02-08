@@ -116,9 +116,12 @@ extension Artist.Shadowed: BooleanType {
 
 extension Artist {
     class func generate(id: ImageIdentifier, scale: Scale = .Normal) -> UIImage {
-        let cacheName = "\(id.name)-zoom_\(scale.name)"
-        if let cached = generatedImages[cacheName] {
-            return cached
+        var cacheName: String?
+        if let name = id.name {
+            cacheName = "\(name)-zoom_\(scale.name)"
+            if let cached = generatedImages[cacheName!] {
+                return cached
+            }
         }
 
         let artist = id.artist
@@ -131,7 +134,9 @@ extension Artist {
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
 
-        generatedImages[cacheName] = image
+        if let cacheName = cacheName {
+            generatedImages[cacheName] = image
+        }
         return image
     }
 }

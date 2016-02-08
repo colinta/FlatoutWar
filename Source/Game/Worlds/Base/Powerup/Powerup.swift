@@ -110,6 +110,28 @@ class Powerup {
         }
     }
 
+    func onNextTap(onTap: (CGPoint) -> Void) {
+        if let level = level {
+            let tapNode = Node()
+            level << tapNode
+            powerupEnabled = false
+
+            let prevDefault = level.defaultNode
+            level.defaultNode = tapNode
+
+            let touchComponent = TouchableComponent()
+            touchComponent.on(.Down) { location in
+                level.defaultNode = prevDefault
+                self.powerupEnabled = true
+
+                let position = tapNode.convertPoint(location, toNode: level)
+                onTap(position)
+                tapNode.removeFromParent()
+            }
+            tapNode.addComponent(touchComponent)
+        }
+    }
+
     func levelCompleted(success success: Bool) {
         powerupEnabled = false
     }
@@ -119,45 +141,6 @@ class Powerup {
 extension Powerup: Equatable {}
 func ==(lhs: Powerup, rhs: Powerup) -> Bool {
     return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
-}
-
-class DecoyPowerup: Powerup {
-    override var name: String { return "DECOY" }
-    override var count: Int { return 3 }
-    override var powerupType: ImageIdentifier.PowerupType? { return .Decoy }
-
-    required override init() {
-        super.init()
-    }
-
-    override func activate() {
-        super.activate()
-        powerupEnabled = false
-
-        if let level = level {
-            let decoy = BaseDecoyNode(at: level.playerNode.position)
-            decoy.alpha = 0
-            level << decoy
-
-            let prevDefault = level.defaultNode
-            level.defaultNode = decoy
-
-            let touchComponent = TouchableComponent()
-            touchComponent.on(.Down) { location in
-                let position = decoy.convertPoint(location, toNode: level)
-                decoy.moveTo(position, duration: 1)
-                decoy.fadeTo(1, duration: 1)
-                level.defaultNode = prevDefault
-
-                level << EnemyExplosionNode(at: position)
-
-                self.powerupEnabled = true
-            }
-            decoy.addComponent(touchComponent)
-        }
-
-    }
-
 }
 
 class MinesPowerup: Powerup {
@@ -178,21 +161,6 @@ class GrenadesPowerup: Powerup {
     override var name: String { return "GRENADES" }
     override var count: Int { return 3 }
     override var powerupType: ImageIdentifier.PowerupType? { return .Grenades }
-
-    required override init() {
-        super.init()
-    }
-
-    override func activate() {
-        super.activate()
-    }
-
-}
-
-class BomberPowerup: Powerup {
-    override var name: String { return "BOMBER" }
-    override var weight: Weight { return .Rare }
-    override var powerupType: ImageIdentifier.PowerupType? { return .Bomber }
 
     required override init() {
         super.init()
@@ -291,40 +259,6 @@ class NetPowerup: Powerup {
 
     override func activate() {
         super.activate()
-    }
-
-}
-
-class CoffeePowerup: Powerup {
-    override var name: String { return "COFFEE" }
-    override var weight: Weight { return .Rare }
-    override var count: Int { return 2 }
-    override var powerupType: ImageIdentifier.PowerupType? { return .Coffee }
-
-    static let CoffeeTimeout: CGFloat = 10
-
-    required override init() {
-        super.init()
-    }
-
-    override func activate() {
-        super.activate()
-
-        powerupEnabled = false
-        playerNode?.timeRate = 3
-        level?.timeline.after(CoffeePowerup.CoffeeTimeout) {
-            self.caffeineWithdrawal()
-        }
-    }
-
-    override func levelCompleted(success success: Bool) {
-        super.levelCompleted(success: success)
-        caffeineWithdrawal()
-    }
-
-    func caffeineWithdrawal() {
-        playerNode?.timeRate = 1
-        powerupEnabled = true
     }
 
 }

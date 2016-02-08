@@ -14,7 +14,7 @@ class WorldController: UIViewController {
         self.worldView = view
         self.view = worldView
 
-        view.presentWorld(BaseLevel5())
+        view.presentWorld(Playground())
 
         view.showsFPS = true
         view.showsNodeCount = true

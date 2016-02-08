@@ -120,6 +120,8 @@ extension ImageIdentifier {
             return type.artist()
         case .NoPowerup:
             return NoPowerupArtist()
+        case let .Bomber(numBombs):
+            return BomberArtist(numBombs: numBombs)
         case let .Percent(percent, style):
             let artist = PercentArtist(style: style)
             artist.complete = CGFloat(percent) / 100
@@ -156,26 +158,30 @@ extension ImageIdentifier {
             let color = UIColor(hex: color)
             let artist = LineArtist(length, color)
             return artist
+        case let .ColorPath(path, color):
+            let color = UIColor(hex: color)
+            let artist = PathArtist(path, color)
+            return artist
         case let .HueLine(length, hue):
             let color = UIColor(hue: CGFloat(hue) / 255, saturation: 1, brightness: 1, alpha: 1)
             let artist = LineArtist(length, color)
             return artist
         case let .ColorBox(size, color):
             let color = UIColor(hex: color)
-            let artist = BoxArtist(size, color)
+            let artist = RectArtist(size, color)
             return artist
         case let .HueBox(size, hue):
             let color = UIColor(hue: CGFloat(hue) / 255, saturation: 1, brightness: 1, alpha: 1)
-            let artist = BoxArtist(size, color)
+            let artist = RectArtist(size, color)
             return artist
         case let .FillColorBox(size, color):
             let color = UIColor(hex: color)
-            let artist = BoxArtist(size, color)
+            let artist = RectArtist(size, color)
             artist.drawingMode = .Fill
             return artist
         case let .FillHueBox(size, hue):
             let color = UIColor(hue: CGFloat(hue) / 255, saturation: 1, brightness: 1, alpha: 1)
-            let artist = BoxArtist(size, color)
+            let artist = RectArtist(size, color)
             artist.drawingMode = .Fill
             return artist
         }

@@ -6,9 +6,11 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
+let PowerupRed = 0xD92222
+
 class PowerupArtist: Artist {
     var fillColor = UIColor(hex: 0x000000)
-    var strokeColor = UIColor(hex: 0xD92222)
+    var strokeColor = UIColor(hex: PowerupRed)
 
     required init() {
         super.init()

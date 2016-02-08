@@ -1,5 +1,5 @@
 //
-//  BaseDecoyNode.swift
+//  DecoyPowerupNode.swift
 //  FlatoutWar
 //
 //  Created by Colin Gray on 2/3/2016.
@@ -8,7 +8,7 @@
 
 private let startingHealth: Float = 35
 
-class BaseDecoyNode: Node {
+class DecoyPowerupNode: Node {
 
     required init() {
         super.init()

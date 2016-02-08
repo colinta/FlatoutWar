@@ -10,7 +10,7 @@ class Dot: Node {
 
     required init() {
         super.init()
-        self << SKShapeNode(circleOfRadius: 3)
+        self << SKShapeNode(circleOfRadius: 1)
     }
 
     required init?(coder: NSCoder) {

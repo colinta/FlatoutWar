@@ -19,7 +19,7 @@ class BaseLevel5: BaseLevel {
             self.onNoMoreEnemies { self.beginWave2() }
         }
 
-        timeline.every(0.5, start: .Delayed(), times: 100, block: generateEnemy(0))
+        // timeline.every(0.5, start: .Delayed(), times: 100, block: generateEnemy(0))
     }
 
     func beginWave2() {

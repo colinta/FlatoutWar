@@ -141,7 +141,7 @@ extension BaseLevel {
                 availablePowerups.remove(powerup)
             }
         }
-        powerups[0] = DecoyPowerup()
+        powerups[0] = BomberPowerup()
 
         var buttons: [Node] = []
         for powerup in powerups {

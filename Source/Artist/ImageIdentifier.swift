@@ -53,6 +53,7 @@ enum ImageIdentifier {
     case Cursor
     case Powerup(type: PowerupType)
     case NoPowerup
+    case Bomber(numBombs: Int)
 
     case Drone(upgrade: FiveUpgrades, health: Int)
 
@@ -65,6 +66,7 @@ enum ImageIdentifier {
     case BaseBigTurret(upgrade: FiveUpgrades)
     case BaseTurretBullet(upgrade: FiveUpgrades)
 
+    case ColorPath(path: UIBezierPath, color: Int)
     case ColorLine(length: CGFloat, color: Int)
     case HueLine(length: CGFloat, hue: Int)
     case ColorBox(size: CGSize, color: Int)
@@ -72,7 +74,7 @@ enum ImageIdentifier {
     case FillColorBox(size: CGSize, color: Int)
     case FillHueBox(size: CGSize, hue: Int)
 
-    var name: String {
+    var name: String? {
         switch self {
         case .None:
             return ""
@@ -128,6 +130,8 @@ enum ImageIdentifier {
             return "Powerup-type_\(type)"
         case .NoPowerup:
             return "NoPowerup"
+        case let .Bomber(numBombs):
+            return "Bomber-numBombs_\(numBombs)"
         case let .Drone(upgrade, health):
             return "Drone-upgrade_\(upgrade.name)-health_\(health)"
         case let .Base(upgrade, health):
@@ -144,6 +148,8 @@ enum ImageIdentifier {
             return "BaseBigTurret-upgrade_\(upgrade.name)"
         case let .BaseTurretBullet(upgrade):
             return "BaseTurretBullet-upgrade_\(upgrade.name)"
+        case let .ColorPath:
+            return nil
         case let .ColorLine(length, color):
             let roundedLength = Int(round(length * 20))
             return "ColorLine-length_\(roundedLength)-color_\(color)"

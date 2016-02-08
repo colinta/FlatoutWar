@@ -7,6 +7,8 @@
 //
 
 class BomberPowerupArtist: PowerupArtist {
+    var numBombs: Int = 8
+
     required init() {
         super.init()
         rotation = -45.degrees
@@ -27,21 +29,26 @@ class BomberPowerupArtist: PowerupArtist {
         CGContextClosePath(context)
         CGContextDrawPath(context, .FillStroke)
 
-        let dist: CGFloat = 5
+        let dist: CGFloat = (maxDim - minDim) / 4
         let angle = atan2(centerDim - minDim, maxDim - minDim)
         let smallDim: CGFloat = 3
 
         var x = maxDim, y1 = centerDim, y2 = centerDim - smallDim
-        for _ in 0..<4 {
+        var remainingBombs = numBombs
+        4.times {
             x -= dist * cos(angle)
             y1 += dist * sin(angle)
             y2 -= dist * sin(angle)
+
             for y in [y1, y2] {
                 let rect = CGRect(
                     x: x, y: y,
                     width: smallDim, height: smallDim
                 )
                 CGContextAddEllipseInRect(context, rect)
+
+                remainingBombs -= 1
+                if remainingBombs <= 0 { break }
             }
             CGContextDrawPath(context, .FillStroke)
         }
