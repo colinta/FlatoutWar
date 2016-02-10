@@ -120,9 +120,15 @@ class FadeToComponent: ApplyToNodeComponent {
 
 extension Node {
 
-    func fadeTo(alpha: CGFloat, duration: CGFloat? = nil, rate: CGFloat? = nil, removeNode: Bool = false) -> FadeToComponent {
+    func fadeTo(alpha: CGFloat, start: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, removeNode: Bool = false) -> FadeToComponent {
         let fade = fadeToComponent ?? FadeToComponent()
-        fade.currentAlpha = self.alpha
+        if let start = start {
+            self.alpha = start
+            fade.currentAlpha = start
+        }
+        else {
+            fade.currentAlpha = self.alpha
+        }
         fade.target = alpha
         fade.duration = duration
         fade.rate = rate

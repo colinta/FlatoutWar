@@ -104,8 +104,11 @@ extension Node {
         return moveTo
     }
 
-    func moveTo(dest: CGPoint, duration: CGFloat? = nil, speed: CGFloat? = nil) -> MoveToComponent {
+    func moveTo(dest: CGPoint, start: CGPoint? = nil, duration: CGFloat? = nil, speed: CGFloat? = nil) -> MoveToComponent {
         let moveTo = moveToComponent ?? MoveToComponent()
+        if let start = start {
+            self.position = start
+        }
         moveTo.target = dest
         moveTo.duration = duration
         moveTo.speed = speed
