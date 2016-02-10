@@ -11,12 +11,16 @@ private var generatedTextures = [String: SKTexture]()
 extension SKTexture {
     static func id(id: ImageIdentifier) -> SKTexture {
         let cacheName = id.name
-        if let cached = generatedTextures[cacheName] {
+        if let cacheName = cacheName,
+            cached = generatedTextures[cacheName]
+        {
             return cached
         }
 
         let texture = SKTexture(image: Artist.generate(id))
-        generatedTextures[cacheName] = texture
+        if let cacheName = cacheName {
+            generatedTextures[cacheName] = texture
+        }
         return texture
     }
 }
