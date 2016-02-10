@@ -16,7 +16,7 @@ class PlayerComponent: Component {
     var rammedBehavior: Rammed = .Damaged
     weak var intersectionNode: SKNode! {
         didSet {
-            if intersectionNode.frame.size == .Zero {
+            if intersectionNode.frame.size == .zero {
                 fatalError("intersectionNodes should not have zero size")
             }
         }

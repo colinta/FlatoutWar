@@ -57,7 +57,7 @@ class BaseLevel2: BaseLevel {
         enemyLeader.name = "formation leader"
         let center = outsideWorld(extra: enemyLeader.radius + dist * 1.5, angle: screenAngle)
         enemyLeader.position = center
-        enemyLeader.rotateTowards(point: .Zero)
+        enemyLeader.rotateTowards(point: .zero)
         self << enemyLeader
 
         let angle = center.angle

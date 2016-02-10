@@ -16,7 +16,7 @@ class CameraDemoWorld: DemoWorld {
         cameraNode.enemyComponent?.targetable = false
         let wanderingComponent = WanderingComponent()
         wanderingComponent.wanderingRadius = 250
-        wanderingComponent.centeredAround = .Zero
+        wanderingComponent.centeredAround = .zero
         wanderingComponent.maxSpeed = 25
         cameraNode.addComponent(wanderingComponent)
         self << cameraNode

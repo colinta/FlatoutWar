@@ -7,7 +7,6 @@
 //
 
 extension CGSize {
-    static let Zero = CGSize(0, 0)
 
     init(_ size: CGFloat) {
         width = size

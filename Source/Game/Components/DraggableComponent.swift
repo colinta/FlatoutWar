@@ -125,7 +125,7 @@ class DraggableComponent: Component {
         startingLocation = location
         if let placeholder = placeholder {
             placeholder.hidden = false
-            placeholder.position = .Zero
+            placeholder.position = .zero
         }
 
         for handler in _onDragging {
@@ -207,7 +207,7 @@ class DraggableComponent: Component {
         self.target = nil
         isDragging = false
         for handler in _onDragging {
-            handler(false, placeholder?.position ?? .Zero)
+            handler(false, placeholder?.position ?? .zero)
         }
     }
 

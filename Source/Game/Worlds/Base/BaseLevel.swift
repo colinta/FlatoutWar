@@ -156,7 +156,7 @@ extension BaseLevel {
         let (noPowerup, _) = Powerup.generateButton("NONE", icon: SKSpriteNode(id: .NoPowerup))
         buttons << noPowerup
         noPowerup.onTapped(.Disable).onTapped {
-            self.chosePowerup(nil, start: CGPoint.Zero, button: noPowerup, buttons: buttons)
+            self.chosePowerup(nil, start: CGPoint.zero, button: noPowerup, buttons: buttons)
         }
 
         for (index, button) in buttons.enumerate() {
@@ -407,7 +407,7 @@ extension BaseLevel {
         let jet = EnemyBigJetNode()
         jet.name = "bigjet leader"
         jet.position = self.outsideWorld(jet, angle: genScreenAngle) + CGPoint(y: ±rand(spread))
-        jet.rotateTowards(point: .Zero)
+        jet.rotateTowards(point: .zero)
         self << jet
 
         let dist: CGFloat = 10
@@ -432,7 +432,7 @@ extension BaseLevel {
         let enemyLeader = EnemyLeaderNode()
         let leaderPosition = outsideWorld(enemyLeader, angle: screenAngle)
         enemyLeader.position = leaderPosition
-        enemyLeader.rotateTowards(point: .Zero)
+        enemyLeader.rotateTowards(point: .zero)
         enemyLeader.name = "linear leader"
         self << enemyLeader
 
@@ -454,7 +454,7 @@ extension BaseLevel {
 
         let ghost = generateEnemyGhost(angle: screenAngle, extra: 40)
         ghost.name = "circular ghost"
-        ghost.rotateTowards(point: .Zero)
+        ghost.rotateTowards(point: .zero)
 
         let dist: CGFloat = 30
         var enemies: [Node] = []

@@ -16,7 +16,7 @@ class DecoyPowerupArtist: PowerupArtist {
         CGContextRotateCTM(context, -45.degrees)
 
         let playerSize = CGSize(size.width / scaleDown)
-        CGContextAddEllipseInRect(context, CGPoint.Zero.rectWithSize(playerSize))
+        CGContextAddEllipseInRect(context, CGPoint.zero.rectWithSize(playerSize))
         CGContextDrawPath(context, .FillStroke)
 
         let bigR: CGFloat = 5

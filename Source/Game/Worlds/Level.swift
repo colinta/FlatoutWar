@@ -240,7 +240,7 @@ class Level: World {
         timeline.removeFromNode()
         pauseButton.removeFromParent()
 
-        moveCamera(to: .Zero, zoom: 2, duration: 1)
+        moveCamera(to: .zero, zoom: 2, duration: 1)
     }
 
 }

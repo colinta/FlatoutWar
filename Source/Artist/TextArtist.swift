@@ -23,7 +23,7 @@ class TextArtist: Artist {
         }
     }
     private var textScale: CGFloat = 4
-    private var textSize: CGSize = .Zero
+    private var textSize: CGSize = .zero
     private var letterSpace: CGFloat = 3
 
     func calculateSize() {

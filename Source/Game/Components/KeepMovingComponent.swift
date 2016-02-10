@@ -19,7 +19,7 @@ class KeepMovingComponent: ApplyToNodeComponent {
     }
 
     required init?(coder: NSCoder) {
-        velocity = coder.decodePoint("velocity") ?? .Zero
+        velocity = coder.decodePoint("velocity") ?? .zero
         super.init(coder: coder)
     }
 

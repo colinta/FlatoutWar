@@ -21,7 +21,7 @@ class Node: SKNode {
         get { return !hidden }
         set { hidden = !newValue }
     }
-    var size: CGSize = .Zero
+    var size: CGSize = .zero
     var radius: CGFloat {
         if size.width == size.height {
             return size.width / 2
@@ -105,7 +105,7 @@ class Node: SKNode {
         super.init(coder: coder)
         components = coder.decode("components") ?? []
         frozen = coder.decodeBool("frozen") ?? true
-        size = coder.decodeSize("size") ?? .Zero
+        size = coder.decodeSize("size") ?? .zero
         if let z = coder.decodeCGFloat("z") {
             self.z = Z(rawValue: z) ?? .Default
         }

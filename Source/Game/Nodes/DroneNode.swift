@@ -166,7 +166,7 @@ class DroneNode: Node, DraggableNode {
             let alpha = interpolate(phase, from: (0.6, 0.8), to: (0.25, 0))
             radar1.alpha = alpha
             let path = CGPathCreateMutable()
-            CGPathAddEllipseInRect(path, nil, CGPoint.Zero.rectWithSize(CGSize(r: radarRadius * easedPhase)))
+            CGPathAddEllipseInRect(path, nil, CGPoint.zero.rectWithSize(CGSize(r: radarRadius * easedPhase)))
             radar1.path = path
         }
         else {
@@ -178,7 +178,7 @@ class DroneNode: Node, DraggableNode {
             let alpha = interpolate(phase, from: (0.8, 1.0), to: (0.25, 0))
             radar2.alpha = alpha
             let path = CGPathCreateMutable()
-            CGPathAddEllipseInRect(path, nil, CGPoint.Zero.rectWithSize(CGSize(r: radarRadius * easedPhase)))
+            CGPathAddEllipseInRect(path, nil, CGPoint.zero.rectWithSize(CGSize(r: radarRadius * easedPhase)))
             radar2.path = path
         }
         else {

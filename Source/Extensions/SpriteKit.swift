@@ -22,7 +22,7 @@ extension SKTexture {
 }
 
 extension SKSpriteNode {
-    convenience init(id: ImageIdentifier, at position: CGPoint = .Zero) {
+    convenience init(id: ImageIdentifier, at position: CGPoint = .zero) {
         let texture = SKTexture.id(id)
         self.init(texture: texture)
         setScale(0.5)
@@ -115,7 +115,7 @@ extension SKNode {
             return convertPoint(node.position, fromNode: node.parent!)
         }
         else {
-            return convertPoint(.Zero, fromNode: node)
+            return convertPoint(.zero, fromNode: node)
         }
     }
 

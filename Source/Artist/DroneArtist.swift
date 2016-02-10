@@ -44,7 +44,7 @@ class DroneArtist: Artist {
     }
 
     override func draw(context: CGContext) {
-        CGContextSetShadowWithColor(context, .Zero, 5, stroke.CGColor)
+        CGContextSetShadowWithColor(context, .zero, 5, stroke.CGColor)
         CGContextSetStrokeColorWithColor(context, stroke.CGColor)
         CGContextSetFillColorWithColor(context, stroke.CGColor)
         CGContextSetLineWidth(context, 2)

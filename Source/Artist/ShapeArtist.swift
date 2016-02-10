@@ -34,13 +34,13 @@ class RectArtist: ShapeArtist {
     }
 
     convenience required init() {
-        self.init(.Zero, .whiteColor())
+        self.init(.zero, .whiteColor())
     }
 
     override func draw(context: CGContext) {
         super.draw(context)
 
-        CGContextAddRect(context, CGRect(origin: .Zero, size: size))
+        CGContextAddRect(context, CGRect(origin: .zero, size: size))
         CGContextDrawPath(context, drawingMode)
     }
 }
@@ -54,13 +54,13 @@ class CircleArtist: ShapeArtist {
     }
 
     convenience required init() {
-        self.init(.Zero, .whiteColor())
+        self.init(.zero, .whiteColor())
     }
 
     override func draw(context: CGContext) {
         super.draw(context)
 
-        CGContextAddEllipseInRect(context, CGRect(origin: .Zero, size: size))
+        CGContextAddEllipseInRect(context, CGRect(origin: .zero, size: size))
         CGContextDrawPath(context, drawingMode)
     }
 }

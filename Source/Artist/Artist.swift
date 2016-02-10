@@ -25,9 +25,9 @@ class Artist {
         var name: String { return "\(self)" }
     }
 
-    var center: CGPoint = .Zero
-    private(set) var middle: CGPoint = .Zero
-    var size: CGSize = .Zero {
+    var center: CGPoint = .zero
+    private(set) var middle: CGPoint = .zero
+    var size: CGSize = .zero {
         didSet {
             middle = CGPoint(x: size.width / 2, y: size.height / 2)
         }

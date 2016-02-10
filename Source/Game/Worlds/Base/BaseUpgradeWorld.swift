@@ -209,7 +209,7 @@ class BaseUpgradeWorld: World {
                 self.showUpgradesFor(node)
             }
             else {
-                offset = .Zero
+                offset = .zero
                 for (node, dest) in self.upgradeNodes {
                     node.moveToComponent?.target = dest + BigOffset
                 }

@@ -257,7 +257,7 @@ class BasePlayerNode: Node {
 extension BasePlayerNode {
 
     func aimAt(node node: Node, location: CGPoint? = nil) {
-        let location = self.convertPosition(node) + (location ?? .Zero)
+        let location = self.convertPosition(node) + (location ?? .zero)
         aimAt(location: location)
     }
 
