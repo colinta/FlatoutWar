@@ -6,18 +6,22 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-class Path {
-
-    func plot(time: CGFloat) -> (CGPoint, CGFloat) {
-        return (.Zero, 0)
-    }
-
-}
-
 private enum PathSegment {
     case Start(CGPoint)
-    case Line(CGPoint)
-    case Quad(CGPoint, control: CGPoint)
+    case Line(CGPoint, CGPoint)
+    case Quad(CGPoint, CGPoint, control: CGPoint)
+
+    func pointAt(t: CGFloat) -> CGPoint {
+        switch self {
+        case let Start(pt): return pt
+        case let Line(pt1, pt2):
+            return pt1 + (pt2 - pt1) * t
+        case let Quad(pt1, pt2, control):
+            let m1 = pt1 + (control - pt1) * t
+            let m2 = control + (pt2 - control) * t
+            return m1 + (m2 - m1) * t
+        }
+    }
 }
 
 private func pointsToBezierPath(points: [CGPoint]) -> UIBezierPath {
@@ -27,9 +31,9 @@ private func pointsToBezierPath(points: [CGPoint]) -> UIBezierPath {
         switch segment {
         case let .Start(point):
             bezierPath.moveToPoint(point)
-        case let .Line(point):
+        case let .Line(_, point):
             bezierPath.addLineToPoint(point)
-        case let .Quad(point, control):
+        case let .Quad(_, point, control):
             bezierPath.addQuadCurveToPoint(point, controlPoint: control)
         }
     }
@@ -40,7 +44,7 @@ private func pointsToSegments(points: [CGPoint]) -> [PathSegment] {
     var retVal: [PathSegment] = []
 
     var prevPoint: CGPoint?
-    var isFirst = true
+    var prevDest: CGPoint?
     for point in points {
         if let prevPoint = prevPoint {
             let midPoint = CGPoint(
@@ -48,13 +52,13 @@ private func pointsToSegments(points: [CGPoint]) -> [PathSegment] {
                 y: (point.y + prevPoint.y) / 2
             )
 
-            if isFirst {
-                retVal << .Line(midPoint)
+            if let prevDest = prevDest {
+                retVal << .Quad(prevDest, midPoint, control: prevPoint)
             }
             else {
-                retVal << .Quad(midPoint, control: prevPoint)
+                retVal << .Line(prevPoint, midPoint)
             }
-            isFirst = true
+            prevDest = midPoint
         }
         else {
             retVal << .Start(point)
@@ -62,78 +66,32 @@ private func pointsToSegments(points: [CGPoint]) -> [PathSegment] {
         prevPoint = point
     }
 
-    if let lastPoint = prevPoint {
-        retVal << .Line(lastPoint)
+    if let lastPoint = prevPoint, prevDest = prevDest {
+        retVal << .Line(prevDest, lastPoint)
     }
     return retVal
 }
 
 private func segmentsToLengths(segments: [PathSegment]) -> [(PathSegment, CGFloat)] {
-    var prevPoint: CGPoint?
     var lengths: [(PathSegment, CGFloat)] = []
     for segment in segments {
         let length: CGFloat
         switch segment {
-        case let .Start(point):
-            prevPoint = point
+        case .Start:
             length = 0
-        case let .Line(point):
-            guard let start = prevPoint else { continue }
-
-            length = start.distanceTo(point)
-            prevPoint = start
-        case let .Quad(point, control):
-            guard let start = prevPoint else { continue }
-
-            length = start.distanceTo(control) + control.distanceTo(point)
-            prevPoint = point
+        case let .Line(start, dest):
+            length = start.distanceTo(dest)
+        case let .Quad(start, dest, control):
+            length = start.distanceTo(control) + control.distanceTo(dest)
         }
         lengths << (segment, length)
     }
     return lengths
 }
 
-private func interpolateCurve(start start: CGPoint, dest: CGPoint, control: CGPoint, resolution: Int) -> [CGPoint] {
-    var retVal: [CGPoint] = []
-    let deltaStart = control - start
-    let deltaControl = dest - control
-    let midLeft: (CGFloat) -> CGPoint = { t in
-        return start + deltaStart * t
-    }
-    let midRight: (CGFloat) -> CGPoint = { t in
-        return control + deltaControl * t
-    }
-    let quad: (CGFloat, CGPoint, CGPoint) -> CGPoint = { t, midLeft, midRight in
-        let delta = midRight - midLeft
-        return midLeft + delta * t
-    }
-    let deltaT = 1 / CGFloat(resolution)
-    var t: CGFloat = 0
-    while t < 1 {
-        t = min(1, t + deltaT)
-        retVal << quad(t, midLeft(t), midRight(t))
-    }
-    retVal << dest
-    return retVal
-}
-
-private func interpolatePoints(start: CGPoint, _ dest: CGPoint) -> [CGPoint] {
-    var retVal: [CGPoint] = []
-    let r: CGFloat = 0.25
-    let length = start.distanceTo(dest)
-    let angle = start.angleTo(dest)
-    var prevPoint = start
-    let segment = CGPoint(r: r, a: angle)
-    Int(length / r).times {
-        prevPoint = prevPoint + segment
-        retVal << prevPoint
-    }
-    retVal << dest
-    return retVal
-}
 
 class PathDrawingNode: Node {
-    var pathFn: (CGFloat) -> CGPoint = { _ in return .Zero }
+    var pathFn: (t: CGFloat, v: CGFloat) -> CGPoint = { _ in return .zero }
 
     required init() {
         super.init()
@@ -143,7 +101,7 @@ class PathDrawingNode: Node {
         let maxLength: CGFloat = 1000
 
         let sprite = SKSpriteNode(id: .None)
-        sprite.anchorPoint = CGPoint.Zero
+        sprite.anchorPoint = CGPoint.zero
         self << sprite
         touchComponent.on(.Down) { position in
             points << position
@@ -159,19 +117,30 @@ class PathDrawingNode: Node {
         touchComponent.on(.Up) { position in
             let segments = pointsToSegments(points)
             let lengths = segmentsToLengths(segments)
+            var adjustedLengths: [(segment: PathSegment, length: CGFloat, cummulative: CGFloat)] = []
             let totalLength: CGFloat = lengths.reduce(CGFloat(0)) { length, segmentInfo in
-                return length + segmentInfo.1
+                let currentLength = length + segmentInfo.1
+                adjustedLengths << (segmentInfo.0, segmentInfo.1, currentLength)
+                return currentLength
             }
 
+            let firstPoint = points.first ?? .zero
+            let lastPoint = points.last ?? .zero
             self.pathFn = { time, velocity in
-                if time <= 0 { return points.first ?? .Zero }
-                if time >= 1 { return points.last ?? .Zero }
+                // hack to return the totalLength and totalTime
+                if time < 0 { return CGPoint(totalLength, totalLength / velocity) }
+                // don't bother calculating for t=0
+                if time == 0 { return firstPoint }
 
-                let index = t * totalLength
-                let i = Int(floor(index))
-                let t = index - CGFloat(i)
-                let s = segments[i]
-                return .Zero
+                let length = velocity * time
+                guard length < totalLength else { return lastPoint }
+
+                let segmentInfo = adjustedLengths.firstMatch { $0.cummulative > length }
+                if let segmentInfo = segmentInfo {
+                    let t = 1 - (segmentInfo.cummulative - length) / segmentInfo.length
+                    return segmentInfo.segment.pointAt(t)
+                }
+                return .zero
             }
         }
         addComponent(touchComponent)

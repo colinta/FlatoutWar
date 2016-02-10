@@ -8,6 +8,7 @@
 
 class BomberPowerup: Powerup {
     override var name: String { return "BOMBER" }
+    override var count: Int { return 2 }
     override var weight: Weight { return .Rare }
     override var powerupType: ImageIdentifier.PowerupType? { return .Bomber }
 
@@ -19,6 +20,8 @@ class BomberPowerup: Powerup {
         super.activate()
 
         if let level = level {
+            level.timeRate = 0.5
+
             let pathNode = PathDrawingNode()
             level << pathNode
             powerupEnabled = false
@@ -28,25 +31,24 @@ class BomberPowerup: Powerup {
 
             let touchComponent = pathNode.touchableComponent!
             touchComponent.on(.Up) { location in
-                var t: CGFloat = 0
-                while t < 1 {
-                    level << Dot(at: pathNode.pathFn(t))
-                    t += 0.001
+                pathNode.removeFromParent()
+
+                let bomber = BomberPowerupNode()
+                bomber.timeRate = 2
+                bomber.scaleTo(1, start: 1.5, duration: 1)
+                bomber.fadeTo(1, start: 0, duration: 1)
+                bomber.followPathComponent.pathFn = pathNode.pathFn
+                bomber.followPathComponent.onArrived {
+                    bomber.timeRate = 1
+                    level.timeRate = 1
+
+                    bomber.scaleTo(1.5, duration: 1)
+                    bomber.fadeTo(0, duration: 1, removeNode: true)
                 }
-                level << Dot(at: pathNode.pathFn(1))
+                level << bomber
 
                 level.defaultNode = prevDefault
                 self.powerupEnabled = true
-
-                let position = pathNode.convertPoint(location, toNode: level)
-                let plane = Node(at: level.playerNode.position)
-                plane << SKSpriteNode(id: .Bomber(numBombs: 8))
-                plane.alpha = 0
-                level << plane
-
-                plane.moveTo(position, duration: 1)
-                plane.fadeTo(1, duration: 1)
-                pathNode.removeFromParent()
             }
         }
     }

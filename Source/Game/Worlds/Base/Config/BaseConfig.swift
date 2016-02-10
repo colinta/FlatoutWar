@@ -40,7 +40,7 @@ class BaseConfig {
         }
     }
 
-    let availablePowerups: [Powerup] = Powerup.All
+    var availablePowerups: [Powerup] { return Powerup.All }
 
     func updateMaxGainedExperience(exp: Int) {
         Defaults["Config-\(configKey)-gainedExperience"] = min(max(exp, gainedExperience), possibleExperience)
