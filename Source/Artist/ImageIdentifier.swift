@@ -148,7 +148,7 @@ enum ImageIdentifier {
             return "BaseBigTurret-upgrade_\(upgrade.name)"
         case let .BaseTurretBullet(upgrade):
             return "BaseTurretBullet-upgrade_\(upgrade.name)"
-        case let .ColorPath:
+        case .ColorPath:
             return nil
         case let .ColorLine(length, color):
             let roundedLength = Int(round(length * 20))

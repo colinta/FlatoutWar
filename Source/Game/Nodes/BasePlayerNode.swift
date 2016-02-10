@@ -167,7 +167,7 @@ class BasePlayerNode: Node {
         case .Upgrade: baseUpgrade = (baseUpgrade + 1) ?? baseUpgrade
         case .RadarUpgrade: radarUpgrade = (radarUpgrade + 1) ?? radarUpgrade
         case .TurretUpgrade: turretUpgrade = (turretUpgrade + 1) ?? turretUpgrade
-        default: break
+        // default: break
         }
     }
 

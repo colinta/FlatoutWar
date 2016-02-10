@@ -36,6 +36,8 @@ class BomberPowerupArtist: PowerupArtist {
         var x = maxDim, y1 = centerDim, y2 = centerDim - smallDim
         var remainingBombs = numBombs
         4.times {
+            guard remainingBombs > 0 else { return }
+
             x -= dist * cos(angle)
             y1 += dist * sin(angle)
             y2 -= dist * sin(angle)
