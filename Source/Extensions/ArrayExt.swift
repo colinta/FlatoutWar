@@ -16,13 +16,23 @@ extension Array {
         return false
     }
 
-    func find(@noescape test: (el: Element)->Bool) -> Element? {
+    func firstMatch(@noescape test: (el: Element)->Bool) -> Element? {
         for ob in self {
             if test(el: ob) {
                 return ob
             }
         }
         return nil
+    }
+
+    func lastMatch(@noescape test: (el: Element)->Bool) -> Element? {
+        var match: Element?
+        for ob in self {
+            if test(el: ob) {
+                match = ob
+            }
+        }
+        return match
     }
 
     func all(@noescape test: (el: Element)->Bool) -> Bool {
