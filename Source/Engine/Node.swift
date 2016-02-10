@@ -81,6 +81,7 @@ class Node: SKNode {
     weak var projectileComponent: ProjectileComponent?
     weak var rammingComponent: RammingComponent?
     weak var rotateToComponent: RotateToComponent?
+    weak var scaleToComponent: ScaleToComponent?
     weak var selectableComponent: SelectableComponent?
     weak var targetingComponent: TargetingComponent?
     weak var timelineComponent: TimelineComponent?
@@ -236,6 +237,7 @@ extension Node {
             if let component = component as? FlyingComponent { flyingComponent = component }
         }
         else if let component = component as? RotateToComponent { rotateToComponent = component }
+        else if let component = component as? ScaleToComponent { scaleToComponent = component }
         else if let component = component as? SelectableComponent { selectableComponent = component }
         else if let component = component as? TargetingComponent { targetingComponent = component }
         else if let component = component as? TimelineComponent { timelineComponent = component }
@@ -266,6 +268,7 @@ extension Node {
                 flyingComponent = nil
             }
             else if component == rotateToComponent { rotateToComponent = nil }
+            else if component == scaleToComponent { scaleToComponent = nil }
             else if component == selectableComponent { selectableComponent = nil }
             else if component == targetingComponent { targetingComponent = nil }
             else if component == timelineComponent { timelineComponent = nil }
@@ -297,6 +300,7 @@ extension Node {
                 if let component = component as? FlyingComponent { flyingComponent = component }
             }
             else if let component = component as? RotateToComponent { rotateToComponent = component }
+            else if let component = component as? ScaleToComponent { scaleToComponent = component }
             else if let component = component as? SelectableComponent { selectableComponent = component }
             else if let component = component as? TargetingComponent { targetingComponent = component }
             else if let component = component as? TimelineComponent { timelineComponent = component }
