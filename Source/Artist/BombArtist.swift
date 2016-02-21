@@ -45,7 +45,7 @@ class BombArtist: Artist {
 
         for t in sizes {
             if time < t { continue }
-            let ellipseSize = CGSize(interpolate(time, from: (t, 1), to: (0, maxRadius)))
+            let ellipseSize = CGSize(r: interpolate(time, from: (t, 1), to: (0, maxRadius)))
             CGContextAddEllipseInRect(context, middle.rectWithSize(ellipseSize))
         }
 
