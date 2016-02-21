@@ -16,12 +16,13 @@ class StartupWorld: World {
         self << playerNode
 
         setScale(2)
-        let zoomingComponent1 = ZoomToComponent()
+        let zoomingComponent1 = ScaleToComponent()
         zoomingComponent1.target = 1.0
+        zoomingComponent1.rate = 0.25
 
-        let zoomingComponent2 = ZoomToComponent()
-        zoomingComponent2.rate = 0.025
+        let zoomingComponent2 = ScaleToComponent()
         zoomingComponent2.target = 0.5
+        zoomingComponent2.rate = 0.025
 
         timeline.at(1) {
             self.addComponent(zoomingComponent1)

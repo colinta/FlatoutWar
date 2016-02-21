@@ -60,12 +60,15 @@ class RotateToComponent: ApplyToNodeComponent {
             angularSpeed = maxAngularSpeed
         }
 
-        let newAngle: CGFloat
-        if let angle = moveAngle(currentAngle, towards: target, by: angularSpeed * dt) {
-            newAngle = angle
+        if let newAngle = moveAngle(currentAngle, towards: target, by: angularSpeed * dt) {
+            self.currentAngle = newAngle
+
+            apply { applyTo in
+                applyTo.zRotation = newAngle
+            }
         }
         else {
-            newAngle = target
+            self.currentAngle = target
             angularSpeed = 0
             self.target = nil
 
@@ -73,10 +76,6 @@ class RotateToComponent: ApplyToNodeComponent {
                 handler()
             }
         }
-        self.currentAngle = newAngle
-
-        guard let applyTo = applyTo else { return }
-        applyTo.zRotation = newAngle
     }
 
 }

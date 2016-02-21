@@ -76,9 +76,11 @@ class MoveToComponent: ApplyToNodeComponent {
             return
         }
 
-        let newPosition: CGPoint
         if currentPosition.distanceTo(target, within: dt * speed) {
-            newPosition = target
+            apply { applyTo in
+                applyTo.position = target
+            }
+
             for handler in _onArrived {
                 handler()
             }
@@ -87,11 +89,12 @@ class MoveToComponent: ApplyToNodeComponent {
         else {
             let destAngle = currentPosition.angleTo(target)
             let vector = CGPoint(r: speed, a: destAngle)
-            newPosition = currentPosition + dt * vector
-        }
+            let newPosition = currentPosition + dt * vector
 
-        guard let applyTo = applyTo else { return }
-        applyTo.position = newPosition
+            apply { applyTo in
+                applyTo.position = newPosition
+            }
+        }
     }
 }
 

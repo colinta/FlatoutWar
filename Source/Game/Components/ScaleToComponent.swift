@@ -10,16 +10,21 @@ class ScaleToComponent: ApplyToNodeComponent {
     var currentScale: CGFloat?
     var target: CGFloat? = 1 {
         didSet {
-            if _duration != nil {
+            if node != nil {
+                currentScale = node.xScale
+            }
+
+            if _duration != nil && target != nil {
                 _rate = nil
             }
         }
     }
-    private var _rate: CGFloat? = 1.65  // 0.6s
+    private var _rate: CGFloat? = 1.65
     var rate: CGFloat? {
         get { return _rate }
         set {
             _rate = newValue
+            _duration = nil
         }
     }
     private var _duration: CGFloat?
@@ -73,46 +78,36 @@ class ScaleToComponent: ApplyToNodeComponent {
     }
 
     override func update(dt: CGFloat) {
-        guard let target = target else { return }
-        guard let currentScale = currentScale else { return }
+        guard let target = target, currentScale = currentScale else { return }
 
         let rate: CGFloat
         if let _rate = _rate {
             rate = _rate
         }
-        else if let duration = _duration {
-            rate = CGFloat(abs(target - currentScale)) / duration
+        else if let duration = _duration
+        where duration > 0 {
+            rate = (target - currentScale) / duration
             _rate = rate
         }
         else {
-            rate = 0
+            return
         }
 
-        let newScale: CGFloat
-        if currentScale < target {
-            newScale = min(currentScale + rate * dt, target)
-            if newScale == target {
-                self.target = nil
+        if let newScale = moveValue(currentScale, towards: target, by: rate * dt) {
+            self.currentScale = newScale
+
+            apply { applyTo in
+                applyTo.setScale(newScale)
             }
         }
         else {
-            newScale = max(currentScale - rate * dt, target)
-            if newScale == target {
-                self.target = nil
-            }
-        }
+            self.currentScale = target
+            self.target = nil
 
-        self.currentScale = newScale
-
-        if self.target == nil {
             for handler in _onScaled {
                 handler()
             }
-            _onScaled = []
         }
-
-        guard let applyTo = applyTo else { return }
-        applyTo.setScale(newScale)
     }
 
 }

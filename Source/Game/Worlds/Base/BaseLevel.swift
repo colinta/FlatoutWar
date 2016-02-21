@@ -168,8 +168,9 @@ extension BaseLevel {
         }
 
         timeline.after(1.75) {
+            let duration: CGFloat = 0.1
             self.cameraZoom.target = 1.5
-            self.cameraZoom.duration = 1
+            self.cameraZoom.duration = duration
 
             for (index, button) in buttons.enumerate() {
                 let dest: Position = .Left(
@@ -177,7 +178,7 @@ extension BaseLevel {
                     y: 50 - CGFloat(index) * 50
                 )
 
-                button.moveTo(dest, duration: 1)
+                button.moveTo(dest, duration: duration)
             }
         }
     }

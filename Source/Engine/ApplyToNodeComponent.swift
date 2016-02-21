@@ -25,6 +25,12 @@ class ApplyToNodeComponent: Component {
         applyTo = node
     }
 
+    func apply(block: (SKNode) -> Void) {
+        if let node = applyTo {
+            block(node)
+        }
+    }
+
     override func reset() {
         super.reset()
         applyTo = nil

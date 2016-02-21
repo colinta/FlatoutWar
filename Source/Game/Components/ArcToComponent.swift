@@ -73,31 +73,25 @@ class ArcToComponent: ApplyToNodeComponent {
 
     override func update(dt: CGFloat) {
         guard let duration = duration else { return }
+
+        time = min(time + dt, 1)
         let modTime = time / duration
         let modFrame = oneFrame / duration
         guard let position = pointAt(modTime) else { return }
 
-        let angle: CGFloat
-        if modTime == 0 {
-            guard let nextPos = pointAt(modFrame) else { return }
-            angle = position.angleTo(nextPos)
+        guard let prevPos = pointAt(modTime - modFrame) else { return }
+        let angle = prevPos.angleTo(position)
+
+        apply { applyTo in
+            applyTo.position = position
+            applyTo.rotateTo(angle)
         }
-        else {
-            guard let prevPos = pointAt(modTime - modFrame) else { return }
-            angle = prevPos.angleTo(position)
-        }
-        time += dt
-        guard time < 1 else {
+
+        if time >= 1 {
             for handler in _onArrived {
                 handler()
             }
-            return
         }
-
-        guard let applyTo = applyTo else { return }
-
-        applyTo.position = position
-        applyTo.rotateTo(angle)
     }
 
 }

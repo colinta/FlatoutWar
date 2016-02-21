@@ -88,31 +88,22 @@ class FadeToComponent: ApplyToNodeComponent {
             rate = 0
         }
 
-        let newAlpha: CGFloat
-        if currentAlpha < target {
-            newAlpha = min(currentAlpha + rate * dt, target)
-            if newAlpha == target {
-                self.target = nil
+        if let newAlpha = moveValue(currentAlpha, towards: target, by: rate * dt) {
+            self.currentAlpha = newAlpha
+
+            apply { applyTo in
+                applyTo.alpha = newAlpha
             }
         }
         else {
-            newAlpha = max(currentAlpha - rate * dt, target)
-            if newAlpha == target {
-                self.target = nil
-            }
-        }
+            self.currentAlpha = target
+            self.target = nil
 
-        self.currentAlpha = newAlpha
-
-        if self.target == nil {
             for handler in _onFaded {
                 handler()
             }
             _onFaded = []
         }
-
-        guard let applyTo = applyTo else { return }
-        applyTo.alpha = newAlpha
     }
 
 }

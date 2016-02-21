@@ -26,11 +26,13 @@ class Level: World {
         return selectedNode ?? defaultNode
     }
 
-    let cameraZoom = ZoomToComponent()
+    let cameraZoom = ScaleToComponent()
     let cameraMove = MoveToComponent()
 
     required init() {
         super.init()
+
+        cameraZoom.rate = 0.25
 
         resumeButton.fixedPosition = .Center(x: 0, y: -80)
         resumeButton.visible = false
