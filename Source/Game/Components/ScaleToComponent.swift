@@ -24,7 +24,9 @@ class ScaleToComponent: ApplyToNodeComponent {
         get { return _rate }
         set {
             _rate = newValue
-            _duration = nil
+            if newValue != nil {
+                _duration = nil
+            }
         }
     }
     private var _duration: CGFloat?
@@ -32,7 +34,9 @@ class ScaleToComponent: ApplyToNodeComponent {
         get { return _duration }
         set {
             _duration = newValue
-            _rate = nil
+            if newValue != nil {
+                _rate = nil
+            }
         }
     }
 

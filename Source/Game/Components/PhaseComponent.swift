@@ -28,9 +28,9 @@ class PhaseComponent: Component {
         _onValue << handler
     }
 
-    var value: CGFloat { return min + (max - min) * phase }
-    var min: CGFloat = 0
-    var max: CGFloat = 1
+    var value: CGFloat { return startValue + (finalValue - startValue) * phase }
+    var startValue: CGFloat = 0
+    var finalValue: CGFloat = 1
 
     override func reset() {
         super.reset()
