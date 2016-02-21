@@ -8,9 +8,6 @@
 
 class HourglassPowerupArtist: PowerupArtist {
     override func draw(context: CGContext) {
-        CGContextAddRect(context, middle.rectWithSize(size))
-        CGContextDrawPath(context, .Stroke)
-
         super.draw(context)
 
         let bigR = size.width / 2 - 4
