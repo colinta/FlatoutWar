@@ -68,6 +68,7 @@ class DroneNode: Node, DraggableNode {
         addComponent(playerComponent)
 
         let phaseComponent = PhaseComponent()
+        phaseComponent.loops = true
         phaseComponent.phase = rand(1)
         phaseComponent.duration = rand(min: 2.5, max: 4.5)
         addComponent(phaseComponent)

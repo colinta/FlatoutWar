@@ -7,7 +7,7 @@
 //
 
 class PhaseComponent: Component {
-    var loops = true
+    var loops = false
     var easing = Easing.Linear
     private var _phase: CGFloat = 0
     var phase: CGFloat {
