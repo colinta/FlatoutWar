@@ -20,7 +20,9 @@ enum Shape {
     }
 
     func circleTouchTest(node: Node, and other: Node) -> Bool {
-        let radius = max(0.01, other.radius + node.radius)
+        let otherRadius = other.radius * other.xScale
+        let nodeRadius = node.radius * node.xScale
+        let radius = max(0.01, otherRadius + nodeRadius)
         return node.distanceTo(other, within: radius)
     }
 
