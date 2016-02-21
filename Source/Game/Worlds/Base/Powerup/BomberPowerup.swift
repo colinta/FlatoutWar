@@ -20,7 +20,8 @@ class BomberPowerup: Powerup {
         super.activate()
 
         if let level = level {
-            level.timeRate = 0.5
+            let slowmo: CGFloat = 0.333
+            level.timeRate = slowmo
 
             let pathNode = PathDrawingNode()
             level << pathNode
@@ -34,7 +35,7 @@ class BomberPowerup: Powerup {
                 pathNode.removeFromParent()
 
                 let bomber = BomberPowerupNode()
-                bomber.timeRate = 2
+                bomber.timeRate = 1 / slowmo
                 bomber.scaleTo(1, start: 1.5, duration: 1)
                 bomber.fadeTo(1, start: 0, duration: 1)
                 bomber.followPathComponent.pathFn = pathNode.pathFn

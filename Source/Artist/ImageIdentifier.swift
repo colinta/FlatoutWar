@@ -39,6 +39,8 @@ enum ImageIdentifier {
         case Laser
         case Net
         case Coffee
+
+        var name: String { return "\(self)" }
     }
 
     case None
@@ -54,6 +56,7 @@ enum ImageIdentifier {
     case Powerup(type: PowerupType)
     case NoPowerup
     case Bomber(numBombs: Int)
+    case Bomb(radius: Int, time: Int)
 
     case Drone(upgrade: FiveUpgrades, health: Int)
 
@@ -127,11 +130,13 @@ enum ImageIdentifier {
         case .Cursor:
             return "Cursor"
         case let .Powerup(type):
-            return "Powerup-type_\(type)"
+            return "Powerup-type_\(type.name)"
         case .NoPowerup:
             return "NoPowerup"
         case let .Bomber(numBombs):
             return "Bomber-numBombs_\(numBombs)"
+        case let .Bomb(radius, time):
+            return "Bomb-radius_\(radius)-time_\(time)"
         case let .Drone(upgrade, health):
             return "Drone-upgrade_\(upgrade.name)-health_\(health)"
         case let .Base(upgrade, health):

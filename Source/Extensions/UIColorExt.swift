@@ -21,6 +21,14 @@ extension UIColor {
 }
 
 extension Int {
+    static func rgb(hex: Int) -> (r: Int, g: Int, b: Int) {
+        return (
+            r: hex >> 16 & 0xff,
+            g: hex >> 8 & 0xff,
+            b: hex & 0xff
+        )
+    }
+
     init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
         assert(green >= 0 && green <= 255, "Invalid green component")

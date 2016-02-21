@@ -110,8 +110,12 @@ class Powerup {
         }
     }
 
-    func onNextTap(onTap: (CGPoint) -> Void) {
+    func onNextTap(slowmo slowmo: Bool = false, onTap: (CGPoint) -> Void) {
         if let level = level {
+            if slowmo {
+                level.timeRate = 0.333
+            }
+
             let tapNode = Node()
             level << tapNode
             powerupEnabled = false
@@ -121,6 +125,9 @@ class Powerup {
 
             let touchComponent = TouchableComponent()
             touchComponent.on(.Down) { location in
+                if slowmo {
+                    level.timeRate = 1.0
+                }
                 level.defaultNode = prevDefault
                 self.powerupEnabled = true
 

@@ -78,9 +78,16 @@ class FollowPathComponent: Component {
 
     private func calcPA() -> (CGPoint, CGFloat) {
         let t = min(time, totalTime)
-        let prevPoint = pathFn(t: t - oneFrame, v: velocity)
         let currentPoint = pathFn(t: t, v: velocity)
-        return (currentPoint, prevPoint.angleTo(currentPoint))
+        var frameTime = oneFrame * 5
+        var angle: CGFloat = 0
+        var angleCount: CGFloat = 0
+        while frameTime > 0 {
+            angle += pathFn(t: t - frameTime, v: velocity).angleTo(currentPoint)
+            angleCount += 1
+            frameTime -= oneFrame
+        }
+        return (currentPoint, angle / angleCount)
     }
 
     override func update(dt: CGFloat) {

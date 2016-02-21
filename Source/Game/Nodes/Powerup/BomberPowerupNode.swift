@@ -12,6 +12,14 @@ class BomberPowerupNode: Node {
     var numBombs = initialBombCount
     let sprite: SKSpriteNode = SKSpriteNode(id: .Bomber(numBombs: 8))
     let followPathComponent = FollowPathComponent()
+    var bombs: [Node] = []
+    override var timeRate: CGFloat {
+        didSet {
+            for node in bombs {
+                node.timeRate = timeRate
+            }
+        }
+    }
 
     required init() {
         super.init()
@@ -42,8 +50,8 @@ class BomberPowerupNode: Node {
     }
 
     override func update(dt: CGFloat) {
-        let timeChunk = followPathComponent.totalTime / (CGFloat(initialBombCount) + 1)
-        let timeCheck = timeChunk * CGFloat(initialBombCount - numBombs + 1)
+        let timeChunk = followPathComponent.totalTime / (CGFloat(initialBombCount) - 1)
+        let timeCheck = timeChunk * CGFloat(initialBombCount - numBombs)
         if followPathComponent.time >= timeCheck {
             dropBomb()
         }
@@ -53,8 +61,12 @@ class BomberPowerupNode: Node {
         guard numBombs > 0 else { return }
 
         if let world = world {
-            let bomb = EnemyExplosionNode(at: self.position)
+            let bomb = BombNode(maxRadius: 60)
+            bomb.position = self.position
+            bomb.timeRate = timeRate
+            bombs << bomb
             world << bomb
+
             numBombs -= 1
             sprite.textureId(.Bomber(numBombs: numBombs))
         }

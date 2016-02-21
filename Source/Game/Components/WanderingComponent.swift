@@ -24,6 +24,11 @@ class WanderingComponent: Component {
     var maxSpeed: CGFloat = 4
     var maxTurningSpeed: CGFloat = 3.5
 
+    convenience init(centeredAround: CGPoint) {
+        self.init()
+        self.centeredAround = centeredAround
+    }
+
     private var currentSpeed: CGFloat = 0
     private var currentTargetLocation: CGPoint?
     private var wanderingTimeLimit: CGFloat = 0

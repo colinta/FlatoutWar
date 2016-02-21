@@ -122,6 +122,8 @@ extension ImageIdentifier {
             return NoPowerupArtist()
         case let .Bomber(numBombs):
             return BomberArtist(numBombs: numBombs)
+        case let .Bomb(radius, time):
+            return BombArtist(maxRadius: CGFloat(radius), time: CGFloat(time) / 100)
         case let .Percent(percent, style):
             let artist = PercentArtist(style: style)
             artist.complete = CGFloat(percent) / 100
