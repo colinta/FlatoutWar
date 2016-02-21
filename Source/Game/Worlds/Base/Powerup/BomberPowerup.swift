@@ -16,41 +16,39 @@ class BomberPowerup: Powerup {
         super.init()
     }
 
-    override func activate() {
-        super.activate()
+    override func activate(level: BaseLevel) {
+        super.activate(level)
 
-        if let level = level {
-            let slowmo: CGFloat = 0.333
-            level.timeRate = slowmo
+        let slowmo: CGFloat = 0.333
+        level.timeRate = slowmo
 
-            let pathNode = PathDrawingNode()
-            level << pathNode
-            powerupEnabled = false
+        let pathNode = PathDrawingNode()
+        level << pathNode
+        powerupEnabled = false
 
-            let prevDefault = level.defaultNode
-            level.defaultNode = pathNode
+        let prevDefault = level.defaultNode
+        level.defaultNode = pathNode
 
-            let touchComponent = pathNode.touchableComponent!
-            touchComponent.on(.Up) { location in
-                pathNode.removeFromParent()
+        let touchComponent = pathNode.touchableComponent!
+        touchComponent.on(.Up) { location in
+            pathNode.removeFromParent()
 
-                let bomber = BomberPowerupNode()
-                bomber.timeRate = 1 / slowmo
-                bomber.scaleTo(1, start: 1.5, duration: 1)
-                bomber.fadeTo(1, start: 0, duration: 1)
-                bomber.followPathComponent.pathFn = pathNode.pathFn
-                bomber.followPathComponent.onArrived {
-                    bomber.timeRate = 1
-                    level.timeRate = 1
+            let bomber = BomberPowerupNode()
+            bomber.timeRate = 1 / slowmo
+            bomber.scaleTo(1, start: 1.5, duration: 1)
+            bomber.fadeTo(1, start: 0, duration: 1)
+            bomber.followPathComponent.pathFn = pathNode.pathFn
+            bomber.followPathComponent.onArrived {
+                bomber.timeRate = 1
+                level.timeRate = 1
 
-                    bomber.scaleTo(1.5, duration: 1)
-                    bomber.fadeTo(0, duration: 1, removeNode: true)
-                }
-                level << bomber
-
-                level.defaultNode = prevDefault
-                self.powerupEnabled = true
+                bomber.scaleTo(1.5, duration: 1)
+                bomber.fadeTo(0, duration: 1, removeNode: true)
             }
+            level << bomber
+
+            level.defaultNode = prevDefault
+            self.powerupEnabled = true
         }
     }
 

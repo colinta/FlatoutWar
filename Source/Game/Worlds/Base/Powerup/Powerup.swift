@@ -88,14 +88,14 @@ class Powerup {
     func checkPowerupAvailability() {
         guard powerupEnabled else { return }
 
-        if let button = powerupButtons.first {
+        if let button = powerupButtons.first, level = level {
             button.fadeTo(0, duration: 1, removeNode: true)
             powerupButtons.removeAtIndex(0)
-            activate()
+            activate(level)
         }
     }
 
-    func activate() {
+    func activate(level: BaseLevel) {
         var alpha: CGFloat = 1
         var enabled = true
         let duration: CGFloat = 0.3
@@ -158,8 +158,8 @@ class MinesPowerup: Powerup {
         super.init()
     }
 
-    override func activate() {
-        super.activate()
+    override func activate(level: BaseLevel) {
+        super.activate(level)
     }
 
 }
@@ -172,8 +172,8 @@ class ShieldPowerup: Powerup {
         super.init()
     }
 
-    override func activate() {
-        super.activate()
+    override func activate(level: BaseLevel) {
+        super.activate(level)
     }
 
 }
@@ -187,8 +187,8 @@ class SoldiersPowerup: Powerup {
         super.init()
     }
 
-    override func activate() {
-        super.activate()
+    override func activate(level: BaseLevel) {
+        super.activate(level)
     }
 
 }
@@ -203,8 +203,8 @@ class HourglassPowerup: Powerup {
         super.init()
     }
 
-    override func activate() {
-        super.activate()
+    override func activate(level: BaseLevel) {
+        super.activate(level)
     }
 
 }
@@ -218,8 +218,8 @@ class PulsePowerup: Powerup {
         super.init()
     }
 
-    override func activate() {
-        super.activate()
+    override func activate(level: BaseLevel) {
+        super.activate(level)
     }
 
 }
@@ -234,8 +234,8 @@ class LaserPowerup: Powerup {
         super.init()
     }
 
-    override func activate() {
-        super.activate()
+    override func activate(level: BaseLevel) {
+        super.activate(level)
     }
 
 }
@@ -249,8 +249,8 @@ class NetPowerup: Powerup {
         super.init()
     }
 
-    override func activate() {
-        super.activate()
+    override func activate(level: BaseLevel) {
+        super.activate(level)
     }
 
 }

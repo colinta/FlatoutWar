@@ -15,17 +15,15 @@ class DecoyPowerup: Powerup {
         super.init()
     }
 
-    override func activate() {
-        super.activate()
+    override func activate(level: BaseLevel) {
+        super.activate(level)
 
-        if let level = level {
-            self.onNextTap(slowmo: true) { position in
-                let decoy = DecoyPowerupNode(at: level.playerNode.position)
-                decoy.alpha = 0
-                level << decoy
-                decoy.moveTo(position, duration: 1)
-                decoy.fadeTo(1, duration: 1)
-            }
+        self.onNextTap(slowmo: true) { position in
+            let decoy = DecoyPowerupNode(at: level.playerNode.position)
+            decoy.alpha = 0
+            level << decoy
+            decoy.moveTo(position, duration: 1)
+            decoy.fadeTo(1, duration: 1)
         }
     }
 
