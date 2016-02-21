@@ -168,7 +168,7 @@ extension BaseLevel {
         }
 
         timeline.after(1.75) {
-            let duration: CGFloat = 0.1
+            let duration: CGFloat = 1
             self.cameraZoom.target = 1.5
             self.cameraZoom.duration = duration
 
