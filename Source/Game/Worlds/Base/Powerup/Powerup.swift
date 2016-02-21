@@ -96,9 +96,9 @@ class Powerup {
     }
 
     func activate(level: BaseLevel) {
+        let duration: CGFloat = 0.3
         var alpha: CGFloat = 1
         var enabled = true
-        let duration: CGFloat = 0.3
         for button in powerupButtons {
             let newPosition = button.position + CGPoint(y: PowerupYOffset)
             button.enabled = enabled
@@ -182,22 +182,6 @@ class SoldiersPowerup: Powerup {
     override var name: String { return "SOLDIERS" }
     override var count: Int { return 3 }
     override var powerupType: ImageIdentifier.PowerupType? { return .Soldiers }
-
-    required override init() {
-        super.init()
-    }
-
-    override func activate(level: BaseLevel) {
-        super.activate(level)
-    }
-
-}
-
-class HourglassPowerup: Powerup {
-    override var name: String { return "HOURGLASS" }
-    override var weight: Weight { return .Special }
-    override var count: Int { return 2 }
-    override var powerupType: ImageIdentifier.PowerupType? { return .Hourglass }
 
     required override init() {
         super.init()
