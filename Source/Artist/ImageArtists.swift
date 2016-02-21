@@ -113,9 +113,6 @@ extension ImageIdentifier {
                 artist.size = artist.size * 0.5
             }
             return artist
-        case .Cursor:
-            let artist = CursorArtist()
-            return artist
         case let .Powerup(type):
             return type.artist()
         case .NoPowerup:
@@ -131,6 +128,9 @@ extension ImageIdentifier {
         case let .Drone(upgrade, healthInt):
             let health = CGFloat(healthInt) / 100
             let artist = DroneArtist(upgrade: upgrade, health: health)
+            return artist
+        case .Cursor:
+            let artist = CursorArtist()
             return artist
         case let .Base(upgrade, healthInt):
             let health = CGFloat(healthInt) / 100
