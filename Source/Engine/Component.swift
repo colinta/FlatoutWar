@@ -28,7 +28,6 @@ class Component: NSObject, NSCoding {
             node.removeComponent(self)
         }
         reset()
-        node = nil
     }
 
     required init?(coder: NSCoder) {
