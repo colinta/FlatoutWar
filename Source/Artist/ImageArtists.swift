@@ -38,8 +38,8 @@ extension ImageIdentifier.PowerupType {
                 return DecoyPowerupArtist()
             case .Mines:
                 return MinesPowerupArtist()
-            case .Grenades:
-                return GrenadesPowerupArtist()
+            case .Grenade:
+                return GrenadePowerupArtist()
             case .Bomber:
                 return BomberPowerupArtist()
             case .Shield:

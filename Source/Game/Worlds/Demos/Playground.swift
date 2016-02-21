@@ -15,6 +15,14 @@ class Playground: BaseLevel {
     }
 
     func beginWave1() {
+        20.times {
+            let enemyNode = EnemySoldierNode()
+            enemyNode.name = "soldier"
+            enemyNode.playerTargetingComponent?.enabled = false
+            enemyNode.position = CGPoint(x: ±rand(self.size.width / 2), y: ±rand(self.size.height / 2))
+            enemyNode.addComponent(WanderingComponent(centeredAround: enemyNode.position))
+            self << enemyNode
+        }
         // timeline.every(0.5, start: .Delayed(), times: 100, block: generateEnemy(0))
     }
 
@@ -27,6 +35,6 @@ class PlaygroundConfig: BaseConfig {
         return Playground()
     }
     override var availablePowerups: [Powerup] { return [
-        BomberPowerup()
+        GrenadePowerup()
     ] }
 }

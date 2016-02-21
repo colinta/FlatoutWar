@@ -19,7 +19,7 @@ class Powerup {
         BomberPowerup(),
         CoffeePowerup(),
         DecoyPowerup(),
-        GrenadesPowerup(),
+        GrenadePowerup(),
         HourglassPowerup(),
         LaserPowerup(),
         MinesPowerup(),
@@ -153,21 +153,6 @@ func ==(lhs: Powerup, rhs: Powerup) -> Bool {
 class MinesPowerup: Powerup {
     override var name: String { return "MINES" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Mines }
-
-    required override init() {
-        super.init()
-    }
-
-    override func activate() {
-        super.activate()
-    }
-
-}
-
-class GrenadesPowerup: Powerup {
-    override var name: String { return "GRENADES" }
-    override var count: Int { return 3 }
-    override var powerupType: ImageIdentifier.PowerupType? { return .Grenades }
 
     required override init() {
         super.init()

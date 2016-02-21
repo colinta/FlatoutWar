@@ -30,7 +30,7 @@ enum ImageIdentifier {
     enum PowerupType {
         case Decoy
         case Mines
-        case Grenades
+        case Grenade
         case Bomber
         case Shield
         case Soldiers
