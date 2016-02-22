@@ -124,6 +124,13 @@ extension ImageIdentifier {
         case .HourglassZone:
             let artist = HourglassZoneArtist()
             return artist
+        case .Mine:
+            let artist = MinesPowerupArtist()
+            artist.size = CGSize(15)
+            return artist
+        case .MineExplosion:
+            let artist = MineFragmentArtist()
+            return artist
         case let .Percent(percent, style):
             let artist = PercentArtist(style: style)
             artist.complete = CGFloat(percent) / 100

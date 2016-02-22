@@ -57,6 +57,8 @@ enum ImageIdentifier {
     case Bomber(numBombs: Int)
     case Bomb(radius: Int, time: Int)
     case HourglassZone
+    case Mine
+    case MineExplosion
 
     case Drone(upgrade: FiveUpgrades, health: Int)
 
@@ -138,6 +140,10 @@ enum ImageIdentifier {
             return "Bomb-radius_\(radius)-time_\(time)"
         case .HourglassZone:
             return "HourglassZone"
+        case .Mine:
+            return "Mine"
+        case .MineExplosion:
+            return "MineExplosion"
         case let .Drone(upgrade, health):
             return "Drone-upgrade_\(upgrade.name)-health_\(health)"
         case .Cursor:
