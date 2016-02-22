@@ -6,10 +6,12 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
+let HourglassTimeout: CGFloat = 6
+
 class HourglassNode: Node {
     var slowNodes: [(Node, CGFloat)] = []
     private let slowdownRate: CGFloat = 0.25
-    private var timeout: CGFloat = 4
+    private var timeout: CGFloat = HourglassTimeout
 
     private let sprite = SKSpriteNode(id: .HourglassZone)
     private let slowdownSprite = SKSpriteNode(id: .HourglassZone)
@@ -54,7 +56,7 @@ class HourglassNode: Node {
             if timeout <= 0 {
                 growOutComponent.removeFromNode()
 
-                let scaleTo = self.scaleTo(0, duration: 4)
+                let scaleTo = self.scaleTo(0, duration: HourglassTimeout)
                 scaleTo.onScaled {
                     self.removeFromParent()
                 }

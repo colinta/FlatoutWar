@@ -6,10 +6,10 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-private let numSprites = 25
-private let maxDistance: CGFloat = 100
-private let duration: CGFloat = 2
-private let maxLength: CGFloat = 10
+private let NumSprites = 25
+private let MaxDistance: CGFloat = 100
+private let Duration: CGFloat = 2
+private let MaxLength: CGFloat = 10
 
 class EnemyExplosionNode: Node {
     private var sprites: [SKSpriteNode] = []
@@ -19,7 +19,7 @@ class EnemyExplosionNode: Node {
         super.init()
         z = .Bottom
 
-        for _ in 0..<numSprites {
+        for _ in 0..<NumSprites {
             let sprite = SKSpriteNode(id: .None)
             sprites << sprite
             self << sprite
@@ -39,15 +39,15 @@ class EnemyExplosionNode: Node {
     }
 
     override func update(dt: CGFloat) {
-        phase += dt / duration
+        phase += dt / Duration
         guard phase <= 1 else {
             removeFromParent()
             return
         }
 
         let hue = Int(round(interpolate(phase, from: (0, 1), to: (48, 0))))
-        let distance = phase * maxDistance
-        let length = min(distance, maxLength)
+        let distance = phase * MaxDistance
+        let length = min(distance, MaxLength)
         let alpha = min(1, 4 * (1 - phase))
 
         for (i, sprite) in sprites.enumerate() {
