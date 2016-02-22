@@ -208,22 +208,6 @@ class PulsePowerup: Powerup {
 
 }
 
-class LaserPowerup: Powerup {
-    override var name: String { return "LASER" }
-    override var weight: Weight { return .Special }
-    override var count: Int { return 2 }
-    override var powerupType: ImageIdentifier.PowerupType? { return .Laser }
-
-    required override init() {
-        super.init()
-    }
-
-    override func activate(level: BaseLevel) {
-        super.activate(level)
-    }
-
-}
-
 class NetPowerup: Powerup {
     override var name: String { return "NET" }
     override var count: Int { return 5 }
