@@ -19,7 +19,8 @@ class Playground: BaseLevel {
             let enemyNode = EnemySoldierNode()
             enemyNode.name = "soldier"
             // enemyNode.playerTargetingComponent?.enabled = false
-            enemyNode.position = CGPoint(x: ±rand(self.size.width / 2), y: ±rand(self.size.height / 2))
+            let r: CGFloat = rand(min: 100, max: 400)
+            enemyNode.position = CGPoint(r: r, a: rand(min: 0, max: TAU_8))
             // enemyNode.addComponent(WanderingComponent(centeredAround: enemyNode.position))
             self << enemyNode
         }
