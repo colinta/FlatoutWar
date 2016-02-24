@@ -6,6 +6,8 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
+private let NumFragments = 5
+
 class MineNode: Node {
     let sprite = SKSpriteNode(id: .Mine)
 
@@ -19,9 +21,13 @@ class MineNode: Node {
         projectileComponent.intersectionNode = sprite
         projectileComponent.onCollision { (enemy, location) in
             if let world = self.world {
-                let absLocation = world.convertPoint(location, fromNode: self)
-                let explosionNode = MineFragmentNode(at: absLocation)
-                world << explosionNode
+                NumFragments.times { (i: Int) in
+                    let angle = CGFloat(i) * TAU / CGFloat(NumFragments)
+                    let absLocation = world.convertPoint(location, fromNode: self)
+                    let fragmentNode = MineFragmentNode(angle: angle)
+                    fragmentNode.position = absLocation
+                    world << fragmentNode
+                }
             }
             self.removeFromParent()
         }
