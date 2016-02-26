@@ -7,6 +7,7 @@
 //
 
 class ScaleToComponent: ApplyToNodeComponent {
+    var easing: Easing?
     var currentScale: CGFloat?
     var target: CGFloat? = 1 {
         didSet {
@@ -101,7 +102,15 @@ class ScaleToComponent: ApplyToNodeComponent {
             self.currentScale = newScale
 
             apply { applyTo in
-                applyTo.setScale(newScale)
+                let actualScale: CGFloat
+                if let easing = self.easing {
+                    actualScale = easing.ease(time: newScale, initial: 0, final: 1)
+                }
+                else {
+                    actualScale = newScale
+                }
+
+                applyTo.setScale(actualScale)
             }
         }
         else {
@@ -119,7 +128,7 @@ class ScaleToComponent: ApplyToNodeComponent {
 
 extension Node {
 
-    func scaleTo(targetScale: CGFloat, start: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, removeNode: Bool = false) -> ScaleToComponent {
+    func scaleTo(targetScale: CGFloat, start: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, removeNode: Bool = false, easing: Easing? = nil) -> ScaleToComponent {
         let scale = scaleToComponent ?? ScaleToComponent()
         if let start = start {
             self.setScale(start)
@@ -131,6 +140,7 @@ extension Node {
         scale.target = targetScale
         scale.duration = duration
         scale.rate = rate
+        scale.easing = easing
 
         if removeNode {
             scale.removeNodeOnScale()
