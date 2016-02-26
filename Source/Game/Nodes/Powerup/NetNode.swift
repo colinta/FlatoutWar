@@ -38,7 +38,7 @@ class NetNode: Node {
                 if enemy.enemyComponent!.targetable && !netted.contains(enemy) && enemy.distanceTo(self, within: scaledRadius) {
                     netted << enemy
 
-                    let netSprite = SKSpriteNode(id: .EnemyNet(size: 2.25 * enemy.radius))
+                    let netSprite = SKSpriteNode(id: .EnemyNet(size: 3 * enemy.radius))
                     netSprite.zPosition = Z.Above.rawValue
                     enemy << netSprite
 
