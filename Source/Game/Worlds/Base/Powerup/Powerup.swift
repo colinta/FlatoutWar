@@ -193,18 +193,3 @@ class PulsePowerup: Powerup {
     }
 
 }
-
-class NetPowerup: Powerup {
-    override var name: String { return "NET" }
-    override var count: Int { return 5 }
-    override var powerupType: ImageIdentifier.PowerupType? { return .Net }
-
-    required override init() {
-        super.init()
-    }
-
-    override func activate(level: BaseLevel) {
-        super.activate(level)
-    }
-
-}

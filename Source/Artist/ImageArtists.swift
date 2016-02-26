@@ -131,6 +131,11 @@ extension ImageIdentifier {
         case .MineExplosion:
             let artist = MineFragmentArtist()
             return artist
+        case .Net:
+            let artist = NetPowerupArtist()
+            artist.fill = false
+            artist.size = CGSize(100)
+            return artist
         case let .Percent(percent, style):
             let artist = PercentArtist(style: style)
             artist.complete = CGFloat(percent) / 100

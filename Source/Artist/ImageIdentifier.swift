@@ -59,6 +59,7 @@ enum ImageIdentifier {
     case HourglassZone
     case Mine
     case MineExplosion
+    case Net
 
     case Drone(upgrade: FiveUpgrades, health: Int)
 
@@ -144,6 +145,8 @@ enum ImageIdentifier {
             return "Mine"
         case .MineExplosion:
             return "MineExplosion"
+        case .Net:
+            return "Net"
         case let .Drone(upgrade, health):
             return "Drone-upgrade_\(upgrade.name)-health_\(health)"
         case .Cursor:

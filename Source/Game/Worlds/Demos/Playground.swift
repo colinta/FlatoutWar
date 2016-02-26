@@ -35,7 +35,7 @@ class PlaygroundConfig: BaseConfig {
         return Playground()
     }
     override var availablePowerups: [Powerup] { return [
-        HourglassPowerup(),
+        NetPowerup(),
         MinesPowerup(),
         LaserPowerup(),
     ] }
