@@ -22,6 +22,10 @@ class NetPowerup: Powerup {
             let node = NetNode(at: position)
             node.scaleTo(1, start: 0, duration: 0.8, easing: .EaseOutElastic)
             level << node
+
+            level.timeline.after(1) {
+                node.fadeTo(0, duration: 1, removeNode: true)
+            }
         }
     }
 

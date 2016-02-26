@@ -8,6 +8,7 @@
 
 class NetPowerupArtist: PowerupArtist {
     var fill = true
+    var phase: CGFloat = 0
 
     override func draw(context: CGContext) {
         super.draw(context)
@@ -27,10 +28,12 @@ class NetPowerupArtist: PowerupArtist {
 
         CGContextSetAlpha(context, 0.5)
         CGContextTranslateCTM(context, middle.x, middle.y)
+        let factor: CGFloat = abs(sin(phase * TAU) / 4)
         for s in [-1.5, -0.5, 0.5, 1.5] as [CGFloat] {
+            let sign: CGFloat = abs(s) / s
             do {
-                let x1 = s * dx
-                let x2 = s * dx * 1.6
+                let x1 = (s + factor * sign) * dx
+                let x2 = (s + factor * sign) * dx * 1.6
                 let y0: CGFloat = 0
                 let y1: CGFloat = sqrt(rr - pow(x1, 2))
                 let y2 = -y1
@@ -39,8 +42,8 @@ class NetPowerupArtist: PowerupArtist {
             }
 
             do {
-                let y1 = s * dy
-                let y2 = s * dy * 1.6
+                let y1 = (s + factor * sign) * dy
+                let y2 = (s + factor * sign) * dy * 1.6
                 let x0: CGFloat = 0
                 let x1: CGFloat = sqrt(rr - pow(y1, 2))
                 let x2 = -x1

@@ -59,7 +59,8 @@ enum ImageIdentifier {
     case HourglassZone
     case Mine
     case MineExplosion
-    case Net
+    case Net(phase: Int)
+    case EnemyNet(size: CGFloat)
 
     case Drone(upgrade: FiveUpgrades, health: Int)
 
@@ -86,7 +87,7 @@ enum ImageIdentifier {
         case .None:
             return ""
         case let .Percent(percent, style):
-            return "Percent-percent_\(percent)-style_\(style)"
+            return "Percent(percent:\(percent),style:\(style))"
         case let .WhiteLetter(letter, size):
             let nameLetter: String
             switch letter {
@@ -105,7 +106,7 @@ enum ImageIdentifier {
             default:
                 nameLetter = letter
             }
-            return "WhiteLetter-letter_\(nameLetter)-size_\(size.name)"
+            return "WhiteLetter(letter:\(nameLetter),size:\(size.name))"
         case let .Letter(letter, size, color):
             let nameLetter: String
             switch letter {
@@ -145,8 +146,11 @@ enum ImageIdentifier {
             return "Mine"
         case .MineExplosion:
             return "MineExplosion"
-        case .Net:
-            return "Net"
+        case let .Net(phase):
+            return "Net-phase_\(phase)"
+        case let .EnemyNet(size):
+            let roundedSize = Int(round(size * 20))
+            return "EnemyNet-size_\(roundedSize)"
         case let .Drone(upgrade, health):
             return "Drone-upgrade_\(upgrade.name)-health_\(health)"
         case .Cursor:
