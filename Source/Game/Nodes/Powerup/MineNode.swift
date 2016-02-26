@@ -13,7 +13,7 @@ class MineNode: Node {
 
     required init() {
         super.init()
-        size = CGSize(15)
+        size = sprite.size
         self << sprite
 
         let projectileComponent = ProjectileComponent()
