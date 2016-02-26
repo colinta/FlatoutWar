@@ -7,11 +7,12 @@
 //
 
 let HourglassTimeout: CGFloat = 6
+private let SlowdownRate: CGFloat = 0.25
 
 class HourglassNode: Node {
-    var slowNodes: [(Node, CGFloat)] = []
-    private let slowdownRate: CGFloat = 0.25
+    var slowNodes: [Node] = []
     private var timeout: CGFloat = HourglassTimeout
+    private let slowdownMod = Mod(attr: .TimeRate(SlowdownRate))
 
     private let sprite = SKSpriteNode(id: .HourglassZone)
     private let slowdownSprite = SKSpriteNode(id: .HourglassZone)
@@ -63,16 +64,16 @@ class HourglassNode: Node {
             }
         }
 
-        for (node, speed) in slowNodes {
-            node.timeRate = speed
+        for node in slowNodes {
+            node.removeMod(slowdownMod)
         }
 
         if let world = world {
             slowNodes = []
             for enemy in world.enemies {
                 if enemy.touches(self) {
-                    slowNodes << (enemy, enemy.timeRate)
-                    enemy.timeRate = slowdownRate
+                    enemy.addMod(slowdownMod)
+                    slowNodes << enemy
                 }
             }
         }

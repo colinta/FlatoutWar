@@ -9,6 +9,8 @@
 class Node: SKNode {
     var frozen = false
     var timeRate: CGFloat = 1
+    private var mods: [Mod] = []
+
     var fixedPosition: Position? {
         didSet {
             world?.updateFixedNodes()
@@ -164,7 +166,8 @@ extension Node {
         guard !frozen else { return }
         guard world != nil else { return }
 
-        let dt = dtReal * timeRate
+        let dt = dtReal * getTimeRate()
+
         for component in components {
             if component.enabled {
                 component.update(dt)
@@ -306,6 +309,52 @@ extension Node {
             else if let component = component as? TimelineComponent { timelineComponent = component }
             else if let component = component as? TouchableComponent { touchableComponent = component }
             else if let component = component as? WanderingComponent { wanderingComponent = component }
+        }
+    }
+
+}
+
+extension Node {
+    func addMod(mod: Mod) -> NSUUID {
+        if !mods.contains(mod) {
+            mods << mod
+        }
+        return mod.id
+    }
+
+    func removeMod(mod: Mod) {
+        removeMod(mod.id)
+    }
+
+    func removeMod(id: NSUUID) {
+        for (index, mod) in mods.enumerate() {
+            if mod.id == id {
+                mods.removeAtIndex(index)
+                break
+            }
+        }
+    }
+
+    func getTimeRate() -> CGFloat {
+        let timeRateAttr = getAttr(.TimeRate)
+        if case let .TimeRate(timeRate) = timeRateAttr {
+            return timeRate
+        }
+        return 0
+    }
+
+    func getAttr(attr: Attr) -> AttrMod {
+        switch attr {
+        case .TimeRate:
+            var dt = timeRate
+            for mod in mods {
+                switch mod.attr {
+                case let .TimeRate(rate):
+                    dt *= rate
+                default: break
+                }
+            }
+            return .TimeRate(dt)
         }
     }
 
