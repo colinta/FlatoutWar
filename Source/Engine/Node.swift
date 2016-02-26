@@ -351,7 +351,7 @@ extension Node {
                 switch mod.attr {
                 case let .TimeRate(rate):
                     dt *= rate
-                default: break
+                //default: break
                 }
             }
             return .TimeRate(dt)

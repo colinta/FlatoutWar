@@ -61,9 +61,7 @@ class MineFragmentNode: Node {
         let vector = CGPoint(r: v * dt, a: angle)
         position += vector
 
-        let distance = phase * MaxDistance
         let alpha = min(1, 4 * (1 - phase))
-
         sprite.alpha = alpha
     }
 
