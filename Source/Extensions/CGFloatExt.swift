@@ -7,7 +7,6 @@
 //
 
 extension CGFloat {
-
     var degrees: CGFloat {
         return CGFloat(self) / 360 * TAU
     }
@@ -18,7 +17,6 @@ extension CGFloat {
 }
 
 extension Double {
-
     var degrees: CGFloat {
         return CGFloat(self) / 360 * TAU
     }
@@ -30,7 +28,6 @@ extension Double {
 
 
 extension Int {
-
     var degrees: CGFloat {
         return CGFloat(self) / 360 * TAU
     }
