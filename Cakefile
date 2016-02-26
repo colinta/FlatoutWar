@@ -14,8 +14,8 @@ application_for :ios, 8.0, :swift do |target|
 
     target.include_files = ["Source/**/*", "Resources/**/*"]
 
-    target.all_configurations.settings["INFOPLIST_FILE"] = "FlatoutWar/Info.plist"
-    target.all_configurations.settings["SWIFT_OBJC_BRIDGING_HEADER"] = "FlatoutWar/BridgingHeader.h"
+    target.all_configurations.settings["INFOPLIST_FILE"] = "Support/Info.plist"
+    target.all_configurations.settings["SWIFT_OBJC_BRIDGING_HEADER"] = "Support/BridgingHeader.h"
 
     # target.release_configuration.settings["ASSETCATALOG_COMPILER_APPICON_NAME"] = "AppIcon"
 
