@@ -125,21 +125,21 @@ enum ImageIdentifier {
             default:
                 nameLetter = letter
             }
-            return "Letter-letter_\(nameLetter)-size_\(size.name)-color_\(color)"
+            return "Letter(letter:\(nameLetter),size:\(size.name),color:\(color))"
         case let .Button(style):
-            return "Button-style_\(style.name)"
+            return "Button(style:\(style.name))"
         case let .Enemy(type, health):
-            return "Enemy-type_\(type.name)-health_\(health)"
+            return "Enemy(type:\(type.name),health:\(health))"
         case let .EnemyShrapnel(type, size):
-            return "EnemyShrapnel-type_\(type.name)-size_\(size.name)"
+            return "EnemyShrapnel(type:\(type.name),size:\(size.name))"
         case let .Powerup(type):
-            return "Powerup-type_\(type.name)"
+            return "Powerup(type:\(type.name))"
         case .NoPowerup:
             return "NoPowerup"
         case let .Bomber(numBombs):
-            return "Bomber-numBombs_\(numBombs)"
+            return "Bomber(numBombs:\(numBombs))"
         case let .Bomb(radius, time):
-            return "Bomb-radius_\(radius)-time_\(time)"
+            return "Bomb(radius:\(radius),time:\(time))"
         case .HourglassZone:
             return "HourglassZone"
         case .Mine:
@@ -147,44 +147,44 @@ enum ImageIdentifier {
         case .MineExplosion:
             return "MineExplosion"
         case let .Net(phase):
-            return "Net-phase_\(phase)"
+            return "Net(phase:\(phase))"
         case let .EnemyNet(size):
             let roundedSize = Int(round(size * 20))
-            return "EnemyNet-size_\(roundedSize)"
+            return "EnemyNet(size:\(roundedSize))"
         case let .Drone(upgrade, health):
-            return "Drone-upgrade_\(upgrade.name)-health_\(health)"
+            return "Drone(upgrade:\(upgrade.name),health:\(health))"
         case .Cursor:
             return "Cursor"
         case let .Base(upgrade, health):
-            return "Base-upgrade_\(upgrade.name)-health_\(health)"
+            return "Base(upgrade:\(upgrade.name),health:\(health))"
         case let .BaseRadar(upgrade):
-            return "BaseRadar-upgrade_\(upgrade.name)"
+            return "BaseRadar(upgrade:\(upgrade.name))"
         case let .BaseExplosion(index, total):
-            return "BaseExplosion-index_\(index)-total_\(total)"
+            return "BaseExplosion(index:\(index),total:\(total))"
         case let .BaseSingleTurret(upgrade):
-            return "BaseSingleTurret-upgrade_\(upgrade.name)"
+            return "BaseSingleTurret(upgrade:\(upgrade.name))"
         case let .BaseDoubleTurret(upgrade):
-            return "BaseDoubleTurret-upgrade_\(upgrade.name)"
+            return "BaseDoubleTurret(upgrade:\(upgrade.name))"
         case let .BaseBigTurret(upgrade):
-            return "BaseBigTurret-upgrade_\(upgrade.name)"
+            return "BaseBigTurret(upgrade:\(upgrade.name))"
         case let .BaseTurretBullet(upgrade):
-            return "BaseTurretBullet-upgrade_\(upgrade.name)"
+            return "BaseTurretBullet(upgrade:\(upgrade.name))"
         case .ColorPath:
             return nil
         case let .ColorLine(length, color):
             let roundedLength = Int(round(length * 20))
-            return "ColorLine-length_\(roundedLength)-color_\(color)"
+            return "ColorLine(length:\(roundedLength),color:\(color))"
         case let .HueLine(length, hue):
             let roundedLength = Int(round(length * 20))
-            return "HueLine-length_\(roundedLength)-hue_\(hue)"
+            return "HueLine(length:\(roundedLength),hue:\(hue))"
         case let .ColorBox(size, color):
-            return "ColorBox-size\(Int(size.width))x\(Int(size.height))-color_\(color)"
+            return "ColorBox(size\(Int(size.width))x\(Int(size.height)),color:\(color))"
         case let .HueBox(size, hue):
-            return "HueBox-size\(Int(size.width))x\(Int(size.height))-hue_\(hue)"
+            return "HueBox(size\(Int(size.width))x\(Int(size.height)),hue:\(hue))"
         case let .FillColorBox(size, color):
-            return "FillColorBox-size\(Int(size.width))x\(Int(size.height))-color_\(color)"
+            return "FillColorBox(size\(Int(size.width))x\(Int(size.height)),color:\(color))"
         case let .FillHueBox(size, hue):
-            return "FillHueBox-size\(Int(size.width))x\(Int(size.height))-hue_\(hue)"
+            return "FillHueBox(size\(Int(size.width))x\(Int(size.height)),hue:\(hue))"
         }
     }
 }
