@@ -11,7 +11,6 @@ class BaseArtist: Artist {
     var fill = UIColor(hex: 0xEC942B)
     var upgrade: FiveUpgrades
     private let angles: [CGFloat]
-    private let points: [CGPoint]
 
     private var path: CGPath
     private var smallPath: CGPath
@@ -20,17 +19,14 @@ class BaseArtist: Artist {
         self.upgrade = upgrade
 
         let pointCount: Int = 20
-        var angles: [CGFloat] = []
-        var points: [CGPoint] = []
+        var angles: [CGFloat] = [0]
         let angleDelta = TAU / CGFloat(pointCount)
         let angleRand = angleDelta / 2
-        for i in 0..<pointCount {
+        for i in 1..<pointCount {
             let angle = angleDelta * CGFloat(i) ± rand(angleRand)
             angles << angle
-            points << CGPoint(r: 1, a: angle + TAU_2)
         }
         self.angles = angles
-        self.points = points
 
         self.path = CGPathCreateMutable()
         self.smallPath = CGPathCreateMutable()
@@ -46,34 +42,41 @@ class BaseArtist: Artist {
 
     private func generatePaths(health health: CGFloat) {
         self.path = generatePath()
-        self.smallPath = generatePath(max: CGFloat(round(health * 360.0) / 360.0) * TAU)
+        if health == 1 {
+            self.smallPath = generatePath()
+        }
+        else {
+            self.smallPath = generatePath(max: health * TAU)
+        }
     }
 
     private func generatePath(max max: CGFloat? = nil) -> CGPath {
         let path = CGPathCreateMutable()
         var first = true
-        for i in 0..<points.count {
+        let r = size.width / 2
+        for i in 0..<angles.count {
             let a = angles[i]
-            let p: CGPoint
             if let max = max where a > max {
-                p = CGPoint(r: 1, a: max + TAU_2)
+                break
             }
-            else {
-                p = points[i]
-            }
-            let localPoint = (p * size + self.size) * 0.5
 
+            let p = middle + CGPoint(r: r, a: TAU_2 + a)
             if first {
-                CGPathMoveToPoint(path, nil, localPoint.x, localPoint.y)
+                CGPathMoveToPoint(path, nil, p.x, p.y)
                 first = false
             }
             else {
-                CGPathAddLineToPoint(path, nil, localPoint.x, localPoint.y)
+                CGPathAddLineToPoint(path, nil, p.x, p.y)
+            }
+        }
+        if let max = max {
+            if first {
+                CGPathMoveToPoint(path, nil, middle.x, middle.y)
             }
 
-            if let max = max where a > max {
-                CGPathAddLineToPoint(path, nil, middle.x, middle.y)
-            }
+            let p = middle + CGPoint(r: r, a: TAU_2 + max)
+            CGPathAddLineToPoint(path, nil, p.x, p.y)
+            CGPathAddLineToPoint(path, nil, middle.x, middle.y)
         }
         CGPathCloseSubpath(path)
         return path
