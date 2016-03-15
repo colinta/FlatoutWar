@@ -11,7 +11,6 @@ class BaseLevel1: BaseLevel {
     override func loadConfig() -> BaseConfig { return BaseLevel1Config() }
 
     override func populateLevel() {
-
         playerNode.forceFireEnabled = false
 
         beginWave1()
