@@ -73,6 +73,7 @@ class Node: SKNode {
     weak var flyingComponent: FlyingComponent?
     weak var followComponent: FollowComponent?
     weak var growToComponent: GrowToComponent?
+    weak var jiggleComponent: JiggleComponent?
     weak var healthComponent: HealthComponent?
     weak var keepMovingComponent: KeepMovingComponent?
     weak var keepRotatingComponent: KeepRotatingComponent?
@@ -227,6 +228,7 @@ extension Node {
         else if let component = component as? FiringComponent { firingComponent = component }
         else if let component = component as? FollowComponent { followComponent = component }
         else if let component = component as? GrowToComponent { growToComponent = component }
+        else if let component = component as? JiggleComponent { jiggleComponent = component }
         else if let component = component as? HealthComponent { healthComponent = component }
         else if let component = component as? KeepMovingComponent { keepMovingComponent = component }
         else if let component = component as? KeepRotatingComponent { keepRotatingComponent = component }
@@ -258,6 +260,7 @@ extension Node {
             else if component == firingComponent { firingComponent = nil }
             else if component == followComponent { followComponent = nil }
             else if component == growToComponent { growToComponent = nil }
+            else if component == jiggleComponent { jiggleComponent = nil }
             else if component == healthComponent { healthComponent = nil }
             else if component == keepMovingComponent { keepMovingComponent = nil }
             else if component == keepRotatingComponent { keepRotatingComponent = nil }
@@ -290,6 +293,7 @@ extension Node {
             else if let component = component as? FiringComponent { firingComponent = component }
             else if let component = component as? FollowComponent { followComponent = component }
             else if let component = component as? GrowToComponent { growToComponent = component }
+            else if let component = component as? JiggleComponent { jiggleComponent = component }
             else if let component = component as? HealthComponent { healthComponent = component }
             else if let component = component as? KeepMovingComponent { keepMovingComponent = component }
             else if let component = component as? KeepRotatingComponent { keepRotatingComponent = component }

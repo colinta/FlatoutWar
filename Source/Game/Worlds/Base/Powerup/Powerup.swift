@@ -178,18 +178,3 @@ class SoldiersPowerup: Powerup {
     }
 
 }
-
-class PulsePowerup: Powerup {
-    override var name: String { return "PULSE" }
-    override var count: Int { return 3 }
-    override var powerupType: ImageIdentifier.PowerupType? { return .Pulse }
-
-    required override init() {
-        super.init()
-    }
-
-    override func activate(level: BaseLevel) {
-        super.activate(level)
-    }
-
-}
