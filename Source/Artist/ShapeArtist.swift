@@ -66,13 +66,20 @@ class CircleArtist: ShapeArtist {
 }
 
 class LineArtist: ShapeArtist {
+    override var lineWidth: CGFloat? {
+        didSet {
+            if let lineWidth = lineWidth {
+                size = CGSize(width: size.width, height: max(lineWidth, 1))
+            }
+        }
+    }
 
     required init(_ length: CGFloat, _ color: UIColor) {
         super.init()
-        self.drawingMode = .Stroke
-        self.strokeColor = color
-        self.lineWidth = 1.pixels
         size = CGSize(width: length, height: 1)
+        drawingMode = .Stroke
+        strokeColor = color
+        lineWidth = 1.pixels
     }
 
     required init() {
