@@ -332,6 +332,17 @@ extension BaseLevel {
         self << enemyNode
     }
 
+    func generateSlowEnemy(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561)() {
+        var screenAngle = genScreenAngle
+        if spread > 0 {
+            screenAngle = screenAngle ± rand(spread)
+        }
+        let enemyNode = EnemySlowSoldierNode()
+        enemyNode.name = "slow"
+        enemyNode.position = outsideWorld(enemyNode, angle: screenAngle)
+        self << enemyNode
+    }
+
     func generateLeaderEnemy(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561)() {
         var screenAngle = genScreenAngle
         if spread > 0 {

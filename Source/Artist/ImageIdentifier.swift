@@ -16,6 +16,7 @@ enum ImageIdentifier {
 
     enum EnemyType {
         case Soldier
+        case SlowSoldier
         case Leader
         case Scout
         case Dozer

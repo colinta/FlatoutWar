@@ -43,6 +43,14 @@ class EnemySoldierArtist: Artist {
 
 }
 
+class EnemySlowSoldierArtist: EnemySoldierArtist {
+    required init(health: CGFloat) {
+        super.init(health: health)
+        size = CGSize(8)
+        color = UIColor(hex: 0x3544FF)
+    }
+}
+
 class EnemyLeaderArtist: EnemySoldierArtist {
     private let darkColor = UIColor(hex: 0x234B0C)
 

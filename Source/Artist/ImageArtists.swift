@@ -13,6 +13,8 @@ extension ImageIdentifier.EnemyType {
         switch self {
         case .Soldier:
             artist = EnemySoldierArtist(health: health)
+        case .SlowSoldier:
+            artist = EnemySlowSoldierArtist(health: health)
         case .GiantSoldier:
             artist = EnemySoldierArtist(health: health)
             artist.size *= 10
