@@ -10,6 +10,7 @@
 // regardless of offset
 private let MaxTime: CGFloat = 10
 private let MaxWidth: CGFloat = 325
+private let Damage: Float = 10
 
 class PulseNode: Node {
     class Pulse {
@@ -80,13 +81,12 @@ class PulseNode: Node {
         }
 
         if let world = world {
-            let damage: Float = 1
             for enemy in world.enemies where enemy.enemyComponent!.targetable {
                 for p in pulses {
                     let innerR = p.radius - 1
                     let outerR = p.radius + 1
                     if self.distanceTo(enemy, within: outerR) && !self.distanceTo(enemy, within: innerR) {
-                        enemy.healthComponent?.inflict(damage * Float(dt))
+                        enemy.healthComponent?.inflict(Damage * Float(dt))
 
                         if let jiggleComponent = enemy.jiggleComponent {
                             jiggleComponent.resetTimeout()
