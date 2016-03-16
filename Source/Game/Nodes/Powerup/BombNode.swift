@@ -64,7 +64,7 @@ class BombNode: Node {
     private func damageTargets(dt: CGFloat) {
         guard let world = world else { return }
 
-        for enemy in world.enemies {
+        for enemy in world.enemies where enemy.enemyComponent!.targetable {
             if let damage = damageToTarget(enemy) {
                 enemy.healthComponent?.inflict(damage * Float(dt))
             }

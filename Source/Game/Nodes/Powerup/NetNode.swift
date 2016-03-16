@@ -34,16 +34,18 @@ class NetNode: Node {
 
         if let world = world {
             let scaledRadius = radius * self.xScale
-            for enemy in world.enemies {
-                if enemy.enemyComponent!.targetable && !netted.contains(enemy) && enemy.distanceTo(self, within: scaledRadius) {
-                    netted << enemy
+            for enemy in world.enemies where
+                enemy.enemyComponent!.targetable
+                && !netted.contains(enemy)
+                && enemy.distanceTo(self, within: scaledRadius)
+            {
+                netted << enemy
 
-                    let netSprite = SKSpriteNode(id: .EnemyNet(size: 3 * enemy.radius))
-                    netSprite.zPosition = Z.Above.rawValue
-                    enemy << netSprite
+                let netSprite = SKSpriteNode(id: .EnemyNet(size: 3 * enemy.radius))
+                netSprite.zPosition = Z.Above.rawValue
+                enemy << netSprite
 
-                    enemy.addComponent(StoppedComponent())
-                }
+                enemy.addComponent(StoppedComponent())
             }
         }
     }

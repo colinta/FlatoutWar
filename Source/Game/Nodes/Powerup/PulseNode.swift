@@ -81,7 +81,7 @@ class PulseNode: Node {
 
         if let world = world {
             let damage: Float = 1
-            for enemy in world.enemies {
+            for enemy in world.enemies where enemy.enemyComponent!.targetable {
                 for p in pulses {
                     let innerR = p.radius - 1
                     let outerR = p.radius + 1

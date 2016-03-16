@@ -70,7 +70,7 @@ class HourglassNode: Node {
 
         if let world = world {
             slowNodes = []
-            for enemy in world.enemies {
+            for enemy in world.enemies where enemy.enemyComponent!.targetable {
                 if enemy.touches(self) {
                     enemy.addMod(slowdownMod)
                     slowNodes << enemy

@@ -120,19 +120,17 @@ class TargetingComponent: Component {
         var bestTarget: Node? = currentTarget
         var bestDistance: CGFloat = 0
 
-        for enemy in world.enemies {
-            if isViableTarget(enemy) {
-                let enemyPosition = node.convertPosition(enemy)
-                let enemyDistance = enemyPosition.roughLength
+        for enemy in world.enemies where isViableTarget(enemy) {
+            let enemyPosition = node.convertPosition(enemy)
+            let enemyDistance = enemyPosition.roughLength
 
-                if bestTarget == nil {
-                    bestTarget = enemy
-                    bestDistance = enemyDistance
-                }
-                else if enemyDistance < bestDistance {
-                    bestTarget = enemy
-                    bestDistance = enemyDistance
-                }
+            if bestTarget == nil {
+                bestTarget = enemy
+                bestDistance = enemyDistance
+            }
+            else if enemyDistance < bestDistance {
+                bestTarget = enemy
+                bestDistance = enemyDistance
             }
         }
 
