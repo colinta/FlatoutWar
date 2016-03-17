@@ -10,14 +10,12 @@ private let startingHealth: Float = 2
 
 class EnemySoldierNode: Node {
     static let DefaultSoldierSpeed: CGFloat = 25
-    var sprite: SKSpriteNode!
+    var sprite = SKSpriteNode()
 
     required init() {
         super.init()
         size = CGSize(10)
 
-        sprite = SKSpriteNode(id: .None)
-        updateTexture()
         self << sprite
 
         let healthComponent = HealthComponent(health: startingHealth)
@@ -29,6 +27,7 @@ class EnemySoldierNode: Node {
             self.removeFromParent()
         }
         addComponent(healthComponent)
+        updateTexture()
 
         let enemyComponent = EnemyComponent()
         enemyComponent.intersectionNode = sprite
@@ -76,9 +75,7 @@ class EnemySoldierNode: Node {
     }
 
     func updateTexture() {
-        let texture = SKTexture.id(.Enemy(type: enemyType(), health: healthComponent?.healthInt ?? 100))
-        sprite.texture = texture
-        sprite.size = texture.size() * sprite.xScale
+        sprite.textureId(.Enemy(type: enemyType(), health: healthComponent?.healthInt ?? 100))
     }
 
     func generateRammingExplosion() {
