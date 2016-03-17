@@ -29,6 +29,7 @@ class PlayerTargetingComponent: Component {
     override func reset() {
         super.reset()
         currentTarget = nil
+        _onTargetAcquired = []
     }
 
     func acquireTarget(world: World) -> Node? {

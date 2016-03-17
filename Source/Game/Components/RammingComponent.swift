@@ -48,12 +48,6 @@ class RammingComponent: Component {
         super.encodeWithCoder(encoder)
     }
 
-    func bindTo(targetingComponent targetingComponent: PlayerTargetingComponent) {
-        targetingComponent.onTargetAcquired { target in
-            self.currentTarget = target
-        }
-    }
-
     override func reset() {
         _onRammed = []
     }
@@ -65,13 +59,8 @@ class RammingComponent: Component {
         }
     }
 
-    private func struckTarget() -> Node? {
-        if let players = (node.world?.players ?? currentTarget.map { [$0] }) {
-            return players.firstMatch { player in
-                return player.playerComponent!.targetable && intersectionNode!.intersectsNode(player.playerComponent!.intersectionNode!) && node.touches(player)
-            }
-        }
-        return nil
+    func struckTargetTest() -> Bool {
+        return false
     }
 
     func removeTempTarget() {
@@ -90,24 +79,8 @@ class RammingComponent: Component {
 
         // if the node rammed into a target, call the handlers and remove this
         // component (to prevent multiple ramming events)
-        let struckTarget = self.struckTarget()
-        if let struckTarget = struckTarget {
-            let enemyDamage = min(struckTarget.healthComponent?.health ?? 0, node.healthComponent?.health ?? 0)
-
-            if damage > 0 {
-                struckTarget.healthComponent?.inflict(damage)
-            }
-
-            switch struckTarget.playerComponent!.rammedBehavior {
-            case .Damaged:
-                for handler in _onRammed {
-                    handler()
-                }
-                removeFromNode()
-                return
-            case .Attacks:
-                node.healthComponent?.inflict(enemyDamage)
-            }
+        if struckTargetTest() {
+            return
         }
 
         if let targetLocation = currentTargetLocation {
@@ -143,6 +116,77 @@ class RammingComponent: Component {
         let newCenter = node.position + dt * vector
         self.currentSpeed = currentSpeed
         node.position = newCenter
+    }
+
+}
+
+
+class PlayerRammingComponent: RammingComponent {
+
+    func bindTo(targetingComponent targetingComponent: PlayerTargetingComponent) {
+        targetingComponent.onTargetAcquired { target in
+            self.currentTarget = target
+        }
+    }
+
+    override func struckTargetTest() -> Bool {
+        if let struckTarget = self.struckTarget() {
+            let enemyDamage = min(struckTarget.healthComponent?.health ?? 0, node.healthComponent?.health ?? 0)
+
+            if damage > 0 {
+                struckTarget.healthComponent?.inflict(damage)
+            }
+
+            switch struckTarget.playerComponent!.rammedBehavior {
+            case .Damaged:
+                for handler in _onRammed {
+                    handler()
+                }
+                removeFromNode()
+                return true
+            case .Attacks:
+                node.healthComponent?.inflict(enemyDamage)
+            }
+        }
+        return false
+    }
+
+    private func struckTarget() -> Node? {
+        if let players = (node.world?.players ?? currentTarget.map { [$0] }) {
+            return players.firstMatch { player in
+                return player.playerComponent!.targetable && intersectionNode!.intersectsNode(player.playerComponent!.intersectionNode!) && node.touches(player)
+            }
+        }
+        return nil
+    }
+
+}
+
+
+class EnemyRammingComponent: RammingComponent {
+
+    func bindTo(targetingComponent targetingComponent: EnemyTargetingComponent) {
+        targetingComponent.onTargetAcquired { target in
+            self.currentTarget = target
+        }
+    }
+
+    override func struckTargetTest() -> Bool {
+        if let struckTarget = self.struckTarget() {
+            if damage > 0 {
+                struckTarget.healthComponent?.inflict(damage)
+            }
+        }
+        return false
+    }
+
+    private func struckTarget() -> Node? {
+        if let enemies = (node.world?.enemies ?? currentTarget.map { [$0] }) {
+            return enemies.firstMatch { enemy in
+                return enemy.enemyComponent!.targetable && intersectionNode!.intersectsNode(enemy.enemyComponent!.intersectionNode!) && node.touches(enemy)
+            }
+        }
+        return nil
     }
 
 }

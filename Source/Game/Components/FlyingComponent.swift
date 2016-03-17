@@ -6,7 +6,7 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-class FlyingComponent: RammingComponent {
+class FlyingComponent: PlayerRammingComponent {
     var currentFlyingTarget: CGPoint? { return flyingTargets.first }
     var flyingTargets: [CGPoint] = []
     override var currentTarget: Node? {

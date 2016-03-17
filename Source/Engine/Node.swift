@@ -86,7 +86,7 @@ class Node: SKNode {
     weak var rotateToComponent: RotateToComponent?
     weak var scaleToComponent: ScaleToComponent?
     weak var selectableComponent: SelectableComponent?
-    weak var targetingComponent: TargetingComponent?
+    weak var targetingComponent: EnemyTargetingComponent?
     weak var timelineComponent: TimelineComponent?
     weak var touchableComponent: TouchableComponent?
     weak var wanderingComponent: WanderingComponent?
@@ -244,7 +244,7 @@ extension Node {
         else if let component = component as? RotateToComponent { rotateToComponent = component }
         else if let component = component as? ScaleToComponent { scaleToComponent = component }
         else if let component = component as? SelectableComponent { selectableComponent = component }
-        else if let component = component as? TargetingComponent { targetingComponent = component }
+        else if let component = component as? EnemyTargetingComponent { targetingComponent = component }
         else if let component = component as? TimelineComponent { timelineComponent = component }
         else if let component = component as? TouchableComponent { touchableComponent = component }
         else if let component = component as? WanderingComponent { wanderingComponent = component }
@@ -309,7 +309,7 @@ extension Node {
             else if let component = component as? RotateToComponent { rotateToComponent = component }
             else if let component = component as? ScaleToComponent { scaleToComponent = component }
             else if let component = component as? SelectableComponent { selectableComponent = component }
-            else if let component = component as? TargetingComponent { targetingComponent = component }
+            else if let component = component as? EnemyTargetingComponent { targetingComponent = component }
             else if let component = component as? TimelineComponent { timelineComponent = component }
             else if let component = component as? TouchableComponent { touchableComponent = component }
             else if let component = component as? WanderingComponent { wanderingComponent = component }

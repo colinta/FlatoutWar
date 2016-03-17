@@ -92,7 +92,7 @@ class BasePlayerNode: Node {
         rotateToComponent.angularAccel = baseUpgrade.baseAngularAccel
         addComponent(rotateToComponent)
 
-        let targetingComponent = TargetingComponent()
+        let targetingComponent = EnemyTargetingComponent()
         targetingComponent.sweepAngle = radarUpgrade.radarSweepAngle
         targetingComponent.radius = radarUpgrade.radarRadius
         targetingComponent.turret = base

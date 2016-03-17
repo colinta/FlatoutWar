@@ -1,12 +1,12 @@
 //
-//  TargetingComponent.swift
+//  EnemyTargetingComponent.swift
 //  FlatoutWar
 //
 //  Created by Colin Gray on 12/29/2015.
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-class TargetingComponent: Component {
+class EnemyTargetingComponent: Component {
     var radius: CGFloat?
     var sweepAngle: CGFloat?
     var currentTarget: Node? {
@@ -21,9 +21,14 @@ class TargetingComponent: Component {
     var currentTargetVector: CGPoint?
     var currentTargetPrevLocation: CGPoint?
 
+    typealias OnTargetAcquired = (target: Node?) -> Void
+    var _onTargetAcquired: [OnTargetAcquired] = []
+    func onTargetAcquired(handler: OnTargetAcquired) { _onTargetAcquired << handler }
+
     override func reset() {
         super.reset()
         currentTarget = nil
+        _onTargetAcquired = []
     }
 
     required override init() {
@@ -39,6 +44,7 @@ class TargetingComponent: Component {
     }
 
     override func update(dt: CGFloat) {
+        let prevTarget = currentTarget
         if let enemy = currentTarget
             where !isViableTarget(enemy)
         {
@@ -48,6 +54,12 @@ class TargetingComponent: Component {
         let isRotating = node.rotateToComponent?.isRotating ?? false
         if let world = node.world where currentTarget == nil && !isRotating {
             acquireTarget(world)
+        }
+
+        if prevTarget != currentTarget {
+            for handler in _onTargetAcquired {
+                handler(target: currentTarget)
+            }
         }
 
         if let prevLocation = currentTargetPrevLocation,

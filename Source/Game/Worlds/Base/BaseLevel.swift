@@ -521,7 +521,7 @@ extension BaseLevel {
         let targetingComponent = PlayerTargetingComponent()
         enemyGhost.addComponent(targetingComponent)
 
-        let rammingComponent = RammingComponent()
+        let rammingComponent = PlayerRammingComponent()
         rammingComponent.intersectionNode = sprite
         rammingComponent.onRammed {
             enemyGhost.removeFromParent()

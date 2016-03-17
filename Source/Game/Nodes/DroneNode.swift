@@ -83,7 +83,7 @@ class DroneNode: Node, DraggableNode {
         wanderingComponent.wanderingRadius = 10
         addComponent(wanderingComponent)
 
-        let targetingComponent = TargetingComponent()
+        let targetingComponent = EnemyTargetingComponent()
         targetingComponent.reallySmart = true
         targetingComponent.sweepAngle = nil
         targetingComponent.radius = upgrade.droneRadarRadius
