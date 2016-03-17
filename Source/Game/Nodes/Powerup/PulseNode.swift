@@ -10,7 +10,7 @@
 // regardless of offset
 private let MaxTime: CGFloat = 10
 private let MaxWidth: CGFloat = 325
-private let Damage: Float = 10
+private let Damage: Float = 5
 
 class PulseNode: Node {
     class Pulse {

@@ -18,12 +18,9 @@ class PulsePowerup: Powerup {
     override func activate(level: BaseLevel) {
         super.activate(level)
 
-        let numPulse = 10
         let position = level.playerNode.position
-        numPulse.times { (i: Int) in
-            let node = PulseNode(at: position)
-            level << node
-        }
+        let node = PulseNode(at: position)
+        level << node
     }
 
 }
