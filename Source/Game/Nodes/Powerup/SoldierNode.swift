@@ -11,6 +11,7 @@ private let startingHealth: Float = 4
 class SoldierNode: Node {
     static let DefaultSoldierSpeed: CGFloat = 50
     var sprite = SKSpriteNode(id: .None)
+    var restingPosition: CGPoint?
 
     required init() {
         super.init()
@@ -37,8 +38,14 @@ class SoldierNode: Node {
 
         let targetingComponent = EnemyTargetingComponent()
         targetingComponent.radius = 200
-        targetingComponent.onTargetAcquired { _ in
+        targetingComponent.onTargetAcquired { target in
             self.moveToComponent?.removeFromNode()
+            if target == nil {
+                self.rammingComponent?.tempTarget = self.restingPosition
+            }
+            else {
+                self.rammingComponent?.tempTarget = nil
+            }
         }
         addComponent(targetingComponent)
 

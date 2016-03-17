@@ -21,9 +21,10 @@ class SoldiersPowerup: Powerup {
         let position = level.playerNode.position
         let numSoldiers = 4
         numSoldiers.times { (i: Int) in
-            let angle = TAU / CGFloat(numSoldiers) * CGFloat(i) ± rand(TAU_16)
+            let angle = TAU / CGFloat(numSoldiers) * CGFloat(i) ± rand(TAU_8)
             let dest = position + CGPoint(r: 60, a: angle)
             let node = SoldierNode(at: position)
+            node.restingPosition = dest
             node.rotateTo(angle)
             node.moveTo(dest, duration: 1)
             node.fadeTo(1, start: 0, duration: 1)
