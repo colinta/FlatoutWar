@@ -147,11 +147,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .EnemyShrapnel(type: .GiantSoldier, size: .Small),
             .EnemyShrapnel(type: .GiantSoldier, size: .Big),
             .Cursor,
-            .Drone(upgrade: .One, health: 100),
-            .Drone(upgrade: .Two, health: 100),
-            .Drone(upgrade: .Three, health: 100),
-            .Drone(upgrade: .Four, health: 100),
-            .Drone(upgrade: .Five, health: 100),
             .BaseRadar(upgrade: .One),
             .BaseRadar(upgrade: .Two),
             .BaseRadar(upgrade: .Three),
@@ -177,11 +172,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             .BaseBigTurret(upgrade: .Three),
             .BaseBigTurret(upgrade: .Four),
             .BaseBigTurret(upgrade: .Five),
-            .Base(upgrade: .One, health: 100),
-            .Base(upgrade: .Two, health: 100),
-            .Base(upgrade: .Three, health: 100),
-            .Base(upgrade: .Four, health: 100),
-            .Base(upgrade: .Five, health: 100),
         ]
 
         for id in ids {
