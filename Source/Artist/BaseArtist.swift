@@ -8,14 +8,16 @@
 
 class BaseArtist: Artist {
     var stroke = UIColor(hex: 0xFAA564)
-    var fill = UIColor(hex: 0xEC942B)
+    var fill = UIColor(hex: 0xC6811D)
     var upgrade: FiveUpgrades
+    var health: CGFloat
     private let angles: [CGFloat]
 
     private var path: CGPath
     private var smallPath: CGPath
 
     required init(upgrade: FiveUpgrades, health: CGFloat) {
+        self.health = health
         self.upgrade = upgrade
 
         let pointCount: Int = 20
@@ -83,15 +85,17 @@ class BaseArtist: Artist {
     }
 
     override func draw(context: CGContext) {
-        CGContextSetAlpha(context, 0.5)
+        CGContextSetAlpha(context, 1)
         CGContextSetStrokeColorWithColor(context, stroke.CGColor)
         CGContextSetFillColorWithColor(context, fill.CGColor)
         CGContextAddPath(context, smallPath)
         CGContextDrawPath(context, .FillStroke)
 
-        CGContextSetAlpha(context, 0.5)
-        CGContextAddPath(context, path)
-        CGContextDrawPath(context, .FillStroke)
+        if health < 1 {
+            CGContextSetAlpha(context, 0.5)
+            CGContextAddPath(context, path)
+            CGContextDrawPath(context, .FillStroke)
+        }
 
         if upgrade > 1 {
             CGContextSetAlpha(context, 1)
