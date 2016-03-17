@@ -1,0 +1,28 @@
+//
+//  ShieldPowerup.swift
+//  FlatoutWar
+//
+//  Created by Colin Gray on 3/15/2016.
+//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+//
+
+class ShieldPowerup: Powerup {
+    override var name: String { return "SHIELD" }
+    override var count: Int { return 3 }
+    override var powerupType: ImageIdentifier.PowerupType? { return .Shield }
+
+    required override init() {
+        super.init()
+    }
+
+    override func activate(level: BaseLevel) {
+        super.activate(level)
+
+        let position = level.playerNode.position
+        let node = ShieldNode(at: position)
+        node.scaleTo(1, start: 0, duration: 1)
+        node.fadeTo(1, start: 0, duration: 1)
+        level << node
+    }
+
+}

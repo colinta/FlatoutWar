@@ -150,20 +150,6 @@ func ==(lhs: Powerup, rhs: Powerup) -> Bool {
     return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
 }
 
-class ShieldPowerup: Powerup {
-    override var name: String { return "SHIELD" }
-    override var powerupType: ImageIdentifier.PowerupType? { return .Shield }
-
-    required override init() {
-        super.init()
-    }
-
-    override func activate(level: BaseLevel) {
-        super.activate(level)
-    }
-
-}
-
 class SoldiersPowerup: Powerup {
     override var name: String { return "SOLDIERS" }
     override var count: Int { return 3 }

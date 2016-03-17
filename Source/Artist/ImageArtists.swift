@@ -144,6 +144,14 @@ extension ImageIdentifier {
             artist.fill = false
             artist.size = CGSize(size)
             return artist
+        case let .Shield(phase):
+            let artist = ShieldArtist()
+            artist.phase = CGFloat(phase) / 100
+            return artist
+        case let .ShieldSegment(healthInt):
+            let artist = ShieldSegmentArtist()
+            artist.health = CGFloat(healthInt) / 100
+            return artist
         case let .Percent(percent, style):
             let artist = PercentArtist(style: style)
             artist.complete = CGFloat(percent) / 100
