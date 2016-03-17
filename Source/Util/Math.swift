@@ -12,6 +12,8 @@ let M_EPSILON: CGFloat = 0.00872664153575897
 let TAU = CGFloat(2 * M_PI)
 let τ = TAU
 let TAU_2 = CGFloat(M_PI)
+let TAU_3 = CGFloat(2 * M_PI / 3)
+let TAU_2_3 = CGFloat(4 * M_PI / 3)
 
 let TAU_3_4 = CGFloat(1.5 * M_PI)
 let TAU_4 = CGFloat(0.5 * M_PI)
