@@ -11,7 +11,6 @@ class RammingComponent: Component {
     var currentSpeed: CGFloat?
     var maxSpeed: CGFloat = 25
     var maxTurningSpeed: CGFloat = 10
-    var damage: Float = 0
     var currentTarget: Node?
     var tempTarget: CGPoint? {
         didSet {
@@ -32,7 +31,7 @@ class RammingComponent: Component {
         }
     }
 
-    typealias OnRammed = Block
+    typealias OnRammed = (Node) -> ()
     var _onRammed: [OnRammed] = []
     func onRammed(handler: OnRammed) { _onRammed << handler }
 
@@ -53,7 +52,7 @@ class RammingComponent: Component {
     }
 
     func removeNodeOnRammed() {
-        onRammed {
+        onRammed { _ in
             guard let node = self.node else { return }
             node.removeFromParent()
         }
@@ -133,16 +132,11 @@ class PlayerRammingComponent: RammingComponent {
         if let struckTarget = self.struckTarget() {
             let enemyDamage = min(struckTarget.healthComponent?.health ?? 0, node.healthComponent?.health ?? 0)
 
-            if damage > 0 {
-                struckTarget.healthComponent?.inflict(damage)
-            }
-
             switch struckTarget.playerComponent!.rammedBehavior {
             case .Damaged:
                 for handler in _onRammed {
-                    handler()
+                    handler(struckTarget)
                 }
-                removeFromNode()
                 return true
             case .Attacks:
                 node.healthComponent?.inflict(enemyDamage)
@@ -173,9 +167,10 @@ class EnemyRammingComponent: RammingComponent {
 
     override func struckTargetTest() -> Bool {
         if let struckTarget = self.struckTarget() {
-            if damage > 0 {
-                struckTarget.healthComponent?.inflict(damage)
+            for handler in _onRammed {
+                handler(struckTarget)
             }
+            return true
         }
         return false
     }

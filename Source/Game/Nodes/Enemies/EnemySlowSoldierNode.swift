@@ -15,7 +15,7 @@ class EnemySlowSoldierNode: EnemySoldierNode {
         size = CGSize(8)
         healthComponent!.startingHealth = startingHealth
         enemyComponent!.experience = 2
-        rammingComponent!.damage = 4
+        rammingDamage = 4
         rammingComponent!.maxSpeed = 15
     }
 

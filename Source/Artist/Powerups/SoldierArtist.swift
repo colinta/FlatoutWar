@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-class SoldierArtist: PowerupArtist {
+class SoldierArtist: Artist {
     private var health: CGFloat
 
     required init(health: CGFloat) {
@@ -20,11 +20,11 @@ class SoldierArtist: PowerupArtist {
     }
 
     override func draw(context: CGContext) {
-        super.draw(context)
+        CGContextSetFillColorWithColor(context, UIColor(hex: PowerupRed).CGColor)
 
         if health == 1 {
             CGContextAddRect(context, CGRect(origin: .zero, size: size))
-            CGContextDrawPath(context, .FillStroke)
+            CGContextDrawPath(context, .Fill)
         }
         else {
             let y = size.height * (1 - health)
@@ -34,7 +34,7 @@ class SoldierArtist: PowerupArtist {
 
             CGContextSetAlpha(context, 0.25)
             CGContextAddRect(context, CGRect(origin: .zero, size: size))
-            CGContextDrawPath(context, .FillStroke)
+            CGContextDrawPath(context, .Fill)
         }
     }
 

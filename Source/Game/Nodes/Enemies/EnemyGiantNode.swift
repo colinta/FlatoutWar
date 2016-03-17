@@ -16,7 +16,7 @@ class EnemyGiantNode: EnemySoldierNode {
         healthComponent!.startingHealth = startingHealth
         enemyComponent!.experience = 15
         rammingComponent!.maxSpeed = 15
-        rammingComponent!.damage = 50
+        rammingDamage = 50
     }
 
     required init?(coder: NSCoder) {

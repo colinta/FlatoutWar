@@ -13,9 +13,9 @@ class EnemyLeaderNode: EnemySoldierNode {
     required init() {
         super.init()
         size = CGSize(20)
+        rammingDamage = 12
         healthComponent!.startingHealth = startingHealth
         enemyComponent!.experience = 3
-        rammingComponent!.damage = 12
     }
 
     required init?(coder: NSCoder) {

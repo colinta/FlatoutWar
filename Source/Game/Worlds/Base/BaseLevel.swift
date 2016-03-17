@@ -523,7 +523,7 @@ extension BaseLevel {
 
         let rammingComponent = PlayerRammingComponent()
         rammingComponent.intersectionNode = sprite
-        rammingComponent.onRammed {
+        rammingComponent.onRammed { _ in
             enemyGhost.removeFromParent()
         }
 

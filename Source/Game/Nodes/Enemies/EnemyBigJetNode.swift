@@ -15,7 +15,7 @@ class EnemyBigJetNode: EnemyJetNode {
         size = CGSize(16)
         healthComponent!.startingHealth = startingHealth
         enemyComponent!.experience = 10
-        rammingComponent!.damage = 10
+        rammingDamage = 10
     }
 
     required init?(coder: NSCoder) {

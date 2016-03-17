@@ -11,10 +11,10 @@ private let startingHealth: Float = 2
 class EnemySoldierNode: Node {
     static let DefaultSoldierSpeed: CGFloat = 25
     var sprite = SKSpriteNode()
+    var rammingDamage: Float = 4
 
     required init() {
         super.init()
-        size = CGSize(10)
 
         self << sprite
 
@@ -28,6 +28,7 @@ class EnemySoldierNode: Node {
         }
         addComponent(healthComponent)
         updateTexture()
+        size = sprite.size
 
         let enemyComponent = EnemyComponent()
         enemyComponent.intersectionNode = sprite
@@ -52,11 +53,11 @@ class EnemySoldierNode: Node {
         rammingComponent.intersectionNode = sprite
         rammingComponent.bindTo(targetingComponent: targetingComponent)
         rammingComponent.maxSpeed = EnemySoldierNode.DefaultSoldierSpeed
-        rammingComponent.onRammed {
+        rammingComponent.onRammed { player in
+            player.healthComponent?.inflict(self.rammingDamage)
             self.generateRammingExplosion()
             self.removeFromParent()
         }
-        rammingComponent.damage = startingHealth * 2
         addComponent(rammingComponent)
 
         addComponent(RotateToComponent())

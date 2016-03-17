@@ -14,6 +14,7 @@ class EnemyJetNode: EnemySoldierNode {
     required init() {
         super.init()
         size = CGSize(8)
+        rammingDamage = 2
 
         rammingComponent!.removeFromNode()
         playerTargetingComponent!.onTargetAcquired { target in
@@ -27,11 +28,12 @@ class EnemyJetNode: EnemySoldierNode {
         flyingComponent.bindTo(targetingComponent: playerTargetingComponent!)
         flyingComponent.maxSpeed = EnemyJetNode.DefaultJetSpeed
         flyingComponent.maxTurningSpeed = EnemyJetNode.DefaultJetSpeed
-        flyingComponent.onRammed {
+        flyingComponent.onRammed { player in
+            player.healthComponent?.inflict(self.rammingDamage)
+
             self.generateRammingExplosion()
             self.removeFromParent()
         }
-        flyingComponent.damage = startingHealth * 2
         addComponent(flyingComponent)
 
         healthComponent!.startingHealth = startingHealth

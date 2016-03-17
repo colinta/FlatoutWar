@@ -6,15 +6,14 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-private let startingHealth: Float = 2
+private let startingHealth: Float = 4
 
 class SoldierNode: Node {
-    static let DefaultSoldierSpeed: CGFloat = 25
+    static let DefaultSoldierSpeed: CGFloat = 50
     var sprite = SKSpriteNode(id: .None)
 
     required init() {
         super.init()
-        size = CGSize(10)
 
         sprite.zPosition = Z.Below.rawValue
         self << sprite
@@ -29,6 +28,7 @@ class SoldierNode: Node {
         }
         addComponent(healthComponent)
         updateTexture()
+        size = sprite.size
 
         let playerComponent = PlayerComponent()
         playerComponent.targetable = false
@@ -36,20 +36,28 @@ class SoldierNode: Node {
         addComponent(playerComponent)
 
         let targetingComponent = EnemyTargetingComponent()
-        targetingComponent.radius = 100
+        targetingComponent.radius = 200
+        targetingComponent.onTargetAcquired { _ in
+            self.moveToComponent?.removeFromNode()
+        }
         addComponent(targetingComponent)
 
         let rammingComponent = EnemyRammingComponent()
         rammingComponent.bindTo(targetingComponent: targetingComponent)
         rammingComponent.intersectionNode = sprite
         rammingComponent.maxSpeed = SoldierNode.DefaultSoldierSpeed
-        rammingComponent.onRammed {
-            self.removeFromParent()
+        rammingComponent.maxTurningSpeed = SoldierNode.DefaultSoldierSpeed
+        rammingComponent.onRammed { enemy in
+            let damage = min(enemy.healthComponent?.health ?? 0, healthComponent.health)
+            enemy.healthComponent?.inflict(damage)
+            healthComponent.inflict(damage)
         }
-        rammingComponent.damage = 5
         addComponent(rammingComponent)
 
-        addComponent(RotateToComponent())
+        let rotateComponent = RotateToComponent()
+        rotateComponent.angularAccel = nil
+        rotateComponent.maxAngularSpeed = 5
+        addComponent(rotateComponent)
     }
 
     required init?(coder: NSCoder) {

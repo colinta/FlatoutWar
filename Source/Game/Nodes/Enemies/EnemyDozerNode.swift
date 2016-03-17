@@ -14,10 +14,10 @@ class EnemyDozerNode: EnemySoldierNode {
         super.init()
         size = CGSize(width: 5, height: 50)
         shape = .Rect
+        rammingDamage = 16
         healthComponent!.startingHealth = startingHealth
         enemyComponent!.experience = 3
         rammingComponent!.maxSpeed = 20
-        rammingComponent!.damage = 16
     }
 
     required init?(coder: NSCoder) {

@@ -13,9 +13,9 @@ class EnemyScoutNode: EnemySoldierNode {
     required init() {
         super.init()
         size = CGSize(8)
+        rammingDamage = 2
         healthComponent!.startingHealth = startingHealth
         enemyComponent!.experience = 1
-        rammingComponent!.damage = 2
         rammingComponent!.maxSpeed = 35
     }
 

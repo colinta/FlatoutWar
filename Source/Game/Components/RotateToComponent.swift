@@ -67,6 +67,13 @@ class RotateToComponent: ApplyToNodeComponent {
                 applyTo.zRotation = newAngle
             }
         }
+        else if currentAngle != target {
+            apply { applyTo in
+                applyTo.zRotation = target
+            }
+
+            self.currentAngle = target
+        }
         else {
             self.currentAngle = target
             angularSpeed = 0

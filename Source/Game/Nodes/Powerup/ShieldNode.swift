@@ -118,6 +118,7 @@ class ShieldSegmentNode: Node {
         super.init()
         size = sprite.size
         sprite.zPosition = Z.Below.rawValue
+        shape = .Rect
         self << sprite
     }
 
