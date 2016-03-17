@@ -149,18 +149,3 @@ extension Powerup: Equatable {}
 func ==(lhs: Powerup, rhs: Powerup) -> Bool {
     return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
 }
-
-class SoldiersPowerup: Powerup {
-    override var name: String { return "SOLDIERS" }
-    override var count: Int { return 3 }
-    override var powerupType: ImageIdentifier.PowerupType? { return .Soldiers }
-
-    required override init() {
-        super.init()
-    }
-
-    override func activate(level: BaseLevel) {
-        super.activate(level)
-    }
-
-}

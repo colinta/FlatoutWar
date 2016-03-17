@@ -152,6 +152,9 @@ extension ImageIdentifier {
             let artist = ShieldSegmentArtist()
             artist.health = CGFloat(healthInt) / 100
             return artist
+        case let .Soldier(healthInt):
+            let artist = SoldierArtist(health: CGFloat(healthInt) / 100)
+            return artist
         case let .Percent(percent, style):
             let artist = PercentArtist(style: style)
             artist.complete = CGFloat(percent) / 100

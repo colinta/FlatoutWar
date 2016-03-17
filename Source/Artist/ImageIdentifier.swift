@@ -64,6 +64,7 @@ enum ImageIdentifier {
     case EnemyNet(size: CGFloat)
     case Shield(phase: Int)
     case ShieldSegment(health: Int)
+    case Soldier(health: Int)
 
     case Drone(upgrade: FiveUpgrades, health: Int)
 
@@ -154,6 +155,8 @@ enum ImageIdentifier {
         case let .EnemyNet(size):
             let roundedSize = Int(round(size * 20))
             return "EnemyNet(size:\(roundedSize))"
+        case let .Soldier(health):
+            return "Soldier(health:\(health))"
         case let .Drone(upgrade, health):
             return "Drone(upgrade:\(upgrade.name),health:\(health))"
         case .Cursor:
