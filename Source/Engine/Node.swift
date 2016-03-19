@@ -13,7 +13,7 @@ class Node: SKNode {
 
     var fixedPosition: Position? {
         didSet {
-            world?.updateFixedNodes()
+            world?.updateFixedNode(self)
         }
     }
     var z: Z = .Default {
