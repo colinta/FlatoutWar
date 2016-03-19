@@ -68,7 +68,6 @@ class Tutorial: World {
         ui << closeButton
 
         playerNode.touchableComponent?.enabled = false
-        playerNode.touchableComponent?.enabled = false
         self << playerNode
     }
 

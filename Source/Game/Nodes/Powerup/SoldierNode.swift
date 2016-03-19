@@ -32,6 +32,7 @@ class SoldierNode: Node {
         size = sprite.size
 
         let playerComponent = PlayerComponent()
+
         playerComponent.targetable = false
         playerComponent.intersectionNode = sprite
         addComponent(playerComponent)
