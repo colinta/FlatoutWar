@@ -7,6 +7,33 @@
 //
 
 class TimelineComponent: Component {
+    struct CancellableWrapper {
+        let timeline: TimelineComponent
+
+        func at(scheduledTime: TimeDescriptor, block: Block) -> Block {
+            let event = Event(scheduledTime: scheduledTime.toTime(timeline.time), block: block)
+            timeline.addEvent(event)
+            return { self.timeline.removeEvent(event) }
+        }
+
+
+        func after(scheduledTime: CGFloat, block: Block) -> Block {
+            let event = Event(scheduledTime: timeline.time + scheduledTime, block: block)
+            timeline.addEvent(event)
+            return { self.timeline.removeEvent(event) }
+        }
+
+
+        func when(condition: ConditionBlock, block: Block) -> Block {
+            let event = ConditionEvent(condition: condition, block: block)
+            timeline.addEvent(event)
+            return { self.timeline.removeEvent(event) }
+        }
+
+    }
+
+    lazy var cancellable: CancellableWrapper = { return CancellableWrapper(timeline: self) }()
+
     enum TimeDescriptor: IntegerLiteralConvertible, FloatLiteralConvertible {
         init(integerLiteral time: Int) {
             self = At(CGFloat(time))
@@ -35,6 +62,7 @@ class TimelineComponent: Component {
     }
 
     class RecurringEvent {
+        let uuid = NSUUID()
         var countdown: CGFloat
         let generator: () -> CGFloat
         let startAt: CGFloat
@@ -58,11 +86,13 @@ class TimelineComponent: Component {
     }
 
     struct Event {
+        let uuid = NSUUID()
         let scheduledTime: CGFloat
         let block: Block
     }
 
     struct ConditionEvent {
+        let uuid = NSUUID()
         let condition: ConditionBlock
         let block: Block
     }
@@ -87,6 +117,19 @@ class TimelineComponent: Component {
         newEvents.removeAll()
         newRecurringEvents.removeAll()
         newConditionEvents.removeAll()
+    }
+
+    private func removeEvent(event: Event) {
+        newEvents.removeMatches { $0.uuid == event.uuid }
+        events.removeMatches { $0.uuid == event.uuid }
+    }
+    private func removeEvent(event: RecurringEvent) {
+        newRecurringEvents.removeMatches { $0.uuid == event.uuid }
+        recurringEvents.removeMatches { $0.uuid == event.uuid }
+    }
+    private func removeEvent(event: ConditionEvent) {
+        newConditionEvents.removeMatches { $0.uuid == event.uuid }
+        conditionEvents.removeMatches { $0.uuid == event.uuid }
     }
 
     private func addEvent(event: Event) {
