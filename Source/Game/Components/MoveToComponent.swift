@@ -104,6 +104,9 @@ extension Node {
         let screenSize = world!.screenSize
         let position = dest.positionIn(screenSize: screenSize)
         let moveTo = self.moveTo(position, duration: duration, speed: speed)
+        moveTo.onArrived {
+            self.fixedPosition = dest
+        }
         return moveTo
     }
 
