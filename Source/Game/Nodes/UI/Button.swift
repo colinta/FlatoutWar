@@ -28,6 +28,7 @@ class Button: TextNode {
         didSet {
             if alphaOverride {
                 alpha = enabled ? 1 : 0.25
+                alphaOverride = true
             }
         }
     }
