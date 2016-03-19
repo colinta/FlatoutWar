@@ -6,8 +6,11 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
+
 extension Array {
-    func any(@noescape test: (el: Element)->Bool) -> Bool {
+    typealias MatcherFn = (el: Element) -> Bool
+
+    func any(@noescape test: MatcherFn) -> Bool {
         for ob in self {
             if test(el: ob) {
                 return true
@@ -16,7 +19,7 @@ extension Array {
         return false
     }
 
-    func firstMatch(@noescape test: (el: Element)->Bool) -> Element? {
+    func firstMatch(@noescape test: MatcherFn) -> Element? {
         for ob in self {
             if test(el: ob) {
                 return ob
@@ -25,7 +28,7 @@ extension Array {
         return nil
     }
 
-    func lastMatch(@noescape test: (el: Element)->Bool) -> Element? {
+    func lastMatch(@noescape test: MatcherFn) -> Element? {
         var match: Element?
         for ob in self {
             if test(el: ob) {
@@ -35,7 +38,7 @@ extension Array {
         return match
     }
 
-    func all(@noescape test: (el: Element)->Bool) -> Bool {
+    func all(@noescape test: MatcherFn) -> Bool {
         for ob in self {
             if !test(el: ob) {
                 return false
@@ -66,10 +69,19 @@ extension Array {
 
 }
 
+extension RangeReplaceableCollectionType {
+    mutating func removeMatches(@noescape test: (el: Generator.Element) -> Bool) {
+        while let index = self.indexOf(test) {
+            removeAtIndex(index)
+        }
+    }
+}
+
 extension RangeReplaceableCollectionType where Generator.Element: Equatable {
     mutating func remove(item: Generator.Element) {
         if let index = self.indexOf(item) {
             removeAtIndex(index)
         }
     }
+
 }
