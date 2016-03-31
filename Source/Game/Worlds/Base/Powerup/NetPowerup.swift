@@ -15,16 +15,19 @@ class NetPowerup: Powerup {
         super.init()
     }
 
-    override func activate(level: BaseLevel) {
-        super.activate(level)
+    override func activate(level: World, playerNode: Node, completion: Block = {}) {
+        super.activate(level, playerNode: playerNode)
 
-        self.onNextTap(slowmo: true) { position in
+        self.slowmo(true)
+        self.onNextTap() { position in
             let node = NetNode(at: position)
             node.scaleTo(1, start: 0, duration: 0.8, easing: .EaseOutElastic)
             level << node
 
             level.timeline.after(1) {
                 node.fadeTo(0, duration: 1, removeNode: true)
+                self.slowmo(false)
+                completion()
             }
         }
     }

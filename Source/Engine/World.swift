@@ -16,6 +16,38 @@ class World: Node {
     var ui = UINode()
     var timeline = TimelineComponent()
 
+    let cameraZoom = ScaleToComponent()
+    let cameraMove = MoveToComponent()
+
+    func moveCamera(to target: CGPoint? = nil, zoom: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, handler: MoveToComponent.OnArrived? = nil) {
+        if let target = target {
+            cameraMove.target = target
+            if let duration = duration {
+                cameraMove.duration = duration
+            }
+            else if let rate = rate {
+                cameraMove.speed = rate
+            }
+            else {
+                cameraMove.speed = 80
+            }
+            if let handler = handler {
+                cameraMove.onArrived(handler)
+            }
+            cameraMove.resetOnArrived()
+        }
+
+        if let zoom = zoom {
+            cameraZoom.target = zoom
+            if let duration = duration {
+                cameraZoom.duration = duration
+            }
+            else if let rate = rate {
+                cameraZoom.rate = rate
+            }
+        }
+    }
+
     func outsideWorld(angle angle: CGFloat) -> CGPoint {
         return outsideWorld(extra: 0, angle: angle)
     }
@@ -138,7 +170,13 @@ class World: Node {
 
     required init() {
         super.init()
-        self.addComponent(timeline)
+
+        let cameraNode = Node(at: CGPoint(x: 0, y: 0))
+        self.cameraNode = cameraNode
+        self << cameraNode
+
+        cameraZoom.rate = 0.25
+        addComponent(timeline)
     }
 
     required init?(coder: NSCoder) {
@@ -156,6 +194,11 @@ class World: Node {
     override func reset() {
         super.reset()
         _onNoMoreEnemies = []
+    }
+
+    private func _populateWorld() {
+        addComponent(cameraZoom)
+        cameraNode!.addComponent(cameraMove)
     }
 
     func populateWorld() {
@@ -274,6 +317,7 @@ extension World {
 
     func updateWorld(dtReal: CGFloat) {
         if !didPopulateWorld {
+            _populateWorld()
             populateWorld()
             didPopulateWorld = true
             updateFixedNodes()

@@ -16,20 +16,23 @@ class LaserPowerup: Powerup {
         super.init()
     }
 
-    override func activate(level: BaseLevel) {
-        super.activate(level)
+    override func activate(level: World, playerNode: Node, completion: Block = {}) {
+        super.activate(level, playerNode: playerNode)
 
         self.onNextTap(slowmo: true) { position in
             let angle = position.angle
+            var maxDelay: CGFloat = 0
             15.times { (i: Int) in
                 let delay: CGFloat = CGFloat(i) * rand(min: 0.2, max: 0.4)
+                maxDelay = delay
                 let offset = CGPoint(r: CGFloat(5), a: rand(TAU))
                 level.timeline.after(delay) {
                     let laser = LaserBeamNode(angle: angle ± rand(2.degrees))
-                    laser.position = level.playerNode.position + offset
+                    laser.position = playerNode.position + offset
                     level << laser
                 }
             }
+            level.timeline.after(maxDelay, block: completion)
         }
     }
 

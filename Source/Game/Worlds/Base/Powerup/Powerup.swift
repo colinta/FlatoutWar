@@ -37,8 +37,8 @@ class Powerup {
     var powerupButtons: [Button] = []
     var powerupEnabled = true
 
-    weak var level: BaseLevel?
-    weak var playerNode: Node? { return level?.playerNode }
+    weak var level: World?
+    weak var playerNode: Node?
 
     static func generateButton(name: String, icon: SKSpriteNode) -> (Button, SKNode) {
         let button = Button()
@@ -63,8 +63,9 @@ class Powerup {
         return SKSpriteNode(id: .None)
     }
 
-    func addToLevel(level: BaseLevel, start: CGPoint, dest: Position) {
+    func addToLevel(level: World, playerNode: Node, start: CGPoint, dest: Position) {
         self.level = level
+        self.playerNode = playerNode
 
         var alpha: CGFloat = 1
         var offset: CGFloat = 0
@@ -75,7 +76,7 @@ class Powerup {
             button.enabled = enabled
             button << buttonIcon()
             level.ui << button
-            button.onTapped(.Disable).onTapped(self.checkPowerupAvailability)
+            button.onTapped(.Disable).onTapped(self.activateIfEnabled)
             powerupButtons << button
 
             button.moveTo(dest + CGPoint(y: offset), duration: 1)
@@ -85,17 +86,20 @@ class Powerup {
         }
     }
 
-    func checkPowerupAvailability() {
+    func activateIfEnabled() {
         guard powerupEnabled else { return }
 
-        if let button = powerupButtons.first, level = level {
+        if let button = powerupButtons.first, level = level, playerNode = playerNode {
             button.fadeTo(0, duration: 1, removeNode: true)
             powerupButtons.removeAtIndex(0)
-            activate(level)
+            button.enabled = false
+            activate(level, playerNode: playerNode) {
+                button.enabled = true
+            }
         }
     }
 
-    func activate(level: BaseLevel) {
+    func activate(level: World, playerNode: Node, completion: Block = {}) {
         let duration: CGFloat = 0.3
         var alpha: CGFloat = 1
         var enabled = true
@@ -110,10 +114,19 @@ class Powerup {
         }
     }
 
+    func slowmo(onoff: Bool) {
+        if onoff {
+            level?.timeRate = 0.333
+        }
+        else {
+            level?.timeRate = 1
+        }
+    }
+
     func onNextTap(slowmo slowmo: Bool = false, onTap: (CGPoint) -> Void) {
         if let level = level {
             if slowmo {
-                level.timeRate = 0.333
+                self.slowmo(true)
             }
 
             let tapNode = Node()
@@ -126,8 +139,9 @@ class Powerup {
             let touchComponent = TouchableComponent()
             touchComponent.on(.Down) { location in
                 if slowmo {
-                    level.timeRate = 1.0
+                    self.slowmo(false)
                 }
+
                 level.defaultNode = prevDefault
                 self.powerupEnabled = true
 

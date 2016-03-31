@@ -18,13 +18,14 @@ class CoffeePowerup: Powerup {
         super.init()
     }
 
-    override func activate(level: BaseLevel) {
-        super.activate(level)
+    override func activate(level: World, playerNode: Node, completion: Block = {}) {
+        super.activate(level, playerNode: playerNode)
 
         powerupEnabled = false
-        playerNode?.timeRate = 3
+        playerNode.timeRate = 3
         level.timeline.after(CoffeePowerup.CoffeeTimeout) {
             self.caffeineWithdrawal()
+            completion()
         }
     }
 

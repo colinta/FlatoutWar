@@ -18,17 +18,18 @@ class HourglassPowerup: Powerup {
         super.init()
     }
 
-    override func activate(level: BaseLevel) {
-        super.activate(level)
+    override func activate(level: World, playerNode: Node, completion: Block = {}) {
+        super.activate(level, playerNode: playerNode)
 
         powerupEnabled = false
-        let player = level.playerNode
+        let player = playerNode
         let hourglass = HourglassNode(at: player.position)
         hourglass.setScale(0)
         level << hourglass
 
         hourglass.onDeath {
             self.powerupEnabled = true
+            completion()
         }
     }
 

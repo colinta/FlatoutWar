@@ -16,8 +16,8 @@ class BomberPowerup: Powerup {
         super.init()
     }
 
-    override func activate(level: BaseLevel) {
-        super.activate(level)
+    override func activate(level: World, playerNode: Node, completion: Block = {}) {
+        super.activate(level, playerNode: playerNode)
 
         let slowmo: CGFloat = 0.333
         level.timeRate = slowmo
@@ -44,6 +44,7 @@ class BomberPowerup: Powerup {
 
                 bomber.scaleTo(1.5, duration: 1)
                 bomber.fadeTo(0, duration: 1, removeNode: true)
+                completion()
             }
             level << bomber
 

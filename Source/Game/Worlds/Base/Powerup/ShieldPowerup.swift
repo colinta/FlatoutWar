@@ -15,14 +15,15 @@ class ShieldPowerup: Powerup {
         super.init()
     }
 
-    override func activate(level: BaseLevel) {
-        super.activate(level)
+    override func activate(level: World, playerNode: Node, completion: Block = {}) {
+        super.activate(level, playerNode: playerNode)
 
-        let position = level.playerNode.position
+        let position = playerNode.position
         let node = ShieldNode(at: position)
         node.scaleTo(1, start: 0, duration: 1)
         node.fadeTo(1, start: 0, duration: 1)
         level << node
+        completion()
     }
 
 }

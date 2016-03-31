@@ -120,7 +120,7 @@ public func timeout(duration: NSTimeInterval, block: Block) -> Block {
 
 public func delay(duration: NSTimeInterval, block: Block) {
     let proc = Proc(block)
-    _ = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: "run", userInfo: nil, repeats: false)
+    _ = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: #selector(Proc.run), userInfo: nil, repeats: false)
 }
 
 public func delay(duration: NSTimeInterval) -> ThrottledBlock {

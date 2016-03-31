@@ -27,17 +27,6 @@ class Tutorial: World {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func moveCamera(to target: CGPoint, handler: MoveToComponent.OnArrived? = nil) {
-        let moveTo = MoveToComponent()
-        moveTo.target = target
-        moveTo.speed = 80
-        if let handler = handler {
-            moveTo.onArrived(handler)
-        }
-        moveTo.removeComponentOnArrived()
-        cameraNode?.addComponent(moveTo)
-    }
-
     func goToNextWorld() {
         self.director?.presentWorld(nextWorld ?? BaseLevelSelectWorld())
     }

@@ -26,13 +26,8 @@ class Level: World {
         return selectedNode ?? defaultNode
     }
 
-    let cameraZoom = ScaleToComponent()
-    let cameraMove = MoveToComponent()
-
     required init() {
         super.init()
-
-        cameraZoom.rate = 0.25
 
         resumeButton.fixedPosition = .Center(x: 0, y: -80)
         resumeButton.visible = false
@@ -162,14 +157,6 @@ class Level: World {
         }
     }
 
-    override func populateWorld() {
-        super.populateWorld()
-        cameraNode = Node(at: CGPoint(x: 0, y: 0))
-
-        self.addComponent(self.cameraZoom)
-        self.cameraNode!.addComponent(self.cameraMove)
-    }
-
     override func didAdd(node: Node) {
         if let healthComponent = node.healthComponent,
             enemyComponent = node.enemyComponent
@@ -196,35 +183,6 @@ class Level: World {
         else { timeRate = 0.5 }
         print("timeRate: \(timeRate)")
         print("possibleExperience: \(possibleExperience)")
-    }
-
-    func moveCamera(to target: CGPoint? = nil, zoom: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, handler: MoveToComponent.OnArrived? = nil) {
-        if let target = target {
-            cameraMove.target = target
-            if let duration = duration {
-                cameraMove.duration = duration
-            }
-            else if let rate = rate {
-                cameraMove.speed = rate
-            }
-            else {
-                cameraMove.speed = 80
-            }
-            if let handler = handler {
-                cameraMove.onArrived(handler)
-            }
-            cameraMove.resetOnArrived()
-        }
-
-        if let zoom = zoom {
-            cameraZoom.target = zoom
-            if let duration = duration {
-                cameraZoom.duration = duration
-            }
-            else if let rate = rate {
-                cameraZoom.rate = rate
-            }
-        }
     }
 
     var levelSuccess: Bool?

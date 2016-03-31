@@ -41,7 +41,7 @@ class BombNode: Node {
             return
         }
 
-        sprite.textureId(.Bomb(radius: maxRadius, time: Int(time * 100)))
+        sprite.textureId(.Bomb(radius: maxRadius, time: Int(time * 1000)))
         damageTargets(dt)
     }
 

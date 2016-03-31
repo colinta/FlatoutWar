@@ -15,12 +15,14 @@ class PulsePowerup: Powerup {
         super.init()
     }
 
-    override func activate(level: BaseLevel) {
-        super.activate(level)
+    override func activate(level: World, playerNode: Node, completion: Block = {}) {
+        super.activate(level, playerNode: playerNode)
 
-        let position = level.playerNode.position
+        let position = playerNode.position
         let node = PulseNode(at: position)
         level << node
+
+        level.timeline.after(PulseNode.MaxTime, block: completion)
     }
 
 }

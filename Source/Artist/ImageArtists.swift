@@ -122,7 +122,7 @@ extension ImageIdentifier {
         case let .Bomber(numBombs):
             return BomberArtist(numBombs: numBombs)
         case let .Bomb(radius, time):
-            return BombArtist(maxRadius: CGFloat(radius), time: CGFloat(time) / 100)
+            return BombArtist(maxRadius: CGFloat(radius), time: CGFloat(time) / 1000)
         case .HourglassZone:
             let artist = HourglassZoneArtist()
             return artist

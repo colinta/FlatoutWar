@@ -48,30 +48,32 @@ class BaseLevel9: BaseLevel {
         timeline.every(1.5...2.5, start: .Delayed(), times: 10, block: generateEnemy(rand(±size.angle)))
     }
 
-    func generateEnemyColumn(screenAngle: CGFloat)() {
-        let ghost = generateEnemyGhost(angle: screenAngle, extra: 10)
-        ghost.name = "pair ghost"
-        ghost.rotateTowards(point: .zero)
+    func generateEnemyColumn(screenAngle: CGFloat) -> Block {
+        return {
+            let ghost = self.generateEnemyGhost(angle: screenAngle, extra: 10)
+            ghost.name = "pair ghost"
+            ghost.rotateTowards(point: .zero)
 
-        let numPairs = 10
-        var r: CGFloat = 0
-        let dist: CGFloat = 5
-        for _ in 0..<numPairs {
-            let angle = ghost.position.angle
-            let left = CGVector(r: dist, a: angle + TAU_4) + CGVector(r: r, a: angle)
-            let right = CGVector(r: dist, a: angle - TAU_4) + CGVector(r: r, a: angle)
-            r += 2 * dist
+            let numPairs = 10
+            var r: CGFloat = 0
+            let dist: CGFloat = 5
+            for _ in 0..<numPairs {
+                let angle = ghost.position.angle
+                let left = CGVector(r: dist, a: angle + TAU_4) + CGVector(r: r, a: angle)
+                let right = CGVector(r: dist, a: angle - TAU_4) + CGVector(r: r, a: angle)
+                r += 2 * dist
 
-            let origins = [
-                ghost.position + left,
-                ghost.position + right,
-            ]
-            for origin in origins {
-                let enemy = EnemySoldierNode(at: origin)
-                enemy.name = "pair soldier"
-                enemy.rotateTo(ghost.zRotation)
-                enemy.follow(ghost)
-                self << enemy
+                let origins = [
+                    ghost.position + left,
+                    ghost.position + right,
+                ]
+                for origin in origins {
+                    let enemy = EnemySoldierNode(at: origin)
+                    enemy.name = "pair soldier"
+                    enemy.rotateTo(ghost.zRotation)
+                    enemy.follow(ghost)
+                    self << enemy
+                }
             }
         }
     }

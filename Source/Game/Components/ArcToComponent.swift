@@ -78,8 +78,8 @@ class ArcToComponent: ApplyToNodeComponent {
         let modTime = time / duration
         let modFrame = oneFrame / duration
         guard let position = pointAt(modTime) else { return }
-
         guard let prevPos = pointAt(modTime - modFrame) else { return }
+
         let angle = prevPos.angleTo(position)
 
         apply { applyTo in
@@ -87,7 +87,7 @@ class ArcToComponent: ApplyToNodeComponent {
             applyTo.rotateTo(angle)
         }
 
-        if time >= 1 {
+        if time >= duration {
             for handler in _onArrived {
                 handler()
             }

@@ -122,7 +122,7 @@ extension BaseLevel {
         self.enablePlayers()
         self.powerup = powerup
         if let powerup = powerup {
-            powerup.addToLevel(self, start: start, dest: .TopLeft(x: 20, y: -20))
+            powerup.addToLevel(self, playerNode: playerNode, start: start, dest: .TopLeft(x: 20, y: -20))
         }
         self.beginLevel(delay: false)
 
@@ -135,14 +135,21 @@ extension BaseLevel {
         disablePlayers()
         var availablePowerups = config.availablePowerups
         var powerups: [Powerup] = []
-        3.times {
-            if let powerup = availablePowerups.randWeighted({ $0.weight.rawValue }) {
-                powerups << powerup
-                availablePowerups.remove(powerup)
+        if availablePowerups.count <= 3 {
+            powerups = availablePowerups
+        }
+        else {
+            3.times {
+                if let powerup = availablePowerups.randWeighted({ $0.weight.rawValue }) {
+                    powerups << powerup
+                    availablePowerups.remove(powerup)
+                }
             }
         }
 
-        var buttons: [Node] = []
+        let label = TextNode()
+        label.text = "CHOOSE"
+        var buttons: [Node] = [label]
         for powerup in powerups {
             let (button, icon) = powerup.button()
             buttons << button
@@ -161,7 +168,7 @@ extension BaseLevel {
         for (index, button) in buttons.enumerate() {
             let start: Position = .Left(
                 x: -150,
-                y: 80 - CGFloat(index) * 80
+                y: 160 - CGFloat(index) * 80
             )
             button.fixedPosition = start
             ui << button
@@ -174,8 +181,8 @@ extension BaseLevel {
 
             for (index, button) in buttons.enumerate() {
                 let dest: Position = .Left(
-                    x: 40,
-                    y: 50 - CGFloat(index) * 50
+                    x: 40 + (index == 0 ? 20 : 0),
+                    y: 100 - CGFloat(index) * 50
                 )
 
                 button.moveTo(dest, duration: duration)
@@ -201,7 +208,8 @@ extension BaseLevel {
 
 extension BaseLevel {
 
-    override func levelCompleted(var success success: Bool) {
+    override func levelCompleted(success successArg: Bool) {
+        var success = successArg
         // sanity check against a kamikaze triggering a "successful" completion
         if let died = playerNode.healthComponent?.died where died {
             success = false
@@ -315,201 +323,221 @@ extension BaseLevel {
 
 extension BaseLevel {
 
-    func generateEnemy(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561, constRadius: Bool = false)() {
-        var screenAngle = genScreenAngle
-        if spread > 0 {
-           screenAngle = screenAngle ± rand(spread)
-        }
+    func generateEnemy(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561, constRadius: Bool = false) -> Block {
+        return {
+            var screenAngle = genScreenAngle
+            if spread > 0 {
+               screenAngle = screenAngle ± rand(spread)
+            }
 
-        let enemyNode = EnemySoldierNode()
-        enemyNode.name = "soldier"
-        if constRadius {
-            enemyNode.position = CGPoint(r: outerRadius, a: screenAngle)
-        }
-        else {
-            enemyNode.position = outsideWorld(enemyNode, angle: screenAngle)
-        }
-        self << enemyNode
-    }
-
-    func generateSlowEnemy(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561)() {
-        var screenAngle = genScreenAngle
-        if spread > 0 {
-            screenAngle = screenAngle ± rand(spread)
-        }
-        let enemyNode = EnemySlowSoldierNode()
-        enemyNode.name = "slow"
-        enemyNode.position = outsideWorld(enemyNode, angle: screenAngle)
-        self << enemyNode
-    }
-
-    func generateLeaderEnemy(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561)() {
-        var screenAngle = genScreenAngle
-        if spread > 0 {
-            screenAngle = screenAngle ± rand(spread)
-        }
-        let enemyNode = EnemyLeaderNode()
-        enemyNode.name = "leader"
-        enemyNode.position = outsideWorld(enemyNode, angle: screenAngle)
-        self << enemyNode
-    }
-
-    func generateScouts(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561)() {
-        var screenAngle = genScreenAngle
-        let d: CGFloat = 8
-        if spread > 0 {
-            screenAngle = screenAngle ± rand(spread)
-        }
-        for i in 0..<3 {
-            let enemyNode = EnemyScoutNode()
-            enemyNode.name = "scout"
-            enemyNode.position = outsideWorld(enemyNode, angle: screenAngle) + CGPoint(r: CGFloat(i) * d, a: screenAngle)
+            let enemyNode = EnemySoldierNode()
+            enemyNode.name = "soldier"
+            if constRadius {
+                enemyNode.position = CGPoint(r: self.outerRadius, a: screenAngle)
+            }
+            else {
+                enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle)
+            }
             self << enemyNode
         }
     }
 
-    func generateJet(genScreenAngle: CGFloat, spread: CGFloat = 0)() {
-        let jet = EnemyJetNode()
-        jet.name = "jet"
-        jet.position = self.outsideWorld(jet, angle: genScreenAngle)
-
-        let angle = normalizeAngle(jet.position.angle)
-        let sizeAngle = size.angle
-        if angle > TAU - sizeAngle || angle <= sizeAngle {
-            jet.position.y += ±spread
-        }
-        else if angle > TAU_2 + sizeAngle {
-            jet.position.x += ±spread
-        }
-        else if angle > TAU_2 - sizeAngle {
-            jet.position.y += ±spread
-        }
-        else {
-            jet.position.x += ±spread
-        }
-
-        self << jet
-    }
-
-    func generateBigJet(genScreenAngle: CGFloat, spread: CGFloat = 0)() {
-        let jet = EnemyBigJetNode()
-        jet.name = "bigjet"
-        jet.position = self.outsideWorld(jet, angle: genScreenAngle)
-
-        let angle = normalizeAngle(position.angle)
-        let sizeAngle = size.angle
-        if angle > TAU - sizeAngle || angle <= sizeAngle {
-            jet.position.y += ±spread
-        }
-        else if angle > TAU_2 + sizeAngle {
-            jet.position.x += ±spread
-        }
-        else if angle > TAU_2 - sizeAngle {
-            jet.position.y += ±spread
-        }
-        else {
-            jet.position.x += ±spread
-        }
-
-        self << jet
-    }
-
-    func generateBigJetWithFollowers(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561)() {
-        let jet = EnemyBigJetNode()
-        jet.name = "bigjet leader"
-        jet.position = self.outsideWorld(jet, angle: genScreenAngle) + CGPoint(y: ±rand(spread))
-        jet.rotateTowards(point: .zero)
-        self << jet
-
-        let dist: CGFloat = 10
-        var prevNode: Node = jet
-        for i in 0..<10 {
-            let location = jet.position + CGVector(r: dist * CGFloat(i), a: genScreenAngle)
-            let enemy = EnemyJetNode(at: location)
-            enemy.name = "bigjet follower"
-            enemy.rotateTo(prevNode.zRotation)
-            enemy.follow(prevNode, scatter: false, component: FollowTargetComponent())
-            self << enemy
-            prevNode = enemy
+    func generateSlowEnemy(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
+        return {
+            var screenAngle = genScreenAngle
+            if spread > 0 {
+                screenAngle = screenAngle ± rand(spread)
+            }
+            let enemyNode = EnemySlowSoldierNode()
+            enemyNode.name = "slow"
+            enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle)
+            self << enemyNode
         }
     }
 
-    func generateLeaderWithLinearFollowers(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561)() {
-        var screenAngle = genScreenAngle
-        if spread > 0 {
-            screenAngle = screenAngle ± rand(spread)
-        }
-        let dist: CGFloat = 25
-        let enemyLeader = EnemyLeaderNode()
-        let leaderPosition = outsideWorld(enemyLeader, angle: screenAngle)
-        enemyLeader.position = leaderPosition
-        enemyLeader.rotateTowards(point: .zero)
-        enemyLeader.name = "linear leader"
-        self << enemyLeader
-
-        for i in 1...5 {
-            let location = leaderPosition + CGVector(r: dist * CGFloat(i), a: screenAngle)
-            let enemy = EnemySoldierNode(at: location)
-            enemy.name = "linear soldier"
-            enemy.rotateTo(enemyLeader.zRotation)
-            enemy.follow(enemyLeader)
-            self << enemy
+    func generateLeaderEnemy(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
+        return {
+            var screenAngle = genScreenAngle
+            if spread > 0 {
+                screenAngle = screenAngle ± rand(spread)
+            }
+            let enemyNode = EnemyLeaderNode()
+            enemyNode.name = "leader"
+            enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle)
+            self << enemyNode
         }
     }
 
-    func generateLeaderWithCircularFollowers(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561)() {
-        var screenAngle = genScreenAngle
-        if spread > 0 {
-            screenAngle = screenAngle ± rand(spread)
+    func generateScouts(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
+        return {
+            var screenAngle = genScreenAngle
+            let d: CGFloat = 8
+            if spread > 0 {
+                screenAngle = screenAngle ± rand(spread)
+            }
+            for i in 0..<3 {
+                let enemyNode = EnemyScoutNode()
+                enemyNode.name = "scout"
+                enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle) + CGPoint(r: CGFloat(i) * d, a: screenAngle)
+                self << enemyNode
+            }
         }
+    }
 
-        let ghost = generateEnemyGhost(angle: screenAngle, extra: 40)
-        ghost.name = "circular ghost"
-        ghost.rotateTowards(point: .zero)
+    func generateJet(genScreenAngle: CGFloat, spread: CGFloat = 0) -> Block {
+        return {
+            let jet = EnemyJetNode()
+            jet.name = "jet"
+            jet.position = self.outsideWorld(jet, angle: genScreenAngle)
 
-        let dist: CGFloat = 30
-        var enemies: [Node] = []
-        let enemyLeader = EnemyLeaderNode()
-        enemyLeader.name = "circular leader"
-        let leaderPosition = ghost.position + CGPoint(r: dist + enemyLeader.radius, a: screenAngle)
-        enemyLeader.position = leaderPosition
-        enemyLeader.rotateTo(ghost.zRotation)
-        enemyLeader.follow(ghost)
-        self << enemyLeader
-        enemies << enemyLeader
+            let angle = normalizeAngle(jet.position.angle)
+            let sizeAngle = self.size.angle
+            if angle > TAU - sizeAngle || angle <= sizeAngle {
+                jet.position.y += ±spread
+            }
+            else if angle > TAU_2 + sizeAngle {
+                jet.position.x += ±spread
+            }
+            else if angle > TAU_2 - sizeAngle {
+                jet.position.y += ±spread
+            }
+            else {
+                jet.position.x += ±spread
+            }
 
-        let count = 5
-        let angleDelta = TAU / CGFloat(count)
-        for i in 0..<count {
-            let enemyAngle = CGFloat(i) * angleDelta ± rand(angleDelta / 2)
-            let vector = CGVector(r: dist, a: enemyAngle)
-            let enemy = EnemySoldierNode(at: leaderPosition + vector)
-            enemy.name = "circular soldier"
-            enemy.rotateTo(ghost.zRotation)
-            enemy.follow(ghost)
-            self << enemy
-            enemies << enemy
+            self << jet
         }
+    }
 
-       ghost.playerTargetingComponent!.onTargetAcquired { target in
-           if let target = target {
-               for enemy in enemies {
-                   enemy.rotateTowards(target)
+    func generateBigJet(genScreenAngle: CGFloat, spread: CGFloat = 0) -> Block {
+        return {
+            let jet = EnemyBigJetNode()
+            jet.name = "bigjet"
+            jet.position = self.outsideWorld(jet, angle: genScreenAngle)
+
+            let angle = normalizeAngle(jet.position.angle)
+            let sizeAngle = self.size.angle
+            if angle > TAU - sizeAngle || angle <= sizeAngle {
+                jet.position.y += ±spread
+            }
+            else if angle > TAU_2 + sizeAngle {
+                jet.position.x += ±spread
+            }
+            else if angle > TAU_2 - sizeAngle {
+                jet.position.y += ±spread
+            }
+            else {
+                jet.position.x += ±spread
+            }
+
+            self << jet
+        }
+    }
+
+    func generateBigJetWithFollowers(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
+        return {
+            let jet = EnemyBigJetNode()
+            jet.name = "bigjet leader"
+            jet.position = self.outsideWorld(jet, angle: genScreenAngle) + CGPoint(y: ±rand(spread))
+            jet.rotateTowards(point: .zero)
+            self << jet
+
+            let dist: CGFloat = 10
+            var prevNode: Node = jet
+            for i in 0..<10 {
+                let location = jet.position + CGVector(r: dist * CGFloat(i), a: genScreenAngle)
+                let enemy = EnemyJetNode(at: location)
+                enemy.name = "bigjet follower"
+                enemy.rotateTo(prevNode.zRotation)
+                enemy.follow(prevNode, scatter: false, component: FollowTargetComponent())
+                self << enemy
+                prevNode = enemy
+            }
+        }
+    }
+
+    func generateLeaderWithLinearFollowers(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
+        return {
+            var screenAngle = genScreenAngle
+            if spread > 0 {
+                screenAngle = screenAngle ± rand(spread)
+            }
+            let dist: CGFloat = 25
+            let enemyLeader = EnemyLeaderNode()
+            let leaderPosition = self.outsideWorld(enemyLeader, angle: screenAngle)
+            enemyLeader.position = leaderPosition
+            enemyLeader.rotateTowards(point: .zero)
+            enemyLeader.name = "linear leader"
+            self << enemyLeader
+
+            for i in 1...5 {
+                let location = leaderPosition + CGVector(r: dist * CGFloat(i), a: screenAngle)
+                let enemy = EnemySoldierNode(at: location)
+                enemy.name = "linear soldier"
+                enemy.rotateTo(enemyLeader.zRotation)
+                enemy.follow(enemyLeader)
+                self << enemy
+            }
+        }
+    }
+
+    func generateLeaderWithCircularFollowers(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
+        return {
+            var screenAngle = genScreenAngle
+            if spread > 0 {
+                screenAngle = screenAngle ± rand(spread)
+            }
+
+            let ghost = self.generateEnemyGhost(angle: screenAngle, extra: 40)
+            ghost.name = "circular ghost"
+            ghost.rotateTowards(point: .zero)
+
+            let dist: CGFloat = 30
+            var enemies: [Node] = []
+            let enemyLeader = EnemyLeaderNode()
+            enemyLeader.name = "circular leader"
+            let leaderPosition = ghost.position + CGPoint(r: dist + enemyLeader.radius, a: screenAngle)
+            enemyLeader.position = leaderPosition
+            enemyLeader.rotateTo(ghost.zRotation)
+            enemyLeader.follow(ghost)
+            self << enemyLeader
+            enemies << enemyLeader
+
+            let count = 5
+            let angleDelta = TAU / CGFloat(count)
+            for i in 0..<count {
+                let enemyAngle = CGFloat(i) * angleDelta ± rand(angleDelta / 2)
+                let vector = CGVector(r: dist, a: enemyAngle)
+                let enemy = EnemySoldierNode(at: leaderPosition + vector)
+                enemy.name = "circular soldier"
+                enemy.rotateTo(ghost.zRotation)
+                enemy.follow(ghost)
+                self << enemy
+                enemies << enemy
+            }
+
+           ghost.playerTargetingComponent!.onTargetAcquired { target in
+               if let target = target {
+                   for enemy in enemies {
+                       enemy.rotateTowards(target)
+                   }
                }
            }
-       }
+        }
     }
 
-    func generateGiant(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561)() {
-        var screenAngle = genScreenAngle
-        if spread > 0 {
-           screenAngle = screenAngle ± rand(spread)
-        }
+    func generateGiant(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
+        return {
+            var screenAngle = genScreenAngle
+            if spread > 0 {
+               screenAngle = screenAngle ± rand(spread)
+            }
 
-        let enemyNode = EnemyGiantNode()
-        enemyNode.name = "giant"
-        enemyNode.position = outsideWorld(enemyNode, angle: screenAngle)
-        self << enemyNode
+            let enemyNode = EnemyGiantNode()
+            enemyNode.name = "giant"
+            enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle)
+            self << enemyNode
+        }
     }
 
     func generateEnemyGhost(angle screenAngle: CGFloat, extra: CGFloat = 0) -> Node {

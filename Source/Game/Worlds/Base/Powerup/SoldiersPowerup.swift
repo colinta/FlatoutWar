@@ -15,10 +15,10 @@ class SoldiersPowerup: Powerup {
         super.init()
     }
 
-    override func activate(level: BaseLevel) {
-        super.activate(level)
+    override func activate(level: World, playerNode: Node, completion: Block = {}) {
+        super.activate(level, playerNode: playerNode)
 
-        let position = level.playerNode.position
+        let position = playerNode.position
         let numSoldiers = 4
         numSoldiers.times { (i: Int) in
             let angle = TAU / CGFloat(numSoldiers) * CGFloat(i) ± rand(TAU_8)
@@ -30,6 +30,8 @@ class SoldiersPowerup: Powerup {
             node.fadeTo(1, start: 0, duration: 1)
             level << node
         }
+
+        completion()
     }
 
 }

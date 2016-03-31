@@ -15,17 +15,23 @@ class MinesPowerup: Powerup {
         super.init()
     }
 
-    override func activate(level: BaseLevel) {
-        super.activate(level)
+    override func activate(level: World, playerNode: Node, completion: Block = {}) {
+        super.activate(level, playerNode: playerNode)
 
-        self.onNextTap(slowmo: true) { position in
+        self.slowmo(true)
+        self.onNextTap { position in
+            let moveDuration: CGFloat = 0.2
             5.times { (i: Int) in
                 let a: CGFloat = CGFloat(i) * TAU / 5 ± rand(TAU_16)
                 let r: CGFloat = 17
                 let offset = CGPoint(r: r ± rand(3), a: a)
-                let node = MineNode(at: level.playerNode.position)
-                node.moveTo(position + offset, duration: 1)
+                let node = MineNode(at: playerNode.position)
+                node.moveTo(position + offset, duration: moveDuration)
                 level << node
+            }
+            level.timeline.after(moveDuration) {
+                self.slowmo(false)
+                completion()
             }
         }
     }

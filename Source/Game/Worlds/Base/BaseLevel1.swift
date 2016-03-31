@@ -46,7 +46,7 @@ class BaseLevel1: BaseLevel {
             self.onNoMoreEnemies { self.beginWave4() }
         }
 
-        timeline.every(0.5...2, start: .Delayed(), times: 20) {
+        timeline.every(1...2.5, start: .Delayed(), times: 10) {
             self.generateEnemy(rand(TAU), constRadius: true)()
         } ~~> nextStep()
     }

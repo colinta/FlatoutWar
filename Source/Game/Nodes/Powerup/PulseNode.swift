@@ -6,13 +6,12 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-// takes 11 seconds to get to edge of screen (284pt, if width is 568pt),
-// regardless of offset
-private let MaxTime: CGFloat = 10
 private let MaxWidth: CGFloat = 325
 private let Damage: Float = 5
 
 class PulseNode: Node {
+    static let MaxTime: CGFloat = 10
+
     class Pulse {
         var time: CGFloat = 0
         private let pulseRate: CGFloat
@@ -28,7 +27,7 @@ class PulseNode: Node {
 
         init(offset: CGFloat) {
             self.timeOffset = offset
-            self.pulseRate = MaxWidth / (MaxTime - offset)
+            self.pulseRate = MaxWidth / (PulseNode.MaxTime - offset)
             node.strokeColor = UIColor(hex: PowerupRed)
             node.lineWidth = 1
         }
@@ -39,8 +38,8 @@ class PulseNode: Node {
                 let myTime = time - timeOffset
                 radius = myTime * pulseRate
 
-                if MaxTime - myTime < 2 {
-                    node.alpha = interpolate(MaxTime - myTime, from: (2, 0), to: (1, 0))
+                if PulseNode.MaxTime - myTime < 2 {
+                    node.alpha = interpolate(PulseNode.MaxTime - myTime, from: (2, 0), to: (1, 0))
                 }
                 else if myTime < 2 {
                     node.alpha = interpolate(myTime, from: (0, 2), to: (0, 1))

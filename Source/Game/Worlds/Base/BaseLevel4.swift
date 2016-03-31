@@ -78,29 +78,31 @@ class BaseLevel4: BaseLevel {
         timeline.every(1, start: .Delayed(), times: 10, block: self.generateScouts(wave5, spread: TAU_8))
     }
 
-    func generateDozer(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561)() {
-        var screenAngle = genScreenAngle
-        if spread > 0 {
-            screenAngle = screenAngle ± rand(spread)
-        }
-        let enemyCount = 4
-        let height: CGFloat = CGFloat(enemyCount * 12) + 2
-        let dozer = EnemyDozerNode()
-        dozer.name = "dozer"
-        dozer.position = outsideWorld(dozer, angle: screenAngle)
-        dozer.rotateTowards(point: .zero)
-        self << dozer
+    func generateDozer(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
+        return {
+            var screenAngle = genScreenAngle
+            if spread > 0 {
+                screenAngle = screenAngle ± rand(spread)
+            }
+            let enemyCount = 4
+            let height: CGFloat = CGFloat(enemyCount * 12) + 2
+            let dozer = EnemyDozerNode()
+            dozer.name = "dozer"
+            dozer.position = self.outsideWorld(dozer, angle: screenAngle)
+            dozer.rotateTowards(point: .zero)
+            self << dozer
 
-        let min = -height / 2 + 5
-        let max = height / 2 - 5
-        for i in 0..<enemyCount {
-            let r = interpolate(CGFloat(i), from: (0, 3), to: (min, max))
-            let location = dozer.position + CGPoint(r: 10, a: screenAngle) + CGPoint(r: r, a: screenAngle + 90.degrees)
-            let enemy = EnemySoldierNode(at: location)
-            enemy.name = "dozer soldier"
-            enemy.rotateTo(dozer.zRotation)
-            enemy.follow(dozer, scatter: false)
-            self << enemy
+            let min = -height / 2 + 5
+            let max = height / 2 - 5
+            for i in 0..<enemyCount {
+                let r = interpolate(CGFloat(i), from: (0, 3), to: (min, max))
+                let location = dozer.position + CGPoint(r: 10, a: screenAngle) + CGPoint(r: r, a: screenAngle + 90.degrees)
+                let enemy = EnemySoldierNode(at: location)
+                enemy.name = "dozer soldier"
+                enemy.rotateTo(dozer.zRotation)
+                enemy.follow(dozer, scatter: false)
+                self << enemy
+            }
         }
     }
 

@@ -8,8 +8,15 @@
 
 class BaseLevel2Config: BaseConfig {
     override var canUpgrade: Bool { return false }
+    override var availablePowerups: [Powerup] { return [
+            GrenadePowerup(),
+            LaserPowerup(),
+            MinesPowerup(),
+        ] }
+    override var availableTurrets: [Turret] { return [] }
 
     override var possibleExperience: Int { return 120 }
+    override func tutorial() -> Tutorial? { return PowerupTutorial() }
     override func nextLevel() -> BaseLevel {
         return BaseLevel3()
     }
