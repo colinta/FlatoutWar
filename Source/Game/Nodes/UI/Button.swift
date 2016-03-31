@@ -6,6 +6,27 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
+enum ButtonStyle {
+    case Square
+    case SquareSized(Int)
+    case RectSized(Int, Int)
+    case Circle
+    case CircleSized(Int)
+    case None
+
+    var size: CGSize {
+        switch self {
+        case .Square: return CGSize(50)
+        case .Circle: return CGSize(60)
+        case let .SquareSized(size): return CGSize(CGFloat(size))
+        case let .RectSized(width, height): return CGSize(CGFloat(width), CGFloat(height))
+        case let .CircleSized(size): return CGSize(CGFloat(size))
+        default: return .zero
+        }
+    }
+
+}
+
 class Button: TextNode {
     enum ButtonBehavior {
         case Disable

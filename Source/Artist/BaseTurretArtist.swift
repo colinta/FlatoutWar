@@ -50,6 +50,32 @@ class BaseTurretArtist: Artist {
     }
 }
 
+class BaseRapidTurretArtist: BaseTurretArtist {
+    static let biggerR: CGFloat = 6
+    static let smallerR: CGFloat = 2.5
+
+    required init(upgrade: FiveUpgrades) {
+        super.init(upgrade: upgrade)
+        size = CGSize(48)
+    }
+
+    required init() {
+        fatalError("init() has not been implemented")
+    }
+
+    override func initialTurretPath() {
+        CGPathMoveToPoint(turretPath, nil, -BaseRapidTurretArtist.biggerR, -BaseRapidTurretArtist.tinyR)
+        CGPathAddLineToPoint(turretPath, nil, 0, -BaseRapidTurretArtist.biggerR)
+        CGPathAddLineToPoint(turretPath, nil, BaseRapidTurretArtist.smallerR, -BaseRapidTurretArtist.smallerR)
+        CGPathAddLineToPoint(turretPath, nil, BaseRapidTurretArtist.width, -BaseRapidTurretArtist.smallerR)
+        CGPathAddLineToPoint(turretPath, nil, BaseRapidTurretArtist.width, BaseRapidTurretArtist.smallerR)
+        CGPathAddLineToPoint(turretPath, nil, BaseRapidTurretArtist.smallerR, BaseRapidTurretArtist.smallerR)
+        CGPathAddLineToPoint(turretPath, nil, 0, BaseRapidTurretArtist.biggerR)
+        CGPathAddLineToPoint(turretPath, nil, -BaseRapidTurretArtist.biggerR, BaseRapidTurretArtist.tinyR)
+        CGPathCloseSubpath(turretPath)
+    }
+
+}
 
 class BaseDoubleTurretArtist: BaseTurretArtist {
     static let doubleDist: CGFloat = 6
@@ -115,15 +141,6 @@ class BaseBigTurretArtist: BaseTurretArtist {
         CGPathAddLineToPoint(turretPath, nil, 0, BaseBigTurretArtist.biggerR)
         CGPathAddLineToPoint(turretPath, nil, -BaseBigTurretArtist.biggerR, BaseBigTurretArtist.tinierR)
         CGPathCloseSubpath(turretPath)
-    }
-
-    override func draw(context: CGContext) {
-        CGContextSetStrokeColorWithColor(context, stroke.CGColor)
-        CGContextSetFillColorWithColor(context, fill.CGColor)
-
-        CGContextTranslateCTM(context, size.width / 2, size.height / 2)
-        CGContextAddPath(context, turretPath)
-        CGContextDrawPath(context, .FillStroke)
     }
 
 }

@@ -41,6 +41,52 @@ enum Position {
             return CGPoint(x: half.width + x, y: -half.height + y)
         }
     }
+
+    var x: CGFloat {
+        switch self {
+        case let .TopLeft(x, _):
+            return x
+        case let .Top(x, _):
+            return x
+        case let .TopRight(x, _):
+            return x
+        case let .Left(x, _):
+            return x
+        case let .Center(x, _):
+            return x
+        case let .Right(x, _):
+            return x
+        case let .BottomLeft(x, _):
+            return x
+        case let .Bottom(x, _):
+            return x
+        case let .BottomRight(x, _):
+            return x
+        }
+    }
+
+    var y: CGFloat {
+        switch self {
+        case let .TopLeft(_, y):
+            return y
+        case let .Top(_, y):
+            return y
+        case let .TopRight(_, y):
+            return y
+        case let .Left(_, y):
+            return y
+        case let .Center(_, y):
+            return y
+        case let .Right(_, y):
+            return y
+        case let .BottomLeft(_, y):
+            return y
+        case let .Bottom(_, y):
+            return y
+        case let .BottomRight(_, y):
+            return y
+        }
+    }
 }
 
 

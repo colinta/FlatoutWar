@@ -74,6 +74,7 @@ enum ImageIdentifier {
     case BaseExplosion(index: Int, total: Int)
 
     case BaseSingleTurret(upgrade: FiveUpgrades)
+    case BaseRapidTurret(upgrade: FiveUpgrades)
     case BaseDoubleTurret(upgrade: FiveUpgrades)
     case BaseBigTurret(upgrade: FiveUpgrades)
     case BaseTurretBullet(upgrade: FiveUpgrades)
@@ -173,6 +174,8 @@ enum ImageIdentifier {
             return "BaseExplosion(index:\(index),total:\(total))"
         case let .BaseSingleTurret(upgrade):
             return "BaseSingleTurret(upgrade:\(upgrade.name))"
+        case let .BaseRapidTurret(upgrade):
+            return "BaseRapidTurret(upgrade:\(upgrade.name))"
         case let .BaseDoubleTurret(upgrade):
             return "BaseDoubleTurret(upgrade:\(upgrade.name))"
         case let .BaseBigTurret(upgrade):

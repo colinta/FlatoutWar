@@ -75,7 +75,7 @@ class Powerup {
             button.alpha = alpha
             button.enabled = enabled
             button << buttonIcon()
-            level.ui << button
+            level.gameUI << button
             button.onTapped(.Disable).onTapped(self.activateIfEnabled)
             powerupButtons << button
 

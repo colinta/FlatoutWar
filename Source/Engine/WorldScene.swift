@@ -15,6 +15,7 @@ class WorldScene: SKScene {
     private var effectNode = SKEffectNode()
     private var pauseNode: SKNode?
     var uiNode: Node
+    var gameUINode: Node
     var prevTime: NSTimeInterval?
     var touchSession: TouchSession?
 
@@ -34,6 +35,7 @@ class WorldScene: SKScene {
         world.size = size / WorldScene.worldScale
         world.screenSize = size
         uiNode = world.ui
+        gameUINode = world.gameUI
         super.init(size: size)
         anchorPoint = CGPoint(0.5, 0.5)
 
@@ -49,6 +51,7 @@ class WorldScene: SKScene {
         ])
         effectNode.filter = blur
 
+        self << gameUINode
         self << uiNode
     }
 
@@ -62,6 +65,7 @@ class WorldScene: SKScene {
                     pauseNode = SKSpriteNode(texture: texture)
                     self << pauseNode!
                     world.hidden = true
+                    gameUINode.hidden = true
                 }
             }
         }
@@ -69,6 +73,8 @@ class WorldScene: SKScene {
 
     func worldUnpaused() {
         world.hidden = false
+        gameUINode.hidden = false
+
         if let pauseNode = pauseNode {
             pauseNode.removeFromParent()
         }
@@ -78,6 +84,7 @@ class WorldScene: SKScene {
     required init?(coder: NSCoder) {
         world = coder.decode("world")
         uiNode = coder.decode("ui")
+        gameUINode = coder.decode("gameUINode")
         prevTime = NSTimeInterval(coder.decodeFloat("prevTime") ?? 0)
         super.init(coder: coder)
     }

@@ -14,6 +14,7 @@ class World: Node {
     }
     var cameraNode: Node?
     var ui = UINode()
+    var gameUI = UINode()
     var timeline = TimelineComponent()
 
     let cameraZoom = ScaleToComponent()
@@ -336,6 +337,7 @@ extension World {
         let dt = min(0.03, dtReal * timeRate)
         if !worldPaused {
             updateNodes(dt)
+            gameUI.updateNodes(dt)
 
             throttleStragglers(dt: dt, clearStragglers)
 
@@ -475,8 +477,18 @@ extension World {
 
 extension World {
     func touchableNodeAtLocation(worldLocation: CGPoint) -> Node? {
-        if let foundUi = touchableNodeAtLocation(worldLocation, inChildren: self.ui.children) {
-            return foundUi
+        let uiNodes: [Node]
+        if worldPaused {
+            uiNodes = [self.ui]
+        }
+        else {
+            uiNodes = [self.ui, self.gameUI]
+        }
+
+        for uiNode in uiNodes {
+            if let foundUi = touchableNodeAtLocation(worldLocation, inChildren: uiNode.children) {
+                return foundUi
+            }
         }
         if !worldPaused {
             return touchableNodeAtLocation(worldLocation, inChildren: self.children)
@@ -559,9 +571,12 @@ extension World {
 
     func updateFixedNodes() {
         if let screenSize = screenSize {
-            let uiNodes = ui.children.filter { sknode in
-                return (sknode as? Node)?.fixedPosition != nil
-            } as! [Node]
+            var uiNodes: [Node] = []
+            for uiNode in [ui, gameUI] {
+                uiNodes += uiNode.children.filter { sknode in
+                    return (sknode as? Node)?.fixedPosition != nil
+                } as! [Node]
+            }
 
             for node in uiNodes {
                 node.position = node.fixedPosition!.positionIn(screenSize: screenSize)

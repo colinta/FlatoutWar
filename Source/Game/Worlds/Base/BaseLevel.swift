@@ -67,6 +67,31 @@ class BaseLevel: Level {
             zoomOut()
         }
 
+        var buttons: [Node] = []
+        for turret in config.availableTurrets {
+            let (button, icon) = turret.button()
+            buttons << button
+
+            button.onTapped {
+            }
+        }
+
+        let buttonWidth: CGFloat = 45
+        let x0: CGFloat = -CGFloat(buttons.count - 1) * buttonWidth / 2
+        for (index, button) in buttons.enumerate() {
+            let start: Position = .Bottom(
+                x: x0 + CGFloat(index) * buttonWidth,
+                y: -22
+            )
+            let dest: Position = .Bottom(
+                x: start.x,
+                y: 22
+            )
+            button.fixedPosition = start
+            gameUI << button
+            button.moveTo(dest, duration: 0.5)
+        }
+
         populateLevel()
     }
 
@@ -93,6 +118,7 @@ class BaseLevel: Level {
         }
 
         if config.canPowerup {
+            pauseButton.visible = false
             self.beginPowerups()
         }
         else {
@@ -124,6 +150,7 @@ extension BaseLevel {
         if let powerup = powerup {
             powerup.addToLevel(self, playerNode: playerNode, start: start, dest: .TopLeft(x: 20, y: -20))
         }
+        pauseButton.visible = true
         self.beginLevel(delay: false)
 
         for node in buttons {
@@ -171,7 +198,7 @@ extension BaseLevel {
                 y: 160 - CGFloat(index) * 80
             )
             button.fixedPosition = start
-            ui << button
+            gameUI << button
         }
 
         timeline.after(1.75) {

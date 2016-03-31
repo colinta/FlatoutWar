@@ -54,14 +54,14 @@ class BasePlayerNode: Node {
 
         radar.textureId(.BaseRadar(upgrade: radarUpgrade))
         radar.anchorPoint = CGPoint(0, 0.5)
-        radar.zPosition = Z.Bottom.rawValue
+        radar.zPosition = Z.Radar.rawValue
         self << radar
 
-        base.zPosition = Z.Default.rawValue
+        base.zPosition = Z.Player.rawValue
         base.textureId(.Base(upgrade: radarUpgrade, health: 100))
         self << base
 
-        turret.zPosition = Z.Default.rawValue + 0.5
+        turret.zPosition = Z.Turret.rawValue + 0.5
         turret.textureId(.BaseSingleTurret(upgrade: turretUpgrade))
         self << turret
 

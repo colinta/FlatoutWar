@@ -181,6 +181,9 @@ extension ImageIdentifier {
         case let .BaseSingleTurret(upgrade):
             let artist = BaseTurretArtist(upgrade: upgrade)
             return artist
+        case let .BaseRapidTurret(upgrade):
+            let artist = BaseRapidTurretArtist(upgrade: upgrade)
+            return artist
         case let .BaseDoubleTurret(upgrade):
             let artist = BaseDoubleTurretArtist(upgrade: upgrade)
             return artist

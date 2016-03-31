@@ -9,6 +9,7 @@
 class Node: SKNode {
     var frozen = false
     var timeRate: CGFloat = 1
+    var enablePaused = false
     private var mods: [Mod] = []
 
     var fixedPosition: Position? {

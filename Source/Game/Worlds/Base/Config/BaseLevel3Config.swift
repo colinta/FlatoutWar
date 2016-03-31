@@ -9,10 +9,14 @@
 class BaseLevel3Config: BaseConfig {
     override var canUpgrade: Bool { return false }
     override var availablePowerups: [Powerup] { return [
-            GrenadePowerup(),
-            LaserPowerup(),
-            MinesPowerup(),
-        ] }
+        GrenadePowerup(),
+        LaserPowerup(),
+        MinesPowerup(),
+    ] }
+    override var availableTurrets: [Turret] { return [
+        SimpleTurret(),
+        RapidTurret(),
+    ] }
 
     override var possibleExperience: Int { return 130 }
     override func tutorial() -> Tutorial? { return RapidFireTutorial() }

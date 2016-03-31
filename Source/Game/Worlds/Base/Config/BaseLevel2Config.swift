@@ -9,10 +9,10 @@
 class BaseLevel2Config: BaseConfig {
     override var canUpgrade: Bool { return false }
     override var availablePowerups: [Powerup] { return [
-            GrenadePowerup(),
-            LaserPowerup(),
-            MinesPowerup(),
-        ] }
+        GrenadePowerup(),
+        LaserPowerup(),
+        MinesPowerup(),
+    ] }
     override var availableTurrets: [Turret] { return [] }
 
     override var possibleExperience: Int { return 120 }

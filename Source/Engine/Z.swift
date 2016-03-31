@@ -12,7 +12,10 @@ enum Z: CGFloat {
     case UIBottom = 6
     case Top = 5
     case Above = 2
+    case Turret = 1
+    case Player = 0.5
     case Default = 0
     case Below = -2
+    case Radar = -3
     case Bottom = -4
 }
