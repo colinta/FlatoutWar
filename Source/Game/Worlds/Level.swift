@@ -178,8 +178,8 @@ class Level: World {
 
     override func worldShook() {
         super.worldShook()
-        if timeRate == 0.5 { timeRate = 4 }
-        else if timeRate == 4 { timeRate = 1 }
+        if timeRate == 0.5 { timeRate = 3 }
+        else if timeRate == 3 { timeRate = 1 }
         else { timeRate = 0.5 }
         print("timeRate: \(timeRate)")
         print("possibleExperience: \(possibleExperience)")
@@ -199,6 +199,12 @@ class Level: World {
 
         timeline.removeFromNode()
         pauseButton.removeFromParent()
+
+        for node in gameUI.children {
+            if let node = node as? Button {
+                node.enabled = false
+            }
+        }
 
         moveCamera(to: .zero, zoom: 2, duration: 1)
     }

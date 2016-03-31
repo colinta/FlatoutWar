@@ -16,28 +16,35 @@ private let ForceFireBurnoutDown: CGFloat = 4
 class BasePlayerNode: Node {
     var forceFireEnabled: Bool?
     var forceFireBurnout = false
+    var turret: Turret = SimpleTurret() {
+        didSet {
+            turretNode.textureId(turret.spriteId(upgrade: turretUpgrade))
+            targetingComponent?.enabled = turret.autoFireEnabled
+        }
+    }
+
     var baseUpgrade: FiveUpgrades = .One {
         didSet {
-            base.textureId(.Base(upgrade: baseUpgrade, health: healthComponent?.healthInt ?? 100))
+            baseNode.textureId(.Base(upgrade: baseUpgrade, health: healthComponent?.healthInt ?? 100))
             rotateToComponent?.maxAngularSpeed = baseUpgrade.baseAngularSpeed
             rotateToComponent?.angularAccel = baseUpgrade.baseAngularAccel
         }
     }
     var radarUpgrade: FiveUpgrades = .One {
         didSet {
-            radar.textureId(.BaseRadar(upgrade: radarUpgrade))
+            radarNode.textureId(.BaseRadar(upgrade: radarUpgrade))
         }
     }
     var turretUpgrade: FiveUpgrades = .One {
         didSet {
-            turret.textureId(.BaseSingleTurret(upgrade: turretUpgrade))
+            turretNode.textureId(turret.spriteId(upgrade: turretUpgrade))
             firingComponent?.cooldown = turretUpgrade.turretCooldown
         }
     }
 
-    var radar = SKSpriteNode()
-    var base = SKSpriteNode()
-    var turret = SKSpriteNode()
+    var radarNode = SKSpriteNode()
+    var baseNode = SKSpriteNode()
+    var turretNode = SKSpriteNode()
     let forceFirePercent = PercentBar()
     private var forceFireCooldown: CGFloat {
         return forceFireBurnout ? DefaultCooldown : ForceFireCooldown
@@ -52,18 +59,18 @@ class BasePlayerNode: Node {
 
         size = CGSize(40)
 
-        radar.textureId(.BaseRadar(upgrade: radarUpgrade))
-        radar.anchorPoint = CGPoint(0, 0.5)
-        radar.zPosition = Z.Radar.rawValue
-        self << radar
+        radarNode.textureId(.BaseRadar(upgrade: radarUpgrade))
+        radarNode.anchorPoint = CGPoint(0, 0.5)
+        radarNode.zPosition = Z.Radar.rawValue
+        self << radarNode
 
-        base.zPosition = Z.Player.rawValue
-        base.textureId(.Base(upgrade: radarUpgrade, health: 100))
-        self << base
+        baseNode.zPosition = Z.Player.rawValue
+        baseNode.textureId(.Base(upgrade: radarUpgrade, health: 100))
+        self << baseNode
 
-        turret.zPosition = Z.Turret.rawValue + 0.5
-        turret.textureId(.BaseSingleTurret(upgrade: turretUpgrade))
-        self << turret
+        turretNode.zPosition = Z.Turret.rawValue + 0.5
+        turretNode.textureId(.BaseSingleTurret(upgrade: turretUpgrade))
+        self << turretNode
 
         forceFirePercent.style = .Heat
         forceFirePercent.position = CGPoint(x: 25)
@@ -71,12 +78,12 @@ class BasePlayerNode: Node {
         self << forceFirePercent
 
         let playerComponent = PlayerComponent()
-        playerComponent.intersectionNode = base
+        playerComponent.intersectionNode = baseNode
         addComponent(playerComponent)
 
         let healthComponent = HealthComponent(health: 100)
         healthComponent.onHurt { amount in
-            self.base.textureId(.Base(upgrade: .One, health: healthComponent.healthInt))
+            self.baseNode.textureId(.Base(upgrade: .One, health: healthComponent.healthInt))
         }
         addComponent(healthComponent)
 
@@ -87,7 +94,7 @@ class BasePlayerNode: Node {
 
         let rotateToComponent = RotateToComponent()
         rotateToComponent.currentAngle = 0
-        rotateToComponent.applyTo = base
+        rotateToComponent.applyTo = baseNode
         rotateToComponent.maxAngularSpeed = baseUpgrade.baseAngularSpeed
         rotateToComponent.angularAccel = baseUpgrade.baseAngularAccel
         addComponent(rotateToComponent)
@@ -95,11 +102,11 @@ class BasePlayerNode: Node {
         let targetingComponent = EnemyTargetingComponent()
         targetingComponent.sweepAngle = radarUpgrade.radarSweepAngle
         targetingComponent.radius = radarUpgrade.radarRadius
-        targetingComponent.turret = base
+        targetingComponent.turret = baseNode
         addComponent(targetingComponent)
 
         let firingComponent = FiringComponent()
-        firingComponent.turret = base
+        firingComponent.turret = baseNode
         firingComponent.cooldown = turretUpgrade.turretCooldown
         firingComponent.onFire { angle in
             self.fireBullet(angle: angle)
@@ -109,9 +116,9 @@ class BasePlayerNode: Node {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        radar = coder.decode("radar")
-        base = coder.decode("base")
-        turret = coder.decode("turret")
+        radarNode = coder.decode("radar")
+        baseNode = coder.decode("base")
+        turretNode = coder.decode("turret")
     }
 
     override func encodeWithCoder(encoder: NSCoder) {
@@ -124,7 +131,7 @@ class BasePlayerNode: Node {
             forceFire = forceFireEnabled
         }
         else if let touchedFor = touchableComponent?.touchedFor
-        where touchedFor > 0 {
+        where touchedFor > 0 && turret.rapidFireEnabled {
             forceFire = true
         }
         else {
@@ -151,14 +158,14 @@ class BasePlayerNode: Node {
             isTouching = touchableComponent?.isTouching
             where !isTouching || forceFireEnabled == false
         {
-            turret.zRotation = firingAngle
+            turretNode.zRotation = firingAngle
         }
         else if let currentAngle = rotateToComponent?.currentAngle {
-            turret.zRotation = currentAngle
+            turretNode.zRotation = currentAngle
         }
 
         if let angle = rotateToComponent?.destAngle {
-            radar.zRotation = angle
+            radarNode.zRotation = angle
         }
     }
 
@@ -326,9 +333,9 @@ extension BasePlayerNode {
     }
 
     override func rotateTo(angle: CGFloat) {
-        base.zRotation = angle
-        radar.zRotation = angle
-        turret.zRotation = angle
+        baseNode.zRotation = angle
+        radarNode.zRotation = angle
+        turretNode.zRotation = angle
         rotateToComponent?.currentAngle = angle
         rotateToComponent?.target = nil
     }

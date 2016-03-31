@@ -14,12 +14,61 @@ class RapidFireTutorial: Tutorial {
         tutorialTextNode.text = "RAPID FIRE"
 
         timeline.at(1) {
+            self.showTurrets()
+        }
+    }
+
+    func showTurrets() {
+        let turret = RapidTurret()
+        let button = turret.button()
+
+        let label = TextNode()
+        label.text = "↓"
+        label.fixedPosition = .Bottom(x: 0, y: 60)
+        label.alpha = 0
+        gameUI << label
+        let cancel = timeline.cancellable.after(2) {
+            label.fadeTo(1, duration: 0.5)
+            self.bounce(label)
+        }
+
+        button.onTapped {
+            label.removeFromParent()
+            cancel()
+            button.fadeTo(0, duration: 0.3, removeNode: true)
+            self.playerNode.turret = turret
             self.showFirstEnemy()
+        }
+
+        let start: Position = .Bottom(
+            x: 0,
+            y: -22
+        )
+        let dest: Position = .Bottom(
+            x: start.x,
+            y: 22
+        )
+        button.fixedPosition = start
+        gameUI << button
+        button.moveTo(dest, duration: 0.5)
+    }
+
+    func bounce(node: Node, direction: Int = 1) {
+        var p = node.position
+        if direction < 0 {
+            p.y -= 30
+        }
+        else if direction > 0 {
+            p.y += 30
+        }
+
+        node.moveTo(p, duration: 0.5).onArrived {
+            self.bounce(node, direction: -direction)
         }
     }
 
     func showFirstEnemy() {
-        let locations = (start: CGPoint(x: 0, y: -150), end: CGPoint(x: 0, y: -50))
+        let locations = (start: CGPoint(x: 0, y: -200), end: CGPoint(x: 0, y: -50))
         let enemyNode = EnemyLeaderNode(at: locations.start)
         enemyNode.rotateTowards(self.playerNode)
         enemyNode.rammingComponent?.enabled = false

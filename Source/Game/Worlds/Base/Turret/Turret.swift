@@ -14,15 +14,18 @@ class Turret {
         ShotgunTurret(),
     ]
 
-    func turretId(upgrade: FiveUpgrades) -> ImageIdentifier {
+    var autoFireEnabled = false
+    var rapidFireEnabled = false
+
+    func spriteId(upgrade upgrade: FiveUpgrades) -> ImageIdentifier {
         return .None
     }
 
-    func button() -> (Button, Node) {
+    func button() -> Button {
         let body = SKSpriteNode(id: .Base(upgrade: .One, health: 100))
         body.zPosition = Z.Player.rawValue
 
-        let turret = SKSpriteNode(id: turretId(.One))
+        let turret = SKSpriteNode(id: spriteId(upgrade: .One))
         turret.zPosition = Z.Turret.rawValue
 
         let node = Node()
@@ -36,14 +39,20 @@ class Turret {
         button.style = .SquareSized(40)
         button.size = CGSize(50)
         button << node
-        return (button, node)
+        return button
     }
 
 }
 
 class SimpleTurret: Turret {
 
-    override func turretId(upgrade: FiveUpgrades) -> ImageIdentifier {
+    override init() {
+        super.init()
+        autoFireEnabled = true
+        rapidFireEnabled = false
+    }
+
+    override func spriteId(upgrade upgrade: FiveUpgrades) -> ImageIdentifier {
         return .BaseSingleTurret(upgrade: upgrade)
     }
 
@@ -52,7 +61,13 @@ class SimpleTurret: Turret {
 
 class RapidTurret: Turret {
 
-    override func turretId(upgrade: FiveUpgrades) -> ImageIdentifier {
+    override init() {
+        super.init()
+        autoFireEnabled = false
+        rapidFireEnabled = true
+    }
+
+    override func spriteId(upgrade upgrade: FiveUpgrades) -> ImageIdentifier {
         return .BaseRapidTurret(upgrade: upgrade)
     }
 

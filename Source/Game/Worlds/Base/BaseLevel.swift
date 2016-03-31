@@ -67,18 +67,16 @@ class BaseLevel: Level {
             zoomOut()
         }
 
-        var buttons: [Node] = []
-        for turret in config.availableTurrets {
-            let (button, icon) = turret.button()
-            buttons << button
+        let turrets = config.availableTurrets
+        let buttonWidth: CGFloat = 45
+        let x0: CGFloat = -CGFloat(turrets.count - 1) * buttonWidth / 2
+        for (index, turret) in turrets.enumerate() {
+            let button = turret.button()
 
             button.onTapped {
+                self.playerNode.turret = turret
             }
-        }
 
-        let buttonWidth: CGFloat = 45
-        let x0: CGFloat = -CGFloat(buttons.count - 1) * buttonWidth / 2
-        for (index, button) in buttons.enumerate() {
             let start: Position = .Bottom(
                 x: x0 + CGFloat(index) * buttonWidth,
                 y: -22
@@ -260,12 +258,12 @@ extension BaseLevel {
             let percentNode = PercentBar(at: CGPoint(x: 50, y: 0))
             self << percentNode
 
-            let totalText = TextNode(at: CGPoint(x: 100, y: 4))
+            let totalText = TextNode(at: CGPoint(x: 100, y: 10))
             totalText.text = "\(possibleExperience)"
             totalText.font = .Big
             self << totalText
 
-            let currentText = TextNode(at: CGPoint(x: 30, y: -20))
+            let currentText = TextNode(at: CGPoint(x: 30, y: -30))
             currentText.text = "0"
             currentText.font = .Big
             self << currentText
