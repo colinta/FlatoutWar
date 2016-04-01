@@ -7,7 +7,11 @@
 //
 
 private let defaultSize = CGSize(width: 4, height: 6)
-let SmallFont: Font = [
+let SmallFont = Font(
+    stroke: 0.5,
+    scale: 3,
+    space: 1,
+    font: [
     " ": Letter(style: .Line, size: CGSize(width: 3, height: 6), points: [[CGPoint]]()),
     ".": Letter(style: .Line, size: CGSize(width: 0.5, height: 6), points: [[
         CGPoint(x: -0.25, y: 6),
@@ -108,15 +112,15 @@ let SmallFont: Font = [
         CGPoint(x: 4, y: 0),
         CGPoint(x: 0, y: 6.25),
     ]]),
-    "8": Letter(style: .Line, size: defaultSize, points: [[
+    "8": Letter(style: .Loop, size: defaultSize, points: [[
         CGPoint(x: 0, y: 0),
         CGPoint(x: 4, y: 0),
-        CGPoint(x: 4, y: 6),
-        CGPoint(x: 0, y: 6),
-        CGPoint(x: 0, y: 0),
-    ], [
-        CGPoint(x: 0, y: 3),
         CGPoint(x: 4, y: 3),
+        CGPoint(x: 0, y: 3),
+        CGPoint(x: 0, y: 6),
+        CGPoint(x: 4, y: 6),
+        CGPoint(x: 4, y: 3),
+        CGPoint(x: 0, y: 3),
     ]]),
     "9": Letter(style: .Line, size: defaultSize, points: [[
         CGPoint(x: 3, y: 3),
@@ -298,4 +302,4 @@ let SmallFont: Font = [
         CGPoint(x: 0, y: 0),
         CGPoint(x: 4, y: 6),
     ]]),
-]
+])

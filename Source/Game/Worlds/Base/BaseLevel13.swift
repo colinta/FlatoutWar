@@ -15,7 +15,7 @@ class BaseLevel13: BaseLevel {
     }
 
     func beginWave1() {
-        _ = afterN {
+        let nextStep = afterN {
             self.onNoMoreEnemies { self.beginWave2() }
         }
     }

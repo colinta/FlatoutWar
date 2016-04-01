@@ -41,7 +41,10 @@ class BaseConfig {
     }
 
     var availablePowerups: [Powerup] { return Powerup.All }
-    var availableTurrets: [Turret] { return Turret.All }
+    var availableTurrets: [Turret] { return [
+        SimpleTurret(),
+        RapidTurret(),
+    ] }
 
     func updateMaxGainedExperience(exp: Int) {
         Defaults["Config-\(configKey)-gainedExperience"] = min(max(exp, gainedExperience), possibleExperience)

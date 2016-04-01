@@ -8,7 +8,7 @@
 
 class BulletNode: Node {
     var damage: Float = 10 { didSet { projectileComponent?.damage = damage } }
-    let sprite = SKSpriteNode(id: .BaseTurretBullet(upgrade: .One))
+    let sprite = SKSpriteNode()
 
     enum Style {
         case Fast
@@ -18,6 +18,7 @@ class BulletNode: Node {
     required init(velocity: CGPoint, style: Style) {
         super.init()
 
+        sprite.textureId(.BaseTurretBullet(upgrade: .One, style: style))
         self << sprite
         size = BaseTurretBulletArtist.bulletSize(.One)
 

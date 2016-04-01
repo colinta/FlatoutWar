@@ -181,14 +181,18 @@ class Level: World {
         if timeRate == 0.5 { timeRate = 3 }
         else if timeRate == 3 { timeRate = 1 }
         else { timeRate = 0.5 }
+        printStatus()
+    }
+
+    func printStatus() {
         print("timeRate: \(timeRate)")
         print("possibleExperience: \(possibleExperience)")
+        print("gainedExperience: \(gainedExperience)")
     }
 
     var levelSuccess: Bool?
     func levelCompleted(success success: Bool) {
-        print("possibleExperience: \(possibleExperience)")
-        print("gainedExperience: \(gainedExperience)")
+        printStatus()
         guard levelSuccess == nil else {
             return
         }

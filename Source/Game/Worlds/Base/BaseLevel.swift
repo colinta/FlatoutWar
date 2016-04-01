@@ -70,11 +70,20 @@ class BaseLevel: Level {
         let turrets = config.availableTurrets
         let buttonWidth: CGFloat = 45
         let x0: CGFloat = -CGFloat(turrets.count - 1) * buttonWidth / 2
+        var buttons: [Node] = []
         for (index, turret) in turrets.enumerate() {
             let button = turret.button()
+            buttons << button
+            if index == 0 {
+                button.setScale(1.1)
+            }
 
             button.onTapped {
                 self.playerNode.turret = turret
+                for b in buttons {
+                    b.setScale(1)
+                }
+                button.setScale(1.1)
             }
 
             let start: Position = .Bottom(
@@ -83,7 +92,7 @@ class BaseLevel: Level {
             )
             let dest: Position = .Bottom(
                 x: start.x,
-                y: 22
+                y: 24
             )
             button.fixedPosition = start
             gameUI << button

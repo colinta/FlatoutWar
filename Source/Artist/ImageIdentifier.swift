@@ -77,7 +77,7 @@ enum ImageIdentifier {
     case BaseRapidTurret(upgrade: FiveUpgrades)
     case BaseDoubleTurret(upgrade: FiveUpgrades)
     case BaseBigTurret(upgrade: FiveUpgrades)
-    case BaseTurretBullet(upgrade: FiveUpgrades)
+    case BaseTurretBullet(upgrade: FiveUpgrades, style: BulletNode.Style)
 
     case ColorPath(path: UIBezierPath, color: Int)
     case ColorLine(length: CGFloat, color: Int)
@@ -180,8 +180,8 @@ enum ImageIdentifier {
             return "BaseDoubleTurret(upgrade:\(upgrade.name))"
         case let .BaseBigTurret(upgrade):
             return "BaseBigTurret(upgrade:\(upgrade.name))"
-        case let .BaseTurretBullet(upgrade):
-            return "BaseTurretBullet(upgrade:\(upgrade.name))"
+        case let .BaseTurretBullet(upgrade, style):
+            return "BaseTurretBullet(upgrade:\(upgrade.name),style:\(style))"
         case .ColorPath:
             return nil
         case let .ColorLine(length, color):

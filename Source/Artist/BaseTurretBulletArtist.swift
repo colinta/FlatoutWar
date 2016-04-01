@@ -6,8 +6,18 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
+extension BulletNode.Style {
+
+    var color: UIColor {
+        switch self {
+        case .Slow: return UIColor(hex: 0x9F0025)
+        case .Fast: return UIColor(hex: 0xC70063)
+        }
+    }
+}
+
 class BaseTurretBulletArtist: Artist {
-    var color = UIColor(hex: 0x9F0025)
+    var color: UIColor
     var upgrade = FiveUpgrades.Default
 
     static func bulletSize(upgrade: FiveUpgrades) -> CGSize {
@@ -25,8 +35,9 @@ class BaseTurretBulletArtist: Artist {
         }
     }
 
-    required init(upgrade: FiveUpgrades) {
+    required init(upgrade: FiveUpgrades, style: BulletNode.Style) {
         self.upgrade = upgrade
+        self.color = style.color
         super.init()
         size = BaseTurretBulletArtist.bulletSize(upgrade)
     }

@@ -7,7 +7,11 @@
 //
 
 private let defaultSize = CGSize(width: 5, height: 8)
-let BigFont: Font = [
+let BigFont = Font(
+    stroke: 0.5,
+    scale: 4,
+    space: 3,
+    font: [
     " ": Letter(style: .Loop, size: defaultSize, points: [[CGPoint]]()),
     "-": Letter(style: .Loop, size: defaultSize, points: [[
         CGPoint(x: 0.5, y: 3.5),
@@ -574,4 +578,4 @@ let BigFont: Font = [
             CGPoint(x: 2, y: 2.5)
         ]]
     )
-]
+])

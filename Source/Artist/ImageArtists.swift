@@ -190,8 +190,8 @@ extension ImageIdentifier {
         case let .BaseBigTurret(upgrade):
             let artist = BaseBigTurretArtist(upgrade: upgrade)
             return artist
-        case let .BaseTurretBullet(upgrade):
-            let artist = BaseTurretBulletArtist(upgrade: upgrade)
+        case let .BaseTurretBullet(upgrade, style):
+            let artist = BaseTurretBulletArtist(upgrade: upgrade, style: style)
             return artist
         case let .ColorLine(length, color):
             let color = UIColor(hex: color)

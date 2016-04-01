@@ -13,6 +13,7 @@ class TutorialSelectWorld: World {
 
         let worlds: [(String, () -> World)] = [
             ("AUTO AIM TUTORIAL", { return AutoFireTutorial() }),
+            ("POWERUP TUTORIAL", { return PowerupTutorial() }),
             ("RAPID FIRE TUTORIAL", { return RapidFireTutorial() }),
             ("DRONE TUTORIAL", { return DroneTutorial() }),
             ("", { return TutorialSelectWorld() }),

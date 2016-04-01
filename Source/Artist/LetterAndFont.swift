@@ -29,4 +29,9 @@ func ==(lhs: Letter, rhs: Letter) -> Bool {
     return false
 }
 
-typealias Font = [String: Letter]
+struct Font {
+    var stroke: CGFloat
+    var scale: CGFloat
+    var space: CGFloat
+    var font: [String: Letter]
+}

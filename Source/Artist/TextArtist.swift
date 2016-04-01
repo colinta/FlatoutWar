@@ -8,29 +8,23 @@
 
 class TextArtist: Artist {
     var text = "" { didSet { calculateSize() }}
+    private var textSize: CGSize = .zero
+
     var color = UIColor(hex: 0xFFFFFF)
     var font: Font = BigFont {
         didSet {
-            if font == SmallFont {
-                letterSpace = 1
-                textScale = 3
-            }
-            else {
-                letterSpace = 3
-                textScale = 4
-            }
             calculateSize()
         }
     }
-    private var textScale: CGFloat = 4
-    private var textSize: CGSize = .zero
-    private var letterSpace: CGFloat = 3
+    private var textStroke: CGFloat { return font.stroke }
+    private var textScale: CGFloat { return font.scale }
+    private var letterSpace: CGFloat { return font.space }
 
     func calculateSize() {
         var size = CGSize(width: 0, height: 0)
         var isFirst = true
         for char in (text.characters.map { String($0) }) {
-            let letter = font[char] ?? (font[" "])!
+            let letter = font.font[char] ?? Letter(style: .Line, size: CGSize.zero, points: [])
             if !isFirst {
                 size.width += letterSpace
             }
@@ -51,7 +45,7 @@ class TextArtist: Artist {
         CGContextScaleCTM(context, textScale, textScale)
         CGContextTranslateCTM(context, (size.width - textSize.width) / 2, (size.height - textSize.height) / 2)
         for char in (text.characters.map { String($0) }) {
-            let letter = font[char] ?? (font[" "])!
+            let letter = font.font[char] ?? Letter(style: .Line, size: CGSize.zero, points: [])
             for path in letter.points {
                 var firstPoint = true
                 for pt in path {

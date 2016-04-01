@@ -20,7 +20,7 @@ class MinesPowerup: Powerup {
 
         self.slowmo(true)
         self.onNextTap { position in
-            let moveDuration: CGFloat = 0.2
+            let moveDuration: CGFloat = 0.1
             5.times { (i: Int) in
                 let a: CGFloat = CGFloat(i) * TAU / 5 ± rand(TAU_16)
                 let r: CGFloat = 17

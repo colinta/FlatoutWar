@@ -9,7 +9,7 @@
 private let ForceFireDuration: CGFloat = 0.3
 private let ForceFireDamageFactor: Float = 0.667
 private let DefaultCooldown: CGFloat = 0.35
-private let ForceFireCooldown: CGFloat = 0.14
+private let ForceFireCooldown: CGFloat = 0.12
 private let ForceFireBurnoutUp: CGFloat = 6
 private let ForceFireBurnoutDown: CGFloat = 4
 
@@ -289,8 +289,10 @@ extension BasePlayerNode {
 
         let velocity: CGFloat = radarUpgrade.radarBulletSpeed
         let style: BulletNode.Style
+        var damageFactor: Float = 1
         if firingComponent?.forceFire ?? false {
             style = .Fast
+            damageFactor = ForceFireDamageFactor
         }
         else {
             style = .Slow
@@ -303,9 +305,7 @@ extension BasePlayerNode {
         bullet.size = BaseTurretBulletArtist.bulletSize(.One)
         bullet.zRotation = angle
         bullet.z = Z.Below
-        if firingComponent!.forceFire && !forceFireBurnout {
-            bullet.damage *= ForceFireDamageFactor
-        }
+        bullet.damage *= damageFactor
         world << bullet
     }
 
