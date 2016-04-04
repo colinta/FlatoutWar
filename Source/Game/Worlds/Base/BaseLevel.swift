@@ -28,7 +28,7 @@ class BaseLevel: Level {
         _config = config
         return config
     }
-    var powerup: Powerup?
+    var powerups: [Powerup] = []
 
     func loadConfig() -> BaseConfig {
         fatalError("init(coder:) has not been implemented")
@@ -125,12 +125,9 @@ class BaseLevel: Level {
         }
 
         if config.canPowerup {
-            pauseButton.visible = false
-            self.beginPowerups()
+            beginPowerups()
         }
-        else {
-            self.beginLevel(delay: true)
-        }
+        beginLevel(delay: true)
     }
 
     override func goToLevelSelect() {
@@ -147,80 +144,30 @@ class BaseLevel: Level {
         }
     }
 
+    override func update(dt: CGFloat) {
+        super.update(dt)
+        for powerup in powerups {
+            powerup.update(dt)
+        }
+    }
+
 }
 
 extension BaseLevel {
 
-    func chosePowerup(powerup: Powerup?, start: CGPoint, button: Node, buttons: [Node]) {
-        self.enablePlayers()
-        self.powerup = powerup
-        if let powerup = powerup {
-            powerup.addToLevel(self, playerNode: playerNode, start: start, dest: .TopLeft(x: 20, y: -20))
-        }
-        pauseButton.visible = true
-        self.beginLevel(delay: false)
-
-        for node in buttons {
-            node.fadeTo(0, duration: 0.3, removeNode: true)
-        }
-    }
-
     func beginPowerups() {
-        disablePlayers()
-        var availablePowerups = config.availablePowerups
-        var powerups: [Powerup] = []
-        if availablePowerups.count <= 3 {
-            powerups = availablePowerups
-        }
-        else {
-            3.times {
-                if let powerup = availablePowerups.randWeighted({ $0.weight.rawValue }) {
-                    powerups << powerup
-                    availablePowerups.remove(powerup)
-                }
-            }
-        }
-
-        let label = TextNode()
-        label.text = "CHOOSE"
-        var buttons: [Node] = [label]
-        for powerup in powerups {
-            let (button, icon) = powerup.button()
-            buttons << button
-
-            button.onTapped(.Disable).onTapped {
-                self.chosePowerup(powerup, start: button.position + icon.position, button: button, buttons: buttons)
-            }
-        }
-
-        let (noPowerup, _) = Powerup.generateButton("NONE", icon: SKSpriteNode(id: .NoPowerup))
-        buttons << noPowerup
-        noPowerup.onTapped(.Disable).onTapped {
-            self.chosePowerup(nil, start: CGPoint.zero, button: noPowerup, buttons: buttons)
-        }
-
-        for (index, button) in buttons.enumerate() {
+        let powerups = config.availablePowerups
+        self.powerups = powerups
+        for (index, powerup) in powerups.enumerate() {
             let start: Position = .Left(
                 x: -150,
-                y: 160 - CGFloat(index) * 80
+                y: 20 - CGFloat(index) * 80
             )
-            button.fixedPosition = start
-            gameUI << button
-        }
-
-        timeline.after(1.75) {
-            let duration: CGFloat = 1
-            self.cameraZoom.target = 1.5
-            self.cameraZoom.duration = duration
-
-            for (index, button) in buttons.enumerate() {
-                let dest: Position = .Left(
-                    x: 40 + (index == 0 ? 20 : 0),
-                    y: 100 - CGFloat(index) * 50
-                )
-
-                button.moveTo(dest, duration: duration)
-            }
+            let dest: Position = .TopLeft(
+                x: 20,
+                y: -20 - CGFloat(index) * 50
+            )
+            powerup.addToLevel(self, playerNode: playerNode, start: calculateFixedPosition(start), dest: dest)
         }
     }
 }
@@ -251,7 +198,9 @@ extension BaseLevel {
 
         super.levelCompleted(success: success)
 
-        powerup?.levelCompleted(success: success)
+        for powerup in powerups {
+            powerup.levelCompleted(success: success)
+        }
 
         let finalTimeline = TimelineComponent()
         addComponent(finalTimeline)
@@ -389,7 +338,7 @@ extension BaseLevel {
         }
     }
 
-    func generateLeaderEnemy(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
+    func generateLeaderEnemy(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561, constRadius: Bool = false) -> Block {
         return {
             var screenAngle = genScreenAngle
             if spread > 0 {
@@ -397,12 +346,18 @@ extension BaseLevel {
             }
             let enemyNode = EnemyLeaderNode()
             enemyNode.name = "leader"
-            enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle)
+
+            if constRadius {
+                enemyNode.position = CGPoint(r: self.outerRadius, a: screenAngle)
+            }
+            else {
+                enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle)
+            }
             self << enemyNode
         }
     }
 
-    func generateScouts(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
+    func generateScouts(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561, constRadius: Bool = false) -> Block {
         return {
             var screenAngle = genScreenAngle
             let d: CGFloat = 8
@@ -412,7 +367,13 @@ extension BaseLevel {
             for i in 0..<3 {
                 let enemyNode = EnemyScoutNode()
                 enemyNode.name = "scout"
-                enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle) + CGPoint(r: CGFloat(i) * d, a: screenAngle)
+                let dp = CGPoint(r: CGFloat(i) * d, a: screenAngle)
+                if constRadius {
+                    enemyNode.position = CGPoint(r: self.outerRadius, a: screenAngle) + dp
+                }
+                else {
+                    enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle) + dp
+                }
                 self << enemyNode
             }
         }
@@ -483,7 +444,7 @@ extension BaseLevel {
                 let enemy = EnemyJetNode(at: location)
                 enemy.name = "bigjet follower"
                 enemy.rotateTo(prevNode.zRotation)
-                enemy.follow(prevNode, scatter: false, component: FollowTargetComponent())
+                enemy.follow(prevNode, scatter: .None, component: FollowTargetComponent())
                 self << enemy
                 prevNode = enemy
             }

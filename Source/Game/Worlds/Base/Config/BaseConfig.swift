@@ -40,7 +40,11 @@ class BaseConfig {
         }
     }
 
-    var availablePowerups: [Powerup] { return Powerup.All }
+    var availablePowerups: [Powerup] { return [
+        GrenadePowerup(),
+        LaserPowerup(),
+        MinesPowerup(),
+    ] }
     var availableTurrets: [Turret] { return [
         SimpleTurret(),
         RapidTurret(),

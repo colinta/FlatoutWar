@@ -11,7 +11,7 @@ class BaseLevel3: BaseLevel {
     override func loadConfig() -> BaseConfig { return BaseLevel3Config() }
 
     override func populateLevel() {
-        self.moveCamera(to: CGPoint(x: 180, y: 0), duration: 2)
+        moveCamera(to: CGPoint(x: 180, y: 0), duration: 2)
         beginWave1(at: 4)
     }
 

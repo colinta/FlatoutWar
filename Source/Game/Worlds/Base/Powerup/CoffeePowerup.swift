@@ -8,14 +8,14 @@
 
 class CoffeePowerup: Powerup {
     override var name: String { return "COFFEE" }
-    override var weight: Weight { return .Rare }
-    override var count: Int { return 2 }
     override var powerupType: ImageIdentifier.PowerupType? { return .Coffee }
 
     static let CoffeeTimeout: CGFloat = 10
 
     required override init() {
         super.init()
+        self.count = 2
+        self.timeout = 20
     }
 
     override func activate(level: World, playerNode: Node, completion: Block = {}) {

@@ -8,11 +8,12 @@
 
 class DecoyPowerup: Powerup {
     override var name: String { return "DECOY" }
-    override var count: Int { return 3 }
     override var powerupType: ImageIdentifier.PowerupType? { return .Decoy }
 
     required override init() {
         super.init()
+        self.count = 2
+        self.timeout = 2
     }
 
     override func activate(level: World, playerNode: Node, completion: Block = {}) {

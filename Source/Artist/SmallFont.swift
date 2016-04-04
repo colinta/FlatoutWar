@@ -11,7 +11,7 @@ let SmallFont = Font(
     stroke: 0.5,
     scale: 3,
     space: 1,
-    font: [
+    art: [
     " ": Letter(style: .Line, size: CGSize(width: 3, height: 6), points: [[CGPoint]]()),
     ".": Letter(style: .Line, size: CGSize(width: 0.5, height: 6), points: [[
         CGPoint(x: -0.25, y: 6),

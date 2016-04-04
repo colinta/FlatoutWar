@@ -10,12 +10,12 @@ let HourglassSize: CGFloat = 225
 
 class HourglassPowerup: Powerup {
     override var name: String { return "HOURGLASS" }
-    override var weight: Weight { return .Special }
-    override var count: Int { return 2 }
     override var powerupType: ImageIdentifier.PowerupType? { return .Hourglass }
 
     required override init() {
         super.init()
+        self.count = 2
+        self.timeout = 10
     }
 
     override func activate(level: World, playerNode: Node, completion: Block = {}) {

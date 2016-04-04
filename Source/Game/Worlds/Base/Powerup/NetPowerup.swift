@@ -8,11 +8,11 @@
 
 class NetPowerup: Powerup {
     override var name: String { return "NET" }
-    override var count: Int { return 5 }
     override var powerupType: ImageIdentifier.PowerupType? { return .Net }
 
     required override init() {
         super.init()
+        self.count = 2
     }
 
     override func activate(level: World, playerNode: Node, completion: Block = {}) {

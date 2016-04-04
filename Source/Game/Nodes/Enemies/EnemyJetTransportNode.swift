@@ -1,24 +1,16 @@
 //
-//  EnemySoldierNode.swift
+//  EnemyJetTransportNode.swift
 //  FlatoutWar
 //
-//  Created by Colin Gray on 12/21/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+//  Created by Colin Gray on 4/3/2016.
+//  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-private let startingHealth: Float = 2
+private let startingHealth: Float = 20
 
-class EnemySoldierNode: Node {
-    static let DefaultSoldierSpeed: CGFloat = 25
+class EnemyJetTransportNode: Node {
+    static let DefaultSoldierSpeed: CGFloat = 35
     var sprite = SKSpriteNode()
-    var rammingDamage: Float = 4
-
-    enum Scatter {
-        case RunAway
-        case Dodge
-        case Custom((Node) -> Void)
-        case None
-    }
 
     required init() {
         super.init()
@@ -48,25 +40,6 @@ class EnemySoldierNode: Node {
         }
         addComponent(enemyComponent)
 
-        let targetingComponent = PlayerTargetingComponent()
-        targetingComponent.onTargetAcquired { target in
-            if let target = target {
-                self.rotateTowards(target)
-            }
-        }
-        addComponent(targetingComponent)
-
-        let rammingComponent = PlayerRammingComponent()
-        rammingComponent.intersectionNode = sprite
-        rammingComponent.bindTo(targetingComponent: targetingComponent)
-        rammingComponent.maxSpeed = EnemySoldierNode.DefaultSoldierSpeed
-        rammingComponent.onRammed { player in
-            player.healthComponent?.inflict(self.rammingDamage)
-            self.generateRammingExplosion()
-            self.removeFromParent()
-        }
-        addComponent(rammingComponent)
-
         addComponent(RotateToComponent())
     }
 
@@ -79,20 +52,11 @@ class EnemySoldierNode: Node {
     }
 
     func enemyType() -> ImageIdentifier.EnemyType {
-        return .Soldier
+        return .JetTransport
     }
 
     func updateTexture() {
         sprite.textureId(.Enemy(type: enemyType(), health: healthComponent?.healthInt ?? 100))
-    }
-
-    func generateRammingExplosion() {
-        if let world = self.world {
-            let explosion = EnemyAttackExplosionNode(at: self.position)
-            explosion.zRotation = self.zRotation
-            world << explosion
-            generateBigShrapnel(dist: 60, angle: zRotation + TAU_2, spread: TAU_16)
-        }
     }
 
     func generateKilledExplosion() {
@@ -133,7 +97,7 @@ class EnemySoldierNode: Node {
 
 }
 
-extension EnemySoldierNode {
+extension EnemyJetTransportNode {
 
     func runAway() {
         self.followComponent?.removeFromNode()

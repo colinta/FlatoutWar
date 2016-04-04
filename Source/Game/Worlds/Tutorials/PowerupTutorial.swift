@@ -7,6 +7,7 @@
 //
 
 class PowerupTutorial: Tutorial {
+    var powerups: [Powerup] = []
     var mines = 3
 
     override func populateWorld() {
@@ -29,6 +30,7 @@ class PowerupTutorial: Tutorial {
             LaserPowerup(),
             MinesPowerup(),
         ]
+        self.powerups = powerups
 
         var tapLabel: SKNode?
         let cancel = timeline.cancellable.after(3) {
@@ -39,7 +41,7 @@ class PowerupTutorial: Tutorial {
         for powerup in powerups {
             powerup.level = self
             powerup.playerNode = self
-            let (button, icon) = powerup.button()
+            let (button, icon) = powerup.buttonIcon()
             buttons << button
 
             button.onTapped {
@@ -133,6 +135,13 @@ class PowerupTutorial: Tutorial {
             enemyNode.name = "soldier"
             enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle)
             self << enemyNode
+        }
+    }
+
+    override func update(dt: CGFloat) {
+        super.update(dt)
+        for powerup in powerups {
+            powerup.update(dt)
         }
     }
 

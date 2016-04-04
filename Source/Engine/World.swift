@@ -570,24 +570,30 @@ extension World {
 extension World {
 
     func updateFixedNodes() {
-        if let screenSize = screenSize {
-            var uiNodes: [Node] = []
+        if screenSize != nil {
+            var fixedNodes: [(Node, Position)] = []
             for uiNode in [ui, gameUI] {
-                uiNodes += uiNode.children.filter { sknode in
-                    return (sknode as? Node)?.fixedPosition != nil
-                } as! [Node]
+                for sknode in uiNode.children {
+                    if let node = sknode as? Node, fixedPosition = node.fixedPosition {
+                        fixedNodes << (node, fixedPosition)
+                    }
+                }
             }
 
-            for node in uiNodes {
-                node.position = node.fixedPosition!.positionIn(screenSize: screenSize)
+            for (node, fixedPosition) in fixedNodes {
+                node.position = calculateFixedPosition(fixedPosition)
             }
         }
     }
 
     func updateFixedNode(node: Node) {
-        if let screenSize = screenSize, fixedPosition = node.fixedPosition {
-            node.position = fixedPosition.positionIn(screenSize: screenSize)
+        if let fixedPosition = node.fixedPosition where screenSize != nil {
+            node.position = calculateFixedPosition(fixedPosition)
         }
+    }
+
+    func calculateFixedPosition(position: Position) -> CGPoint {
+        return position.positionIn(screenSize: screenSize ?? CGSize.zero)
     }
 
 }

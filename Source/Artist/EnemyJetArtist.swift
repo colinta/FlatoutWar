@@ -81,3 +81,27 @@ class EnemyBigJetArtist: EnemyJetArtist {
 
 }
 
+class EnemyBigJetArtist: EnemyJetArtist {
+    private let darkColor = UIColor(hex: 0xAC3E97)
+
+    required init(health: CGFloat) {
+        super.init(health: health)
+        size = CGSize(20)
+    }
+
+    override func draw(context: CGContext) {
+
+        CGContextSaveGState(context)
+        super.draw(context)
+        CGContextRestoreGState(context)
+
+        CGContextSetLineWidth(context, 1.0)
+        CGContextSetStrokeColorWithColor(context, darkColor.CGColor)
+        CGContextMoveToPoint(context, size.width * 1/4, size.height * 1/8)
+        CGContextAddLineToPoint(context, size.width * 1/4, size.height * 7/8)
+        CGContextMoveToPoint(context, size.width * 3/8, size.height * 3/16)
+        CGContextAddLineToPoint(context, size.width * 3/8, size.height * 13/16)
+        CGContextDrawPath(context, .Stroke)
+    }
+
+}

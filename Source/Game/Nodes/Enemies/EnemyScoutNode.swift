@@ -17,6 +17,7 @@ class EnemyScoutNode: EnemySoldierNode {
         healthComponent!.startingHealth = startingHealth
         enemyComponent!.experience = 1
         rammingComponent!.maxSpeed = 35
+        rotateToComponent!.angularAccel = 5
     }
 
     required init?(coder: NSCoder) {

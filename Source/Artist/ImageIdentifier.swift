@@ -8,6 +8,7 @@
 
 enum ImageIdentifier {
     enum Size {
+        case Tiny
         case Small
         case Big
 
@@ -24,6 +25,7 @@ enum ImageIdentifier {
 
         case Jet
         case BigJet
+        case JetTransport
 
         var name: String { return "\(self)" }
     }
@@ -65,6 +67,7 @@ enum ImageIdentifier {
     case Shield(phase: Int)
     case ShieldSegment(health: Int)
     case Soldier(health: Int)
+    case PowerupTimer(percent: Int)
 
     case Drone(upgrade: FiveUpgrades, health: Int)
 
@@ -158,6 +161,8 @@ enum ImageIdentifier {
             return "EnemyNet(size:\(roundedSize))"
         case let .Soldier(health):
             return "Soldier(health:\(health))"
+        case let .PowerupTimer(percent):
+            return "PowerupTimer(percent:\(percent))"
         case let .Drone(upgrade, health):
             return "Drone(upgrade:\(upgrade.name),health:\(health))"
         case .Cursor:

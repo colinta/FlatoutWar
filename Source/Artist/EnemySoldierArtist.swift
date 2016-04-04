@@ -105,6 +105,7 @@ class EnemyDozerArtist: EnemySoldierArtist {
     required init(health: CGFloat) {
         super.init(health: health)
         size = CGSize(width: 5, height: 50)
+        color = UIColor(hex: 0x825A11)
     }
 
 }

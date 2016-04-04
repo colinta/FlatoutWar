@@ -178,9 +178,9 @@ class Level: World {
 
     override func worldShook() {
         super.worldShook()
-        if timeRate == 0.5 { timeRate = 3 }
-        else if timeRate == 3 { timeRate = 1 }
-        else { timeRate = 0.5 }
+        // if timeRate == 0.5 { timeRate = 3 }
+        // else if timeRate == 3 { timeRate = 1 }
+        // else { timeRate = 0.5 }
         printStatus()
     }
 

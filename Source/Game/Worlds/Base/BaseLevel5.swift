@@ -19,23 +19,24 @@ class BaseLevel5: BaseLevel {
             self.onNoMoreEnemies { self.beginWave2() }
         }
 
+        let da: CGFloat = 5.degrees
         timeline.every(4.5...7, start: .Delayed(), times: 8) {
             let angle = self.randSideAngle()
-            self.generateLeaderEnemy(angle, spread: 0)()
-            3.times {
-                self.generateScouts(angle)()
+            self.generateLeaderEnemy(angle, spread: 0, constRadius: true)()
+            3.times { (i: Int) in
+                self.generateScouts(angle + da * CGFloat(i - 1), spread: 0, constRadius: true)()
             }
         } ~~> nextStep()
     }
 
     func beginWave2() {
-        timeline.every(3.5...5.5, start: .Delayed(), times: 13) {
+        timeline.every(3.25, start: .Delayed(1), times: 11) {
             self.generateEnemy(rand(TAU))()
         }
-        timeline.every(3.5...5, start: .Delayed(), times: 10) {
+        timeline.every(3.5, start: .Delayed(), times: 11) {
             self.generateScouts(rand(TAU))()
         }
-        timeline.every(6.5, start: .Delayed(3), times: 5) {
+        timeline.every(7, start: .Delayed(3), times: 5) {
             self.generateSlowEnemy(rand(TAU))()
         }
     }

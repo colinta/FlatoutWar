@@ -9,9 +9,25 @@
 private let defaultSize = CGSize(width: 2, height: 3)
 let TinyFont = Font(
     stroke: 0.5,
-    scale: 2.5,
+    scale: 2,
     space: 0.75,
-    font: [
+    art: [
+    ".": Letter(style: .Line, size: defaultSize, points: [[
+        CGPoint(x: 1, y: 1),
+        CGPoint(x: 1, y: 3),
+        ]]),
+    "∞": Letter(style: .Loop, size: CGSize(width: 4, height: 3), points: [[
+        CGPoint(x: 0, y: 1.5),
+        CGPoint(x: 0.5, y: 0.5),
+        CGPoint(x: 1.5, y: 0.5),
+        CGPoint(x: 2.5, y: 2.5),
+        CGPoint(x: 3.5, y: 2.5),
+        CGPoint(x: 4, y: 1.5),
+        CGPoint(x: 3.5, y: 0.5),
+        CGPoint(x: 2.5, y: 0.5),
+        CGPoint(x: 1.5, y: 2.5),
+        CGPoint(x: 0.5, y: 2.5),
+        ]]),
     "0": Letter(style: .Loop, size: defaultSize, points: [[
         CGPoint(x: 0, y: 0),
         CGPoint(x: 2, y: 0),
@@ -20,10 +36,6 @@ let TinyFont = Font(
     ], [
         CGPoint(x: 2, y: 0),
         CGPoint(x: 0, y: 3),
-    ]]),
-    ".": Letter(style: .Line, size: defaultSize, points: [[
-        CGPoint(x: 1, y: 1),
-        CGPoint(x: 1, y: 3),
     ]]),
     "1": Letter(style: .Line, size: defaultSize, points: [[
         CGPoint(x: 0, y: 1),
@@ -46,7 +58,7 @@ let TinyFont = Font(
         CGPoint(x: 2, y: 3),
         CGPoint(x: 0, y: 3),
     ]]),
-    "2": Letter(style: .Line, size: defaultSize, points: [[
+    "4": Letter(style: .Line, size: defaultSize, points: [[
         CGPoint(x: 1.5, y: 0),
         CGPoint(x: 0, y: 2),
         CGPoint(x: 2, y: 2),

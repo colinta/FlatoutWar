@@ -9,12 +9,6 @@
 private let PowerupYOffset: CGFloat = 40
 
 class Powerup {
-    enum Weight: Float {
-        case Common = 10
-        case Special = 4
-        case Rare = 1
-    }
-
     static let All: [Powerup] = [
         BomberPowerup(),
         CoffeePowerup(),
@@ -29,22 +23,26 @@ class Powerup {
         SoldiersPowerup(),
     ]
 
-    var weight: Weight { return .Common }
+    var timeout: CGFloat = 5
+    var cooldown: CGFloat = 0
     var name: String { return "" }
-    var count: Int { return 1 }
     var powerupType: ImageIdentifier.PowerupType? { return .None }
 
-    var powerupButtons: [Button] = []
+    var count: Int? = 0
+    var powerupButton: Button?
+    var powerupCount: TextNode?
+    var powerupCountdown: SKSpriteNode?
     var powerupEnabled = true
 
     weak var level: World?
     weak var playerNode: Node?
 
-    static func generateButton(name: String, icon: SKSpriteNode) -> (Button, SKNode) {
+    func buttonIcon() -> (Button, SKNode) {
         let button = Button()
         button.text = name
         button.alignment = .Left
 
+        let icon = self.icon()
         icon.position = CGPoint(x: -icon.size.width / 2 - 4)
         button.margins.left = icon.size.width
         button << icon
@@ -52,11 +50,7 @@ class Powerup {
         return (button, icon)
     }
 
-    func button() -> (Button, SKNode) {
-        return Powerup.generateButton(name, icon: buttonIcon())
-    }
-
-    func buttonIcon() -> SKSpriteNode {
+    func icon() -> SKSpriteNode {
         if let powerupType = powerupType {
             return SKSpriteNode(id: .Powerup(type: powerupType))
         }
@@ -67,51 +61,67 @@ class Powerup {
         self.level = level
         self.playerNode = playerNode
 
-        var alpha: CGFloat = 1
-        var offset: CGFloat = 0
-        var enabled = true
-        count.times {
-            let button = Button(at: start)
-            button.alpha = alpha
-            button.enabled = enabled
-            button << buttonIcon()
-            level.gameUI << button
-            button.onTapped(.Disable).onTapped(self.activateIfEnabled)
-            powerupButtons << button
+        let countNode = TextNode()
+        countNode.font = .Tiny
+        countNode.position = CGPoint(20, -20)
+        powerupCount = countNode
 
-            button.moveTo(dest + CGPoint(y: offset), duration: 1)
-            enabled = false
-            alpha = 0.5
-            offset -= PowerupYOffset
+        if let count = count {
+            countNode.text = "\(count)"
         }
+        else {
+            countNode.text = "∞"
+            self.powerupCountdown = nil
+        }
+
+        let powerupCountdown = SKSpriteNode(id: .PowerupTimer(percent: 100))
+        self.powerupCountdown = powerupCountdown
+        powerupCountdown.alpha = 0
+        powerupCountdown.zPosition = Z.Bottom.rawValue
+
+        let button = Button(at: start)
+        button << powerupCountdown
+        button << icon()
+        level.gameUI << button
+        button << countNode
+        button.onTapped(self.activateIfEnabled)
+        button.moveTo(dest, duration: 1)
+        powerupButton = button
     }
 
     func activateIfEnabled() {
         guard powerupEnabled else { return }
+        guard (count ?? 1) > 0 else { return }
 
-        if let button = powerupButtons.first, level = level, playerNode = playerNode {
-            button.fadeTo(0, duration: 1, removeNode: true)
-            powerupButtons.removeAtIndex(0)
+        if let button = powerupButton, level = level, playerNode = playerNode {
             button.enabled = false
+            if let prevCount = count {
+                let newCount = prevCount - 1
+                count = newCount
+                powerupCount?.text = "\(newCount)"
+            }
             activate(level, playerNode: playerNode) {
-                button.enabled = true
+                if (self.count ?? 1) > 0 {
+                    self.cooldown = self.timeout
+                }
+            }
+        }
+    }
+
+    func update(dt: CGFloat) {
+        if cooldown > 0 {
+            cooldown -= dt
+            powerupCountdown?.alpha = 1
+            powerupCountdown?.textureId(.PowerupTimer(percent: Int(100 * cooldown / timeout)))
+
+            if cooldown <= 0 {
+                powerupCountdown?.alpha = 0
+                powerupButton?.enabled = (count ?? 1) > 0
             }
         }
     }
 
     func activate(level: World, playerNode: Node, completion: Block = {}) {
-        let duration: CGFloat = 0.3
-        var alpha: CGFloat = 1
-        var enabled = true
-        for button in powerupButtons {
-            let newPosition = button.position + CGPoint(y: PowerupYOffset)
-            button.enabled = enabled
-
-            button.moveTo(newPosition, duration: duration)
-            button.fadeTo(alpha, duration: duration)
-            alpha = 0.5
-            enabled = false
-        }
     }
 
     func slowmo(onoff: Bool) {

@@ -20,7 +20,7 @@ class BombNode: Node {
     required init(maxRadius: Int) {
         self.maxRadius = maxRadius
         super.init()
-        sprite.textureId(.Bomb(radius: maxRadius, time: Int(time * 100)))
+        sprite.textureId(.Bomb(radius: maxRadius, time: 0))
         self << sprite
     }
 
@@ -41,7 +41,7 @@ class BombNode: Node {
             return
         }
 
-        sprite.textureId(.Bomb(radius: maxRadius, time: Int(time * 1000)))
+        sprite.textureId(.Bomb(radius: maxRadius, time: Int(time * 250)))
         damageTargets(dt)
     }
 

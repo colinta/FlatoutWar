@@ -8,11 +8,12 @@
 
 class PulsePowerup: Powerup {
     override var name: String { return "PULSE" }
-    override var count: Int { return 3 }
     override var powerupType: ImageIdentifier.PowerupType? { return .Pulse }
 
     required override init() {
         super.init()
+        self.count = 2
+        self.timeout = 10
     }
 
     override func activate(level: World, playerNode: Node, completion: Block = {}) {

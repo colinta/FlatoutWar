@@ -8,11 +8,12 @@
 
 class SoldiersPowerup: Powerup {
     override var name: String { return "SOLDIERS" }
-    override var count: Int { return 3 }
     override var powerupType: ImageIdentifier.PowerupType? { return .Soldiers }
 
     required override init() {
         super.init()
+        self.count = nil
+        self.timeout = 30
     }
 
     override func activate(level: World, playerNode: Node, completion: Block = {}) {

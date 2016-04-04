@@ -28,6 +28,8 @@ extension ImageIdentifier.EnemyType {
             artist = EnemyJetArtist(health: health)
         case .BigJet:
             artist = EnemyBigJetArtist(health: health)
+        case .JetTransport:
+            artist = EnemyJetTransportArtist(health: health)
         }
         return artist
     }
@@ -66,6 +68,7 @@ extension ImageIdentifier.Size {
 
     var font: Font {
         switch self {
+        case .Tiny: return TinyFont
         case .Small: return SmallFont
         case .Big: return BigFont
         }
@@ -109,6 +112,8 @@ extension ImageIdentifier {
         case let .EnemyShrapnel(enemyType, size):
             let artist = enemyType.artist(health: 100)
             switch size {
+            case .Tiny:
+                artist.size = artist.size * 0.05
             case .Small:
                 artist.size = artist.size * 0.1
             case .Big:
@@ -122,7 +127,7 @@ extension ImageIdentifier {
         case let .Bomber(numBombs):
             return BomberArtist(numBombs: numBombs)
         case let .Bomb(radius, time):
-            return BombArtist(maxRadius: CGFloat(radius), time: CGFloat(time) / 1000)
+            return BombArtist(maxRadius: CGFloat(radius), time: CGFloat(time) / 250)
         case .HourglassZone:
             let artist = HourglassZoneArtist()
             return artist
@@ -154,6 +159,9 @@ extension ImageIdentifier {
             return artist
         case let .Soldier(healthInt):
             let artist = SoldierArtist(health: CGFloat(healthInt) / 100)
+            return artist
+        case let .PowerupTimer(percent):
+            let artist = PowerupTimerArtist(percent: CGFloat(percent) / 100)
             return artist
         case let .Percent(percent, style):
             let artist = PercentArtist(style: style)

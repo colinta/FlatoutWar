@@ -37,11 +37,7 @@ class TextNode: Node {
         textSprite.removeFromParent()
         textSprite = SKNode()
 
-        let letterSpace: CGFloat
-        switch font {
-        case .Big: letterSpace = 3
-        case .Small: letterSpace = 1
-        }
+        let letterSpace = font.font.space
 
         let sprites = text.characters.map { (char: Character) -> SKSpriteNode in
             if let color = self.color where color != 0xFFFFFF {

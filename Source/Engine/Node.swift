@@ -37,10 +37,14 @@ class Node: SKNode {
         return min(size.width, size.height) / 2
     }
     var outerRadius: CGFloat {
+        let outerRadius: CGFloat
         if size.width == size.height {
-            return size.width * 0.7071067811865476
+            outerRadius = size.width * 0.7071067811865476
         }
-        return sqrt(pow(size.width, 2) + pow(size.height, 2)) / 2
+        else {
+            outerRadius = sqrt(pow(size.width, 2) + pow(size.height, 2)) / 2
+        }
+        return outerRadius / xScale
     }
 
     var shape: Shape = .Circle

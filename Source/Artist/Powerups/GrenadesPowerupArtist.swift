@@ -17,7 +17,7 @@ class GrenadePowerupArtist: PowerupArtist {
         let bigHeight: CGFloat = size.height - grenadeSize.height - pinSize.height / 2
         let smallHeight: CGFloat = bigHeight / 3
         let a: CGFloat = atan2(smallWidth / 2, grenadeSize.height / 2)
-        CGContextTranslateCTM(context, size.width - grenadeSize.width / 2, size.height - grenadeSize.height / 2)
+        CGContextTranslateCTM(context, middle.x, middle.y + bigHeight / 2)
         CGContextMoveToPoint(context, -smallWidth / 2, -grenadeSize.height / 2)
         CGContextAddLineToPoint(context, -smallWidth / 2, -grenadeSize.height / 2 - smallHeight)
 

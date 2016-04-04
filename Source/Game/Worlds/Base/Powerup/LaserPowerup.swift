@@ -8,12 +8,12 @@
 
 class LaserPowerup: Powerup {
     override var name: String { return "LASER" }
-    override var weight: Weight { return .Special }
-    override var count: Int { return 2 }
     override var powerupType: ImageIdentifier.PowerupType? { return .Laser }
 
     required override init() {
         super.init()
+        self.count = nil
+        self.timeout = 30
     }
 
     override func activate(level: World, playerNode: Node, completion: Block = {}) {
