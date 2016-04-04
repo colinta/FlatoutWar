@@ -151,6 +151,11 @@ func +=(inout lhs: CGPoint, rhs: CGPoint) {
     lhs.y += rhs.y
 }
 
+func -=(inout lhs: CGPoint, rhs: CGPoint) {
+    lhs.x -= rhs.x
+    lhs.y -= rhs.y
+}
+
 func *=(inout lhs: CGPoint, scale: CGFloat) {
     lhs.x = lhs.x * scale
     lhs.y = lhs.y * scale

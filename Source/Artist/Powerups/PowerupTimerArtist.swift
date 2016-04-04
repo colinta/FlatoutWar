@@ -28,7 +28,6 @@ class PowerupTimerArtist: Artist {
         let a0 = -TAU_4
         let a1 = a0 - TAU * percent
         let p0 = middle + CGPoint(0, -size.height / 2)
-        let p1 = middle + CGPoint(r: size.height / 2, a: a1)
         CGContextMoveToPoint(context, middle.x, middle.y)
         CGContextAddLineToPoint(context, p0.x, p0.y)
         CGContextAddArc(context, middle.x, middle.y, size.height / 2, a0, a1, 1)

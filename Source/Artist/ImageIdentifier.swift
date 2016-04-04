@@ -11,6 +11,7 @@ enum ImageIdentifier {
         case Tiny
         case Small
         case Big
+        case Actual
 
         var name: String { return "\(self)" }
     }

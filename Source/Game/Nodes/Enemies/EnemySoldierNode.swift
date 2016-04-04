@@ -22,6 +22,7 @@ class EnemySoldierNode: Node {
 
     required init() {
         super.init()
+        size = CGSize(10)
 
         self << sprite
 
@@ -35,14 +36,13 @@ class EnemySoldierNode: Node {
         }
         addComponent(healthComponent)
         updateTexture()
-        size = sprite.size
 
         let enemyComponent = EnemyComponent()
         enemyComponent.intersectionNode = sprite
         enemyComponent.experience = 1
         enemyComponent.onAttacked { projectile in
             if let damage = projectile.projectileComponent?.damage {
-                self.generateShrapnel(damage)
+                self.generateBulletShrapnel(damage)
                 self.healthComponent?.inflict(damage)
             }
         }
@@ -121,7 +121,7 @@ class EnemySoldierNode: Node {
         }
     }
 
-    func generateShrapnel(damage: Float) {
+    func generateBulletShrapnel(damage: Float) {
         if let world = self.world {
             Int(damage * 10).times {
                 let node = EnemyShrapnelNode(type: enemyType(), size: .Small)

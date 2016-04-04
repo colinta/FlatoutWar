@@ -18,6 +18,42 @@ class BaseLevel8: BaseLevel {
         let nextStep = afterN {
             self.onNoMoreEnemies { self.beginWave2() }
         }
+
+        timeline.every(10, start: 3) {
+            let transport = EnemyJetTransportNode()
+            let xs: CGFloat = ±1
+            let start = CGPoint(
+                x: xs * self.size.width * rand(min: 0.125, max: 0.375),
+                y: ±(self.size.height / 2 + 40)
+                )
+            let dest = CGPoint(
+                x: xs * self.size.width * rand(min: 0.125, max: 0.375),
+                y: -start.y
+                )
+            var control = (start + dest) / 2
+            if start.x > 0 {
+                control += CGPoint(x: self.size.height / 4)
+            }
+            else {
+                control -= CGPoint(x: self.size.height / 4)
+            }
+
+            let arcTo = transport.arcTo(dest, duration: 10, start: start)
+            arcTo.control = control
+            arcTo.onArrived {
+                transport.removeFromParent()
+            }
+            self << transport
+
+            transport.transportPayload([
+                EnemySoldierNode(),
+                EnemySoldierNode(),
+                EnemySoldierNode(),
+                EnemySoldierNode(),
+                EnemySoldierNode(),
+                EnemySoldierNode(),
+                ])
+        }
     }
 
     func beginWave2() {

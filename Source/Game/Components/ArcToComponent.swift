@@ -12,10 +12,10 @@ class ArcToComponent: ApplyToNodeComponent {
     var target: CGPoint?
     var arcOffset: CGFloat = 0.25
     var duration: CGFloat?
+    var control: CGPoint?
 
     private var start: CGPoint?
     private var time: CGFloat = 0
-    private var control: CGPoint?
 
     typealias OnArrived = () -> Void
     private var _onArrived: [OnArrived] = []
@@ -60,9 +60,9 @@ class ArcToComponent: ApplyToNodeComponent {
             control = c
         }
         else {
-            let a = start.angleTo(target) ± TAU_4
+            let a = start.angleTo(target)
             let l = start.distanceTo(target)
-            control = 0.5 * (target - start) + CGPoint(r: l * arcOffset, a: a)
+            control = (start + target) / 2 + CGPoint(r: l * 0.5, a: a ± TAU_4)
             self.control = control
         }
 
@@ -74,8 +74,8 @@ class ArcToComponent: ApplyToNodeComponent {
     override func update(dt: CGFloat) {
         guard let duration = duration else { return }
 
-        time = min(time + dt, 1)
-        let modTime = time / duration
+        time = time + dt
+        let modTime = min(time / duration, 1)
         let modFrame = oneFrame / duration
         guard let position = pointAt(modTime) else { return }
         guard let prevPos = pointAt(modTime - modFrame) else { return }

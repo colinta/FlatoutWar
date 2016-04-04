@@ -56,6 +56,11 @@ func +=(inout lhs: CGSize, rhs: CGSize) {
     lhs.height += rhs.height
 }
 
+func -=(inout lhs: CGSize, rhs: CGSize) {
+    lhs.width -= rhs.width
+    lhs.height -= rhs.height
+}
+
 func *=(inout lhs: CGSize, scale: CGFloat) {
     lhs.width = lhs.width * scale
     lhs.height = lhs.height * scale

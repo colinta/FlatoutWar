@@ -70,7 +70,7 @@ extension ImageIdentifier.Size {
         switch self {
         case .Tiny: return TinyFont
         case .Small: return SmallFont
-        case .Big: return BigFont
+        case .Big, .Actual: return BigFont
         }
     }
 }
@@ -118,6 +118,8 @@ extension ImageIdentifier {
                 artist.size = artist.size * 0.1
             case .Big:
                 artist.size = artist.size * 0.5
+            case .Actual:
+                break
             }
             return artist
         case let .Powerup(type):

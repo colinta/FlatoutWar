@@ -12,7 +12,6 @@ class EnemySlowSoldierNode: EnemySoldierNode {
 
     required init() {
         super.init()
-        size = CGSize(8)
         healthComponent!.startingHealth = startingHealth
         enemyComponent!.experience = 2
         rammingDamage = 4

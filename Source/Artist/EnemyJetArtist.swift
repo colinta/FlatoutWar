@@ -81,12 +81,12 @@ class EnemyBigJetArtist: EnemyJetArtist {
 
 }
 
-class EnemyBigJetArtist: EnemyJetArtist {
+class EnemyJetTransportArtist: EnemyJetArtist {
     private let darkColor = UIColor(hex: 0xAC3E97)
 
     required init(health: CGFloat) {
         super.init(health: health)
-        size = CGSize(20)
+        size = CGSize(40)
     }
 
     override func draw(context: CGContext) {
