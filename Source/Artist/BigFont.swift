@@ -105,12 +105,22 @@ let BigFont = Font(
             CGPoint(x: 2.75, y: 1.75),
         ], [
             CGPoint(x: 1.75, y: 5.25),
-            CGPoint(x: 3.25, y: 5.25)
+            CGPoint(x: 3.25, y: 5.25),
         ]]
     ),
     "C": Letter(style: .Loop, size: defaultSize, points: [[
-            CGPoint(x: 0, y: 0),
-            CGPoint(x: 0, y: 8)
+            CGPoint(x: 0, y: 8),
+            CGPoint(x: 0, y: 7),
+            CGPoint(x: 4.5, y: 7),
+            CGPoint(x: 0, y: 7),
+            CGPoint(x: 0, y: 1),
+            CGPoint(x: 1, y: 0),
+            CGPoint(x: 5, y: 0),
+            CGPoint(x: 4.5, y: 2.5),
+            CGPoint(x: 2, y: 2.5),
+            CGPoint(x: 2, y: 5),
+            CGPoint(x: 4.5, y: 5),
+            CGPoint(x: 4.5, y: 8),
         ]]
     ),
     "D": Letter(style: .Loop, size: defaultSize, points: [[
@@ -162,13 +172,40 @@ let BigFont = Font(
         ]]
     ),
     "G": Letter(style: .Loop, size: defaultSize, points: [[
+            CGPoint(x: 0, y: 8),
+            CGPoint(x: 0, y: 7),
+            CGPoint(x: 5, y: 7),
+            CGPoint(x: 0, y: 7),
             CGPoint(x: 0, y: 0),
-            CGPoint(x: 0, y: 8)
+            CGPoint(x: 5, y: 0),
+            CGPoint(x: 5, y: 2.5),
+            CGPoint(x: 2, y: 2.5),
+            CGPoint(x: 2, y: 5),
+            CGPoint(x: 3, y: 5),
+            CGPoint(x: 3, y: 4),
+            CGPoint(x: 5, y: 4),
+            CGPoint(x: 5, y: 8),
         ]]
     ),
     "H": Letter(style: .Loop, size: defaultSize, points: [[
+            CGPoint(x: 0, y: 8),
+            CGPoint(x: 0, y: 7),
+            CGPoint(x: 2, y: 7),
+            CGPoint(x: 0, y: 7),
             CGPoint(x: 0, y: 0),
-            CGPoint(x: 0, y: 8)
+            CGPoint(x: 2, y: 0),
+            CGPoint(x: 2, y: 3),
+            CGPoint(x: 3, y: 3),
+            CGPoint(x: 3, y: 0),
+            CGPoint(x: 5, y: 0),
+            CGPoint(x: 5, y: 7),
+            CGPoint(x: 3, y: 7),
+            CGPoint(x: 5, y: 7),
+            CGPoint(x: 5, y: 8),
+            CGPoint(x: 3, y: 8),
+            CGPoint(x: 3, y: 5),
+            CGPoint(x: 2, y: 5),
+            CGPoint(x: 2, y: 8),
         ]]
     ),
     "I": Letter(style: .Loop, size: defaultSize, points: [[
@@ -191,12 +228,40 @@ let BigFont = Font(
     ),
     "J": Letter(style: .Loop, size: defaultSize, points: [[
             CGPoint(x: 0, y: 0),
-            CGPoint(x: 0, y: 8)
+            CGPoint(x: 5.5, y: 0),
+            CGPoint(x: 4.5, y: 2),
+            CGPoint(x: 3.75, y: 2),
+            CGPoint(x: 3.75, y: 7),
+            CGPoint(x: 0, y: 7),
+            CGPoint(x: 3.75, y: 7),
+            CGPoint(x: 3.75, y: 8),
+            CGPoint(x: -0.5, y: 8),
+            CGPoint(x: 0.5, y: 6),
+            CGPoint(x: 2.25, y: 6),
+            CGPoint(x: 2.25, y: 2),
+            CGPoint(x: 0, y: 2)
         ]]
     ),
     "K": Letter(style: .Loop, size: defaultSize, points: [[
+            CGPoint(x: 0, y: 8),
+            CGPoint(x: 0, y: 7),
+            CGPoint(x: 2, y: 7),
+            CGPoint(x: 0, y: 7),
             CGPoint(x: 0, y: 0),
-            CGPoint(x: 0, y: 8)
+            CGPoint(x: 2, y: 0),
+            CGPoint(x: 2, y: 3),
+            CGPoint(x: 4, y: 0),
+            CGPoint(x: 5, y: 0),
+            CGPoint(x: 5, y: 1),
+            CGPoint(x: 3, y: 4),
+            CGPoint(x: 5, y: 7),
+            CGPoint(x: 5, y: 8),
+            CGPoint(x: 4, y: 8),
+            CGPoint(x: 2, y: 5),
+            CGPoint(x: 2, y: 8),
+        ], [
+            CGPoint(x: 5, y: 7),
+            CGPoint(x: 3.3333333333333335, y: 7),
         ]]
     ),
     "L": Letter(style: .Loop, size: defaultSize, points: [[
@@ -369,7 +434,15 @@ let BigFont = Font(
     ),
     "V": Letter(style: .Loop, size: defaultSize, points: [[
             CGPoint(x: 0, y: 0),
-            CGPoint(x: 0, y: 8)
+            CGPoint(x: 2, y: 0),
+            CGPoint(x: 2.5, y: 2),
+            CGPoint(x: 3, y: 0),
+            CGPoint(x: 5, y: 0),
+            CGPoint(x: 3, y: 8),
+            CGPoint(x: 2, y: 8),
+        ], [
+            CGPoint(x: 3.25, y: 7),
+            CGPoint(x: 1.75, y: 7),
         ]]
     ),
     "W": Letter(style: .Loop, size: defaultSize, points: [[
@@ -389,17 +462,58 @@ let BigFont = Font(
     ),
     "X": Letter(style: .Loop, size: defaultSize, points: [[
             CGPoint(x: 0, y: 0),
-            CGPoint(x: 0, y: 8)
+            CGPoint(x: 2, y: 0),
+            CGPoint(x: 2.5, y: 2),
+            CGPoint(x: 3, y: 0),
+            CGPoint(x: 5, y: 0),
+            CGPoint(x: 5, y: 2.5),
+            CGPoint(x: 4.5, y: 4),
+            CGPoint(x: 5, y: 5.5),
+            CGPoint(x: 5, y: 8),
+            CGPoint(x: 3, y: 8),
+            CGPoint(x: 2.5, y: 6),
+            CGPoint(x: 2, y: 8),
+            CGPoint(x: 0, y: 8),
+            CGPoint(x: 0, y: 5.5),
+            CGPoint(x: 0.5, y: 4),
+            CGPoint(x: 0, y: 2.5),
+        ], [
+            CGPoint(x: 0, y: 7),
+            CGPoint(x: 2.25, y: 7),
+        ], [
+            CGPoint(x: 2.75, y: 7),
+            CGPoint(x: 5, y: 7),
         ]]
     ),
     "Y": Letter(style: .Loop, size: defaultSize, points: [[
             CGPoint(x: 0, y: 0),
-            CGPoint(x: 0, y: 8)
+            CGPoint(x: 1.75, y: 0),
+            CGPoint(x: 2.5, y: 1.5),
+            CGPoint(x: 3.25, y: 0),
+            CGPoint(x: 5, y: 0),
+            CGPoint(x: 3.25, y: 4),
+            CGPoint(x: 3.25, y: 7),
+            CGPoint(x: 1.75, y: 7),
+            CGPoint(x: 3.25, y: 7),
+            CGPoint(x: 3.25, y: 8),
+            CGPoint(x: 1.75, y: 8),
+            CGPoint(x: 1.75, y: 4),
         ]]
     ),
     "Z": Letter(style: .Loop, size: defaultSize, points: [[
             CGPoint(x: 0, y: 0),
-            CGPoint(x: 0, y: 8)
+            CGPoint(x: 5, y: 0),
+            CGPoint(x: 5, y: 2),
+            CGPoint(x: 2, y: 6),
+            CGPoint(x: 5, y: 6),
+            CGPoint(x: 5, y: 7),
+            CGPoint(x: 0, y: 7),
+            CGPoint(x: 5, y: 7),
+            CGPoint(x: 5, y: 8),
+            CGPoint(x: 0, y: 8),
+            CGPoint(x: 0, y: 6),
+            CGPoint(x: 3, y: 2),
+            CGPoint(x: 0, y: 2),
         ]]
     ),
     "0": Letter(style: .Loop, size: CGSize(width: 4, height: 8), points: [[

@@ -129,8 +129,8 @@ extension Artist {
         let size = artist.imageSize(scale) * artist.scale
 
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
-
-        artist.drawInContext(UIGraphicsGetCurrentContext()!, scale: scale)
+        let context = UIGraphicsGetCurrentContext()!
+        artist.drawInContext(context, scale: scale)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
 
