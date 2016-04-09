@@ -21,6 +21,14 @@ public typealias CancellableBlock = Bool -> Void
 public typealias TakesIndexBlock = (Int) -> Void
 
 
+func +(lhs: Block, rhs: Block) -> Block {
+    return {
+        lhs()
+        rhs()
+    }
+}
+
+
 public class Proc {
     var block: Block
 

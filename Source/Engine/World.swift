@@ -57,7 +57,7 @@ class World: Node {
         return outsideWorld(extra: node.radius, angle: angle)
     }
 
-    func outsideWorld(extra dist: CGFloat, angle _angle: CGFloat) -> CGPoint {
+    func outsideWorld(extra dist: CGFloat, angle _angle: CGFloat, ui: Bool = false) -> CGPoint {
         let angle = normalizeAngle(_angle)
         let sizeAngle = size.angle
 
@@ -85,6 +85,8 @@ class World: Node {
         }
 
         var point = CGPoint(r: abs(radius), a: angle) + offset
+        if ui { return point }
+
         if let cameraNode = cameraNode {
             point += cameraNode.position
         }

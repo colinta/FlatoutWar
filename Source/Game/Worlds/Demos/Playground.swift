@@ -9,6 +9,11 @@
 class Playground: World {
 
     override func populateWorld() {
+        self << {
+            let n = Node()
+            n << SKSpriteNode(id: .Warning)
+            return n
+        }()
     }
 
     override func update(dt: CGFloat) {

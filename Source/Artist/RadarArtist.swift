@@ -6,6 +6,18 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
+extension FiveUpgrades {
+    var radarColor: Int {
+        switch self {
+            case .One: return 0xFCF10C
+            case .Two: return 0xEFDD15
+            case .Three: return 0xEBAD13
+            case .Four: return 0xE59311
+            case .Five: return 0xDD6610
+        }
+    }
+}
+
 class RadarArtist: Artist {
     var sweepAngle: CGFloat
     var radius: CGFloat
@@ -14,14 +26,7 @@ class RadarArtist: Artist {
     required init(upgrade: FiveUpgrades) {
         radius = upgrade.radarRadius
         sweepAngle = upgrade.radarSweepAngle / 2
-
-        switch upgrade {
-            case .One: color = UIColor(hex: 0xFCF10C)
-            case .Two: color = UIColor(hex: 0xEFDD15)
-            case .Three: color = UIColor(hex: 0xEBAD13)
-            case .Four: color = UIColor(hex: 0xE59311)
-            case .Five: color = UIColor(hex: 0xDD6610)
-        }
+        color = UIColor(hex: upgrade.radarColor)
 
         super.init()
 

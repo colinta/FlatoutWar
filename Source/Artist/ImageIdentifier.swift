@@ -48,6 +48,7 @@ enum ImageIdentifier {
     }
 
     case None
+    case Warning
     case WhiteLetter(String, size: Size)
     case Letter(String, size: Size, color: Int)
     case Button(style: ButtonStyle)
@@ -95,6 +96,8 @@ enum ImageIdentifier {
         switch self {
         case .None:
             return ""
+        case .Warning:
+            return "Warning()"
         case let .Percent(percent, style):
             return "Percent(percent:\(percent),style:\(style))"
         case let .WhiteLetter(letter, size):

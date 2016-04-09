@@ -18,6 +18,7 @@ class BasePlayerNode: Node {
     var forceFireBurnout = false
     var turret: Turret = SimpleTurret() {
         didSet {
+            radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
             turretNode.textureId(turret.spriteId(upgrade: turretUpgrade))
             targetingComponent?.enabled = turret.autoFireEnabled
         }
@@ -32,7 +33,7 @@ class BasePlayerNode: Node {
     }
     var radarUpgrade: FiveUpgrades = .One {
         didSet {
-            radarNode.textureId(.BaseRadar(upgrade: radarUpgrade))
+            radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
         }
     }
     var turretUpgrade: FiveUpgrades = .One {
@@ -59,17 +60,17 @@ class BasePlayerNode: Node {
 
         size = CGSize(40)
 
-        radarNode.textureId(.BaseRadar(upgrade: radarUpgrade))
+        radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
         radarNode.anchorPoint = CGPoint(0, 0.5)
         radarNode.zPosition = Z.Radar.rawValue
         self << radarNode
 
-        baseNode.zPosition = Z.Player.rawValue
         baseNode.textureId(.Base(upgrade: radarUpgrade, health: 100))
+        baseNode.zPosition = Z.Player.rawValue
         self << baseNode
 
+        turretNode.textureId(turret.spriteId(upgrade: turretUpgrade))
         turretNode.zPosition = Z.Turret.rawValue + 0.5
-        turretNode.textureId(.BaseSingleTurret(upgrade: turretUpgrade))
         self << turretNode
 
         forceFirePercent.style = .Heat
@@ -402,7 +403,6 @@ extension FiveUpgrades {
             case .Five:  return 45.degrees
         }
     }
-
     var radarRadius: CGFloat {
         switch self {
             case .One:   return 300

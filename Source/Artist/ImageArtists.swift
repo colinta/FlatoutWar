@@ -81,6 +81,8 @@ extension ImageIdentifier {
         switch self {
         case .None:
             return Artist()
+        case .Warning:
+            return WarningArtist()
         case let .WhiteLetter(letter, size):
             let artist = TextArtist()
             artist.text = letter

@@ -15,6 +15,10 @@ let TAU_2 = CGFloat(M_PI)
 let TAU_3 = CGFloat(2 * M_PI / 3)
 let TAU_2_3 = CGFloat(4 * M_PI / 3)
 
+let TAU_6 = CGFloat(M_PI / 3)
+let TAU_12 = CGFloat(M_PI / 6)
+let TAU_5_6 = CGFloat(5 * M_PI / 3)
+
 let TAU_3_4 = CGFloat(1.5 * M_PI)
 let TAU_4 = CGFloat(0.5 * M_PI)
 

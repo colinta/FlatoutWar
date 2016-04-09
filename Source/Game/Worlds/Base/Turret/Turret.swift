@@ -21,6 +21,10 @@ class Turret {
         return .None
     }
 
+    func radarId(upgrade upgrade: FiveUpgrades) -> ImageIdentifier {
+        return .BaseRadar(upgrade: upgrade)
+    }
+
     func button() -> Button {
         let body = SKSpriteNode(id: .Base(upgrade: .One, health: 100))
         body.zPosition = Z.Player.rawValue
@@ -69,6 +73,10 @@ class RapidTurret: Turret {
 
     override func spriteId(upgrade upgrade: FiveUpgrades) -> ImageIdentifier {
         return .BaseRapidTurret(upgrade: upgrade)
+    }
+
+    override func radarId(upgrade upgrade: FiveUpgrades) -> ImageIdentifier {
+        return .ColorLine(length: upgrade.radarRadius + 25, color: upgrade.radarColor)
     }
 
 }

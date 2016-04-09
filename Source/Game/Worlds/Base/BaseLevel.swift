@@ -30,6 +30,38 @@ class BaseLevel: Level {
     }
     var powerups: [Powerup] = []
 
+    var cameraAngle: CGFloat?
+    var cameraAdjustmentEnabled = false
+    var cameraPosition: CGPoint?
+    var cameraAdjustment: CGPoint = .zero {
+        didSet {
+            moveCamera(to: cameraPosition ?? .zero, duration: 0.5)
+        }
+    }
+
+    override func moveCamera(to target: CGPoint? = nil, zoom: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, handler: MoveToComponent.OnArrived? = nil) {
+        var adjustedTarget: CGPoint?
+        if let target = target {
+            cameraPosition = target
+            if cameraAdjustmentEnabled {
+                adjustedTarget = target + cameraAdjustment
+            }
+        }
+        super.moveCamera(to: adjustedTarget, zoom: zoom, duration: duration, rate: rate, handler: handler)
+    }
+
+    override func outsideWorld(extra dist: CGFloat, angle _angle: CGFloat, ui: Bool = false) -> CGPoint {
+        let pt = super.outsideWorld(extra: dist, angle: _angle, ui: ui)
+        if ui { return pt }
+
+        let minDist = dist + min(size.height, size.width) / 2
+        if playerNode.position.distanceTo(pt, within: minDist) {
+            let a = playerNode.position.angleTo(pt)
+            return playerNode.position + CGPoint(r: minDist, a: a)
+        }
+        return pt
+    }
+
     func loadConfig() -> BaseConfig {
         fatalError("init(coder:) has not been implemented")
     }
@@ -56,8 +88,11 @@ class BaseLevel: Level {
 
     private func beginLevel(delay delay: Bool) {
         let zoomOut = {
+            self.cameraAdjustmentEnabled = true
             self.cameraZoom.target = 1.0
             self.cameraZoom.rate = 0.5
+
+            self.timeline.after(2, block: self.populateLevel)
         }
 
         if delay {
@@ -98,8 +133,6 @@ class BaseLevel: Level {
             gameUI << button
             button.moveTo(dest, duration: 0.5)
         }
-
-        populateLevel()
     }
 
     func populateLevel() {
@@ -148,6 +181,15 @@ class BaseLevel: Level {
         super.update(dt)
         for powerup in powerups {
             powerup.update(dt)
+        }
+
+        if let angle = playerNode.rotateToComponent?.currentAngle
+        where cameraAdjustmentEnabled
+        {
+            if angle != cameraAngle {
+                cameraAdjustment = CGPoint(r: 15, a: angle)
+                cameraAngle = angle
+            }
         }
     }
 
@@ -305,6 +347,18 @@ extension BaseLevel {
 }
 
 extension BaseLevel {
+
+    func generateWarning(screenAngle: CGFloat) {
+        let warning = Node()
+        warning << SKSpriteNode(id: .Warning)
+        warning.position = outsideWorld(extra: -10, angle: screenAngle, ui: true)
+        warning.addComponent(JiggleComponent(timeout: nil))
+        warning.fadeTo(1, start: 0, duration: 1)
+        timeline.after(2) {
+            warning.fadeTo(0, start: 1, duration: 1)
+        }
+        gameUI << warning
+    }
 
     func generateEnemy(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561, constRadius: Bool = false) -> Block {
         return {
