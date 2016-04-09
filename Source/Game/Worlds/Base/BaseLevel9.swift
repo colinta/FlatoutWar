@@ -9,9 +9,11 @@
 class BaseLevel9: BaseLevel {
 
     override func loadConfig() -> BaseConfig { return BaseLevel9Config() }
+    override func goToNextWorld() {
+        director?.presentWorld(BaseLevelSelectWorld())
+    }
 
     override func populateLevel() {
-
         moveCamera(to: CGPoint(150, 50), duration: 2)
         beginWave1(at: 4)
     }

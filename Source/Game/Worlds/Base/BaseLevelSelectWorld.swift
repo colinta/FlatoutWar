@@ -21,13 +21,6 @@ class BaseLevelSelectWorld: World {
             BaseLevel7(),
             BaseLevel8(),
             BaseLevel9(),
-            BaseLevel10(),
-            BaseLevel11(),
-            BaseLevel12(),
-            BaseLevel13(),
-            BaseLevel14(),
-            BaseLevel15(),
-            BaseLevel16(),
         ]
 
         let textNode = TextNode(at: CGPoint(x: -165, y: -125))
@@ -74,10 +67,10 @@ class BaseLevelSelectWorld: World {
 
         var levelIndex = 0
         var prevLevel: BaseLevel?
-        for j in 0..<4 {
-            let y = CGFloat(100 - 60 * j)
-            for i in 0..<4 {
-                let x = CGFloat(-80 + 60 * i)
+        for j in 0..<3 {
+            let y = CGFloat(100 - 80 * j)
+            for i in 0..<3 {
+                let x = CGFloat(-80 + 80 * i)
                 let level = worlds[levelIndex % worlds.count]
                 let center = CGPoint(x: x, y: y)
                 let button = Button(at: center)

@@ -17,13 +17,6 @@ class BaseConfigSummary {
         BaseLevel7Config(),
         BaseLevel8Config(),
         BaseLevel9Config(),
-        BaseLevel10Config(),
-        BaseLevel11Config(),
-        BaseLevel12Config(),
-        BaseLevel13Config(),
-        BaseLevel14Config(),
-        BaseLevel15Config(),
-        BaseLevel16Config(),
     ]
 
     var totalGainedExperience: Int {
