@@ -6,37 +6,12 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-class Playground: BaseLevel {
+class Playground: World {
 
-    override func loadConfig() -> BaseConfig { return PlaygroundConfig() }
-
-    override func populateLevel() {
-        beginWave1()
+    override func populateWorld() {
     }
 
-    func beginWave1() {
-        20.times {
-            let enemyNode = EnemySoldierNode()
-            enemyNode.name = "soldier"
-            // enemyNode.playerTargetingComponent?.enabled = false
-            let r: CGFloat = rand(min: 300, max: 800)
-            enemyNode.position = CGPoint(r: r, a: rand(min: 0, max: TAU_8))
-            // enemyNode.addComponent(WanderingComponent(centeredAround: enemyNode.position))
-            self << enemyNode
-        }
+    override func update(dt: CGFloat) {
     }
 
-}
-
-
-class PlaygroundConfig: BaseConfig {
-    override var possibleExperience: Int { return 100 }
-    override func nextLevel() -> BaseLevel {
-        return Playground()
-    }
-    override var availablePowerups: [Powerup] { return [
-        SoldiersPowerup(),
-        ShieldPowerup(),
-        PulsePowerup(),
-    ] }
 }

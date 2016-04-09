@@ -14,10 +14,9 @@ class WorldController: UIViewController {
         self.worldView = view
         self.view = worldView
 
-        view.presentWorld(BaseLevel8())
+        view.presentWorld(Playground())
 
-        view.showsFPS = true
-        view.showsNodeCount = true
+        // view.showsFPS = true
     }
 
     override func shouldAutorotate() -> Bool {

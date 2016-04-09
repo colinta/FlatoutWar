@@ -22,6 +22,14 @@ class ArcToComponent: ApplyToNodeComponent {
     func onArrived(handler: OnArrived) {
         _onArrived << handler
     }
+    func clearOnArrived() { _onArrived = [] }
+
+    typealias OnMoved = (CGFloat) -> Void
+    private var _onMoved: [OnMoved] = []
+    func onMoved(handler: OnMoved) {
+        _onMoved << handler
+    }
+    func clearOnMoved() { _onMoved = [] }
 
     func removeComponentOnArrived() {
         self.onArrived(removeFromNode)
@@ -37,12 +45,14 @@ class ArcToComponent: ApplyToNodeComponent {
     func resetOnArrived() {
         self.onArrived {
             self._onArrived = []
+            self._onMoved = []
         }
     }
 
     override func reset() {
         super.reset()
-        _onArrived = []
+        clearOnArrived()
+        clearOnMoved()
     }
 
     override func didAddToNode() {
@@ -79,6 +89,9 @@ class ArcToComponent: ApplyToNodeComponent {
         let modFrame = oneFrame / duration
         guard let position = pointAt(modTime) else { return }
         guard let prevPos = pointAt(modTime - modFrame) else { return }
+        for handler in _onMoved {
+            handler(modTime)
+        }
 
         let angle = prevPos.angleTo(position)
 

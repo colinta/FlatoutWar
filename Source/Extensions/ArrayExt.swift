@@ -10,6 +10,14 @@
 extension Array {
     typealias MatcherFn = (el: Element) -> Bool
 
+    func zip<T>(array: [T]) -> [(Element, T)] {
+        var retVal: [(Element, T)] = []
+        for (index, item) in array.enumerate() {
+            retVal.append((self[index], item))
+        }
+        return retVal
+    }
+
     func any(@noescape test: MatcherFn) -> Bool {
         for ob in self {
             if test(el: ob) {

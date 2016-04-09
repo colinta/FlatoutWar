@@ -19,15 +19,15 @@ class BaseLevel8: BaseLevel {
             self.onNoMoreEnemies { self.beginWave2() }
         }
 
-        timeline.every(10, start: 3) {
+        timeline.every(12, start: 3) {
             let transport = EnemyJetTransportNode()
             let xs: CGFloat = ±1
             let start = CGPoint(
-                x: xs * self.size.width * rand(min: 0.125, max: 0.375),
-                y: ±(self.size.height / 2 + 40)
+                x: xs * self.size.width * rand(min: 0.3, max: 0.4),
+                y: self.size.height / 2 + 40
                 )
             let dest = CGPoint(
-                x: xs * self.size.width * rand(min: 0.125, max: 0.375),
+                x: xs * self.size.width * rand(min: 0.3, max: 0.4),
                 y: -start.y
                 )
             var control = (start + dest) / 2

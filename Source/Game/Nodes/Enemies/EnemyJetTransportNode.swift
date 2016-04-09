@@ -33,7 +33,7 @@ class EnemyJetTransportNode: Node {
 
         let enemyComponent = EnemyComponent()
         enemyComponent.intersectionNode = sprite
-        enemyComponent.experience = 1
+        enemyComponent.experience = 0
         enemyComponent.onAttacked { projectile in
             if let damage = projectile.projectileComponent?.damage {
                 self.generateShrapnel(damage)
@@ -66,6 +66,7 @@ class EnemyJetTransportNode: Node {
             for node in prevPayload {
                 node.removeFromParent()
             }
+            arcToComponent?.clearOnMoved()
         }
 
         guard let first = payload.first else { return }
@@ -74,29 +75,45 @@ class EnemyJetTransportNode: Node {
             node.frozen = true
             self << node
         }
-        self.payload = payload
+        enemyComponent!.experience = payload.reduce(0) { $0 + $1.enemyComponent!.experience }
 
-        if payload.count == 1 {
-            first.position = .zero
+        let numRows = Int(ceil(Float(payload.count) / 2))
+        let dx = 2 * first.radius + 3
+        var x = dx / 2 * CGFloat(numRows - 1)
+        let y = dx / 2
+        var even = true
+        for node in payload {
+            if payload.count % 2 == 1 && node == payload.last {
+                node.position = CGPoint(x, 0)
+            }
+            else if even {
+                node.position = CGPoint(x, y)
+            }
+            else {
+                node.position = CGPoint(x, -y)
+                x -= dx
+            }
+            even = !even
         }
-        else {
-            let numRows = Int(ceil(Float(payload.count) / 2))
-            let dx = 2 * first.radius + 3
-            var x = dx / 2 * CGFloat(numRows - 1)
-            let y = dx / 2
-            var even = true
-            for node in payload {
-                if payload.count % 2 == 1 && node == payload.last {
-                    node.position = CGPoint(x, 0)
-                }
-                else if even {
-                    node.position = CGPoint(x, y)
+
+        self.payload = payload
+        let dt: CGFloat = 1 / CGFloat(payload.count + 2)
+        var timeout: CGFloat = 2 * dt
+        arcToComponent?.onMoved { t in
+            guard payload.count > 0 else { return }
+
+            while timeout - t < 0 {
+                if let node = self.payload?.first,
+                    world = self.world
+                {
+                    node.frozen = false
+                    node.moveToParent(world)
+                    self.payload?.removeAtIndex(0)
                 }
                 else {
-                    node.position = CGPoint(x, -y)
-                    x -= dx
+                    break
                 }
-                even = !even
+                timeout += dt
             }
         }
     }

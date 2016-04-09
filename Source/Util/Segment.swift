@@ -10,6 +10,22 @@ struct Segment {
     var p1: CGPoint
     var p2: CGPoint
 
+    var length: CGFloat { return p1.distanceTo(p2) }
+
+    func intersection(segment: Segment) -> CGPoint? {
+        let (x1, y1) = (p1.x, p1.y)
+        let (x2, y2) = (p2.x, p2.y)
+        let (x3, y3) = (segment.p1.x, segment.p1.y)
+        let (x4, y4) = (segment.p2.x, segment.p2.y)
+
+        let bottom = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4)
+        if bottom == 0 { return nil }
+
+        let x = ((x1*y2 - y1*x2) * (x3 - x4) - (x1 - x2) * (x3*y4 - y3*x4)) / bottom
+        let y = ((x1*y2 - y1*x2) * (y3 - y4) - (y1 - y2) * (x3*y4 - y3*x4)) / bottom
+        return CGPoint(x, y)
+    }
+
     func intersects(segment: Segment) -> Bool {
         let p1 = self.p1
         let q1 = self.p2
@@ -70,8 +86,7 @@ struct Segment {
     // 0 --> p, q and r are colinear
     // 1 --> Clockwise
     // 2 --> Counterclockwise
-    private func orientation(p: CGPoint, q: CGPoint, r: CGPoint) -> Orientation
-    {
+    private func orientation(p: CGPoint, q: CGPoint, r: CGPoint) -> Orientation {
         let dy1 = q.y - p.y
         let dx1 = r.x - q.x
         let dx2 = q.x - p.x

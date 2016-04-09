@@ -70,6 +70,7 @@ class Node: SKNode {
         _onDeath = []
     }
 
+    weak var arcToComponent: ArcToComponent?
     weak var draggableComponent: DraggableComponent?
     weak var enemyComponent: EnemyComponent?
     weak var fadeToComponent: FadeToComponent?
@@ -134,8 +135,15 @@ class Node: SKNode {
     func update(dt: CGFloat) {
     }
 
+    var dontReset = false
+    override func moveToParent(node: SKNode) {
+        dontReset = true
+        super.moveToParent(node)
+        dontReset = false
+    }
+
     override func removeFromParent() {
-        if let world = world {
+        if let world = world where !dontReset {
             world.willRemove(self)
             for handler in _onDeath {
                 handler()
@@ -226,7 +234,8 @@ extension Node {
         component.node = self
         components << component
 
-        if let component = component as? DraggableComponent { draggableComponent = component }
+        if let component = component as? ArcToComponent { arcToComponent = component }
+        else if let component = component as? DraggableComponent { draggableComponent = component }
         else if let component = component as? EnemyComponent { enemyComponent = component }
         else if let component = component as? FadeToComponent { fadeToComponent = component }
         else if let component = component as? FiringComponent { firingComponent = component }
@@ -258,7 +267,8 @@ extension Node {
 
     func removeComponent(component: Component) {
         if let index = components.indexOf(component) {
-            if component == draggableComponent { draggableComponent = nil }
+            if component == arcToComponent { arcToComponent = nil }
+            else if component == draggableComponent { draggableComponent = nil }
             else if component == enemyComponent { enemyComponent = nil }
             else if component == fadeToComponent { fadeToComponent = nil }
             else if component == firingComponent { firingComponent = nil }
@@ -291,7 +301,8 @@ extension Node {
 
     private func unarchiveComponents() {
         for component in components {
-            if let component = component as? DraggableComponent { draggableComponent = component }
+            if let component = component as? ArcToComponent { arcToComponent = component }
+            else if let component = component as? DraggableComponent { draggableComponent = component }
             else if let component = component as? EnemyComponent { enemyComponent = component }
             else if let component = component as? FadeToComponent { fadeToComponent = component }
             else if let component = component as? FiringComponent { firingComponent = component }
