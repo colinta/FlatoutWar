@@ -10,7 +10,7 @@ class Dot: Node {
 
     required init() {
         super.init()
-        self << SKShapeNode(circleOfRadius: 1)
+        self << SKSpriteNode(id: .Dot(color: 0x808080))
     }
 
     required init?(coder: NSCoder) {

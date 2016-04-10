@@ -14,7 +14,7 @@ class WorldController: UIViewController {
         self.worldView = view
         self.view = worldView
 
-        view.presentWorld(BaseLevel1())
+        view.presentWorld(BaseLevelSelectWorld())
 
         // view.showsFPS = true
     }
