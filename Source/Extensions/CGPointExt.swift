@@ -69,10 +69,18 @@ extension CGPoint {
         return CGFloat(atan2(point.y - center.y, point.x - center.x) - atan2(self.y - center.y, self.x - center.x))
     }
 
+    func ensureInside(rect: CGRect) -> CGPoint {
+        if rect.contains(self) { return self }
+
+        return CGPoint(
+            x: min(rect.maxX, max(rect.minX, self.x)),
+            y: min(rect.maxY, max(rect.minY, self.y))
+        )
+    }
+
     func rectWithSize(size: CGSize) -> CGRect {
         return CGRect(x: x - size.width / 2, y: y - size.height / 2, width: size.width, height: size.height)
     }
-
 
     // calculates a position between self and the target
     func pointTowards(target: CGPoint, speed: CGFloat, dt: CGFloat, radius: CGFloat? = nil) -> CGPoint? {
