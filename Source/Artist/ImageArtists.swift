@@ -83,6 +83,10 @@ extension ImageIdentifier {
             return Artist()
         case .Warning:
             return WarningArtist()
+        case let .Dot(color):
+            let artist = DotArtist()
+            artist.color = UIColor(hex: color)
+            return artist
         case let .WhiteLetter(letter, size):
             let artist = TextArtist()
             artist.text = letter
