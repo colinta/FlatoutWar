@@ -183,11 +183,12 @@ class BaseLevel: Level {
             powerup.update(dt)
         }
 
-        if let angle = playerNode.rotateToComponent?.currentAngle
-        where cameraAdjustmentEnabled
+        let isTouching = touchedNode?.touchableComponent?.isTouching ?? false
+        if let angle = playerNode.rotateToComponent?.target
+        where cameraAdjustmentEnabled && !isTouching
         {
             if angle != cameraAngle {
-                cameraAdjustment = CGPoint(r: 15, a: angle)
+                cameraAdjustment = CGPoint(r: 20, a: angle)
                 cameraAngle = angle
             }
         }
@@ -348,16 +349,21 @@ extension BaseLevel {
 
 extension BaseLevel {
 
-    func generateWarning(screenAngle: CGFloat) {
-        let warning = Node()
-        warning << SKSpriteNode(id: .Warning)
-        warning.position = outsideWorld(extra: -10, angle: screenAngle, ui: true)
-        warning.addComponent(JiggleComponent(timeout: nil))
-        warning.fadeTo(1, start: 0, duration: 1)
-        timeline.after(2) {
-            warning.fadeTo(0, start: 1, duration: 1)
+    func generateWarning(screenAngles: CGFloat...) {
+        let innerRect = CGRect.zero
+            .grow(by: size - CGSize(20))
+        for screenAngle in screenAngles {
+            let warning = Node()
+            warning << SKSpriteNode(id: .Warning)
+            warning.position = outsideWorld(extra: 0, angle: screenAngle, ui: true)
+                .ensureInside(innerRect)
+            warning.addComponent(JiggleComponent(timeout: nil))
+            warning.fadeTo(1, start: 0, duration: 1)
+            timeline.after(2) {
+                warning.fadeTo(0, start: 1, duration: 1)
+            }
+            gameUI << warning
         }
-        gameUI << warning
     }
 
     func generateEnemy(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561, constRadius: Bool = false) -> Block {

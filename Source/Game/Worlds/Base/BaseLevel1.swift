@@ -22,8 +22,7 @@ class BaseLevel1: BaseLevel {
 
         let wave1: CGFloat = rand(TAU)
         let wave2 = wave1 + TAU_2 ± rand(min: TAU_8, max: TAU_4)
-        generateWarning(wave1)
-        generateWarning(wave2)
+        generateWarning(wave1, wave2)
         timeline.every(1.5...2.5, start: .Delayed(), times: 15, block: self.generateEnemy(wave1)) ~~> nextStep()
         timeline.every(1.5...4, start: .Delayed(), times: 10, block: self.generateEnemy(wave2)) ~~> nextStep()
     }
@@ -36,8 +35,7 @@ class BaseLevel1: BaseLevel {
 
         let wave2_leader = size.angle
         let wave2_soldier: CGFloat = -size.angle ± rand(TAU_16)
-        generateWarning(wave2_leader)
-        generateWarning(wave2_soldier)
+        generateWarning(wave2_leader, wave2_soldier)
         timeline.every(3...5, start: .Delayed(), times: 5, block: self.generateLeaderEnemy(wave2_leader)) ~~> nextStep()
         timeline.every(1.5...3.0, start: .Delayed(1), times: 10, block: self.generateEnemy(wave2_soldier)) ~~> nextStep()
     }
@@ -66,10 +64,7 @@ class BaseLevel1: BaseLevel {
         let wave2 = wave1 ± rand(min: 10.degrees, max: 20.degrees)
         let wave3 = wave1 ± (TAU_4 - rand(TAU_16))
         let wave4 = wave3 ± rand(min: 10.degrees, max: 20.degrees)
-        generateWarning(wave1)
-        generateWarning(wave2)
-        generateWarning(wave3)
-        generateWarning(wave4)
+        generateWarning(wave1, wave2, wave3, wave4)
         timeline.every(3...5, start: .Delayed(), times: 6) {
             self.generateEnemy(wave1)()
             self.generateEnemy(wave2)()
@@ -86,10 +81,7 @@ class BaseLevel1: BaseLevel {
         let wave2 = wave1 + TAU_4 - rand(TAU_8)
         let wave3 = wave1 - TAU_4 + rand(TAU_8)
         let wave4 = wave1 ± rand(TAU_8)
-        generateWarning(wave1)
-        generateWarning(wave2)
-        generateWarning(wave3)
-        generateWarning(wave4)
+        generateWarning(wave1, wave2, wave3, wave4)
         timeline.every(3...4, start: .Delayed(), times: 4, block: self.generateEnemy(wave1))
         timeline.every(2...3, start: .Delayed(5), times: 4, block: self.generateEnemy(wave2))
         timeline.every(2, start: .Delayed(10), times: 4, block: self.generateEnemy(wave3))

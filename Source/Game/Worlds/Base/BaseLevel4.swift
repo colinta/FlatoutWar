@@ -21,6 +21,12 @@ class BaseLevel4: BaseLevel {
         }
 
         let wave1 = TAU_2 ± rand(size.angle)
+        generateWarning(
+            wave1 - 30.degrees,
+            wave1 - 15.degrees,
+            wave1,
+            wave1 + 15.degrees,
+            wave1 + 30.degrees)
         var spread = CGFloat(2.5)
         timeline.every(0.45, start: .Delayed(), times: 40) {
             let angle = wave1 + rand(spread.degrees)
@@ -38,8 +44,10 @@ class BaseLevel4: BaseLevel {
             self.onNoMoreEnemies { self.beginWave3() }
         }
 
-        let wave2 = self.randSideAngle()
-        timeline.every(4...6, start: .Delayed(), times: 5, block: self.generateDozer(wave2, spread: TAU_8)) ~~> nextStep()
+        let wave1 = self.randSideAngle()
+        generateWarning(wave1 - TAU_16)
+        generateWarning(wave1 + TAU_16)
+        timeline.every(4...6, start: .Delayed(), times: 5, block: self.generateDozer(wave1, spread: TAU_8)) ~~> nextStep()
     }
 
     // wide waves
@@ -48,12 +56,15 @@ class BaseLevel4: BaseLevel {
             self.onNoMoreEnemies { self.beginWave4() }
         }
 
-        timeline.every(6, start: .Delayed(), times: 8) {
+        timeline.every(6, times: 8) {
             let angle: CGFloat = self.randSideAngle()
             let delta = 5.degrees
-            for i in 0..<5 {
-                let myAngle = angle + CGFloat(i - 2) * delta
-                self.timeline.after(CGFloat(i) * 0.1, block: self.generateEnemy(myAngle, spread: 0, constRadius: true))
+            self.generateWarning(angle, angle - delta, angle + delta)
+            self.timeline.at(.Delayed()) {
+                for i in 0..<5 {
+                    let myAngle = angle + CGFloat(i - 2) * delta
+                    self.timeline.after(CGFloat(i) * 0.1, block: self.generateEnemy(myAngle, spread: 0, constRadius: true))
+                }
             }
         } ~~> nextStep()
     }
@@ -64,6 +75,16 @@ class BaseLevel4: BaseLevel {
             self.onNoMoreEnemies { self.beginWave5() }
         }
 
+        let angles = [
+            -size.angle * 7 / 8,
+            -size.angle / 2,
+            0,
+            size.angle / 2,
+            size.angle * 7 / 8,
+        ]
+        for angle in angles {
+            generateWarning(angle, TAU_2 + angle)
+        }
         timeline.every(6, start: .Delayed(), times: 5) {
             self.generateScouts(self.randSideAngle())()
         } ~~> nextStep()
@@ -75,7 +96,9 @@ class BaseLevel4: BaseLevel {
     // fast enemies waves
     func beginWave5() {
         let wave5 = self.randSideAngle()
-        timeline.every(1, start: .Delayed(), times: 10, block: self.generateScouts(wave5, spread: TAU_8))
+        let spread = TAU_8
+        self.generateWarning(wave5, wave5 - spread, wave5 + spread)
+        timeline.every(1, start: .Delayed(), times: 10, block: self.generateScouts(wave5, spread: spread))
     }
 
     func generateDozer(genScreenAngle: CGFloat, spread: CGFloat) -> Block {

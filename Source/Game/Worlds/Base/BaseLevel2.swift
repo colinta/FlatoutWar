@@ -22,8 +22,7 @@ class BaseLevel2: BaseLevel {
 
         let wave1: CGFloat = rand(TAU)
         let wave2 = wave1 + TAU_2 ± rand(min: TAU_8, max: TAU_4)
-        generateWarning(wave1)
-        generateWarning(wave2)
+        generateWarning(wave1, wave2)
         timeline.every(3.5...5.5, start: .Delayed(), times: 6, block: self.generateSlowEnemy(wave1)) ~~> nextStep()
         timeline.every(3.5...5.5, start: .Delayed(4.5), times: 5, block: self.generateSlowEnemy(wave2)) ~~> nextStep()
     }
@@ -35,8 +34,7 @@ class BaseLevel2: BaseLevel {
 
         let wave1: CGFloat = rand(TAU)
         let wave2 = wave1 + TAU_2 ± rand(min: TAU_8, max: TAU_4)
-        generateWarning(wave1)
-        generateWarning(wave2)
+        generateWarning(wave1, wave2)
         timeline.every(1.5...3.5, start: .Delayed(), times: 3, block: self.generateSlowEnemy(wave1)) ~~> nextStep()
         timeline.every(1.5...3.5, start: .Delayed(), times: 2, block: self.generateSlowEnemy(wave2)) ~~> nextStep()
     }
@@ -56,7 +54,7 @@ class BaseLevel2: BaseLevel {
         timeline.at(.Delayed(3), block: self.generateEnemyFormation(wave2))
 
         timeline.at(.Delayed(22)) { self.generateWarning(wave3) }
-        timeline.at(.Delayed(25), block: self.generateEnemyFormation(wave3) + nextStep())
+        timeline.at(.Delayed(25), block: self.generateEnemyFormation(wave3) ++ nextStep())
     }
 
     func beginWave4() {
@@ -75,7 +73,9 @@ class BaseLevel2: BaseLevel {
         timeline.at(.Delayed(20)) { self.generateWarning(wave3) }
         timeline.at(.Delayed(23), block: self.generateEnemyFormation(wave3))
 
-        timeline.at(.Delayed(31)) { self.generateWarning(wave4) }
+        timeline.at(.Delayed(31)) {
+            self.generateWarning(wave4 - TAU_12, wave4, wave4 + TAU_12)
+        }
         timeline.every(2, start: .Delayed(34), times: 12) {
             self.generateEnemy(wave4, spread: TAU_8)()
         }

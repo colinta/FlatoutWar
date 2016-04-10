@@ -44,7 +44,7 @@ class Tutorial: World {
 
     override func populateWorld() {
         setScale(1.5)
-        cameraNode = Node(at: CGPoint(x: 80, y: -80))
+        moveCamera(to: CGPoint(x: 80, y: -80), duration: 0)
 
         tutorialTextNode.fixedPosition = .Top(x: 0, y: -20)
         tutorialTextNode.setScale(1.5)

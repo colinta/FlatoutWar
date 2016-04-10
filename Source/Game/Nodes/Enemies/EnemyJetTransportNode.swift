@@ -75,7 +75,13 @@ class EnemyJetTransportNode: Node {
             node.frozen = true
             self << node
         }
-        enemyComponent!.experience = payload.reduce(0) { $0 + $1.enemyComponent!.experience }
+
+        let experience: Int = payload.reduce(0) { $0 + ($1.enemyComponent?.experience ?? 0) }
+        if let level = self.world as? Level {
+            let prevExperience = enemyComponent!.experience
+            level.possibleExperience += (experience - prevExperience)
+        }
+        enemyComponent!.experience = experience
 
         let numRows = Int(ceil(Float(payload.count) / 2))
         let dx = 2 * first.radius + 3
@@ -106,6 +112,7 @@ class EnemyJetTransportNode: Node {
                 if let node = self.payload?.first,
                     world = self.world
                 {
+                    self.enemyComponent?.experience -= node.enemyComponent?.experience ?? 0
                     node.frozen = false
                     node.moveToParent(world)
                     self.payload?.removeAtIndex(0)

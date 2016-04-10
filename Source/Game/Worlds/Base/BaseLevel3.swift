@@ -12,18 +12,20 @@ class BaseLevel3: BaseLevel {
 
     override func populateLevel() {
         moveCamera(to: CGPoint(x: 180, y: 0), duration: 2)
-        beginWave1(at: 4)
+        timeline.after(1, block: beginWave1)
     }
 
-    func beginWave1(at delay: CGFloat) {
+    func beginWave1() {
         let nextStep = afterN {
             self.onNoMoreEnemies { self.beginWave2() }
         }
 
         let wave1 = randSideAngle(.Right)
         let wave2 = wave1 ± (TAU_16 + rand(TAU_16))
-        timeline.every(0.5...2.5, start: .After(delay), times: 5, block: generateEnemyPair(wave1)) ~~> nextStep()
-        timeline.every(0.5...2.5, start: .After(delay + 3), times: 4, block: generateEnemyPair(wave2)) ~~> nextStep()
+
+        self.generateWarning(wave1, wave2)
+        timeline.every(0.5...2.5, start: .Delayed(), times: 5, block: generateEnemyPair(wave1)) ~~> nextStep()
+        timeline.every(0.5...2.5, start: .Delayed(3), times: 4, block: generateEnemyPair(wave2)) ~~> nextStep()
     }
 
     func beginWave2() {
@@ -33,8 +35,9 @@ class BaseLevel3: BaseLevel {
 
         let wave1 = randSideAngle(.Right)
         let wave2 = wave1 ± (TAU_8 + rand(TAU_16))
-        timeline.every(2...5, start: .Delayed(), times: 5, block: generateEnemyTrio(wave1)) ~~> nextStep()
-        timeline.every(3...6, start: .Delayed(4), times: 4, block: generateEnemyTrio(wave2)) ~~> nextStep()
+        generateWarning(wave1, wave2)
+        timeline.every(1...4, start: .Delayed(), times: 5, block: generateEnemyTrio(wave1)) ~~> nextStep()
+        timeline.every(2...5, start: .Delayed(4), times: 4, block: generateEnemyTrio(wave2)) ~~> nextStep()
     }
 
     func beginWave3() {
@@ -42,25 +45,42 @@ class BaseLevel3: BaseLevel {
             self.onNoMoreEnemies { self.beginWave4() }
         }
 
-        timeline.every(3...7, start: .Delayed(), times: 5) {
-            let wave1 = self.randSideAngle(.Right)
-            self.generateLeaderWithLinearFollowers(wave1)()
+        timeline.every(3...7, times: 5) {
+            let wave = self.randSideAngle(.Right)
+            self.generateWarning(wave)
+            self.timeline.at(.Delayed(), block: self.generateLeaderWithLinearFollowers(wave))
         } ~~> nextStep()
     }
 
     func beginWave4() {
         var trios = 7
         var quads = 6
-        timeline.every(1...5, start: .Delayed(), until: { return trios == 0 && quads == 0 }) {
+        let angles = [
+            size.angle,
+            size.angle / 2,
+            size.angle / 6,
+            0,
+            -size.angle / 2,
+            -size.angle * 5 / 6,
+            -size.angle,
+        ]
+        for angle in angles {
+            generateWarning(angle)
+        }
+        timeline.every(1...4, start: .Delayed(), until: { return trios == 0 && quads == 0 }) {
             let pickTrio = [true, false].randWeighted { $0 ? Float(trios) : Float(quads) }
+            let wave = self.randSideAngle(.Right)
+            let generate: Block
             if pickTrio == true {
                 trios -= 1
-                self.generateEnemyTrio(self.randSideAngle(.Right))()
+                generate = self.generateEnemyTrio(wave)
             }
-            else if pickTrio == false {
+            else {
                 quads -= 1
-                self.generateEnemyQuad(self.randSideAngle(.Right))()
+                generate = self.generateEnemyQuad(wave)
             }
+
+            generate()
         }
     }
 

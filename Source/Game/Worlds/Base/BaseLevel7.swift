@@ -11,7 +11,6 @@ class BaseLevel7: BaseLevel {
     override func loadConfig() -> BaseConfig { return BaseLevel7Config() }
 
     override func populateLevel() {
-
         timeline.after(1) {
             self.introduceDrone()
         }
@@ -24,14 +23,16 @@ class BaseLevel7: BaseLevel {
             self.onNoMoreEnemies { self.beginWave2() }
         }
 
-        let wave1_weak_1: CGFloat = ±rand(TAU_8)
-        let wave1_weak_2: CGFloat = wave1_weak_1 ± rand(min: TAU_16, max: TAU_8)
-        timeline.every(1.5...3.0, start: .Delayed(), times: 10, block: generateEnemy(wave1_weak_1)) ~~> nextStep()
-        timeline.every(1.5...3.0, start: .Delayed(), times: 10, block: generateEnemy(wave1_weak_2)) ~~> nextStep()
+        let wave1: CGFloat = ±rand(TAU_8)
+        let wave2: CGFloat = wave1 ± rand(min: TAU_16, max: TAU_8)
+        let wave3 = TAU_2 ± rand(TAU_16)
+        generateWarning(wave1, wave2, wave3 - TAU_4, wave3, wave3 + TAU_4)
 
-        let wave1_strong_1 = TAU_2 ± rand(TAU_16)
-        timeline.every(3...6, start: .Delayed(), times: 5, block: generateLeaderEnemy(wave1_strong_1, spread: TAU_16)) ~~> nextStep()
-        timeline.every(1.5...3, start: .Delayed(), times: 10, block: generateEnemy(wave1_strong_1, spread: TAU_4)) ~~> nextStep()
+        timeline.every(1.5...3.0, start: .Delayed(), times: 10, block: generateEnemy(wave1)) ~~> nextStep()
+        timeline.every(1.5...3.0, start: .Delayed(), times: 10, block: generateEnemy(wave2)) ~~> nextStep()
+
+        timeline.every(3...6, start: .Delayed(), times: 5, block: generateLeaderEnemy(wave3, spread: TAU_16)) ~~> nextStep()
+        timeline.every(1.5...3, start: .Delayed(), times: 10, block: generateEnemy(wave3, spread: TAU_4)) ~~> nextStep()
     }
 
     func beginWave2() {
@@ -42,20 +43,32 @@ class BaseLevel7: BaseLevel {
         timeline.at(.Delayed()) {
             self.moveCamera(to: CGPoint(x: -120, y: 0), duration: 3)
         }
-        let wave2_1 = TAU_2 + rand(TAU_16)
-        let wave2_2 = TAU_2 - rand(TAU_16)
+
+        let wave1 = TAU_2 + rand(TAU_16)
+        let wave2 = TAU_2 - rand(TAU_16)
+        timeline.at(.Delayed(1)) {
+            self.generateWarning(wave1, wave2)
+        }
         timeline.every(0.5, start: .Delayed(4), times: 20) {
-            self.generateEnemy(wave2_1, spread: TAU_16)()
+            self.generateEnemy(wave1, spread: TAU_16)()
         } ~~> nextStep()
         timeline.every(0.5, start: .Delayed(10), times: 20) {
-            self.generateEnemy(wave2_2, spread: TAU_16)()
+            self.generateEnemy(wave2, spread: TAU_16)()
         } ~~> nextStep()
     }
 
     func beginWave3() {
-        timeline.every(0.5, start: .Delayed(), times: 20, block: generateJet(TAU_2, spread: 20))
-        timeline.every(0.5, start: .Delayed(12), times: 20, block: generateJet(±TAU_4, spread: 20))
-        timeline.every(0.4, start: .Delayed(12), times: 20, block: generateJet(TAU_2, spread: 20))
+        let wave1 = TAU_2
+        let wave2 = ±TAU_4
+        let wave3 = TAU_2
+        generateWarning(wave1)
+
+        timeline.every(0.5, start: .Delayed(), times: 20, block: generateJet(wave1, spread: 20))
+        timeline.at(.Delayed(9)) {
+            self.generateWarning(wave2, wave3)
+        }
+        timeline.every(0.5, start: .Delayed(12), times: 20, block: generateJet(wave2, spread: 20))
+        timeline.every(0.4, start: .Delayed(12), times: 20, block: generateJet(wave3, spread: 20))
     }
 
 }

@@ -11,7 +11,6 @@ class BaseLevel6: BaseLevel {
     override func loadConfig() -> BaseConfig { return BaseLevel6Config() }
 
     override func populateLevel() {
-        // timeline.after(3, block: beginWave3)
         beginWave1()
     }
 
@@ -22,6 +21,8 @@ class BaseLevel6: BaseLevel {
         }
 
         let angle = self.randSideAngle()
+        generateWarning(angle + TAU_12)
+        generateWarning(angle - TAU_12)
         timeline.every(8...10, start: .Delayed(), times: 5, block: self.generateDozer(angle, spread: TAU_8)) ~~> nextStep()
     }
 
@@ -29,6 +30,10 @@ class BaseLevel6: BaseLevel {
     func beginWave2() {
         let nextStep = afterN {
             self.onNoMoreEnemies { self.beginWave3() }
+        }
+
+        10.times { (i: Int) in
+            generateWarning(TAU * CGFloat(i) / 10)
         }
 
         moveCamera(zoom: 0.75, duration: 2)
@@ -43,13 +48,20 @@ class BaseLevel6: BaseLevel {
 
     // exp 10 * 4 = 40
     func beginWave3() {
-        timeline.every(8, start: .Delayed(), times: 4) {
-            let angle: CGFloat = self.randSideAngle()
-            let delta = 2.5.degrees
-            let num = 10
-            for i in 0..<num {
-                let myAngle = angle + CGFloat(i - num/2) * delta
-                self.timeline.after(CGFloat(i) * 0.1, block: self.generateEnemy(myAngle, spread: 0, constRadius: true))
+        let num = 10
+        let delta = 2.5.degrees
+        timeline.every(8, times: 4) {
+            let angle = self.randSideAngle()
+            self.generateWarning(
+                angle - delta * CGFloat(num / 2),
+                angle,
+                angle + delta * CGFloat(num / 2)
+            )
+            self.timeline.at(.Delayed()) {
+                for i in 0..<num {
+                    let myAngle = angle + CGFloat(i - num / 2) * delta
+                    self.timeline.after(CGFloat(i) * 0.1, block: self.generateEnemy(myAngle, spread: 0, constRadius: true))
+                }
             }
         }
     }
