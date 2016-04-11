@@ -7,10 +7,11 @@
 //
 
 class Dot: Node {
+    let sprite = SKSpriteNode(id: .Dot(color: 0x808080))
 
     required init() {
         super.init()
-        self << SKSpriteNode(id: .Dot(color: 0x808080))
+        self << sprite
     }
 
     required init?(coder: NSCoder) {
