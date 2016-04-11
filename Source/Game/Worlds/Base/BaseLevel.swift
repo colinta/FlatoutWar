@@ -143,6 +143,19 @@ class BaseLevel: Level {
 
         setScale(2)
 
+        let x0 = -size.width / 2, dx = size.width / 10
+        let y0 = -size.height / 2, dy = dx
+        for i in 0..<10 {
+            let x = x0 + dx * CGFloat(i)
+            for j in 0..<10 {
+                let y = y0 + dy * CGFloat(j)
+                let dot = Dot(at: CGPoint(x, y))
+                dot.addComponent(WanderingComponent())
+                dot.z = .Bottom
+                self << dot
+            }
+        }
+
         if shouldPopulatePlayer {
             updatePlayer(playerNode)
         }
