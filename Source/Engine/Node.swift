@@ -16,9 +16,6 @@ class Node: SKNode {
             world?.updateFixedNode(self)
         }
     }
-    var z: Z = .Default {
-        didSet { zPosition = z.rawValue }
-    }
     var visible: Bool {
         get { return !hidden }
         set { hidden = !newValue }

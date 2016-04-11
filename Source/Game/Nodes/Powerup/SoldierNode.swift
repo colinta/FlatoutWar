@@ -16,7 +16,7 @@ class SoldierNode: Node {
     required init() {
         super.init()
 
-        sprite.zPosition = Z.Below.rawValue
+        sprite.z = .Below
         self << sprite
 
         let healthComponent = HealthComponent(health: startingHealth)

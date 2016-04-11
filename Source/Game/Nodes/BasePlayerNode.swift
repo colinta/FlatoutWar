@@ -62,15 +62,15 @@ class BasePlayerNode: Node {
 
         radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
         radarNode.anchorPoint = CGPoint(0, 0.5)
-        radarNode.zPosition = Z.Radar.rawValue
+        radarNode.z = .Radar
         self << radarNode
 
         baseNode.textureId(.Base(upgrade: radarUpgrade, health: 100))
-        baseNode.zPosition = Z.Player.rawValue
+        baseNode.z = .Player
         self << baseNode
 
         turretNode.textureId(turret.spriteId(upgrade: turretUpgrade))
-        turretNode.zPosition = Z.Turret.rawValue + 0.5
+        turretNode.z = .Turret
         self << turretNode
 
         forceFirePercent.style = .Heat
@@ -201,18 +201,18 @@ class BasePlayerNode: Node {
             let upgrade = Node()
             upgrade << {
                 let node = SKSpriteNode(id: .Base(upgrade: baseUpgrade, health: 100))
-                node.zPosition = Z.Default.rawValue
+                node.z = .Default
                 return node
             }()
             upgrade << {
                 let node = SKSpriteNode(id: .BaseRadar(upgrade: nextRadarUpgrade))
                 node.anchorPoint = CGPoint(0, 0.5)
-                node.zPosition = Z.Below.rawValue
+                node.z = .Below
                 return node
             }()
             upgrade << {
                 let node = SKSpriteNode(id: .BaseSingleTurret(upgrade: turretUpgrade))
-                node.zPosition = Z.Above.rawValue
+                node.z = .Above
                 return node
             }()
 
@@ -232,12 +232,12 @@ class BasePlayerNode: Node {
             let current = Node()
             current << {
                 let node = SKSpriteNode(id: .Base(upgrade: baseUpgrade, health: 100))
-                node.zPosition = Z.Default.rawValue
+                node.z = .Default
                 return node
             }()
             current << {
                 let node = SKSpriteNode(id: .BaseSingleTurret(upgrade: turretUpgrade))
-                node.zPosition = Z.Above.rawValue
+                node.z = .Above
                 return node
             }()
 

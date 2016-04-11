@@ -42,7 +42,7 @@ class NetNode: Node {
                 netted << enemy
 
                 let netSprite = SKSpriteNode(id: .EnemyNet(size: 3 * enemy.radius))
-                netSprite.zPosition = Z.Above.rawValue
+                netSprite.z = .Above
                 enemy << netSprite
 
                 enemy.addComponent(StoppedComponent())

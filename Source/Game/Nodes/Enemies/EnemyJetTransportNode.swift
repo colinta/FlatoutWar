@@ -17,7 +17,7 @@ class EnemyJetTransportNode: Node {
         super.init()
         size = CGSize(40)
 
-        sprite.zPosition = Z.Top.rawValue
+        sprite.z = .Top
         self << sprite
 
         let healthComponent = HealthComponent(health: startingHealth)

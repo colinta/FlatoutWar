@@ -44,6 +44,11 @@ extension SKSpriteNode {
 }
 
 extension SKNode {
+    var z: Z {
+        set { zPosition = newValue.rawValue }
+        get { return Z(rawValue: zPosition) ?? Z.Default }
+    }
+
     static func size(size: CGSize) -> SKNode {
         return SKSpriteNode(texture: nil, size: size)
     }

@@ -77,7 +77,7 @@ class Powerup {
         let powerupCountdown = SKSpriteNode(id: .PowerupTimer(percent: 100))
         self.powerupCountdown = powerupCountdown
         powerupCountdown.alpha = 0
-        powerupCountdown.zPosition = Z.Bottom.rawValue
+        powerupCountdown.z = .Bottom
 
         let button = Button(at: start)
         button << powerupCountdown

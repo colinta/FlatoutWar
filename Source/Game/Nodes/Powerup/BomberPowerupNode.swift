@@ -25,7 +25,7 @@ class BomberPowerupNode: Node {
         super.init()
         size = CGSize(50)
 
-        sprite.zPosition = Z.Top.rawValue
+        sprite.z = .Top
         self << sprite
 
         followPathComponent.velocity = 150

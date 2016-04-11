@@ -43,7 +43,7 @@ class ShieldNode: Node {
             angle += arc
             self << segment
         }
-        sprite.zPosition = Z.Below.rawValue
+        sprite.z = .Below
         self << sprite
     }
 
@@ -117,7 +117,7 @@ class ShieldSegmentNode: Node {
         self.damage = initialDamage
         super.init()
         size = sprite.size
-        sprite.zPosition = Z.Below.rawValue
+        sprite.z = .Below
         shape = .Rect
         self << sprite
     }

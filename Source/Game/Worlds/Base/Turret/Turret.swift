@@ -27,10 +27,10 @@ class Turret {
 
     func button() -> Button {
         let body = SKSpriteNode(id: .Base(upgrade: .One, health: 100))
-        body.zPosition = Z.Player.rawValue
+        body.z = .Player
 
         let turret = SKSpriteNode(id: spriteId(upgrade: .One))
-        turret.zPosition = Z.Turret.rawValue
+        turret.z = .Turret
 
         let node = Node()
         node << body

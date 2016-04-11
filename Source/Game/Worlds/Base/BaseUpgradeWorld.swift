@@ -38,7 +38,7 @@ class BaseUpgradeWorld: World {
         for box in [greenBox, redBox] {
             box.hidden = true
             box.alpha = 0.5
-            box.zPosition = Z.Bottom.rawValue
+            box.z = .Bottom
             self << box
         }
 

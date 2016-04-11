@@ -19,10 +19,9 @@ class BasePlayerDemoNode: Node {
         super.init()
 
         let base = SKSpriteNode(id: .Base(upgrade: baseUpgrade, health: 100))
-        base.zPosition = Z.Default.rawValue
 
         let turret = SKSpriteNode(id: .BaseSingleTurret(upgrade: turretUpgrade))
-        turret.zPosition = Z.Above.rawValue
+        turret.z = .Above
 
         self << base
         self << turret

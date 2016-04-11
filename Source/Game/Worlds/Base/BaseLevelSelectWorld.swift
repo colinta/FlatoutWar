@@ -121,7 +121,7 @@ class BaseLevelSelectWorld: World {
                     }
                     box.textureId(.FillColorBox(size: boxSize, color: color))
                     box.alpha = 1
-                    box.zPosition = Z.Bottom.rawValue
+                    box.z = .Bottom
                     button << box
                 }
             }

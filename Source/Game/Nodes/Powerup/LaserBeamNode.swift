@@ -23,7 +23,7 @@ class LaserBeamNode: Node {
 
         size = CGSize(2)
 
-        sprite.zPosition = Z.Below.rawValue
+        sprite.z = .Below
         sprite.anchorPoint = CGPoint(1, 1)
         sprite.zRotation = angle
         self << sprite
