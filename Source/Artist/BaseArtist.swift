@@ -24,7 +24,7 @@ class BaseArtist: Artist {
         var angles: [CGFloat] = [0]
         let angleDelta = TAU / CGFloat(pointCount)
         let angleRand = angleDelta / 2
-        for i in 1..<pointCount {
+        for i in 0..<pointCount {
             let angle = angleDelta * CGFloat(i) ± rand(angleRand)
             angles << angle
         }

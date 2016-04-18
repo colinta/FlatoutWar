@@ -32,7 +32,6 @@ class SoldierNode: Node {
         size = sprite.size
 
         let playerComponent = PlayerComponent()
-
         playerComponent.targetable = false
         playerComponent.intersectionNode = sprite
         addComponent(playerComponent)
@@ -51,8 +50,8 @@ class SoldierNode: Node {
         addComponent(targetingComponent)
 
         let rammingComponent = EnemyRammingComponent()
-        rammingComponent.bindTo(targetingComponent: targetingComponent)
         rammingComponent.intersectionNode = sprite
+        rammingComponent.bindTo(targetingComponent: targetingComponent)
         rammingComponent.maxSpeed = SoldierNode.DefaultSoldierSpeed
         rammingComponent.maxTurningSpeed = SoldierNode.DefaultSoldierSpeed
         rammingComponent.onRammed { enemy in

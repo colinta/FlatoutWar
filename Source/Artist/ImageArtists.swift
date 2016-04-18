@@ -179,6 +179,17 @@ extension ImageIdentifier {
             let health = CGFloat(healthInt) / 100
             let artist = DroneArtist(upgrade: upgrade, health: health)
             return artist
+        case let .Turret(upgrade, healthInt):
+            let health = CGFloat(healthInt) / 100
+            let artist = TurretArtist(upgrade: upgrade, health: health)
+            return artist
+        case let .TurretRadar(upgrade):
+            let artist = RadarArtist(
+                radius: upgrade.turretRadarRadius,
+                sweepAngle: upgrade.turretSweepAngle / 2,
+                color: UIColor(hex: upgrade.baseRadarColor)
+                )
+            return artist
         case .Cursor:
             let artist = CursorArtist()
             return artist
@@ -187,7 +198,11 @@ extension ImageIdentifier {
             let artist = BaseArtist(upgrade: upgrade, health: health)
             return artist
         case let .BaseRadar(upgrade):
-            let artist = RadarArtist(upgrade: upgrade)
+            let artist = RadarArtist(
+                radius: upgrade.baseRadarRadius,
+                sweepAngle: upgrade.baseSweepAngle / 2,
+                color: UIColor(hex: upgrade.baseRadarColor)
+                )
             return artist
         case let .BaseExplosion(index, total):
             let spread = TAU / CGFloat(total)

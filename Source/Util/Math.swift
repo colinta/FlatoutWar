@@ -30,14 +30,7 @@ let TAU_7_8 = CGFloat(1.75 * M_PI)
 let TAU_16 = CGFloat(0.125 * M_PI)
 
 func normalizeAngle(input: CGFloat) -> CGFloat {
-    var angle = input
-    while angle < 0 {
-        angle += TAU
-    }
-    while angle >= TAU {
-        angle -= TAU
-    }
-    return angle
+    return (TAU + input % TAU) % TAU
 }
 
 func deltaAngle(current: CGFloat, target: CGFloat) -> CGFloat {

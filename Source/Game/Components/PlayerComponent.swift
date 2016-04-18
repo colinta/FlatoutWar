@@ -38,6 +38,13 @@ class PlayerComponent: Component {
         super.reset()
     }
 
+    override func didAddToNode() {
+        super.didAddToNode()
+        if intersectionNode == nil {
+            fatalError("intersectionNode is required")
+        }
+    }
+
     override func update(dt: CGFloat) {
     }
 

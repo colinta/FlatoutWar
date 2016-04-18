@@ -60,9 +60,6 @@ class DroneNode: Node, DraggableNode {
         placeholder.alpha = 0.5
         placeholder.hidden = true
 
-        let timeline = TimelineComponent()
-        addComponent(timeline)
-
         let playerComponent = PlayerComponent()
         playerComponent.intersectionNode = sprite
         addComponent(playerComponent)
@@ -99,15 +96,15 @@ class DroneNode: Node, DraggableNode {
 
         let healthComponent = HealthComponent(health: startingHealth)
         healthComponent.onHurt { damage in
-            self.sprite.textureId(.Drone(upgrade: .One, health: healthComponent.healthInt))
+            self.sprite.textureId(.Drone(upgrade: self.upgrade, health: healthComponent.healthInt))
         }
         healthComponent.onKilled {
             self.world?.unselectNode(self)
             self.droneEnabled(isMoving: false)
 
-            timeline.after(20) {
+            self.world?.timeline.after(20) {
                 healthComponent.startingHealth = startingHealth
-                self.sprite.textureId(.Drone(upgrade: .One, health: healthComponent.healthInt))
+                self.sprite.textureId(.Drone(upgrade: self.upgrade, health: healthComponent.healthInt))
                 self.droneEnabled(isMoving: false)
             }
         }
@@ -203,11 +200,11 @@ class DroneNode: Node, DraggableNode {
 
             let cost: Int
             switch nextDroneUpgrade {
+                case .One: cost = 0
                 case .Two: cost = 100
                 case .Three: cost = 150
                 case .Four: cost = 200
                 case .Five: cost = 300
-                default: cost = 0
             }
 
             upgrades << (upgradeNode: upgrade, cost: cost, upgradeType: .Upgrade)
@@ -254,15 +251,15 @@ extension DroneNode {
             return
         }
 
-        let speed: CGFloat = 125
+        let speed: CGFloat = upgrade.droneBulletSpeed
         let bullet = BulletNode(velocity: CGPoint(r: speed, a: angle), style: .Slow)
         bullet.position = self.position
 
-        bullet.damage = 1
+        bullet.damage = upgrade.droneBulletDamage
         bullet.size = BaseTurretBulletArtist.bulletSize(.One)
         bullet.zRotation = angle
         bullet.z = Z.Below
-        world << bullet
+        ((parent as? Node) ?? world) << bullet
     }
 
 }
@@ -296,6 +293,16 @@ extension FiveUpgrades {
             case .Three: return 125
             case .Four: return 125
             case .Five: return 125
+        }
+    }
+
+    var droneBulletDamage: Float {
+        switch self {
+            case .One: return 1
+            case .Two: return 1.1
+            case .Three: return 1.2
+            case .Four: return 1.3
+            case .Five: return 1.6
         }
     }
 

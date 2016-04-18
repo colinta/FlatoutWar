@@ -105,46 +105,6 @@ class Level: World {
         fatalError("goToNextWorld should be overridden")
     }
 
-    enum Side {
-        case Left
-        case Right
-        case Top
-        case Bottom
-    }
-
-    func randSideAngle(sides: [Side]) -> CGFloat {
-        return randSideAngle(sides.rand())
-    }
-
-    func randSideAngle(side: Side? = nil) -> CGFloat {
-        if let side = side {
-            let spread: CGFloat
-            switch side {
-            case .Left, .Right:
-                spread = atan2(size.height, size.width)
-            case .Top, .Bottom:
-                spread = atan2(size.width, size.height)
-            }
-
-            let angle: CGFloat
-            switch side {
-            case .Right:
-                angle = 0
-            case .Top:
-                angle = TAU_4
-            case .Left:
-                angle = TAU_2
-            case .Bottom:
-                angle = TAU_3_4
-            }
-
-            return angle ± rand(spread)
-        }
-        else {
-            return randSideAngle(rand() ? .Left : .Right)
-        }
-    }
-
     override func onPause() {
         resumeButton.visible = true
         quitButton.visible = true

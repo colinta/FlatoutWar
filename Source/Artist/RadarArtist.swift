@@ -7,7 +7,7 @@
 //
 
 extension FiveUpgrades {
-    var radarColor: Int {
+    var baseRadarColor: Int {
         switch self {
             case .One: return 0xFCF10C
             case .Two: return 0xEFDD15
@@ -23,10 +23,10 @@ class RadarArtist: Artist {
     var radius: CGFloat
     var color: UIColor
 
-    required init(upgrade: FiveUpgrades) {
-        radius = upgrade.radarRadius
-        sweepAngle = upgrade.radarSweepAngle / 2
-        color = UIColor(hex: upgrade.radarColor)
+    required init(radius: CGFloat, sweepAngle: CGFloat, color: UIColor) {
+        self.radius = radius
+        self.sweepAngle = sweepAngle
+        self.color = color
 
         super.init()
 

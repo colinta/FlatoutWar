@@ -20,8 +20,8 @@ class MainMenuWorld: World {
         howMany.times {
             let enemyNode = EnemySoldierNode(
                 at: CGPoint(
-                    x: rand(min: -size.width / 2, max: size.width / 2) as CGFloat,
-                    y: rand(min: -size.height / 2, max: size.height / 2) as CGFloat
+                    x: rand(min: -size.width / 2, max: size.width / 2),
+                    y: rand(min: -size.height / 2, max: size.height / 2)
                 )
             )
             let wanderingComponent = WanderingComponent()

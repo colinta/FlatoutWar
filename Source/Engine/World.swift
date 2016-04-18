@@ -20,7 +20,25 @@ class World: Node {
     let cameraZoom = ScaleToComponent()
     let cameraMove = MoveToComponent()
 
-    func moveCamera(to target: CGPoint? = nil, zoom: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, handler: MoveToComponent.OnArrived? = nil) {
+    enum Side {
+        case Left
+        case Right
+        case Top
+        case Bottom
+    }
+
+    func moveCamera(
+        from start: CGPoint? = nil,
+        to target: CGPoint? = nil,
+        zoom: CGFloat? = nil,
+        duration: CGFloat? = nil,
+        rate: CGFloat? = nil,
+        handler: MoveToComponent.OnArrived? = nil
+    ) {
+        if let start = start {
+            cameraMove.node.position = start
+        }
+
         if let target = target {
             cameraMove.target = target
             if let duration = duration {
@@ -46,6 +64,39 @@ class World: Node {
             else if let rate = rate {
                 cameraZoom.rate = rate
             }
+        }
+    }
+
+    func randSideAngle(sides: [Side]) -> CGFloat {
+        return randSideAngle(sides.rand())
+    }
+
+    func randSideAngle(side: Side? = nil) -> CGFloat {
+        if let side = side {
+            let spread: CGFloat
+            switch side {
+            case .Left, .Right:
+                spread = atan2(size.height, size.width)
+            case .Top, .Bottom:
+                spread = atan2(size.width, size.height)
+            }
+
+            let angle: CGFloat
+            switch side {
+            case .Right:
+                angle = 0
+            case .Top:
+                angle = TAU_4
+            case .Left:
+                angle = TAU_2
+            case .Bottom:
+                angle = TAU_3_4
+            }
+
+            return angle ± rand(spread)
+        }
+        else {
+            return randSideAngle(rand() ? .Left : .Right)
         }
     }
 
@@ -215,7 +266,7 @@ class World: Node {
 
 extension World {
 
-    private func resetCaches(isEnemy isEnemy: Bool, isPlayer: Bool) {
+    private func resetCaches(isEnemy isEnemy: Bool = true, isPlayer: Bool = true) {
         _cachedNodes = nil
         if isEnemy {
             _cachedEnemies = nil
@@ -226,9 +277,7 @@ extension World {
     }
 
     private func cachedNodes() -> [Node] {
-        let cached = _cachedNodes ?? children.filter { sknode in
-            return sknode is Node
-        } as! [Node]
+        let cached = _cachedNodes ?? allChildNodes()
         _cachedNodes = cached
         return cached
     }
@@ -256,22 +305,40 @@ extension World {
     override func insertChild(node: SKNode, atIndex index: Int) {
         super.insertChild(node, atIndex: index)
         if let node = node as? Node {
+            processNewNode(node)
+        }
+    }
+
+    func processNewNode(node: Node) {
+        let newNodes = [node] + node.allChildNodes()
+        for node in newNodes {
             didAdd(node)
+        }
 
-            _cachedNodes = nodes + [node]
-
-            if node.isEnemy {
-                _cachedEnemies = (_cachedEnemies ?? []) + [node]
+        _cachedNodes = nodes + newNodes
+        var reacquire = false
+        var fixedPositions = false
+        for child in newNodes {
+            if child.isEnemy {
+                _cachedEnemies = (_cachedEnemies ?? []) + [child]
             }
 
-            if node.isPlayer {
-                _cachedPlayers = (_cachedPlayers ?? []) + [node]
-                reacquirePlayerTargets()
+            if child.isPlayer {
+                _cachedPlayers = (_cachedPlayers ?? []) + [child]
+                reacquire = true
             }
 
-            if node.fixedPosition != nil {
-                updateFixedNodes()
+            if child.fixedPosition != nil {
+                fixedPositions = true
             }
+        }
+
+        if reacquire {
+            reacquirePlayerTargets()
+        }
+
+        if fixedPositions {
+            updateFixedNodes()
         }
     }
 
@@ -290,28 +357,34 @@ extension World {
 
     override func removeAllChildren() {
         super.removeAllChildren()
-        resetCaches(isEnemy: true, isPlayer: true)
+        resetCaches()
     }
 
     override func removeChildrenInArray(nodes: [SKNode]) {
         super.removeChildrenInArray(nodes)
-        resetCaches(isEnemy: true, isPlayer: true)
+        resetCaches()
     }
 
     func didAdd(node: Node) {
     }
 
-    func willRemove(node: Node) {
-        if node === defaultNode {
-            defaultNode = nil
+    func willRemove(nodes: [Node]) {
+        var anyEnemy = false
+        var anyPlayer = false
+        for node in nodes {
+            if node === defaultNode {
+                defaultNode = nil
+            }
+            if node === selectedNode {
+                selectedNode = nil
+            }
+            if node === touchedNode {
+                touchedNode = nil
+            }
+            anyEnemy = anyEnemy || node.isEnemy
+            anyPlayer = anyPlayer || node.isPlayer
         }
-        if node === selectedNode {
-            selectedNode = nil
-        }
-        if node === touchedNode {
-            touchedNode = nil
-        }
-        resetCaches(isEnemy: node.isEnemy, isPlayer: node.isPlayer)
+        resetCaches(isEnemy: anyEnemy, isPlayer: anyPlayer)
     }
 
 }
@@ -493,14 +566,14 @@ extension World {
             }
         }
         if !worldPaused {
-            return touchableNodeAtLocation(worldLocation, inChildren: self.children)
+            return touchableNodeAtLocation(worldLocation, inChildren: self.allChildNodes())
         }
         return nil
     }
 
     private func touchableNodeAtLocation(worldLocation: CGPoint, inChildren children: [SKNode]) -> Node? {
-        for node in children.reverse() {
-            if let node = node as? Node,
+        for sknode in children.reverse() {
+            if let node = sknode as? Node,
                 touchableComponent = node.touchableComponent
             where !node.frozen && node.visible && touchableComponent.enabled {
                 let nodeLocation = convertPoint(worldLocation, toNode: node)

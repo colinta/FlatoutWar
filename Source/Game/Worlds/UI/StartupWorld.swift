@@ -107,8 +107,8 @@ class StartupWorld: World {
 
     func explosions(count: Int = 3) {
         for _ in 0..<count {
-            let x: CGFloat = rand(min: -size.width, max: size.width) as CGFloat
-            let y: CGFloat = rand(min: -size.height, max: size.height) as CGFloat
+            let x: CGFloat = rand(min: -size.width, max: size.width)
+            let y: CGFloat = rand(min: -size.height, max: size.height)
             let location = CGPoint(
                 x: x / xScale,
                 y: y / xScale

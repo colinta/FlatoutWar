@@ -108,43 +108,41 @@ class RapidFireTutorial: Tutorial {
             self.playerNode.forceFireEnabled = false
             self.playerNode.firingComponent?.enabled = false
             holdButton.removeFromParent()
-            self.showSecondEnemies()
+            self.showSecondButton()
         }
 
         self << holdButton
         defaultNode = holdButton
     }
 
-    func showSecondEnemies() {
-        tutorialTextNode.text = "NICE!"
-
+    func showSecondButton() {
         let angle = -67.75.degrees
-        let enemyLocations = [
-            (start: CGPoint(r: 235, a: angle), end: CGPoint(r: 50, a: angle)),
-            (start: CGPoint(r: 250, a: angle), end: CGPoint(r: 50, a: angle)),
-            (start: CGPoint(r: 265, a: angle), end: CGPoint(r: 50, a: angle)),
-            (start: CGPoint(r: 280, a: angle), end: CGPoint(r: 50, a: angle)),
-            (start: CGPoint(r: 295, a: angle), end: CGPoint(r: 50, a: angle)),
-            (start: CGPoint(r: 310, a: angle), end: CGPoint(r: 50, a: angle)),
-            (start: CGPoint(r: 325, a: angle), end: CGPoint(r: 50, a: angle)),
-            (start: CGPoint(r: 340, a: angle), end: CGPoint(r: 50, a: angle)),
-        ]
-        for locations in enemyLocations {
-            let enemyNode = EnemySoldierNode(at: locations.start)
-            enemyNode.rotateTowards(self.playerNode)
-            enemyNode.rammingComponent?.enabled = false
-            self << enemyNode
+        let minDelta = 4.degrees
+        let tapButton = Button(at: CGPoint(r: 75, a: angle))
+        tapButton.style = .Circle
+        tapButton.text = "TAP"
+        self << tapButton
 
-            let moveTo = MoveToComponent()
-            moveTo.target = locations.end
-            moveTo.speed = EnemySoldierNode.DefaultSoldierSpeed
-            enemyNode.addComponent(moveTo)
+        let toAim = TextNode(at: tapButton.position - CGPoint(y: 50))
+        toAim.text = "TO AIM"
+        self << toAim
+
+        tapButton.touchableComponent?.on(.Tapped) { tapLocation in
+            let location = self.playerNode.convertPosition(tapButton) + tapLocation
+            self.playerNode.rotateToComponent?.target = location.angle
+
+            let delta = abs(deltaAngle(location.angle, target: angle))
+            if delta < minDelta {
+                tapButton.removeFromParent()
+                toAim.removeFromParent()
+                self.showSecondEnemies()
+                self.showSecondHoldButton()
+            }
         }
-
-        timeline.after(1, block: showSecondButton)
+        defaultNode = tapButton
     }
 
-    func showSecondButton() {
+    func showSecondHoldButton() {
         let holdButton = Button(at: CGPoint(x: 200, y: -90))
         holdButton.text = "HOLD"
         holdButton.touchableComponent!.onDragged { prevLoc, loc in
@@ -174,6 +172,33 @@ class RapidFireTutorial: Tutorial {
         self.onNoMoreEnemies {
             holdButton.removeFromParent()
             self.done()
+        }
+    }
+
+    func showSecondEnemies() {
+        tutorialTextNode.text = "NICE!"
+
+        let angle = -67.75.degrees
+        let enemyLocations = [
+            (start: CGPoint(r: 235, a: angle), end: CGPoint(r: 50, a: angle)),
+            (start: CGPoint(r: 250, a: angle), end: CGPoint(r: 50, a: angle)),
+            (start: CGPoint(r: 265, a: angle), end: CGPoint(r: 50, a: angle)),
+            (start: CGPoint(r: 280, a: angle), end: CGPoint(r: 50, a: angle)),
+            (start: CGPoint(r: 295, a: angle), end: CGPoint(r: 50, a: angle)),
+            (start: CGPoint(r: 310, a: angle), end: CGPoint(r: 50, a: angle)),
+            (start: CGPoint(r: 325, a: angle), end: CGPoint(r: 50, a: angle)),
+            (start: CGPoint(r: 340, a: angle), end: CGPoint(r: 50, a: angle)),
+        ]
+        for locations in enemyLocations {
+            let enemyNode = EnemySoldierNode(at: locations.start)
+            enemyNode.rotateTowards(self.playerNode)
+            enemyNode.rammingComponent?.enabled = false
+            self << enemyNode
+
+            let moveTo = MoveToComponent()
+            moveTo.target = locations.end
+            moveTo.speed = EnemySoldierNode.DefaultSoldierSpeed
+            enemyNode.addComponent(moveTo)
         }
     }
 

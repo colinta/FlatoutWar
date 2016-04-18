@@ -16,6 +16,7 @@ class Turret {
 
     var autoFireEnabled = false
     var rapidFireEnabled = false
+    var reallySmart = false
 
     func spriteId(upgrade upgrade: FiveUpgrades) -> ImageIdentifier {
         return .None
@@ -76,7 +77,7 @@ class RapidTurret: Turret {
     }
 
     override func radarId(upgrade upgrade: FiveUpgrades) -> ImageIdentifier {
-        return .ColorLine(length: upgrade.radarRadius + 25, color: upgrade.radarColor)
+        return .ColorLine(length: upgrade.baseRadarRadius + 25, color: upgrade.baseRadarColor)
     }
 
 }

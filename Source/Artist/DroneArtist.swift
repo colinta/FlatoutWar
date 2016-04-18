@@ -28,13 +28,7 @@ class DroneArtist: Artist {
         var offset = super.drawingOffset(scale)
 
         switch upgrade {
-        case .Five:
-            offset += CGPoint(x: 1.5, y: 1.5)
-        case .Four:
-            offset += CGPoint(x: 1.5, y: 1.5)
-        case .Three:
-            offset += CGPoint(x: 1.5, y: 1.5)
-        case .Two:
+        case .Five, .Four, .Three, .Two:
             offset += CGPoint(x: 1.5, y: 1.5)
         case .One:
             break
@@ -49,67 +43,123 @@ class DroneArtist: Artist {
         CGContextSetFillColorWithColor(context, stroke.CGColor)
         CGContextSetLineWidth(context, 2)
 
-        let outerRadius: CGFloat = 1
-        let innerRadius: CGFloat = 1.5
         switch upgrade {
         case .Five:
             CGContextSetStrokeColorWithColor(context, UIColor.blackColor().CGColor)
             CGContextSetFillColorWithColor(context, UIColor.blackColor().CGColor)
+        case .Two:
+            CGContextSetLineWidth(context, 4)
+        default: break
+        }
 
-            CGContextAddEllipseInRect(context, middle.rectWithSize(CGSize(innerRadius * 8)))
-            CGContextMoveToPoint(context, 0, middle.y - innerRadius)
-            CGContextAddLineToPoint(context, 0, middle.y + innerRadius)
-            CGContextAddLineToPoint(context, middle.x - innerRadius, middle.y + innerRadius)
-            CGContextAddLineToPoint(context, middle.x - innerRadius, size.height)
-            CGContextAddLineToPoint(context, middle.x + innerRadius, size.height)
-            CGContextAddLineToPoint(context, middle.x + innerRadius, middle.y + innerRadius)
-            CGContextAddLineToPoint(context, size.width, middle.y + innerRadius)
-            CGContextAddLineToPoint(context, size.width, middle.y - innerRadius)
-            CGContextAddLineToPoint(context, middle.x + innerRadius, middle.y - innerRadius)
-            CGContextAddLineToPoint(context, middle.x + innerRadius, 0)
-            CGContextAddLineToPoint(context, middle.x - innerRadius, 0)
-            CGContextAddLineToPoint(context, middle.x - innerRadius, middle.y - innerRadius)
-            CGContextClosePath(context)
+        let innerRadius: CGFloat = 1.5
+        let ellipseRadius = innerRadius * 8
+        switch upgrade {
+        case .Five, .Four:
+            if health == 1 {
+                CGContextAddEllipseInRect(context, middle.rectWithSize(CGSize(ellipseRadius)))
+                CGContextDrawPath(context, .Stroke)
+            }
+            else {
+                CGContextSetAlpha(context, 0.5)
+                CGContextAddEllipseInRect(context, middle.rectWithSize(CGSize(ellipseRadius)))
+                CGContextDrawPath(context, .Stroke)
 
-            CGContextDrawPath(context, .Stroke)
-
-        case .Four:
-            CGContextSetLineWidth(context, 2)
-            CGContextAddEllipseInRect(context, middle.rectWithSize(CGSize(innerRadius * 8)))
+                CGContextSetAlpha(context, 1)
+                let startAngle = interpolate(health, from: (1, 0), to: (0, TAU))
+                let endAngle = TAU
+                CGContextAddArc(context, middle.x, middle.y, ellipseRadius,
+                    startAngle + TAU_3_8, endAngle + TAU_3_8, 0)
+                CGContextDrawPath(context, .Stroke)
+            }
             fallthrough
         case .Three:
-            CGContextMoveToPoint(context, 0, middle.y - innerRadius)
-            CGContextAddLineToPoint(context, 0, middle.y + innerRadius)
-            CGContextAddLineToPoint(context, middle.x - innerRadius, middle.y + innerRadius)
-            CGContextAddLineToPoint(context, middle.x - innerRadius, size.height)
-            CGContextAddLineToPoint(context, middle.x + innerRadius, size.height)
-            CGContextAddLineToPoint(context, middle.x + innerRadius, middle.y + innerRadius)
-            CGContextAddLineToPoint(context, size.width, middle.y + innerRadius)
-            CGContextAddLineToPoint(context, size.width, middle.y - innerRadius)
-            CGContextAddLineToPoint(context, middle.x + innerRadius, middle.y - innerRadius)
-            CGContextAddLineToPoint(context, middle.x + innerRadius, 0)
-            CGContextAddLineToPoint(context, middle.x - innerRadius, 0)
-            CGContextAddLineToPoint(context, middle.x - innerRadius, middle.y - innerRadius)
-            CGContextClosePath(context)
+            if health == 1 {
+                CGContextMoveToPoint(context, 0, middle.y - innerRadius)
+                CGContextAddLineToPoint(context, 0, middle.y + innerRadius)
+                CGContextAddLineToPoint(context, middle.x - innerRadius, middle.y + innerRadius)
+                CGContextAddLineToPoint(context, middle.x - innerRadius, size.height)
+                CGContextAddLineToPoint(context, middle.x + innerRadius, size.height)
+                CGContextAddLineToPoint(context, middle.x + innerRadius, middle.y + innerRadius)
+                CGContextAddLineToPoint(context, size.width, middle.y + innerRadius)
+                CGContextAddLineToPoint(context, size.width, middle.y - innerRadius)
+                CGContextAddLineToPoint(context, middle.x + innerRadius, middle.y - innerRadius)
+                CGContextAddLineToPoint(context, middle.x + innerRadius, 0)
+                CGContextAddLineToPoint(context, middle.x - innerRadius, 0)
+                CGContextAddLineToPoint(context, middle.x - innerRadius, middle.y - innerRadius)
+                CGContextClosePath(context)
+            }
+            else {
+                CGContextSetAlpha(context, 0.5)
+                CGContextMoveToPoint(context, 0, middle.y - innerRadius)
+                CGContextAddLineToPoint(context, 0, middle.y + innerRadius)
+                CGContextAddLineToPoint(context, middle.x - innerRadius, middle.y + innerRadius)
+                CGContextAddLineToPoint(context, middle.x - innerRadius, size.height)
+                CGContextAddLineToPoint(context, middle.x + innerRadius, size.height)
+                CGContextAddLineToPoint(context, middle.x + innerRadius, middle.y + innerRadius)
+                CGContextAddLineToPoint(context, size.width, middle.y + innerRadius)
+                CGContextAddLineToPoint(context, size.width, middle.y - innerRadius)
+                CGContextAddLineToPoint(context, middle.x + innerRadius, middle.y - innerRadius)
+                CGContextAddLineToPoint(context, middle.x + innerRadius, 0)
+                CGContextAddLineToPoint(context, middle.x - innerRadius, 0)
+                CGContextAddLineToPoint(context, middle.x - innerRadius, middle.y - innerRadius)
+                CGContextClosePath(context)
+                CGContextDrawPath(context, .Stroke)
 
-            CGContextDrawPath(context, .Stroke)
-
+                CGContextClipToRect(context, CGRect(
+                    x: (1 - health) * size.width,
+                    y: (1 - health) * size.height,
+                    width: health * size.width,
+                    height: health * size.height
+                    ))
+                CGContextSetAlpha(context, 1)
+                CGContextMoveToPoint(context, 0, middle.y - innerRadius)
+                CGContextAddLineToPoint(context, 0, middle.y + innerRadius)
+                CGContextAddLineToPoint(context, middle.x - innerRadius, middle.y + innerRadius)
+                CGContextAddLineToPoint(context, middle.x - innerRadius, size.height)
+                CGContextAddLineToPoint(context, middle.x + innerRadius, size.height)
+                CGContextAddLineToPoint(context, middle.x + innerRadius, middle.y + innerRadius)
+                CGContextAddLineToPoint(context, size.width, middle.y + innerRadius)
+                CGContextAddLineToPoint(context, size.width, middle.y - innerRadius)
+                CGContextAddLineToPoint(context, middle.x + innerRadius, middle.y - innerRadius)
+                CGContextAddLineToPoint(context, middle.x + innerRadius, 0)
+                CGContextAddLineToPoint(context, middle.x - innerRadius, 0)
+                CGContextAddLineToPoint(context, middle.x - innerRadius, middle.y - innerRadius)
+                CGContextClosePath(context)
+                CGContextDrawPath(context, .Stroke)
+            }
         case .Two:
             CGContextSetLineWidth(context, 4)
 
-            CGContextMoveToPoint(context, middle.x, 0)
-            CGContextAddLineToPoint(context, middle.x, size.height)
-            CGContextMoveToPoint(context, 0, middle.y)
-            CGContextAddLineToPoint(context, size.width, middle.y)
+            if health == 1 {
+                CGContextMoveToPoint(context, middle.x, 0)
+                CGContextAddLineToPoint(context, middle.x, size.height)
+                CGContextMoveToPoint(context, 0, middle.y)
+                CGContextAddLineToPoint(context, size.width, middle.y)
+                CGContextDrawPath(context, .Stroke)
+            }
+            else {
+                CGContextSetAlpha(context, 0.5)
+                CGContextMoveToPoint(context, middle.x, 0)
+                CGContextAddLineToPoint(context, middle.x, size.height)
+                CGContextMoveToPoint(context, 0, middle.y)
+                CGContextAddLineToPoint(context, size.width, middle.y)
+                CGContextDrawPath(context, .Stroke)
 
-            CGContextDrawPath(context, .Stroke)
+                CGContextSetAlpha(context, 1)
+                CGContextMoveToPoint(context, (1 - health) * size.width, middle.y)
+                CGContextAddLineToPoint(context, size.width, middle.y)
+                CGContextMoveToPoint(context, middle.x, (1 - health) * size.height)
+                CGContextAddLineToPoint(context, middle.x, size.height)
+                CGContextDrawPath(context, .Stroke)
+            }
         case .One:
+            let outerRadius: CGFloat = 1
             if health == 1 {
                 CGContextMoveToPoint(context, middle.x, outerRadius)
                 CGContextAddLineToPoint(context, middle.x, size.height - outerRadius)
                 CGContextMoveToPoint(context, outerRadius, middle.y)
                 CGContextAddLineToPoint(context, size.width - outerRadius, middle.y)
-
                 CGContextDrawPath(context, .Stroke)
             }
             else {

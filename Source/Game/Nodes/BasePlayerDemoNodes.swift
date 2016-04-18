@@ -46,7 +46,7 @@ class BasePlayerFiringDemoNode: BasePlayerDemoNode {
             return
         }
 
-        cooldown = turretUpgrade.turretCooldown
+        cooldown = turretUpgrade.baseCooldown
         fireBullet(angle: 0)
     }
 
@@ -55,7 +55,7 @@ class BasePlayerFiringDemoNode: BasePlayerDemoNode {
             return
         }
 
-        let velocity: CGFloat = radarUpgrade.radarBulletSpeed
+        let velocity: CGFloat = radarUpgrade.baseBulletSpeed
         let style: BulletNode.Style
         if firingComponent?.forceFire ?? false {
             style = .Fast

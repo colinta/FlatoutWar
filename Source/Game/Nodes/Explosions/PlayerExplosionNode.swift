@@ -22,7 +22,7 @@ class PlayerExplosionNode: Node {
         for index in 0..<numSprites {
             let sprite = SKSpriteNode(id: .BaseExplosion(index: index, total: numSprites))
             sprite.zPosition = zPosition
-            sprites << (sprite, (±rand(30...90) as CGFloat).degrees, maxDistance * rand(min: 0.1, max: 1))
+            sprites << (sprite, (±rand(30...90)).degrees, maxDistance * rand(min: 0.1, max: 1))
             self << sprite
         }
     }

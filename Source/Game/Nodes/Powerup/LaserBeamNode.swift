@@ -29,8 +29,8 @@ class LaserBeamNode: Node {
         self << sprite
 
         let projectileComponent = ProjectileComponent()
-        projectileComponent.damage = 0
         projectileComponent.intersectionNode = sprite
+        projectileComponent.damage = 0
         projectileComponent.onCollision { (enemy, location) in
             self.damaging = enemy
         }

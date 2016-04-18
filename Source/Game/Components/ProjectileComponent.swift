@@ -36,6 +36,13 @@ class ProjectileComponent: Component {
         super.encodeWithCoder(encoder)
     }
 
+    override func didAddToNode() {
+        super.didAddToNode()
+        if intersectionNode == nil {
+            fatalError("intersectionNode is required")
+        }
+    }
+
     override func update(dt: CGFloat) {
         guard let world = node.world else {
             return

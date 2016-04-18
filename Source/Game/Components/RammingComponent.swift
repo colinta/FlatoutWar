@@ -47,6 +47,13 @@ class RammingComponent: Component {
         super.encodeWithCoder(encoder)
     }
 
+    override func didAddToNode() {
+        super.didAddToNode()
+        if intersectionNode == nil {
+            fatalError("intersectionNode is required")
+        }
+    }
+
     override func reset() {
         _onRammed = []
     }

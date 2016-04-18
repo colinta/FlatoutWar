@@ -21,6 +21,7 @@ class BasePlayerNode: Node {
             radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
             turretNode.textureId(turret.spriteId(upgrade: turretUpgrade))
             targetingComponent?.enabled = turret.autoFireEnabled
+            targetingComponent?.reallySmart = turret.reallySmart
         }
     }
 
@@ -39,7 +40,7 @@ class BasePlayerNode: Node {
     var turretUpgrade: FiveUpgrades = .One {
         didSet {
             turretNode.textureId(turret.spriteId(upgrade: turretUpgrade))
-            firingComponent?.cooldown = turretUpgrade.turretCooldown
+            firingComponent?.cooldown = turretUpgrade.baseCooldown
         }
     }
 
@@ -101,14 +102,14 @@ class BasePlayerNode: Node {
         addComponent(rotateToComponent)
 
         let targetingComponent = EnemyTargetingComponent()
-        targetingComponent.sweepAngle = radarUpgrade.radarSweepAngle
-        targetingComponent.radius = radarUpgrade.radarRadius
+        targetingComponent.sweepAngle = radarUpgrade.baseSweepAngle
+        targetingComponent.radius = radarUpgrade.baseRadarRadius
         targetingComponent.turret = baseNode
         addComponent(targetingComponent)
 
         let firingComponent = FiringComponent()
         firingComponent.turret = baseNode
-        firingComponent.cooldown = turretUpgrade.turretCooldown
+        firingComponent.cooldown = turretUpgrade.baseCooldown
         firingComponent.onFire { angle in
             self.fireBullet(angle: angle)
         }
@@ -288,7 +289,7 @@ extension BasePlayerNode {
             return
         }
 
-        let velocity: CGFloat = radarUpgrade.radarBulletSpeed
+        let velocity: CGFloat = radarUpgrade.baseBulletSpeed
         let style: BulletNode.Style
         var damageFactor: Float = 1
         if firingComponent?.forceFire ?? false {
@@ -302,12 +303,12 @@ extension BasePlayerNode {
         bullet.position = self.position
         bullet.timeRate = self.timeRate
 
-        bullet.damage = turretUpgrade.turretBulletDamage
+        bullet.damage = turretUpgrade.baseBulletDamage
         bullet.size = BaseTurretBulletArtist.bulletSize(.One)
         bullet.zRotation = angle
         bullet.z = Z.Below
         bullet.damage *= damageFactor
-        world << bullet
+        ((parent as? Node) ?? world) << bullet
     }
 
 }
@@ -345,7 +346,7 @@ extension BasePlayerNode {
 
 extension FiveUpgrades {
 
-    var turretBulletDamage: Float {
+    var baseBulletDamage: Float {
         switch self {
             case .One: return 1
             case .Two: return 1.1
@@ -355,7 +356,7 @@ extension FiveUpgrades {
         }
     }
 
-    var turretCooldown: CGFloat {
+    var baseCooldown: CGFloat {
         switch self {
             case .One: return 0.35
             case .Two: return 0.35
@@ -385,7 +386,7 @@ extension FiveUpgrades {
         }
     }
 
-    var radarBulletSpeed: CGFloat {
+    var baseBulletSpeed: CGFloat {
         switch self {
             case .One: return 125
             case .Two: return 125
@@ -394,7 +395,8 @@ extension FiveUpgrades {
             case .Five: return 200
         }
     }
-    var radarSweepAngle: CGFloat {
+
+    var baseSweepAngle: CGFloat {
         switch self {
             case .One:   return 30.degrees
             case .Two:   return 35.degrees
@@ -403,7 +405,8 @@ extension FiveUpgrades {
             case .Five:  return 45.degrees
         }
     }
-    var radarRadius: CGFloat {
+
+    var baseRadarRadius: CGFloat {
         switch self {
             case .One:   return 300
             case .Two:   return 315

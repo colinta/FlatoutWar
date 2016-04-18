@@ -70,18 +70,6 @@ func rand(range: Range<Int>) -> Int {
     return min + Int(arc4random_uniform(UInt32(max - min)))
 }
 
-func rand(min min: Float, max: Float) -> Int {
-    return Int(Double(min) + drand48() * Double(max - min))
-}
-
-func rand(min min: Double, max: Double) -> Int {
-    return Int(Double(min) + drand48() * (max - min))
-}
-
-func rand(min min: CGFloat, max: CGFloat) -> Int {
-    return Int(Double(min) + drand48() * Double(max - min))
-}
-
 infix operator ± {
     associativity left
     precedence 140

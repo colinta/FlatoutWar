@@ -11,6 +11,7 @@ let BigFont = Font(
     stroke: 0.5,
     scale: 4,
     space: 3,
+    size: defaultSize,
     art: [
     " ": Letter(style: .Loop, size: defaultSize, points: [[CGPoint]]()),
     "-": Letter(style: .Loop, size: defaultSize, points: [[

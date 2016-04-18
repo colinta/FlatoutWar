@@ -42,6 +42,13 @@ class EnemyComponent: Component {
         super.encodeWithCoder(encoder)
     }
 
+    override func didAddToNode() {
+        super.didAddToNode()
+        if intersectionNode == nil {
+            fatalError("intersectionNode is required")
+        }
+    }
+
     func attacked(by node: Node) {
         for handler in _onAttacked {
             handler(projectile: node)

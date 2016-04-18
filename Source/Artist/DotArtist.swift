@@ -11,17 +11,12 @@ class DotArtist: Artist {
 
     required init() {
         super.init()
-        size = CGSize(1)
+        size = CGSize(2)
     }
 
     override func draw(context: CGContext) {
         CGContextSetFillColorWithColor(context, color.CGColor)
-        if size.width <= 1 {
-            CGContextAddRect(context, CGRect(origin: .zero, size: size))
-        }
-        else {
-            CGContextAddEllipseInRect(context, CGRect(origin: .zero, size: size))
-        }
+        CGContextAddEllipseInRect(context, CGRect(origin: .zero, size: size))
         CGContextDrawPath(context, .Fill)
     }
 

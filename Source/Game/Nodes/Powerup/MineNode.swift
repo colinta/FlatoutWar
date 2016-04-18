@@ -17,8 +17,8 @@ class MineNode: Node {
         self << sprite
 
         let projectileComponent = ProjectileComponent()
-        projectileComponent.damage = 10
         projectileComponent.intersectionNode = sprite
+        projectileComponent.damage = 10
         projectileComponent.onCollision { (enemy, location) in
             if let world = self.world {
                 NumFragments.times { (i: Int) in

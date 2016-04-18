@@ -73,6 +73,8 @@ enum ImageIdentifier {
     case PowerupTimer(percent: Int)
 
     case Drone(upgrade: FiveUpgrades, health: Int)
+    case Turret(upgrade: FiveUpgrades, health: Int)
+    case TurretRadar(upgrade: FiveUpgrades)
 
     case Cursor
     case Base(upgrade: FiveUpgrades, health: Int)
@@ -172,6 +174,10 @@ enum ImageIdentifier {
             return "PowerupTimer(percent:\(percent))"
         case let .Drone(upgrade, health):
             return "Drone(upgrade:\(upgrade.name),health:\(health))"
+        case let .Turret(upgrade, health):
+            return "Turret(upgrade:\(upgrade.name),health:\(health))"
+        case let .TurretRadar(upgrade):
+            return "TurretRadar(upgrade:\(upgrade.name))"
         case .Cursor:
             return "Cursor"
         case let .Shield(phase):

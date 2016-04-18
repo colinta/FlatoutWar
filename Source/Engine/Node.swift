@@ -64,6 +64,9 @@ class Node: SKNode {
         for component in components {
             component.reset()
         }
+        for node in allChildNodes(recursive: false) {
+            node.reset()
+        }
         _onDeath = []
     }
 
@@ -139,9 +142,16 @@ class Node: SKNode {
         dontReset = false
     }
 
+    override func insertChild(node: SKNode, atIndex index: Int) {
+        super.insertChild(node, atIndex: index)
+        if let world = world, node = node as? Node where world != self {
+            world.processNewNode(node)
+        }
+    }
+
     override func removeFromParent() {
         if let world = world where !dontReset {
-            world.willRemove(self)
+            world.willRemove([self] + allChildNodes())
             for handler in _onDeath {
                 handler()
             }
@@ -150,13 +160,13 @@ class Node: SKNode {
         super.removeFromParent()
     }
 
-    func allChildNodes() -> [Node] {
+    func allChildNodes(recursive recursive: Bool = true) -> [Node] {
         let nodes = children.filter { sknode in
             return sknode is Node
         } as! [Node]
-        return nodes + nodes.flatMap { childNode in
+        return nodes + (recursive ? nodes.flatMap { childNode in
             childNode.allChildNodes()
-        }
+        } : [])
     }
 
     func applyUpgrade(type: UpgradeType) {
@@ -184,10 +194,8 @@ extension Node {
             }
         }
         update(dt)
-        for sknode in children {
-            if let node = sknode as? Node {
-                node.updateNodes(dt)
-            }
+        for node in allChildNodes(recursive: false) {
+            node.updateNodes(dt)
         }
     }
 

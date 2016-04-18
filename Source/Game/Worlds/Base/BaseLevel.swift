@@ -39,7 +39,7 @@ class BaseLevel: Level {
         }
     }
 
-    override func moveCamera(to target: CGPoint? = nil, zoom: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, handler: MoveToComponent.OnArrived? = nil) {
+    override func moveCamera(from start: CGPoint? = nil, to target: CGPoint? = nil, zoom: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, handler: MoveToComponent.OnArrived? = nil) {
         var adjustedTarget: CGPoint?
         if let target = target {
             cameraPosition = target
@@ -47,7 +47,7 @@ class BaseLevel: Level {
                 adjustedTarget = target + cameraAdjustment
             }
         }
-        super.moveCamera(to: adjustedTarget, zoom: zoom, duration: duration, rate: rate, handler: handler)
+        super.moveCamera(to: adjustedTarget, from: start, zoom: zoom, duration: duration, rate: rate, handler: handler)
     }
 
     override func outsideWorld(extra dist: CGFloat, angle _angle: CGFloat, ui: Bool = false) -> CGPoint {

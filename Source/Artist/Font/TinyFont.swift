@@ -11,6 +11,7 @@ let TinyFont = Font(
     stroke: 0.5,
     scale: 2,
     space: 0.75,
+    size: defaultSize,
     art: [
     ".": Letter(style: .Line, size: defaultSize, points: [[
         CGPoint(x: 1, y: 1),
