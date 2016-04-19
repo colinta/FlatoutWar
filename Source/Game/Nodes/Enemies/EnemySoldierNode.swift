@@ -25,6 +25,8 @@ class EnemySoldierNode: Node {
         size = CGSize(10)
 
         self << sprite
+        sprite.lightingBitMask   = 0xFFFFFFFF
+        sprite.shadowCastBitMask = 0xFFFFFFFF
 
         let healthComponent = HealthComponent(health: startingHealth)
         healthComponent.onHurt { _ in
@@ -32,7 +34,7 @@ class EnemySoldierNode: Node {
         }
         healthComponent.onKilled {
             self.generateKilledExplosion()
-            self.removeFromParent()
+            self.scaleTo(0, duration: 0.1, removeNode: true)
         }
         addComponent(healthComponent)
         updateTexture()
@@ -63,7 +65,7 @@ class EnemySoldierNode: Node {
         rammingComponent.onRammed { player in
             player.healthComponent?.inflict(self.rammingDamage)
             self.generateRammingExplosion()
-            self.removeFromParent()
+            self.scaleTo(0, duration: 0.1, removeNode: true)
         }
         addComponent(rammingComponent)
 

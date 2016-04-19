@@ -66,7 +66,6 @@ class IntroductionCutSceneWorld: World {
             { parent in
                 10.times {
                     let enemy = EnemySoldierNode()
-                    enemy.addComponent(WanderingComponent())
                     enemy.position = CGPoint(
                         x: ±rand(self.size.width / 2),
                         y: ±rand(self.size.height / 2))
@@ -74,7 +73,6 @@ class IntroductionCutSceneWorld: World {
                 }
                 5.times {
                     let enemy = EnemyLeaderNode()
-                    enemy.addComponent(WanderingComponent())
                     enemy.position = CGPoint(
                         x: ±rand(self.size.width / 2),
                         y: ±rand(self.size.height / 2))
@@ -82,15 +80,27 @@ class IntroductionCutSceneWorld: World {
                 }
                 15.times {
                     let enemy = EnemyJetNode()
-                    enemy.addComponent(WanderingComponent())
                     enemy.position = CGPoint(
                         x: ±rand(self.size.width / 2),
                         y: ±rand(self.size.height / 2))
                     parent << enemy
                 }
+                let playerPositions = [
+                    CGPoint(100, 100),
+                    CGPoint(0, -150),
+                    CGPoint(-75, -50),
+                ]
+                3.times { (i: Int) in
+                    let player = BasePlayerNode()
+                    player.lightNode.removeFromParent()
+                    player.radarNode.removeFromParent()
+                    player.zRotation = rand(TAU)
+                    player.position = playerPositions[i]
+                    parent << player
+                }
 
                 return [
-                    "QUADS HAVE TAKEN",
+                    "QUADS ARE TAKING",
                     "OVER 2DIM",
                 ]
             },
@@ -164,16 +174,17 @@ class IntroductionCutSceneWorld: World {
             },
             { parent in
                 return [
-                    "AND RETAKE",
+                    "AND PROTECT",
                     "2DIM!",
                 ]
             },
         ]
 
-        var sceneIndex = 4 // scenes.startIndex
+        var sceneIndex = scenes.startIndex
         var prevParent: Node?
         var time: CGFloat = 0
-        var sceneDuration: CGFloat = 5
+        let originalSceneDuration: CGFloat = 5
+        var sceneDuration: CGFloat = originalSceneDuration
         let fadeDuration: CGFloat = 1
         let scenePause: CGFloat = 1
         let dy: CGFloat = SmallFont.lineHeight
@@ -206,10 +217,15 @@ class IntroductionCutSceneWorld: World {
             }
             sceneIndex = sceneIndex.successor()
             time += sceneDuration
-            sceneDuration = 5 + scenePause
+            sceneDuration = originalSceneDuration + scenePause
         }
+
         timeline.at(.At(time)) {
-            prevParent!.fadeTo(0, duration: fadeDuration)
+            prevParent!.fadeTo(0, duration: fadeDuration).onFaded {
+                let world = WorldSelectWorld()
+                world.panIn = true
+                self.director?.presentWorld(world)
+            }
         }
     }
 

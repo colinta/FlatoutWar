@@ -26,7 +26,7 @@ class EnemyJetTransportNode: Node {
         }
         healthComponent.onKilled {
             self.generateKilledExplosion()
-            self.removeFromParent()
+            self.scaleTo(0, duration: 0.1, removeNode: true)
         }
         addComponent(healthComponent)
         updateTexture()

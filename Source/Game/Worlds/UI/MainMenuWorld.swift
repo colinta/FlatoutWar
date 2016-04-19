@@ -79,11 +79,19 @@ class MainMenuWorld: World {
         startButtonNode.text = "START"
         startButtonNode.font = .Big
         startButtonNode.onTapped {
-            self.director?.presentWorld(BaseLevel1().tutorialOrLevel())
+            self.director?.presentWorld(IntroductionCutSceneWorld())
         }
         self << startButtonNode
 
-        let setupButtonNode = Button(at: CGPoint(x: 0, y: -60))
+        let continueButtonNode = Button(at: CGPoint(x: 0, y: -60))
+        continueButtonNode.text = "CONTINUE"
+        continueButtonNode.font = .Big
+        continueButtonNode.onTapped {
+            self.director?.presentWorld(WorldSelectWorld())
+        }
+        self << continueButtonNode
+
+        let setupButtonNode = Button(at: CGPoint(x: 0, y: -120))
         setupButtonNode.text = "SETUP"
         setupButtonNode.font = .Big
         setupButtonNode.onTapped {

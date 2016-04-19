@@ -14,11 +14,14 @@ class EnemySoldierArtist: Artist {
         self.health = health
         super.init()
         size = CGSize(10)
-        shadowed = .True
     }
 
     required convenience init() {
         self.init(health: 1)
+    }
+
+    override func drawingOffset(scale: Scale) -> CGPoint {
+        return .zero
     }
 
     override func draw(context: CGContext) {

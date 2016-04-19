@@ -21,7 +21,7 @@ class BaseArtist: Artist {
         self.upgrade = upgrade
 
         let pointCount: Int = 20
-        var angles: [CGFloat] = [0]
+        var angles: [CGFloat] = []
         let angleDelta = TAU / CGFloat(pointCount)
         let angleRand = angleDelta / 2
         for i in 0..<pointCount {

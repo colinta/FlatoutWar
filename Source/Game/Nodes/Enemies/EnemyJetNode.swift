@@ -31,7 +31,7 @@ class EnemyJetNode: EnemySoldierNode {
             player.healthComponent?.inflict(self.rammingDamage)
 
             self.generateRammingExplosion()
-            self.removeFromParent()
+            self.scaleTo(0, duration: 0.1, removeNode: true)
         }
         rammingComponent!.removeFromNode()
         addComponent(flyingComponent)

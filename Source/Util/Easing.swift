@@ -54,6 +54,7 @@ func easeInBack(time time: CGFloat, initial: CGFloat = 0, final finalValue: CGFl
 enum Easing {
     case Linear
     case EaseInBack
+    case EaseInElastic
     case EaseOutCubic
     case EaseOutElastic
     case EaseOutExpo
@@ -62,6 +63,7 @@ enum Easing {
     var ease: EasingEquation {
         switch self {
         case Linear: return easeLinear
+        case EaseInElastic: return easeInElastic
         case EaseInBack: return easeInBack
         case EaseOutCubic: return easeOutCubic
         case EaseOutElastic: return easeOutElastic

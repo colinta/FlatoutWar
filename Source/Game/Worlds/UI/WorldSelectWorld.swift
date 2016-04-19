@@ -7,106 +7,59 @@
 //
 
 class WorldSelectWorld: World {
-    var worldDistance: CGFloat!
-    var worldLocations: [Level: CGFloat]!
+    var panIn = false
+    var worldLocations: [Level: CGPoint]!
 
-    enum Level: Int {
-        case Start = 1
-        case Tutorial = 2
-        case Base = 3
+    enum Level {
+        case Tutorial
+        case Base
     }
 
     override func populateWorld() {
         pauseable = false
-        worldDistance = 2 * outerRadius + 50
         worldLocations = [
-            .Start: 0 * worldDistance,
-            .Tutorial: 1 * worldDistance,
-            .Base: 2 * worldDistance,
+            .Tutorial: CGPoint(-200, 0),
+            .Base: CGPoint(-200, 100),
         ]
 
-        self.startAt(.Start)
+        if panIn {
+            let startLeft = -size.width
+            self.moveCamera(from: CGPoint(x: startLeft),
+                to: CGPoint(x: 0),
+                duration: 3)
+        }
+
+        self << Line(
+            from: CGPoint(x: -size.width / 2),
+            to: CGPoint(x: -225)
+        )
+        self << Line(
+            from: CGPoint(x: -200, y: 25),
+            to: CGPoint(x: -200, y: 75)
+        )
 
         do {
-            let button = generateButton(x: worldLocations[.Tutorial]!)
+            let button = generateButton(worldLocations[.Tutorial]!)
             button.onTapped {
-                self.moveCamera(to: CGPoint(x: self.worldLocations[.Base]!), duration: 3)
+                self.director?.presentWorld(BaseLevelSelectWorld())
             }
             button.text = "0"
             self << button
         }
 
         do {
-            let button = generateButton(x: worldLocations[.Base]!)
+            let button = generateButton(worldLocations[.Base]!)
+            button.enabled = false
             button.onTapped {
-                 self.director?.presentWorld(BaseLevelSelectWorld())
             }
             button.text = "1"
             self << button
         }
     }
 
-    func startAt(start: Level) {
-        switch start {
-            case .Start: startAtStart()
-            case .Tutorial: startAtTutorial()
-            case .Base: startAtBase()
-        }
-    }
-
-    func startAtStart() {
-        let startLeft = worldLocations[.Start]!
-        self.moveCamera(from: CGPoint(x: startLeft))
-
-        timeline.at(.Delayed()) {
-            self.moveCamera(
-                to: CGPoint(x: 0),
-                duration: 3)
-        }
-
-        let minLeft: CGFloat = startLeft - outerRadius
-        let maxLeft: CGFloat = -outerRadius - 10
-        for _ in 0..<20 {
-            let node = Node()
-            let sprite = SKSpriteNode(id: .Enemy(type: .Soldier, health: 100))
-            let center = CGPoint(
-                rand(min: minLeft, max: maxLeft),
-                rand(min: -size.height / 2, max: size.height / 2)
-            )
-            node.position = center
-            node << sprite
-            node.zRotation = rand(TAU)
-            node.addComponent(WanderingComponent(centeredAround: center))
-            self << node
-        }
-    }
-
-    func startAtTutorial() {
-        self.moveCamera(from: CGPoint(x: worldLocations[.Tutorial]!))
-    }
-
-    func startAtBase() {
-        self.moveCamera(from: CGPoint(x: worldLocations[.Base]!))
-    }
-
-    func generateButton(x x: CGFloat) -> Button {
-        let lineLength = worldDistance - 100
-        let position = CGPoint(x: x)
+    func generateButton(position: CGPoint) -> Button {
         let button = Button(at: position)
-        let line = SKSpriteNode(id: .ColorLine(length: lineLength, color: 0xFFFFFF))
-
-        line.anchorPoint = CGPoint(0, 0.5)
-        line.zRotation = TAU_2
-        line.position = position + CGPoint(x: -50)
-        self << line
-
-        button.touchableComponent?.on(.Enter) { _ in
-            line.position = position + CGPoint(x: -55)
-        }
-        button.touchableComponent?.on(.Exit) { _ in
-            line.position = position + CGPoint(x: -50)
-        }
-        button.style = .SquareSized(100)
+        button.style = .SquareSized(50)
         button.font = .Big
         return button
     }

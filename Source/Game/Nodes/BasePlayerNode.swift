@@ -44,9 +44,11 @@ class BasePlayerNode: Node {
         }
     }
 
-    var radarNode = SKSpriteNode()
-    var baseNode = SKSpriteNode()
-    var turretNode = SKSpriteNode()
+    let radarNode = SKSpriteNode()
+    let baseNode = SKSpriteNode()
+    let turretNode = SKSpriteNode()
+    let lightNode: SKLightNode
+
     let forceFirePercent = PercentBar()
     private var forceFireCooldown: CGFloat {
         return forceFireBurnout ? DefaultCooldown : ForceFireCooldown
@@ -57,9 +59,12 @@ class BasePlayerNode: Node {
     }
 
     required init() {
+        lightNode = SKLightNode.defaultLight()
         super.init()
 
         size = CGSize(40)
+
+        self << lightNode
 
         radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
         radarNode.anchorPoint = CGPoint(0, 0.5)
@@ -117,10 +122,8 @@ class BasePlayerNode: Node {
     }
 
     required init?(coder: NSCoder) {
+        lightNode = SKLightNode.defaultLight()
         super.init(coder: coder)
-        radarNode = coder.decode("radar")
-        baseNode = coder.decode("base")
-        turretNode = coder.decode("turret")
     }
 
     override func encodeWithCoder(encoder: NSCoder) {

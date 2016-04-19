@@ -25,12 +25,23 @@ extension SKTexture {
     }
 }
 
+extension SKLightNode {
+    static func defaultLight() -> SKLightNode {
+        let light = SKLightNode()
+        light.falloff = 0.01
+        light.ambientColor = UIColor(hex: 0x5f5f5f)
+        light.lightColor = .whiteColor()
+        return light
+    }
+}
+
 extension SKSpriteNode {
     convenience init(id: ImageIdentifier, at position: CGPoint = .zero) {
         let texture = SKTexture.id(id)
         self.init(texture: texture)
         setScale(0.5)
         self.position = position
+        self.shadowedBitMask = 0xFFFFFFFF
     }
 
     func textureId(id: ImageIdentifier) {
