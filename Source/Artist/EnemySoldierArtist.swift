@@ -26,7 +26,6 @@ class EnemySoldierArtist: Artist {
 
     override func draw(context: CGContext) {
         CGContextSetFillColorWithColor(context, color.CGColor)
-        CGContextSetShadowWithColor(context, .zero, 5, color.CGColor)
 
         if health == 1 {
             CGContextAddRect(context, CGRect(origin: .zero, size: size))

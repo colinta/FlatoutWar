@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-private let debug = false
-
 class Level: World {
     let pauseButton = PauseButton()
     let resumeButton = Button()
@@ -23,7 +21,7 @@ class Level: World {
         if worldPaused {
             return pauseButton
         }
-        return selectedNode ?? defaultNode
+        return super.currentNode
     }
 
     required init() {
@@ -67,20 +65,16 @@ class Level: World {
             }
         }
 
-        backButton.fixedPosition = .Bottom(x: -27, y: 100)
-        backButton.text = "<"
-        backButton.style = .Square
-        backButton.size = CGSize(50)
+        backButton.fixedPosition = .Center(x: 0, y: 80)
+        backButton.text = "BACK"
         backButton.visible = false
         backButton.font = .Big
         backButton.onTapped {
             self.goToLevelSelect()
         }
 
-        nextButton.fixedPosition = .Bottom(x: 27, y: 100)
-        nextButton.text = ">"
-        nextButton.style = .Square
-        nextButton.size = CGSize(50)
+        nextButton.fixedPosition = .Center(x: 0, y: -80)
+        nextButton.text = "NEXT"
         nextButton.visible = false
         nextButton.font = .Big
         nextButton.onTapped(self.goToNextWorld)

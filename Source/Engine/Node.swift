@@ -7,7 +7,7 @@
 //
 
 class Node: SKNode {
-    var frozen = false
+    var active = true
     var timeRate: CGFloat = 1
     private var mods: [Mod] = []
 
@@ -15,10 +15,6 @@ class Node: SKNode {
         didSet {
             world?.updateFixedNode(self)
         }
-    }
-    var visible: Bool {
-        get { return !hidden }
-        set { hidden = !newValue }
     }
     var size: CGSize = .zero
     var radius: CGFloat {
@@ -113,7 +109,7 @@ class Node: SKNode {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         components = coder.decode("components") ?? []
-        frozen = coder.decodeBool("frozen") ?? true
+        active = coder.decodeBool("active") ?? true
         size = coder.decodeSize("size") ?? .zero
         if let z = coder.decodeCGFloat("z") {
             self.z = Z(rawValue: z) ?? .Default
@@ -126,7 +122,7 @@ class Node: SKNode {
 
     override func encodeWithCoder(encoder: NSCoder) {
         encoder.encode(components, key: "components")
-        encoder.encode(frozen, key: "frozen")
+        encoder.encode(active, key: "active")
         encoder.encode(size, key: "size")
         encoder.encode(z.rawValue, key: "z")
         super.encodeWithCoder(encoder)
@@ -183,7 +179,7 @@ class Node: SKNode {
 extension Node {
 
     func updateNodes(dtReal: CGFloat) {
-        guard !frozen else { return }
+        guard active else { return }
         guard world != nil else { return }
 
         let dt = dtReal * getTimeRate()
@@ -360,22 +356,29 @@ extension Node {
     }
 
     func getTimeRate() -> CGFloat {
-        let timeRateAttr = getAttr(.TimeRate)
-        if case let .TimeRate(timeRate) = timeRateAttr {
-            return timeRate
-        }
-        return 0
+        return getAttr(.TimeRate).timeRate
     }
 
     func getAttr(attr: Attr) -> AttrMod {
         switch attr {
+        case .Halted:
+            for mod in mods {
+                switch mod.attr {
+                case let .Halted(halt):
+                    if halt {
+                        return .Halted(true)
+                    }
+                default: break
+                }
+            }
+            return .Halted(false)
         case .TimeRate:
             var dt = timeRate
             for mod in mods {
                 switch mod.attr {
                 case let .TimeRate(rate):
                     dt *= rate
-                //default: break
+                default: break
                 }
             }
             return .TimeRate(dt)

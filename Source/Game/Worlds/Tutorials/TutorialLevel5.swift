@@ -1,16 +1,16 @@
 //
-//  BaseLevel9.swift
+//  TutorialLevel5.swift
 //  FlatoutWar
 //
 //  Created by Colin Gray on 1/3/2016.
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-class BaseLevel9: BaseLevel {
+class TutorialLevel5: TutorialLevel {
 
-    override func loadConfig() -> BaseConfig { return BaseLevel9Config() }
+    override func loadConfig() -> BaseConfig { return TutorialLevel5Config() }
     override func goToNextWorld() {
-        director?.presentWorld(BaseLevelSelectWorld())
+        director?.presentWorld(WorldSelectWorld(beginAt: .Tutorial))
     }
 
     override func populateLevel() {

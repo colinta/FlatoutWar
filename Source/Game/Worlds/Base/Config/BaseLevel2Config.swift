@@ -7,11 +7,7 @@
 //
 
 class BaseLevel2Config: BaseConfig {
-    override var canUpgrade: Bool { return false }
-    override var availableTurrets: [Turret] { return [] }
-
-    override var possibleExperience: Int { return 120 }
-    override func tutorial() -> Tutorial? { return PowerupTutorial() }
+    override var possibleExperience: Int { return 150 }
     override func nextLevel() -> BaseLevel {
         return BaseLevel3()
     }

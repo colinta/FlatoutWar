@@ -28,7 +28,7 @@ class Tutorial: World {
     }
 
     func goToNextWorld() {
-        self.director?.presentWorld(nextWorld ?? BaseLevelSelectWorld())
+        self.director?.presentWorld(nextWorld ?? WorldSelectWorld(beginAt: .Tutorial))
     }
 
     func addContinueButton() {

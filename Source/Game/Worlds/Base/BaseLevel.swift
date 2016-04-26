@@ -7,6 +7,7 @@
 //
 
 class BaseLevel: Level {
+    var levelSelect: WorldSelectWorld.Level
     private var shouldPopulatePlayer = true
     var playerNode = BasePlayerNode() {
         willSet {
@@ -67,6 +68,7 @@ class BaseLevel: Level {
     }
 
     required init() {
+        levelSelect = .Base
         super.init()
     }
 
@@ -164,12 +166,12 @@ class BaseLevel: Level {
     }
 
     override func goToLevelSelect() {
-        director?.presentWorld(BaseLevelSelectWorld())
+        director?.presentWorld(WorldSelectWorld(beginAt: levelSelect))
     }
 
     override func goToNextWorld() {
         if shouldReturnToLevelSelect {
-            director?.presentWorld(BaseLevelSelectWorld())
+            director?.presentWorld(WorldSelectWorld(beginAt: levelSelect))
         }
         else {
             let nextLevel = config.nextLevel()
@@ -249,7 +251,7 @@ extension BaseLevel {
         addComponent(finalTimeline)
 
         for node in players + enemies {
-            node.frozen = true
+            node.active = false
         }
 
         if success {

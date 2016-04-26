@@ -8,7 +8,7 @@
 
 private let Length: CGFloat = 70
 private let Speed: CGFloat = 150
-private let DamageRate: CGFloat = 20
+private let DamageRate: CGFloat = 10
 
 class LaserBeamNode: Node {
     private var currentLength: CGFloat = 0

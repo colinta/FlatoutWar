@@ -1,17 +1,18 @@
 //
-//  BaseConfigSummary.swift
+//  TutorialConfigSummary
 //  FlatoutWar
 //
 //  Created by Colin Gray on 1/9/2016.
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-class BaseConfigSummary {
+class TutorialConfigSummary {
     let configs: [BaseConfig] = [
-        BaseLevel1Config(),
-        BaseLevel2Config(),
-        BaseLevel3Config(),
-        BaseLevel4Config(),
+        TutorialLevel1Config(),
+        TutorialLevel2Config(),
+        TutorialLevel3Config(),
+        TutorialLevel4Config(),
+        TutorialLevel5Config(),
     ]
 
     var totalGainedExperience: Int {
@@ -21,7 +22,22 @@ class BaseConfigSummary {
         return totalGainedExperience - spentExperience
     }
     var spentExperience: Int {
-        get { return Defaults["Config-BaseConfigSummary-spentExperience"].int ?? 0 }
+        get { return Defaults["Config-TutorialConfigSummary-spentExperience"].int ?? 0 }
+    }
+    var worldCompleted: Bool {
+        return configs.all { $0.levelCompleted }
+    }
+
+    func completeAll() {
+        for c in configs {
+            c.updateMaxGainedExperience(c.possibleExperience)
+        }
+    }
+
+    func resetAll() {
+        for c in configs {
+            c.levelCompleted = false
+        }
     }
 
     func canAfford(experience: Int) -> Bool {

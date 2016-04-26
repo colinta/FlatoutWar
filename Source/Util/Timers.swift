@@ -21,6 +21,11 @@ public typealias CancellableBlock = Bool -> Void
 public typealias TakesIndexBlock = (Int) -> Void
 
 
+infix operator ++ {
+    associativity left
+    precedence 150
+}
+
 func ++(lhs: Block, rhs: Block) -> Block {
     return {
         lhs()

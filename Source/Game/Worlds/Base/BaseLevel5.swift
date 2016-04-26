@@ -2,13 +2,16 @@
 //  BaseLevel5.swift
 //  FlatoutWar
 //
-//  Created by Colin Gray on 1/3/2016.
+//  Created by Colin Gray on 4/25/2016.
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
 class BaseLevel5: BaseLevel {
 
     override func loadConfig() -> BaseConfig { return BaseLevel5Config() }
+    override func goToNextWorld() {
+        director?.presentWorld(WorldSelectWorld(beginAt: .Base))
+    }
 
     override func populateLevel() {
         beginWave1()
@@ -19,33 +22,49 @@ class BaseLevel5: BaseLevel {
             self.onNoMoreEnemies { self.beginWave2() }
         }
 
-        let da: CGFloat = 5.degrees
-        timeline.every(4.5...7, times: 8) {
-            let angle = self.randSideAngle()
-            self.generateWarning(angle)
-            self.timeline.at(.Delayed()) {
-                self.generateLeaderEnemy(angle, spread: 0, constRadius: true)()
-                3.times { (i: Int) in
-                    self.generateScouts(angle + da * CGFloat(i - 1), spread: 0, constRadius: true)()
+        timeline.every(12, times: 8) {
+            let xs: CGFloat = ±1
+            let start = CGPoint(
+                x: xs * self.size.width * rand(min: 0.3, max: 0.4),
+                y: self.size.height / 2 + 40
+                )
+            let dest = CGPoint(
+                x: xs * self.size.width * rand(min: 0.3, max: 0.4),
+                y: -start.y
+                )
+            self.generateWarning(start.angle)
+            self.timeline.after(3) {
+                let transport = EnemyJetTransportNode()
+                var control = (start + dest) / 2
+                if start.x > 0 {
+                    control += CGPoint(x: self.size.height / 4)
                 }
+                else {
+                    control -= CGPoint(x: self.size.height / 4)
+                }
+
+                let arcTo = transport.arcTo(dest, duration: 10, start: start)
+                arcTo.control = control
+                arcTo.onArrived {
+                    transport.removeFromParent()
+                }
+
+                transport.transportPayload([
+                    EnemySoldierNode(),
+                    EnemySoldierNode(),
+                    EnemySoldierNode(),
+                    EnemySoldierNode(),
+                    EnemySoldierNode(),
+                    EnemyLeaderNode(),
+                ])
+
+                self << transport
             }
         } ~~> nextStep()
     }
 
     func beginWave2() {
-        10.times { (i: Int) in
-            generateWarning(TAU * CGFloat(i) / 10)
-        }
-
-        timeline.every(3.5, start: .Delayed(), times: 11) {
-            self.generateScouts(rand(TAU))()
-        }
-        timeline.every(3.25, start: .Delayed(1), times: 11) {
-            self.generateEnemy(rand(TAU))()
-        }
-        timeline.every(7, start: .Delayed(3), times: 5) {
-            self.generateSlowEnemy(rand(TAU))()
-        }
+        moveCamera(to: CGPoint(x: 180, y: 0), duration: 2)
     }
 
 }

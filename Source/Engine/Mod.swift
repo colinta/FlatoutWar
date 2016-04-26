@@ -8,10 +8,19 @@
 
 enum Attr {
     case TimeRate
+    case Halted
 }
 
 enum AttrMod {
     case TimeRate(CGFloat)
+    case Halted(Bool)
+
+    var timeRate: CGFloat {
+        if case let .TimeRate(timeRate) = self {
+            return timeRate
+        }
+        return 0
+    }
 }
 
 struct Mod {

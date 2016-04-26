@@ -23,7 +23,7 @@ class Line: Node {
         super.init(coder: coder)
     }
     
-    override required init() {
+    required init() {
         fatalError("init() has not been implemented")
     }
 

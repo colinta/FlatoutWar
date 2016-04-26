@@ -64,6 +64,8 @@ class EnemySoldierNode: Node {
         rammingComponent.maxSpeed = EnemySoldierNode.DefaultSoldierSpeed
         rammingComponent.onRammed { player in
             player.healthComponent?.inflict(self.rammingDamage)
+            self.rammingDamage = 0
+            rammingComponent.enabled = false
             self.generateRammingExplosion()
             self.scaleTo(0, duration: 0.1, removeNode: true)
         }

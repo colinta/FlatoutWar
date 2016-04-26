@@ -11,7 +11,7 @@ class BombNode: Node {
     let rate: CGFloat = 0.5
     let maxRadius: Int
     var time: CGFloat = 0
-    var damage: Float = 20
+    var damage: Float = 5
 
     required convenience init() {
         self.init(maxRadius: 40)

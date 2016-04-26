@@ -14,6 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        TutorialConfigSummary().completeAll()
         let window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window = window
 

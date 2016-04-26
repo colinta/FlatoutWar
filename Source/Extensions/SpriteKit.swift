@@ -9,7 +9,7 @@
 private var generatedTextures = [String: SKTexture]()
 
 extension SKTexture {
-    static func id(id: ImageIdentifier) -> SKTexture {
+    static func id(id: ImageIdentifier, scale: Artist.Scale = .Normal) -> SKTexture {
         let cacheName = id.name
         if let cacheName = cacheName,
             cached = generatedTextures[cacheName]
@@ -17,7 +17,7 @@ extension SKTexture {
             return cached
         }
 
-        let texture = SKTexture(image: Artist.generate(id))
+        let texture = SKTexture(image: Artist.generate(id, scale: scale))
         if let cacheName = cacheName {
             generatedTextures[cacheName] = texture
         }
@@ -44,11 +44,11 @@ extension SKSpriteNode {
         self.shadowedBitMask = 0xFFFFFFFF
     }
 
-    func textureId(id: ImageIdentifier) {
+    func textureId(id: ImageIdentifier, scale: Artist.Scale = .Normal) {
         if self.texture == nil {
-            setScale(0.5)
+            setScale(1 / scale.scale)
         }
-        let texture = SKTexture.id(id)
+        let texture = SKTexture.id(id, scale: scale)
         self.texture = texture
         size = texture.size() * xScale
     }
@@ -58,6 +58,16 @@ extension SKNode {
     var z: Z {
         set { zPosition = newValue.rawValue }
         get { return Z(rawValue: zPosition) ?? Z.Default }
+    }
+
+    var visible: Bool {
+        get {
+            if let parent = parent where !parent.visible {
+                return false
+            }
+            return !hidden && alpha > 0.1
+        }
+        set { hidden = !newValue }
     }
 
     static func size(size: CGSize) -> SKNode {

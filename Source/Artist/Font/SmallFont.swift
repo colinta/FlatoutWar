@@ -338,6 +338,8 @@ let SmallFont = Font(
     ]]),
     "Z": Letter(style: .Line, size: defaultSize, points: [[
         CGPoint(x: 0, y: 0),
+        CGPoint(x: 4, y: 0),
+        CGPoint(x: 0, y: 6),
         CGPoint(x: 4, y: 6),
     ]]),
 ])

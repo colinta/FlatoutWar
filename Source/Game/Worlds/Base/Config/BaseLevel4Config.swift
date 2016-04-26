@@ -7,9 +7,7 @@
 //
 
 class BaseLevel4Config: BaseConfig {
-    override var canUpgrade: Bool { return false }
-
-    override var possibleExperience: Int { return 175 }
+    override var possibleExperience: Int { return 1000 }
     override func nextLevel() -> BaseLevel {
         return BaseLevel5()
     }

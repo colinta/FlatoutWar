@@ -22,7 +22,12 @@ class BaseConfig {
         return min(CGFloat(gainedExperience) / CGFloat(possibleExperience), 1)
     }
     var levelCompleted: Bool {
-        return Defaults.hasKey("Config-\(configKey)-gainedExperience")
+        get { return Defaults.hasKey("Config-\(configKey)-gainedExperience") }
+        set {
+            if !newValue {
+                Defaults.remove("Config-\(configKey)-gainedExperience")
+            }
+        }
     }
 
     var storedPlayers: [Node] {

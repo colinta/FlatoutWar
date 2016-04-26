@@ -72,7 +72,7 @@ class EnemyJetTransportNode: Node {
         guard let first = payload.first else { return }
 
         for node in payload {
-            node.frozen = true
+            node.active = false
             self << node
         }
 
@@ -113,7 +113,7 @@ class EnemyJetTransportNode: Node {
                     world = self.world
                 {
                     self.enemyComponent?.experience -= node.enemyComponent?.experience ?? 0
-                    node.frozen = false
+                    node.active = true
                     node.moveToParent(world)
                     self.payload?.removeAtIndex(0)
                 }

@@ -71,7 +71,6 @@ class Powerup {
         }
         else {
             countNode.text = "∞"
-            self.powerupCountdown = nil
         }
 
         let powerupCountdown = SKSpriteNode(id: .PowerupTimer(percent: 100))
@@ -95,12 +94,13 @@ class Powerup {
 
         if let button = powerupButton, level = level, playerNode = playerNode {
             button.enabled = false
-            if let prevCount = count {
-                let newCount = prevCount - 1
-                count = newCount
-                powerupCount?.text = "\(newCount)"
-            }
             activate(level, playerNode: playerNode) {
+                if let prevCount = self.count {
+                    let newCount = prevCount - 1
+                    self.count = newCount
+                    self.powerupCount?.text = "\(newCount)"
+                }
+
                 if (self.count ?? 1) > 0 {
                     self.cooldown = self.timeout
                 }
@@ -146,18 +146,28 @@ class Powerup {
             let prevDefault = level.defaultNode
             level.defaultNode = tapNode
 
-            let touchComponent = TouchableComponent()
-            touchComponent.on(.Down) { location in
+            let restore = {
                 if slowmo {
                     self.slowmo(false)
                 }
 
                 level.defaultNode = prevDefault
                 self.powerupEnabled = true
+                tapNode.removeFromParent()
+            }
+
+            let cancelTimeout = level.timeline.cancellable.after(3 * level.timeRate) {
+                self.powerupButton?.enabled = true
+                restore()
+            }
+
+            let touchComponent = TouchableComponent()
+            touchComponent.on(.Down) { location in
+                cancelTimeout()
+                restore()
 
                 let position = tapNode.convertPoint(location, toNode: level)
                 onTap(position)
-                tapNode.removeFromParent()
             }
             tapNode.addComponent(touchComponent)
         }

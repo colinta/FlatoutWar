@@ -218,7 +218,7 @@ class World: Node {
     func enablePlayers() { setPlayersEnabled(true) }
     private func setPlayersEnabled(enabled: Bool) {
         for player in players {
-            player.frozen = !enabled
+            player.active = enabled
         }
     }
 
@@ -409,10 +409,10 @@ extension World {
             self << cameraNode
         }
 
-        let dt = min(0.03, dtReal * timeRate)
+        let dt = min(0.03, dtReal)
         if !worldPaused {
             updateNodes(dt)
-            gameUI.updateNodes(dt)
+            gameUI.updateNodes(dt * timeRate)
 
             throttleStragglers(dt: dt, clearStragglers)
 
@@ -475,7 +475,7 @@ extension World {
 
     func worldTapped(worldLocation: CGPoint) {
         guard let touchedNode = touchedNode else { return }
-        guard !touchedNode.frozen else { return }
+        guard touchedNode.active else { return }
 
         let location = convertPoint(worldLocation, toNode: touchedNode)
         touchedNode.touchableComponent?.tapped(location)
@@ -483,7 +483,7 @@ extension World {
 
     func worldPressed(worldLocation: CGPoint) {
         guard let touchedNode = touchedNode else { return }
-        guard !touchedNode.frozen else { return }
+        guard touchedNode.active else { return }
 
         let location = convertPoint(worldLocation, toNode: touchedNode)
         touchedNode.touchableComponent?.pressed(location)
@@ -497,7 +497,7 @@ extension World {
             self.touchedNode = currentNode
         }
 
-        if let touchedNode = touchedNode where touchedNode.frozen {
+        if let touchedNode = touchedNode where !touchedNode.active {
             self.touchedNode = nil
             return
         }
@@ -561,7 +561,7 @@ extension World {
         }
 
         for uiNode in uiNodes {
-            if let foundUi = touchableNodeAtLocation(worldLocation, inChildren: uiNode.children) {
+            if let foundUi = touchableNodeAtLocation(worldLocation, inChildren: uiNode.allChildNodes()) {
                 return foundUi
             }
         }
@@ -571,11 +571,10 @@ extension World {
         return nil
     }
 
-    private func touchableNodeAtLocation(worldLocation: CGPoint, inChildren children: [SKNode]) -> Node? {
-        for sknode in children.reverse() {
-            if let node = sknode as? Node,
-                touchableComponent = node.touchableComponent
-            where !node.frozen && node.visible && touchableComponent.enabled {
+    private func touchableNodeAtLocation(worldLocation: CGPoint, inChildren children: [Node]) -> Node? {
+        for node in children.reverse() {
+            if let touchableComponent = node.touchableComponent
+            where node.active && node.visible && touchableComponent.enabled {
                 let nodeLocation = convertPoint(worldLocation, toNode: node)
                 if touchableComponent.containsTouch(nodeLocation) {
                     return node

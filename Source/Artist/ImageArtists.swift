@@ -30,6 +30,8 @@ extension ImageIdentifier.EnemyType {
             artist = EnemyBigJetArtist(health: health)
         case .JetTransport:
             artist = EnemyJetTransportArtist(health: health)
+        case .Diamond:
+            artist = EnemyDiamondArtist(health: health)
         }
         return artist
     }

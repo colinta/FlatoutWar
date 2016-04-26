@@ -28,6 +28,8 @@ enum ImageIdentifier {
         case BigJet
         case JetTransport
 
+        case Diamond
+
         var name: String { return "\(self)" }
     }
 

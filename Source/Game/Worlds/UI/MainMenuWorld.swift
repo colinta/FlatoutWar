@@ -100,18 +100,4 @@ class MainMenuWorld: World {
         self << setupButtonNode
     }
 
-    override func worldTouchEnded(worldLocation: CGPoint) {
-        super.worldTouchEnded(worldLocation)
-        if timeRate < 1 {
-            cameraNode = Node(at: .zero)
-            setScale(1)
-            timeRate = 1
-        }
-        else {
-            cameraNode = Node(at: worldLocation * 3)
-            setScale(3)
-            timeRate = 0.1
-        }
-    }
-
 }

@@ -7,47 +7,37 @@
 //
 
 class Playground: World {
-    var dots: [Node] = []
-    var easings: [Easing] = [
-        .Custom({ (_, initial, _) in
-            return initial
-        }),
-        .Linear,
-        .EaseInBack,
-        .EaseInElastic,
-        .EaseOutCubic,
-        .EaseOutElastic,
-        .EaseOutExpo,
-    ]
-    var easingIndex = 0
 
     override func populateWorld() {
-        moveCamera(from: CGPoint(y: 100))
-
-        let count = 100
-        for i in 0...100 {
-            let x = -CGFloat(3 * count) / 2 + 3 * CGFloat(i)
-            let node = Dot(at: CGPoint(x: x))
-            dots << node
-            self << node
+        let closeButton = CloseButton()
+        closeButton.onTapped { _ in
+            self.director?.presentWorld(MainMenuWorld())
         }
+        ui << closeButton
 
-        applyFunction(easings[easingIndex])
-    }
+        let r1: CGFloat = 10
+        let r2: CGFloat = 17.320508075688775
+        let locations: [(CGPoint, CGFloat)] = [
+            (CGPoint(r: r1, a: 0), 0),
+            (CGPoint(r: r1, a: TAU_6), TAU_6),
+            (CGPoint(r: r1, a: TAU_3), TAU_3),
+            (CGPoint(r: r1, a: TAU_2), TAU_2),
+            (CGPoint(r: r1, a: TAU_2_3), TAU_2_3),
+            (CGPoint(r: r1, a: TAU_5_6), TAU_5_6),
 
-    func applyFunction(fn: Easing) {
-        for (i, node) in dots.enumerate() {
-            let time = CGFloat(i) / CGFloat(dots.count)
-            let x = interpolate(CGFloat(i), from: (0, CGFloat(dots.count)), to: (-100, 100))
-            let y = fn.ease(time: time, initial: 0, final: 200)
-            node.moveTo(CGPoint(x, y), duration: 1)
+            (CGPoint(r: r2, a: 1 * TAU_12), 4 * TAU_12),
+            (CGPoint(r: r2, a: 3 * TAU_12), 6 * TAU_12),
+            (CGPoint(r: r2, a: 5 * TAU_12), 8 * TAU_12),
+            (CGPoint(r: r2, a: 7 * TAU_12), 10 * TAU_12),
+            (CGPoint(r: r2, a: 9 * TAU_12), 12 * TAU_12),
+            (CGPoint(r: r2, a: 11 * TAU_12), 14 * TAU_12),
+        ]
+
+        for (position, angle) in locations {
+            let n = EnemyDiamondNode(at: position)
+            n.rotateTo(angle)
+            self << n
         }
-    }
-
-    override func worldTouchBegan(worldLocation: CGPoint) {
-        super.worldTouchBegan(worldLocation)
-        easingIndex = (easingIndex + 1) % easings.count
-        applyFunction(easings[easingIndex])
     }
 
 }

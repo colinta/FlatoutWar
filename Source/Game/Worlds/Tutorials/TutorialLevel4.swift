@@ -1,14 +1,14 @@
 //
-//  BaseLevel7.swift
+//  TutorialLevel4.swift
 //  FlatoutWar
 //
 //  Created by Colin Gray on 1/3/2016.
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-class BaseLevel7: BaseLevel {
+class TutorialLevel4: TutorialLevel {
 
-    override func loadConfig() -> BaseConfig { return BaseLevel7Config() }
+    override func loadConfig() -> BaseConfig { return TutorialLevel4Config() }
 
     override func populateLevel() {
         timeline.after(1) {
