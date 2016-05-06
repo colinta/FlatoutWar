@@ -1,5 +1,5 @@
 project do |p|
-    p.project_name = "FlatoutWar"
+    p.name = "FlatoutWar"
     p.class_prefix = "FW"
     p.organization = "colinta"
 
