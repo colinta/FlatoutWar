@@ -185,9 +185,8 @@ class BaseLevel: Level {
             powerup.update(dt)
         }
 
-        let isTouching = touchedNode?.touchableComponent?.isTouching ?? false
         if let angle = playerNode.rotateToComponent?.target
-        where cameraAdjustmentEnabled && !isTouching
+        where cameraAdjustmentEnabled
         {
             if angle != cameraAngle {
                 cameraAdjustment = CGPoint(r: 20, a: angle)
