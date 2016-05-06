@@ -14,7 +14,7 @@ class WorldController: UIViewController {
         self.worldView = view
         self.view = worldView
 
-        view.presentWorld(MainMenuWorld())
+        view.presentWorld(WorldSelectWorld(beginAt: .PanIn))
 
         // view.showsFPS = true
     }
