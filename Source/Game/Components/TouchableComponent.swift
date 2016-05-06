@@ -146,7 +146,19 @@ extension TouchableComponent {
             trigger(.MovedOutside, location: location)
         }
 
-        prevLocation = location
+        prevLocation = pointInWorld(location)
+    }
+
+    func pointInWorld(location: CGPoint) -> CGPoint {
+        let scene = node.scene
+        let sceneLocation = scene!.convertPoint(location, fromNode: node)
+        return scene!.convertPointToView(sceneLocation)
+    }
+
+    func pointInNode(location: CGPoint) -> CGPoint {
+        let scene = node.scene
+        let sceneLocation = scene!.convertPointFromView(location)
+        return scene!.convertPoint(sceneLocation, toNode: node)
     }
 
     func touchEnded(location: CGPoint) {
@@ -186,7 +198,7 @@ extension TouchableComponent {
         trigger(.DragBegan, location: location)
         touchUpdateInOut(location)
 
-        prevLocation = location
+        prevLocation = pointInWorld(location)
     }
 
     func draggingMoved(location: CGPoint) {
@@ -196,8 +208,9 @@ extension TouchableComponent {
         trigger(.DragMoved, location: location)
 
         if let prevLocation = prevLocation {
+            let localPoint = pointInNode(prevLocation)
             for handler in _onDragged {
-                handler(prevLocation, location)
+                handler(localPoint, location)
             }
         }
 
@@ -209,7 +222,7 @@ extension TouchableComponent {
             trigger(.MovedOutside, location: location)
         }
 
-        prevLocation = location
+        prevLocation = pointInWorld(location)
     }
 
     func draggingEnded(location: CGPoint) {
