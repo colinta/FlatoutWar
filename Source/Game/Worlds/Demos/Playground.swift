@@ -9,6 +9,12 @@
 class Playground: World {
 
     override func populateWorld() {
+        let t = SKSpriteNode(id: .WhiteLetter("1", size: .Big), scale: .Zoomed)
+        t.setScale(2)
+        self << t
+    }
+
+    func diamond() {
         let closeButton = CloseButton()
         closeButton.onTapped { _ in
             self.director?.presentWorld(MainMenuWorld())
