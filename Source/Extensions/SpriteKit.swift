@@ -36,10 +36,10 @@ extension SKLightNode {
 }
 
 extension SKSpriteNode {
-    convenience init(id: ImageIdentifier, at position: CGPoint = .zero) {
-        let texture = SKTexture.id(id)
+    convenience init(id: ImageIdentifier, at position: CGPoint = .zero, scale: Artist.Scale = .Normal) {
+        let texture = SKTexture.id(id, scale: scale)
         self.init(texture: texture)
-        setScale(0.5)
+        setScale(1 / scale.scale)
         self.position = position
         self.shadowedBitMask = 0xFFFFFFFF
     }
