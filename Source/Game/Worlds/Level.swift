@@ -65,7 +65,7 @@ class Level: World {
             }
         }
 
-        backButton.fixedPosition = .Center(x: 0, y: 80)
+        backButton.fixedPosition = .Top(x: -20, y: 80)
         backButton.text = "BACK"
         backButton.visible = false
         backButton.font = .Big
@@ -73,7 +73,7 @@ class Level: World {
             self.goToLevelSelect()
         }
 
-        nextButton.fixedPosition = .Center(x: 0, y: -80)
+        nextButton.fixedPosition = .Top(x: 20, y: 80)
         nextButton.text = "NEXT"
         nextButton.visible = false
         nextButton.font = .Big
@@ -154,6 +154,7 @@ class Level: World {
 
         defaultNode = nil
         selectedNode = nil
+        timeRate = 1
 
         timeline.removeFromNode()
         pauseButton.removeFromParent()

@@ -1,5 +1,5 @@
 //
-//  BaseUpgradeWorld.swift
+//  UpgradeWorld.swift
 //  FlatoutWar
 //
 //  Created by Colin Gray on 1/9/2016.
@@ -8,17 +8,15 @@
 
 private let BigOffset = CGPoint(x: 400, y: 0)
 
-class BaseUpgradeWorld: World {
+class UpgradeWorld: World {
     var nextWorld: BaseLevel!
-    let config = BaseConfigSummary()
+    let config = UpgradeConfigSummary()
     var levelConfig: BaseConfig { return nextWorld.config }
 
     var playerNode: BasePlayerNode!
     let playersOffset = CGPoint(-125, -20)
 
     let experienceTextNode = TextNode()
-    let upgradeTextNode = TextNode()
-    let buildTextNode = TextNode()
 
     let greenBox = SKSpriteNode()
     let redBox = SKSpriteNode()
@@ -29,6 +27,7 @@ class BaseUpgradeWorld: World {
 
     override func populateWorld() {
         super.populateWorld()
+        fadeTo(1, start: 0, duration: 0.5)
 
         let boxSize = CGSize(width: size.width / 2, height: size.height)
         greenBox.position = CGPoint(x: -size.width / 4)
@@ -55,37 +54,12 @@ class BaseUpgradeWorld: World {
             addStoredNode(node)
         }
 
-        experienceTextNode.position = CGPoint(y: 135)
-        experienceTextNode.text = "\(config.availableExperience)"
-        experienceTextNode.setScale(2)
+        experienceTextNode.position = CGPoint(-12, 135)
+        experienceTextNode.text = "$\(config.availableExperience)"
+        experienceTextNode.textScale = 2
         self << experienceTextNode
 
         do {
-            upgradeTextNode.text = "UPGRADE"
-            upgradeTextNode.position = CGPoint(x: -180, y: 140)
-            upgradeTextNode.setScale(1.5)
-            self << upgradeTextNode
-
-            let moveTo = MoveToComponent()
-            upgradeTextNode.addComponent(moveTo)
-
-            storedNodes << (upgradeTextNode, upgradeTextNode.position)
-        }
-
-        do {
-            buildTextNode.text = "BUILD"
-            buildTextNode.position = CGPoint(x: 180, y: 140)
-            buildTextNode.setScale(1.5)
-            self << buildTextNode
-
-            buildTextNode.addComponent({
-                let moveTo = MoveToComponent()
-                moveTo.duration = 0.5
-                return moveTo
-            }())
-
-            buildNodes << (buildTextNode, buildTextNode.position)
-
             var buildableNodes: [(Node, Int)] = []
             let drone = DroneNode(at: CGPoint(x: 125, y: -20))
 

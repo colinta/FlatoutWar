@@ -14,7 +14,9 @@ class WorldController: UIViewController {
         self.worldView = view
         self.view = worldView
 
-        view.presentWorld(WorldSelectWorld(beginAt: .PanIn))
+        let upgrade = UpgradeWorld()
+        upgrade.nextWorld = BaseLevel1()
+        view.presentWorld(upgrade)
 
         // view.showsFPS = true
     }

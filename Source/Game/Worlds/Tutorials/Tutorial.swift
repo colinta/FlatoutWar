@@ -7,16 +7,11 @@
 //
 
 class Tutorial: World {
+    typealias Locations = [(start: CGPoint, end: CGPoint)]
+
     let tutorialTextNode = TextNode()
     var nextWorld: World?
     let playerNode = BasePlayerNode()
-    typealias Locations = [(start: CGPoint, end: CGPoint)]
-
-    var configKey: String { return "\(self.dynamicType)" }
-    var seen: Bool {
-        get { return Defaults["Config-\(configKey)-seenTutorial"].bool ?? false }
-        set { Defaults["Config-\(configKey)-seenTutorial"] = newValue }
-    }
 
     required init() {
         super.init()

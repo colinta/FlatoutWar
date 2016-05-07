@@ -38,8 +38,6 @@ class BaseLevel1: BaseLevel {
             self << enemyNode
             spread += 0.75
         } ~~> nextStep()
-        let enemyNode = EnemySoldierNode()
-        self << enemyNode
     }
 
     // Dozers

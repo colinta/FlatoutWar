@@ -36,7 +36,6 @@ class Button: TextNode {
         didSet { updateButtonStyle() }
     }
     var preferredScale: CGFloat = 1
-    var margins: UIEdgeInsets = UIEdgeInsetsZero
 
     private var buttonStyleNode: SKSpriteNode!
     private var alphaOverride = true

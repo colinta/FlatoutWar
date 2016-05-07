@@ -16,6 +16,7 @@ class World: Node {
     var ui = UINode()
     var gameUI = UINode()
     var timeline = TimelineComponent()
+    var interactionEnabled = true
 
     let cameraZoom = ScaleToComponent()
     let cameraMove = MoveToComponent()
@@ -552,6 +553,8 @@ extension World {
 
 extension World {
     func touchableNodeAtLocation(worldLocation: CGPoint) -> Node? {
+        guard interactionEnabled else { return nil }
+
         let uiNodes: [Node]
         if worldPaused {
             uiNodes = [self.ui]

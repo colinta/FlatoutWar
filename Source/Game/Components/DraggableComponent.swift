@@ -65,6 +65,11 @@ class DraggableComponent: Component {
         _onDragging << handler
     }
 
+    func dontMaintainDistance(dist: CGFloat, around: Node) {
+        self.maxDistance = nil
+        self.centeredAround = nil
+    }
+
     func maintainDistance(dist: CGFloat, around: Node) {
         if let node = node where !node.distanceTo(around, within: dist) {
             let angle = around.angleTo(node)

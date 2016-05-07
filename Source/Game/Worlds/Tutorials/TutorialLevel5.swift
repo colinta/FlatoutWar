@@ -7,13 +7,11 @@
 //
 
 class TutorialLevel5: TutorialLevel {
-
     override func loadConfig() -> BaseConfig { return TutorialLevel5Config() }
-    override func goToNextWorld() {
-        director?.presentWorld(WorldSelectWorld(beginAt: .Tutorial))
-    }
 
     override func populateLevel() {
+        shouldReturnToLevelSelect = true
+
         moveCamera(to: CGPoint(150, 50), duration: 2)
         beginWave1(at: 4)
     }
@@ -77,6 +75,20 @@ class TutorialLevel5: TutorialLevel {
                     self << enemy
                 }
             }
+        }
+    }
+
+    func generateGiant(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
+        return {
+            var screenAngle = genScreenAngle
+            if spread > 0 {
+               screenAngle = screenAngle ± rand(spread)
+            }
+
+            let enemyNode = EnemyGiantNode()
+            enemyNode.name = "giant"
+            enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle)
+            self << enemyNode
         }
     }
 

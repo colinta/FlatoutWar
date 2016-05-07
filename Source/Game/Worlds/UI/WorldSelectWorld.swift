@@ -36,7 +36,6 @@ class WorldSelectWorld: World {
             self.moveCamera(from: CGPoint(x: startLeft),
                 to: CGPoint(x: 0),
                 duration: 3)
-            Defaults["WorldSelectWorld-panIn"] = false
         }
 
         worldSelect = Node()
@@ -211,7 +210,9 @@ class WorldSelectWorld: World {
             let x: CGFloat = (xd - 2) * d
             let y: CGFloat = (yd - 2) * d
             let position = CGPoint(x, y)
-            let button = generateButton(at: position, level: level, prevLevel: prevLevel)
+            let upgrade = UpgradeWorld()
+            upgrade.nextWorld = level
+            let button = generateButton(at: position, level: level, prevLevel: prevLevel, present: upgrade)
             button.text = "\(levelIndex + 1)"
             levelSelect << button
             prevLevel = level
@@ -222,7 +223,7 @@ class WorldSelectWorld: World {
 }
 
 extension WorldSelectWorld {
-    func generateButton(at center: CGPoint, level: BaseLevel, prevLevel: BaseLevel?) -> Button {
+    func generateButton(at center: CGPoint, level: BaseLevel, prevLevel: BaseLevel?, present presentWorld: World? = nil) -> Button {
         let button = Button(at: center)
         let completed = prevLevel?.config.levelCompleted ?? true
         button.enabled = completed
@@ -230,8 +231,11 @@ extension WorldSelectWorld {
         button.style = .Square
         button.font = .Big
         button.onTapped {
-            level.shouldReturnToLevelSelect = true
-            self.director?.presentWorld(level.tutorialOrLevel())
+            self.interactionEnabled = false
+            self.fadeTo(0, duration: 0.5).onFaded {
+                level.shouldReturnToLevelSelect = true
+                self.director?.presentWorld(presentWorld ?? level.tutorialOrLevel())
+            }
         }
 
         if completed {

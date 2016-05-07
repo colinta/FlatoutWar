@@ -6,9 +6,7 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-class BaseConfig {
-    var configKey: String { return "\(self.dynamicType)" }
-
+class BaseConfig: Config {
     // display powerup at startup?
     var canPowerup: Bool { return true }
     // display upgrades at level end?
@@ -16,23 +14,23 @@ class BaseConfig {
 
     var possibleExperience: Int { return 0 }
     var gainedExperience: Int {
-        get { return Defaults["Config-\(configKey)-gainedExperience"].int ?? 0 }
+        get { return Defaults["\(configKey)-gainedExperience"].int ?? 0 }
     }
     var percentGainedExperience: CGFloat {
         return min(CGFloat(gainedExperience) / CGFloat(possibleExperience), 1)
     }
     var levelCompleted: Bool {
-        get { return Defaults.hasKey("Config-\(configKey)-gainedExperience") }
+        get { return Defaults.hasKey("\(configKey)-gainedExperience") }
         set {
             if !newValue {
-                Defaults.remove("Config-\(configKey)-gainedExperience")
+                Defaults.remove("\(configKey)-gainedExperience")
             }
         }
     }
 
     var storedPlayers: [Node] {
         get {
-            let configs: [NSDictionary]? = Defaults["Config-\(configKey)-storedPlayers"].array as? [NSDictionary]
+            let configs: [NSDictionary]? = Defaults["\(configKey)-storedPlayers"].array as? [NSDictionary]
             let nodes: [Node?]? = configs?.map {
                 return NodeStorage.fromDefaults($0)
             }
@@ -41,7 +39,7 @@ class BaseConfig {
         }
         set {
             let storage: [NSDictionary] = newValue.map { NodeStorage.toDefaults($0) }.flatMap { $0 }
-            Defaults["Config-\(configKey)-storedPlayers"] = storage
+            Defaults["\(configKey)-storedPlayers"] = storage
         }
     }
 
@@ -56,13 +54,18 @@ class BaseConfig {
     ] }
 
     func updateMaxGainedExperience(exp: Int) {
-        Defaults["Config-\(configKey)-gainedExperience"] = min(max(exp, gainedExperience), possibleExperience)
+        Defaults["\(configKey)-gainedExperience"] = min(max(exp, gainedExperience), possibleExperience)
     }
 
     func nextLevel() -> BaseLevel {
         fatalError("nextLevel() has not been implemented by \(self.dynamicType)")
     }
 
+    var hasTutorial: Bool { return tutorial() != nil }
+    var seenTutorial: Bool {
+        get { return Defaults["\(configKey)-seenTutorial"].bool ?? false }
+        set { Defaults["\(configKey)-seenTutorial"] = newValue }
+    }
     func tutorial() -> Tutorial? {
         return nil
     }

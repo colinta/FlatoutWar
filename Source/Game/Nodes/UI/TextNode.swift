@@ -7,6 +7,7 @@
 //
 
 class TextNode: Node {
+    private(set) var textSize: CGSize = .zero
     var text: String {
         didSet { updateTextNodes() }
     }
@@ -14,11 +15,27 @@ class TextNode: Node {
         didSet { updateTextNodes() }
     }
     var textSprite: SKNode
+    var textScale: CGFloat {
+        set {
+            textSprite.setScale(newValue)
+            updateTextNodes()
+        }
+        get { return textSprite.xScale }
+    }
     var color: Int? {
         didSet { updateTextNodes() }
     }
     var alignment: NSTextAlignment = .Center {
         didSet { updateTextNodes() }
+    }
+    var margins: UIEdgeInsets = UIEdgeInsetsZero
+
+    override var zPosition: CGFloat {
+        didSet {
+            for sprite in textSprite.children {
+                sprite.zPosition = zPosition
+            }
+        }
     }
 
     required init() {
@@ -27,6 +44,7 @@ class TextNode: Node {
         textSprite = SKNode()
         super.init()
         z = .UI
+        self << textSprite
     }
 
     required init?(coder: NSCoder) {
@@ -34,10 +52,10 @@ class TextNode: Node {
     }
 
     func updateTextNodes() {
-        textSprite.removeFromParent()
-        textSprite = SKNode()
+        textSprite.removeAllChildren()
 
         let letterSpace = font.font.space
+        let heightOffset = 2 * font.font.scale
 
         let sprites = text.characters.map { (char: Character) -> SKSpriteNode in
             if let color = self.color where color != 0xFFFFFF {
@@ -50,7 +68,7 @@ class TextNode: Node {
         var first = true
         let size = sprites.reduce(CGSize.zero) { size, sprite in
             let width = size.width + sprite.size.width + (first ? 0 : letterSpace)
-            let height = max(size.height, sprite.size.height)
+            let height = max(size.height, sprite.size.height - heightOffset)
             first = false
             return CGSize(width, height)
         }
@@ -58,20 +76,22 @@ class TextNode: Node {
         var x: CGFloat
         switch alignment {
             case .Left:
-                x = 0
+                x = margins.left
             case .Right:
-                x = -size.width
+                x = -size.width - margins.right
             default:
-                x = -size.width / 2
+                x = -size.width / 2 + margins.left
         }
         for sprite in sprites {
             x += sprite.size.width / 2
             sprite.position.x = x
+            sprite.position.y = -heightOffset / 2 - margins.top
+            sprite.zPosition = zPosition
             textSprite << sprite
             x += sprite.size.width / 2 + letterSpace
         }
 
-        self << textSprite
+        self.textSize = size * textScale
         self.size = size
     }
 

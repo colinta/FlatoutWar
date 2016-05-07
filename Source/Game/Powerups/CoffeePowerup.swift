@@ -29,8 +29,8 @@ class CoffeePowerup: Powerup {
         }
     }
 
-    override func levelCompleted(success success: Bool) {
-        super.levelCompleted(success: success)
+    override func levelCompleted() {
+        super.levelCompleted()
         caffeineWithdrawal()
     }
 

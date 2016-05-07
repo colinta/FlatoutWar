@@ -19,6 +19,7 @@ class BaseLevel: Level {
             updatePlayer(playerNode)
         }
     }
+
     var shouldReturnToLevelSelect = false
     private var _config: BaseConfig?
     var config: BaseConfig {
@@ -85,25 +86,54 @@ class BaseLevel: Level {
 
         self << playerNode
         defaultNode = playerNode
+
         shouldPopulatePlayer = false
     }
 
-    private func beginLevel(delay delay: Bool) {
-        let zoomOut = {
+    override func populateWorld() {
+        super.populateWorld()
+
+        setScale(2)
+        fadeTo(1, start: 0, duration: 0.5)
+        timeline.when({ self.possibleExperience >= self.config.possibleExperience }) {
+            self.onNoMoreEnemies {
+                self.levelCompleted(success: true)
+            }
+        }
+
+        populatePlayerNodes()
+        populateTurrets()
+
+        if config.canPowerup {
+            populatePowerups()
+        }
+
+        timeline.after(1.75, block: {
             self.cameraAdjustmentEnabled = true
             self.cameraZoom.target = 1.0
             self.cameraZoom.rate = 0.5
 
             self.timeline.after(2, block: self.populateLevel)
+        })
+    }
+
+    private func populatePlayerNodes() {
+        for node in config.storedPlayers {
+            if let playerNode = node as? BasePlayerNode {
+                self.playerNode = playerNode
+            }
         }
 
-        if delay {
-            timeline.after(1.75, block: zoomOut)
-        }
-        else {
-            zoomOut()
+        if shouldPopulatePlayer {
+            updatePlayer(playerNode)
         }
 
+        for node in players where node != playerNode {
+            customizeNode(node)
+        }
+    }
+
+    private func populateTurrets() {
         let turrets = config.availableTurrets
         let buttonWidth: CGFloat = 45
         let x0: CGFloat = -CGFloat(turrets.count - 1) * buttonWidth / 2
@@ -140,38 +170,13 @@ class BaseLevel: Level {
     func populateLevel() {
     }
 
-    override func populateWorld() {
-        super.populateWorld()
-
-        setScale(2)
-
-        if shouldPopulatePlayer {
-            updatePlayer(playerNode)
-        }
-
-        for node in config.storedPlayers {
-            customizeNode(node)
-        }
-
-        timeline.when({ self.possibleExperience >= self.config.possibleExperience }) {
-            self.onNoMoreEnemies {
-                self.levelCompleted(success: true)
-            }
-        }
-
-        if config.canPowerup {
-            beginPowerups()
-        }
-        beginLevel(delay: true)
-    }
-
     override func goToLevelSelect() {
         director?.presentWorld(WorldSelectWorld(beginAt: levelSelect))
     }
 
     override func goToNextWorld() {
         if shouldReturnToLevelSelect {
-            director?.presentWorld(WorldSelectWorld(beginAt: levelSelect))
+            goToLevelSelect()
         }
         else {
             let nextLevel = config.nextLevel()
@@ -199,7 +204,7 @@ class BaseLevel: Level {
 
 extension BaseLevel {
 
-    func beginPowerups() {
+    func populatePowerups() {
         let powerups = config.availablePowerups
         self.powerups = powerups
         for (index, powerup) in powerups.enumerate() {
@@ -219,9 +224,8 @@ extension BaseLevel {
 extension BaseLevel {
 
     func tutorialOrLevel() -> World {
-        if let tutorial = config.tutorial() where !tutorial.seen {
-            tutorial.seen = true
-
+        if let tutorial = config.tutorial() where !config.seenTutorial {
+            config.seenTutorial = true
             tutorial.nextWorld = self
             return tutorial
         }
@@ -234,6 +238,10 @@ extension BaseLevel {
 extension BaseLevel {
 
     override func levelCompleted(success successArg: Bool) {
+        for powerup in powerups {
+            powerup.levelCompleted()
+        }
+
         var success = successArg
         // sanity check against a kamikaze triggering a "successful" completion
         if let died = playerNode.healthComponent?.died where died {
@@ -241,10 +249,6 @@ extension BaseLevel {
         }
 
         super.levelCompleted(success: success)
-
-        for powerup in powerups {
-            powerup.levelCompleted(success: success)
-        }
 
         let finalTimeline = TimelineComponent()
         addComponent(finalTimeline)
@@ -288,7 +292,7 @@ extension BaseLevel {
 
                 if self.shouldReturnToLevelSelect {
                     self.backButton.visible = true
-                    self.backButton.fixedPosition = .Bottom(x: 0, y: 100)
+                    self.backButton.fixedPosition = .Top(x: 0, y: 80)
                 }
                 else {
                     self.backButton.visible = true
@@ -328,22 +332,17 @@ extension BaseLevel {
 extension BaseLevel {
 
     func customizeNode(node: Node) {
-        if let playerNode = node as? BasePlayerNode {
-            self.playerNode = playerNode
+        if node is BasePlayerNode {
+            fatalError("player node should not be customized in this way")
         }
-        else if let drone = node as? DroneNode {
-            drone.alpha = 0
+        else {
+            if let _ = node as? DroneNode {
+            }
 
-            let fadeIn = FadeToComponent()
-            fadeIn.target = 1
-            fadeIn.duration = 1.4
-            fadeIn.removeComponentOnFade()
-            drone.addComponent(fadeIn)
-
-            self << drone
+            node.fadeTo(1, start: 0, duration: 1.4)
+            node.draggableComponent?.maintainDistance(100, around: playerNode)
+            self << node
         }
-
-        node.draggableComponent?.maintainDistance(100, around: playerNode)
     }
 
 }
@@ -579,20 +578,6 @@ extension BaseLevel {
                    }
                }
            }
-        }
-    }
-
-    func generateGiant(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
-        return {
-            var screenAngle = genScreenAngle
-            if spread > 0 {
-               screenAngle = screenAngle ± rand(spread)
-            }
-
-            let enemyNode = EnemyGiantNode()
-            enemyNode.name = "giant"
-            enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle)
-            self << enemyNode
         }
     }
 
