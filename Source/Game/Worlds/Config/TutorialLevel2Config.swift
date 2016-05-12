@@ -8,12 +8,18 @@
 
 class TutorialLevel2Config: BaseConfig {
     override var canUpgrade: Bool { return false }
+    override var canPowerup: Bool { return false }
     override var availableTurrets: [Turret] { return [] }
 
-    override var possibleExperience: Int { return 120 }
-    override func tutorial() -> Tutorial? { return PowerupTutorial() }
+    override var possibleExperience: Int { return 100 }
+    override func tutorial() -> Tutorial? { return AutoFireTutorial() }
     override func nextLevel() -> BaseLevel {
         return TutorialLevel3()
+    }
+
+    override var storedPlayers: [Node] {
+        get { return [BasePlayerNode()] }
+        set { }
     }
 
 }

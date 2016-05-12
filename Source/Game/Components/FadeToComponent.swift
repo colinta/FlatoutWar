@@ -111,7 +111,7 @@ class FadeToComponent: ApplyToNodeComponent {
 
 extension Node {
 
-    func fadeTo(alpha: CGFloat, start: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, removeNode: Bool = false) -> FadeToComponent {
+    func fadeTo(alpha: CGFloat, start: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, removeNode: Bool = false, removeComponent: Bool = true) -> FadeToComponent {
         let fade = fadeToComponent ?? FadeToComponent()
         if let start = start {
             self.alpha = start
@@ -127,7 +127,7 @@ extension Node {
         if removeNode {
             fade.removeNodeOnFade()
         }
-        else {
+        else if removeComponent {
             fade.removeComponentOnFade()
         }
 

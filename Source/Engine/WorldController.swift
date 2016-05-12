@@ -14,9 +14,8 @@ class WorldController: UIViewController {
         self.worldView = view
         self.view = worldView
 
-        let upgrade = UpgradeWorld()
-        upgrade.nextWorld = BaseLevel1()
-        view.presentWorld(upgrade)
+        view.presentWorld(ResourceTutorial())
+        // view.presentWorld(Playground())
 
         // view.showsFPS = true
     }

@@ -128,7 +128,7 @@ class ScaleToComponent: ApplyToNodeComponent {
 
 extension Node {
 
-    func scaleTo(targetScale: CGFloat, start: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, removeNode: Bool = false, easing: Easing? = nil) -> ScaleToComponent {
+    func scaleTo(targetScale: CGFloat, start: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, removeNode: Bool = false, removeComponent: Bool = true, easing: Easing? = nil) -> ScaleToComponent {
         let scale = scaleToComponent ?? ScaleToComponent()
         if let start = start {
             self.setScale(start)
@@ -145,7 +145,7 @@ extension Node {
         if removeNode {
             scale.removeNodeOnScale()
         }
-        else {
+        else if removeComponent {
             scale.removeComponentOnScale()
         }
 

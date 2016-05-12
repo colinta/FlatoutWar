@@ -110,7 +110,7 @@ extension Node {
         return moveTo
     }
 
-    func moveTo(dest: CGPoint, start: CGPoint? = nil, duration: CGFloat? = nil, speed: CGFloat? = nil) -> MoveToComponent {
+    func moveTo(dest: CGPoint, start: CGPoint? = nil, duration: CGFloat? = nil, speed: CGFloat? = nil, removeNode: Bool = false, removeComponent: Bool = true) -> MoveToComponent {
         let moveTo = moveToComponent ?? MoveToComponent()
         if let start = start {
             self.position = start
@@ -118,7 +118,12 @@ extension Node {
         moveTo.target = dest
         moveTo.duration = duration
         moveTo.speed = speed
-        moveTo.removeComponentOnArrived()
+        if removeNode {
+            moveTo.removeNodeOnArrived()
+        }
+        else if removeComponent {
+            moveTo.removeComponentOnArrived()
+        }
         if moveToComponent == nil {
             addComponent(moveTo)
         }

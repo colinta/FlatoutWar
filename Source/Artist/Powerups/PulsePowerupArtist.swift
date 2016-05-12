@@ -17,7 +17,7 @@ class PulsePowerupArtist: PowerupArtist {
         ]
         CGContextTranslateCTM(context, middle.x, middle.y)
         for pulseRadius in pulseRadii {
-            CGContextAddEllipseInRect(context, CGPoint.zero.rectWithSize(CGSize(r: pulseRadius)))
+            CGContextAddEllipseInRect(context, CGPoint.zero.rect(size: CGSize(r: pulseRadius)))
             CGContextDrawPath(context, .FillStroke)
         }
     }

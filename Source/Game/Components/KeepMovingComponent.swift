@@ -28,10 +28,9 @@ class KeepMovingComponent: ApplyToNodeComponent {
     }
 
     override func update(dt: CGFloat) {
-        guard let applyTo = applyTo else {
-            return
+        apply { applyTo in
+            applyTo.position = applyTo.position + dt * self.velocity
         }
-        applyTo.position = applyTo.position + dt * velocity
     }
 
 }

@@ -43,7 +43,7 @@ class BaseLevel5: BaseLevel {
                     control -= CGPoint(x: self.size.height / 4)
                 }
 
-                let arcTo = transport.arcTo(dest, duration: 10, start: start)
+                let arcTo = transport.arcTo(dest, start: start, duration: 10)
                 arcTo.control = control
                 arcTo.onArrived {
                     transport.removeFromParent()

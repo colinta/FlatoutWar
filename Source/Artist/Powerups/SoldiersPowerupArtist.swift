@@ -19,7 +19,7 @@ class SoldiersPowerupArtist: PowerupArtist {
                     middle.x + sx * (soldierMargin + soldierSize.width / 2),
                     middle.y + sy * (soldierMargin + soldierSize.width / 2)
                 )
-                CGContextAddRect(context, center.rectWithSize(soldierSize))
+                CGContextAddRect(context, center.rect(size: soldierSize))
             }
         }
         CGContextDrawPath(context, .FillStroke)

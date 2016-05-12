@@ -16,6 +16,7 @@ private let ForceFireBurnoutDown: CGFloat = 4
 class BasePlayerNode: Node {
     var forceFireEnabled: Bool?
     var forceFireBurnout = false
+    var resourceDrag = false
     var turret: Turret = SimpleTurret() {
         didSet {
             radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
@@ -96,6 +97,7 @@ class BasePlayerNode: Node {
 
         let touchableComponent = TouchableComponent()
         touchableComponent.on(.Tapped, onTouchTapped)
+        touchableComponent.on(.DragBegan, onDragBegan)
         touchableComponent.onDragged(onTouchDragged)
         addComponent(touchableComponent)
 
@@ -327,10 +329,18 @@ extension BasePlayerNode {
         }
     }
 
+    func onDragBegan(location: CGPoint) {
+        resourceDrag = location.lengthWithin(self.radius)
+    }
+
     func onTouchDragged(prevLocation: CGPoint, location: CGPoint) {
-        let angle = prevLocation.angleTo(location, around: position)
-        let destAngle = rotateToComponent?.destAngle ?? 0
-        startRotatingTo(destAngle + angle)
+        if resourceDrag {
+        }
+        else {
+            let angle = prevLocation.angleTo(location, around: position)
+            let destAngle = rotateToComponent?.destAngle ?? 0
+            startRotatingTo(destAngle + angle)
+        }
     }
 
     func startRotatingTo(angle: CGFloat) {

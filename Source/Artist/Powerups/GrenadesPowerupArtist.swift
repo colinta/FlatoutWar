@@ -36,7 +36,7 @@ class GrenadePowerupArtist: PowerupArtist {
         CGContextDrawPath(context, .FillStroke)
 
         let pinCenter = CGPoint(-bigWidth + smallWidth / 2, -grenadeSize.height / 2 - smallHeight - handleThickness)
-        CGContextAddEllipseInRect(context, pinCenter.rectWithSize(pinSize))
+        CGContextAddEllipseInRect(context, pinCenter.rect(size: pinSize))
         CGContextDrawPath(context, .Stroke)
     }
 

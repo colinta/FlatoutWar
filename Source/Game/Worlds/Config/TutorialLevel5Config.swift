@@ -9,9 +9,10 @@
 class TutorialLevel5Config: BaseConfig {
     override var canUpgrade: Bool { return false }
 
-    override var possibleExperience: Int { return 180 }
+    override var possibleExperience: Int { return 145 }
+    override func tutorial() -> Tutorial? { return DroneTutorial() }
     override func nextLevel() -> BaseLevel {
-        return BaseLevel1()
+        return TutorialLevel6()
     }
 
 }

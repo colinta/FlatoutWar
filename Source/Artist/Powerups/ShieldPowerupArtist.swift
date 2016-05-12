@@ -16,7 +16,7 @@ class ShieldPowerupArtist: PowerupArtist {
         let outerWidth: CGFloat = 3
         let innerRadius = outerRadius - outerWidth
 
-        CGContextAddEllipseInRect(context, middle.rectWithSize(CGSize(r: innerRadius)))
+        CGContextAddEllipseInRect(context, middle.rect(size: CGSize(r: innerRadius)))
         CGContextDrawPath(context, .Fill)
 
         CGContextTranslateCTM(context, middle.x, middle.y)

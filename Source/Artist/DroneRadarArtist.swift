@@ -25,7 +25,7 @@ class DroneRadarArtist: Artist {
                 let alpha1 = interpolate(phase, from: (0.6, 0.8), to: (0.25, 0))
                 let drawingRadius = radarRadius * phase1
                 CGContextSetAlpha(context, alpha1)
-                CGContextAddEllipseInRect(context, middle.rectWithSize(CGSize(width: drawingRadius * 2, height: drawingRadius * 2)))
+                CGContextAddEllipseInRect(context, middle.rect(size: CGSize(width: drawingRadius * 2, height: drawingRadius * 2)))
                 CGContextDrawPath(context, .Stroke)
             }
 
@@ -34,7 +34,7 @@ class DroneRadarArtist: Artist {
                 let alpha2 = interpolate(phase, from: (0.8, 1.0), to: (0.25, 0))
                 let drawingRadius = radarRadius * phase2
                 CGContextSetAlpha(context, alpha2)
-                CGContextAddEllipseInRect(context, middle.rectWithSize(CGSize(width: drawingRadius * 2, height: drawingRadius * 2)))
+                CGContextAddEllipseInRect(context, middle.rect(size: CGSize(width: drawingRadius * 2, height: drawingRadius * 2)))
                 CGContextDrawPath(context, .Stroke)
             }
         }

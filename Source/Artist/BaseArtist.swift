@@ -6,12 +6,13 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
+private var savedAngles: [CGFloat]?
+
 class BaseArtist: Artist {
     var stroke = UIColor(hex: 0xFAA564)
     var fill = UIColor(hex: 0xC6811D)
     var upgrade: FiveUpgrades
     var health: CGFloat
-    private let angles: [CGFloat]
 
     private var path: CGPath
     private var smallPath: CGPath
@@ -20,15 +21,24 @@ class BaseArtist: Artist {
         self.health = health
         self.upgrade = upgrade
 
-        let pointCount: Int = 20
-        var angles: [CGFloat] = []
-        let angleDelta = TAU / CGFloat(pointCount)
-        let angleRand = angleDelta / 2
-        for i in 0..<pointCount {
-            let angle = angleDelta * CGFloat(i) ± rand(angleRand)
-            angles << angle
+        if savedAngles == nil {
+            let pointCount: Int = 20
+            var angles: [CGFloat] = []
+            let angleDelta = TAU / CGFloat(pointCount)
+            let angleRand = angleDelta / 2
+            for i in 0..<pointCount {
+                let angle: CGFloat
+                if i == 0 {
+                    angle = 0
+                }
+                else {
+                    angle = angleDelta * CGFloat(i) ± rand(angleRand)
+                }
+                angles << angle
+            }
+
+            savedAngles = angles
         }
-        self.angles = angles
 
         self.path = CGPathCreateMutable()
         self.smallPath = CGPathCreateMutable()
@@ -56,8 +66,7 @@ class BaseArtist: Artist {
         let path = CGPathCreateMutable()
         var first = true
         let r = size.width / 2
-        for i in 0..<angles.count {
-            let a = angles[i]
+        for a in savedAngles! {
             if let max = max where a > max {
                 break
             }
@@ -103,12 +112,12 @@ class BaseArtist: Artist {
             CGContextClip(context)
             switch upgrade {
                 case .Five:
-                    CGContextAddEllipseInRect(context, middle.rectWithSize(size * 0.8))
-                    CGContextAddEllipseInRect(context, middle.rectWithSize(size * 0.6))
-                    CGContextAddEllipseInRect(context, middle.rectWithSize(size * 0.4))
-                    CGContextAddEllipseInRect(context, middle.rectWithSize(size * 0.2))
+                    CGContextAddEllipseInRect(context, middle.rect(size: size * 0.8))
+                    CGContextAddEllipseInRect(context, middle.rect(size: size * 0.6))
+                    CGContextAddEllipseInRect(context, middle.rect(size: size * 0.4))
+                    CGContextAddEllipseInRect(context, middle.rect(size: size * 0.2))
                 case .Four:
-                    CGContextAddEllipseInRect(context, middle.rectWithSize(size * 0.75))
+                    CGContextAddEllipseInRect(context, middle.rect(size: size * 0.75))
                     fallthrough
                 case .Three:
                     CGContextMoveToPoint(context, 0, 0)

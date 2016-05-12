@@ -2,7 +2,7 @@
 //  TutorialLevel3.swift
 //  FlatoutWar
 //
-//  Created by Colin Gray on 1/3/2016.
+//  Created by Colin Gray on 1/2/2016.
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
@@ -11,21 +11,20 @@ class TutorialLevel3: TutorialLevel {
     override func loadConfig() -> BaseConfig { return TutorialLevel3Config() }
 
     override func populateLevel() {
-        moveCamera(to: CGPoint(x: 180, y: 0), duration: 2)
-        timeline.after(1, block: beginWave1)
+        beginWave1()
     }
 
+    // two sources of weak enemies
     func beginWave1() {
         let nextStep = afterN {
             self.onNoMoreEnemies { self.beginWave2() }
         }
 
-        let wave1 = randSideAngle(.Right)
-        let wave2 = wave1 ± (TAU_16 + rand(TAU_16))
-
-        self.generateWarning(wave1, wave2)
-        timeline.every(0.5...2.5, start: .Delayed(), times: 5, block: generateEnemyPair(wave1)) ~~> nextStep()
-        timeline.every(0.5...2.5, start: .Delayed(3), times: 4, block: generateEnemyPair(wave2)) ~~> nextStep()
+        let wave1: CGFloat = rand(TAU)
+        let wave2 = wave1 + TAU_2 ± rand(min: TAU_8, max: TAU_4)
+        generateWarning(wave1, wave2)
+        timeline.every(3.5...5.5, start: .Delayed(), times: 6, block: self.generateSlowEnemy(wave1)) ~~> nextStep()
+        timeline.every(3.5...5.5, start: .Delayed(4.5), times: 5, block: self.generateSlowEnemy(wave2)) ~~> nextStep()
     }
 
     func beginWave2() {
@@ -33,11 +32,11 @@ class TutorialLevel3: TutorialLevel {
             self.onNoMoreEnemies { self.beginWave3() }
         }
 
-        let wave1 = randSideAngle(.Right)
-        let wave2 = wave1 ± (TAU_8 + rand(TAU_16))
+        let wave1: CGFloat = rand(TAU)
+        let wave2 = wave1 + TAU_2 ± rand(min: TAU_8, max: TAU_4)
         generateWarning(wave1, wave2)
-        timeline.every(1...4, start: .Delayed(), times: 5, block: generateEnemyTrio(wave1)) ~~> nextStep()
-        timeline.every(2...5, start: .Delayed(4), times: 4, block: generateEnemyTrio(wave2)) ~~> nextStep()
+        timeline.every(1.5...3.5, start: .Delayed(), times: 3, block: self.generateSlowEnemy(wave1)) ~~> nextStep()
+        timeline.every(1.5...3.5, start: .Delayed(), times: 2, block: self.generateSlowEnemy(wave2)) ~~> nextStep()
     }
 
     func beginWave3() {
@@ -45,120 +44,77 @@ class TutorialLevel3: TutorialLevel {
             self.onNoMoreEnemies { self.beginWave4() }
         }
 
-        timeline.every(3...7, times: 5) {
-            let wave = self.randSideAngle(.Right)
-            self.generateWarning(wave)
-            self.timeline.at(.Delayed(), block: self.generateLeaderWithLinearFollowers(wave))
-        } ~~> nextStep()
+        let wave1: CGFloat = rand(TAU)
+        let wave2 = randSideAngle()
+        let wave3 = randSideAngle()
+        generateWarning(wave1)
+        timeline.every(6...10, start: .Delayed(), times: 5, block: self.generateSlowEnemy(wave1)) ~~> nextStep()
+
+        timeline.at(.Delayed()) { self.generateWarning(wave2) }
+        timeline.at(.Delayed(3), block: self.generateEnemyFormation(wave2))
+
+        timeline.at(.Delayed(22)) { self.generateWarning(wave3) }
+        timeline.at(.Delayed(25), block: self.generateEnemyFormation(wave3) ++ nextStep())
     }
 
     func beginWave4() {
-        var trios = 7
-        var quads = 6
-        let angles = [
-            size.angle,
-            size.angle / 2,
-            size.angle / 6,
-            0,
-            -size.angle / 2,
-            -size.angle * 5 / 6,
-            -size.angle,
-        ]
-        for angle in angles {
-            generateWarning(angle)
-        }
-        timeline.every(1...4, start: .Delayed(), until: { return trios == 0 && quads == 0 }) {
-            let pickTrio = [true, false].randWeighted { $0 ? Float(trios) : Float(quads) }
-            let wave = self.randSideAngle(.Right)
-            let generate: Block
-            if pickTrio == true {
-                trios -= 1
-                generate = self.generateEnemyTrio(wave)
-            }
-            else {
-                quads -= 1
-                generate = self.generateEnemyQuad(wave)
-            }
+        let wave1 = randSideAngle()
+        let wave2 = randSideAngle()
+        let wave3 = randSideAngle()
+        let wave4 = wave3 ± TAU_8
+        let wave5 = randSideAngle()
 
-            generate()
+        generateWarning(wave1)
+        timeline.at(.Delayed(), block: self.generateEnemyFormation(wave1))
+
+        timeline.at(.Delayed(8)) { self.generateWarning(wave2) }
+        timeline.at(.Delayed(11), block: self.generateEnemyFormation(wave2))
+
+        timeline.at(.Delayed(20)) { self.generateWarning(wave3) }
+        timeline.at(.Delayed(23), block: self.generateEnemyFormation(wave3))
+
+        timeline.at(.Delayed(31)) {
+            self.generateWarning(wave4 - TAU_12, wave4, wave4 + TAU_12)
         }
+        timeline.every(2, start: .Delayed(34), times: 12) {
+            self.generateEnemy(wave4, spread: TAU_8)()
+        }
+
+        timeline.at(.Delayed(55)) { self.generateWarning(wave5) }
+        timeline.at(.Delayed(58), block: self.generateEnemyFormation(wave5))
     }
 
-    func generateEnemyPair(screenAngle: CGFloat) -> Block {
+    func generateEnemyFormation(screenAngle: CGFloat) -> Block {
         return {
-            let dist: CGFloat = 5.5
-            let ghost = self.generateEnemyGhost(angle: screenAngle, extra: 10)
-            ghost.name = "pair ghost"
-            ghost.rotateTowards(point: .zero)
+            let dist: CGFloat = 25
+            let enemyLeader = EnemyLeaderNode()
+            enemyLeader.name = "formation leader"
+            let center = self.outsideWorld(extra: enemyLeader.radius + dist * 1.5, angle: screenAngle)
+            enemyLeader.position = center
+            enemyLeader.rotateTowards(point: .zero)
+            self << enemyLeader
 
-            let angle = ghost.position.angle
+            let angle = center.angle
             let left = CGVector(r: dist, a: angle + TAU_4)
             let right = CGVector(r: dist, a: angle - TAU_4)
+            let back = center + CGVector(r: dist, a: angle)
+            let back2 = center + CGVector(r: 2 * dist, a: angle)
 
             let origins = [
-                ghost.position + left,
-                ghost.position + right,
+                center + left,
+                center + right,
+                back + left,
+                back,
+                back + right,
+                back2 + left,
+                back2,
+                back2 + right,
             ]
             for origin in origins {
                 let enemy = EnemySoldierNode(at: origin)
-                enemy.name = "pair soldier"
-                enemy.rotateTo(ghost.zRotation)
-                enemy.follow(ghost)
-                self << enemy
-            }
-        }
-    }
-
-    func generateEnemyTrio(screenAngle: CGFloat) -> Block {
-        return {
-            let dist: CGFloat = 5.5
-            let ghost = self.generateEnemyGhost(angle: screenAngle, extra: 10)
-            ghost.name = "pair ghost"
-            ghost.rotateTowards(point: .zero)
-
-            let angle = ghost.position.angle
-            let left = CGVector(r: dist, a: angle + TAU_4)
-            let right = CGVector(r: dist, a: angle - TAU_4)
-            let back = CGVector(r: dist * 2, a: angle)
-
-            let origins = [
-                ghost.position + left,
-                ghost.position + right,
-                ghost.position + back,
-            ]
-            for origin in origins {
-                let enemy = EnemySoldierNode(at: origin)
-                enemy.name = "pair soldier"
-                enemy.rotateTo(ghost.zRotation)
-                enemy.follow(ghost)
-                self << enemy
-            }
-        }
-    }
-
-    func generateEnemyQuad(screenAngle: CGFloat) -> Block {
-        return {
-            let dist: CGFloat = 5.5
-            let ghost = self.generateEnemyGhost(angle: screenAngle, extra: 10)
-            ghost.name = "pair ghost"
-            ghost.rotateTowards(point: .zero)
-
-            let angle = ghost.position.angle
-            let left = CGVector(r: dist, a: angle + TAU_4)
-            let right = CGVector(r: dist, a: angle - TAU_4)
-            let back = CGVector(r: dist * 2, a: angle)
-
-            let origins = [
-                ghost.position + left,
-                ghost.position + right,
-                ghost.position + left + back,
-                ghost.position + right + back,
-            ]
-            for origin in origins {
-                let enemy = EnemySoldierNode(at: origin)
-                enemy.name = "pair soldier"
-                enemy.rotateTo(ghost.zRotation)
-                enemy.follow(ghost)
+                enemy.name = "formation soldier"
+                enemy.rotateTo(enemyLeader.zRotation)
+                enemy.follow(enemyLeader)
                 self << enemy
             }
         }

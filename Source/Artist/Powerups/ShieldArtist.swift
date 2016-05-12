@@ -23,9 +23,9 @@ class ShieldArtist: PowerupArtist {
         let center2 = CGPoint(r: smallR, a: TAU * phase + TAU_2_3)
         let center3 = CGPoint(r: smallR, a: TAU * phase)
         CGContextTranslateCTM(context, middle.x, middle.y)
-        CGContextAddEllipseInRect(context, center1.rectWithSize(smallSize))
-        CGContextAddEllipseInRect(context, center2.rectWithSize(smallSize))
-        CGContextAddEllipseInRect(context, center3.rectWithSize(smallSize))
+        CGContextAddEllipseInRect(context, center1.rect(size: smallSize))
+        CGContextAddEllipseInRect(context, center2.rect(size: smallSize))
+        CGContextAddEllipseInRect(context, center3.rect(size: smallSize))
         CGContextDrawPath(context, .Stroke)
     }
 

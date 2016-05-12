@@ -10,9 +10,10 @@ private let oneFrame: CGFloat = 0.016666666666666666
 
 class ArcToComponent: ApplyToNodeComponent {
     var target: CGPoint?
-    var arcOffset: CGFloat = 0.25
+    var arcOffset: CGFloat = 0.5
     var duration: CGFloat?
     var control: CGPoint?
+    var rotate = true
 
     private var start: CGPoint?
     private var time: CGFloat = 0
@@ -72,7 +73,7 @@ class ArcToComponent: ApplyToNodeComponent {
         else {
             let a = start.angleTo(target)
             let l = start.distanceTo(target)
-            control = (start + target) / 2 + CGPoint(r: l * 0.5, a: a ± TAU_4)
+            control = (start + target) / 2 + CGPoint(r: l * arcOffset, a: a ± TAU_4)
             self.control = control
         }
 
@@ -97,7 +98,9 @@ class ArcToComponent: ApplyToNodeComponent {
 
         apply { applyTo in
             applyTo.position = position
-            applyTo.rotateTo(angle)
+            if self.rotate {
+                applyTo.rotateTo(angle)
+            }
         }
 
         if time >= duration {
@@ -110,12 +113,13 @@ class ArcToComponent: ApplyToNodeComponent {
 }
 
 extension Node {
-    func arcTo(dest: CGPoint, duration: CGFloat, arcOffset: CGFloat? = nil, start: CGPoint? = nil) -> ArcToComponent {
+    func arcTo(dest: CGPoint, control: CGPoint? = nil, start: CGPoint? = nil, duration: CGFloat, arcOffset: CGFloat? = nil) -> ArcToComponent {
         let arcTo = ArcToComponent()
         if let start = start {
             self.position = start
         }
         arcTo.target = dest
+        arcTo.control = control
         if let arcOffset = arcOffset {
             arcTo.arcOffset = arcOffset
         }

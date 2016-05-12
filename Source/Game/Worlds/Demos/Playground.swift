@@ -9,9 +9,65 @@
 class Playground: World {
 
     override func populateWorld() {
-        let t = SKSpriteNode(id: .WhiteLetter("1", size: .Big), scale: .Zoomed)
-        t.setScale(2)
-        self << t
+        let letters = [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F",
+            "G",
+            "H",
+            "I",
+            "J",
+            "K",
+            "L",
+            "M",
+            "N",
+            "O",
+            "P",
+            "Q",
+            "R",
+            "S",
+            "T",
+            "U",
+            "V",
+            "W",
+            "X",
+            "Y",
+            "Z",
+            "0",
+            "1",
+            "2",
+            "3",
+            "4",
+            "5",
+            "6",
+            "7",
+            "8",
+            "9",
+        ]
+        let dx: CGFloat = 50
+        let dy: CGFloat = 30
+        let x0: CGFloat = dx * -2.5
+        let y0: CGFloat = dy * -2.5
+        var x: CGFloat = x0
+        var y: CGFloat = y0
+        for letter in letters {
+            let n = TextNode(at: CGPoint(x, y))
+            n.font = .Big
+            n.text = letter
+            n.zRotation = TAU_4
+            self << n
+
+            if y < y0 + dy * 5 {
+                y += dy
+            }
+            else {
+                x += dx
+                y = y0
+            }
+        }
     }
 
     func diamond() {

@@ -77,6 +77,7 @@ enum ImageIdentifier {
     case Drone(upgrade: FiveUpgrades, health: Int)
     case Turret(upgrade: FiveUpgrades, health: Int)
     case TurretRadar(upgrade: FiveUpgrades)
+    case Resource(amount: Int, remaining: Int)
 
     case Cursor
     case Base(upgrade: FiveUpgrades, health: Int)
@@ -92,6 +93,7 @@ enum ImageIdentifier {
     case ColorPath(path: UIBezierPath, color: Int)
     case ColorLine(length: CGFloat, color: Int)
     case HueLine(length: CGFloat, hue: Int)
+    case ColorCircle(size: CGSize, color: Int)
     case ColorBox(size: CGSize, color: Int)
     case HueBox(size: CGSize, hue: Int)
     case FillColorBox(size: CGSize, color: Int)
@@ -182,6 +184,8 @@ enum ImageIdentifier {
             return "TurretRadar(upgrade:\(upgrade.name))"
         case .Cursor:
             return "Cursor"
+        case let .Resource(amount, remaining):
+            return "Resource(amount:\(amount),remaining:\(remaining))"
         case let .Shield(phase):
             return "Shield(phase:\(phase))"
         case let .ShieldSegment(health):
@@ -210,6 +214,8 @@ enum ImageIdentifier {
         case let .HueLine(length, hue):
             let roundedLength = Int(round(length * 20))
             return "HueLine(length:\(roundedLength),hue:\(hue))"
+        case let .ColorCircle(size, color):
+            return "ColorCircle(size\(Int(size.width))x\(Int(size.height)),color:\(color))"
         case let .ColorBox(size, color):
             return "ColorBox(size\(Int(size.width))x\(Int(size.height)),color:\(color))"
         case let .HueBox(size, hue):

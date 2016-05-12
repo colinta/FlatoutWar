@@ -18,9 +18,6 @@ class UpgradeWorld: World {
 
     let experienceTextNode = TextNode()
 
-    let greenBox = SKSpriteNode()
-    let redBox = SKSpriteNode()
-
     var storedNodes: [(Node, CGPoint)] = []
     var buildNodes: [(Node, CGPoint)] = []
     var upgradeNodes: [(Node, CGPoint)] = []
@@ -28,20 +25,6 @@ class UpgradeWorld: World {
     override func populateWorld() {
         super.populateWorld()
         fadeTo(1, start: 0, duration: 0.5)
-
-        let boxSize = CGSize(width: size.width / 2, height: size.height)
-        greenBox.position = CGPoint(x: -size.width / 4)
-        greenBox.textureId(.FillColorBox(size: boxSize, color: 0x149C10))
-        redBox.position = CGPoint(x: size.width / 4)
-        redBox.textureId(.FillColorBox(size: boxSize, color: 0x8F000A))
-        for box in [greenBox, redBox] {
-            box.hidden = true
-            box.alpha = 0.5
-            box.z = .Bottom
-            self << box
-        }
-
-        setScale(1)
 
         let nodes = nextWorld.config.storedPlayers
         for node in nodes {
@@ -59,22 +42,11 @@ class UpgradeWorld: World {
         experienceTextNode.textScale = 2
         self << experienceTextNode
 
-        do {
-            var buildableNodes: [(Node, Int)] = []
-            let drone = DroneNode(at: CGPoint(x: 125, y: -20))
-
-            buildableNodes << (drone, 1000)
-
-            for (node, cost) in buildableNodes{
-                customizeBuildNode(node, cost: cost)
-                self << node
-            }
-        }
-
         let closeButton = Button()
-        closeButton.position = CGPoint(0, -135)
-        closeButton.text = "DONE"
-        closeButton.setScale(1.5)
+        closeButton.fixedPosition = .TopRight(x: -10, y: -20)
+        closeButton.text = "DONE >"
+        closeButton.textScale = 1
+        closeButton.alignment = .Right
         closeButton.onTapped { _ in
             self.nextWorld.config.storedPlayers = self.storedNodes.map { (node, pt) in
                 node.position = node.position - self.playersOffset
@@ -82,7 +54,7 @@ class UpgradeWorld: World {
             }
             self.director?.presentWorld(self.nextWorld)
         }
-        self << closeButton
+        self.ui << closeButton
     }
 
     private func addStoredNode(node: Node) {
@@ -121,12 +93,8 @@ class UpgradeWorld: World {
         touchableComponent.on(.DownInside) { _ in
             let canAfford = self.config.canAfford(cost)
             self.experienceTextNode.color = canAfford ? nil : 0xAE000E
-            self.redBox.hidden = canAfford
-            self.greenBox.hidden = !canAfford
         }
         touchableComponent.on(.Up) { _ in
-            self.redBox.hidden = true
-            self.greenBox.hidden = true
             self.experienceTextNode.color = nil
         }
         node.addComponent(touchableComponent)

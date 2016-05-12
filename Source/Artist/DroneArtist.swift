@@ -57,12 +57,12 @@ class DroneArtist: Artist {
         switch upgrade {
         case .Five, .Four:
             if health == 1 {
-                CGContextAddEllipseInRect(context, middle.rectWithSize(CGSize(ellipseRadius)))
+                CGContextAddEllipseInRect(context, middle.rect(size: CGSize(ellipseRadius)))
                 CGContextDrawPath(context, .Stroke)
             }
             else {
                 CGContextSetAlpha(context, 0.5)
-                CGContextAddEllipseInRect(context, middle.rectWithSize(CGSize(ellipseRadius)))
+                CGContextAddEllipseInRect(context, middle.rect(size: CGSize(ellipseRadius)))
                 CGContextDrawPath(context, .Stroke)
 
                 CGContextSetAlpha(context, 1)

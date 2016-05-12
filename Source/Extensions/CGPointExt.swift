@@ -78,8 +78,12 @@ extension CGPoint {
         )
     }
 
-    func rectWithSize(size: CGSize) -> CGRect {
+    func rect(size size: CGSize) -> CGRect {
         return CGRect(x: x - size.width / 2, y: y - size.height / 2, width: size.width, height: size.height)
+    }
+
+    func rect(radius radius: CGFloat) -> CGRect {
+        return rect(size: CGSize(r: radius))
     }
 
     // calculates a position between self and the target

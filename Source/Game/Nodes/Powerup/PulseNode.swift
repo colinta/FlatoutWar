@@ -19,7 +19,7 @@ class PulseNode: Node {
         private var radius: CGFloat = 0 {
             didSet {
                 let path = CGPathCreateMutable()
-                CGPathAddEllipseInRect(path, nil, CGPoint.zero.rectWithSize(CGSize(r: radius)))
+                CGPathAddEllipseInRect(path, nil, CGPoint.zero.rect(size: CGSize(r: radius)))
                 node.path = path
             }
         }

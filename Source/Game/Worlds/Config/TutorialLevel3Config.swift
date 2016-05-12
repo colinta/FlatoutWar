@@ -8,9 +8,10 @@
 
 class TutorialLevel3Config: BaseConfig {
     override var canUpgrade: Bool { return false }
+    override var availableTurrets: [Turret] { return [] }
 
-    override var possibleExperience: Int { return 130 }
-    override func tutorial() -> Tutorial? { return RapidFireTutorial() }
+    override var possibleExperience: Int { return 120 }
+    override func tutorial() -> Tutorial? { return PowerupTutorial() }
     override func nextLevel() -> BaseLevel {
         return TutorialLevel4()
     }

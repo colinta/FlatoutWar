@@ -13,7 +13,7 @@ class NetPowerupArtist: PowerupArtist {
     override func draw(context: CGContext) {
         super.draw(context)
 
-        CGContextAddEllipseInRect(context, middle.rectWithSize(size))
+        CGContextAddEllipseInRect(context, middle.rect(size: size))
         if fill {
             CGContextDrawPath(context, .FillStroke)
         }
