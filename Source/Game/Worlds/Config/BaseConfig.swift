@@ -7,12 +7,14 @@
 //
 
 class BaseConfig: Config {
-    // display powerup at startup?
     var canPowerup: Bool { return true }
-    // display upgrades at level end?
     var canUpgrade: Bool { return true }
+    var trackExperience: Bool { return true }
+    var trackResources: Bool { return true }
 
     var possibleExperience: Int { return 0 }
+    var requiredExperience: Int { return 0 }
+    var requiredResources: Int { return 0 }
     var gainedExperience: Int {
         get { return Defaults["\(configKey)-gainedExperience"].int ?? 0 }
     }

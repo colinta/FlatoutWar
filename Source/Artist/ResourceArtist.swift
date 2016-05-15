@@ -6,9 +6,11 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
+let ResourceBlue = 0x1158D9
+
 class ResourceArtist: Artist {
     let remaining: CGFloat
-    var color = UIColor(hex: 0x1158D9)
+    var color = UIColor(hex: ResourceBlue)
 
     required init(amount: CGFloat, remaining: CGFloat) {
         self.remaining = remaining

@@ -17,6 +17,9 @@ class BasePlayerNode: Node {
     var forceFireEnabled: Bool?
     var forceFireBurnout = false
     var resourceDrag = false
+    private let resourceLine = SKSpriteNode()
+    private var resourceLock: CGPoint?
+
     var turret: Turret = SimpleTurret() {
         didSet {
             radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
@@ -69,7 +72,7 @@ class BasePlayerNode: Node {
 
         radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
         radarNode.anchorPoint = CGPoint(0, 0.5)
-        radarNode.z = .Radar
+        radarNode.z = .BelowPlayer
         self << radarNode
 
         baseNode.textureId(.Base(upgrade: radarUpgrade, health: 100))
@@ -77,13 +80,19 @@ class BasePlayerNode: Node {
         self << baseNode
 
         turretNode.textureId(turret.spriteId(upgrade: turretUpgrade))
-        turretNode.z = .Turret
+        turretNode.z = .AbovePlayer
         self << turretNode
 
         forceFirePercent.style = .Heat
         forceFirePercent.position = CGPoint(x: 25)
         forceFirePercent.complete = 0
         self << forceFirePercent
+
+        resourceLine.hidden = true
+        resourceLine.z = .BelowPlayer
+        resourceLine.anchorPoint = CGPoint(0, 0.5)
+        resourceLine.alpha = 0.5
+        self << resourceLine
 
         let playerComponent = PlayerComponent()
         playerComponent.intersectionNode = baseNode
@@ -98,7 +107,8 @@ class BasePlayerNode: Node {
         let touchableComponent = TouchableComponent()
         touchableComponent.on(.Tapped, onTouchTapped)
         touchableComponent.on(.DragBegan, onDragBegan)
-        touchableComponent.onDragged(onTouchDragged)
+        touchableComponent.on(.DragEnded, onDragEnded)
+        touchableComponent.onDragged(onDragged)
         addComponent(touchableComponent)
 
         let rotateToComponent = RotateToComponent()
@@ -331,16 +341,51 @@ extension BasePlayerNode {
 
     func onDragBegan(location: CGPoint) {
         resourceDrag = location.lengthWithin(self.radius)
+        resourceLine.textureId(.None)
+        resourceLine.visible = resourceDrag
+        resourceLine.alpha = 0.5
+        resourceLock = nil
     }
 
-    func onTouchDragged(prevLocation: CGPoint, location: CGPoint) {
+    func onDragged(prev prevLocation: CGPoint, location: CGPoint) {
         if resourceDrag {
+            if let world = world,
+                level = world as? ResourceWorld
+            where resourceLock == nil
+            {
+                let dragLocation = world.convertPosition(self) + location
+                for node in world.children {
+                    if let resourceNode = node as? ResourceNode
+                    where !resourceNode.locked &&
+                        dragLocation.distanceTo(resourceNode.position, within: resourceNode.radius)
+                    {
+                        level.playerFoundResource(resourceNode)
+                        resourceLock = convertPosition(resourceNode)
+                        break
+                    }
+                }
+            }
+
+            let resourcePoint: CGPoint
+            if let resourceLock = resourceLock {
+                resourcePoint = resourceLock
+                resourceLine.alpha = 1
+            }
+            else {
+                resourcePoint = location
+            }
+            resourceLine.textureId(.ResourceLine(length: resourcePoint.length))
+            resourceLine.zRotation = resourcePoint.angle
         }
         else {
             let angle = prevLocation.angleTo(location, around: position)
             let destAngle = rotateToComponent?.destAngle ?? 0
             startRotatingTo(destAngle + angle)
         }
+    }
+
+    func onDragEnded(location: CGPoint) {
+        resourceLine.visible = false
     }
 
     func startRotatingTo(angle: CGFloat) {

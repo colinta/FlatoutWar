@@ -55,6 +55,7 @@ class WorldSelectWorld: World {
             button.style = .SquareSized(50)
             button.font = .Big
             button.onTapped {
+                self.interactionEnabled = false
                 self.transitionTo0()
             }
             button.text = "0"
@@ -67,6 +68,7 @@ class WorldSelectWorld: World {
             button.font = .Big
             button.enabled = TutorialConfigSummary().worldCompleted
             button.onTapped {
+                self.interactionEnabled = false
                 self.transitionTo1()
             }
             button.text = "1"
@@ -82,22 +84,24 @@ class WorldSelectWorld: World {
         }
     }
 
-    func transitionToLevel(at at: CGPoint, animate: Bool) -> Node {
+    func transitionToLevel(at levelLocation: CGPoint, animate: Bool) -> Node {
         let levelSelect = Node()
-        levelSelect.position = worldLocations[.Tutorial]!
+        levelSelect.position = levelLocation
         self << levelSelect
 
         if animate {
+            timeline.after(1) { self.interactionEnabled = true }
             worldSelect.fadeTo(0, duration: 1)
             worldSelect.scaleTo(1.5, duration: 1)
-            moveCamera(to: worldLocations[.Tutorial]!, duration: 1)
+            moveCamera(to: levelLocation, duration: 1)
             levelSelect.fadeTo(1, start: 0, duration: 1)
             levelSelect.scaleTo(1, start: 0.5, duration: 1)
         }
         else {
+            interactionEnabled = true
             worldSelect.alpha = 0
             worldSelect.setScale(1.5)
-            moveCamera(from: worldLocations[.Tutorial]!)
+            moveCamera(from: levelLocation)
             levelSelect.alpha = 1
             levelSelect.setScale(1)
         }
@@ -106,7 +110,9 @@ class WorldSelectWorld: World {
         backButton.text = "<"
         backButton.font = .Big
         backButton.size = CGSize(width: 15, height: 15)
-        backButton.onTapped { [unowned self] in
+        backButton.onTapped {
+            self.interactionEnabled = false
+            self.timeline.after(1) { self.interactionEnabled = true }
             levelSelect.fadeTo(0, duration: 1, removeNode: true)
             levelSelect.scaleTo(0.5, duration: 1)
             self.worldSelect.fadeTo(1, duration: 1)
@@ -126,7 +132,7 @@ class WorldSelectWorld: World {
         tutorialButton.text = "?"
         tutorialButton.font = .Big
         tutorialButton.size = CGSize(width: 15, height: 15)
-        tutorialButton.onTapped { [unowned self] in
+        tutorialButton.onTapped {
             self.director?.presentWorld(TutorialSelectWorld())
         }
         levelSelect << tutorialButton
@@ -158,6 +164,7 @@ class WorldSelectWorld: World {
             (2, 2, TutorialLevel3()),
             (2, 3, TutorialLevel4()),
             (3, 3, TutorialLevel5()),
+            (3, 2, TutorialLevel6()),
         ]
         let d: CGFloat = 65
         for (xd, yd, level) in levels {
@@ -175,7 +182,6 @@ class WorldSelectWorld: World {
 // MARK: BASE
     func transitionTo1(animate animate: Bool = true) {
         let levelSelect = transitionToLevel(at: worldLocations[.Base]!, animate: animate)
-
 
         let enemyPositions = [
             CGPoint(x: 180, y:-20),

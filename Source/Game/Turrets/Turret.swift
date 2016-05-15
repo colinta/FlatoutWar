@@ -31,7 +31,7 @@ class Turret {
         body.z = .Player
 
         let turret = SKSpriteNode(id: spriteId(upgrade: .One))
-        turret.z = .Turret
+        turret.z = .AbovePlayer
 
         let node = Node()
         node << body

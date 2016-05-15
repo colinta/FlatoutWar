@@ -20,6 +20,9 @@ class BaseLevel: Level {
         }
     }
 
+    var experiencePercent: ExperiencePercent!
+    var resourcePercent: ResourcePercent!
+
     var shouldReturnToLevelSelect = false
     private var _config: BaseConfig?
     var config: BaseConfig {
@@ -90,8 +93,30 @@ class BaseLevel: Level {
         shouldPopulatePlayer = false
     }
 
+    override func didAdd(node: Node) {
+        super.didAdd(node)
+        if let enemyComponent = node.enemyComponent,
+            healthComponent = node.healthComponent
+        {
+            healthComponent.onKilled {
+                self.experiencePercent.gain(enemyComponent.experience)
+            }
+        }
+    }
+
     override func populateWorld() {
         super.populateWorld()
+
+        experiencePercent = ExperiencePercent(goal: config.requiredExperience)
+        resourcePercent = ResourcePercent(goal: config.requiredResources)
+
+        if config.trackExperience {
+            ui << experiencePercent
+        }
+
+        if config.trackResources {
+            ui << resourcePercent
+        }
 
         setScale(2)
         fadeTo(1, start: 0, duration: 0.5)
@@ -202,6 +227,33 @@ class BaseLevel: Level {
 
 }
 
+extension BaseLevel: ResourceWorld {
+
+    func playerFoundResource(resourceNode: ResourceNode) {
+        resourceNode.locked = true
+        resourceNode.disableMovingComponents()
+
+        let resourcePoint = playerNode.convertPosition(resourceNode)
+        let resourceLine = SKSpriteNode()
+        resourceLine.anchorPoint = CGPoint(0, 0.5)
+        resourceLine.z = .BelowPlayer
+        resourceLine.position = self.playerNode.position
+        resourceLine.textureId(.ResourceLine(length: resourcePoint.length))
+        resourceLine.zRotation = resourcePoint.angle
+        self << resourceLine
+
+        let resourceCollector = ResourceCollector(resource: resourceNode)
+        resourceCollector.resourceLine = resourceLine
+        resourceCollector.position = playerNode.position
+
+        resourceCollector.onHarvest { harvested in
+            self.resourcePercent.gain(harvested)
+        }
+        self << resourceCollector
+    }
+
+}
+
 extension BaseLevel {
 
     func populatePowerups() {
@@ -261,41 +313,37 @@ extension BaseLevel {
             config.updateMaxGainedExperience(gainedExperience)
             config.nextLevel().config.storedPlayers = self.players
 
-            let percentNode = PercentBar(at: CGPoint(x: 50, y: 0))
+            let percentNode = PercentBar(at: CGPoint(x: 60, y: 0))
             self << percentNode
 
-            let totalText = TextNode(at: CGPoint(x: 100, y: 10))
-            totalText.text = "\(possibleExperience)"
-            totalText.font = .Big
-            self << totalText
-
-            let currentText = TextNode(at: CGPoint(x: 30, y: -30))
-            currentText.text = "0"
-            currentText.font = .Big
+            let currentText = TextNode(at: CGPoint(x: 30, y: 30))
+            currentText.text = "0%"
+            currentText.font = .Small
             self << currentText
 
-            let maxCount = CGFloat(gainedExperience)
+            let maxCount = CGFloat(gainedExperience / possibleExperience)
             var countEmUp: CGFloat = 0
-            var countEmUpIncrement: CGFloat = 0.1
+            var countEmUpIncrement: CGFloat = 0.025
             let countEmUpRate: CGFloat = 0.03
             finalTimeline.every(countEmUpRate, start: 2, until: { countEmUp >= maxCount }) {
                 countEmUp = min(countEmUp + countEmUpIncrement, maxCount)
                 countEmUpIncrement *= 1.05
 
-                percentNode.complete = countEmUp / CGFloat(self.possibleExperience)
-                currentText.text = "\(Int(round(countEmUp * 10)) / 10)"
+                percentNode.complete = countEmUp
+                currentText.text = "\(Int(round(countEmUp * 1000)) / 10)%"
                 currentText.position.x = CGFloat(30) + percentNode.complete * percentNode.size.width
             }
 
             finalTimeline.when({ countEmUp >= maxCount }) {
-                currentText.text = "\(self.gainedExperience)"
+                currentText.text = "\(Int(round(maxCount * 100)))%"
+
+                self.restartButton.visible = true
+                self.backButton.visible = true
 
                 if self.shouldReturnToLevelSelect {
-                    self.backButton.visible = true
                     self.backButton.fixedPosition = .Top(x: 0, y: 80)
                 }
                 else {
-                    self.backButton.visible = true
                     self.nextButton.visible = true
                 }
             }

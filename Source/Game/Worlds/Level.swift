@@ -8,11 +8,12 @@
 
 class Level: World {
     let pauseButton = PauseButton()
+    let quitButton = Button()
     let resumeButton = Button()
+
     let restartButton = Button()
     let backButton = Button()
     let nextButton = Button()
-    let quitButton = Button()
 
     var possibleExperience = 0
     var gainedExperience = 0
@@ -26,6 +27,28 @@ class Level: World {
 
     required init() {
         super.init()
+
+        pauseButton.setScale(0.5)
+        pauseButton.fixedPosition = .TopRight(x: -20, y: -20)
+        pauseButton.text = "||"
+        pauseButton.font = .Big
+        pauseButton.size = CGSize(80)
+        pauseButton.onTapped { _ in
+            if self.worldPaused {
+                self.unpause()
+            }
+            else {
+                self.pause()
+            }
+        }
+
+        quitButton.fixedPosition = .Center(x: 0, y: 80)
+        quitButton.visible = false
+        quitButton.text = "QUIT"
+        quitButton.font = .Big
+        quitButton.onTapped {
+            self.goToLevelSelect()
+        }
 
         resumeButton.fixedPosition = .Center(x: 0, y: -80)
         resumeButton.visible = false
@@ -43,28 +66,6 @@ class Level: World {
             self.restartWorld()
         }
 
-        quitButton.fixedPosition = .Center(x: 0, y: 80)
-        quitButton.visible = false
-        quitButton.text = "QUIT"
-        quitButton.font = .Big
-        quitButton.onTapped {
-            self.goToLevelSelect()
-        }
-
-        pauseButton.setScale(0.5)
-        pauseButton.fixedPosition = .TopRight(x: -20, y: -20)
-        pauseButton.text = "||"
-        pauseButton.font = .Big
-        pauseButton.size = CGSize(80)
-        pauseButton.onTapped { _ in
-            if self.worldPaused {
-                self.unpause()
-            }
-            else {
-                self.pause()
-            }
-        }
-
         backButton.fixedPosition = .Top(x: -20, y: 80)
         backButton.text = "BACK"
         backButton.visible = false
@@ -79,10 +80,11 @@ class Level: World {
         nextButton.font = .Big
         nextButton.onTapped(self.goToNextWorld)
 
-        ui << resumeButton
-        ui << restartButton
-        ui << quitButton
         ui << pauseButton
+        ui << quitButton
+        ui << resumeButton
+
+        ui << restartButton
         ui << backButton
         ui << nextButton
     }

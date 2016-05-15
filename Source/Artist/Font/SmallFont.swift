@@ -73,6 +73,20 @@ let SmallFont = Font(
         CGPoint(0, 3),
         CGPoint(4, 6),
     ]]),
+    "%": Letter(style: .Loop, size: defaultSize, points: [[
+        CGPoint(0, 0),
+        CGPoint(1, 0),
+        CGPoint(1, 1),
+        CGPoint(0, 1),
+    ], [
+        CGPoint(4, 0),
+        CGPoint(0, 6),
+    ], [
+        CGPoint(3, 5),
+        CGPoint(4, 5),
+        CGPoint(4, 6),
+        CGPoint(3, 6),
+    ]]),
     "0": Letter(style: .Loop, size: defaultSize, points: [[
         CGPoint(0, 0),
         CGPoint(4, 0),

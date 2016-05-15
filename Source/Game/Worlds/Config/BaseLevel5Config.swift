@@ -7,6 +7,11 @@
 //
 
 class BaseLevel5Config: BaseConfig {
-    override var possibleExperience: Int { return 1000 }
+    override var possibleExperience: Int { return 2 }
+    override var requiredExperience: Int { return 0 }
+    override var requiredResources: Int { return 0 }
 
+    override func nextLevel() -> BaseLevel {
+        return BaseLevel5()
+    }
 }

@@ -90,7 +90,7 @@ public func afterN(block: Block) -> (() -> Block) {
     }
 }
 
-public func after(times: Int, block: Block) -> Block {
+public func after(times: Int, _ block: Block) -> Block {
     if times == 0 {
         block()
         return {}

@@ -7,23 +7,40 @@
 //
 
 enum PercentStyle {
-    static let Default: PercentStyle = .Green
-    case Green
+    static let Default: PercentStyle = .Experience
+    case Experience
+    case Resource
     case Heat
+
+    var color: Int {
+        switch self {
+        case .Experience: return 0x3E8012
+        case .Resource: return 0xFFFFFF
+        default: return 0
+        }
+    }
+    var completeColor: Int {
+        switch self {
+        case .Experience: return 0x5BBC1A
+        case .Resource: return ResourceBlue
+        default: return 0
+        }
+    }
+
 }
 
 class PercentArtist: Artist {
     var complete: CGFloat = 1.0
-    private var color = UIColor(hex: 0x3E8012)
     var style: PercentStyle
-    var completeColor = UIColor(hex: 0x5BBC1A)
 
     required init(style: PercentStyle) {
         self.style = style
         super.init()
         switch style {
-        case .Green:
-            size = CGSize(width: 40, height: 5)
+        case .Experience:
+            size = CGSize(width: 60, height: 5)
+        case .Resource:
+            size = CGSize(width: 60, height: 4)
         case .Heat:
             size = CGSize(width: 4, height: 35)
         }
@@ -35,15 +52,16 @@ class PercentArtist: Artist {
 
     override func draw(context: CGContext) {
         switch style {
-        case .Green:
+        case .Experience, .Resource:
+            let smallWidth = size.width * complete
             CGContextSetAlpha(context, 0.5)
-            CGContextSetFillColorWithColor(context, color.CGColor)
-            CGContextAddRect(context, CGRect(origin: CGPoint(x: 0, y: 0), size: size))
+            CGContextSetFillColorWithColor(context, UIColor(hex: style.color).CGColor)
+            CGContextAddRect(context, CGRect(origin: .zero, size: size))
             CGContextDrawPath(context, .Fill)
 
-            let smallWidth = size.width * complete
-            CGContextSetFillColorWithColor(context, completeColor.CGColor)
-            CGContextAddRect(context, CGRect(x: 0, y: 0, width: smallWidth, height: size.height))
+            CGContextSetAlpha(context, 1)
+            CGContextSetFillColorWithColor(context, UIColor(hex: style.completeColor).CGColor)
+            CGContextAddRect(context, CGRect(origin: .zero, size: CGSize(smallWidth, size.height)))
             CGContextDrawPath(context, .Fill)
         case .Heat:
             let smallHeight = size.height * complete

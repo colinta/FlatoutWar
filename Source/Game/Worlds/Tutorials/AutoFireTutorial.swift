@@ -7,13 +7,31 @@
 //
 
 class AutoFireTutorial: Tutorial {
+    let experiencePercent = ExperiencePercent(goal: 5)
+
+    override func didAdd(node: Node) {
+        super.didAdd(node)
+        if let enemyComponent = node.enemyComponent,
+            healthComponent = node.healthComponent
+        {
+            healthComponent.onKilled {
+                self.experiencePercent.gain(enemyComponent.experience)
+            }
+        }
+    }
 
     override func populateWorld() {
         super.populateWorld()
 
+        experiencePercent.fixedPosition = .BottomRight(x: -35, y: 30)
+        ui << experiencePercent
         tutorialTextNode.text = "AUTO AIM"
 
         timeline.at(1) {
+            self.showWhy([
+                "EXPERIENCE IS USED FOR UPGRADES",
+                "AND TO COMPLETE LEVEL GOALS",
+            ])
             self.showFirstEnemies()
         }
         timeline.at(3.25) {

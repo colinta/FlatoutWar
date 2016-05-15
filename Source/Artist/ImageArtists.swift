@@ -195,6 +195,11 @@ extension ImageIdentifier {
         case let .Resource(amount, remaining):
             let artist = ResourceArtist(amount: CGFloat(amount), remaining: CGFloat(remaining) / CGFloat(amount))
             return artist
+        case let .ResourceLine(length):
+            let color = UIColor(hex: ResourceBlue)
+            let artist = LineArtist(length, color)
+            artist.lineWidth = 2
+            return artist
         case .Cursor:
             let artist = CursorArtist()
             return artist
@@ -255,6 +260,11 @@ extension ImageIdentifier {
             let color = UIColor(hue: CGFloat(hue) / 255, saturation: 1, brightness: 1, alpha: 1)
             let artist = RectArtist(size, color)
             artist.drawingMode = .Stroke
+            return artist
+        case let .FillColorCircle(size, color):
+            let color = UIColor(hex: color)
+            let artist = CircleArtist(size, color)
+            artist.drawingMode = .Fill
             return artist
         case let .FillColorBox(size, color):
             let color = UIColor(hex: color)

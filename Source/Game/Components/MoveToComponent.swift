@@ -7,8 +7,10 @@
 //
 
 class MoveToComponent: ApplyToNodeComponent {
+    private var resetTarget = false
     var target: CGPoint? {
         didSet {
+            resetTarget = false
             if _duration != nil && target != nil {
                 _speed = nil
             }
@@ -32,6 +34,8 @@ class MoveToComponent: ApplyToNodeComponent {
     }
 
     private var currentPosition: CGPoint { return node.position }
+    private var savedPosition: CGPoint?
+    private var savedVector: CGPoint?
 
     typealias OnArrived = () -> Void
     private var _onArrived: [OnArrived] = []
@@ -40,7 +44,11 @@ class MoveToComponent: ApplyToNodeComponent {
     }
 
     func removeComponentOnArrived() {
-        self.onArrived(removeFromNode)
+        self.onArrived {
+            if self.resetTarget {
+                self.removeFromNode()
+            }
+        }
     }
 
     func removeNodeOnArrived() {
@@ -81,16 +89,31 @@ class MoveToComponent: ApplyToNodeComponent {
                 applyTo.position = target
             }
 
+            resetTarget = true
             for handler in _onArrived {
                 handler()
             }
-            self.target = nil
+
+            savedVector = nil
+            savedPosition = nil
+            if resetTarget {
+                self.target = nil
+            }
         }
         else {
-            let destAngle = currentPosition.angleTo(target)
-            let vector = CGPoint(r: speed, a: destAngle)
-            let newPosition = currentPosition + dt * vector
+            let vector: CGPoint
+            if let savedVector = savedVector, savedPosition = savedPosition
+            where savedPosition == target {
+                vector = savedVector
+            }
+            else {
+                let destAngle = currentPosition.angleTo(target)
+                vector = CGPoint(r: speed, a: destAngle)
+                savedVector = vector
+                savedPosition = target
+            }
 
+            let newPosition = currentPosition + dt * vector
             apply { applyTo in
                 applyTo.position = newPosition
             }
@@ -111,19 +134,34 @@ extension Node {
     }
 
     func moveTo(dest: CGPoint, start: CGPoint? = nil, duration: CGFloat? = nil, speed: CGFloat? = nil, removeNode: Bool = false, removeComponent: Bool = true) -> MoveToComponent {
-        let moveTo = moveToComponent ?? MoveToComponent()
+        let moveTo: MoveToComponent
+        if let moveToComponent = moveToComponent {
+            moveTo = moveToComponent
+            moveTo.resetTarget = false
+        }
+        else {
+            moveTo = MoveToComponent()
+        }
+
         if let start = start {
             self.position = start
         }
         moveTo.target = dest
-        moveTo.duration = duration
-        moveTo.speed = speed
+        if let duration = duration {
+            moveTo.duration = duration
+        }
+
+        if let speed = speed {
+            moveTo.speed = speed
+        }
+
         if removeNode {
             moveTo.removeNodeOnArrived()
         }
         else if removeComponent {
             moveTo.removeComponentOnArrived()
         }
+
         if moveToComponent == nil {
             addComponent(moveTo)
         }

@@ -12,7 +12,10 @@ class TutorialLevel2Config: BaseConfig {
     override var availableTurrets: [Turret] { return [] }
 
     override var possibleExperience: Int { return 100 }
-    override func tutorial() -> Tutorial? { return AutoFireTutorial() }
+    override var requiredExperience: Int { return 0 }
+    override var requiredResources: Int { return 0 }
+
+    override func tutorial() -> Tutorial? { return ResourceTutorial() }
     override func nextLevel() -> BaseLevel {
         return TutorialLevel3()
     }

@@ -26,6 +26,24 @@ class Tutorial: World {
         self.director?.presentWorld(nextWorld ?? WorldSelectWorld(beginAt: .Tutorial))
     }
 
+    func showWhy(lines: [String]) {
+        var y: CGFloat = -125
+        var delay: CGFloat = 0
+        for line in lines {
+            let why = TextNode()
+            why.textScale = 0.5
+            why.text = line
+            why.position = CGPoint(x: 50, y: y)
+            why.alpha = 0
+            timeline.after(delay) {
+                why.fadeTo(1, duration: 0.4)
+            }
+            self << why
+            delay += 0.2
+            y -= 20
+        }
+    }
+
     func addContinueButton() {
         let continueButton = Button(fixed: .Right(x: -75, y: 0))
         continueButton.setScale(1.5)

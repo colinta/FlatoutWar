@@ -231,6 +231,18 @@ extension Node {
 
 extension Node {
 
+    func disableMovingComponents() {
+        arcToComponent?.enabled = false
+        flyingComponent?.enabled = false
+        jiggleComponent?.enabled = false
+        keepMovingComponent?.enabled = false
+        keepRotatingComponent?.enabled = false
+        moveToComponent?.enabled = false
+        rammingComponent?.enabled = false
+        rotateToComponent?.enabled = false
+        wanderingComponent?.enabled = false
+    }
+
     func addComponent(component: Component) {
         component.node = self
         components << component

@@ -6,7 +6,12 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
+protocol ResourceWorld: class {
+    func playerFoundResource(resourceNode: ResourceNode)
+}
+
 class ResourceNode: Node {
+    var locked = false
     let sprite = SKSpriteNode()
     let amount: Int
     var remaining: Int {
@@ -21,7 +26,8 @@ class ResourceNode: Node {
         super.init()
         self << sprite
         updateSprite()
-        size = CGSize(20)
+        size = sprite.size
+        keepRotating()
     }
 
     required convenience init() {
@@ -42,6 +48,11 @@ class ResourceNode: Node {
 
     func updateSprite() {
         sprite.textureId(.Resource(amount: amount, remaining: remaining))
+    }
+
+    override func disableMovingComponents() {
+        super.disableMovingComponents()
+        keepRotatingComponent?.enabled = true
     }
 
 }

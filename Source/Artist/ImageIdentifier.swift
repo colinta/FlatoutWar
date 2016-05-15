@@ -78,6 +78,7 @@ enum ImageIdentifier {
     case Turret(upgrade: FiveUpgrades, health: Int)
     case TurretRadar(upgrade: FiveUpgrades)
     case Resource(amount: Int, remaining: Int)
+    case ResourceLine(length: CGFloat)
 
     case Cursor
     case Base(upgrade: FiveUpgrades, health: Int)
@@ -96,6 +97,7 @@ enum ImageIdentifier {
     case ColorCircle(size: CGSize, color: Int)
     case ColorBox(size: CGSize, color: Int)
     case HueBox(size: CGSize, hue: Int)
+    case FillColorCircle(size: CGSize, color: Int)
     case FillColorBox(size: CGSize, color: Int)
     case FillHueBox(size: CGSize, hue: Int)
 
@@ -186,6 +188,9 @@ enum ImageIdentifier {
             return "Cursor"
         case let .Resource(amount, remaining):
             return "Resource(amount:\(amount),remaining:\(remaining))"
+        case let .ResourceLine(length):
+            let roundedLength = Int(round(length * 20))
+            return "ResourceLine(length:\(roundedLength))"
         case let .Shield(phase):
             return "Shield(phase:\(phase))"
         case let .ShieldSegment(health):
@@ -220,6 +225,8 @@ enum ImageIdentifier {
             return "ColorBox(size\(Int(size.width))x\(Int(size.height)),color:\(color))"
         case let .HueBox(size, hue):
             return "HueBox(size\(Int(size.width))x\(Int(size.height)),hue:\(hue))"
+        case let .FillColorCircle(size, color):
+            return "FillColorCircle(size\(Int(size.width))x\(Int(size.height)),color:\(color))"
         case let .FillColorBox(size, color):
             return "FillColorBox(size\(Int(size.width))x\(Int(size.height)),color:\(color))"
         case let .FillHueBox(size, hue):
