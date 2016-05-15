@@ -16,7 +16,7 @@ class TutorialLevel2Config: BaseConfig {
     override var requiredResources: Int { return 0 }
 
     override func tutorial() -> Tutorial? { return ResourceTutorial() }
-    override func nextLevel() -> BaseLevel {
+    override func nextLevel() -> Level {
         return TutorialLevel3()
     }
 

@@ -59,7 +59,7 @@ class BaseConfig: Config {
         Defaults["\(configKey)-gainedExperience"] = min(max(exp, gainedExperience), possibleExperience)
     }
 
-    func nextLevel() -> BaseLevel {
+    func nextLevel() -> Level {
         fatalError("nextLevel() has not been implemented by \(self.dynamicType)")
     }
 

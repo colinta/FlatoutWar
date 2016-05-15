@@ -11,7 +11,7 @@ class BaseLevel2Config: BaseConfig {
     override var requiredExperience: Int { return 0 }
     override var requiredResources: Int { return 0 }
 
-    override func nextLevel() -> BaseLevel {
+    override func nextLevel() -> Level {
         return BaseLevel3()
     }
 

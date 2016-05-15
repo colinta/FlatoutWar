@@ -77,7 +77,7 @@ enum ImageIdentifier {
     case Drone(upgrade: FiveUpgrades, health: Int)
     case Turret(upgrade: FiveUpgrades, health: Int)
     case TurretRadar(upgrade: FiveUpgrades)
-    case Resource(amount: Int, remaining: Int)
+    case Resource(goal: Int, remaining: Int)
     case ResourceLine(length: CGFloat)
 
     case Cursor

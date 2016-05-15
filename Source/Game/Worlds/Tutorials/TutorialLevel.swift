@@ -6,7 +6,7 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-class TutorialLevel: BaseLevel {
+class TutorialLevel: Level {
 
     required init() {
         super.init()

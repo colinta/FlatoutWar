@@ -8,18 +8,18 @@
 
 
 class WorldSelectWorld: World {
-    var worldLocations: [Level: CGPoint]!
+    var worldLocations: [LevelId: CGPoint]!
     var worldSelect: Node!
-    var beginAt: Level = .Select
+    var beginAt: LevelId = .Select
 
-    enum Level {
+    enum LevelId {
         case PanIn
         case Select
         case Tutorial
         case Base
     }
 
-    convenience init(beginAt: Level) {
+    convenience init(beginAt: LevelId) {
         self.init()
         self.beginAt = beginAt
     }
@@ -156,9 +156,9 @@ class WorldSelectWorld: World {
             levelSelect << enemyNode
         }
 
-        var prevLevel: BaseLevel?
+        var prevLevel: Level?
         var levelIndex = 0
-        let levels: [(CGFloat, CGFloat, BaseLevel)] = [
+        let levels: [(CGFloat, CGFloat, Level)] = [
             (1, 1, TutorialLevel1()),
             (2, 1, TutorialLevel2()),
             (2, 2, TutorialLevel3()),
@@ -202,9 +202,9 @@ class WorldSelectWorld: World {
             levelSelect << enemyNode
         }
 
-        var prevLevel: BaseLevel?
+        var prevLevel: Level?
         var levelIndex = 0
-        let levels: [(CGFloat, CGFloat, BaseLevel)] = [
+        let levels: [(CGFloat, CGFloat, Level)] = [
             (1, 1, BaseLevel1()),
             (2, 1, BaseLevel2()),
             (3, 1, BaseLevel3()),
@@ -229,7 +229,7 @@ class WorldSelectWorld: World {
 }
 
 extension WorldSelectWorld {
-    func generateButton(at center: CGPoint, level: BaseLevel, prevLevel: BaseLevel?, present presentWorld: World? = nil) -> Button {
+    func generateButton(at center: CGPoint, level: Level, prevLevel: Level?, present presentWorld: World? = nil) -> Button {
         let button = Button(at: center)
         let completed = prevLevel?.config.levelCompleted ?? true
         button.enabled = completed

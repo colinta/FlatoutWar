@@ -16,7 +16,7 @@ class TutorialLevel1Config: BaseConfig {
     override var requiredExperience: Int { return 90 }
 
     override func tutorial() -> Tutorial? { return AutoFireTutorial() }
-    override func nextLevel() -> BaseLevel {
+    override func nextLevel() -> Level {
         return TutorialLevel2()
     }
 
