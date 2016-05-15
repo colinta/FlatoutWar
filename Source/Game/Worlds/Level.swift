@@ -66,7 +66,7 @@ class Level: World {
     }
 
     required init() {
-        levelSelect = .Base
+        levelSelect = .Select
         super.init()
     }
 

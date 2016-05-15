@@ -6,7 +6,7 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-class BaseLevel1: Level {
+class BaseLevel1: BaseLevel {
 
     override func loadConfig() -> BaseConfig { return BaseLevel1Config() }
     override func goToNextWorld() {

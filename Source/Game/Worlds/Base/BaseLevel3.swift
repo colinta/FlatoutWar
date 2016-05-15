@@ -6,7 +6,7 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-class BaseLevel3: Level {
+class BaseLevel3: BaseLevel {
 
     override func loadConfig() -> BaseConfig { return BaseLevel3Config() }
 
