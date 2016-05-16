@@ -25,10 +25,7 @@ extension Level {
     }
 
     func generateResource(amount: Int) -> Block {
-        return {
-            let resourceNode = ResourceNode(goal: amount)
-            self << resourceNode
-        }
+        return {}
     }
 
     func generateEnemy(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561, constRadius: Bool = false) -> Block {
