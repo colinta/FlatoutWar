@@ -62,13 +62,7 @@ class EnemySoldierNode: Node {
         rammingComponent.intersectionNode = sprite
         rammingComponent.bindTo(targetingComponent: targetingComponent)
         rammingComponent.maxSpeed = EnemySoldierNode.DefaultSoldierSpeed
-        rammingComponent.onRammed { player in
-            player.healthComponent?.inflict(self.rammingDamage)
-            self.rammingDamage = 0
-            rammingComponent.enabled = false
-            self.generateRammingExplosion()
-            self.scaleTo(0, duration: 0.1, removeNode: true)
-        }
+        rammingComponent.onRammed(self.onRammed)
         addComponent(rammingComponent)
 
         addComponent(RotateToComponent())
@@ -80,6 +74,14 @@ class EnemySoldierNode: Node {
 
     override func encodeWithCoder(encoder: NSCoder) {
         super.encodeWithCoder(encoder)
+    }
+
+    func onRammed(player: Node) {
+        player.healthComponent?.inflict(rammingDamage)
+        rammingDamage = 0
+        rammingComponent?.enabled = false
+        generateRammingExplosion()
+        scaleTo(0, duration: 0.1, removeNode: true)
     }
 
     func enemyType() -> ImageIdentifier.EnemyType {

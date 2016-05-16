@@ -27,12 +27,7 @@ class EnemyJetNode: EnemySoldierNode {
         flyingComponent.bindTo(targetingComponent: playerTargetingComponent!)
         flyingComponent.maxSpeed = EnemyJetNode.DefaultJetSpeed
         flyingComponent.maxTurningSpeed = EnemyJetNode.DefaultJetSpeed
-        flyingComponent.onRammed { player in
-            player.healthComponent?.inflict(self.rammingDamage)
-
-            self.generateRammingExplosion()
-            self.scaleTo(0, duration: 0.1, removeNode: true)
-        }
+        flyingComponent.onRammed(self.onRammed)
         rammingComponent!.removeFromNode()
         addComponent(flyingComponent)
 
