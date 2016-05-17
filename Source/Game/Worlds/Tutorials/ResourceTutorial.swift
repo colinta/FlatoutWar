@@ -57,7 +57,7 @@ class ResourceTutorial: Tutorial, ResourceWorld {
             CGPoint(x: 0, y: -100),
             control: CGPoint(x: 200, y: -100),
             start: CGPoint(x: 200, y: 100),
-            duration: 5)
+            speed: 50)
         arcTo.rotate = false
         self << firstResource
 

@@ -7,16 +7,20 @@
 //
 
 private let oneFrame: CGFloat = 0.016666666666666666
+private let accuracy: CGFloat = 0.05
 
 class ArcToComponent: ApplyToNodeComponent {
     var target: CGPoint?
     var arcOffset: CGFloat = 0.5
-    var duration: CGFloat?
+    var speed: CGFloat?
+    private var current: CGPoint?
     var control: CGPoint?
+    var control2: CGPoint?
     var rotate = true
 
     private var start: CGPoint?
     private var time: CGFloat = 0
+    private var prevDelta: CGFloat?
 
     typealias OnArrived = () -> Void
     private var _onArrived: [OnArrived] = []
@@ -45,8 +49,8 @@ class ArcToComponent: ApplyToNodeComponent {
 
     func resetOnArrived() {
         self.onArrived {
-            self._onArrived = []
-            self._onMoved = []
+            self.clearOnArrived()
+            self.clearOnMoved()
         }
     }
 
@@ -58,11 +62,12 @@ class ArcToComponent: ApplyToNodeComponent {
 
     override func didAddToNode() {
         super.didAddToNode()
-        start = node.position
+        if start == nil {
+            start = node.position
+        }
     }
 
-    private func pointAt(t: CGFloat) -> CGPoint? {
-        guard let start = start, target = target else { return nil }
+    private func pointAt(t: CGFloat, start: CGPoint, target: CGPoint) -> CGPoint {
         guard t > 0 else { return start }
         guard t < 1 else { return target }
 
@@ -77,33 +82,110 @@ class ArcToComponent: ApplyToNodeComponent {
             self.control = control
         }
 
-        let m1 = start + (control - start) * t
-        let m2 = control + (target - control) * t
-        return m1 + (m2 - m1) * t
+        if let control2 = control2 {
+            let m1 = start + (control - start) * t
+            let m2 = control + (control2 - control) * t
+            let m3 = control2 + (target - control2) * t
+
+            let m4 = m1 + (m2 - m1) * t
+            let m5 = m2 + (m3 - m2) * t
+            return m4 + (m5 - m4) * t
+        }
+        else {
+            let m1 = start + (control - start) * t
+            let m2 = control + (target - control) * t
+            return m1 + (m2 - m1) * t
+        }
+    }
+
+    private func calcNextTime(time: CGFloat, current: CGPoint, start: CGPoint, target: CGPoint, maxLength: CGFloat) -> (CGFloat, CGPoint) {
+        guard !current.distanceTo(target, within: maxLength) else {
+            return (1, target)
+        }
+
+        var guessDelta: CGFloat
+        if let prevDelta = prevDelta {
+            guessDelta = prevDelta
+        }
+        else {
+            guessDelta = 0.1
+        }
+
+        var nextTime: CGFloat!
+        var nextPoint: CGPoint!
+        var iter = 5
+        while true {
+            nextTime = time + guessDelta
+            nextPoint = pointAt(nextTime, start: start, target: target)
+            let length = current.distanceTo(nextPoint)
+            if abs(maxLength - length) < accuracy {
+                break
+            }
+            iter -= 1
+            if iter == 0 {
+                return calcNextTimeAlt(time, current: current, start: start, target: target, maxLength: maxLength)
+            }
+
+            if length > 0.0001 {
+                guessDelta = guessDelta * maxLength / length
+            }
+            else {
+                guessDelta = 0.1
+            }
+        }
+        prevDelta = guessDelta
+        return (nextTime, nextPoint)
+    }
+
+    private func calcNextTimeAlt(time: CGFloat, current: CGPoint, start: CGPoint, target: CGPoint, maxLength: CGFloat) -> (CGFloat, CGPoint) {
+        let dt: CGFloat = 0.01
+        var nextTime = time, prevTime: CGFloat?
+        var nextPoint: CGPoint!, prevPoint: CGPoint?
+        while true {
+            nextTime += dt
+            nextPoint = pointAt(nextTime, start: start, target: target)
+            let length = current.distanceTo(nextPoint)
+            if length > maxLength {
+                break
+            }
+            prevTime = nextTime
+            prevPoint = nextPoint
+        }
+        return (prevTime ?? nextTime, prevPoint ?? nextPoint)
     }
 
     override func update(dt: CGFloat) {
-        guard let duration = duration else { return }
+        guard let speed = speed, current = self.current ?? self.start, start = start, target = target else { return }
 
-        time = time + dt
-        let modTime = min(time / duration, 1)
-        let modFrame = oneFrame / duration
-        guard let position = pointAt(modTime) else { return }
-        guard let prevPos = pointAt(modTime - modFrame) else { return }
-        for handler in _onMoved {
-            handler(modTime)
+        let length = speed * dt
+        let (calcTime, calcPoint) = calcNextTime(time, current: current, start: start, target: target, maxLength: length)
+
+        let nextTime: CGFloat
+        let nextPoint: CGPoint
+        if calcPoint.distanceTo(target, within: 0.5) {
+            nextTime = 1
+            nextPoint = target
+        }
+        else {
+            nextTime = calcTime
+            nextPoint = calcPoint
         }
 
-        let angle = prevPos.angleTo(position)
+        for handler in _onMoved {
+            handler(nextTime)
+        }
 
         apply { applyTo in
-            applyTo.position = position
+            applyTo.position = nextPoint
             if self.rotate {
+                let angle = current.angleTo(nextPoint)
                 applyTo.rotateTo(angle)
             }
         }
+        self.current = nextPoint
+        self.time = nextTime
 
-        if time >= duration {
+        if nextTime == 1 {
             for handler in _onArrived {
                 handler()
             }
@@ -113,18 +195,26 @@ class ArcToComponent: ApplyToNodeComponent {
 }
 
 extension Node {
-    func arcTo(dest: CGPoint, control: CGPoint? = nil, start: CGPoint? = nil, duration: CGFloat, arcOffset: CGFloat? = nil) -> ArcToComponent {
+    func arcTo(dest: CGPoint, control: CGPoint? = nil, start: CGPoint? = nil, speed: CGFloat, arcOffset: CGFloat? = nil, removeNode: Bool = false, removeComponent: Bool = true) -> ArcToComponent {
         let arcTo = ArcToComponent()
         if let start = start {
             self.position = start
+        }
+        else {
+            arcTo.start = self.position
         }
         arcTo.target = dest
         arcTo.control = control
         if let arcOffset = arcOffset {
             arcTo.arcOffset = arcOffset
         }
-        arcTo.duration = duration
-        arcTo.removeComponentOnArrived()
+        arcTo.speed = speed
+        if removeNode {
+            arcTo.removeNodeOnArrived()
+        }
+        else if removeComponent {
+            arcTo.removeComponentOnArrived()
+        }
         addComponent(arcTo)
 
         return arcTo

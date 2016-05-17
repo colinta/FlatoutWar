@@ -21,8 +21,9 @@ class GrenadePowerup: Powerup {
         slowmo(true)
         self.onNextTap { position in
             let grenade = GrenadePowerupNode(at: playerNode.position)
-            let arcDuration: CGFloat = 0.1
-            let arcToComponent = grenade.arcTo(position, duration: arcDuration)
+            let arcDuration: CGFloat = 0.25
+            let length: CGFloat = (position - playerNode.position).length
+            let arcToComponent = grenade.arcTo(position, speed: length / arcDuration)
             arcToComponent.onArrived {
                 self.slowmo(false)
                 let bomb = BombNode(maxRadius: 40)

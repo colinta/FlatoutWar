@@ -7,8 +7,67 @@
 //
 
 class Playground: World {
+    var soldier: EnemySoldierNode?
+    var dots: [Dot] = []
 
     override func populateWorld() {
+        generateSoldier()
+    }
+
+    func generateSoldier() {
+        for dot in dots {
+            dot.fadeTo(0, duration: 0.3, removeNode: true)
+        }
+        dots = []
+
+        let soldier = EnemySoldierNode()
+
+        let start = self.outsideWorld(soldier, angle: rand(TAU))
+        let dest = self.outsideWorld(soldier, angle: rand(TAU))
+        let c1 = CGPoint(r: rand(50...150), a: rand(TAU))
+        let c2 = CGPoint(r: rand(50...150), a: rand(TAU))
+
+        var sprites: [SKSpriteNode] = []
+        for p in [c1, c2] {
+            let dots = SKSpriteNode(id: .ColorCircle(size: CGSize(5), color: 0xFFFFFF))
+            dots.position = p
+            self << dots
+            sprites << dots
+        }
+        for (p1, p2) in [(start, c1), (c1, c2), (c2, dest)] {
+            let line = SKSpriteNode(id: .ColorLine(length: (p2-p1).length, color: 0xFFFFFF))
+            line.anchorPoint = CGPoint(y: 0.5)
+            line.zRotation = p1.angleTo(p2)
+            line.position = p1
+            self << line
+            sprites << line
+        }
+
+        let arcTo = soldier.arcTo(dest, start: start, speed: 100, removeNode: true)
+        arcTo.control = c1
+        arcTo.control2 = c2
+        arcTo.onArrived {
+            for s in sprites {
+                s.removeFromParent()
+            }
+
+            self.generateSoldier()
+        }
+        self << soldier
+        self.soldier = soldier
+    }
+
+    override func update(dt: CGFloat) {
+        super.update(dt)
+
+        if let soldier = soldier {
+            let dot = Dot(at: soldier.position)
+            dots << dot
+            self << dot
+        }
+    }
+
+    func letters() {
         let letters = [
             "A",
             "B",
