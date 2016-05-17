@@ -25,7 +25,7 @@ class Powerup {
 
     var timeout: CGFloat = 5
     var cooldown: CGFloat = 0
-    var levelCompleteCancel: Block? = nil
+    var powerupCancel: Block? = nil
     var name: String { return "" }
     var powerupType: ImageIdentifier.PowerupType? { return .None }
 
@@ -89,6 +89,10 @@ class Powerup {
         powerupButton = button
     }
 
+    func cancelIfRunning() {
+        powerupCancel?()
+    }
+
     func activateIfEnabled() {
         guard powerupEnabled else { return }
         guard (count ?? 1) > 0 else { return }
@@ -148,8 +152,8 @@ class Powerup {
             let prevDefault = level.defaultNode
             level.defaultNode = tapNode
 
-            let restore = {
-                self.levelCompleteCancel = nil
+            let restore: (slowmo: Bool) -> Void = { slowmo in
+                self.powerupCancel = nil
                 if slowmo {
                     self.slowmo(false)
                 }
@@ -161,27 +165,28 @@ class Powerup {
 
             let cancelTimeout = level.timeline.cancellable.after(3 * level.timeRate) {
                 self.powerupButton?.enabled = true
-                restore()
+                restore(slowmo: true)
             }
 
-            self.levelCompleteCancel = {
+            self.powerupCancel = {
                 cancelTimeout()
             }
 
             let touchComponent = TouchableComponent()
             touchComponent.on(.Down) { location in
                 cancelTimeout()
-                restore()
 
                 let position = tapNode.convertPoint(location, toNode: level)
                 onTap(position)
+
+                restore(slowmo: slowmo)
             }
             tapNode.addComponent(touchComponent)
         }
     }
 
     func levelCompleted() {
-        levelCompleteCancel?()
+        powerupCancel?()
         powerupEnabled = false
     }
 
