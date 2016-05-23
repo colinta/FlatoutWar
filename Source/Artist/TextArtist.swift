@@ -6,6 +6,22 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
+private let defaultLetter: (String, CGSize) -> Letter = { char, size in
+    print("unknown char: \(char)")
+    return Letter(style: .Loop, size: size, points: [[
+        CGPoint(0, 0),
+        CGPoint(size.width, 0),
+        CGPoint(size.width, size.height),
+        CGPoint(0, size.height),
+    ], [
+        CGPoint(0, 0),
+        CGPoint(size.width, size.height),
+    ], [
+        CGPoint(size.width, 0),
+        CGPoint(0, size.height),
+    ]])
+}
+
 class TextArtist: Artist {
     var text = "" { didSet { calculateSize() }}
     private var textSize: CGSize = .zero
@@ -24,7 +40,7 @@ class TextArtist: Artist {
         var size = CGSize(width: 0, height: 0)
         var isFirst = true
         for char in (text.characters.map { String($0) }) {
-            let letter = font.art[char] ?? Letter(style: .Line, size: CGSize.zero, points: [])
+            let letter = font.art[char] ?? defaultLetter(char, font.size)
             if !isFirst {
                 size.width += letterSpace
             }
@@ -45,7 +61,7 @@ class TextArtist: Artist {
         CGContextScaleCTM(context, textScale, textScale)
         CGContextTranslateCTM(context, (size.width - textSize.width) / 2, (size.height - textSize.height) / 2)
         for char in (text.characters.map { String($0) }) {
-            let letter = font.art[char] ?? Letter(style: .Line, size: CGSize.zero, points: [])
+            let letter = font.art[char] ?? defaultLetter(char, font.size)
             for path in letter.points {
                 var firstPoint = true
                 for pt in path {

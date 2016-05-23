@@ -26,8 +26,8 @@ class ResourcePercent: Node {
         super.init()
 
         var totalWidth: CGFloat = 3 // inner margin
-        text.text = "\(goal)/\(goal)"
         text.font = .Tiny
+        text.text = "\(goal)/\(goal)"
         totalWidth += text.size.width
         self << text
 

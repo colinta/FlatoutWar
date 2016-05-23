@@ -91,14 +91,14 @@ extension ImageIdentifier {
             return artist
         case let .WhiteLetter(letter, size):
             let artist = TextArtist()
-            artist.text = letter
             artist.font = size.font
+            artist.text = letter
 
             return artist
         case let .Letter(letter, size, color):
             let artist = TextArtist()
-            artist.text = letter
             artist.font = size.font
+            artist.text = letter
             artist.color = UIColor(hex: color)
 
             return artist
