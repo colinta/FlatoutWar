@@ -206,11 +206,6 @@ extension Level {
             ui << resourcePercent!
         }
 
-        pauseButton.setScale(0.5)
-        pauseButton.fixedPosition = .TopRight(x: -20, y: -20)
-        pauseButton.text = "||"
-        pauseButton.font = .Big
-        pauseButton.size = CGSize(80)
         pauseButton.onTapped { _ in
             if self.worldPaused {
                 self.unpause()

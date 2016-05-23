@@ -30,11 +30,6 @@ let BigFont = Font(
         CGPoint(0, 4),
         CGPoint(5, 8),
     ]]),
-    "|": Letter(style: .Line, size: defaultSize, points: [[
-            CGPoint(2.5, 0),
-            CGPoint(2.5, 8)
-        ]]
-    ),
     "?": Letter(style: .Loop, size: defaultSize, points: [[
             CGPoint(1.5, 1.5),
             CGPoint(1.5, 2),
