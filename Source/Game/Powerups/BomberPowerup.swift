@@ -29,10 +29,19 @@ class BomberPowerup: Powerup {
         let prevDefault = level.defaultNode
         level.defaultNode = pathNode
 
+        let restore: Block = {
+            level.defaultNode = prevDefault
+            self.powerupEnabled = true
+            pathNode.removeFromParent()
+        }
+        let cancel: Block = {
+            level.timeRate = 1
+            self.powerupEnd()
+        }
+        self.powerupCancel = restore ++ cancel
+
         let touchComponent = pathNode.touchableComponent!
         touchComponent.on(.Up) { location in
-            pathNode.removeFromParent()
-
             let bomber = BomberPowerupNode()
             bomber.timeRate = 1 / slowmo
             bomber.scaleTo(1, start: 1.5, duration: 1)
@@ -48,8 +57,8 @@ class BomberPowerup: Powerup {
             }
             level << bomber
 
-            level.defaultNode = prevDefault
-            self.powerupEnabled = true
+            self.powerupRunning()
+            restore()
         }
     }
 

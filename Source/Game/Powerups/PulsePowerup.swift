@@ -24,6 +24,7 @@ class PulsePowerup: Powerup {
         level << node
 
         level.timeline.after(PulseNode.MaxTime, block: completion)
+        powerupRunning()
     }
 
 }

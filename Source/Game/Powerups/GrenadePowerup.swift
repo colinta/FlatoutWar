@@ -18,8 +18,7 @@ class GrenadePowerup: Powerup {
     override func activate(level: World, playerNode: Node, completion: Block = {}) {
         super.activate(level, playerNode: playerNode)
 
-        slowmo(true)
-        self.onNextTap { position in
+        self.onNextTap(slowmo: true) { position in
             let grenade = GrenadePowerupNode(at: playerNode.position)
             let arcDuration: CGFloat = 0.25
             let length: CGFloat = (position - playerNode.position).length

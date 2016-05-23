@@ -18,8 +18,7 @@ class MinesPowerup: Powerup {
     override func activate(level: World, playerNode: Node, completion: Block = {}) {
         super.activate(level, playerNode: playerNode)
 
-        self.slowmo(true)
-        self.onNextTap { tapPosition in
+        self.onNextTap(slowmo: true) { tapPosition in
             let position: CGPoint
             if tapPosition.distanceTo(playerNode.position, within: 100)
                 && !tapPosition.distanceTo(playerNode.position, within: 20)

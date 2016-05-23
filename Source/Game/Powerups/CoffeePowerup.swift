@@ -27,6 +27,7 @@ class CoffeePowerup: Powerup {
             self.caffeineWithdrawal()
             completion()
         }
+        powerupRunning()
     }
 
     override func levelCompleted() {

@@ -31,6 +31,8 @@ class HourglassPowerup: Powerup {
             self.powerupEnabled = true
             completion()
         }
+
+        powerupRunning()
     }
 
 }

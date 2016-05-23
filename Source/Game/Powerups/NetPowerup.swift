@@ -18,8 +18,7 @@ class NetPowerup: Powerup {
     override func activate(level: World, playerNode: Node, completion: Block = {}) {
         super.activate(level, playerNode: playerNode)
 
-        self.slowmo(true)
-        self.onNextTap() { position in
+        self.onNextTap(slowmo: true) { position in
             let node = NetNode(at: position)
             node.scaleTo(1, start: 0, duration: 0.8, easing: .EaseOutElastic)
             level << node

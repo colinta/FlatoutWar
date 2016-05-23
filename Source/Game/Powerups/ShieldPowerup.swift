@@ -24,6 +24,7 @@ class ShieldPowerup: Powerup {
         node.fadeTo(1, start: 0, duration: 1)
         level << node
         completion()
+        powerupRunning()
     }
 
 }

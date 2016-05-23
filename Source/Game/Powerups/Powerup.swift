@@ -31,6 +31,7 @@ class Powerup {
 
     var count: Int? = 0
     var powerupButton: Button?
+    var powerupCancelButton: Button?
     var powerupCount: TextNode?
     var powerupCountdown: SKSpriteNode?
     var powerupEnabled = true
@@ -87,18 +88,47 @@ class Powerup {
         button.onTapped(self.activateIfEnabled)
         button.moveTo(dest, duration: 1)
         powerupButton = button
+
+        let cancelButton = Button()
+        cancelButton.visible = false
+        cancelButton << SKSpriteNode(id: .NoPowerup)
+        cancelButton.onTapped {
+            self.cancelIfRunning()
+        }
+        powerupCancelButton = cancelButton
     }
 
     func cancelIfRunning() {
         powerupCancel?()
     }
 
+    private func powerupStart() {
+        guard let powerupCancelButton = powerupCancelButton, powerupButton = powerupButton else { return }
+        if let parent = powerupButton.parent where parent != powerupCancelButton.parent {
+            powerupCancelButton.removeFromParent()
+            parent << powerupCancelButton
+        }
+        powerupCancelButton.position = powerupButton.position
+        powerupCancelButton.visible = true
+        powerupCancelButton.zPosition = powerupButton.zPosition + 1
+        powerupButton.enabled = false
+    }
+    func powerupRunning() {
+        guard let powerupCancelButton = powerupCancelButton else { return }
+        powerupCancelButton.visible = false
+    }
+    func powerupEnd() {
+        guard let powerupCancelButton = powerupCancelButton, powerupButton = powerupButton else { return }
+        powerupCancelButton.visible = false
+        powerupButton.enabled = (count ?? 1) > 0
+    }
+
     func activateIfEnabled() {
         guard powerupEnabled else { return }
         guard (count ?? 1) > 0 else { return }
 
-        if let button = powerupButton, level = level, playerNode = playerNode {
-            button.enabled = false
+        if let level = level, playerNode = playerNode {
+            powerupStart()
             activate(level, playerNode: playerNode) {
                 if let prevCount = self.count {
                     let newCount = prevCount - 1
@@ -121,7 +151,7 @@ class Powerup {
 
             if cooldown <= 0 {
                 powerupCountdown?.alpha = 0
-                powerupButton?.enabled = (count ?? 1) > 0
+                powerupEnd()
             }
         }
     }
@@ -153,7 +183,6 @@ class Powerup {
             level.defaultNode = tapNode
 
             let restore: (slowmo: Bool) -> Void = { slowmo in
-                self.powerupCancel = nil
                 if slowmo {
                     self.slowmo(false)
                 }
@@ -163,22 +192,22 @@ class Powerup {
                 tapNode.removeFromParent()
             }
 
-            let cancelTimeout = level.timeline.cancellable.after(3 * level.timeRate) {
-                self.powerupButton?.enabled = true
+            let cancel: Block = {
+                self.powerupEnd()
                 restore(slowmo: true)
             }
-
-            self.powerupCancel = {
-                cancelTimeout()
-            }
+            let cancelTimeout = level.timeline.cancellable.after(3 * level.timeRate, block: cancel)
+            self.powerupCancel = cancel ++ cancelTimeout
 
             let touchComponent = TouchableComponent()
             touchComponent.on(.Down) { location in
+                self.powerupCancel = nil
                 cancelTimeout()
 
                 let position = tapNode.convertPoint(location, toNode: level)
                 onTap(position)
 
+                self.powerupRunning()
                 restore(slowmo: slowmo)
             }
             tapNode.addComponent(touchComponent)

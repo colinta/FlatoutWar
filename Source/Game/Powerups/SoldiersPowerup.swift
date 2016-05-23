@@ -33,6 +33,7 @@ class SoldiersPowerup: Powerup {
         }
 
         completion()
+        powerupRunning()
     }
 
 }
