@@ -25,11 +25,13 @@ class Powerup {
 
     var timeout: CGFloat = 5
     var cooldown: CGFloat = 0
+    var cancellable = true
     var powerupCancel: Block? = nil
     var name: String { return "" }
     var powerupType: ImageIdentifier.PowerupType? { return .None }
 
     var count: Int? = 0
+    var resourceCost: Int { return 0 }
     var powerupButton: Button?
     var powerupCancelButton: Button?
     var powerupCount: TextNode?
@@ -63,16 +65,21 @@ class Powerup {
         self.level = level
         self.playerNode = playerNode
 
-        let countNode = TextNode()
-        countNode.font = .Tiny
-        countNode.position = CGPoint(20, -20)
-        powerupCount = countNode
+        let resourceCount = TextNode()
+        resourceCount.font = .Tiny
+        resourceCount.position = CGPoint(20, 20)
+        resourceCount.text = "\(resourceCost)"
+
+        let powerupCount = TextNode()
+        powerupCount.font = .Tiny
+        powerupCount.position = CGPoint(20, -20)
+        self.powerupCount = powerupCount
 
         if let count = count {
-            countNode.text = "\(count)"
+            powerupCount.text = "\(count)"
         }
         else {
-            countNode.text = "∞"
+            powerupCount.text = "∞"
         }
 
         let powerupCountdown = SKSpriteNode(id: .PowerupTimer(percent: 100))
@@ -84,7 +91,8 @@ class Powerup {
         button << powerupCountdown
         button << icon()
         level.gameUI << button
-        button << countNode
+        button << powerupCount
+        button << resourceCount
         button.onTapped(self.activateIfEnabled)
         button.moveTo(dest, duration: 1)
         powerupButton = button
@@ -103,6 +111,7 @@ class Powerup {
     }
 
     private func powerupStart() {
+        guard cancellable else { return }
         guard let powerupCancelButton = powerupCancelButton, powerupButton = powerupButton else { return }
         if let parent = powerupButton.parent where parent != powerupCancelButton.parent {
             powerupCancelButton.removeFromParent()
@@ -114,10 +123,12 @@ class Powerup {
         powerupButton.enabled = false
     }
     func powerupRunning() {
+        guard cancellable else { return }
         guard let powerupCancelButton = powerupCancelButton else { return }
         powerupCancelButton.visible = false
     }
     func powerupEnd() {
+        guard cancellable else { return }
         guard let powerupCancelButton = powerupCancelButton, powerupButton = powerupButton else { return }
         powerupCancelButton.visible = false
         powerupButton.enabled = (count ?? 1) > 0
@@ -192,12 +203,18 @@ class Powerup {
                 tapNode.removeFromParent()
             }
 
-            let cancel: Block = {
-                self.powerupEnd()
-                restore(slowmo: true)
+            let cancelTimeout: Block
+            if cancellable {
+                let cancel: Block = {
+                    self.powerupEnd()
+                    restore(slowmo: true)
+                }
+                cancelTimeout = level.timeline.cancellable.after(3 * level.timeRate, block: cancel)
+                self.powerupCancel = cancel ++ cancelTimeout
             }
-            let cancelTimeout = level.timeline.cancellable.after(3 * level.timeRate, block: cancel)
-            self.powerupCancel = cancel ++ cancelTimeout
+            else {
+                cancelTimeout = {}
+            }
 
             let touchComponent = TouchableComponent()
             touchComponent.on(.Down) { location in

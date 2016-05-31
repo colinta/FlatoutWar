@@ -117,8 +117,8 @@ extension ImageIdentifier {
             return artist
         case let .Enemy(enemyType, health):
             return enemyType.artist(health: health)
-        case let .EnemyShrapnel(enemyType, size):
-            let artist = enemyType.artist(health: 100)
+        case let .EnemyShrapnel(imageId, size):
+            let artist = imageId.artist
             switch size {
             case .Tiny:
                 artist.size = artist.size * 0.05

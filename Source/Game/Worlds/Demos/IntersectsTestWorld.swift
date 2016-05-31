@@ -8,8 +8,8 @@
 class IntersectsTestWorld: DemoWorld {
     let n1 = Node(at: CGPoint(x: 3, y: 0))
     let n2 = Node(at: CGPoint(x: -3, y: 0))
-    let a1 = SKSpriteNode(id: .Enemy(type: .Dozer, health: 50))
-    let a2 = SKSpriteNode(id: .Enemy(type: .Dozer, health: 50))
+    let a1 = SKSpriteNode(id: .Enemy(.Dozer, health: 50))
+    let a2 = SKSpriteNode(id: .Enemy(.Dozer, health: 50))
 
     override func populateWorld() {
         super.populateWorld()

@@ -48,13 +48,28 @@ class ResourcePercent: Node {
         self.collected += amt
     }
 
+    func spend(amt: Int) {
+        self.collected -= amt
+    }
+
     private func updateSprites() {
         text.text = "\(collected)/\(goal)"
+
         if goal == 0 {
             percent.complete = 1
+            text.color = nil
         }
         else {
             percent.complete = CGFloat(collected) / CGFloat(goal)
+            if percent.complete > 0.9 {
+                text.color = interpolateHex(percent.complete, from: (0.9, 1), to: (0x16D100, 0x1BFF00))
+            }
+            else if percent.complete > 0.1 {
+                text.color = interpolateHex(percent.complete, from: (0.2, 0.9), to: (0xFFFA00, 0x16D100))
+            }
+            else {
+                text.color = interpolateHex(percent.complete, from: (0, 0.2), to: (0xDD0000, 0xFFFA00))
+            }
         }
     }
 

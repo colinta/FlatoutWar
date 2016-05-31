@@ -9,6 +9,7 @@
 class SoldiersPowerup: Powerup {
     override var name: String { return "SOLDIERS" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Soldiers }
+    override var resourceCost: Int { return 10 }
 
     required override init() {
         super.init()

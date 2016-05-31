@@ -1,16 +1,16 @@
 //
-//  EnemyShrapnelNode.swift
+//  ShrapnelNode.swift
 //  FlatoutWar
 //
 //  Created by Colin Gray on 12/29/15.
 //  Copyright © 2015 colinta. All rights reserved.
 //
 
-class EnemyShrapnelNode: Node {
+class ShrapnelNode: Node {
 
-    required init(type: ImageIdentifier.EnemyType, size: ImageIdentifier.Size) {
+    required init(type: ImageIdentifier, size: ImageIdentifier.Size) {
         super.init()
-        self << SKSpriteNode(id: .EnemyShrapnel(type: type, size: size))
+        self << SKSpriteNode(id: .EnemyShrapnel(type, size: size))
     }
 
     func setupAround(node: Node, at location: CGPoint? = nil,

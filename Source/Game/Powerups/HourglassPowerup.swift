@@ -11,6 +11,7 @@ let HourglassSize: CGFloat = 225
 class HourglassPowerup: Powerup {
     override var name: String { return "HOURGLASS" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Hourglass }
+    override var resourceCost: Int { return 5 }
 
     required override init() {
         super.init()

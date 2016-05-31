@@ -59,8 +59,13 @@ class ResourceCollector: Node {
     }
 
     override func update(dt: CGFloat) {
-        guard initialPosition == nil else { return }
-        initialPosition = position
+        if initialPosition == nil {
+            initialPosition = position
+        }
+
+        if resourceNode?.remaining <= 0 && collecting {
+            self.stopCollecting()
+        }
     }
 
     func collect() {
@@ -74,15 +79,13 @@ class ResourceCollector: Node {
     }
 
     func harvest() {
-        guard let resourceNode = resourceNode, initialPosition = initialPosition else { return }
+        guard let resourceNode = resourceNode, initialPosition = initialPosition else {
+            stopCollecting()
+            return
+        }
 
         let collected = min(resourceNode.remaining, 5)
         resourceNode.remaining -= collected
-
-        if resourceNode.remaining <= 0 {
-            resourceNode.scaleTo(0, duration: 1, removeNode: true)
-            resourceNode.fadeTo(0, duration: 0.9)
-        }
 
         harvesting = true
         moveToComponent?.removeFromNode()
@@ -95,15 +98,24 @@ class ResourceCollector: Node {
                 self.collect()
             }
             else {
-                self.resourceLine?.runAction(
-                    SKAction.sequence([
-                        SKAction.fadeOutWithDuration(0.5),
-                        SKAction.removeFromParent(),
-                    ])
-                )
-                self.removeFromParent()
+                self.stopCollecting()
             }
         }
+    }
+
+    private func stopCollecting() {
+        self.resourceLine?.runAction(
+            SKAction.sequence([
+                SKAction.fadeOutWithDuration(0.5),
+                SKAction.removeFromParent(),
+            ])
+        )
+        self.runAction(
+            SKAction.sequence([
+                SKAction.fadeOutWithDuration(0.5),
+                SKAction.removeFromParent(),
+            ])
+        )
     }
 
 }

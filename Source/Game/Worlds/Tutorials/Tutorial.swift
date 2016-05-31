@@ -12,6 +12,7 @@ class Tutorial: World {
     let tutorialTextNode = TextNode()
     var nextWorld: World?
     let playerNode = BasePlayerNode()
+    var whyNodes: [Node] = []
 
     required init() {
         super.init()
@@ -27,20 +28,27 @@ class Tutorial: World {
     }
 
     func showWhy(lines: [String]) {
-        var y: CGFloat = -125
+        for node in whyNodes {
+            node.fadeTo(0, duration: 1, removeNode: true)
+        }
+
+        whyNodes = []
+        var y: CGFloat = -165 + 20 * CGFloat(lines.count)
         var delay: CGFloat = 0
         for line in lines {
             let why = TextNode()
             why.textScale = 0.5
             why.text = line
-            why.position = CGPoint(x: 50, y: y)
+            why.position = CGPoint(y: y)
             why.alpha = 0
             timeline.after(delay) {
                 why.fadeTo(1, duration: 0.4)
             }
-            self << why
+            ui << why
             delay += 0.2
             y -= 20
+
+            whyNodes << why
         }
     }
 

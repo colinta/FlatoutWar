@@ -17,6 +17,7 @@ class BasePlayerNode: Node {
     var forceFireEnabled: Bool?
     var forceFireBurnout = false
     var resourceDrag = false
+    private var resourceLocation: CGPoint?
     private let resourceLine = SKSpriteNode()
     private var resourceLock: CGPoint?
 
@@ -166,6 +167,10 @@ class BasePlayerNode: Node {
             if forceFirePercent.complete == 0 {
                 forceFireBurnout = false
             }
+        }
+
+        if let resourceLocation = resourceLocation where resourceDrag {
+            checkForResource(resourceLocation)
         }
 
         firingComponent?.forceFire = forceFire
@@ -341,6 +346,7 @@ extension BasePlayerNode {
 
     func onDragBegan(location: CGPoint) {
         resourceDrag = location.lengthWithin(self.radius)
+        resourceLocation = location
         resourceLine.textureId(.None)
         resourceLine.visible = resourceDrag
         resourceLine.alpha = 0.5
@@ -349,33 +355,7 @@ extension BasePlayerNode {
 
     func onDragged(prev prevLocation: CGPoint, location: CGPoint) {
         if resourceDrag {
-            if let world = world,
-                level = world as? ResourceWorld
-            where resourceLock == nil
-            {
-                let dragLocation = world.convertPosition(self) + location
-                for node in world.children {
-                    if let resourceNode = node as? ResourceNode
-                    where !resourceNode.locked &&
-                        dragLocation.distanceTo(resourceNode.position, within: resourceNode.radius)
-                    {
-                        level.playerFoundResource(resourceNode)
-                        resourceLock = convertPosition(resourceNode)
-                        break
-                    }
-                }
-            }
-
-            let resourcePoint: CGPoint
-            if let resourceLock = resourceLock {
-                resourcePoint = resourceLock
-                resourceLine.alpha = 1
-            }
-            else {
-                resourcePoint = location
-            }
-            resourceLine.textureId(.ResourceLine(length: resourcePoint.length))
-            resourceLine.zRotation = resourcePoint.angle
+            checkForResource(location)
         }
         else {
             let angle = prevLocation.angleTo(location, around: position)
@@ -385,7 +365,39 @@ extension BasePlayerNode {
     }
 
     func onDragEnded(location: CGPoint) {
+        resourceDrag = false
         resourceLine.visible = false
+    }
+
+    func checkForResource(location: CGPoint) {
+        if let world = world,
+            level = world as? ResourceWorld
+        where resourceLock == nil
+        {
+            let dragLocation = world.convertPosition(self) + location
+            for node in world.children {
+                if let resourceNode = node as? ResourceNode
+                where !resourceNode.locked &&
+                    dragLocation.distanceTo(resourceNode.position, within: resourceNode.radius)
+                {
+                    level.playerFoundResource(resourceNode)
+                    resourceLock = convertPosition(resourceNode)
+                    break
+                }
+            }
+        }
+
+        let resourcePoint: CGPoint
+        if let resourceLock = resourceLock {
+            resourcePoint = resourceLock
+            resourceLine.alpha = 1
+        }
+        else {
+            resourcePoint = location
+        }
+        resourceLocation = resourcePoint
+        resourceLine.textureId(.ResourceLine(length: resourcePoint.length))
+        resourceLine.zRotation = resourcePoint.angle
     }
 
     func startRotatingTo(angle: CGFloat) {

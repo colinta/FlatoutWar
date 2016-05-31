@@ -9,6 +9,7 @@
 class NetPowerup: Powerup {
     override var name: String { return "NET" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Net }
+    override var resourceCost: Int { return 10 }
 
     required override init() {
         super.init()

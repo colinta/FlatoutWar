@@ -9,6 +9,7 @@
 class BomberPowerup: Powerup {
     override var name: String { return "BOMBER" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Bomber }
+    override var resourceCost: Int { return 15 }
 
     required override init() {
         super.init()

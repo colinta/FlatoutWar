@@ -199,6 +199,7 @@ extension Node {
         let arcTo = ArcToComponent()
         if let start = start {
             self.position = start
+            arcTo.start = start
         }
         else {
             arcTo.start = self.position

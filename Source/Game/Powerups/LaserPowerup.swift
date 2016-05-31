@@ -9,6 +9,7 @@
 class LaserPowerup: Powerup {
     override var name: String { return "LASER" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Laser }
+    override var resourceCost: Int { return 10 }
 
     required override init() {
         super.init()
@@ -21,10 +22,8 @@ class LaserPowerup: Powerup {
 
         self.onNextTap(slowmo: true) { position in
             let angle = position.angle
-            var maxDelay: CGFloat = 0
             15.times { (i: Int) in
                 let delay: CGFloat = CGFloat(i) * rand(min: 0.2, max: 0.4)
-                maxDelay = delay
                 let offset = CGPoint(r: CGFloat(5), a: rand(TAU))
                 level.timeline.after(delay) {
                     let laser = LaserBeamNode(angle: angle ± rand(2.degrees))
@@ -32,7 +31,7 @@ class LaserPowerup: Powerup {
                     level << laser
                 }
             }
-            level.timeline.after(maxDelay, block: completion)
+            completion()
         }
     }
 

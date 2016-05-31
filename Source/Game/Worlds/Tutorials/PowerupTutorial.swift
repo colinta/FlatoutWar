@@ -8,10 +8,15 @@
 
 class PowerupTutorial: Tutorial {
     var powerups: [Powerup] = []
+    var powerupButtons: [Button] = []
     var mines = 3
+    var resourcePercent = ResourcePercent(goal: 100)
 
     override func populateWorld() {
         super.populateWorld()
+
+        resourcePercent.gain(100)
+        ui << resourcePercent
 
         playerNode.firingComponent?.enabled = false
         playerNode.radarNode.removeFromParent()
@@ -37,12 +42,12 @@ class PowerupTutorial: Tutorial {
             tapLabel = self.showTapLabel()
         }
 
-        var buttons: [Button] = []
         for powerup in powerups {
+            powerup.cancellable = false
             powerup.level = self
             powerup.playerNode = self
             let (button, icon) = powerup.buttonIcon()
-            buttons << button
+            powerupButtons << button
 
             button.onTapped {
                 cancel()
@@ -52,7 +57,7 @@ class PowerupTutorial: Tutorial {
         }
 
         let duration: CGFloat = 1
-        for (index, button) in buttons.enumerate() {
+        for (index, button) in powerupButtons.enumerate() {
             ui << button
             let start: Position = .Left(
                 x: -150,
@@ -76,7 +81,7 @@ class PowerupTutorial: Tutorial {
 
     func showTapLabel() -> TextNode {
         let position: Position = .Left(
-            x: 50,
+            x: 60,
             y: 100
         )
 
@@ -88,7 +93,17 @@ class PowerupTutorial: Tutorial {
     }
 
     func chosePowerup(powerup: Powerup, position: CGPoint, button: Button) {
-        button.enabled = false
+        for anyButton in powerupButtons {
+            anyButton.enabled = false
+        }
+
+        if powerup.resourceCost < resourcePercent.collected {
+            resourcePercent.spend(powerup.resourceCost)
+        }
+        else {
+            resourcePercent.spend(resourcePercent.collected)
+        }
+
         powerup.activate(self, playerNode: self.playerNode) {
             if powerup is MinesPowerup {
                 self.mines -= 1
@@ -99,8 +114,11 @@ class PowerupTutorial: Tutorial {
             else {
                 button.enabled = true
             }
-        }
 
+            for anyButton in self.powerupButtons where anyButton != button {
+                anyButton.enabled = true
+            }
+        }
     }
 
     func releaseEnemies() {
@@ -116,6 +134,10 @@ class PowerupTutorial: Tutorial {
             delay += nextDelay
             nextDelay -= 0.15
         }
+
+        showWhy([
+            "POWERUPS REQUIRE RESOURCES",
+        ])
     }
 
     func done() {

@@ -110,3 +110,16 @@ func areaOf(a: CGPoint, _ b: CGPoint, _ c: CGPoint, _ d: CGPoint) -> CGFloat {
 func hex(r r: Int, g: Int, b: Int) -> Int {
     return r << 16 + g << 8 + b
 }
+
+func interpolateHex(x: CGFloat, from f: (CGFloat, CGFloat), to: (Int, Int)) -> Int {
+    let r0 = (to.0 & 0xFF0000) >> 16
+    let r1 = (to.1 & 0xFF0000) >> 16
+    let g0 = (to.0 & 0x00FF00) >> 8
+    let g1 = (to.1 & 0x00FF00) >> 8
+    let b0 = (to.0 & 0x0000FF)
+    let b1 = (to.1 & 0x0000FF)
+    let r: Int = Int(round(interpolate(x, from: f, to: (CGFloat(r0), CGFloat(r1)))))
+    let g: Int = Int(round(interpolate(x, from: f, to: (CGFloat(g0), CGFloat(g1)))))
+    let b: Int = Int(round(interpolate(x, from: f, to: (CGFloat(b0), CGFloat(b1)))))
+    return hex(r: r, g: g, b: b)
+}

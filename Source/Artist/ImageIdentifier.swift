@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-enum ImageIdentifier {
+indirect enum ImageIdentifier {
     enum Size {
         case Tiny
         case Small
@@ -57,8 +57,8 @@ enum ImageIdentifier {
     case Button(style: ButtonStyle)
     case Percent(Int, style: PercentStyle)
 
-    case Enemy(type: EnemyType, health: Int)
-    case EnemyShrapnel(type: EnemyType, size: Size)
+    case Enemy(EnemyType, health: Int)
+    case EnemyShrapnel(ImageIdentifier, size: Size)
 
     case Powerup(type: PowerupType)
     case NoPowerup

@@ -9,6 +9,7 @@
 class DecoyPowerup: Powerup {
     override var name: String { return "DECOY" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Decoy }
+    override var resourceCost: Int { return 5 }
 
     required override init() {
         super.init()

@@ -6,6 +6,8 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
+private let DefaultDelay: CGFloat = 3
+
 class TimelineComponent: Component {
     struct CancellableWrapper {
         let timeline: TimelineComponent
@@ -42,7 +44,7 @@ class TimelineComponent: Component {
             self = At(CGFloat(time))
         }
         static func Delayed(dt: CGFloat = 0) -> TimeDescriptor {
-            return After(dt + 3)
+            return After(dt + DefaultDelay)
         }
 
         case At(CGFloat)

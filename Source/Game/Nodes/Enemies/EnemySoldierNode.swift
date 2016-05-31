@@ -89,7 +89,7 @@ class EnemySoldierNode: Node {
     }
 
     func updateTexture() {
-        sprite.textureId(.Enemy(type: enemyType(), health: healthComponent?.healthInt ?? 100))
+        sprite.textureId(.Enemy(enemyType(), health: healthComponent?.healthInt ?? 100))
     }
 
     func generateRammingExplosion() {
@@ -118,7 +118,7 @@ class EnemySoldierNode: Node {
                 world.convertPoint(CGPoint(x:-radius / 2, y:-radius / 2), fromNode: self),
             ]
             4.times { (i: Int) in
-                let node = EnemyShrapnelNode(type: enemyType(), size: .Big)
+                let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Big)
                 node.setupAround(self, at: locations[i])
                 let dest = CGPoint(r: rand(min: dist, max: dist * 1.5), a: angle ± rand(spread))
                 node.moveToComponent?.target = node.position + dest
@@ -130,7 +130,7 @@ class EnemySoldierNode: Node {
     func generateBulletShrapnel(damage: Float) {
         if let world = self.world {
             Int(damage * 10).times {
-                let node = EnemyShrapnelNode(type: enemyType(), size: .Small)
+                let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Small)
                 node.setupAround(self)
                 world << node
             }

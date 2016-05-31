@@ -10,8 +10,11 @@ protocol ResourceWorld: class {
     func playerFoundResource(resourceNode: ResourceNode)
 }
 
+private let InitialDecay: CGFloat = 2
+
 class ResourceNode: Node {
     var locked = false
+    var decay = InitialDecay
     let sprite = SKSpriteNode()
     let goal: Int
     var remaining: Int {
@@ -47,7 +50,27 @@ class ResourceNode: Node {
     }
 
     func updateSprite() {
-        sprite.textureId(.Resource(goal: goal, remaining: remaining))
+        if remaining <= 0 && scaleToComponent == nil {
+            scaleTo(0, duration: 1, removeNode: true)
+            fadeTo(0, duration: 0.9)
+        }
+
+        sprite.textureId(.Resource(goal: goal, remaining: max(remaining, 0)))
+    }
+
+    override func update(dt: CGFloat) {
+        if locked {
+            decay -= dt
+            if decay <= 0 {
+                5.times {
+                    let node = ShrapnelNode(type: .ColorBox(size: CGSize(10), color: ResourceBlue), size: .Small)
+                    node.setupAround(self)
+                    world?.addChild(node)
+                }
+                remaining -= 1
+                decay = InitialDecay
+            }
+        }
     }
 
     override func disableMovingComponents() {

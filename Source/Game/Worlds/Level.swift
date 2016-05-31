@@ -35,6 +35,8 @@ class Level: World {
     var resourcePercent: ResourcePercent?
     var possibleExperience = 0
     var gainedExperience = 0
+    var possibleResources = 0
+    var gainedResources = 0
 
     private var shouldPopulatePlayer = true
     var playerNode = BasePlayerNode() {
@@ -141,6 +143,8 @@ class Level: World {
         print("timeRate: \(timeRate)")
         print("possibleExperience: \(possibleExperience)")
         print("gainedExperience: \(gainedExperience)")
+        print("possibleResources: \(possibleResources)")
+        print("gainedResources: \(gainedResources)")
     }
 
     override func didAdd(node: Node) {
@@ -154,6 +158,10 @@ class Level: World {
                 self.experiencePercent?.gain(enemyComponent.experience)
                 self.addToGainedExperience(exp)
             }
+        }
+
+        if let resourceNode = node as? ResourceNode {
+            possibleResources += resourceNode.goal
         }
     }
 
@@ -170,12 +178,10 @@ class Level: World {
     }
 
     override func moveCamera(from start: CGPoint? = nil, to target: CGPoint? = nil, zoom: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, handler: MoveToComponent.OnArrived? = nil) {
-        var adjustedTarget: CGPoint?
-        if let target = target {
-            cameraPosition = target
-            if cameraAdjustmentEnabled {
-                adjustedTarget = target + cameraAdjustment
-            }
+        var adjustedTarget: CGPoint? = target
+        cameraPosition = target
+        if let target = target where cameraAdjustmentEnabled {
+            adjustedTarget = target + cameraAdjustment
         }
         super.moveCamera(to: adjustedTarget, from: start, zoom: zoom, duration: duration, rate: rate, handler: handler)
     }
@@ -239,7 +245,8 @@ extension Level {
             self.restartWorld()
         }
 
-        backButton.fixedPosition = .Top(x: -20, y: 80)
+        backButton.fixedPosition = .Top(x: -60, y: -60)
+        backButton.style = .RectSized(110, 60)
         backButton.text = "BACK"
         backButton.visible = false
         backButton.font = .Big
@@ -247,7 +254,8 @@ extension Level {
             self.goToLevelSelect()
         }
 
-        nextButton.fixedPosition = .Top(x: 20, y: 80)
+        nextButton.fixedPosition = .Top(x: 60, y: -60)
+        nextButton.style = .RectSized(110, 60)
         nextButton.text = "NEXT"
         nextButton.visible = false
         nextButton.font = .Big
@@ -384,6 +392,7 @@ extension Level {
         }
         levelSuccess = success
 
+        cameraAdjustmentEnabled = false
         defaultNode = nil
         selectedNode = nil
         timeRate = 1
@@ -418,7 +427,7 @@ extension Level {
             currentText.font = .Small
             self << currentText
 
-            let maxCount = CGFloat(gainedExperience / possibleExperience)
+            let maxCount: CGFloat = CGFloat(gainedExperience + gainedResources) / CGFloat(config.requiredExperience + config.requiredResources)
             var countEmUp: CGFloat = 0
             var countEmUpIncrement: CGFloat = 0.025
             let countEmUpRate: CGFloat = 0.03
@@ -432,7 +441,7 @@ extension Level {
             }
 
             finalTimeline.when({ countEmUp >= maxCount }) {
-                currentText.text = "\(Int(round(maxCount * 100)))%"
+                currentText.text = "\(Int(round(maxCount * 1000) / 10))%"
 
                 self.restartButton.visible = true
                 self.backButton.visible = true
@@ -504,6 +513,7 @@ extension Level: ResourceWorld {
         resourceCollector.position = playerNode.position
 
         resourceCollector.onHarvest { harvested in
+            self.gainedResources += harvested
             self.resourcePercent?.gain(harvested)
         }
         self << resourceCollector

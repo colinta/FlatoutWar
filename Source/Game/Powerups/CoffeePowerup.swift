@@ -9,6 +9,7 @@
 class CoffeePowerup: Powerup {
     override var name: String { return "COFFEE" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Coffee }
+    override var resourceCost: Int { return 10 }
 
     static let CoffeeTimeout: CGFloat = 10
 

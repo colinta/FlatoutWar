@@ -58,7 +58,7 @@ class EnemyJetTransportNode: Node {
     }
 
     func updateTexture() {
-        sprite.textureId(.Enemy(type: enemyType(), health: healthComponent?.healthInt ?? 100))
+        sprite.textureId(.Enemy(enemyType(), health: healthComponent?.healthInt ?? 100))
     }
 
     func transportPayload(payload: [Node]) {
@@ -135,7 +135,7 @@ class EnemyJetTransportNode: Node {
 
     func generateBigShrapnel(dist dist: CGFloat, angle: CGFloat, spread: CGFloat) {
         if let world = self.world {
-            let node = EnemyShrapnelNode(type: enemyType(), size: .Actual)
+            let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Actual)
             node.setupAround(self, at: self.position,
                 rotateSpeed: rand(min: 5, max: 8),
                 distance: rand(10)
@@ -147,7 +147,7 @@ class EnemyJetTransportNode: Node {
     func generateShrapnel(damage: Float) {
         if let world = self.world {
             Int(damage * 10).times {
-                let node = EnemyShrapnelNode(type: enemyType(), size: .Small)
+                let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Small)
                 node.setupAround(self)
                 world << node
             }
