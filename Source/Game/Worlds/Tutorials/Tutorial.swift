@@ -37,7 +37,7 @@ class Tutorial: World {
         var delay: CGFloat = 0
         for line in lines {
             let why = TextNode()
-            why.textScale = 0.5
+            why.textScale = 0.75
             why.text = line
             why.position = CGPoint(y: y)
             why.alpha = 0
