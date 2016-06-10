@@ -7,104 +7,50 @@
 //
 
 class Playground: World {
-    var soldier: EnemySoldierNode?
-    var dots: [Dot] = []
+    var time: CGFloat = 0
+    var sprites: [(SKNode, SKSpriteNode, a: CGFloat, offset: CGFloat, factor: CGFloat)] = []
 
     override func populateWorld() {
-        generateSoldier()
+        20.times {
+            sprites << (SKNode(), SKSpriteNode(id: .Box(color: EnemySoldierGreen)), a: rand(TAU), offset: rand(TAU), factor: rand(min: 1, max: 3))
+        }
+
+        for (node, sprite, angle, _, _) in sprites {
+            node << sprite
+            node.zRotation = angle
+            self << node
+        }
     }
 
-    func generateSoldier() {
-        for dot in dots {
-            dot.fadeTo(0, duration: 0.3, removeNode: true)
+    func p(t: CGFloat, r: CGFloat = 30) -> CGPoint {
+        let x = r * (sin(t) + sin(-2 * t) * 0.5 - sin(4 * t))
+        let y = r * (cos(t) + cos(-2 * t) * 0.5 - cos(4 * t))
+        return CGPoint(x, y)
+    }
+
+    override func worldShook() {
+        timeRate /= 2
+        if timeRate < 0.125 {
+            timeRate = 8
         }
-        dots = []
-
-        let soldier = EnemySoldierNode()
-
-        let start = self.outsideWorld(soldier, angle: rand(TAU))
-        let dest = self.outsideWorld(soldier, angle: rand(TAU))
-        let c1 = CGPoint(r: rand(50...150), a: rand(TAU))
-        let c2 = CGPoint(r: rand(50...150), a: rand(TAU))
-
-        var sprites: [SKSpriteNode] = []
-        for p in [c1, c2] {
-            let dots = SKSpriteNode(id: .ColorCircle(size: CGSize(5), color: 0xFFFFFF))
-            dots.position = p
-            self << dots
-            sprites << dots
-        }
-        for (p1, p2) in [(start, c1), (c1, c2), (c2, dest)] {
-            let line = SKSpriteNode(id: .ColorLine(length: (p2-p1).length, color: 0xFFFFFF))
-            line.anchorPoint = CGPoint(y: 0.5)
-            line.zRotation = p1.angleTo(p2)
-            line.position = p1
-            self << line
-            sprites << line
-        }
-
-        let arcTo = soldier.arcTo(dest, start: start, speed: 100, removeNode: true)
-        arcTo.control = c1
-        arcTo.control2 = c2
-        arcTo.onArrived {
-            for s in sprites {
-                s.removeFromParent()
-            }
-
-            self.generateSoldier()
-        }
-        self << soldier
-        self.soldier = soldier
     }
 
     override func update(dt: CGFloat) {
-        super.update(dt)
+        time += dt
 
-        if let soldier = soldier {
-            let dot = Dot(at: soldier.position)
-            dots << dot
-            self << dot
+        for (_, sprite, _, offset, factor) in sprites {
+            let t = factor * (time - offset * TAU)
+            let p0 = p(t)
+            let p1 = p(t + dt)
+            sprite.position = p0
+            sprite.zRotation = p0.angleTo(p1)
         }
     }
 
     func letters() {
         let letters = [
-            "A",
-            "B",
-            "C",
-            "D",
-            "E",
-            "F",
-            "G",
-            "H",
-            "I",
-            "J",
-            "K",
-            "L",
-            "M",
-            "N",
-            "O",
-            "P",
-            "Q",
-            "R",
-            "S",
-            "T",
-            "U",
-            "V",
-            "W",
-            "X",
-            "Y",
-            "Z",
-            "0",
-            "1",
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
+            "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V",
+            "W","X","Y","Z","0","1","2","3","4","5","6","7","8","9",
         ]
         let dx: CGFloat = 50
         let dy: CGFloat = 30

@@ -12,6 +12,12 @@ class TutorialLevel3: TutorialLevel {
 
     override func populateLevel() {
         beginWave1()
+
+        var delay: CGFloat = 2
+        8.times { (i: Int) in
+            timeline.at(.Delayed(delay), block: generateResourceArc())
+            delay += 15
+        }
     }
 
     // two sources of weak enemies
@@ -21,10 +27,14 @@ class TutorialLevel3: TutorialLevel {
         }
 
         let wave1: CGFloat = rand(TAU)
-        let wave2 = wave1 + TAU_2 ± rand(min: TAU_8, max: TAU_4)
-        generateWarning(wave1, wave2)
-        timeline.every(3.5...5.5, start: .Delayed(), times: 6, block: self.generateSlowEnemy(wave1)) ~~> nextStep()
-        timeline.every(3.5...5.5, start: .Delayed(4.5), times: 5, block: self.generateSlowEnemy(wave2)) ~~> nextStep()
+        let wave2: CGFloat = wave1 ± rand(TAU_12)
+        let wave3 = wave1 + TAU_2 ± rand(min: TAU_8, max: TAU_4)
+        let wave4 = wave3 ± rand(TAU_12)
+        generateWarning((wave1+wave2) / 2, (wave3+wave4) / 2)
+        timeline.every(4...6, start: .Delayed(), times: 6, block: self.generateSlowEnemy(wave1)) ~~> nextStep()
+        timeline.every(4...6, start: .Delayed(), times: 6, block: self.generateEnemy(wave2)) ~~> nextStep()
+        timeline.every(3.5...6.5, start: .Delayed(4.5), times: 5, block: self.generateSlowEnemy(wave3)) ~~> nextStep()
+        timeline.every(3.5...6.5, start: .Delayed(4.5), times: 5, block: self.generateEnemy(wave4)) ~~> nextStep()
     }
 
     func beginWave2() {
@@ -33,10 +43,14 @@ class TutorialLevel3: TutorialLevel {
         }
 
         let wave1: CGFloat = rand(TAU)
-        let wave2 = wave1 + TAU_2 ± rand(min: TAU_8, max: TAU_4)
-        generateWarning(wave1, wave2)
+        let wave2: CGFloat = wave1 ± rand(TAU_12)
+        let wave3 = wave1 + TAU_2 ± rand(min: TAU_8, max: TAU_4)
+        let wave4 = wave3 ± rand(TAU_12)
+        generateWarning((wave1+wave2) / 2, (wave3+wave4) / 2)
         timeline.every(1.5...3.5, start: .Delayed(), times: 3, block: self.generateSlowEnemy(wave1)) ~~> nextStep()
-        timeline.every(1.5...3.5, start: .Delayed(), times: 2, block: self.generateSlowEnemy(wave2)) ~~> nextStep()
+        timeline.every(1.5...3.5, start: .Delayed(), times: 3, block: self.generateScouts(wave2)) ~~> nextStep()
+        timeline.every(1.5...3.5, start: .Delayed(), times: 2, block: self.generateSlowEnemy(wave3)) ~~> nextStep()
+        timeline.every(1.5...3.5, start: .Delayed(), times: 2, block: self.generateScouts(wave4)) ~~> nextStep()
     }
 
     func beginWave3() {

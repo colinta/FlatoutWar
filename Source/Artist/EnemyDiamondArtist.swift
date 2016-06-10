@@ -7,7 +7,7 @@
 //
 
 class EnemyDiamondArtist: Artist {
-    private var color = UIColor(hex: 0x3E8012)
+    private var color = UIColor(hex: EnemySoldierGreen)
     private var health: CGFloat
 
     required init(health: CGFloat) {

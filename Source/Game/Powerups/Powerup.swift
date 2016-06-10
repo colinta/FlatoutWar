@@ -39,6 +39,7 @@ class Powerup {
     var powerupEnabled = true
 
     weak var level: World?
+    weak var resourcePercent: ResourcePercent?
     weak var playerNode: Node?
 
     func buttonIcon() -> (Button, SKNode) {
@@ -66,13 +67,14 @@ class Powerup {
         self.playerNode = playerNode
 
         let resourceCount = TextNode()
+        resourceCount.color = ResourceBlue
         resourceCount.font = .Tiny
-        resourceCount.position = CGPoint(20, 20)
+        resourceCount.position = CGPoint(20, 10)
         resourceCount.text = "\(resourceCost)"
 
         let powerupCount = TextNode()
         powerupCount.font = .Tiny
-        powerupCount.position = CGPoint(20, -20)
+        powerupCount.position = CGPoint(20, -10)
         self.powerupCount = powerupCount
 
         if let count = count {
@@ -140,6 +142,11 @@ class Powerup {
 
         if let level = level, playerNode = playerNode {
             powerupStart()
+
+            if let resourcePercent = resourcePercent {
+                resourcePercent.spend(resourceCost)
+            }
+            
             activate(level, playerNode: playerNode) {
                 if let prevCount = self.count {
                     let newCount = prevCount - 1
@@ -164,6 +171,9 @@ class Powerup {
                 powerupCountdown?.alpha = 0
                 powerupEnd()
             }
+        }
+        else if let powerupButton = powerupButton, resourcePercent = resourcePercent {
+            powerupButton.enabled = resourcePercent.collected >= resourceCost
         }
     }
 
@@ -206,6 +216,9 @@ class Powerup {
             let cancelTimeout: Block
             if cancellable {
                 let cancel: Block = {
+                    if let resourcePercent = self.resourcePercent {
+                        resourcePercent.gain(self.resourceCost)
+                    }
                     self.powerupEnd()
                     restore(slowmo: true)
                 }

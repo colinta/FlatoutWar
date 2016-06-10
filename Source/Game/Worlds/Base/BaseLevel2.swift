@@ -37,13 +37,13 @@ class BaseLevel2: BaseLevel {
             generateWarning(TAU * CGFloat(i) / 10)
         }
 
-        timeline.every(3.5, start: .Delayed(), times: 11) {
+        timeline.every(4.5, start: .Delayed(), times: 11) {
             self.generateScouts(rand(TAU))()
         }
-        timeline.every(3.25, start: .Delayed(1), times: 11) {
+        timeline.every(3.5, start: .Delayed(1), times: 14) {
             self.generateEnemy(rand(TAU))()
         }
-        timeline.every(7, start: .Delayed(3), times: 5) {
+        timeline.every(7, start: .Delayed(3), times: 7) {
             self.generateSlowEnemy(rand(TAU))()
         }
     }

@@ -51,6 +51,7 @@ indirect enum ImageIdentifier {
 
     case None
     case Dot(color: Int)
+    case Box(color: Int)
     case Warning
     case WhiteLetter(String, size: Size)
     case Letter(String, size: Size, color: Int)
@@ -109,6 +110,8 @@ indirect enum ImageIdentifier {
             return "Warning()"
         case let .Dot(color):
             return "Dot(color:\(color))"
+        case let .Box(color):
+            return "Box(color:\(color))"
         case let .Percent(percent, style):
             return "Percent(percent:\(percent),style:\(style))"
         case let .WhiteLetter(letter, size):

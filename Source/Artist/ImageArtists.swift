@@ -89,6 +89,11 @@ extension ImageIdentifier {
             let artist = DotArtist()
             artist.color = UIColor(hex: color)
             return artist
+        case let .Box(color):
+            let color = UIColor(hex: color)
+            let artist = RectArtist(CGSize(10), color)
+            artist.drawingMode = .Fill
+            return artist
         case let .WhiteLetter(letter, size):
             let artist = TextArtist()
             artist.font = size.font

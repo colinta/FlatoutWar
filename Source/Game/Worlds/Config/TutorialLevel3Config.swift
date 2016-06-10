@@ -10,7 +10,7 @@ class TutorialLevel3Config: BaseConfig {
     override var canUpgrade: Bool { return false }
     override var availableTurrets: [Turret] { return [] }
 
-    override var possibleExperience: Int { return 120 }
+    override var possibleExperience: Int { return 125 }
     override var requiredExperience: Int { return 100 }
     override var requiredResources: Int { return 20 }
 

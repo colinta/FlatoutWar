@@ -15,6 +15,12 @@ class TutorialLevel5: TutorialLevel {
             self.introduceDrone()
         }
 
+        var delay: CGFloat = 3
+        12.times { (i: Int) in
+            timeline.at(.Delayed(delay), block: generateResourceDrop())
+            delay += 10
+        }
+
         beginWave1()
     }
 

@@ -13,7 +13,7 @@ class EnemySlowSoldierNode: EnemySoldierNode {
     required init() {
         super.init()
         healthComponent!.startingHealth = startingHealth
-        enemyComponent!.experience = 2
+        enemyComponent!.experience = 1
         rammingDamage = 4
         rammingComponent!.maxSpeed = 15
     }

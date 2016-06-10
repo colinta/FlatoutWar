@@ -13,6 +13,12 @@ class TutorialLevel4: TutorialLevel {
     override func populateLevel() {
         moveCamera(to: CGPoint(x: 180, y: 0), duration: 2)
         timeline.after(1, block: beginWave1)
+
+        var delay: CGFloat = 3
+        8.times { (i: Int) in
+            timeline.at(.Delayed(delay), block: generateResourceArc())
+            delay += 15
+        }
     }
 
     func beginWave1() {

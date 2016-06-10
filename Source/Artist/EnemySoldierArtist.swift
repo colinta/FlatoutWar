@@ -6,8 +6,10 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
+let EnemySoldierGreen = 0x3E8012
+
 class EnemySoldierArtist: Artist {
-    private var color = UIColor(hex: 0x3E8012)
+    private var color = UIColor(hex: EnemySoldierGreen)
     private var health: CGFloat
 
     required init(health: CGFloat) {

@@ -121,12 +121,14 @@ class Level: World {
 
     override func onPause() {
         resumeButton.visible = true
+        restartButton.visible = true
         quitButton.visible = true
     }
 
     override func onUnpause() {
         if !worldPaused {
             quitButton.visible = false
+            restartButton.visible = false
             resumeButton.visible = false
         }
     }
@@ -237,7 +239,7 @@ extension Level {
             self.unpause()
         }
 
-        restartButton.fixedPosition = .Center(x: 0, y: -80)
+        restartButton.fixedPosition = .Center(x: 0, y: 0)
         restartButton.visible = false
         restartButton.text = "RESTART"
         restartButton.font = .Big
@@ -331,6 +333,7 @@ extension Level {
                 x: 20,
                 y: -20 - CGFloat(index) * 50
             )
+            powerup.resourcePercent = resourcePercent
             powerup.addToLevel(self, playerNode: playerNode, start: calculateFixedPosition(start), dest: dest)
         }
     }
@@ -427,12 +430,18 @@ extension Level {
             currentText.font = .Small
             self << currentText
 
-            let maxCount: CGFloat = CGFloat(gainedExperience + gainedResources) / CGFloat(config.requiredExperience + config.requiredResources)
+            let gained = CGFloat(gainedExperience + gainedResources)
+            let required = CGFloat(config.requiredExperience + config.requiredResources)
+            let possible = CGFloat(config.possibleExperience + config.requiredResources)
+
+            let maxPercent: CGFloat = min(1, gained / possible)
+            let requiredPercent: CGFloat = min(1, gained / required)
+            percentNode.minimum = requiredPercent
             var countEmUp: CGFloat = 0
             var countEmUpIncrement: CGFloat = 0.025
             let countEmUpRate: CGFloat = 0.03
-            finalTimeline.every(countEmUpRate, start: 2, until: { countEmUp >= maxCount }) {
-                countEmUp = min(countEmUp + countEmUpIncrement, maxCount)
+            finalTimeline.every(countEmUpRate, start: 2, until: { countEmUp >= maxPercent }) {
+                countEmUp = min(countEmUp + countEmUpIncrement, maxPercent)
                 countEmUpIncrement *= 1.05
 
                 percentNode.complete = countEmUp
@@ -440,9 +449,17 @@ extension Level {
                 currentText.position.x = CGFloat(30) + percentNode.complete * percentNode.size.width
             }
 
-            finalTimeline.when({ countEmUp >= maxCount }) {
-                currentText.text = "\(Int(round(maxCount * 1000) / 10))%"
+            finalTimeline.when({ countEmUp >= maxPercent }) {
+                currentText.text = "\(Int(round(maxPercent * 1000) / 10))%"
 
+                if maxPercent == 1 {
+                    finalTimeline.every(1) {
+                        let explosion = EnemyExplosionNode(at: CGPoint(x: ±rand(self.size.width / 4), y: ±rand(self.size.height / 4)))
+                        self << explosion
+                    }
+                }
+
+                self.restartButton.fixedPosition = .Center(x: 0, y: -80)
                 self.restartButton.visible = true
                 self.backButton.visible = true
 
@@ -452,11 +469,6 @@ extension Level {
                 else {
                     self.nextButton.visible = true
                 }
-            }
-
-            finalTimeline.every(1) {
-                let explosion = EnemyExplosionNode(at: CGPoint(x: ±rand(self.size.width / 4), y: ±rand(self.size.height / 4)))
-                self << explosion
             }
         }
         else {

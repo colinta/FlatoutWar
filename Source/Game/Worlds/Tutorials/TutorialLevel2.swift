@@ -15,23 +15,7 @@ class TutorialLevel2: TutorialLevel {
 
         var delay: CGFloat = 2
         8.times { (i: Int) in
-            timeline.at(.Delayed(delay)) {
-                let resourceAngle: CGFloat = rand(TAU)
-                let resourceNode = ResourceNode(goal: 20)
-                let p1 = self.outsideWorld(extra: 20, angle: resourceAngle)
-                let p2 = self.outsideWorld(extra: 20, angle: resourceAngle + TAU_2)
-                let vector = (p2 - p1) / 3
-                let arcTo = resourceNode.arcTo(
-                    p2,
-                    start: p1,
-                    speed: 100
-                    )
-                arcTo.removeNodeOnArrived()
-                let vectorAngle: CGFloat = ±TAU_4
-                arcTo.control = vector + CGPoint(r: vector.length, a: vector.angle + vectorAngle)
-                arcTo.control2 = 2 * vector + CGPoint(r: vector.length, a: vector.angle + vectorAngle)
-                self << resourceNode
-            }
+            timeline.at(.Delayed(delay), block: generateResourceArc())
             delay += 15
         }
     }

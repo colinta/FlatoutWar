@@ -12,7 +12,7 @@ class World: Node {
             updateFixedNodes()
         }
     }
-    var cameraNode: Node?
+    var cameraNode: Node
     var ui = UINode()
     var gameUI = UINode()
     var timeline = TimelineComponent()
@@ -26,6 +26,16 @@ class World: Node {
         case Right
         case Top
         case Bottom
+
+        static func rand() -> Side {
+            let side: Int = Int(arc4random_uniform(UInt32(4)))
+            switch side {
+                case 0: return .Left
+                case 1: return .Right
+                case 2: return .Top
+                default: return .Bottom
+            }
+        }
     }
 
     func moveCamera(
@@ -139,9 +149,7 @@ class World: Node {
         var point = CGPoint(r: abs(radius), a: angle) + offset
         if ui { return point }
 
-        if let cameraNode = cameraNode {
-            point += cameraNode.position
-        }
+        point += cameraNode.position
         return point / min(xScale, 1)
     }
 
@@ -224,17 +232,17 @@ class World: Node {
     }
 
     required init() {
-        super.init()
+        self.cameraNode = Node(at: CGPoint(x: 0, y: 0))
 
-        let cameraNode = Node(at: CGPoint(x: 0, y: 0))
-        self.cameraNode = cameraNode
-        self << cameraNode
+        super.init()
 
         cameraZoom.rate = 0.25
         addComponent(timeline)
     }
 
     required init?(coder: NSCoder) {
+        self.cameraNode = Node(at: CGPoint(x: 0, y: 0))
+
         super.init(coder: coder)
         timeline = coder.decode("timeline") ?? timeline
         defaultNode = coder.decode("defaultNode")
@@ -253,7 +261,7 @@ class World: Node {
 
     private func _populateWorld() {
         addComponent(cameraZoom)
-        cameraNode!.addComponent(cameraMove)
+        cameraNode.addComponent(cameraMove)
     }
 
     func populateWorld() {
@@ -406,7 +414,7 @@ extension World {
         shouldBePaused = worldPaused
         shouldBeHalted = halted
 
-        if let cameraNode = cameraNode where cameraNode.world == nil {
+        if cameraNode.world == nil {
             self << cameraNode
         }
 
@@ -428,9 +436,7 @@ extension World {
         if !halted {
             ui.updateNodes(dt)
 
-            if let cameraNode = cameraNode {
-                position = -1 * cameraNode.position
-            }
+            position = -1 * cameraNode.position
         }
 
         isUpdating = false
