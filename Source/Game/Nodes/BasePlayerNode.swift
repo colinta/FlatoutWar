@@ -176,9 +176,8 @@ class BasePlayerNode: Node {
         firingComponent?.forceFire = forceFire
         firingComponent?.cooldown = (forceFire ? forceFireCooldown : DefaultCooldown)
 
-        if let firingAngle = firingComponent?.angle,
-            isTouching = touchableComponent?.isTouching
-            where !isTouching || forceFireEnabled == false
+        if let firingAngle = firingComponent?.angle
+            where forceFireEnabled != true
         {
             turretNode.zRotation = firingAngle
         }
