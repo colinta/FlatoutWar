@@ -149,7 +149,7 @@ class BasePlayerNode: Node {
             forceFire = forceFireEnabled
         }
         else if let touchedFor = touchableComponent?.touchedFor
-        where touchedFor > 0 && turret.rapidFireEnabled {
+        where touchedFor > 0 && turret.rapidFireEnabled && !resourceDrag {
             forceFire = true
         }
         else {
@@ -162,7 +162,7 @@ class BasePlayerNode: Node {
                 forceFireBurnout = true
             }
         }
-        else {
+        else if forceFirePercent.complete > 0 {
             forceFirePercent.complete -= dt / ForceFireBurnoutDown
             if forceFirePercent.complete == 0 {
                 forceFireBurnout = false

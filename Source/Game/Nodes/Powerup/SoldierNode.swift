@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-private let startingHealth: Float = 4
+private let StartingHealth: Float = 4
+private let Speed: CGFloat = 50
 
 class SoldierNode: Node {
-    static let DefaultSoldierSpeed: CGFloat = 50
     var sprite = SKSpriteNode(id: .None)
     var restingPosition: CGPoint?
 
@@ -19,7 +19,7 @@ class SoldierNode: Node {
         sprite.z = .Below
         self << sprite
 
-        let healthComponent = HealthComponent(health: startingHealth)
+        let healthComponent = HealthComponent(health: StartingHealth)
         healthComponent.onHurt { _ in
             self.updateTexture()
         }
@@ -52,8 +52,8 @@ class SoldierNode: Node {
         let rammingComponent = EnemyRammingComponent()
         rammingComponent.intersectionNode = sprite
         rammingComponent.bindTo(targetingComponent: targetingComponent)
-        rammingComponent.maxSpeed = SoldierNode.DefaultSoldierSpeed
-        rammingComponent.maxTurningSpeed = SoldierNode.DefaultSoldierSpeed
+        rammingComponent.maxSpeed = Speed
+        rammingComponent.maxTurningSpeed = Speed
         rammingComponent.onRammed { enemy in
             let damage = min(enemy.healthComponent?.health ?? 0, healthComponent.health)
             enemy.healthComponent?.inflict(damage)

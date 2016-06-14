@@ -98,7 +98,7 @@ class Level: World {
 
         timeline.when({ self.possibleExperience >= self.config.possibleExperience }) {
             self.onNoMoreEnemies {
-                self.levelCompleted(success: true)
+                self.levelCompleted()
             }
         }
     }
@@ -378,15 +378,21 @@ extension Level {
         return self
     }
 
-    func levelCompleted(success successArg: Bool) {
+    func levelCompleted(success successArg: Bool? = nil) {
         for powerup in powerups {
             powerup.levelCompleted()
         }
 
-        var success = successArg
+        let success: Bool
         // sanity check against a kamikaze triggering a "successful" completion
         if let died = playerNode.healthComponent?.died where died {
             success = false
+        }
+        else if let successArg = successArg {
+            success = successArg
+        }
+        else {
+            success = gainedExperience > config.requiredExperience && gainedResources > config.requiredResources
         }
 
         printStatus()
@@ -432,16 +438,16 @@ extension Level {
 
             let gained = CGFloat(gainedExperience + gainedResources)
             let required = CGFloat(config.requiredExperience + config.requiredResources)
-            let possible = CGFloat(config.possibleExperience + config.requiredResources)
+            let possible = CGFloat(config.possibleExperience + max(gainedResources, config.requiredResources))
 
-            let maxPercent: CGFloat = min(1, gained / possible)
-            let requiredPercent: CGFloat = min(1, gained / required)
+            let earnedPercent: CGFloat = min(1, gained / possible)
+            let requiredPercent: CGFloat = min(1, required / possible)
             percentNode.minimum = requiredPercent
             var countEmUp: CGFloat = 0
             var countEmUpIncrement: CGFloat = 0.025
             let countEmUpRate: CGFloat = 0.03
-            finalTimeline.every(countEmUpRate, start: 2, until: { countEmUp >= maxPercent }) {
-                countEmUp = min(countEmUp + countEmUpIncrement, maxPercent)
+            finalTimeline.every(countEmUpRate, start: 2, until: { countEmUp >= earnedPercent }) {
+                countEmUp = min(countEmUp + countEmUpIncrement, earnedPercent)
                 countEmUpIncrement *= 1.05
 
                 percentNode.complete = countEmUp
@@ -449,10 +455,10 @@ extension Level {
                 currentText.position.x = CGFloat(30) + percentNode.complete * percentNode.size.width
             }
 
-            finalTimeline.when({ countEmUp >= maxPercent }) {
-                currentText.text = "\(Int(round(maxPercent * 1000) / 10))%"
+            finalTimeline.when({ countEmUp >= earnedPercent }) {
+                currentText.text = "\(Int(round(earnedPercent * 1000) / 10))%"
 
-                if maxPercent == 1 {
+                if earnedPercent == 1 {
                     finalTimeline.every(1) {
                         let explosion = EnemyExplosionNode(at: CGPoint(x: ±rand(self.size.width / 4), y: ±rand(self.size.height / 4)))
                         self << explosion

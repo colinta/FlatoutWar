@@ -1,16 +1,16 @@
 //
-//  EnemySlowSoldierNode.swift
+//  EnemyFastSoldierNode.swift
 //  FlatoutWar
 //
 //  Created by Colin Gray on 1/1/2016.
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-private let StartingHealth: Float = 4
-private let Speed: CGFloat = 15
+private let StartingHealth: Float = 2
+private let Speed: CGFloat = 35
 private let Damage: Float = 6
 
-class EnemySlowSoldierNode: EnemySoldierNode {
+class EnemyFastSoldierNode: EnemySoldierNode {
 
     required init() {
         super.init()
@@ -29,7 +29,7 @@ class EnemySlowSoldierNode: EnemySoldierNode {
     }
 
     override func enemyType() -> ImageIdentifier.EnemyType {
-        return .SlowSoldier
+        return .FastSoldier
     }
 
 }

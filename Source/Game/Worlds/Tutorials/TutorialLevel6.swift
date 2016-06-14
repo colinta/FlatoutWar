@@ -14,6 +14,12 @@ class TutorialLevel6: TutorialLevel {
 
         moveCamera(to: CGPoint(150, 50), duration: 2)
         beginWave1(at: 4)
+
+        var delay: CGFloat = 3
+        8.times { (i: Int) in
+            timeline.at(.Delayed(delay), block: generateResourceArc())
+            delay += 15
+        }
     }
 
     func beginWave1(at delay: CGFloat) {
@@ -43,8 +49,8 @@ class TutorialLevel6: TutorialLevel {
             self.moveCamera(to: CGPoint(200, 75), zoom: 0.75, duration: 3)
         }
         timeline.at(.Delayed(3), block: generateGiant(size.angle))
-        timeline.at(.Delayed(4), block: generateGiant(size.angle - TAU_16))
-        timeline.at(.Delayed(4.75), block: generateGiant(size.angle + TAU_16))
+        timeline.at(.Delayed(6), block: generateGiant(size.angle - TAU_16))
+        timeline.at(.Delayed(10), block: generateGiant(size.angle + TAU_16))
         timeline.every(1.5...2.5, start: .Delayed(), times: 10, block: generateEnemy(rand(±size.angle)))
     }
 
@@ -68,8 +74,8 @@ class TutorialLevel6: TutorialLevel {
                     ghost.position + right,
                 ]
                 for origin in origins {
-                    let enemy = EnemySoldierNode(at: origin)
-                    enemy.name = "pair soldier"
+                    let enemy = EnemyFastSoldierNode(at: origin)
+                    enemy.name = "fast soldier"
                     enemy.rotateTo(ghost.zRotation)
                     enemy.follow(ghost)
                     self << enemy
@@ -78,13 +84,8 @@ class TutorialLevel6: TutorialLevel {
         }
     }
 
-    func generateGiant(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
+    func generateGiant(screenAngle: CGFloat) -> Block {
         return {
-            var screenAngle = genScreenAngle
-            if spread > 0 {
-               screenAngle = screenAngle ± rand(spread)
-            }
-
             let enemyNode = EnemyGiantNode()
             enemyNode.name = "giant"
             enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle)

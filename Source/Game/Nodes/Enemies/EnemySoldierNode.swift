@@ -6,12 +6,13 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-private let startingHealth: Float = 2
+private let StartingHealth: Float = 2
+private let Damage: Float = 4
 
 class EnemySoldierNode: Node {
     static let DefaultSoldierSpeed: CGFloat = 25
     var sprite = SKSpriteNode()
-    var rammingDamage: Float = 4
+    var rammingDamage: Float = Damage
 
     enum Scatter {
         case RunAway
@@ -28,7 +29,7 @@ class EnemySoldierNode: Node {
         sprite.lightingBitMask   = 0xFFFFFFFF
         sprite.shadowCastBitMask = 0xFFFFFFFF
 
-        let healthComponent = HealthComponent(health: startingHealth)
+        let healthComponent = HealthComponent(health: StartingHealth)
         healthComponent.onHurt { _ in
             self.updateTexture()
         }

@@ -30,7 +30,7 @@ class TutorialLevel4: TutorialLevel {
         let wave2 = wave1 ± (TAU_16 + rand(TAU_16))
 
         self.generateWarning(wave1, wave2)
-        timeline.every(0.5...2.5, start: .Delayed(), times: 5, block: generateEnemyPair(wave1)) ~~> nextStep()
+        timeline.every(0.5...1.5, start: .Delayed(), times: 5, block: generateEnemyPair(wave1)) ~~> nextStep()
         timeline.every(0.5...2.5, start: .Delayed(3), times: 4, block: generateEnemyPair(wave2)) ~~> nextStep()
     }
 
@@ -42,8 +42,8 @@ class TutorialLevel4: TutorialLevel {
         let wave1 = randSideAngle(.Right)
         let wave2 = wave1 ± (TAU_8 + rand(TAU_16))
         generateWarning(wave1, wave2)
-        timeline.every(1...4, start: .Delayed(), times: 5, block: generateEnemyTrio(wave1)) ~~> nextStep()
-        timeline.every(2...5, start: .Delayed(4), times: 4, block: generateEnemyTrio(wave2)) ~~> nextStep()
+        timeline.every(0.5...2, start: .Delayed(), times: 5, block: generateEnemyTrio(wave1)) ~~> nextStep()
+        timeline.every(0.5...3, start: .Delayed(4), times: 4, block: generateEnemyTrio(wave2)) ~~> nextStep()
     }
 
     func beginWave3() {
@@ -51,7 +51,7 @@ class TutorialLevel4: TutorialLevel {
             self.onNoMoreEnemies { self.beginWave4() }
         }
 
-        timeline.every(3...7, times: 5) {
+        timeline.every(2...4, times: 5) {
             let wave = self.randSideAngle(.Right)
             self.generateWarning(wave)
             self.timeline.at(.Delayed(), block: self.generateLeaderWithLinearFollowers(wave))
@@ -106,7 +106,7 @@ class TutorialLevel4: TutorialLevel {
                 ghost.position + right,
             ]
             for origin in origins {
-                let enemy = EnemySoldierNode(at: origin)
+                let enemy = EnemyFastSoldierNode(at: origin)
                 enemy.name = "pair soldier"
                 enemy.rotateTo(ghost.zRotation)
                 enemy.follow(ghost)
@@ -133,8 +133,8 @@ class TutorialLevel4: TutorialLevel {
                 ghost.position + back,
             ]
             for origin in origins {
-                let enemy = EnemySoldierNode(at: origin)
-                enemy.name = "pair soldier"
+                let enemy = EnemyFastSoldierNode(at: origin)
+                enemy.name = "trio soldier"
                 enemy.rotateTo(ghost.zRotation)
                 enemy.follow(ghost)
                 self << enemy
@@ -161,8 +161,8 @@ class TutorialLevel4: TutorialLevel {
                 ghost.position + right + back,
             ]
             for origin in origins {
-                let enemy = EnemySoldierNode(at: origin)
-                enemy.name = "pair soldier"
+                let enemy = EnemyFastSoldierNode(at: origin)
+                enemy.name = "quad soldier"
                 enemy.rotateTo(ghost.zRotation)
                 enemy.follow(ghost)
                 self << enemy

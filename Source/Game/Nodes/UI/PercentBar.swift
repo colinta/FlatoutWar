@@ -12,6 +12,9 @@ class PercentBar: Node {
 
     var style: PercentStyle = .Default { didSet { updateSprite() } }
     var complete: CGFloat = 0 { didSet {
+        if complete < 0 || complete > 1 {
+            complete = min(max(complete, 0), 1)
+        }
         updateSprite()
     } }
     var minimum: CGFloat? { didSet {

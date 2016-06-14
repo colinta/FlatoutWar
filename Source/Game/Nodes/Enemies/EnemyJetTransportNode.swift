@@ -6,10 +6,9 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-private let startingHealth: Float = 15
+private let StartingHealth: Float = 15
 
 class EnemyJetTransportNode: Node {
-    static let DefaultSoldierSpeed: CGFloat = 35
     var sprite = SKSpriteNode()
     var payload: [Node]?
 
@@ -20,7 +19,7 @@ class EnemyJetTransportNode: Node {
         sprite.z = .Top
         self << sprite
 
-        let healthComponent = HealthComponent(health: startingHealth)
+        let healthComponent = HealthComponent(health: StartingHealth)
         healthComponent.onHurt { _ in
             self.updateTexture()
         }
