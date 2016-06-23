@@ -217,9 +217,10 @@ extension Level {
             jet.rotateTowards(point: .zero)
             self << jet
 
+            let count = 8
             let dist: CGFloat = 10
             var prevNode: Node = jet
-            for i in 0..<10 {
+            count.times { (i: Int) in
                 let location = jet.position + CGVector(r: dist * CGFloat(i), a: genScreenAngle)
                 let enemy = EnemyJetNode(at: location)
                 enemy.name = "bigjet follower"
@@ -256,57 +257,13 @@ extension Level {
         }
     }
 
-    func generateLeaderWithCircularFollowers(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
-        return {
-            var screenAngle = genScreenAngle
-            if spread > 0 {
-                screenAngle = screenAngle ± rand(spread)
-            }
-
-            let ghost = self.generateEnemyGhost(angle: screenAngle, extra: 40)
-            ghost.name = "circular ghost"
-            ghost.rotateTowards(point: .zero)
-
-            let dist: CGFloat = 30
-            var enemies: [Node] = []
-            let enemyLeader = EnemyLeaderNode()
-            enemyLeader.name = "circular leader"
-            let leaderPosition = ghost.position + CGPoint(r: dist + enemyLeader.radius, a: screenAngle)
-            enemyLeader.position = leaderPosition
-            enemyLeader.rotateTo(ghost.zRotation)
-            enemyLeader.follow(ghost)
-            self << enemyLeader
-            enemies << enemyLeader
-
-            let count = 5
-            let angleDelta = TAU / CGFloat(count)
-            for i in 0..<count {
-                let enemyAngle = CGFloat(i) * angleDelta ± rand(angleDelta / 2)
-                let vector = CGVector(r: dist, a: enemyAngle)
-                let enemy = EnemySoldierNode(at: leaderPosition + vector)
-                enemy.name = "circular soldier"
-                enemy.rotateTo(ghost.zRotation)
-                enemy.follow(ghost)
-                self << enemy
-                enemies << enemy
-            }
-
-           ghost.playerTargetingComponent!.onTargetAcquired { target in
-               if let target = target {
-                   for enemy in enemies {
-                       enemy.rotateTowards(target)
-                   }
-               }
-           }
-        }
-    }
-
-    func generateEnemyGhost(angle screenAngle: CGFloat, extra: CGFloat = 0) -> Node {
+    func generateEnemyGhost(mimic mimic: Node, angle screenAngle: CGFloat, extra: CGFloat = 0) -> Node {
         let position = outsideWorld(extra: extra, angle: screenAngle)
         let enemyGhost = Node(at: position)
-        let sprite = SKNode.size(EnemySoldierNode().size)
+        let sprite = SKNode.size(mimic.size)
         enemyGhost << sprite
         enemyGhost.name = "ghost"
+
         let targetingComponent = PlayerTargetingComponent()
         enemyGhost.addComponent(targetingComponent)
 
@@ -314,6 +271,13 @@ extension Level {
         rammingComponent.intersectionNode = sprite
         rammingComponent.onRammed { _ in
             enemyGhost.removeFromParent()
+        }
+
+        if let mimicRammingComponent = mimic.rammingComponent {
+            rammingComponent.acceleration = mimicRammingComponent.acceleration
+            rammingComponent.currentSpeed = mimicRammingComponent.currentSpeed
+            rammingComponent.maxSpeed = mimicRammingComponent.maxSpeed
+            rammingComponent.maxTurningSpeed = mimicRammingComponent.maxTurningSpeed
         }
 
         enemyGhost.addComponent(rammingComponent)

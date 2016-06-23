@@ -6,37 +6,44 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-private let startingHealth: Float = 20
+private let Health: Float = 25
+private let Speed: CGFloat = 15
+private let Experience = 10
+private let Damage: Float = 50
 
 class EnemyGiantNode: EnemySoldierNode {
 
     required init() {
         super.init()
         size = CGSize(100)
-        healthComponent!.startingHealth = startingHealth
-        healthComponent!.onKilled {
-            guard let world = self.world else { return }
+        healthComponent!.startingHealth = Health
+        enemyComponent!.experience = Experience
+        rammingComponent!.maxSpeed = Speed
+        rammingDamage = Damage
+    }
 
-            let position = self.position
-            let angle = self.zRotation
-            let dw = self.size.width / 10
-            let vx = CGPoint(r: dw, a: angle)
-            let vy = CGPoint(r: dw, a: angle + TAU_4)
-            10.times { (i: Int) in
-                let x: CGPoint = (0.5 + CGFloat(5 - i)) * vx
-                10.times { (j: Int) in
-                    let y: CGPoint = (0.5 + CGFloat(5 - j)) * vy
+    override func generateBigShrapnel(dist dist: CGFloat, angle: CGFloat, spread: CGFloat) {
+        guard let world = self.world else { return }
 
-                    let soldier = EnemySoldierNode()
-                    soldier.zRotation = angle
-                    soldier.position = position + x + y
-                    world << soldier
-                }
+        let position = self.position
+        let angle = self.zRotation
+        let count = 10
+        let dw = self.size.width / CGFloat(count)
+        let vx = CGPoint(r: dw, a: angle)
+        let vy = CGPoint(r: dw, a: angle + TAU_4)
+        count.times { (i: Int) in
+            let x: CGPoint = (0.5 + CGFloat(count) / 2 - CGFloat(i)) * vx
+            count.times { (j: Int) in
+                let y: CGPoint = (0.5 + CGFloat(count) / 2 - CGFloat(j)) * vy
+
+                let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Small)
+                node.setupAround(self, at: position + x + y)
+
+                let dest = CGPoint(r: rand(min: dist, max: dist * 1.5), a: angle ± rand(spread))
+                node.moveToComponent?.target = node.position + dest
+                world << node
             }
         }
-        enemyComponent!.experience = 15
-        rammingComponent!.maxSpeed = 15
-        rammingDamage = 50
     }
 
     required init?(coder: NSCoder) {

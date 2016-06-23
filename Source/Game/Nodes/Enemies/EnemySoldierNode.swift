@@ -8,6 +8,7 @@
 
 private let StartingHealth: Float = 2
 private let Damage: Float = 4
+private let Experience = 1
 
 class EnemySoldierNode: Node {
     static let DefaultSoldierSpeed: CGFloat = 25
@@ -42,7 +43,7 @@ class EnemySoldierNode: Node {
 
         let enemyComponent = EnemyComponent()
         enemyComponent.intersectionNode = sprite
-        enemyComponent.experience = 1
+        enemyComponent.experience = Experience
         enemyComponent.onAttacked { projectile in
             if let damage = projectile.projectileComponent?.damage {
                 self.generateBulletShrapnel(damage)
@@ -111,20 +112,22 @@ class EnemySoldierNode: Node {
     }
 
     func generateBigShrapnel(dist dist: CGFloat, angle: CGFloat, spread: CGFloat) {
-        if let world = self.world {
-            let locations = [
-                world.convertPoint(CGPoint(x: radius / 2, y: radius / 2), fromNode: self),
-                world.convertPoint(CGPoint(x: radius / 2, y:-radius / 2), fromNode: self),
-                world.convertPoint(CGPoint(x:-radius / 2, y: radius / 2), fromNode: self),
-                world.convertPoint(CGPoint(x:-radius / 2, y:-radius / 2), fromNode: self),
-            ]
-            4.times { (i: Int) in
-                let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Big)
-                node.setupAround(self, at: locations[i])
-                let dest = CGPoint(r: rand(min: dist, max: dist * 1.5), a: angle ± rand(spread))
-                node.moveToComponent?.target = node.position + dest
-                world << node
-            }
+        guard let world = self.world else {
+            return
+        }
+
+        let locations = [
+            world.convertPoint(CGPoint(x: radius / 2, y: radius / 2), fromNode: self),
+            world.convertPoint(CGPoint(x: radius / 2, y:-radius / 2), fromNode: self),
+            world.convertPoint(CGPoint(x:-radius / 2, y: radius / 2), fromNode: self),
+            world.convertPoint(CGPoint(x:-radius / 2, y:-radius / 2), fromNode: self),
+        ]
+        4.times { (i: Int) in
+            let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Big)
+            node.setupAround(self, at: locations[i])
+            let dest = CGPoint(r: rand(min: dist, max: dist * 1.5), a: angle ± rand(spread))
+            node.moveToComponent?.target = node.position + dest
+            world << node
         }
     }
 

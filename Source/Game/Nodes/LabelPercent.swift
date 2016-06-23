@@ -63,10 +63,10 @@ class LabelPercent: Node {
                 text.color = 0x1BFF00
             }
             else if percent.complete > 0.5 {
-                text.color = interpolateHex(percent.complete, from: (0.5, 1), to: (0xFFFA00, 0x16D100))
+                text.color = interpolateHex(percent.complete, from: (0.5, 1), to: (0xFD8608, 0xFFFA00))
             }
             else {
-                text.color = interpolateHex(percent.complete, from: (0, 0.5), to: (0xDD0000, 0xFFFA00))
+                text.color = interpolateHex(percent.complete, from: (0, 0.5), to: (0xDD0000, 0xFD8608))
             }
         }
     }

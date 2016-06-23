@@ -58,6 +58,10 @@ class ResourceCollector: Node {
         super.encodeWithCoder(encoder)
     }
 
+    override func levelCompleted() {
+        active = false
+    }
+
     override func update(dt: CGFloat) {
         if initialPosition == nil {
             initialPosition = position

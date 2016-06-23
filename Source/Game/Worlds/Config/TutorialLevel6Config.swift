@@ -9,8 +9,8 @@
 class TutorialLevel6Config: BaseConfig {
     override var canUpgrade: Bool { return false }
 
-    override var possibleExperience: Int { return 180 }
-    override var requiredExperience: Int { return 180 }
+    override var possibleExperience: Int { return 160 }
+    override var requiredExperience: Int { return 150 }
     override var requiredResources: Int { return 50 }
 
     override func nextLevel() -> Level {

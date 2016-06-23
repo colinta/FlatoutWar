@@ -61,9 +61,15 @@ class World: Node {
             else {
                 cameraMove.speed = 80
             }
+
             if let handler = handler {
                 cameraMove.onArrived(handler)
             }
+            cameraMove.onArrived {
+                self.cameraMove.speed = nil
+                self.cameraMove.duration = nil
+            }
+
             cameraMove.resetOnArrived()
         }
 

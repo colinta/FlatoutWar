@@ -16,9 +16,9 @@ class TutorialLevel6: TutorialLevel {
         beginWave1(at: 4)
 
         var delay: CGFloat = 3
-        8.times { (i: Int) in
+        9.times { (i: Int) in
             timeline.at(.Delayed(delay), block: generateResourceArc())
-            delay += 15
+            delay += 10
         }
     }
 
@@ -38,8 +38,8 @@ class TutorialLevel6: TutorialLevel {
             self.onNoMoreEnemies { self.beginWave3() }
         }
 
-        timeline.every(6...8, start: .Delayed(), times: 4) {
-            let angle: CGFloat = rand(min: -self.size.angle, max: TAU_4)
+        timeline.every(7...9, start: .Delayed(), times: 4) {
+            let angle: CGFloat = self.randSideAngle(.Right)
             self.generateBigJetWithFollowers(angle, spread: 0)()
         } ~~> nextStep()
     }
@@ -56,14 +56,14 @@ class TutorialLevel6: TutorialLevel {
 
     func generateEnemyColumn(screenAngle: CGFloat) -> Block {
         return {
-            let ghost = self.generateEnemyGhost(angle: screenAngle, extra: 10)
+            let ghost = self.generateEnemyGhost(mimic: EnemySoldierNode(), angle: screenAngle, extra: 10)
             ghost.name = "pair ghost"
             ghost.rotateTowards(point: .zero)
 
-            let numPairs = 10
+            let numPairs = 8
             var r: CGFloat = 0
             let dist: CGFloat = 5
-            for _ in 0..<numPairs {
+            numPairs.times {
                 let angle = ghost.position.angle
                 let left = CGVector(r: dist, a: angle + TAU_4) + CGVector(r: r, a: angle)
                 let right = CGVector(r: dist, a: angle - TAU_4) + CGVector(r: r, a: angle)
@@ -74,8 +74,8 @@ class TutorialLevel6: TutorialLevel {
                     ghost.position + right,
                 ]
                 for origin in origins {
-                    let enemy = EnemyFastSoldierNode(at: origin)
-                    enemy.name = "fast soldier"
+                    let enemy = EnemySoldierNode(at: origin)
+                    enemy.name = "soldier"
                     enemy.rotateTo(ghost.zRotation)
                     enemy.follow(ghost)
                     self << enemy

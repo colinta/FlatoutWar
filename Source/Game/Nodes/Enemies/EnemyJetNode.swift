@@ -6,7 +6,8 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-private let startingHealth: Float = 1
+private let Health: Float = 1
+private let Experience = 1
 
 class EnemyJetNode: EnemySoldierNode {
     static let DefaultJetSpeed: CGFloat = 40
@@ -31,8 +32,8 @@ class EnemyJetNode: EnemySoldierNode {
         rammingComponent!.removeFromNode()
         addComponent(flyingComponent)
 
-        healthComponent!.startingHealth = startingHealth
-        enemyComponent!.experience = 1
+        healthComponent!.startingHealth = Health
+        enemyComponent!.experience = Experience
     }
 
     required init?(coder: NSCoder) {

@@ -128,9 +128,6 @@ class Node: SKNode {
         super.encodeWithCoder(encoder)
     }
 
-    func update(dt: CGFloat) {
-    }
-
     var dontReset = false
     override func moveToParent(node: SKNode) {
         dontReset = true
@@ -178,6 +175,9 @@ class Node: SKNode {
 
 extension Node {
 
+    func levelCompleted() {
+    }
+
     func updateNodes(dtReal: CGFloat) {
         guard active else { return }
         guard world != nil else { return }
@@ -193,6 +193,9 @@ extension Node {
         for node in allChildNodes(recursive: false) {
             node.updateNodes(dt)
         }
+    }
+
+    func update(dt: CGFloat) {
     }
 
 }

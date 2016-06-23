@@ -56,7 +56,17 @@ class Level: World {
     var cameraPosition: CGPoint?
     var cameraAdjustment: CGPoint = .zero {
         didSet {
-            moveCamera(to: cameraPosition ?? .zero, duration: 0.5)
+            let duration: CGFloat?
+            let speed: CGFloat?
+            if let currentSpeed = cameraMove.speed {
+                speed = currentSpeed
+                duration = nil
+            }
+            else {
+                duration = 0.5
+                speed = nil
+            }
+            moveCamera(to: cameraPosition ?? .zero, duration: duration, rate: speed)
         }
     }
 
@@ -98,7 +108,7 @@ class Level: World {
 
         timeline.when({ self.possibleExperience >= self.config.possibleExperience }) {
             self.onNoMoreEnemies {
-                self.levelCompleted()
+                self.completeLevel()
             }
         }
     }
@@ -343,7 +353,7 @@ extension Level {
     private func updatePlayer(node: Node) {
         node.healthComponent?.onKilled {
             if self.playerNode == node {
-                self.levelCompleted(success: false)
+                self.completeLevel(success: false)
             }
         }
 
@@ -378,12 +388,14 @@ extension Level {
         return self
     }
 
-    func levelCompleted(success successArg: Bool? = nil) {
+    func completeLevel(success successArg: Bool? = nil) {
         for powerup in powerups {
             powerup.levelCompleted()
         }
 
         let success: Bool
+        var completedExperience: Bool? = nil
+        var completedResources: Bool? = nil
         // sanity check against a kamikaze triggering a "successful" completion
         if let died = playerNode.healthComponent?.died where died {
             success = false
@@ -392,7 +404,9 @@ extension Level {
             success = successArg
         }
         else {
-            success = gainedExperience > config.requiredExperience && gainedResources > config.requiredResources
+            completedExperience = gainedExperience > config.requiredExperience
+            completedResources = gainedResources > config.requiredResources
+            success = completedExperience! && completedResources!
         }
 
         printStatus()
@@ -405,6 +419,11 @@ extension Level {
         defaultNode = nil
         selectedNode = nil
         timeRate = 1
+
+        for node in allChildNodes() {
+            node.levelCompleted()
+        }
+        self.levelCompleted()
 
         timeline.removeFromNode()
         pauseButton.removeFromParent()
@@ -470,7 +489,8 @@ extension Level {
                 self.backButton.visible = true
 
                 if self.shouldReturnToLevelSelect {
-                    self.backButton.fixedPosition = .Top(x: 0, y: 80)
+                    self.backButton.text = "NEXT"
+                    self.backButton.fixedPosition = .Center(x: 0, y: 80)
                 }
                 else {
                     self.nextButton.visible = true
@@ -484,8 +504,39 @@ extension Level {
             explosion.position = playerCenter
             self << explosion
 
+            if let percent = experiencePercent
+            where completedExperience == false {
+                bounceArrowAt(percent)
+            }
+
+            if let percent = resourcePercent
+            where completedResources == false {
+                bounceArrowAt(percent)
+            }
+
             quitButton.visible = true
             restartButton.visible = true
+        }
+    }
+
+    private func bounceArrowAt(node: Node) {
+        let p1 = node.position + CGPoint(x: -node.size.width / 2 - 10)
+        let p2 = p1 + CGPoint(x: -20)
+        var i = 0
+
+        let arrow = TextNode()
+        arrow.text = "→"
+        arrow.position = p1
+        ui << arrow
+        let moveTo = arrow.moveTo(p2, speed: 25, removeComponent: false)
+        moveTo.onArrived {
+            i = (i + 1) % 2
+            if i == 0 {
+                moveTo.target = p2
+            }
+            else {
+                moveTo.target = p1
+            }
         }
     }
 }

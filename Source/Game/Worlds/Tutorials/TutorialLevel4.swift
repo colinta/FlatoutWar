@@ -93,7 +93,7 @@ class TutorialLevel4: TutorialLevel {
     func generateEnemyPair(screenAngle: CGFloat) -> Block {
         return {
             let dist: CGFloat = 5.5
-            let ghost = self.generateEnemyGhost(angle: screenAngle, extra: 10)
+            let ghost = self.generateEnemyGhost(mimic: EnemyFastSoldierNode(), angle: screenAngle, extra: 10)
             ghost.name = "pair ghost"
             ghost.rotateTowards(point: .zero)
 
@@ -118,7 +118,7 @@ class TutorialLevel4: TutorialLevel {
     func generateEnemyTrio(screenAngle: CGFloat) -> Block {
         return {
             let dist: CGFloat = 5.5
-            let ghost = self.generateEnemyGhost(angle: screenAngle, extra: 10)
+            let ghost = self.generateEnemyGhost(mimic: EnemyFastSoldierNode(), angle: screenAngle, extra: 10)
             ghost.name = "pair ghost"
             ghost.rotateTowards(point: .zero)
 
@@ -145,7 +145,7 @@ class TutorialLevel4: TutorialLevel {
     func generateEnemyQuad(screenAngle: CGFloat) -> Block {
         return {
             let dist: CGFloat = 5.5
-            let ghost = self.generateEnemyGhost(angle: screenAngle, extra: 10)
+            let ghost = self.generateEnemyGhost(mimic: EnemyFastSoldierNode(), angle: screenAngle, extra: 10)
             ghost.name = "pair ghost"
             ghost.rotateTowards(point: .zero)
 
