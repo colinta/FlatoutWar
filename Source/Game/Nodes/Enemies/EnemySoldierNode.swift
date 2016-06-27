@@ -15,6 +15,8 @@ class EnemySoldierNode: Node {
     var sprite = SKSpriteNode()
     var rammingDamage: Float = Damage
 
+    private var hurtAudioNode = GameAudioNode(name: "bang")
+
     enum Scatter {
         case RunAway
         case Dodge
@@ -32,6 +34,7 @@ class EnemySoldierNode: Node {
 
         let healthComponent = HealthComponent(health: StartingHealth)
         healthComponent.onHurt { _ in
+            self.onHurt()
             self.updateTexture()
         }
         healthComponent.onKilled {
@@ -92,6 +95,12 @@ class EnemySoldierNode: Node {
 
     func updateTexture() {
         sprite.textureId(.Enemy(enemyType(), health: healthComponent?.healthInt ?? 100))
+    }
+
+    func onHurt() {
+        guard let world = world, hurtAudioNode = hurtAudioNode else { return }
+        world << hurtAudioNode
+        hurtAudioNode.play()
     }
 
     func generateRammingExplosion() {

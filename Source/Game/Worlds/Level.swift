@@ -93,8 +93,7 @@ class Level: World {
     override func populateWorld() {
         super.populateWorld()
 
-        if let url = NSBundle.mainBundle().URLForResource("Dead", withExtension: "caf") {
-            let playerDeadAudio = BackgroundAudioNode(url: url)
+        if let playerDeadAudio = BackgroundAudioNode(name: "dead") {
             playerDeadAudio.deltaVolume = 0.2
             self << playerDeadAudio
             self.playerDeadAudio = playerDeadAudio
@@ -140,6 +139,11 @@ class Level: World {
         }
     }
 
+    override func onHalt() {
+        super.onHalt()
+        playerDeadAudio?.pause()
+    }
+
     override func onPause() {
         super.onPause()
         if levelSuccess == nil {
@@ -147,6 +151,11 @@ class Level: World {
             restartButton.visible = true
             quitButton.visible = true
         }
+    }
+
+    override func onResume() {
+        super.onResume()
+        playerDeadAudio?.resume()
     }
 
     override func onUnpause() {

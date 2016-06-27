@@ -10,9 +10,21 @@ import AVFoundation
 
 
 class BackgroundAudioNode: Node {
+    indirect enum AudioState {
+        case Playing
+        case Paused(resume: AudioState)
+        case Stopped
+    }
+
     let audioPlayer: AVAudioPlayer?
+    var state: AudioState = .Stopped
     var volume: CGFloat = 0
     var deltaVolume: CGFloat = 3.333
+
+    convenience init?(name: String) {
+        guard let url = NSBundle.mainBundle().URLForResource(name, withExtension: "caf") else { return nil }
+        self.init(url: url)
+    }
 
     init(url: NSURL) {
         do {
@@ -46,12 +58,38 @@ class BackgroundAudioNode: Node {
 
     override func reset() {
         super.reset()
+        state = .Stopped
         audioPlayer?.stop()
     }
 
     func play() {
         volume = 1
+        state = .Playing
         audioPlayer?.play()
+    }
+
+    func pause() {
+        switch state {
+        case .Playing:
+            audioPlayer?.pause()
+        default: break
+        }
+
+        state = .Paused(resume: state)
+    }
+
+    func resume() {
+        switch state {
+        case let .Paused(nextState):
+            state = nextState
+        default: break
+        }
+
+        switch state {
+        case .Playing:
+            audioPlayer?.play()
+        default: break
+        }
     }
 
 }

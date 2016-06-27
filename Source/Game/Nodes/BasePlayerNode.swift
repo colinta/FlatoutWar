@@ -16,6 +16,9 @@ private let ForceFireBurnoutDown: CGFloat = 4
 class BasePlayerNode: Node {
     var forceFireEnabled: Bool?
     var forceFireBurnout = false
+
+    private var hurtAudioNode = GameAudioNode(name: "killed")
+    private var pewPew = GameAudioNode(name: "short")
     private var resourceLocation: CGPoint?
     private let resourceLine = SKSpriteNode()
     private var resourceLock: CGPoint?
@@ -102,6 +105,7 @@ class BasePlayerNode: Node {
 
         let healthComponent = HealthComponent(health: 100)
         healthComponent.onHurt { amount in
+            self.onHurt()
             self.baseNode.textureId(.Base(upgrade: .One, health: healthComponent.healthInt))
         }
         addComponent(healthComponent)
@@ -145,6 +149,12 @@ class BasePlayerNode: Node {
 
     override func encodeWithCoder(encoder: NSCoder) {
         super.encodeWithCoder(encoder)
+    }
+
+    func onHurt() {
+        guard let world = world, hurtAudioNode = hurtAudioNode else { return }
+        world << hurtAudioNode
+        hurtAudioNode.play()
     }
 
     override func update(dt: CGFloat) {
@@ -283,7 +293,7 @@ class BasePlayerNode: Node {
 
 }
 
-// MARK: public helpers
+// MARK: Aiming helpers
 
 extension BasePlayerNode {
 
@@ -331,6 +341,12 @@ extension BasePlayerNode {
         bullet.z = Z.Below
         bullet.damage *= damageFactor
         ((parent as? Node) ?? world) << bullet
+
+        if let pewPew = pewPew {
+            pewPew.volume = 0.25
+            pewPew.play()
+            world << pewPew
+        }
     }
 
 }
