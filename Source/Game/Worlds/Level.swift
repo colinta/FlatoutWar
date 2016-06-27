@@ -130,9 +130,12 @@ class Level: World {
     }
 
     override func onPause() {
-        resumeButton.visible = true
-        restartButton.visible = true
-        quitButton.visible = true
+        super.onPause()
+        if levelSuccess == nil {
+            resumeButton.visible = true
+            restartButton.visible = true
+            quitButton.visible = true
+        }
     }
 
     override func onUnpause() {
@@ -413,6 +416,8 @@ extension Level {
         guard levelSuccess == nil else {
             return
         }
+
+        pauseable = false
         levelSuccess = success
 
         cameraAdjustmentEnabled = false
