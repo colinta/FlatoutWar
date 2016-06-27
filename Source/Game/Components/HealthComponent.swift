@@ -60,11 +60,14 @@ class HealthComponent: Component {
 
     func inflict(damage: Float) {
         health = max(min(health - damage, startingHealth), 0)
+
+        let callOnKilled = health <= 0 && !died
+        died = health <= 0
+
         for handler in _onHurt {
             handler(damage: damage)
         }
-        if health <= 0 && !died {
-            died = true
+        if callOnKilled {
             for handler in _onKilled {
                 handler()
             }
