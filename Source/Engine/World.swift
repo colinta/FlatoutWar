@@ -18,6 +18,36 @@ class World: Node {
     var timeline = TimelineComponent()
     var interactionEnabled = true
 
+    var pauseable = true
+    private var shouldBePaused = false
+    private var shouldBeHalted = false
+    var isUpdating = false
+    private var _halted = false
+    var halted: Bool {
+        get { return _halted }
+        set(halt) {
+            if halt {
+                self.halt()
+            }
+            else {
+                self.resume()
+            }
+        }
+    }
+
+    private var _paused = false
+    var worldPaused: Bool {
+        get { return _paused || _halted }
+        set(pause) {
+            if pause {
+                self.pause()
+            }
+            else {
+                self.unpause()
+            }
+        }
+    }
+
     let cameraZoom = ScaleToComponent()
     let cameraMove = MoveToComponent()
 
@@ -157,36 +187,6 @@ class World: Node {
 
         point += cameraNode.position
         return point / min(xScale, 1)
-    }
-
-    var pauseable = true
-    private var shouldBePaused = false
-    private var shouldBeHalted = false
-    var isUpdating = false
-    private var _halted = false
-    var halted: Bool {
-        get { return _halted }
-        set(halt) {
-            if halt {
-                self.halt()
-            }
-            else {
-                self.resume()
-            }
-        }
-    }
-
-    private var _paused = false
-    var worldPaused: Bool {
-        get { return _paused || _halted }
-        set(pause) {
-            if pause {
-                self.pause()
-            }
-            else {
-                self.unpause()
-            }
-        }
     }
 
     private var throttleStragglers = throttle(1)
