@@ -147,13 +147,6 @@ class BasePlayerNode: Node {
         super.encodeWithCoder(encoder)
     }
 
-    override func touchableComponentFor(location: CGPoint) -> TouchableComponent {
-        if location.lengthWithin(self.radius) {
-            return touchResourceComponent
-        }
-        return touchAimingComponent
-    }
-
     override func update(dt: CGFloat) {
         let forceFire: Bool
         if let forceFireEnabled = self.forceFireEnabled {
@@ -345,6 +338,13 @@ extension BasePlayerNode {
 // MARK: Touch events
 
 extension BasePlayerNode {
+
+    override func touchableComponentFor(location: CGPoint) -> TouchableComponent {
+        if location.lengthWithin(self.radius) {
+            return touchResourceComponent
+        }
+        return touchAimingComponent
+    }
 
     func onTouchAimingTapped(location: CGPoint) {
         targetingComponent?.currentTarget = nil
