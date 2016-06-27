@@ -18,6 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         TutorialConfigSummary().completeAll()
         do {
+            let oal = OALSimpleAudio.sharedInstance()
+            oal.allowIpod = false
+            oal.honorSilentSwitch = true
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
         }
         catch {}
