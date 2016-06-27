@@ -14,7 +14,14 @@ class WorldController: UIViewController {
         self.worldView = view
         self.view = worldView
 
-        view.presentWorld(StartupWorld())
+        let Defaults = NSUserDefaults.standardUserDefaults()
+        if let hasSeenStartup = Defaults["hasSeenStartup"].bool where hasSeenStartup {
+            view.presentWorld(MainMenuWorld())
+        }
+        else {
+            Defaults["hasSeenStartup"] = true
+            view.presentWorld(StartupWorld())
+        }
         // view.presentWorld(Playground())
 
         // view.showsFPS = true
