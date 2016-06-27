@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import AVFoundation
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,6 +17,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         TutorialConfigSummary().completeAll()
+        do {
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+        }
+        catch {}
+
         let window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window = window
 

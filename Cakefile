@@ -21,4 +21,5 @@ application_for :ios, 8.0, :swift do |target|
     # target.release_configuration.settings["ASSETCATALOG_COMPILER_APPICON_NAME"] = "AppIcon"
 
     target.system_frameworks << 'SpriteKit'
+    target.system_frameworks << 'AVFoundation'
 end

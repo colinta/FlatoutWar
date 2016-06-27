@@ -6,6 +6,9 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
+import AVFoundation
+
+
 class Level: World {
     private var _config: BaseConfig?
     var config: BaseConfig {
@@ -30,6 +33,7 @@ class Level: World {
     var levelSelect: WorldSelectWorld.LevelId
     var shouldReturnToLevelSelect = false
     var levelSuccess: Bool?
+    var playerDeadAudio: BackgroundAudioNode?
 
     var experiencePercent: ExperiencePercent?
     var resourcePercent: ResourcePercent?
@@ -88,6 +92,13 @@ class Level: World {
 
     override func populateWorld() {
         super.populateWorld()
+
+        if let url = NSBundle.mainBundle().URLForResource("Dead", withExtension: "caf") {
+            let playerDeadAudio = BackgroundAudioNode(url: url)
+            playerDeadAudio.deltaVolume = 0.2
+            self << playerDeadAudio
+            self.playerDeadAudio = playerDeadAudio
+        }
 
         setScale(2)
         fadeTo(1, start: 0, duration: 0.5)
@@ -503,6 +514,8 @@ extension Level {
             }
         }
         else {
+            playerDeadAudio?.play()
+
             let playerCenter = playerNode.position
             playerNode.removeFromParent()
             let explosion = PlayerExplosionNode()
