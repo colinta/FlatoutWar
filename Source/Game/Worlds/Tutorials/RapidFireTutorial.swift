@@ -91,7 +91,7 @@ class RapidFireTutorial: Tutorial {
 
             let prevPlayerLoc = self.convertPoint(prevWorldLoc, toNode: self.playerNode)
             let playerLoc = self.convertPoint(worldLoc, toNode: self.playerNode)
-            self.playerNode.onDragged(prev: prevPlayerLoc, location: playerLoc)
+            self.playerNode.onDraggedAiming(prev: prevPlayerLoc, location: playerLoc)
         }
         holdButton.touchableComponent!.on(.Down) { _ in
             self.playerNode.forceFireEnabled = true
@@ -151,7 +151,7 @@ class RapidFireTutorial: Tutorial {
 
             let prevPlayerLoc = self.convertPoint(prevWorldLoc, toNode: self.playerNode)
             let playerLoc = self.convertPoint(worldLoc, toNode: self.playerNode)
-            self.playerNode.onDragged(prev: prevPlayerLoc, location: playerLoc)
+            self.playerNode.onDraggedAiming(prev: prevPlayerLoc, location: playerLoc)
 
             self.playerNode.forceFireEnabled = true
             self.playerNode.firingComponent?.enabled = true

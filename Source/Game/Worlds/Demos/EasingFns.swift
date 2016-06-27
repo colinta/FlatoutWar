@@ -44,8 +44,8 @@ class EasingFns: World {
         }
     }
 
-    override func worldTouchBegan(worldLocation: CGPoint) {
-        super.worldTouchBegan(worldLocation)
+    override func worldTouchBegan(id: NSObject, worldLocation: CGPoint) {
+        super.worldTouchBegan(id, worldLocation: worldLocation)
         easingIndex = (easingIndex + 1) % easings.count
         applyFunction(easings[easingIndex])
     }

@@ -228,6 +228,10 @@ extension Node {
         return shape.touchTest(self, and: other)
     }
 
+    func touchableComponentFor(_: CGPoint) -> TouchableComponent? {
+        return touchableComponent
+    }
+
 }
 
 // MARK: Add/Remove Components

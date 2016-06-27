@@ -17,7 +17,7 @@ class WorldScene: SKScene {
     var uiNode: Node
     var gameUINode: Node
     var prevTime: NSTimeInterval?
-    var touchSession: TouchSession?
+    var touchSessions: [UITouch: TouchSession] = [:]
 
     static var worldScale: CGFloat {
         if let scale = CalculatedWorldScale {
@@ -105,72 +105,70 @@ extension WorldScene {
     }
 
     override func touchesBegan(touchesSet: Set<UITouch>, withEvent event: UIEvent?) {
-        guard touchSession == nil else {
-            return
-        }
-
-        if let touch = touchesSet.first {
+        for touch in touchesSet {
             let worldLocation = touch.locationInNode(world)
             let touchSession = TouchSession(
                 touch: touch,
                 location: worldLocation
             )
-            self.touchSession = touchSession
+            self.touchSessions[touch] = touchSession
 
-            world.worldTouchBegan(touchSession.startingLocation)
+            world.worldTouchBegan(touch, worldLocation: touchSession.startingLocation)
         }
     }
 
     override func touchesMoved(touchesSet: Set<UITouch>, withEvent event: UIEvent?) {
-        if let touchSession = touchSession
-        where touchesSet.contains(touchSession.touch)
-        {
-            let worldLocation = touchSession.touch.locationInNode(world)
-            touchSession.currentLocation = worldLocation
+        for touch in touchesSet {
+            if let touchSession = touchSessions[touch] {
+                let worldLocation = touchSession.touch.locationInNode(world)
+                touchSession.currentLocation = worldLocation
 
-            if touchSession.dragging {
-                world.worldDraggingMoved(touchSession.currentLocation)
-            }
-            else if touchSession.startedDragging {
-                world.worldDraggingBegan(touchSession.startingLocation)
+                if touchSession.dragging {
+                    world.worldDraggingMoved(touch, worldLocation: touchSession.currentLocation)
+                }
+                else if touchSession.startedDragging {
+                    world.worldDraggingBegan(touch, worldLocation: touchSession.startingLocation)
 
-                touchSession.dragging = true
-                world.worldDraggingMoved(touchSession.currentLocation)
+                    touchSession.dragging = true
+                    world.worldDraggingMoved(touch, worldLocation: touchSession.currentLocation)
+                }
             }
         }
     }
 
     override func touchesEnded(touchesSet: Set<UITouch>, withEvent event: UIEvent?) {
-        if let touchSession = touchSession
-        where touchesSet.contains(touchSession.touch)
-        {
-            if touchSession.dragging {
-                world.worldDraggingEnded(touchSession.currentLocation)
-            }
-            else {
-                if touchSession.isTap {
-                    world.worldTapped(touchSession.currentLocation)
+        for touch in touchesSet {
+            if let touchSession = touchSessions[touch] {
+                if touchSession.dragging {
+                    world.worldDraggingEnded(touch, worldLocation: touchSession.currentLocation)
                 }
-                world.worldPressed(touchSession.currentLocation)
+                else {
+                    if touchSession.isTap {
+                        world.worldTapped(touch, worldLocation: touchSession.currentLocation)
+                    }
+                    world.worldPressed(touch, worldLocation: touchSession.currentLocation)
+                }
+
+                world.worldTouchEnded(touch, worldLocation: touchSession.currentLocation)
             }
 
-            world.worldTouchEnded(touchSession.currentLocation)
-
-            self.touchSession = nil
+            touchSessions[touch] = nil
         }
     }
 
     override func touchesCancelled(touchesSet: Set<UITouch>?, withEvent event: UIEvent?) {
-        if let touchSession = touchSession, touchesSet = touchesSet
-        where touchesSet.contains(touchSession.touch)
-        {
-            if touchSession.dragging {
-                world.worldDraggingEnded(touchSession.currentLocation)
+        guard let touchesSet = touchesSet else { return }
+        for touch in touchesSet {
+            if let touchSession = touchSessions[touch] {
+                if touchSession.dragging {
+                    world.worldDraggingEnded(touch, worldLocation: touchSession.currentLocation)
+                }
+
+                world.worldTouchEnded(touch, worldLocation: touchSession.currentLocation)
             }
 
-            world.worldTouchEnded(touchSession.currentLocation)
+            touchSessions[touch] = nil
         }
-        touchSession = nil
     }
 
 }

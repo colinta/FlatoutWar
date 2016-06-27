@@ -16,10 +16,11 @@ private let ForceFireBurnoutDown: CGFloat = 4
 class BasePlayerNode: Node {
     var forceFireEnabled: Bool?
     var forceFireBurnout = false
-    var resourceDrag = false
     private var resourceLocation: CGPoint?
     private let resourceLine = SKSpriteNode()
     private var resourceLock: CGPoint?
+    private var touchAimingComponent = TouchableComponent()
+    private var touchResourceComponent = TouchableComponent()
 
     var turret: Turret = SimpleTurret() {
         didSet {
@@ -105,12 +106,15 @@ class BasePlayerNode: Node {
         }
         addComponent(healthComponent)
 
-        let touchableComponent = TouchableComponent()
-        touchableComponent.on(.Tapped, onTouchTapped)
-        touchableComponent.on(.DragBegan, onDragBegan)
-        touchableComponent.on(.DragEnded, onDragEnded)
-        touchableComponent.onDragged(onDragged)
-        addComponent(touchableComponent)
+        touchAimingComponent.on(.Tapped, onTouchAimingTapped)
+        touchAimingComponent.onDragged(onDraggedAiming)
+        addComponent(touchAimingComponent)
+
+        touchResourceComponent.containsTouchTest = TouchableComponent.defaultTouchTest(.Circle)
+        touchResourceComponent.on(.DragBegan, onDragResourceBegan)
+        touchResourceComponent.on(.DragEnded, onDragResourceEnded)
+        touchResourceComponent.onDragged(onDraggedResource)
+        addComponent(touchResourceComponent)
 
         let rotateToComponent = RotateToComponent()
         rotateToComponent.currentAngle = 0
@@ -143,13 +147,19 @@ class BasePlayerNode: Node {
         super.encodeWithCoder(encoder)
     }
 
+    override func touchableComponentFor(location: CGPoint) -> TouchableComponent {
+        if location.lengthWithin(self.radius) {
+            return touchResourceComponent
+        }
+        return touchAimingComponent
+    }
+
     override func update(dt: CGFloat) {
         let forceFire: Bool
         if let forceFireEnabled = self.forceFireEnabled {
             forceFire = forceFireEnabled
         }
-        else if let touchedFor = touchableComponent?.touchedFor
-        where touchedFor > 0 && turret.rapidFireEnabled && !resourceDrag {
+        else if touchAimingComponent.touchedFor > 0 && turret.rapidFireEnabled {
             forceFire = true
         }
         else {
@@ -169,7 +179,7 @@ class BasePlayerNode: Node {
             }
         }
 
-        if let resourceLocation = resourceLocation where resourceDrag {
+        if let resourceLocation = resourceLocation {
             checkForResource(resourceLocation)
         }
 
@@ -336,35 +346,31 @@ extension BasePlayerNode {
 
 extension BasePlayerNode {
 
-    func onTouchTapped(location: CGPoint) {
-        if !location.lengthWithin(self.radius) {
-            targetingComponent?.currentTarget = nil
-            startRotatingTo(location.angle)
-        }
+    func onTouchAimingTapped(location: CGPoint) {
+        targetingComponent?.currentTarget = nil
+        startRotatingTo(location.angle)
     }
 
-    func onDragBegan(location: CGPoint) {
-        resourceDrag = location.lengthWithin(self.radius)
+    func onDraggedAiming(prev prevLocation: CGPoint, location: CGPoint) {
+        let angle = prevLocation.angleTo(location, around: position)
+        let destAngle = rotateToComponent?.destAngle ?? 0
+        startRotatingTo(destAngle + angle)
+    }
+
+    func onDragResourceBegan(location: CGPoint) {
         resourceLocation = location
         resourceLine.textureId(.None)
-        resourceLine.visible = resourceDrag
         resourceLine.alpha = 0.5
+        resourceLine.visible = true
         resourceLock = nil
     }
 
-    func onDragged(prev prevLocation: CGPoint, location: CGPoint) {
-        if resourceDrag {
-            checkForResource(location)
-        }
-        else {
-            let angle = prevLocation.angleTo(location, around: position)
-            let destAngle = rotateToComponent?.destAngle ?? 0
-            startRotatingTo(destAngle + angle)
-        }
+    func onDraggedResource(prev prevLocation: CGPoint, location: CGPoint) {
+        checkForResource(location)
     }
 
-    func onDragEnded(location: CGPoint) {
-        resourceDrag = false
+    func onDragResourceEnded(location: CGPoint) {
+        resourceLocation = nil
         resourceLine.visible = false
     }
 

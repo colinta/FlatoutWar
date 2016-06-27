@@ -7,6 +7,7 @@
 //
 
 class TouchEmulationComponent: Component {
+    private var id = NSObject()
     private var currentPosition: CGPoint?
     private var tapPosition: CGPoint?
     private var pressPosition: CGPoint?
@@ -94,7 +95,7 @@ class TouchEmulationComponent: Component {
         guard let world = node.world else { return }
         guard !touching && _targets.count == 0 else { fatalError("tap can only be called if targets is empty") }
         touchBegan(world, position: position)
-        world.worldTapped(position)
+        world.worldTapped(id, worldLocation: position)
         touchEnded(world, position: position)
     }
 
@@ -102,7 +103,7 @@ class TouchEmulationComponent: Component {
         guard let world = node.world else { return }
         guard !touching && _targets.count == 0 else { fatalError("press can only be called if targets is empty") }
         touchBegan(world, position: position)
-        world.worldPressed(position)
+        world.worldPressed(id, worldLocation: position)
         touchEnded(world, position: position)
     }
 
@@ -186,28 +187,28 @@ class TouchEmulationComponent: Component {
     }
 
     private func touchBegan(world: World, position: CGPoint) {
-        world.worldTouchBegan(position)
+        world.worldTouchBegan(id, worldLocation: position)
     }
 
     private func touchEnded(world: World, position: CGPoint) {
         if dragging {
             dragEnded(world, position: position)
         }
-        world.worldTouchEnded(position)
+        world.worldTouchEnded(id, worldLocation: position)
         touching = false
         dragging = false
     }
 
     private func dragBegan(world: World, position: CGPoint) {
-        world.worldDraggingBegan(position)
+        world.worldDraggingBegan(id, worldLocation: position)
     }
 
     private func dragMoved(world: World, position: CGPoint) {
-        world.worldDraggingMoved(position)
+        world.worldDraggingMoved(id, worldLocation: position)
     }
 
     private func dragEnded(world: World, position: CGPoint) {
-        world.worldDraggingEnded(position)
+        world.worldDraggingEnded(id, worldLocation: position)
     }
 
 }

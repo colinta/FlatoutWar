@@ -88,8 +88,8 @@ class BezierPaths: World {
         touchDots = []
     }
 
-    override func worldTouchEnded(worldLocation: CGPoint) {
-        super.worldTouchEnded(worldLocation)
+    override func worldTouchEnded(id: NSObject, worldLocation: CGPoint) {
+        super.worldTouchEnded(id, worldLocation: worldLocation)
 
         clear()
         pts << worldLocation

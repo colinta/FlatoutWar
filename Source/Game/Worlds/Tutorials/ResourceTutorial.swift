@@ -64,13 +64,13 @@ class ResourceTutorial: Tutorial, ResourceWorld {
         let resourceButton = Button()
         resourceButton.size = CGSize(60)
         resourceButton.touchableComponent?.on(.DragBegan) { location in
-            self.playerNode.onDragBegan(.zero)
+            self.playerNode.onDragResourceBegan(.zero)
         }
         resourceButton.touchableComponent?.on(.DragMoved) { location in
-            self.playerNode.onDragged(prev: .zero, location: location)
+            self.playerNode.onDraggedResource(prev: .zero, location: location)
         }
         resourceButton.touchableComponent?.on(.DragEnded) { location in
-            self.playerNode.onDragEnded(location)
+            self.playerNode.onDragResourceEnded(location)
         }
         resourceFound = { resourceNode in
             self.dragIndicator.fadeTo(0, rate: 3.333)

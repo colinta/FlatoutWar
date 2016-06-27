@@ -196,7 +196,7 @@ class World: Node {
         return (scene as? WorldScene)?.view as? WorldView
     }
 
-    var touchedNode: Node?
+    var touchedNodes: [NSObject: (Node, TouchableComponent)] = [:]
     var currentNode: Node? { return selectedNode ?? defaultNode }
     var defaultNode: Node?
     var selectedNode: Node? {
@@ -393,8 +393,10 @@ extension World {
             if node === selectedNode {
                 selectedNode = nil
             }
-            if node === touchedNode {
-                touchedNode = nil
+            for (id, (touchedNode, _)) in touchedNodes {
+                if node === touchedNode {
+                    touchedNodes[id] = nil
+                }
             }
             anyEnemy = anyEnemy || node.isEnemy
             anyPlayer = anyPlayer || node.isPlayer
@@ -486,79 +488,83 @@ extension World {
         print("at time \(timeline.time)")
     }
 
-    func worldTapped(worldLocation: CGPoint) {
-        guard let touchedNode = touchedNode else { return }
+    func worldTapped(id: NSObject, worldLocation: CGPoint) {
+        guard let (touchedNode, touchableComponent) = touchedNodes[id] else { return }
         guard touchedNode.active else { return }
 
         let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchedNode.touchableComponent?.tapped(location)
+        touchableComponent.tapped(location)
     }
 
-    func worldPressed(worldLocation: CGPoint) {
-        guard let touchedNode = touchedNode else { return }
+    func worldPressed(id: NSObject, worldLocation: CGPoint) {
+        guard let (touchedNode, touchableComponent) = touchedNodes[id] else { return }
         guard touchedNode.active else { return }
 
         let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchedNode.touchableComponent?.pressed(location)
+        touchableComponent.pressed(location)
     }
 
-    func worldTouchBegan(worldLocation: CGPoint) {
-        if let touchedNode = touchableNodeAtLocation(worldLocation) {
-            self.touchedNode = touchedNode
+    func worldTouchBegan(id: NSObject, worldLocation: CGPoint) {
+        if let touchedNode = touchableNodeAtLocation(worldLocation),
+            touchableComponent = touchedNode.touchableComponentFor(convertPoint(worldLocation, toNode: touchedNode))
+        where !(touchedNodes.any { (info) in return info.1.1 == touchableComponent })
+        {
+            touchedNodes[id] = (touchedNode, touchableComponent)
         }
-        else {
-            self.touchedNode = currentNode
+        else if let currentNode = currentNode,
+            touchableComponent = currentNode.touchableComponentFor(convertPoint(worldLocation, toNode: currentNode))
+        where !(touchedNodes.any { (info) in return info.1.1 == touchableComponent })
+        {
+            touchedNodes[id] = (currentNode, touchableComponent)
         }
 
-        if let touchedNode = touchedNode where !touchedNode.active {
-            self.touchedNode = nil
+        if let (touchedNode, _) = touchedNodes[id] where !touchedNode.active {
+            touchedNodes[id] = nil
             return
         }
 
-        if let touchedNode = self.touchedNode {
+        if let (touchedNode, touchableComponent) = touchedNodes[id] {
             let location = convertPoint(worldLocation, toNode: touchedNode)
-
-            if let shouldAcceptTest = touchedNode.touchableComponent?.shouldAcceptTouch(location)
-            where !shouldAcceptTest {
+            if !touchableComponent.shouldAcceptTouch(location) {
                 if touchedNode == selectedNode {
-                    self.selectedNode = nil
+                    selectedNode = nil
                 }
-                self.touchedNode = nil
+                touchedNodes[id] = nil
             }
             else {
-                touchedNode.touchableComponent?.touchBegan(location)
+                touchableComponent.touchBegan(location)
             }
         }
     }
 
-    func worldTouchEnded(worldLocation: CGPoint) {
-        guard let touchedNode = touchedNode else { return }
+    func worldTouchEnded(id: NSObject, worldLocation: CGPoint) {
+        guard let (touchedNode, touchableComponent) = touchedNodes[id] else { return }
 
         let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchedNode.touchableComponent?.touchEnded(location)
+        touchableComponent.touchEnded(location)
 
-        self.touchedNode = nil
+        touchedNodes[id] = nil
     }
 
-    func worldDraggingBegan(worldLocation: CGPoint) {
-        guard let touchedNode = touchedNode else { return }
+    func worldDraggingBegan(id: NSObject, worldLocation: CGPoint) {
+        guard let (touchedNode, touchableComponent) = touchedNodes[id] else { return }
 
         let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchedNode.touchableComponent?.draggingBegan(location)
+        touchableComponent.draggingBegan(location)
     }
 
-    func worldDraggingMoved(worldLocation: CGPoint) {
-        guard let touchedNode = touchedNode else { return }
+    func worldDraggingMoved(id: NSObject, worldLocation: CGPoint) {
+        guard let (touchedNode, touchableComponent) = touchedNodes[id] else { return }
 
         let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchedNode.touchableComponent?.draggingMoved(location)
+        touchableComponent.draggingMoved(location)
     }
 
-    func worldDraggingEnded(worldLocation: CGPoint) {
-        guard let touchedNode = touchedNode else { return }
+    func worldDraggingEnded(id: NSObject, worldLocation: CGPoint) {
+        guard let (touchedNode, touchableComponent) = touchedNodes[id] else { return }
 
         let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchedNode.touchableComponent?.draggingEnded(location)
+        touchableComponent.draggingEnded(location)
     }
 
 }
@@ -588,9 +594,11 @@ extension World {
 
     private func touchableNodeAtLocation(worldLocation: CGPoint, inChildren children: [Node]) -> Node? {
         for node in children.reverse() {
-            if let touchableComponent = node.touchableComponent
+            guard node.touchableComponent != nil else { continue }
+
+            let nodeLocation = convertPoint(worldLocation, toNode: node)
+            if let touchableComponent = node.touchableComponentFor(nodeLocation)
             where node.active && node.visible && touchableComponent.enabled {
-                let nodeLocation = convertPoint(worldLocation, toNode: node)
                 if touchableComponent.containsTouch(nodeLocation) {
                     return node
                 }

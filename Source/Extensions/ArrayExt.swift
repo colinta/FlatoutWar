@@ -7,6 +7,28 @@
 //
 
 
+extension SequenceType {
+
+    func any(@noescape test: (el: Generator.Element) -> Bool) -> Bool {
+        for ob in self {
+            if test(el: ob) {
+                return true
+            }
+        }
+        return false
+    }
+
+    func all(test: (el: Generator.Element) -> Bool) -> Bool {
+        for ob in self {
+            if !test(el: ob) {
+                return false
+            }
+        }
+        return true
+    }
+
+}
+
 extension Array {
     typealias MatcherFn = (el: Element) -> Bool
 
@@ -20,15 +42,6 @@ extension Array {
             retVal.append((self[index], item))
         }
         return retVal
-    }
-
-    func any(@noescape test: MatcherFn) -> Bool {
-        for ob in self {
-            if test(el: ob) {
-                return true
-            }
-        }
-        return false
     }
 
     func firstMatch(@noescape test: MatcherFn) -> Element? {
