@@ -17,8 +17,6 @@ class BasePlayerNode: Node {
     var forceFireEnabled: Bool?
     var forceFireBurnout = false
 
-    private var hurtAudioNode = GameAudioNode(name: "killed")
-    private var pewPew = GameAudioNode(name: "short")
     private var resourceLocation: CGPoint?
     private let resourceLine = SKSpriteNode()
     private var resourceLock: CGPoint?
@@ -152,7 +150,7 @@ class BasePlayerNode: Node {
     }
 
     func onHurt() {
-        guard let world = world, hurtAudioNode = hurtAudioNode else { return }
+        guard let world = world, hurtAudioNode = GameAudioNode(name: "killed") else { return }
         world << hurtAudioNode
         hurtAudioNode.play()
     }
@@ -342,7 +340,7 @@ extension BasePlayerNode {
         bullet.damage *= damageFactor
         ((parent as? Node) ?? world) << bullet
 
-        if let pewPew = pewPew {
+        if let pewPew = GameAudioNode(name: "short") {
             pewPew.volume = 1
             pewPew.play()
             world << pewPew

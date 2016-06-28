@@ -15,8 +15,6 @@ class EnemySoldierNode: Node {
     var sprite = SKSpriteNode()
     var rammingDamage: Float = Damage
 
-    private var hurtAudioNode = GameAudioNode(name: "bang")
-
     enum Scatter {
         case RunAway
         case Dodge
@@ -98,7 +96,7 @@ class EnemySoldierNode: Node {
     }
 
     func onHurt() {
-        guard let world = world, hurtAudioNode = hurtAudioNode else { return }
+        guard let world = world, hurtAudioNode = GameAudioNode(name: "bang") else { return }
         world << hurtAudioNode
         hurtAudioNode.play()
     }

@@ -5,7 +5,7 @@ project do |p|
 
     p.debug_configuration.settings["ENABLE_TESTABILITY"] = "YES"
 end
-foo
+
 application_for :ios, 8.0, :swift do |target|
     target.name = "Flatout War"
 
