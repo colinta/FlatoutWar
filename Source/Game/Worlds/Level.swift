@@ -62,7 +62,7 @@ class Level: World {
         didSet {
             let duration: CGFloat?
             let speed: CGFloat?
-            if let currentSpeed = cameraMove.speed {
+            if let currentSpeed = cameraMove.speed where currentSpeed > 10 {
                 speed = currentSpeed
                 duration = nil
             }
