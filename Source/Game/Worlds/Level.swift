@@ -427,8 +427,8 @@ extension Level {
             success = successArg
         }
         else {
-            completedExperience = gainedExperience > config.requiredExperience
-            completedResources = gainedResources > config.requiredResources
+            completedExperience = gainedExperience >= config.requiredExperience
+            completedResources = gainedResources >= config.requiredResources
             success = completedExperience! && completedResources!
         }
 
