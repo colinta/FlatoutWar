@@ -343,7 +343,7 @@ extension BasePlayerNode {
         ((parent as? Node) ?? world) << bullet
 
         if let pewPew = pewPew {
-            pewPew.volume = 0.25
+            pewPew.volume = 1
             pewPew.play()
             world << pewPew
         }
