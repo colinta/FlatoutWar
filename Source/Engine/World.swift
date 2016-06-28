@@ -17,8 +17,7 @@ class World: Node {
     var gameUI = UINode()
     var timeline = TimelineComponent()
     var interactionEnabled = true
-
-    private var channel = ALChannelSource(sources: 32)
+    var channel = ALChannelSource(sources: 32)
 
     var pauseable = true
     private var shouldBePaused = false
