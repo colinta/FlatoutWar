@@ -18,6 +18,8 @@ class World: Node {
     var timeline = TimelineComponent()
     var interactionEnabled = true
 
+    private var channel = ALChannelSource(sources: 32)
+
     var pauseable = true
     private var shouldBePaused = false
     private var shouldBeHalted = false
