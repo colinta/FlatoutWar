@@ -3,79 +3,79 @@
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "flatoutwar-icon2-29_2x.png",
+      "filename" : "flatoutwar-icon-29_2x.png",
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
-      "filename" : "flatoutwar-icon2-29_3x.png",
+      "filename" : "flatoutwar-icon-29_3x.png",
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "flatoutwar-icon2-40_2x.png",
+      "filename" : "flatoutwar-icon-40_2x.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
-      "filename" : "flatoutwar-icon2-40_3x.png",
+      "filename" : "flatoutwar-icon-40_3x.png",
       "scale" : "3x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "flatoutwar-icon2-60_2x.png",
+      "filename" : "flatoutwar-icon-60_2x.png",
       "scale" : "2x"
     },
     {
       "size" : "60x60",
       "idiom" : "iphone",
-      "filename" : "flatoutwar-icon2-60_3x.png",
+      "filename" : "flatoutwar-icon-60_3x.png",
       "scale" : "3x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "flatoutwar-icon2-29_1x.png",
+      "filename" : "flatoutwar-icon-29_1x.png",
       "scale" : "1x"
     },
     {
       "size" : "29x29",
       "idiom" : "ipad",
-      "filename" : "flatoutwar-icon2-29_2x-1.png",
+      "filename" : "flatoutwar-icon-29_2x-1.png",
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "flatoutwar-icon2-40_1x.png",
+      "filename" : "flatoutwar-icon-40_1x.png",
       "scale" : "1x"
     },
     {
       "size" : "40x40",
       "idiom" : "ipad",
-      "filename" : "flatoutwar-icon2-40_2x-1.png",
+      "filename" : "flatoutwar-icon-40_2x-1.png",
       "scale" : "2x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "flatoutwar-icon2-76_1x.png",
+      "filename" : "flatoutwar-icon-76_1x.png",
       "scale" : "1x"
     },
     {
       "size" : "76x76",
       "idiom" : "ipad",
-      "filename" : "flatoutwar-icon2-76_2x.png",
+      "filename" : "flatoutwar-icon-76_2x.png",
       "scale" : "2x"
     },
     {
       "size" : "83.5x83.5",
       "idiom" : "ipad",
-      "filename" : "flatoutwar-icon2-83_2x.png",
+      "filename" : "flatoutwar-icon-83_2x.png",
       "scale" : "2x"
     }
   ],
