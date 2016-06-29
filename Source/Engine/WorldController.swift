@@ -19,7 +19,6 @@ class WorldController: UIViewController {
             view.presentWorld(MainMenuWorld())
         }
         else {
-            Defaults["hasSeenStartup"] = true
             view.presentWorld(StartupWorld())
         }
         // view.presentWorld(Playground())
