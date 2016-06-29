@@ -16,6 +16,9 @@ private let ForceFireBurnoutDown: CGFloat = 4
 class BasePlayerNode: Node {
     var forceFireEnabled: Bool?
     var forceFireBurnout = false
+    var forceResourceEnabled = true {
+        didSet { touchResourceComponent.enabled = forceResourceEnabled }
+    }
 
     private var hurtSound = OpenALManager.sharedInstance().bufferFromFile("killed.caf")
     private var shootSound = OpenALManager.sharedInstance().bufferFromFile("short.caf")
