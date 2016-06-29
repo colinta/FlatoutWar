@@ -66,7 +66,8 @@ class WorldSelectWorld: World {
             let button = Button(at: worldLocations[.Base]!)
             button.style = .SquareSized(50)
             button.font = .Big
-            button.enabled = TutorialConfigSummary().worldCompleted
+            // button.enabled = TutorialConfigSummary().worldCompleted
+            button.enabled = false
             button.onTapped {
                 self.interactionEnabled = false
                 self.transitionTo1()
