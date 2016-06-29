@@ -267,12 +267,10 @@ class IntroductionCutSceneWorld: World {
             time += scene.duration + scene.pause
         }
 
-        if let prevScene = prevScene {
-            timeline.at(.At(time + prevScene.pause)) {
-                prevScene.parent.fadeTo(0, duration: fadeDuration).onFaded {
-                    let world = WorldSelectWorld(beginAt: .PanIn)
-                    self.director?.presentWorld(world)
-                }
+        timeline.at(.At(time)) {
+            prevScene!.parent.fadeTo(0, duration: fadeDuration).onFaded {
+                let world = WorldSelectWorld(beginAt: .PanIn)
+                self.director?.presentWorld(world)
             }
         }
     }

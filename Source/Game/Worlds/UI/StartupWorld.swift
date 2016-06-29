@@ -96,6 +96,10 @@ class StartupWorld: World {
             self << node
             self.defaultNode = node
         }
+
+        timeline.at(44) {
+            self.director?.presentWorld(MainMenuWorld())
+        }
     }
 
     override func didAdd(node: Node) {
@@ -120,6 +124,8 @@ class StartupWorld: World {
     }
 
     func drawTitle() {
+        let Defaults = NSUserDefaults.standardUserDefaults()
+        Defaults["hasSeenStartup"] = true
         var y: CGFloat = 30
         for text in ["FLATOUT", "WAR"] {
             let textNode = TextNode()
