@@ -27,7 +27,6 @@ class EnemyJetArtist: Artist {
 
     override func draw(context: CGContext) {
         CGContextSetFillColorWithColor(context, color.CGColor)
-        CGContextSetShadowWithColor(context, .zero, 5, color.CGColor)
 
         if health == 1 {
             CGContextMoveToPoint(context, size.width, middle.y)
@@ -70,16 +69,19 @@ class EnemyBigJetArtist: EnemyJetArtist {
     }
 
     override func draw(context: CGContext) {
-
         CGContextSaveGState(context)
         super.draw(context)
         CGContextRestoreGState(context)
 
-        CGContextSetLineWidth(context, 2.0)
-        CGContextSetStrokeColorWithColor(context, darkColor.CGColor)
-        CGContextMoveToPoint(context, size.width * 0.25, size.height * 0.125)
-        CGContextAddLineToPoint(context, size.width * 0.25, size.height * 0.875)
-        CGContextDrawPath(context, .Stroke)
+        CGContextSetFillColorWithColor(context, darkColor.CGColor)
+        let dx: CGFloat = 1
+        let dy: CGFloat = 0.5
+        CGContextMoveToPoint(context, size.width * 1/4 - dx, size.height * 1/8 - dy)
+        CGContextAddLineToPoint(context, size.width * 1/4 - dx, size.height * 7/8 + dy)
+        CGContextAddLineToPoint(context, size.width * 1/4 + dx, size.height * 7/8 - dy)
+        CGContextAddLineToPoint(context, size.width * 1/4 + dx, size.height * 1/8 + dy)
+        CGContextClosePath(context)
+        CGContextDrawPath(context, .Fill)
     }
 
 }
