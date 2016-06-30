@@ -30,7 +30,7 @@ class EnemySoldierArtist: Artist {
         CGContextSetFillColorWithColor(context, color.CGColor)
 
         if health == 1 {
-            CGContextAddRect(context, CGRect(origin: .zero, size: size))
+            CGContextAddRect(context, CGRect(size: size))
             CGContextDrawPath(context, .Fill)
         }
         else {
@@ -40,7 +40,7 @@ class EnemySoldierArtist: Artist {
             CGContextDrawPath(context, .Fill)
 
             CGContextSetAlpha(context, 0.25)
-            CGContextAddRect(context, CGRect(origin: .zero, size: size))
+            CGContextAddRect(context, CGRect(size: size))
             CGContextDrawPath(context, .Fill)
         }
     }

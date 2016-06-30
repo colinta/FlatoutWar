@@ -23,7 +23,7 @@ class SoldierArtist: Artist {
         CGContextSetFillColorWithColor(context, UIColor(hex: PowerupRed).CGColor)
 
         if health == 1 {
-            CGContextAddRect(context, CGRect(origin: .zero, size: size))
+            CGContextAddRect(context, CGRect(size: size))
             CGContextDrawPath(context, .Fill)
         }
         else {
@@ -33,7 +33,7 @@ class SoldierArtist: Artist {
             CGContextDrawPath(context, .Fill)
 
             CGContextSetAlpha(context, 0.25)
-            CGContextAddRect(context, CGRect(origin: .zero, size: size))
+            CGContextAddRect(context, CGRect(size: size))
             CGContextDrawPath(context, .Fill)
         }
     }

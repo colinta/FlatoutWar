@@ -18,7 +18,7 @@ class HourglassZoneArtist: Artist {
         let lineWidth: CGFloat = 1
         CGContextSetLineWidth(context, lineWidth)
         CGContextSetStrokeColorWithColor(context, color.CGColor)
-        CGContextAddEllipseInRect(context, CGRect(origin: .zero, size: size))
+        CGContextAddEllipseInRect(context, CGRect(size: size))
         CGContextDrawPath(context, .Stroke)
     }
 

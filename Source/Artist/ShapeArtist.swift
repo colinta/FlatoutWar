@@ -40,7 +40,7 @@ class RectArtist: ShapeArtist {
     override func draw(context: CGContext) {
         super.draw(context)
 
-        CGContextAddRect(context, CGRect(origin: .zero, size: size))
+        CGContextAddRect(context, CGRect(size: size))
         CGContextDrawPath(context, drawingMode)
     }
 }
@@ -60,7 +60,7 @@ class CircleArtist: ShapeArtist {
     override func draw(context: CGContext) {
         super.draw(context)
 
-        CGContextAddEllipseInRect(context, CGRect(origin: .zero, size: size))
+        CGContextAddEllipseInRect(context, CGRect(size: size))
         CGContextDrawPath(context, drawingMode)
     }
 }

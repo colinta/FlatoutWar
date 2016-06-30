@@ -16,7 +16,7 @@ class DotArtist: Artist {
 
     override func draw(context: CGContext) {
         CGContextSetFillColorWithColor(context, color.CGColor)
-        CGContextAddEllipseInRect(context, CGRect(origin: .zero, size: size))
+        CGContextAddEllipseInRect(context, CGRect(size: size))
         CGContextDrawPath(context, .Fill)
     }
 

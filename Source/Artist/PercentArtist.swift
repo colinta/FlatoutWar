@@ -56,12 +56,12 @@ class PercentArtist: Artist {
             let smallWidth = size.width * complete
             CGContextSetAlpha(context, 0.5)
             CGContextSetFillColorWithColor(context, UIColor(hex: style.color).CGColor)
-            CGContextAddRect(context, CGRect(origin: .zero, size: size))
+            CGContextAddRect(context, CGRect(size: size))
             CGContextDrawPath(context, .Fill)
 
             CGContextSetAlpha(context, 1)
             CGContextSetFillColorWithColor(context, UIColor(hex: style.completeColor).CGColor)
-            CGContextAddRect(context, CGRect(origin: .zero, size: CGSize(smallWidth, size.height)))
+            CGContextAddRect(context, CGRect(size: CGSize(smallWidth, size.height)))
             CGContextDrawPath(context, .Fill)
         case .Heat:
             let smallHeight = size.height * complete

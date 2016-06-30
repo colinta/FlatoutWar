@@ -19,6 +19,11 @@ public extension CGRect {
         size = CGSize(width: right - x, height: bottom - y)
     }
 
+    init(size: CGSize) {
+        origin = .zero
+        self.size = size
+    }
+
     static func at(x x: CGFloat, y: CGFloat) -> CGRect {
         return CGRect(x: x, y: y, width: 0, height: 0)
     }

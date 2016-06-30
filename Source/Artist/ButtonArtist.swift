@@ -49,10 +49,10 @@ class ButtonArtist: TextArtist {
 
         switch style {
         case .Square, .SquareSized, .RectSized:
-            CGContextAddRect(context, CGRect(origin: .zero, size: size))
+            CGContextAddRect(context, CGRect(size: size))
             CGContextDrawPath(context, .Stroke)
         case .Circle, .CircleSized:
-            CGContextAddEllipseInRect(context, CGRect(origin: .zero, size: size))
+            CGContextAddEllipseInRect(context, CGRect(size: size))
             CGContextDrawPath(context, .Stroke)
         case .None:
             break
