@@ -157,6 +157,7 @@ class World: Node {
     }
 
     func outsideWorld(extra dist: CGFloat, angle _angle: CGFloat, ui: Bool = false) -> CGPoint {
+        let size = ui ? screenSize : self.size
         let angle = normalizeAngle(_angle)
         let sizeAngle = size.angle
 
