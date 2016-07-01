@@ -166,3 +166,5 @@ public func += (proxy: NSUserDefaults.Proxy, b: Double) {
 public postfix func ++ (proxy: NSUserDefaults.Proxy) {
     proxy += 1
 }
+
+public let Defaults = NSUserDefaults.standardUserDefaults()

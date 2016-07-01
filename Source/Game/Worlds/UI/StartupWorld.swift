@@ -124,7 +124,6 @@ class StartupWorld: World {
     }
 
     func drawTitle() {
-        let Defaults = NSUserDefaults.standardUserDefaults()
         Defaults["hasSeenStartup"] = true
         var y: CGFloat = 30
         for text in ["FLATOUT", "WAR"] {

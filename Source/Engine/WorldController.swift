@@ -14,11 +14,10 @@ class WorldController: UIViewController {
         self.worldView = view
         self.view = worldView
 
-        let Defaults = NSUserDefaults.standardUserDefaults()
-        if let isColin = Defaults["colin"].bool where isColin {
+        if Defaults["colin"].bool == true {
             view.presentWorld(TutorialLevel6())
         }
-        else if let hasSeenStartup = Defaults["hasSeenStartup"].bool where hasSeenStartup {
+        else if Defaults["hasSeenStartup"].bool == true {
             view.presentWorld(MainMenuWorld())
         }
         else {

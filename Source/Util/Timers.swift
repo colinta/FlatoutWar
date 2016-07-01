@@ -163,7 +163,6 @@ public func throttle(every: NSTimeInterval) -> ThrottledBlock {
 }
 
 public func justOnce(key: String, block: Block) {
-    let Defaults = NSUserDefaults.standardUserDefaults()
     if Defaults["JustOnce-\(key)"].bool != true {
         Defaults["JustOnce-\(key)"] = true
         block()
