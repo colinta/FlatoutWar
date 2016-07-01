@@ -155,7 +155,7 @@ class PlayerRammingComponent: RammingComponent {
     private func struckTarget() -> Node? {
         if let players = (node.world?.players ?? currentTarget.map { [$0] }) {
             return players.firstMatch { player in
-                return player.playerComponent!.targetable && intersectionNode!.intersectsNode(player.playerComponent!.intersectionNode!) && node.touches(player)
+                return player.playerComponent!.intersectable && intersectionNode!.intersectsNode(player.playerComponent!.intersectionNode!) && node.touches(player)
             }
         }
         return nil

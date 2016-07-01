@@ -12,6 +12,7 @@ class PlayerComponent: Component {
         case Attacks
     }
 
+    var intersectable: Bool = true
     var targetable: Bool = true
     var rammedBehavior: Rammed = .Damaged
     weak var intersectionNode: SKNode! {

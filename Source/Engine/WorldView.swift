@@ -26,6 +26,8 @@ class WorldView: SKView {
 
     func presentWorld(world: World) {
         (self.scene as? WorldScene)?.world.reset()
+        Artist.clearCache()
+        SKTexture.clearCache()
         let scene = WorldScene(size: frame.size, world: world)
         presentScene(scene)
     }

@@ -126,9 +126,6 @@ extension TurretNode {
         self.touchableComponent!.enabled = !died
 
         let enabled = !isMoving && !died
-
-        firingComponent!.enabled = !died
-        playerComponent!.targetable = !died
         self.alpha = died ? 0.5 : 0
 
         self.alpha = enabled ? 1 : 0.5
@@ -136,7 +133,7 @@ extension TurretNode {
             self.cursor.selected = false
         }
 
-        playerComponent!.targetable = enabled
+        playerComponent!.intersectable = enabled
         firingComponent!.enabled = enabled
         selectableComponent!.enabled = enabled
     }

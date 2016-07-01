@@ -9,7 +9,7 @@
 private let startingHealth: Float = 40
 
 class DroneNode: Node, DraggableNode {
-    static let DefaultSpeed: CGFloat = 30
+    static let DefaultSpeed: CGFloat = 40
 
     var upgrade: FiveUpgrades = .One {
         didSet {
@@ -61,6 +61,7 @@ class DroneNode: Node, DraggableNode {
         placeholder.hidden = true
 
         let playerComponent = PlayerComponent()
+        playerComponent.targetable = false
         playerComponent.intersectionNode = sprite
         addComponent(playerComponent)
 
@@ -225,17 +226,13 @@ extension DroneNode {
         self.phaseComponent!.enabled = !died
 
         let enabled = !isMoving && !died
-
-        firingComponent!.enabled = !died
-        playerComponent!.targetable = !died
         self.alpha = died ? 0.5 : 0
-
         self.alpha = enabled ? 1 : 0.5
         if self.cursor.selected && !enabled {
             self.cursor.selected = false
         }
 
-        playerComponent!.targetable = enabled
+        playerComponent!.intersectable = enabled
         firingComponent!.enabled = enabled
         selectableComponent!.enabled = enabled
         wanderingComponent!.enabled = enabled && (wanderingEnabled ?? true)

@@ -77,7 +77,7 @@ class BasePlayerNode: Node {
 
         size = CGSize(40)
 
-        self << lightNode
+        // self << lightNode
 
         radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
         radarNode.anchorPoint = CGPoint(0, 0.5)
@@ -354,7 +354,7 @@ extension BasePlayerNode {
 extension BasePlayerNode {
 
     override func touchableComponentFor(location: CGPoint) -> TouchableComponent {
-        if location.lengthWithin(self.radius) {
+        if location.lengthWithin(self.radius + 10) {
             return touchResourceComponent
         }
         return touchAimingComponent

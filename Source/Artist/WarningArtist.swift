@@ -12,7 +12,12 @@ class WarningArtist: Artist {
 
     required init() {
         super.init()
-        size = CGSize(10)
+        switch UIDevice.currentDevice().userInterfaceIdiom {
+            case .Pad:
+                size = CGSize(20)
+            default:
+                size = CGSize(10)
+        }
     }
 
     override func draw(context: CGContext) {

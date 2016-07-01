@@ -6,10 +6,14 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
-private var generatedTextures = [String: SKTexture]()
+private var generatedTextures: [String: SKTexture] = [:]
 
 extension SKTexture {
-    static func id(id: ImageIdentifier, scale: Artist.Scale = .Normal) -> SKTexture {
+    static func clearCache() {
+        generatedTextures = [:]
+    }
+
+    static func id(id: ImageIdentifier, scale: Artist.Scale = .Default) -> SKTexture {
         let cacheName = id.name
         if let cacheName = cacheName,
             cached = generatedTextures[cacheName]
@@ -36,7 +40,7 @@ extension SKLightNode {
 }
 
 extension SKSpriteNode {
-    convenience init(id: ImageIdentifier, at position: CGPoint = .zero, scale: Artist.Scale = .Normal) {
+    convenience init(id: ImageIdentifier, at position: CGPoint = .zero, scale: Artist.Scale = .Default) {
         let texture = SKTexture.id(id, scale: scale)
         self.init(texture: texture)
         setScale(1 / scale.scale)
@@ -44,7 +48,7 @@ extension SKSpriteNode {
         self.shadowedBitMask = 0xFFFFFFFF
     }
 
-    func textureId(id: ImageIdentifier, scale: Artist.Scale = .Normal) {
+    func textureId(id: ImageIdentifier, scale: Artist.Scale = .Default) {
         if self.texture == nil {
             setScale(1 / scale.scale)
         }

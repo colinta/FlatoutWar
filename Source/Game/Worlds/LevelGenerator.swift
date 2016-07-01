@@ -8,8 +8,9 @@
 
 extension Level {
     func generateWarning(screenAngles: CGFloat...) {
+        let insetSize = SKSpriteNode(id: .Warning).size + CGSize(10)
         let innerRect = CGRect.zero
-            .grow(by: size - CGSize(20))
+            .grow(by: screenSize - insetSize)
         for screenAngle in screenAngles {
             let warning = Node()
             let sprite = SKSpriteNode(id: .Warning)

@@ -309,14 +309,13 @@ extension Level {
             if let playerNode = node as? BasePlayerNode {
                 self.playerNode = playerNode
             }
+            else {
+                customizeNode(node)
+            }
         }
 
         if shouldPopulatePlayer {
             updatePlayer(playerNode)
-        }
-
-        for node in players where node != playerNode {
-            customizeNode(node)
         }
     }
 
@@ -509,13 +508,13 @@ extension Level {
                     }
                 }
 
-                self.restartButton.fixedPosition = .Center(x: 0, y: -80)
+                self.restartButton.fixedPosition = .Bottom(x: 0, y: 80)
                 self.restartButton.visible = true
                 self.backButton.visible = true
 
                 if self.shouldReturnToLevelSelect {
                     self.backButton.text = "NEXT"
-                    self.backButton.fixedPosition = .Center(x: 0, y: 80)
+                    self.backButton.fixedPosition = .Top(x: 0, y: -60)
                 }
                 else {
                     self.nextButton.visible = true

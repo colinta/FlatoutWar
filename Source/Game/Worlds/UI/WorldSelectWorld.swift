@@ -130,8 +130,8 @@ class WorldSelectWorld: World {
         let levelSelect = transitionToLevel(at: worldLocations[.Tutorial]!, animate: animate)
 
         let tutorialButton = Button(at: CGPoint(x: -200, y: 20))
-        tutorialButton.text = "?"
         tutorialButton.font = .Big
+        tutorialButton.text = "?"
         tutorialButton.size = CGSize(width: 15, height: 15)
         tutorialButton.onTapped {
             self.director?.presentWorld(TutorialSelectWorld())
@@ -219,7 +219,10 @@ class WorldSelectWorld: World {
             let position = CGPoint(x, y)
             let upgrade = UpgradeWorld()
             upgrade.nextWorld = level
-            let button = generateButton(at: position, level: level, prevLevel: prevLevel, present: upgrade)
+            let button = generateButton(
+                at: position,
+                level: level, prevLevel: prevLevel,
+                presentWorld: upgrade)
             button.text = "\(levelIndex + 1)"
             levelSelect << button
             prevLevel = level
@@ -230,7 +233,7 @@ class WorldSelectWorld: World {
 }
 
 extension WorldSelectWorld {
-    func generateButton(at center: CGPoint, level: Level, prevLevel: Level?, present presentWorld: World? = nil) -> Button {
+    func generateButton(at center: CGPoint, level: Level, prevLevel: Level?, presentWorld: World? = nil) -> Button {
         let button = Button(at: center)
         let completed = prevLevel?.config.levelCompleted ?? true
         button.enabled = completed

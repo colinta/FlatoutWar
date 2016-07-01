@@ -16,7 +16,7 @@ class TutorialLevel5: TutorialLevel {
         }
 
         var delay: CGFloat = 3
-        12.times { (i: Int) in
+        9.times { (i: Int) in
             timeline.at(.Delayed(delay), block: generateResourceDrop())
             delay += 10
         }
@@ -29,16 +29,17 @@ class TutorialLevel5: TutorialLevel {
             self.onNoMoreEnemies { self.beginWave2() }
         }
 
-        let wave1: CGFloat = ±rand(TAU_8)
-        let wave2: CGFloat = wave1 ± rand(min: TAU_16, max: TAU_8)
+        let wave1: CGFloat = TAU / 32
+        let wave2: CGFloat = -TAU / 32
         let wave3 = TAU_2 ± rand(TAU_16)
-        generateWarning(wave1, wave2, wave3 - TAU_4, wave3, wave3 + TAU_4)
+        generateWarning(wave1, wave2, wave3)
+        generateWarning(wave3 - TAU_8, wave3 + TAU_8, wave3 - TAU_16, wave3 + TAU_16)
 
-        timeline.every(1.5...3.0, start: .Delayed(), times: 10, block: generateEnemy(wave1)) ~~> nextStep()
-        timeline.every(1.5...3.0, start: .Delayed(), times: 10, block: generateEnemy(wave2)) ~~> nextStep()
+        timeline.every(2.5...4.5, start: .Delayed(), times: 8, block: generateEnemy(wave1)) ~~> nextStep()
+        timeline.every(2.5...4.5, start: .Delayed(), times: 8, block: generateEnemy(wave2)) ~~> nextStep()
 
-        timeline.every(3...6, start: .Delayed(), times: 5, block: generateLeaderEnemy(wave3, spread: TAU_16)) ~~> nextStep()
-        timeline.every(1.5...3, start: .Delayed(), times: 10, block: generateEnemy(wave3, spread: TAU_4)) ~~> nextStep()
+        timeline.every(4...7, start: .Delayed(), times: 5, block: generateLeaderEnemy(wave3, spread: TAU_16)) ~~> nextStep()
+        timeline.every(1.5...2.5, start: .Delayed(), times: 14, block: generateEnemy(wave3, spread: TAU_8)) ~~> nextStep()
     }
 
     func beginWave2() {
@@ -50,10 +51,13 @@ class TutorialLevel5: TutorialLevel {
             self.moveCamera(to: CGPoint(x: -120, y: 0), duration: 3)
         }
 
-        let wave1 = TAU_2 + rand(TAU_16)
-        let wave2 = TAU_2 - rand(TAU_16)
+        let wave1 = TAU_2 + TAU_16
+        let wave2 = TAU_2 - TAU_16
         timeline.at(.Delayed(1)) {
-            self.generateWarning(wave1, wave2)
+            self.generateWarning(wave1, wave1 - TAU_16, wave1 + TAU_16)
+        }
+        timeline.at(.Delayed(7)) {
+            self.generateWarning(wave2, wave2 - TAU_16, wave2 + TAU_16)
         }
         timeline.every(0.5, start: .Delayed(4), times: 20) {
             self.generateEnemy(wave1, spread: TAU_16)()

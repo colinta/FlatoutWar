@@ -6,13 +6,20 @@
 //  Copyright © 2015 colinta. All rights reserved.
 //
 
-private var generatedImages = [String: UIImage]()
+private var generatedImages: [String: UIImage] = [:]
 
 class Artist {
+    static func clearCache() {
+        generatedImages = [:]
+    }
+
     enum Scale {
         case Small
         case Normal
         case Zoomed
+        static var Default: Scale {
+            return UIDevice.currentDevice().userInterfaceIdiom == .Pad ? .Zoomed : .Normal
+        }
 
         var scale: CGFloat {
             switch self {
@@ -115,7 +122,7 @@ extension Artist.Shadowed: BooleanType {
 }
 
 extension Artist {
-    class func generate(id: ImageIdentifier, scale: Scale = .Normal) -> UIImage {
+    class func generate(id: ImageIdentifier, scale: Scale = .Default) -> UIImage {
         var cacheName: String?
         if let name = id.name {
             cacheName = "\(name)-zoom_\(scale.name)"

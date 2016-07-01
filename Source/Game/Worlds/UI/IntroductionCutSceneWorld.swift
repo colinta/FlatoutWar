@@ -133,9 +133,9 @@ class IntroductionCutSceneWorld: World {
                     player.position = CGPoint(x: -200)
                     player.scaleTo(1, start: 4, duration: 3)
                     player.fadeTo(1, start: 0, duration: 2).onFaded {
-                        player.radarNode.textureId(.BaseRadar(upgrade: .One), scale: .Normal)
-                        player.baseNode.textureId(.Base(upgrade: .One, health: 100), scale: .Normal)
-                        player.turretNode.textureId(.BaseSingleTurret(upgrade: .One), scale: .Normal)
+                        player.radarNode.textureId(.BaseRadar(upgrade: .One))
+                        player.baseNode.textureId(.Base(upgrade: .One, health: 100))
+                        player.turretNode.textureId(.BaseSingleTurret(upgrade: .One))
                     }
                     parent << player
                 },

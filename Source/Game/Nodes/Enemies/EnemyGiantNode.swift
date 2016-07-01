@@ -6,7 +6,7 @@
 //  Copyright (c) 2016 FlatoutWar. All rights reserved.
 //
 
-private let Health: Float = 25
+private let Health: Float = 40
 private let Speed: CGFloat = 15
 private let Experience = 10
 private let Damage: Float = 50

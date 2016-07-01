@@ -26,11 +26,23 @@ class TutorialLevel6: TutorialLevel {
         let nextStep = afterN {
             self.onNoMoreEnemies { self.beginWave2() }
         }
+        let randAngle: () -> CGFloat = { return rand(min: -self.size.angle, max: TAU_4) }
 
-        timeline.at(.After(delay), block: generateEnemyColumn(rand(min: -size.angle, max: TAU_4)))
-        timeline.at(.After(delay + 15), block: generateEnemyColumn(rand(min: -size.angle, max: TAU_4)))
-        timeline.at(.After(delay + 28), block: generateEnemyColumn(rand(min: -size.angle, max: TAU_4)))
-        timeline.at(.After(delay + 28), block: nextStep())
+        let delays: [CGFloat] = [
+            0, 12, 22
+        ]
+        for delay in delays {
+            let wave1 = randAngle()
+            let wave2 = randAngle()
+            timeline.at(.After(delay)) {
+                self.generateWarning(wave1, wave2)
+            }
+            timeline.at(.Delayed(delay)) {
+                self.generateEnemyColumn(wave1)()
+                self.generateEnemyColumn(wave2)()
+            }
+        }
+        timeline.at(.Delayed(delays.last!), block: nextStep())
     }
 
     func beginWave2() {
@@ -38,6 +50,7 @@ class TutorialLevel6: TutorialLevel {
             self.onNoMoreEnemies { self.beginWave3() }
         }
 
+        self.generateWarning(0, TAU_16, -TAU_16)
         timeline.every(7...9, start: .Delayed(), times: 4) {
             let angle: CGFloat = self.randSideAngle(.Right)
             self.generateBigJetWithFollowers(angle, spread: 0)()
@@ -51,7 +64,12 @@ class TutorialLevel6: TutorialLevel {
         timeline.at(.Delayed(3), block: generateGiant(size.angle))
         timeline.at(.Delayed(6), block: generateGiant(size.angle - TAU_16))
         timeline.at(.Delayed(10), block: generateGiant(size.angle + TAU_16))
-        timeline.every(1.5...2.5, start: .Delayed(), times: 10, block: generateEnemy(rand(±size.angle)))
+
+        let wave1 = randSideAngle(.Right)
+        let wave2 = randSideAngle(.Bottom)
+        self.generateWarning(wave1, wave2)
+        timeline.every(1.5...2.5, start: .Delayed(), times: 10, block: generateEnemy(wave1))
+        timeline.every(1.5...2.5, start: .Delayed(), times: 10, block: generateEnemy(wave2))
     }
 
     func generateEnemyColumn(screenAngle: CGFloat) -> Block {
@@ -60,7 +78,7 @@ class TutorialLevel6: TutorialLevel {
             ghost.name = "pair ghost"
             ghost.rotateTowards(point: .zero)
 
-            let numPairs = 8
+            let numPairs = 5
             var r: CGFloat = 0
             let dist: CGFloat = 5
             numPairs.times {
