@@ -16,7 +16,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        TutorialConfigSummary().completeAll()
+        justOnce("2016-06-30") {
+            TutorialConfigSummary().resetAll()
+        }
+
         do {
             let oal = OALSimpleAudio.sharedInstance()
             oal.allowIpod = false
