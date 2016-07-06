@@ -20,10 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             TutorialConfigSummary().resetAll()
         }
 
+        let oal = OALSimpleAudio.sharedInstance()
+        oal.allowIpod = false
+        oal.honorSilentSwitch = true
+
         do {
-            let oal = OALSimpleAudio.sharedInstance()
-            oal.allowIpod = false
-            oal.honorSilentSwitch = true
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
         }
         catch {}
