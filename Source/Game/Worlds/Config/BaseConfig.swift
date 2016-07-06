@@ -13,8 +13,7 @@ class BaseConfig: Config {
     var trackResources: Bool { return true }
 
     var possibleExperience: Int { return 0 }
-    var requiredExperience: Int { return 0 }
-    var requiredResources: Int { return 0 }
+    var possibleResources: Int { return 0 }
     var gainedExperience: Int {
         get { return Defaults["\(configKey)-gainedExperience"].int ?? 0 }
     }

@@ -8,7 +8,7 @@
 
 class ResourceTutorial: Tutorial, ResourceWorld {
     let experiencePercent = ExperiencePercent(goal: 30)
-    let resourcePercent = ResourcePercent(goal: 10)
+    let resourcePercent = ResourcePercent(max: 10)
 
     var firstResource = ResourceNode()
     var resourceFound: ((ResourceNode) -> Void)!

@@ -9,7 +9,8 @@
 class LabelPercent: Node {
     let text = TextNode()
     let percent = PercentBar()
-    let goal: Int
+    let goal: Int?
+    let max: Int?
     var collected: Int {
         didSet {
             updateSprites()
@@ -20,13 +21,20 @@ class LabelPercent: Node {
         fatalError("must provide goal")
     }
 
-    required init(goal: Int) {
+    required init(goal: Int?, max: Int?) {
         self.goal = goal
+        self.max = max
         self.collected = 0
         super.init()
 
+        text.alignment = .Right
         text.font = .Tiny
-        text.text = "\(goal)/\(goal)"
+        if let goal = goal {
+            text.text = "\(goal)/\(goal)"
+        }
+        else if let max = max {
+            text.text = "\(max)/\(max)"
+        }
         self << text
 
         percent.complete = 0
@@ -36,8 +44,8 @@ class LabelPercent: Node {
         totalWidth += text.size.width
         totalWidth += percent.size.width
 
-        size = CGSize(totalWidth, max(text.size.height, percent.size.height))
-        text.position = CGPoint(x: -size.width / 2 + text.size.width / 2)
+        size = CGSize(totalWidth, Swift.max(text.size.height, percent.size.height))
+        text.position = CGPoint(x: -size.width / 2 + text.size.width)
         percent.position = CGPoint(x: size.width / 2 - percent.size.width / 2)
         updateSprites()
     }
@@ -51,13 +59,18 @@ class LabelPercent: Node {
     }
 
     private func updateSprites() {
-        text.text = "\(collected)/\(goal)"
+        if let goal = goal {
+            text.text = "\(collected)/\(goal)"
+        }
+        else {
+            text.text = "\(collected)"
+        }
 
         if goal == 0 {
             percent.complete = 1
             text.color = nil
         }
-        else {
+        else if let goal = goal ?? max {
             percent.complete = CGFloat(collected) / CGFloat(goal)
             if percent.complete >= 1 {
                 text.color = 0x1BFF00
@@ -72,8 +85,9 @@ class LabelPercent: Node {
     }
 
     required init?(coder: NSCoder) {
-        self.goal = coder.decodeInt("goal") ?? 1
-        self.collected = coder.decodeInt("collected") ?? 1
+        self.goal = coder.decodeInt("goal")
+        self.max = coder.decodeInt("max")
+        self.collected = coder.decodeInt("collected") ?? 0
         super.init(coder: coder)
     }
 

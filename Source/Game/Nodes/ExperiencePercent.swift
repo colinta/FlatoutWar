@@ -12,8 +12,12 @@ class ExperiencePercent: LabelPercent {
         fatalError("init() has not been implemented")
     }
 
-    required init(goal: Int) {
-        super.init(goal: goal)
+    convenience init(goal: Int) {
+        self.init(goal: goal, max: nil)
+    }
+
+    required init(goal: Int?, max: Int?) {
+        super.init(goal: goal, max: max)
 
         percent.style = .Experience
         fixedPosition = .BottomRight(x: -size.width / 2, y: 30)

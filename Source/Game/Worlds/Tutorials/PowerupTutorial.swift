@@ -10,7 +10,7 @@ class PowerupTutorial: Tutorial {
     var powerups: [Powerup] = []
     var powerupButtons: [Button] = []
     var mines = 3
-    var resourcePercent = ResourcePercent(goal: 100)
+    var resourcePercent = ResourcePercent(max: 100)
 
     override func populateWorld() {
         super.populateWorld()

@@ -238,12 +238,12 @@ extension Level {
 
     private func populateUI() {
         if config.trackExperience {
-            experiencePercent = ExperiencePercent(goal: config.requiredExperience)
+            experiencePercent = ExperiencePercent(goal: config.possibleExperience)
             ui << experiencePercent!
         }
 
         if config.trackResources {
-            resourcePercent = ResourcePercent(goal: config.requiredResources)
+            resourcePercent = ResourcePercent(max: config.possibleResources)
             ui << resourcePercent!
         }
 
@@ -416,8 +416,6 @@ extension Level {
         }
 
         let success: Bool
-        var completedExperience: Bool? = nil
-        var completedResources: Bool? = nil
         // sanity check against a kamikaze triggering a "successful" completion
         if let died = playerNode.healthComponent?.died where died {
             success = false
@@ -426,9 +424,7 @@ extension Level {
             success = successArg
         }
         else {
-            completedExperience = gainedExperience >= config.requiredExperience
-            completedResources = gainedResources >= config.requiredResources
-            success = completedExperience! && completedResources!
+            success = true
         }
 
         printStatus()
@@ -480,12 +476,9 @@ extension Level {
             self << currentText
 
             let gained = CGFloat(gainedExperience + gainedResources)
-            let required = CGFloat(config.requiredExperience + config.requiredResources)
-            let possible = CGFloat(config.possibleExperience + max(gainedResources, config.requiredResources))
+            let possible = CGFloat(config.possibleExperience + max(gainedResources, config.possibleResources))
 
             let earnedPercent: CGFloat = min(1, gained / possible)
-            let requiredPercent: CGFloat = min(1, required / possible)
-            percentNode.minimum = requiredPercent
             var countEmUp: CGFloat = 0
             var countEmUpIncrement: CGFloat = 0.025
             let countEmUpRate: CGFloat = 0.03
@@ -530,39 +523,8 @@ extension Level {
             explosion.position = playerCenter
             self << explosion
 
-            if let percent = experiencePercent
-            where completedExperience == false {
-                bounceArrowAt(percent)
-            }
-
-            if let percent = resourcePercent
-            where completedResources == false {
-                bounceArrowAt(percent)
-            }
-
             quitButton.visible = true
             restartButton.visible = true
-        }
-    }
-
-    private func bounceArrowAt(node: Node) {
-        let p1 = node.position + CGPoint(x: -node.size.width / 2 - 10)
-        let p2 = p1 + CGPoint(x: -20)
-        var i = 0
-
-        let arrow = TextNode()
-        arrow.text = "→"
-        arrow.position = p1
-        ui << arrow
-        let moveTo = arrow.moveTo(p2, speed: 25, removeComponent: false)
-        moveTo.onArrived {
-            i = (i + 1) % 2
-            if i == 0 {
-                moveTo.target = p2
-            }
-            else {
-                moveTo.target = p1
-            }
         }
     }
 }
