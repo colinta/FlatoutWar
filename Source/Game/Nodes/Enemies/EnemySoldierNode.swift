@@ -15,7 +15,7 @@ class EnemySoldierNode: Node {
     var sprite = SKSpriteNode()
     var rammingDamage: Float = Damage
 
-    private var hurtSound = OpenALManager.sharedInstance().bufferFromFile("bang.caf")
+    private var hurtSound = "bang.caf"
 
     enum Scatter {
         case RunAway
@@ -26,6 +26,7 @@ class EnemySoldierNode: Node {
 
     required init() {
         super.init()
+
         size = CGSize(10)
 
         self << sprite
@@ -98,7 +99,7 @@ class EnemySoldierNode: Node {
     }
 
     func onHurt() {
-        world?.channel.play(hurtSound)
+        OALSimpleAudio.sharedInstance().playEffect(hurtSound)
     }
 
     func generateRammingExplosion() {

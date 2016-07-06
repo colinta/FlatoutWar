@@ -24,6 +24,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         oal.allowIpod = false
         oal.honorSilentSwitch = true
 
+        let mainBundle = NSBundle.mainBundle()
+        let sounds = mainBundle.pathsForResourcesOfType("caf", inDirectory: nil)
+        for sound in sounds {
+            oal.preloadEffect(sound)
+        }
+
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
         }

@@ -20,8 +20,8 @@ class BasePlayerNode: Node {
         didSet { touchResourceComponent.enabled = forceResourceEnabled }
     }
 
-    private var hurtSound = OpenALManager.sharedInstance().bufferFromFile("killed.caf")
-    private var shootSound = OpenALManager.sharedInstance().bufferFromFile("short.caf")
+    private var hurtSound = "killed.caf"
+    private var shootSound = "short.caf"
 
     private var resourceLocation: CGPoint?
     private let resourceLine = SKSpriteNode()
@@ -156,7 +156,7 @@ class BasePlayerNode: Node {
     }
 
     func onHurt() {
-        world?.channel.play(hurtSound)
+        OALSimpleAudio.sharedInstance().playEffect(hurtSound)
     }
 
     override func update(dt: CGFloat) {
@@ -344,7 +344,7 @@ extension BasePlayerNode {
         bullet.damage *= damageFactor
         ((parent as? Node) ?? world) << bullet
 
-        world.channel.play(shootSound)
+        OALSimpleAudio.sharedInstance().playEffect(shootSound)
     }
 
 }
