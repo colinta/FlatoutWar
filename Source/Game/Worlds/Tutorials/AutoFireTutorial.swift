@@ -29,8 +29,8 @@ class AutoFireTutorial: Tutorial {
 
         timeline.at(1) {
             self.showWhy([
-                "EXPERIENCE IS USED FOR UPGRADES",
-                "AND TO COMPLETE LEVEL GOALS",
+                "DESTROY ENEMIES FOR EXPERIENCE",
+                "PURCHASE UPGRADES",
             ])
             self.showFirstEnemies()
         }

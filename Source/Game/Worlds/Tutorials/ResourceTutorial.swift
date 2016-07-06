@@ -46,7 +46,7 @@ class ResourceTutorial: Tutorial, ResourceWorld {
         timeline.at(1) {
             self.showWhy([
                 "USE RESOURCES FOR POWERUPS",
-                "AND TO COMPLETE LEVEL GOALS",
+                "AND TO PURCHASE UPGRADES",
             ])
             self.showFirstResource()
         }
