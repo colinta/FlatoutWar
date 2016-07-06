@@ -16,7 +16,6 @@ class BaseTurretArtist: Artist {
     var upgrade: FiveUpgrades
     var stroke = UIColor(hex: 0xFD9916)
     var fill = UIColor(hex: 0xD16806)
-    var shadow = UIColor(hex: 0xFD9916)
 
     required init(upgrade: FiveUpgrades) {
         self.upgrade = upgrade
@@ -57,6 +56,8 @@ class BaseRapidTurretArtist: BaseTurretArtist {
     required init(upgrade: FiveUpgrades) {
         super.init(upgrade: upgrade)
         size = CGSize(48)
+        stroke = UIColor(hex: 0xFD9916)
+        fill = UIColor(hex: 0xD1391A)
     }
 
     required init() {
