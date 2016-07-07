@@ -13,10 +13,9 @@ class DroneNode: Node, DraggableNode {
 
     var upgrade: FiveUpgrades = .One {
         didSet {
-            sprite.textureId(.Drone(upgrade: upgrade, health: healthComponent?.healthInt ?? 100))
-            placeholder.textureId(.Drone(upgrade: upgrade, health: 100))
             targetingComponent?.radius = upgrade.droneRadarRadius
             targetingComponent?.bulletSpeed = upgrade.droneBulletSpeed
+            updateSprites()
         }
     }
     var wanderingEnabled: Bool? {
@@ -34,9 +33,13 @@ class DroneNode: Node, DraggableNode {
         }
     }
 
+    private func updateSprites() {
+        sprite.textureId(.Drone(upgrade: upgrade, health: healthComponent?.healthInt ?? 100))
+        placeholder.textureId(.Drone(upgrade: upgrade, health: 100))
+    }
+
     var cursor = CursorNode()
-    let radar1 = SKShapeNode()
-    let radar2 = SKShapeNode()
+    let radar = SKSpriteNode()
     var sprite = SKSpriteNode()
     let placeholder = SKSpriteNode()
 
@@ -71,11 +74,7 @@ class DroneNode: Node, DraggableNode {
         phaseComponent.duration = rand(min: 2.5, max: 4.5)
         addComponent(phaseComponent)
 
-        for radar in [radar1, radar2] {
-            radar.lineWidth = 1.pixels
-            radar.strokeColor = UIColor(hex: 0x25B1FF)
-            self << radar
-        }
+        self << radar
 
         let wanderingComponent = WanderingComponent()
         wanderingComponent.wanderingRadius = 10
@@ -102,12 +101,6 @@ class DroneNode: Node, DraggableNode {
         healthComponent.onKilled {
             self.world?.unselectNode(self)
             self.droneEnabled(isMoving: false)
-
-            self.world?.timeline.after(20) {
-                healthComponent.startingHealth = startingHealth
-                self.sprite.textureId(.Drone(upgrade: self.upgrade, health: healthComponent.healthInt))
-                self.droneEnabled(isMoving: false)
-            }
         }
         addComponent(healthComponent)
 
@@ -159,30 +152,7 @@ class DroneNode: Node, DraggableNode {
             phase = phaseComponent!.phase
         }
 
-        let radarRadius: CGFloat = targetingComponent!.radius!
-        if phase <= 0.9 {
-            let easedPhase = easeOutExpo(time: interpolate(phase, from: (0.5, 0.9), to: (0, 1)))
-            let alpha = interpolate(phase, from: (0.6, 0.8), to: (0.25, 0))
-            radar1.alpha = alpha
-            let path = CGPathCreateMutable()
-            CGPathAddEllipseInRect(path, nil, CGPoint.zero.rect(size: CGSize(r: radarRadius * easedPhase)))
-            radar1.path = path
-        }
-        else {
-            radar1.alpha = 0
-        }
-
-        if phase > 0.6 {
-            let easedPhase = easeOutExpo(time: interpolate(phase, from: (0.6, 1.0), to: (0, 1)))
-            let alpha = interpolate(phase, from: (0.8, 1.0), to: (0.25, 0))
-            radar2.alpha = alpha
-            let path = CGPathCreateMutable()
-            CGPathAddEllipseInRect(path, nil, CGPoint.zero.rect(size: CGSize(r: radarRadius * easedPhase)))
-            radar2.path = path
-        }
-        else {
-            radar2.alpha = 0
-        }
+        radar.textureId(.DroneRadar(radius: Int(targetingComponent!.radius!), phase: Int(phase * 100)))
     }
 
     override func applyUpgrade(upgradeType: UpgradeType) {

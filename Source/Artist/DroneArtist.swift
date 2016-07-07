@@ -6,8 +6,10 @@
 //  Copyright (c) 2015 FlatoutWar. All rights reserved.
 //
 
+let DroneColor = 0x25B1FF
+
 class DroneArtist: Artist {
-    var stroke = UIColor(hex: 0x25B1FF)
+    var stroke = UIColor(hex: DroneColor)
     var upgrade = FiveUpgrades.Default
     var health: CGFloat
 
