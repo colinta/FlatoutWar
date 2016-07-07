@@ -106,7 +106,8 @@ let SmallFont = Font(
         CGPoint(2, 6.25),
     ]]),
     "2": Letter(style: .Line, size: defaultSize, points: [[
-        CGPoint(0, 0),
+        CGPoint(0, 1),
+        CGPoint(1, 0),
         CGPoint(3, 0),
         CGPoint(4, 1),
         CGPoint(0, 5),
