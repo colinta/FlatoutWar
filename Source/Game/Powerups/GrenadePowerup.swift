@@ -26,7 +26,7 @@ class GrenadePowerup: Powerup {
             let arcToComponent = grenade.arcTo(position, speed: length / arcDuration)
             arcToComponent.onArrived {
                 self.slowmo(false)
-                let bomb = BombNode(maxRadius: 40)
+                let bomb = BombNode(maxRadius: 30)
                 bomb.position = position
                 level << bomb
             }

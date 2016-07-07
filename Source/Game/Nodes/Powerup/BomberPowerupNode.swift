@@ -61,7 +61,8 @@ class BomberPowerupNode: Node {
         guard numBombs > 0 else { return }
 
         if let world = world {
-            let bomb = BombNode(maxRadius: 60)
+            let bomb = BombNode(maxRadius: 50)
+            bomb.damage = 4
             bomb.position = self.position
             bomb.timeRate = timeRate
             bombs << bomb

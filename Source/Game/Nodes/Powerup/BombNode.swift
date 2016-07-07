@@ -8,10 +8,11 @@
 
 class BombNode: Node {
     let sprite = SKSpriteNode()
-    let rate: CGFloat = 0.5
+    let rate: CGFloat = 1
     let maxRadius: Int
+    var attack: Block!
     var time: CGFloat = 0
-    var damage: Float = 8
+    var damage: CGFloat = 5
 
     required convenience init() {
         self.init(maxRadius: 40)
@@ -20,13 +21,13 @@ class BombNode: Node {
     required init(maxRadius: Int) {
         self.maxRadius = maxRadius
         super.init()
+        attack = once(damageTargets)
         sprite.textureId(.Bomb(radius: maxRadius, time: 0))
         self << sprite
     }
 
     required init?(coder: NSCoder) {
-        self.maxRadius = 0
-        super.init(coder: coder)
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func encodeWithCoder(encoder: NSCoder) {
@@ -34,39 +35,28 @@ class BombNode: Node {
     }
 
     override func update(dt: CGFloat) {
+        attack()
+
         time += dt * rate
         guard time < 1 else {
             sprite.textureId(.None)
-            self.removeFromParent()
+            removeFromParent()
             return
         }
 
         sprite.textureId(.Bomb(radius: maxRadius, time: Int(time * 250)))
-        damageTargets(dt)
     }
 
-    func damageToTarget(enemy: Node) -> Float? {
-        guard let world = world
-            where world.enemies.contains(enemy) && enemy.enemyComponent!.targetable else
-        {
-            return nil
-        }
-
-        let radius = sprite.size.width / 2
-        let enemyPosition = convertPosition(enemy)
-        let distance: CGFloat = abs(enemyPosition.length - enemy.radius)
-        if distance <= radius {
-            return damage * Float(1 - distance / radius)
-        }
-        return nil
-    }
-
-    private func damageTargets(dt: CGFloat) {
+    private func damageTargets() {
         guard let world = world else { return }
+        let maxRadius = CGFloat(self.maxRadius)
 
         for enemy in world.enemies where enemy.enemyComponent!.targetable {
-            if let damage = damageToTarget(enemy) {
-                enemy.healthComponent?.inflict(damage * Float(dt))
+            let enemyPosition = convertPosition(enemy)
+            let distance: CGFloat = abs(enemyPosition.length - enemy.radius)
+            if distance <= maxRadius {
+                let enemyDamage = Float(interpolate(distance / maxRadius, from: (0, 1), to: (damage, damage / 2)))
+                enemy.healthComponent?.inflict(enemyDamage)
             }
         }
     }
