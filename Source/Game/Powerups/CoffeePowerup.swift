@@ -13,9 +13,8 @@ class CoffeePowerup: Powerup {
 
     static let CoffeeTimeout: CGFloat = 10
 
-    required override init() {
-        super.init()
-        self.count = 2
+    required init(count: Int) {
+        super.init(count: count)
         self.timeout = 20
     }
 

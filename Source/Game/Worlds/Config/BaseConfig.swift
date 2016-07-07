@@ -45,9 +45,9 @@ class BaseConfig: Config {
     }
 
     var availablePowerups: [Powerup] { return [
-        GrenadePowerup(),
-        LaserPowerup(),
-        MinesPowerup(),
+        GrenadePowerup(count: 2),
+        LaserPowerup(count: 1),
+        MinesPowerup(count: 1),
     ] }
     var availableTurrets: [Turret] { return [
         SimpleTurret(),

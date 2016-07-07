@@ -11,9 +11,8 @@ class PulsePowerup: Powerup {
     override var powerupType: ImageIdentifier.PowerupType? { return .Pulse }
     override var resourceCost: Int { return 15 }
 
-    required override init() {
-        super.init()
-        self.count = 2
+    required init(count: Int) {
+        super.init(count: count)
         self.timeout = 10
     }
 

@@ -11,9 +11,8 @@ class NetPowerup: Powerup {
     override var powerupType: ImageIdentifier.PowerupType? { return .Net }
     override var resourceCost: Int { return 10 }
 
-    required override init() {
-        super.init()
-        self.count = 2
+    required init(count: Int) {
+        super.init(count: count)
     }
 
     override func activate(level: World, playerNode: Node, completion: Block = {}) {

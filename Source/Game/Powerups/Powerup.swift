@@ -42,6 +42,14 @@ class Powerup {
     weak var resourcePercent: ResourcePercent?
     weak var playerNode: Node?
 
+    required init(count: Int) {
+        self.count = count
+    }
+
+    convenience init() {
+        self.init(count: 1)
+    }
+
     func buttonIcon() -> (Button, SKNode) {
         let button = Button()
         button.text = name
@@ -146,7 +154,7 @@ class Powerup {
             if let resourcePercent = resourcePercent {
                 resourcePercent.spend(resourceCost)
             }
-            
+
             activate(level, playerNode: playerNode) {
                 if let prevCount = self.count {
                     let newCount = prevCount - 1

@@ -11,9 +11,8 @@ class SoldiersPowerup: Powerup {
     override var powerupType: ImageIdentifier.PowerupType? { return .Soldiers }
     override var resourceCost: Int { return 10 }
 
-    required override init() {
-        super.init()
-        self.count = nil
+    required init(count: Int) {
+        super.init(count: count)
         self.timeout = 30
     }
 
