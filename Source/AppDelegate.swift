@@ -14,24 +14,33 @@ import AVFoundation
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var device: ALDevice!
+    var context: ALContext!
+    var soundBuffer: [ALBuffer] = []
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         justOnce("2016-06-30") {
             TutorialConfigSummary().resetAll()
         }
 
-        let oal = OALSimpleAudio.sharedInstance()
-        oal.allowIpod = false
-        oal.honorSilentSwitch = true
+        device = ALDevice(deviceSpecifier: nil)
+        context = ALContext(onDevice: device, attributes: nil)
+        let manager = OpenALManager.sharedInstance()
+        let session = OALAudioSession.sharedInstance()
+        manager.currentContext = context
+
+        session.handleInterruptions = true
+        session.allowIpod = true
+        session.honorSilentSwitch = true
 
         let mainBundle = NSBundle.mainBundle()
         let sounds = mainBundle.pathsForResourcesOfType("caf", inDirectory: nil)
         for sound in sounds {
-            oal.preloadEffect(sound)
+            soundBuffer << manager.bufferFromFile(sound)
         }
 
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient)
         }
         catch {}
 
@@ -51,6 +60,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         return true
+    }
+
+    func applicationDidReceiveMemoryWarning(application: UIApplication) {
+        Artist.clearCache()
+        SKTexture.clearCache()
     }
 
     func applicationDidEnterBackground(application: UIApplication) {
