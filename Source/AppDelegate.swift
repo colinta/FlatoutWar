@@ -19,8 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var soundBuffer: [ALBuffer] = []
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        justOnce("2016-06-30") {
-            TutorialConfigSummary().resetAll()
+        justOnce("2016-07-07") {
+            TutorialConfigSummary().completeAll()
         }
 
         device = ALDevice(deviceSpecifier: nil)

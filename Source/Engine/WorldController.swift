@@ -15,7 +15,7 @@ class WorldController: UIViewController {
         self.view = worldView
 
         if Defaults["colin"].bool == true {
-            view.presentWorld(TutorialLevel6())
+            view.presentWorld(WorldSelectWorld(beginAt: .Tutorial))
         }
         else if Defaults["hasSeenStartup"].bool == true {
             view.presentWorld(MainMenuWorld())

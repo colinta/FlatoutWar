@@ -66,8 +66,7 @@ class WorldSelectWorld: World {
             let button = Button(at: worldLocations[.Base]!)
             button.style = .SquareSized(50)
             button.font = .Big
-            // button.enabled = TutorialConfigSummary().worldCompleted
-            button.enabled = false
+            button.enabled = TutorialConfigSummary().worldCompleted
             button.onTapped {
                 self.interactionEnabled = false
                 self.transitionTo1()
@@ -129,6 +128,11 @@ class WorldSelectWorld: World {
     func transitionTo0(animate animate: Bool = true) {
         let levelSelect = transitionToLevel(at: worldLocations[.Tutorial]!, animate: animate)
 
+        let tutorialTitle = TextNode(at: CGPoint(y: 130))
+        tutorialTitle.font = .Big
+        tutorialTitle.text = "TRAINING"
+        levelSelect << tutorialTitle
+
         let tutorialButton = Button(at: CGPoint(x: -200, y: 20))
         tutorialButton.font = .Big
         tutorialButton.text = "?"
@@ -183,6 +187,11 @@ class WorldSelectWorld: World {
 // MARK: BASE
     func transitionTo1(animate animate: Bool = true) {
         let levelSelect = transitionToLevel(at: worldLocations[.Base]!, animate: animate)
+
+        let tutorialTitle = TextNode(at: CGPoint(y: 130))
+        tutorialTitle.font = .Big
+        tutorialTitle.text = "STRANDED"
+        levelSelect << tutorialTitle
 
         let enemyPositions = [
             CGPoint(x: 180, y:-20),

@@ -7,11 +7,7 @@
 //
 
 class BaseLevel1: BaseLevel {
-
     override func loadConfig() -> BaseConfig { return BaseLevel1Config() }
-    override func goToNextWorld() {
-        director?.presentWorld(WorldSelectWorld(beginAt: .Base))
-    }
 
     override func populateLevel() {
         beginWave1()

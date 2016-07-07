@@ -9,6 +9,10 @@
 class TutorialLevel6: TutorialLevel {
     override func loadConfig() -> BaseConfig { return TutorialLevel6Config() }
 
+    override func goToNextWorld() {
+        director?.presentWorld(WorldSelectWorld(beginAt: .Base))
+    }
+
     override func populateLevel() {
         shouldReturnToLevelSelect = true
 
@@ -66,7 +70,7 @@ class TutorialLevel6: TutorialLevel {
         timeline.at(.Delayed(10), block: generateGiant(size.angle + TAU_16))
 
         let wave1 = randSideAngle(.Right)
-        let wave2 = randSideAngle(.Bottom) + TAU_4
+        let wave2 = rand(min: -TAU_4, max: -size.angle)
         self.generateWarning(wave1, wave2)
         timeline.every(1.5...2.5, start: .Delayed(), times: 10, block: generateEnemy(wave1))
         timeline.every(1.5...2.5, start: .Delayed(), times: 8, block: generateEnemy(wave2))
