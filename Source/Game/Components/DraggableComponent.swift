@@ -65,7 +65,7 @@ class DraggableComponent: Component {
         _onDragging << handler
     }
 
-    func dontMaintainDistance(dist: CGFloat, around: Node) {
+    func dontMaintainDistance() {
         self.maxDistance = nil
         self.centeredAround = nil
     }
