@@ -39,7 +39,7 @@ class Level: World {
     var resourcePercent: ResourcePercent?
     var possibleExperience = 0
     var gainedExperience = 0
-    var possibleResources = 0
+    var expectedResources = 0
     var gainedResources = 0
 
     private var shouldPopulatePlayer = true
@@ -178,7 +178,7 @@ class Level: World {
         print("timeRate: \(timeRate)")
         print("possibleExperience: \(possibleExperience)")
         print("gainedExperience: \(gainedExperience)")
-        print("possibleResources: \(possibleResources)")
+        print("expectedResources: \(expectedResources)")
         print("gainedResources: \(gainedResources)")
     }
 
@@ -196,7 +196,7 @@ class Level: World {
         }
 
         if let resourceNode = node as? ResourceNode {
-            possibleResources += resourceNode.goal
+            expectedResources += resourceNode.goal
         }
     }
 
@@ -243,7 +243,7 @@ extension Level {
         }
 
         if config.trackResources {
-            resourcePercent = ResourcePercent(max: config.possibleResources)
+            resourcePercent = ResourcePercent(max: config.expectedResources)
             ui << resourcePercent!
         }
 
@@ -456,15 +456,16 @@ extension Level {
 
         moveCamera(to: .zero, zoom: 2, duration: 1)
 
-        let finalTimeline = TimelineComponent()
-        addComponent(finalTimeline)
-
         for node in players + enemies {
             node.active = false
         }
 
         if success {
+            let finalTimeline = TimelineComponent()
+            addComponent(finalTimeline)
+
             config.updateMaxGainedExperience(gainedExperience)
+            config.updateMaxGainedResources(gainedResources)
             config.nextLevel().config.storedPlayers = self.players
 
             let percentNode = PercentBar(at: CGPoint(x: 60, y: 0))
@@ -476,7 +477,7 @@ extension Level {
             self << currentText
 
             let gained = CGFloat(gainedExperience + gainedResources)
-            let possible = CGFloat(config.possibleExperience + max(gainedResources, config.possibleResources))
+            let possible = CGFloat(config.possibleExperience + max(gainedResources, config.expectedResources))
 
             let earnedPercent: CGFloat = min(1, gained / possible)
             var countEmUp: CGFloat = 0

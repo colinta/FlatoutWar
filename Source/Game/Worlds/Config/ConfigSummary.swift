@@ -24,6 +24,7 @@ class ConfigSummary: Config {
     func completeAll() {
         for c in configs {
             c.updateMaxGainedExperience(c.possibleExperience)
+            c.updateMaxGainedResources(c.expectedResources)
         }
     }
 
