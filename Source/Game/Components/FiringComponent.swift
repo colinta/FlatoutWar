@@ -45,7 +45,6 @@ class FiringComponent: Component {
         angle = nil
         if forceFire {
             let angle = (turret ?? node).zRotation
-            self.angle = angle
             for handler in _onFire {
                 handler(angle: angle)
             }
