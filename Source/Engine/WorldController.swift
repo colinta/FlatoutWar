@@ -16,14 +16,14 @@ class WorldController: UIViewController {
 
         if Defaults["colin"].bool == true {
             view.presentWorld(WorldSelectWorld(beginAt: .Tutorial))
+            // view.presentWorld(Playground())
         }
         else if Defaults["hasSeenStartup"].bool == true {
-            view.presentWorld(MainMenuWorld())
+            view.presentWorld(WorldSelectWorld(beginAt: .Tutorial))
         }
         else {
             view.presentWorld(StartupWorld())
         }
-        // view.presentWorld(Playground())
 
         // view.showsFPS = true
     }
