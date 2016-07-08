@@ -20,7 +20,7 @@ class BaseConfig: Config {
     var gainedResources: Int {
         get { return Defaults["\(configKey)-gainedResources"].int ?? 0 }
     }
-    var percentGainedExperience: CGFloat {
+    var percentCompleted: CGFloat {
         return min(CGFloat(gainedExperience + min(gainedResources, expectedResources)) / CGFloat(possibleExperience + expectedResources), 1)
     }
     var levelCompleted: Bool {
