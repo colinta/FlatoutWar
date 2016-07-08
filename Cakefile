@@ -32,7 +32,7 @@ application_for :ios, 8.0, :swift do |target|
     end
 
     target.include_files = ["Source/**/*", "Support/*", "ObjectAL/**/*", "Resources/**/*"]
-    target.exclude_files = ["Source/**/UpgradeWorld.swift"]
+    target.exclude_files = ["Source/**/PREV_UpgradeWorld.swift"]
 
     # target.release_configuration.settings["ASSETCATALOG_COMPILER_APPICON_NAME"] = "AppIcon"
 
