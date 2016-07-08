@@ -48,6 +48,6 @@ class LevelCompleteBox: Node {
                 blue: Int(interpolate(complete, from: (0, 1), to: blue))
             )
         }
-        box.textureId(.FillColorBox(size: size, color: color))
+        box.textureId(.FillColorBox(size: CGSize(size.width, boxHeight), color: color))
     }
 }
