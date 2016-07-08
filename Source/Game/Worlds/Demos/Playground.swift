@@ -9,6 +9,12 @@
 class Playground: World {
 
     override func populateWorld() {
+        pauseable = false
+
+        let text = TextNode()
+        text.setScale(1.5)
+        text.text = "2DIM"
+        self << text
     }
 
     override func worldShook() {
