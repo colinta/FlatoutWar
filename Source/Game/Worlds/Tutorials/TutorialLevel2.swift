@@ -66,7 +66,7 @@ class TutorialLevel2: TutorialLevel {
             block: generateEnemy(wave3)) ~~> nextStep()
     }
 
-    // 8 bursts of enemies (40)
+    // 5 bursts of enemies (10)
     func beginWave4() {
         timeline.every(7, times: 5) {
             let wave: CGFloat = rand(TAU)

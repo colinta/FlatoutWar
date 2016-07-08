@@ -2,15 +2,16 @@
 ///  EnemyBigJetNode.swift
 //
 
-private let startingHealth: Float = 5
+private let StartingHealth: Float = 5
+private let Experience: Int = 5
 
 class EnemyBigJetNode: EnemyJetNode {
 
     required init() {
         super.init()
         size = CGSize(16)
-        healthComponent!.startingHealth = startingHealth
-        enemyComponent!.experience = 10
+        healthComponent!.startingHealth = StartingHealth
+        enemyComponent!.experience = Experience
         rammingDamage = 10
     }
 

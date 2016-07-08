@@ -12,7 +12,7 @@ class EnemyDozerNode: EnemySoldierNode {
         shape = .Rect
         rammingDamage = 16
         healthComponent!.startingHealth = startingHealth
-        enemyComponent!.experience = 3
+        enemyComponent!.experience = 2
         rammingComponent!.maxSpeed = 20
     }
 

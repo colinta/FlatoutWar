@@ -55,6 +55,10 @@ class TutorialLevel6: TutorialLevel {
             let angle: CGFloat = self.randSideAngle(.Right)
             self.generateBigJetWithFollowers(angle, spread: 0)()
         } ~~> nextStep()
+        timeline.every(7...9, start: .Delayed(), times: 4) {
+            let angle: CGFloat = rand(min: -TAU_16, max: TAU_16)
+            self.generateBigJet(angle, spread: 0)()
+        } ~~> nextStep()
     }
 
     func beginWave3() {

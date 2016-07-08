@@ -7,6 +7,12 @@ class BaseLevel1: BaseLevel {
 
     override func populateLevel() {
         beginWave1()
+
+        var delay: CGFloat = 3
+        9.times { (i: Int) in
+            timeline.at(.Delayed(delay), block: generateResourceArc())
+            delay += 10
+        }
     }
 
     // one sources of weak enemies in a wave
@@ -79,23 +85,35 @@ class BaseLevel1: BaseLevel {
         for angle in angles {
             generateWarning(angle, TAU_2 + angle)
         }
-        timeline.every(6, start: .Delayed(), times: 5) {
+        timeline.every(4, start: .Delayed(), times: 5) {
             self.generateScouts(self.randSideAngle())()
         } ~~> nextStep()
-        timeline.every(2, start: .Delayed(35), times: 5) {
+        timeline.every(2, start: .Delayed(20), times: 5) {
             self.generateScouts(self.randSideAngle())()
         } ~~> nextStep()
     }
 
     // fast enemies waves
     func beginWave5() {
-        let wave5 = self.randSideAngle()
+        let nextStep = afterN {
+            self.onNoMoreEnemies { self.beginWave6() }
+        }
+
+        let wave1 = self.randSideAngle()
         let spread = TAU_8
-        self.generateWarning(wave5, wave5 - spread, wave5 + spread)
-        timeline.every(1, start: .Delayed(), times: 10, block: self.generateScouts(wave5, spread: spread))
+        self.generateWarning(wave1, wave1 - spread, wave1 + spread)
+        timeline.every(1, start: .Delayed(), times: 10, block: self.generateScouts(wave1, spread: spread)
+            ) ~~> nextStep()
     }
 
-    func generateDozer(genScreenAngle: CGFloat, spread: CGFloat) -> Block {
+    // onslaught
+    func beginWave6() {
+        timeline.every(4...6, start: .Delayed(), times: 7, block: { self.generateScouts(rand(TAU))() })
+        timeline.every(6...8, start: .Delayed(), times: 5, block: { self.generateSlowEnemy(rand(TAU))() })
+        timeline.every(8...10, start: .Delayed(), times: 4, block: { self.generateDozer(rand(TAU))() })
+    }
+
+    func generateDozer(genScreenAngle: CGFloat, spread: CGFloat = 0) -> Block {
         return {
             var screenAngle = genScreenAngle
             if spread > 0 {

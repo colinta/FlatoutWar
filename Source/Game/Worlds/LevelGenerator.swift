@@ -141,7 +141,9 @@ extension Level {
             if spread > 0 {
                 screenAngle = screenAngle ± rand(spread)
             }
-            for i in 0..<3 {
+
+            let count = 3
+            for i in 0..<count {
                 let enemyNode = EnemyScoutNode()
                 enemyNode.name = "scout"
                 let dp = CGPoint(r: CGFloat(i) * d, a: screenAngle)
