@@ -50,36 +50,51 @@ class WorldSelectWorld: World {
             to: CGPoint(x: -200, y: 75)
         )
 
+        let tutorialConfig = TutorialConfigSummary()
+        let baseConfig = BaseConfigSummary()
+
         do {
             let button = Button(at: worldLocations[.Tutorial]!)
             button.style = .SquareSized(50)
             button.font = .Big
             button.onTapped {
                 self.interactionEnabled = false
-                self.transitionTo0()
+                self.transitionToTutorial()
             }
             button.text = "0"
             worldSelect << button
+
+            let box = LevelCompleteBox()
+            box.size = button.size
+            box.complete = tutorialConfig.percentCompleted
+            button << box
         }
 
         do {
             let button = Button(at: worldLocations[.Base]!)
             button.style = .SquareSized(50)
             button.font = .Big
-            button.enabled = TutorialConfigSummary().worldCompleted
+            button.enabled = tutorialConfig.worldCompleted
             button.onTapped {
                 self.interactionEnabled = false
-                self.transitionTo1()
+                self.transitionToBase()
             }
             button.text = "1"
             worldSelect << button
+
+            if button.enabled {
+                let box = LevelCompleteBox()
+                box.size = button.size
+                box.complete = baseConfig.percentCompleted
+                button << box
+            }
         }
 
         switch beginAt {
         case .Tutorial:
-            transitionTo0(animate: false)
+            transitionToTutorial(animate: false)
         case .Base:
-            transitionTo1(animate: false)
+            transitionToBase(animate: false)
         default: break
         }
     }
@@ -125,7 +140,7 @@ class WorldSelectWorld: World {
     }
 
 // MARK: TUTORIAL
-    func transitionTo0(animate animate: Bool = true) {
+    func transitionToTutorial(animate animate: Bool = true) {
         let levelSelect = transitionToLevel(at: worldLocations[.Tutorial]!, animate: animate)
 
         let tutorialTitle = TextNode(at: CGPoint(y: 130))
@@ -140,6 +155,7 @@ class WorldSelectWorld: World {
         tutorialButton.onTapped {
             self.director?.presentWorld(TutorialSelectWorld())
         }
+
         levelSelect << tutorialButton
 
         let enemyPositions = [
@@ -185,12 +201,12 @@ class WorldSelectWorld: World {
     }
 
 // MARK: BASE
-    func transitionTo1(animate animate: Bool = true) {
+    func transitionToBase(animate animate: Bool = true) {
         let levelSelect = transitionToLevel(at: worldLocations[.Base]!, animate: animate)
 
         let tutorialTitle = TextNode(at: CGPoint(y: 130))
         tutorialTitle.font = .Big
-        tutorialTitle.text = "STRANDED"
+        tutorialTitle.text = "BASE"
         levelSelect << tutorialTitle
 
         let enemyPositions = [
@@ -226,6 +242,7 @@ class WorldSelectWorld: World {
             let x: CGFloat = (xd - 2) * d
             let y: CGFloat = (yd - 2) * d
             let position = CGPoint(x, y)
+
             let upgrade = UpgradeWorld()
             upgrade.nextWorld = level
             let button = generateButton(
@@ -258,39 +275,9 @@ extension WorldSelectWorld {
         }
 
         if completed {
-            let amt: CGFloat = level.config.percentGainedExperience
-            let box = SKSpriteNode()
-            let boxSize = CGSize(width: button.size.width, height: amt * button.size.height)
-            box.position.y = -(button.size.height - boxSize.height) / 2
-            let color: Int
-            if level.config.gainedExperience == level.config.possibleExperience {
-                color = 0xA0D3A0 // green
-            }
-            else {
-                let red: (CGFloat, CGFloat)
-                let green: (CGFloat, CGFloat)
-                let blue: (CGFloat, CGFloat)
-                if amt < 0.5 {
-                    let target = 0xA83846  // red
-                    red = (0, 2 * CGFloat(target >> 16 & 0xff))
-                    green = (0, 2 * CGFloat(target >> 8 & 0xff))
-                    blue = (0, 2 * CGFloat(target & 0xff))
-                }
-                else {
-                    let target = 0xF1EC3E  // yellow
-                    red = (0, CGFloat(target >> 16 & 0xff))
-                    green = (0, CGFloat(target >> 8 & 0xff))
-                    blue = (0, CGFloat(target & 0xff))
-                }
-                color = Int(
-                    red: Int(interpolate(amt, from: (0, 1), to: red)),
-                    green: Int(interpolate(amt, from: (0, 1), to: green)),
-                    blue: Int(interpolate(amt, from: (0, 1), to: blue))
-                )
-            }
-            box.textureId(.FillColorBox(size: boxSize, color: color))
-            box.alpha = 1
-            box.z = .Bottom
+            let box = LevelCompleteBox()
+            box.size = button.size
+            box.complete = level.config.percentCompleted
             button << box
         }
         return button

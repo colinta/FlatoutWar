@@ -11,10 +11,17 @@ class MainMenuWorld: World {
     override func populateWorld() {
         pauseable = false
 
-        let textNode = TextNode(at: CGPoint(x: 0, y: 100))
-        textNode.text = "FLATOUT WAR"
-        textNode.font = .Big
-        self << textNode
+        let twoDim = TextNode(at: CGPoint(x: 0, y: 175))
+        twoDim.setScale(1.25)
+        twoDim.font = .Big
+        twoDim.text = "2DIM:"
+        self << twoDim
+
+        let flatoutWar = TextNode(at: CGPoint(x: 0, y: 100))
+        twoDim.setScale(1.1)
+        flatoutWar.text = "FLATOUT WAR"
+        flatoutWar.font = .Big
+        self << flatoutWar
 
         let howMany: Int = rand(8...15)
         howMany.times {

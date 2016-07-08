@@ -120,7 +120,7 @@ class IntroductionCutSceneWorld: World {
                     }
                 },
                 text: [
-                    "QUADS ARE TAKING",
+                    "QUADS HAVE TAKEN",
                     "OVER 2DIM",
                 ]
             ),

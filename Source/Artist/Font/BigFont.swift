@@ -20,6 +20,17 @@ let BigFont = Font(
         CGPoint(4.5, 4.5),
         CGPoint(0.5, 4.5),
     ]]),
+    ":": Letter(style: .Loop, size: defaultSize, points: [[
+        CGPoint(0, 1),
+        CGPoint(2, 1),
+        CGPoint(2, 3),
+        CGPoint(0, 3),
+    ], [
+        CGPoint(0, 5),
+        CGPoint(2, 5),
+        CGPoint(2, 7),
+        CGPoint(0, 7),
+    ]]),
     ">": Letter(style: .Line, size: defaultSize, points: [[
         CGPoint(0, 0),
         CGPoint(5, 4),
