@@ -1,9 +1,5 @@
-//
-//  TurretNode.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 4/17/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  TurretNode.swift
 //
 
 private let startingHealth: Float = 50

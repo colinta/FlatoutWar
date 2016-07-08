@@ -1,9 +1,5 @@
-//
-//  PercentArtist.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 8/15/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+////
+///  PercentArtist.swift
 //
 
 enum PercentStyle {

@@ -1,9 +1,5 @@
-//
-//  EnemyDiamondNode.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 4/19/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  EnemyDiamondNode.swift
 //
 
 private let startingHealth: Float = 2

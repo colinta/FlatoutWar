@@ -1,9 +1,5 @@
-//
-//  PowerupTimerArtist.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 1/30/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  PowerupTimerArtist.swift
 //
 
 class PowerupTimerArtist: Artist {
@@ -16,7 +12,7 @@ class PowerupTimerArtist: Artist {
         super.init()
         size = CGSize(30)
     }
-    
+
     convenience required init() {
         self.init(percent: 1)
     }

@@ -1,9 +1,5 @@
-//
-//  UIColor.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 7/15/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+////
+///  UIColor.swift
 //
 
 extension UIColor {

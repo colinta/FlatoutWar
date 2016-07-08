@@ -1,9 +1,5 @@
-//
-//  PauseButton.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 1/3/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  PauseButton.swift
 //
 
 class PauseButton: Button {

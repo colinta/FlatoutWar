@@ -1,10 +1,6 @@
 //
-//
-//  Math.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 7/14/15.
-//  Copyright © 2015 colinta. All rights reserved.
+////
+///  Math.swift
 //
 
 let M_EPSILON: CGFloat = 0.00872664153575897

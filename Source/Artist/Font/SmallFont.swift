@@ -1,9 +1,5 @@
-//
-//  SmallFont.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 8/15/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+////
+///  SmallFont.swift
 //
 
 private let defaultSize = CGSize(4, 8)

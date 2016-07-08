@@ -1,9 +1,5 @@
-//
-//  Segment.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 7/17/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+////
+///  Segment.swift
 //
 
 struct Segment {

@@ -1,9 +1,5 @@
-//
-//  ArcToComponent.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 2/15/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  ArcToComponent.swift
 //
 
 private let oneFrame: CGFloat = 0.016666666666666666

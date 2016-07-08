@@ -1,9 +1,5 @@
-//
-//  FollowTargetComponent.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 1/2/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  FollowTargetComponent.swift
 //
 
 class FollowTargetComponent: FollowComponent {

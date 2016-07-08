@@ -1,9 +1,5 @@
-//
-//  LevelGenerator.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 9/2/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+////
+///  LevelGenerator.swift
 //
 
 extension Level {

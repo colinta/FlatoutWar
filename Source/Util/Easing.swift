@@ -1,9 +1,5 @@
-//
-//  Easing.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 8/24/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+////
+///  Easing.swift
 //
 
 typealias EasingEquation = (time: CGFloat, initial: CGFloat, final: CGFloat) -> CGFloat

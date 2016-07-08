@@ -1,9 +1,5 @@
-//
-//  KeepMovingComponent.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 12/29/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+////
+///  KeepMovingComponent.swift
 //
 
 class KeepMovingComponent: ApplyToNodeComponent {

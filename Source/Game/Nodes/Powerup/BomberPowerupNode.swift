@@ -1,9 +1,5 @@
-//
-//  BomberPowerupNode.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 2/5/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  BomberPowerupNode.swift
 //
 
 private let initialBombCount = 8

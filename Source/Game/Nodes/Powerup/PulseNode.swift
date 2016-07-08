@@ -1,9 +1,5 @@
-//
-//  PulseNode.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 3/15/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  PulseNode.swift
 //
 
 private let MaxWidth: CGFloat = 325

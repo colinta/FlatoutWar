@@ -1,9 +1,5 @@
-//
-//  CropNode.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 1/15/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  CropNode.swift
 //
 
 class CropNode: Node {

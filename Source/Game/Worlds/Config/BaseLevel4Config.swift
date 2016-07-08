@@ -1,9 +1,5 @@
-//
-//  BaseLevel4Config.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 1/9/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  BaseLevel4Config.swift
 //
 
 class BaseLevel4Config: BaseConfig {

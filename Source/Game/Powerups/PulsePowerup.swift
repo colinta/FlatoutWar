@@ -1,9 +1,5 @@
-//
-//  PulsePowerup.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 3/14/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  PulsePowerup.swift
 //
 
 class PulsePowerup: Powerup {

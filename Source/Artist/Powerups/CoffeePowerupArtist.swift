@@ -1,9 +1,5 @@
-//
-//  CoffeePowerupArtist.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 1/30/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  CoffeePowerupArtist.swift
 //
 
 class CoffeePowerupArtist: PowerupArtist {

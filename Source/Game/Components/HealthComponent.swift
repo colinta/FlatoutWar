@@ -1,9 +1,5 @@
-//
-//  HealthComponent.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 12/28/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+////
+///  HealthComponent.swift
 //
 
 class HealthComponent: Component {

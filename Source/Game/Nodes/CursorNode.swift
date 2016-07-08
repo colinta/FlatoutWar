@@ -1,9 +1,5 @@
-//
-//  CursorNode.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 12/23/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+////
+///  CursorNode.swift
 //
 
 private var dScale: CGFloat = 1.5

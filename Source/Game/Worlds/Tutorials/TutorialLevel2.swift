@@ -1,9 +1,5 @@
-//
-//  TutorialLevel2.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 7/27/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+////
+///  TutorialLevel2.swift
 //
 
 class TutorialLevel2: TutorialLevel {

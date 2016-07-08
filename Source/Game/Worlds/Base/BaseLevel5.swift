@@ -1,9 +1,5 @@
-//
-//  BaseLevel5.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 4/25/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  BaseLevel5.swift
 //
 
 class BaseLevel5: BaseLevel {

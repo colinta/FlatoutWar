@@ -1,9 +1,5 @@
-//
-//  MineFragmentNode.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 2/21/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  MineFragmentNode.swift
 //
 
 private let MaxDistance: CGFloat = 30

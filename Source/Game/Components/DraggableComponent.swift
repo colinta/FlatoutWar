@@ -1,9 +1,5 @@
-//
-//  DraggableComponent.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 12/23/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+////
+///  DraggableComponent.swift
 //
 
 protocol DraggableNode: class {

@@ -1,9 +1,5 @@
-//
-//  BombNode.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 2/10/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  BombNode.swift
 //
 
 class BombNode: Node {

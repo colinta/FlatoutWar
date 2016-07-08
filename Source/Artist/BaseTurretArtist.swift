@@ -1,9 +1,5 @@
-//
-//  BaseTurretArtist.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 7/30/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+////
+///  BaseTurretArtist.swift
 //
 
 class BaseTurretArtist: Artist {

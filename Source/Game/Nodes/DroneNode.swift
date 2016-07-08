@@ -1,9 +1,5 @@
-//
-//  DroneNode.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 12/22/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+////
+///  DroneNode.swift
 //
 
 private let startingHealth: Float = 40

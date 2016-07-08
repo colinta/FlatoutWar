@@ -1,9 +1,5 @@
-//
-//  BasePlayerNode.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 12/21/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+////
+///  BasePlayerNode.swift
 //
 
 private let ForceFireDuration: CGFloat = 0.3

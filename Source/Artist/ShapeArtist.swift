@@ -1,9 +1,5 @@
-//
-//  ShapeArtists.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 8/25/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+////
+///  ShapeArtists.swift
 //
 
 class ShapeArtist: Artist {

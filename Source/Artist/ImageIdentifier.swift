@@ -1,9 +1,5 @@
-//
-//  ImageIdentifier.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 10/19/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+////
+///  ImageIdentifier.swift
 //
 
 indirect enum ImageIdentifier {

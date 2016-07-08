@@ -1,9 +1,5 @@
-//
-//  DroneRadarArtist.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 1/1/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  DroneRadarArtist.swift
 //
 
 class DroneRadarArtist: Artist {
@@ -17,7 +13,7 @@ class DroneRadarArtist: Artist {
         super.init()
         size = CGSize(r: radius)
     }
-    
+
     required init() {
         fatalError("init() has not been implemented")
     }

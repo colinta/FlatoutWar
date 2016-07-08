@@ -1,9 +1,5 @@
-//
-//  UpgradeWorld.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 1/9/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  UpgradeWorld.swift
 //
 
 private let BigOffset = CGPoint(x: 400, y: 0)

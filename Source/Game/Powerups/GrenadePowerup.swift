@@ -1,9 +1,5 @@
-//
-//  GrenadePowerup.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 2/15/16.
-//  Copyright © 2016 colinta. All rights reserved.
+////
+///  GrenadePowerup.swift
 //
 
 class GrenadePowerup: Powerup {

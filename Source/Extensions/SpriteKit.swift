@@ -1,9 +1,5 @@
-//
-//  SpriteKit.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 12/17/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+////
+///  SpriteKit.swift
 //
 
 private var generatedTextures: [String: SKTexture] = [:]

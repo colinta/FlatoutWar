@@ -1,9 +1,5 @@
-//
-//  DroneArtist.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 8/1/2015.
-//  Copyright (c) 2015 FlatoutWar. All rights reserved.
+////
+///  DroneArtist.swift
 //
 
 let DroneColor = 0x25B1FF

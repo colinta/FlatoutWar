@@ -1,9 +1,5 @@
-//
-//  SpriteNode.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 4/17/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  SpriteNode.swift
 //
 
 class SpriteNode: Node {

@@ -1,9 +1,5 @@
-//
-//  Line.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 4/18/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  Line.swift
 //
 
 class Line: Node {
@@ -22,7 +18,7 @@ class Line: Node {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
-    
+
     required init() {
         fatalError("init() has not been implemented")
     }

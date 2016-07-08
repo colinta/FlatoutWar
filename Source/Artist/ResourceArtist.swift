@@ -1,9 +1,5 @@
-//
-//  ResourceArtist.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 5/11/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  ResourceArtist.swift
 //
 
 let ResourceBlue = 0x1158D9

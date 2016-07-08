@@ -1,9 +1,5 @@
-//
-//  UINode.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 1/31/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  UINode.swift
 //
 
 class UINode: Node {

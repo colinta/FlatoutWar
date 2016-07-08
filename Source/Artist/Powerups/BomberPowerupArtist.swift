@@ -1,9 +1,5 @@
-//
-//  BomberPowerupArtist.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 1/30/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  BomberPowerupArtist.swift
 //
 
 class BomberPowerupArtist: PowerupArtist {

@@ -1,9 +1,5 @@
-//
-//  BombArtist.swift
-//  FlatoutWar
-//
-//  Created by Colin Gray on 2/12/2016.
-//  Copyright (c) 2016 FlatoutWar. All rights reserved.
+////
+///  BombArtist.swift
 //
 
 class BombArtist: Artist {
