@@ -119,3 +119,10 @@ func interpolateHex(x: CGFloat, from f: (CGFloat, CGFloat), to: (Int, Int)) -> I
     let b: Int = Int(round(interpolate(x, from: f, to: (CGFloat(b0), CGFloat(b1)))))
     return hex(r: r, g: g, b: b)
 }
+
+func clamp<T: Comparable>(value: T, lower: T, upper: T) -> T {
+    guard lower <= upper else {
+        return clamp(value, lower: upper, upper: lower)
+    }
+    return min(max(value, lower), upper)
+}
