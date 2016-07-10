@@ -20,6 +20,12 @@ class TutorialLevel5: TutorialLevel {
         beginWave1()
     }
 
+    func introduceDrone() {
+        let drone = DroneNode()
+        drone.position = CGPoint(-30, -60)
+        addArmyNode(drone)
+    }
+
     func beginWave1() {
         let nextStep = afterN {
             self.onNoMoreEnemies { self.beginWave2() }

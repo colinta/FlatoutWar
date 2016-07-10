@@ -306,7 +306,7 @@ extension Level {
                 self.playerNode = playerNode
             }
             else {
-                customizeNode(node)
+                addArmyNode(node)
             }
         }
 
@@ -527,22 +527,16 @@ extension Level {
 }
 
 extension Level {
-    func introduceDrone() {
-        let drone = DroneNode()
-        drone.position = CGPoint(-30, -60)
-        customizeNode(drone)
-    }
-
-    func customizeNode(node: Node) {
+    func addArmyNode(node: Node) {
         if node is BasePlayerNode {
-            fatalError("player node should not be customized in this way")
+            fatalError("player node should not be added in this way")
         }
         else {
-            if let _ = node as? DroneNode {
+            if let node = node as? DroneNode {
+                node.draggableComponent?.maintainDistance(100, around: playerNode)
             }
 
             node.fadeTo(1, start: 0, duration: 1.4)
-            node.draggableComponent?.maintainDistance(100, around: playerNode)
             self << node
         }
     }
