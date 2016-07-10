@@ -155,6 +155,11 @@ class BasePlayerNode: Node {
         world?.channel.play(hurtSound)
     }
 
+    func disableTouchForUI() {
+        touchAimingComponent.enabled = false
+        touchResourceComponent.enabled = false
+    }
+
     override func update(dt: CGFloat) {
         let forceFire: Bool
         if let forceFireEnabled = self.forceFireEnabled {
