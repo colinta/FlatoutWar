@@ -103,15 +103,15 @@ indirect enum ImageIdentifier {
     var name: String? {
         switch self {
         case .None:
-            return ""
+            return "None()"
         case .Warning:
             return "Warning()"
         case let .Dot(color):
-            return "Dot(color:\(color))"
+            return "Dot(color-\(color))"
         case let .Box(color):
-            return "Box(color:\(color))"
+            return "Box(color-\(color))"
         case let .Percent(percent, style):
-            return "Percent(percent:\(percent),style:\(style))"
+            return "Percent(percent-\(percent),style-\(style))"
         case let .WhiteLetter(letter, size):
             let nameLetter: String
             switch letter {
@@ -130,7 +130,7 @@ indirect enum ImageIdentifier {
             default:
                 nameLetter = letter
             }
-            return "WhiteLetter(letter:\(nameLetter),size:\(size.name))"
+            return "WhiteLetter(letter-\(nameLetter),size-\(size.name))"
         case let .Letter(letter, size, color):
             let nameLetter: String
             switch letter {
@@ -149,21 +149,21 @@ indirect enum ImageIdentifier {
             default:
                 nameLetter = letter
             }
-            return "Letter(letter:\(nameLetter),size:\(size.name),color:\(color))"
+            return "Letter(letter-\(nameLetter),size-\(size.name),color-\(color))"
         case let .Button(style):
-            return "Button(style:\(style.name))"
+            return "Button(style-\(style.name))"
         case let .Enemy(type, health):
-            return "Enemy(type:\(type.name),health:\(health))"
+            return "Enemy(type-\(type.name),health-\(health))"
         case let .EnemyShrapnel(type, size):
-            return "EnemyShrapnel(type:\(type.name),size:\(size.name))"
+            return "EnemyShrapnel(type-\(type.name),size-\(size.name))"
         case let .Powerup(type):
-            return "Powerup(type:\(type.name))"
+            return "Powerup(type-\(type.name))"
         case .NoPowerup:
             return "NoPowerup"
         case let .Bomber(numBombs):
-            return "Bomber(numBombs:\(numBombs))"
+            return "Bomber(numBombs-\(numBombs))"
         case let .Bomb(radius, time):
-            return "Bomb(radius:\(radius),time:\(time))"
+            return "Bomb(radius-\(radius),time-\(time))"
         case .HourglassZone:
             return "HourglassZone"
         case .Mine:
@@ -171,69 +171,76 @@ indirect enum ImageIdentifier {
         case .MineExplosion:
             return "MineExplosion"
         case let .Net(phase):
-            return "Net(phase:\(phase))"
+            return "Net(phase-\(phase))"
         case let .EnemyNet(size):
             let roundedSize = Int(round(size * 20))
-            return "EnemyNet(size:\(roundedSize))"
+            return "EnemyNet(size-\(roundedSize))"
         case let .Soldier(health):
-            return "Soldier(health:\(health))"
+            return "Soldier(health-\(health))"
         case let .PowerupTimer(percent):
-            return "PowerupTimer(percent:\(percent))"
+            return "PowerupTimer(percent-\(percent))"
         case let .Drone(upgrade, health):
-            return "Drone(upgrade:\(upgrade.name),health:\(health))"
-        case let .DroneRadar(radius, phase):
-            return "Drone(radius:\(radius),phase:\(phase))"
+            return "Drone(upgrade-\(upgrade.name),health-\(health))"
+        case let .DroneRadar(radius):
+            return "Drone(radius-\(radius))"
         case let .Turret(upgrade, health):
-            return "Turret(upgrade:\(upgrade.name),health:\(health))"
+            return "Turret(upgrade-\(upgrade.name),health-\(health))"
         case let .TurretRadar(upgrade):
-            return "TurretRadar(upgrade:\(upgrade.name))"
+            return "TurretRadar(upgrade-\(upgrade.name))"
         case .Cursor:
             return "Cursor"
         case let .Resource(amount, remaining):
-            return "Resource(amount:\(amount),remaining:\(remaining))"
+            return "Resource(amount-\(amount),remaining-\(remaining))"
         case let .ResourceLine(length):
             let roundedLength = Int(round(length * 20))
-            return "ResourceLine(length:\(roundedLength))"
+            return "ResourceLine(length-\(roundedLength))"
         case let .Shield(phase):
-            return "Shield(phase:\(phase))"
+            return "Shield(phase-\(phase))"
         case let .ShieldSegment(health):
-            return "ShieldSegment(health:\(health))"
+            return "ShieldSegment(health-\(health))"
         case let .Base(upgrade, health):
-            return "Base(upgrade:\(upgrade.name),health:\(health))"
+            return "Base(upgrade-\(upgrade.name),health-\(health))"
         case let .BaseRadar(upgrade):
-            return "BaseRadar(upgrade:\(upgrade.name))"
+            return "BaseRadar(upgrade-\(upgrade.name))"
         case let .BaseExplosion(index, total):
-            return "BaseExplosion(index:\(index),total:\(total))"
+            return "BaseExplosion(index-\(index),total-\(total))"
         case let .BaseSingleTurret(upgrade):
-            return "BaseSingleTurret(upgrade:\(upgrade.name))"
+            return "BaseSingleTurret(upgrade-\(upgrade.name))"
         case let .BaseRapidTurret(upgrade):
-            return "BaseRapidTurret(upgrade:\(upgrade.name))"
+            return "BaseRapidTurret(upgrade-\(upgrade.name))"
         case let .BaseDoubleTurret(upgrade):
-            return "BaseDoubleTurret(upgrade:\(upgrade.name))"
+            return "BaseDoubleTurret(upgrade-\(upgrade.name))"
         case let .BaseBigTurret(upgrade):
-            return "BaseBigTurret(upgrade:\(upgrade.name))"
+            return "BaseBigTurret(upgrade-\(upgrade.name))"
         case let .BaseTurretBullet(upgrade, style):
-            return "BaseTurretBullet(upgrade:\(upgrade.name),style:\(style))"
+            return "BaseTurretBullet(upgrade-\(upgrade.name),style-\(style))"
         case .ColorPath:
             return nil
         case let .ColorLine(length, color):
             let roundedLength = Int(round(length * 20))
-            return "ColorLine(length:\(roundedLength),color:\(color))"
+            return "ColorLine(length-\(roundedLength),color-\(color))"
         case let .HueLine(length, hue):
             let roundedLength = Int(round(length * 20))
-            return "HueLine(length:\(roundedLength),hue:\(hue))"
+            return "HueLine(length-\(roundedLength),hue-\(hue))"
         case let .ColorCircle(size, color):
-            return "ColorCircle(size\(Int(size.width))x\(Int(size.height)),color:\(color))"
+            return "ColorCircle(size\(Int(size.width))x\(Int(size.height)),color-\(color))"
         case let .ColorBox(size, color):
-            return "ColorBox(size\(Int(size.width))x\(Int(size.height)),color:\(color))"
+            return "ColorBox(size\(Int(size.width))x\(Int(size.height)),color-\(color))"
         case let .HueBox(size, hue):
-            return "HueBox(size\(Int(size.width))x\(Int(size.height)),hue:\(hue))"
+            return "HueBox(size\(Int(size.width))x\(Int(size.height)),hue-\(hue))"
         case let .FillColorCircle(size, color):
-            return "FillColorCircle(size\(Int(size.width))x\(Int(size.height)),color:\(color))"
+            return "FillColorCircle(size\(Int(size.width))x\(Int(size.height)),color-\(color))"
         case let .FillColorBox(size, color):
-            return "FillColorBox(size\(Int(size.width))x\(Int(size.height)),color:\(color))"
+            return "FillColorBox(size\(Int(size.width))x\(Int(size.height)),color-\(color))"
         case let .FillHueBox(size, hue):
-            return "FillHueBox(size\(Int(size.width))x\(Int(size.height)),hue:\(hue))"
+            return "FillHueBox(size\(Int(size.width))x\(Int(size.height)),hue-\(hue))"
+        }
+    }
+
+    var atlasName: String? {
+        switch self {
+        // case .DroneRadar: return "Drone"
+        default: return nil
         }
     }
 }

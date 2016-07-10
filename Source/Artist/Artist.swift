@@ -9,23 +9,45 @@ class Artist {
         generatedImages = [:]
     }
 
+    static func saveCache() {
+        let documents = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+        for (name, image) in generatedImages {
+            let data = UIImagePNGRepresentation(image)
+            let filename = "\(name.stringByReplacingOccurrencesOfString(":", withString: ";")).png"
+            let path = NSURL(fileURLWithPath: documents).URLByAppendingPathComponent(filename)
+            try! data?.writeToURL(path, options: .AtomicWrite)
+        }
+    }
+
     enum Scale {
         case Small
         case Normal
         case Zoomed
         static var Default: Scale {
-            return UIDevice.currentDevice().userInterfaceIdiom == .Pad ? .Zoomed : .Normal
+            if UIDevice.currentDevice().userInterfaceIdiom == .Pad ||
+                UIScreen.mainScreen().scale == 3
+            {
+                return .Zoomed
+            }
+            return .Normal
         }
 
         var scale: CGFloat {
             switch self {
             case .Small: return 1
             case .Normal: return 2
-            case .Zoomed: return 4
+            case .Zoomed: return 3
             }
         }
 
-        var name: String { return "\(self)" }
+        var suffix: String {
+            switch self {
+            case .Normal: return "@2x"
+            case .Zoomed: return "@3x"
+            default:
+                return ""
+            }
+        }
     }
 
     var center: CGPoint = .zero
@@ -121,7 +143,7 @@ extension Artist {
     class func generate(id: ImageIdentifier, scale: Scale = .Default) -> UIImage {
         var cacheName: String?
         if let name = id.name {
-            cacheName = "\(name)-zoom_\(scale.name)"
+            cacheName = "\(name)\(scale.suffix)"
             if let cached = generatedImages[cacheName!] {
                 return cached
             }

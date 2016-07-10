@@ -11,10 +11,15 @@ extension SKTexture {
 
     static func id(id: ImageIdentifier, scale: Artist.Scale = .Default) -> SKTexture {
         let cacheName = id.name
-        if let cacheName = cacheName,
-            cached = generatedTextures[cacheName]
-        {
-            return cached
+        if let cacheName = cacheName {
+            if let cached = generatedTextures[cacheName] {
+                return cached
+            }
+            else if let atlasName = id.atlasName {
+                let atlas = SKTextureAtlas(named: atlasName)
+                let texture = atlas.textureNamed(cacheName)
+                return texture
+            }
         }
 
         let texture = SKTexture(image: Artist.generate(id, scale: scale))
