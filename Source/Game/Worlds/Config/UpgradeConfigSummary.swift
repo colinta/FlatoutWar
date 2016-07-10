@@ -17,6 +17,7 @@ class UpgradeConfigSummary: Config {
     var availableExperience: Int {
         return totalGainedExperience - spentExperience
     }
+
     var totalGainedResources: Int {
         return configs.map { $0.totalGainedResources }.reduce(0, combine: +)
     }
