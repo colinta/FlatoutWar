@@ -73,7 +73,7 @@ indirect enum ImageIdentifier {
     case PowerupTimer(percent: Int)
 
     case Drone(upgrade: FiveUpgrades, health: Int)
-    case DroneRadar(radius: Int, phase: Int)
+    case DroneRadar(radius: Int)
     case Turret(upgrade: FiveUpgrades, health: Int)
     case TurretRadar(upgrade: FiveUpgrades)
     case Resource(goal: Int, remaining: Int)

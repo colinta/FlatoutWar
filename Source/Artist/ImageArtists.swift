@@ -188,8 +188,8 @@ extension ImageIdentifier {
             let health = CGFloat(healthInt) / 100
             let artist = DroneArtist(upgrade: upgrade, health: health)
             return artist
-        case let .DroneRadar(radius, phase):
-            let artist = DroneRadarArtist(radius: CGFloat(radius), phase: CGFloat(phase) / 100)
+        case let .DroneRadar(radius):
+            let artist = DroneRadarArtist(radius: CGFloat(radius))
             return artist
         case let .Turret(upgrade, healthInt):
             let health = CGFloat(healthInt) / 100

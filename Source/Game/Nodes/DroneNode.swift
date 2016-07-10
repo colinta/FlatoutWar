@@ -32,10 +32,13 @@ class DroneNode: Node, DraggableNode {
     private func updateSprites() {
         sprite.textureId(.Drone(upgrade: upgrade, health: healthComponent?.healthInt ?? 100))
         placeholder.textureId(.Drone(upgrade: upgrade, health: 100))
+        radar1.textureId(.DroneRadar(radius: Int(targetingComponent!.radius!)))
+        radar2.textureId(.DroneRadar(radius: Int(targetingComponent!.radius!)))
     }
 
     var cursor = CursorNode()
-    let radar = SKSpriteNode()
+    let radar1 = SKSpriteNode()
+    let radar2 = SKSpriteNode()
     var sprite = SKSpriteNode()
     let placeholder = SKSpriteNode()
 
@@ -47,10 +50,10 @@ class DroneNode: Node, DraggableNode {
 
     required init() {
         super.init()
-        size = CGSize(20)
 
         sprite.textureId(.Drone(upgrade: upgrade, health: 100))
         placeholder.textureId(.Drone(upgrade: upgrade, health: 100))
+        size = sprite.size
 
         self << sprite
         self << cursor
@@ -67,10 +70,11 @@ class DroneNode: Node, DraggableNode {
         let phaseComponent = PhaseComponent()
         phaseComponent.loops = true
         phaseComponent.phase = rand(1)
-        phaseComponent.duration = rand(min: 2.5, max: 4.5)
+        phaseComponent.duration = 3.333
         addComponent(phaseComponent)
 
-        self << radar
+        self << radar1
+        self << radar2
 
         let wanderingComponent = WanderingComponent()
         wanderingComponent.wanderingRadius = 10
@@ -123,6 +127,8 @@ class DroneNode: Node, DraggableNode {
             }
         }
         addComponent(draggableComponent)
+
+        updateSprites()
     }
 
     required init?(coder: NSCoder) {
@@ -148,7 +154,25 @@ class DroneNode: Node, DraggableNode {
             phase = phaseComponent!.phase
         }
 
-        radar.textureId(.DroneRadar(radius: Int(targetingComponent!.radius!), phase: Int(phase * 100)))
+        if phase >= 0.5 && phase <= 0.9 {
+            let scale = easeOutExpo(time: interpolate(phase, from: (0.5, 0.9), to: (0, 1)))
+            let alpha = interpolate(phase, from: (0.5, 0.9), to: (0.5, 0))
+            radar1.setScale(scale / Artist.Scale.Default.scale)
+            radar1.alpha = alpha
+        }
+        else {
+            radar1.alpha = 0
+        }
+
+        if phase >= 0.6 {
+            let scale = easeOutExpo(time: interpolate(phase, from: (0.6, 1.0), to: (0, 1)))
+            let alpha = interpolate(phase, from: (0.6, 1.0), to: (0.5, 0))
+            radar2.setScale(scale / Artist.Scale.Default.scale)
+            radar2.alpha = alpha
+        }
+        else {
+            radar2.alpha = 0
+        }
     }
 
     override func applyUpgrade(upgradeType: UpgradeType) {
