@@ -4,7 +4,7 @@
 
 class BaseLevel5: BaseLevel {
 
-    override func loadConfig() -> BaseConfig { return BaseLevel5Config() }
+    override func loadConfig() -> LevelConfig { return BaseLevel5Config() }
     override func goToNextWorld() {
         director?.presentWorld(WorldSelectWorld(beginAt: .Base))
     }

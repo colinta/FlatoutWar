@@ -2,7 +2,7 @@
 ///  TutorialLevel1Config.swift
 //
 
-class TutorialLevel1Config: BaseConfig {
+class TutorialLevel1Config: TutorialConfig {
     override var canUpgrade: Bool { return false }
     override var canPowerup: Bool { return false }
     override var trackResources: Bool { return false }

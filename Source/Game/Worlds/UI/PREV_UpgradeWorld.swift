@@ -7,7 +7,7 @@ private let BigOffset = CGPoint(x: 400, y: 0)
 class UpgradeWorld: World {
     var nextWorld: Level!
     let config = UpgradeConfigSummary()
-    var levelConfig: BaseConfig { return nextWorld.config }
+    var levelConfig: LevelConfig { return nextWorld.config }
 
     var playerNode: BasePlayerNode!
     let playersOffset = CGPoint(-125, -20)

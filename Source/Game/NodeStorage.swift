@@ -35,7 +35,7 @@ class NodeStorage {
 
     static func toDefaults(node: Node) -> NSDictionary? {
         let defaults = NSMutableDictionary()
-        var type: Type?
+        let type: Type?
         if let node = node as? BasePlayerNode {
             type = .BasePlayer
             defaults["radarUpgrade"] = node.radarUpgrade.int

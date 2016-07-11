@@ -2,8 +2,13 @@
 ///  TutorialLevel5Config.swift
 //
 
-class TutorialLevel5Config: BaseConfig {
+class TutorialLevel5Config: TutorialConfig {
     override var canUpgrade: Bool { return false }
+    override var activatedPowerups: [Powerup] { return [
+        GrenadePowerup(count: 2),
+        LaserPowerup(count: 1),
+        MinesPowerup(count: 1),
+    ] }
 
     override var possibleExperience: Int { return 145 }
     // override var requiredExperience: Int { return 120 }

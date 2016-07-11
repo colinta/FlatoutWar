@@ -3,8 +3,7 @@
 //
 
 class TutorialLevel4: TutorialLevel {
-
-    override func loadConfig() -> BaseConfig { return TutorialLevel4Config() }
+    override func loadConfig() -> LevelConfig { return TutorialLevel4Config() }
 
     override func populateLevel() {
         moveCamera(to: CGPoint(x: 180, y: 0), duration: 2)

@@ -26,7 +26,8 @@ class Powerup {
     var name: String { return "" }
     var powerupType: ImageIdentifier.PowerupType? { return .None }
 
-    var count: Int? = 0
+    let initialCount: Int
+    var count: Int = 0
     var resourceCost: Int { return 0 }
     var powerupButton: Button?
     var powerupCancelButton: Button?
@@ -39,11 +40,12 @@ class Powerup {
     weak var playerNode: Node?
 
     required init(count: Int) {
+        self.initialCount = count
         self.count = count
     }
 
     convenience init() {
-        self.init(count: 1)
+        self.init(count: 0)
     }
 
     func buttonIcon() -> (Button, SKNode) {
@@ -79,14 +81,8 @@ class Powerup {
         let powerupCount = TextNode()
         powerupCount.font = .Tiny
         powerupCount.position = CGPoint(20, -10)
+        powerupCount.text = "\(count)"
         self.powerupCount = powerupCount
-
-        if let count = count {
-            powerupCount.text = "\(count)"
-        }
-        else {
-            powerupCount.text = "∞"
-        }
 
         let powerupCountdown = SKSpriteNode(id: .PowerupTimer(percent: 100))
         self.powerupCountdown = powerupCountdown
@@ -152,11 +148,8 @@ class Powerup {
             }
 
             activate(level, playerNode: playerNode) {
-                if let prevCount = self.count {
-                    let newCount = prevCount - 1
-                    self.count = newCount
-                    self.powerupCount?.text = "\(newCount)"
-                }
+                self.count -= 1
+                self.powerupCount?.text = "\(self.count)"
 
                 if (self.count ?? 1) > 0 {
                     self.cooldown = self.timeout
@@ -257,5 +250,38 @@ class Powerup {
 
 extension Powerup: Equatable {}
 func ==(lhs: Powerup, rhs: Powerup) -> Bool {
-    return ObjectIdentifier(lhs) == ObjectIdentifier(rhs)
+    if lhs is BomberPowerup && rhs is BomberPowerup {
+        return true
+    }
+    if lhs is CoffeePowerup && rhs is CoffeePowerup {
+        return true
+    }
+    if lhs is DecoyPowerup && rhs is DecoyPowerup {
+        return true
+    }
+    if lhs is GrenadePowerup && rhs is GrenadePowerup {
+        return true
+    }
+    if lhs is HourglassPowerup && rhs is HourglassPowerup {
+        return true
+    }
+    if lhs is LaserPowerup && rhs is LaserPowerup {
+        return true
+    }
+    if lhs is MinesPowerup && rhs is MinesPowerup {
+        return true
+    }
+    if lhs is NetPowerup && rhs is NetPowerup {
+        return true
+    }
+    if lhs is PulsePowerup && rhs is PulsePowerup {
+        return true
+    }
+    if lhs is ShieldPowerup && rhs is ShieldPowerup {
+        return true
+    }
+    if lhs is SoldiersPowerup && rhs is SoldiersPowerup {
+        return true
+    }
+    return false
 }

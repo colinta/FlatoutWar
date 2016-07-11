@@ -2,7 +2,7 @@
 ///  BaseLevel4Config.swift
 //
 
-class BaseLevel4Config: BaseConfig {
+class BaseLevel4Config: LevelConfig {
     override var possibleExperience: Int { return 1000 }
     // override var requiredExperience: Int { return 0 }
     override var expectedResources: Int { return 0 }

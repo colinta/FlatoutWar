@@ -3,7 +3,7 @@
 //
 
 class ConfigSummary: Config {
-    var configs: [BaseConfig]
+    var configs: [LevelConfig]
 
     override init() {
         configs = []

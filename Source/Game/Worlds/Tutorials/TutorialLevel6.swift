@@ -3,7 +3,7 @@
 //
 
 class TutorialLevel6: TutorialLevel {
-    override func loadConfig() -> BaseConfig { return TutorialLevel6Config() }
+    override func loadConfig() -> LevelConfig { return TutorialLevel6Config() }
 
     override func goToNextWorld() {
         director?.presentWorld(WorldSelectWorld(beginAt: .Base))

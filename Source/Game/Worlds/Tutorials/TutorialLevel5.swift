@@ -3,8 +3,7 @@
 //
 
 class TutorialLevel5: TutorialLevel {
-
-    override func loadConfig() -> BaseConfig { return TutorialLevel5Config() }
+    override func loadConfig() -> LevelConfig { return TutorialLevel5Config() }
 
     override func populateLevel() {
         timeline.after(1) {

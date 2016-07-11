@@ -3,8 +3,7 @@
 //
 
 class TutorialLevel2: TutorialLevel {
-
-    override func loadConfig() -> BaseConfig { return TutorialLevel2Config() }
+    override func loadConfig() -> LevelConfig { return TutorialLevel2Config() }
 
     override func populateLevel() {
         beginWave1()

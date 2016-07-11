@@ -4,7 +4,7 @@
 
 class BaseLevel2: BaseLevel {
 
-    override func loadConfig() -> BaseConfig { return BaseLevel2Config() }
+    override func loadConfig() -> LevelConfig { return BaseLevel2Config() }
 
     override func populateLevel() {
         beginWave1()

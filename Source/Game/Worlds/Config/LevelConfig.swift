@@ -1,8 +1,8 @@
 ////
-///  BaseConfig.swift
+///  LevelConfig.swift
 //
 
-class BaseConfig: Config {
+class LevelConfig: Config {
     var canPowerup: Bool { return true }
     var canUpgrade: Bool { return true }
     var trackExperience: Bool { return true }
@@ -31,11 +31,10 @@ class BaseConfig: Config {
     var storedPlayers: [Node] {
         get {
             let configs: [NSDictionary]? = Defaults["\(configKey)-storedPlayers"].array as? [NSDictionary]
-            let nodes: [Node?]? = configs?.map {
+            let nodes: [Node]? = configs?.flatMap {
                 return NodeStorage.fromDefaults($0)
             }
-            let flattened: [Node]? = nodes?.flatMap { $0 }
-            return flattened ?? []
+            return nodes ?? []
         }
         set {
             let storage: [NSDictionary] = newValue.map { NodeStorage.toDefaults($0) }.flatMap { $0 }
@@ -43,11 +42,42 @@ class BaseConfig: Config {
         }
     }
 
-    var availablePowerups: [Powerup] { return [
-        GrenadePowerup(count: 2),
-        LaserPowerup(count: 1),
-        MinesPowerup(count: 1),
-    ] }
+    var storedPowerups: [(powerup: Powerup, order: Int?)] {
+        get {
+            let configs: [NSDictionary]? = Defaults["\(configKey)-storedPowerups"].array as? [NSDictionary]
+            let powerups = configs?.flatMap {
+                return PowerupStorage.fromDefaults($0)
+            }.sort { a, b in
+                if let orderA = a.order, orderB = a.order {
+                    return orderA < orderB
+                }
+                else if a.order != nil {
+                    return true
+                }
+                return false
+            }
+            return powerups ?? []
+        }
+        set {
+            let storage: [NSDictionary] = newValue.map { entry in
+                return PowerupStorage.toDefaults(entry.powerup, order: entry.order)
+            }.flatMap { $0 }
+            Defaults["\(configKey)-storedPowerups"] = storage
+        }
+    }
+
+    var purchaseablePowerups: [Powerup] {
+        return storedPowerups.filter { $0.order == nil }.map { $0.powerup }
+    }
+
+    var activatedPowerups: [Powerup] {
+        return storedPowerups.flatMap { entry in
+            if entry.order != nil {
+                return entry.powerup
+            }
+            return nil
+        }
+    }
     var availableTurrets: [Turret] { return [
         SimpleTurret(),
         RapidTurret(),

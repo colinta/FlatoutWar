@@ -6,8 +6,8 @@ import AVFoundation
 
 
 class Level: World {
-    private var _config: BaseConfig?
-    var config: BaseConfig {
+    private var _config: LevelConfig?
+    var config: LevelConfig {
         if let config = _config {
             return config
         }
@@ -15,7 +15,7 @@ class Level: World {
         _config = config
         return config
     }
-    func loadConfig() -> BaseConfig {
+    func loadConfig() -> LevelConfig {
         fatalError("loadConfig() has not been implemented")
     }
 
@@ -350,7 +350,7 @@ extension Level {
     }
 
     private func populatePowerups() {
-        let powerups = config.availablePowerups
+        let powerups = config.activatedPowerups
         self.powerups = powerups
         for (index, powerup) in powerups.enumerate() {
             let start: Position = .Left(
@@ -463,6 +463,7 @@ extension Level {
             config.updateMaxGainedExperience(gainedExperience)
             config.updateMaxGainedResources(gainedResources)
             config.nextLevel().config.storedPlayers = self.players
+            config.nextLevel().config.storedPowerups = config.storedPowerups
 
             let percentNode = PercentBar(at: CGPoint(x: 60, y: 0))
             self << percentNode
