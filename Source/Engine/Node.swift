@@ -132,6 +132,17 @@ class Node: SKNode {
         dontReset = false
     }
 
+    func moveToParent(node: SKNode, preservePosition: Bool) {
+        if preservePosition {
+            let p = node.convertPoint(position, fromNode: self.parent!)
+            moveToParent(node)
+            position = p
+        }
+        else {
+            moveToParent(node)
+        }
+    }
+
     override func insertChild(node: SKNode, atIndex index: Int) {
         super.insertChild(node, atIndex: index)
         if let world = world, node = node as? Node where world != self {
