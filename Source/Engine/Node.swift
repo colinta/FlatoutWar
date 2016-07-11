@@ -4,6 +4,7 @@
 
 class Node: SKNode {
     var active = true
+    var interactive = true
     var timeRate: CGFloat = 1
     private var mods: [Mod] = []
 
@@ -149,7 +150,11 @@ class Node: SKNode {
         super.removeFromParent()
     }
 
-    func allChildNodes(recursive recursive: Bool = true) -> [Node] {
+    func allChildNodes(recursive recursive: Bool = true, interactive: Bool? = nil) -> [Node] {
+        if let interactive = interactive where interactive != self.interactive {
+            return []
+        }
+
         let nodes = children.filter { sknode in
             return sknode is Node
         } as! [Node]

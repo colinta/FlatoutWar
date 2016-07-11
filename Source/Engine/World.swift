@@ -580,12 +580,12 @@ extension World {
         }
 
         for uiNode in uiNodes {
-            if let foundUi = touchableNodeAtLocation(worldLocation, inChildren: uiNode.allChildNodes()) {
+            if let foundUi = touchableNodeAtLocation(worldLocation, inChildren: uiNode.allChildNodes(interactive: true)) {
                 return foundUi
             }
         }
         if !worldPaused {
-            return touchableNodeAtLocation(worldLocation, inChildren: self.allChildNodes())
+            return touchableNodeAtLocation(worldLocation, inChildren: self.allChildNodes(interactive: true))
         }
         return nil
     }
