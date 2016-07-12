@@ -3,7 +3,7 @@
 //
 
 
-class WorldSelectWorld: World {
+class WorldSelectWorld: UIWorld {
     var worldLocations: [LevelId: CGPoint]!
     var worldSelect: Node!
     var beginAt: LevelId = .Select
@@ -46,8 +46,11 @@ class WorldSelectWorld: World {
             to: CGPoint(x: -200, y: 75)
         )
 
+        let summaryConfig = UpgradeConfigSummary()
         let tutorialConfig = TutorialConfigSummary()
         let baseConfig = BaseConfigSummary()
+
+        populateCurrencies(summaryConfig)
 
         do {
             let button = Button(at: worldLocations[.Tutorial]!)
@@ -100,13 +103,15 @@ class WorldSelectWorld: World {
         levelSelect.position = levelLocation
         self << levelSelect
 
+        let animationDurationIn: CGFloat = 0.8
+        let animationDurationOut: CGFloat = 0.5
         if animate {
-            timeline.after(1) { self.interactionEnabled = true }
-            worldSelect.fadeTo(0, duration: 1)
-            worldSelect.scaleTo(1.5, duration: 1)
-            moveCamera(to: levelLocation, duration: 1)
-            levelSelect.fadeTo(1, start: 0, duration: 1)
-            levelSelect.scaleTo(1, start: 0.5, duration: 1)
+            timeline.after(animationDurationIn) { self.interactionEnabled = true }
+            worldSelect.fadeTo(0, duration: animationDurationIn)
+            worldSelect.scaleTo(1.5, duration: animationDurationIn)
+            moveCamera(to: levelLocation, duration: animationDurationIn)
+            levelSelect.fadeTo(1, start: 0, duration: animationDurationIn)
+            levelSelect.scaleTo(1, start: 0.5, duration: animationDurationIn)
         }
         else {
             interactionEnabled = true
@@ -124,11 +129,11 @@ class WorldSelectWorld: World {
         backButton.onTapped {
             self.interactionEnabled = false
             self.timeline.after(1) { self.interactionEnabled = true }
-            levelSelect.fadeTo(0, duration: 1, removeNode: true)
-            levelSelect.scaleTo(0.5, duration: 1)
-            self.worldSelect.fadeTo(1, duration: 1)
-            self.worldSelect.scaleTo(1, duration: 1)
-            self.moveCamera(to: .zero, duration: 1)
+            levelSelect.fadeTo(0, duration: animationDurationOut, removeNode: true)
+            levelSelect.scaleTo(0.5, duration: animationDurationOut)
+            self.worldSelect.fadeTo(1, duration: animationDurationOut)
+            self.worldSelect.scaleTo(1, duration: animationDurationOut)
+            self.moveCamera(to: .zero, duration: animationDurationOut)
         }
         levelSelect << backButton
 
@@ -154,45 +159,55 @@ class WorldSelectWorld: World {
 
         levelSelect << tutorialButton
 
-        let enemyPositions = [
-            CGPoint(x: 180, y:-20),
-            CGPoint(x: 200, y:-20),
-            CGPoint(x: 220, y:-20),
-            CGPoint(x: 180, y:  0),
-            CGPoint(x: 200, y:  0),
-            CGPoint(x: 220, y:  0),
-            CGPoint(x: 180, y: 20),
-            CGPoint(x: 200, y: 20),
-            CGPoint(x: 220, y: 20),
-        ]
-        for pos in enemyPositions {
-            let enemyNode = EnemySoldierNode(at: pos)
-            let wanderingComponent = WanderingComponent()
-            wanderingComponent.centeredAround = pos
-            enemyNode.addComponent(wanderingComponent)
-            levelSelect << enemyNode
+        // wandering enemies
+        do {
+            let center = CGPoint(x: 200, y: 0)
+            let delta: CGFloat = 20
+            let enemyPositions = [
+                center + CGPoint(x: -delta, y: -delta),
+                center + CGPoint(x: 0, y: -delta),
+                center + CGPoint(x: delta, y: -delta),
+                center + CGPoint(x: -delta, y: 0),
+                center + CGPoint(x: 0, y: 0),
+                center + CGPoint(x: delta, y: 0),
+                center + CGPoint(x: -delta, y: delta),
+                center + CGPoint(x: 0, y: delta),
+                center + CGPoint(x: delta, y: delta),
+            ]
+            for pos in enemyPositions {
+                let enemyNode = EnemySoldierNode(at: pos)
+                let wanderingComponent = WanderingComponent()
+                wanderingComponent.centeredAround = pos
+                enemyNode.addComponent(wanderingComponent)
+                levelSelect << enemyNode
+            }
         }
 
         var prevLevel: Level?
         var levelIndex = 0
         let levels: [(CGFloat, CGFloat, Level)] = [
-            (1, 1, TutorialLevel1()),
-            (2, 1, TutorialLevel2()),
-            (2, 2, TutorialLevel3()),
-            (2, 3, TutorialLevel4()),
-            (3, 3, TutorialLevel5()),
-            (3, 2, TutorialLevel6()),
+            (0, 0, TutorialLevel1()),
+            (1, 0, TutorialLevel2()),
+            (1, 1, TutorialLevel3()),
+            (1, 2, TutorialLevel4()),
+            (2, 2, TutorialLevel5()),
+            (2, 1, TutorialLevel6()),
         ]
-        let d: CGFloat = 65
-        for (xd, yd, level) in levels {
-            let x: CGFloat = (xd - 2) * d
-            let y: CGFloat = (yd - 2) * d
-            let position = CGPoint(x, y)
+        let center = CGPoint(y: -20)
+        let dx: CGFloat = 65
+        let dy: CGFloat = 80
+        for (xOffset, yOffset, level) in levels {
+            let x: CGFloat = (xOffset - 1) * dx
+            let y: CGFloat = (yOffset - 1) * dy
+            let position = center + CGPoint(x, y)
+
             let button = generateButton(at: position, level: level, prevLevel: prevLevel)
             button.text = "\(levelIndex + 1)"
             levelSelect << button
             prevLevel = level
             levelIndex += 1
+
+            addInfoTo(levelSelect, at: position, level: level)
         }
     }
 
@@ -205,39 +220,46 @@ class WorldSelectWorld: World {
         tutorialTitle.text = "BASE"
         levelSelect << tutorialTitle
 
-        let enemyPositions = [
-            CGPoint(x: 180, y:-20),
-            CGPoint(x: 200, y:-20),
-            CGPoint(x: 220, y:-20),
-            CGPoint(x: 180, y:  0),
-            CGPoint(x: 200, y:  0),
-            CGPoint(x: 220, y:  0),
-            CGPoint(x: 180, y: 20),
-            CGPoint(x: 200, y: 20),
-            CGPoint(x: 220, y: 20),
-            ]
-        for pos in enemyPositions {
-            let enemyNode = EnemySoldierNode(at: pos)
-            let wanderingComponent = WanderingComponent()
-            wanderingComponent.centeredAround = pos
-            enemyNode.addComponent(wanderingComponent)
-            levelSelect << enemyNode
+        // wandering enemies
+        do {
+            let center = CGPoint(x: 200, y: 0)
+            let delta: CGFloat = 20
+            let enemyPositions = [
+                center + CGPoint(x: -delta, y: -delta),
+                center + CGPoint(x: 0, y: -delta),
+                center + CGPoint(x: delta, y: -delta),
+                center + CGPoint(x: -delta, y: 0),
+                center + CGPoint(x: 0, y: 0),
+                center + CGPoint(x: delta, y: 0),
+                center + CGPoint(x: -delta, y: delta),
+                center + CGPoint(x: 0, y: delta),
+                center + CGPoint(x: delta, y: delta),
+                ]
+            for pos in enemyPositions {
+                let enemyNode = EnemySoldierNode(at: pos)
+                let wanderingComponent = WanderingComponent()
+                wanderingComponent.centeredAround = pos
+                enemyNode.addComponent(wanderingComponent)
+                levelSelect << enemyNode
+            }
         }
 
         var prevLevel: Level?
         var levelIndex = 0
         let levels: [(CGFloat, CGFloat, Level)] = [
-            (1, 1, BaseLevel1()),
-            (2, 1, BaseLevel2()),
-            (3, 1, BaseLevel3()),
-            (3, 2, BaseLevel4()),
-            (3, 3, BaseLevel5()),
+            (0, 0, BaseLevel1()),
+            (1, 0, BaseLevel2()),
+            (2, 0, BaseLevel3()),
+            (2, 1, BaseLevel4()),
+            (2, 2, BaseLevel5()),
             ]
-        let d: CGFloat = 65
-        for (xd, yd, level) in levels {
-            let x: CGFloat = (xd - 2) * d
-            let y: CGFloat = (yd - 2) * d
-            let position = CGPoint(x, y)
+        let center = CGPoint(y: -20)
+        let dx: CGFloat = 65
+        let dy: CGFloat = 80
+        for (xOffset, yOffset, level) in levels {
+            let x: CGFloat = (xOffset - 1) * dx
+            let y: CGFloat = (yOffset - 1) * dy
+            let position = center + CGPoint(x, y)
 
             let upgrade = UpgradeWorld()
             upgrade.nextWorld = level
@@ -249,6 +271,8 @@ class WorldSelectWorld: World {
             levelSelect << button
             prevLevel = level
             levelIndex += 1
+
+            addInfoTo(levelSelect, at: position, level: level)
         }
     }
 
@@ -277,5 +301,34 @@ extension WorldSelectWorld {
             button << box
         }
         return button
+    }
+
+    func addInfoTo(node: Node, at position: CGPoint, level: Level) {
+        let info = SKNode()
+        info.position = position + CGPoint(x: -20, y: -40)
+        info.setScale(0.75)
+        node << info
+
+        let experienceSquare = SKSpriteNode(id: .Box(color: EnemySoldierGreen))
+        experienceSquare.position = CGPoint(y: 8)
+        info << experienceSquare
+        let experienceText = TextNode()
+        experienceText.position = CGPoint(x: 8, y: 8)
+        experienceText.setScale(0.5)
+        experienceText.alignment = .Left
+        experienceText.text = "\(level.config.gainedExperience)"
+        info << experienceText
+
+        if level.config.expectedResources > 0 {
+            let resourceSquare = SKSpriteNode(id: .Box(color: ResourceBlue))
+            resourceSquare.position = CGPoint(y: -8)
+            info << resourceSquare
+            let resourceText = TextNode()
+            resourceText.position = CGPoint(x: 8, y: -8)
+            resourceText.setScale(0.5)
+            resourceText.alignment = .Left
+            resourceText.text = "\(level.config.gainedResources)"
+            info << resourceText
+        }
     }
 }

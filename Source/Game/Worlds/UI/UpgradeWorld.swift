@@ -2,7 +2,7 @@
 ///  UpgradeWorld.swift
 //
 
-class UpgradeWorld: World {
+class UpgradeWorld: UIWorld {
     var nextWorld: Level!
     let config = UpgradeConfigSummary()
     var levelConfig: LevelConfig { return nextWorld.config }
@@ -18,8 +18,8 @@ class UpgradeWorld: World {
     var armyNodesMainPosition: [Node: CGPoint] = [:]
     var armyNodesUpgradePosition: [Node: CGPoint] = [:]
 
-    let gainedResources = TextNode()
-    let gainedExperience = TextNode()
+    var gainedResources: TextNode!
+    var gainedExperience: TextNode!
 
     override func worldShook() {
         Artist.saveCache()
@@ -65,38 +65,19 @@ class UpgradeWorld: World {
             self << purchaseTowerLayer
         }
 
-        showUI()
-        showMainScreen()
-
-        fadeTo(1, start: 0, duration: 0.5)
-    }
-
-    func showUI() {
         let title = TextNode()
         title.font = .Big
         title.text = "ARMORY"
         title.position = CGPoint(y: size.height / 2 - 22)
         self << title
 
-        let resourceY = -size.height / 2 + 20
+        let (gainedResources, gainedExperience) = populateCurrencies(config)
+        self.gainedResources = gainedResources
+        self.gainedExperience = gainedExperience
 
-        let resourceSquare = SKSpriteNode(id: .Box(color: ResourceBlue))
-        resourceSquare.position = CGPoint(x: -10, y: resourceY)
-        self << resourceSquare
+        showMainScreen()
 
-        gainedResources.text = "\(config.totalGainedExperience)"
-        gainedResources.position = CGPoint(x: -20, y: resourceY)
-        gainedResources.alignment = .Right
-        self << gainedResources
-
-        let experienceSquare = SKSpriteNode(id: .Box(color: EnemySoldierGreen))
-        experienceSquare.position = CGPoint(x: 10, y: resourceY)
-        self << experienceSquare
-
-        gainedExperience.text = "\(config.totalGainedResources)"
-        gainedExperience.position = CGPoint(x: 20, y: resourceY)
-        gainedExperience.alignment = .Left
-        self << gainedExperience
+        fadeTo(1, start: 0, duration: 0.5)
     }
 
     func showMainScreen() {
