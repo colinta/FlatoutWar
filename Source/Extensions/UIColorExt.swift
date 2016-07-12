@@ -2,6 +2,10 @@
 ///  UIColor.swift
 //
 
+let WhiteColor = 0xFFFFFF
+let BlackColor = 0x0
+let BackgroundColor = 0x3f3f3f
+
 extension UIColor {
     convenience init(red: Int, green: Int, blue: Int, a alpha: Float) {
         assert(red >= 0 && red <= 255, "Invalid red component")

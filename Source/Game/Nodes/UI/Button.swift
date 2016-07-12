@@ -6,6 +6,7 @@ enum ButtonStyle {
     case Square
     case SquareSized(Int)
     case RectSized(Int, Int)
+    case RectToFit
     case Circle
     case CircleSized(Int)
     case None
@@ -32,8 +33,17 @@ class Button: TextNode {
         didSet { updateButtonStyle() }
     }
     var preferredScale: CGFloat = 1
+    var background: Int? = nil {
+        didSet { updateButtonStyle() }
+    }
+    var border: Int? {
+        didSet { updateButtonStyle() }
+    }
+
+    private var prevZ: CGFloat = 0
 
     private var buttonStyleNode: SKSpriteNode!
+    private var buttonBackgroundNode: SKSpriteNode!
     private var alphaOverride = true
     override var alpha: CGFloat {
         didSet {
@@ -46,6 +56,7 @@ class Button: TextNode {
                 alpha = enabled ? 1 : 0.25
                 alphaOverride = true
             }
+            touchableComponent?.enabled = enabled
         }
     }
 
@@ -72,10 +83,16 @@ class Button: TextNode {
     }
 
     required init() {
+        buttonStyleNode = SKSpriteNode(id: .None)
+        buttonBackgroundNode = SKSpriteNode(id: .None)
+
         super.init()
 
-        buttonStyleNode = SKSpriteNode(id: .None)
+        buttonStyleNode.z = .Bottom
         self << buttonStyleNode
+
+        buttonBackgroundNode.z = .Bottom
+        self << buttonBackgroundNode
 
         let touchableComponent = TouchableComponent()
         touchableComponent.containsTouchTest = { [unowned self] (_, location) in
@@ -139,24 +156,54 @@ class Button: TextNode {
     }
 
     private func updateButtonStyle() {
+        var textureStyle = style
+
         switch style {
-        case .None: break
+        case .None:
+            break
+        case .RectToFit:
+            let margin: CGFloat = 10
+            size = CGSize(CGFloat(ceil(textSize.width)) + margin, CGFloat(ceil(textSize.height)) + margin)
+            textureStyle = .RectSized(Int(size.width), Int(size.height))
         default:
             size = style.size
         }
-        buttonStyleNode.textureId(.Button(style: style))
+        buttonStyleNode.textureId(.Button(style: textureStyle, color: border ?? color))
+
+        var backgroundId: ImageIdentifier = .None
+        if let background = background {
+            switch style {
+            case .None: break
+            case .Circle, .CircleSized:
+                backgroundId = .FillColorCircle(size: size, color: background)
+            default:
+                backgroundId = .FillColorBox(size: size, color: background)
+            }
+        }
+        buttonBackgroundNode.textureId(backgroundId)
+
+        switch alignment {
+        case .Left:
+            buttonStyleNode.anchorPoint = CGPoint(0, 0.5)
+            buttonBackgroundNode.anchorPoint = CGPoint(0, 0.5)
+        case .Right:
+            buttonStyleNode.anchorPoint = CGPoint(1, 0.5)
+            buttonBackgroundNode.anchorPoint = CGPoint(1, 0.5)
+        default:
+            buttonStyleNode.anchorPoint = CGPoint(0.5, 0.5)
+            buttonBackgroundNode.anchorPoint = CGPoint(0.5, 0.5)
+        }
     }
 
-    private func highlight() {
+    func highlight() {
+        prevZ = zPosition
+        z = .Top
         super.setScale(preferredScale * 1.1)
     }
 
-    private func unhighlight() {
+    func unhighlight() {
+        zPosition = prevZ
         super.setScale(preferredScale)
-    }
-
-    override func update(dt: CGFloat) {
-        touchableComponent?.enabled = self.enabled
     }
 
 }

@@ -10,8 +10,8 @@ class LevelCompleteBox: Node {
     required init() {
         super.init()
 
+        box.z = .Below
         self << box
-        z = .Bottom
     }
 
     required init?(coder: NSCoder) {

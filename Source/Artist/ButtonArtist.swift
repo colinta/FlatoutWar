@@ -17,25 +17,9 @@ extension ButtonStyle {
     }
 }
 
-class ButtonArtist: TextArtist {
+class ButtonArtist: Artist {
     var style: ButtonStyle = .None
-
-    override func calculateSize() {
-        super.calculateSize()
-
-        switch style {
-        case .Square:
-            self.size.width += 10
-            self.size.height += 8
-        case .Circle:
-            self.size.width = max(self.size.width, self.size.height)
-            self.size.height = self.size.width
-            self.size.width += 10
-            self.size.height += 10
-        default:
-            break
-        }
-    }
+    var color = UIColor(hex: 0xFFFFFF)
 
     override func draw(context: CGContext) {
         super.draw(context)
@@ -50,7 +34,7 @@ class ButtonArtist: TextArtist {
         case .Circle, .CircleSized:
             CGContextAddEllipseInRect(context, CGRect(size: size))
             CGContextDrawPath(context, .Stroke)
-        case .None:
+        case .None, .RectToFit:
             break
         }
     }

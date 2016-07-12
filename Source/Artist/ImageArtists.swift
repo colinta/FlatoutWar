@@ -119,8 +119,9 @@ extension ImageIdentifier {
             artist.color = UIColor(hex: color)
 
             return artist
-        case let .Button(style):
+        case let .Button(style, color):
             let artist = ButtonArtist()
+            artist.color = UIColor(hex: color)
             switch style {
             case .Square, .SquareSized, .RectSized:
                 artist.style = .Square

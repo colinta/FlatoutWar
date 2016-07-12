@@ -54,7 +54,7 @@ indirect enum ImageIdentifier {
     case Warning
     case WhiteLetter(String, size: Size)
     case Letter(String, size: Size, color: Int)
-    case Button(style: ButtonStyle)
+    case Button(style: ButtonStyle, color: Int)
     case Percent(Int, style: PercentStyle)
 
     case Enemy(EnemyType, health: Int)
@@ -156,8 +156,8 @@ indirect enum ImageIdentifier {
                 nameLetter = letter
             }
             return "Letter_\(nameLetter)_size-\(size.name)_color-\(color)"
-        case let .Button(style):
-            return "Button_style-\(style.name)"
+        case let .Button(style, color):
+            return "Button_style-\(style.name)_color-\(color)"
         case let .Enemy(type, health):
             return "Enemy_type-\(type.name)_health-\(health)"
         case let .EnemyShrapnel(type, size):

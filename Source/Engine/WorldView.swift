@@ -6,7 +6,7 @@ class WorldView: SKView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor(hex: 0x3f3f3f)
+        backgroundColor = UIColor(hex: BackgroundColor)
         multipleTouchEnabled = true
     }
 

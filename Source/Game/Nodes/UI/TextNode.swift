@@ -18,7 +18,7 @@ class TextNode: Node {
         }
         get { return textSprite.xScale }
     }
-    var color: Int? {
+    var color: Int = 0xFFFFFF {
         didSet { updateTextNodes() }
     }
     var alignment: NSTextAlignment = .Center {
@@ -54,11 +54,11 @@ class TextNode: Node {
         let heightOffset = 2 * font.font.scale
 
         let sprites = text.characters.map { (char: Character) -> SKSpriteNode in
-            if let color = self.color where color != 0xFFFFFF {
-                return SKSpriteNode(id: .Letter(String(char), size: font, color: color))
+            if color == 0xFFFFFF {
+                return SKSpriteNode(id: .WhiteLetter(String(char), size: font))
             }
             else {
-                return SKSpriteNode(id: .WhiteLetter(String(char), size: font))
+                return SKSpriteNode(id: .Letter(String(char), size: font, color: color))
             }
         }
         var first = true

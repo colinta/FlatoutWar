@@ -54,6 +54,7 @@ class WorldSelectWorld: UIWorld {
 
         do {
             let button = Button(at: worldLocations[.Tutorial]!)
+            button.background = BackgroundColor
             button.style = .SquareSized(50)
             button.font = .Big
             button.onTapped {
@@ -71,6 +72,7 @@ class WorldSelectWorld: UIWorld {
 
         do {
             let button = Button(at: worldLocations[.Base]!)
+            button.background = BackgroundColor
             button.style = .SquareSized(50)
             button.font = .Big
             button.enabled = tutorialConfig.worldCompleted
@@ -184,6 +186,7 @@ class WorldSelectWorld: UIWorld {
         }
 
         var prevLevel: Level?
+        var prevPosition: CGPoint?
         var levelIndex = 0
         let levels: [(CGFloat, CGFloat, Level)] = [
             (0, 0, TutorialLevel1()),
@@ -201,13 +204,22 @@ class WorldSelectWorld: UIWorld {
             let y: CGFloat = (yOffset - 1) * dy
             let position = center + CGPoint(x, y)
 
-            let button = generateButton(at: position, level: level, prevLevel: prevLevel)
+            let button = generateButton(
+                at: position,
+                level: level,
+                prevLevel: prevLevel)
             button.text = "\(levelIndex + 1)"
             levelSelect << button
-            prevLevel = level
-            levelIndex += 1
 
-            addInfoTo(levelSelect, at: position, level: level)
+            levelSelect << levelInfo(at: position, level: level)
+
+            if let prevPosition = prevPosition {
+                levelSelect << lineBetween(position, and: prevPosition, enabled: button.enabled)
+            }
+
+            prevLevel = level
+            prevPosition = position
+            levelIndex += 1
         }
     }
 
@@ -234,7 +246,7 @@ class WorldSelectWorld: UIWorld {
                 center + CGPoint(x: -delta, y: delta),
                 center + CGPoint(x: 0, y: delta),
                 center + CGPoint(x: delta, y: delta),
-                ]
+            ]
             for pos in enemyPositions {
                 let enemyNode = EnemySoldierNode(at: pos)
                 let wanderingComponent = WanderingComponent()
@@ -245,14 +257,15 @@ class WorldSelectWorld: UIWorld {
         }
 
         var prevLevel: Level?
+        var prevPosition: CGPoint?
         var levelIndex = 0
         let levels: [(CGFloat, CGFloat, Level)] = [
             (0, 0, BaseLevel1()),
             (1, 0, BaseLevel2()),
-            (2, 0, BaseLevel3()),
-            (2, 1, BaseLevel4()),
-            (2, 2, BaseLevel5()),
-            ]
+            (2, 1, BaseLevel3()),
+            (2, 2, BaseLevel4()),
+            (1, 2, BaseLevel5()),
+        ]
         let center = CGPoint(y: -20)
         let dx: CGFloat = 65
         let dy: CGFloat = 80
@@ -269,10 +282,16 @@ class WorldSelectWorld: UIWorld {
                 presentWorld: upgrade)
             button.text = "\(levelIndex + 1)"
             levelSelect << button
-            prevLevel = level
-            levelIndex += 1
 
-            addInfoTo(levelSelect, at: position, level: level)
+            levelSelect << levelInfo(at: position, level: level)
+
+            if let prevPosition = prevPosition {
+                levelSelect << lineBetween(position, and: prevPosition, enabled: button.enabled)
+            }
+
+            prevLevel = level
+            prevPosition = position
+            levelIndex += 1
         }
     }
 
@@ -282,6 +301,7 @@ extension WorldSelectWorld {
     func generateButton(at center: CGPoint, level: Level, prevLevel: Level?, presentWorld: World? = nil) -> Button {
         let button = Button(at: center)
         let completed = prevLevel?.config.levelCompleted ?? true
+        button.background = BackgroundColor
         button.enabled = completed
         button.size = CGSize(50)
         button.style = .Square
@@ -303,11 +323,10 @@ extension WorldSelectWorld {
         return button
     }
 
-    func addInfoTo(node: Node, at position: CGPoint, level: Level) {
+    func levelInfo(at position: CGPoint, level: Level) -> SKNode {
         let info = SKNode()
-        info.position = position + CGPoint(x: -20, y: -40)
+        info.position = position + CGPoint(x: -10, y: -40)
         info.setScale(0.75)
-        node << info
 
         let experienceSquare = SKSpriteNode(id: .Box(color: EnemySoldierGreen))
         experienceSquare.position = CGPoint(y: 8)
@@ -330,5 +349,65 @@ extension WorldSelectWorld {
             resourceText.text = "\(level.config.gainedResources)"
             info << resourceText
         }
+
+        return info
+    }
+
+    func lineBetween(position: CGPoint, and prevPosition: CGPoint, enabled: Bool) -> SKNode {
+        let dx: CGFloat = 25
+        let dy: CGFloat = 25
+        var p0 = prevPosition
+        var p1 = position
+
+        if position.x > prevPosition.x {
+            p0.x += dx - 0.5
+            p1.x -= dx + 1.5
+        }
+        else if position.x < prevPosition.x {
+            p0.x -= dx - 0.5
+            p1.x += dx + 1.5
+        }
+
+        if position.y > prevPosition.y {
+            p0.y += dy - 0.5
+            p1.y -= dy + 1.5
+        }
+        else if position.y < prevPosition.y {
+            p0.y -= dy - 0.5
+            p1.y += dy + 1.5
+        }
+
+        if position.x == prevPosition.x && position.y != prevPosition.y {
+            p0.x -= dx * 6 / 8
+            p1.x -= dx * 6 / 8
+        }
+        else if position.x > prevPosition.x && position.y > prevPosition.y {
+            p0.x += 0.5
+            p1.x += 1
+            p1.y += 0.25
+        }
+        else if position.x > prevPosition.x && position.y < prevPosition.y {
+            p0.x += 0.5
+            p1.x += 1
+            p1.y -= 0.25
+        }
+        else if position.x < prevPosition.x && position.y > prevPosition.y {
+            p0.x -= 0.5
+            p1.x -= 1
+            p1.y += 0.25
+        }
+        else if position.x < prevPosition.x && position.y < prevPosition.y {
+            p0.x -= 0.5
+            p1.x -= 1
+            p1.y -= 0.25
+        }
+
+        let length = p0.distanceTo(p1)
+        let color = enabled ? 0xFFFFFF : 0x808080
+        let line = SKSpriteNode(id: .ColorLine(length: length, color: color))
+        line.anchorPoint = CGPoint(x: 0, y: 0.5)
+        line.position = p0
+        line.zRotation = p0.angleTo(p1)
+        return line
     }
 }
