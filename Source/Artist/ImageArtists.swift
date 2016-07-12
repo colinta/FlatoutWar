@@ -91,8 +91,18 @@ extension ImageIdentifier {
             let artist = DotArtist()
             artist.color = UIColor(hex: color)
             return artist
-        case let .Box(color):
-            let color = UIColor(hex: color)
+        case .ResourceBox:
+            let color = UIColor(hex: ResourceBlue)
+            let artist = RectArtist(CGSize(10), color)
+            artist.drawingMode = .Fill
+            return artist
+        case .ExperienceBox:
+            let color = UIColor(hex: EnemySoldierGreen)
+            let artist = RectArtist(CGSize(10), color)
+            artist.drawingMode = .Fill
+            return artist
+        case let .Box(colorInt):
+            let color = UIColor(hex: colorInt)
             let artist = RectArtist(CGSize(10), color)
             artist.drawingMode = .Fill
             return artist
