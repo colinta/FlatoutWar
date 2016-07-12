@@ -93,7 +93,7 @@ class StartupWorld: World {
             self.defaultNode = node
         }
 
-        timeline.at(44) {
+        timeline.at(50) {
             self.director?.presentWorld(MainMenuWorld())
         }
     }
