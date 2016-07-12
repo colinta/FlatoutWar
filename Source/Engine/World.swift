@@ -153,7 +153,7 @@ class World: Node {
     }
 
     func outsideWorld(extra dist: CGFloat, angle _angle: CGFloat, ui: Bool = false) -> CGPoint {
-        let size = ui ? screenSize : self.size
+        let size = self.size / min(xScale, 1)
         let angle = normalizeAngle(_angle)
         let sizeAngle = size.angle
 
@@ -184,7 +184,7 @@ class World: Node {
         if ui { return point }
 
         point += cameraNode.position
-        return point / min(xScale, 1)
+        return point
     }
 
     private var throttleStragglers = throttle(1)
@@ -688,7 +688,7 @@ extension World {
     }
 
     func calculateFixedPosition(position: Position) -> CGPoint {
-        return position.positionIn(screenSize: screenSize ?? CGSize.zero)
+        return position.positionIn(screenSize: size)
     }
 
 }

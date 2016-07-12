@@ -8,12 +8,7 @@ class WarningArtist: Artist {
 
     required init() {
         super.init()
-        switch UIDevice.currentDevice().userInterfaceIdiom {
-            case .Pad:
-                size = CGSize(20)
-            default:
-                size = CGSize(10)
-        }
+        size = CGSize(10)
     }
 
     override func draw(context: CGContext) {

@@ -35,6 +35,8 @@ class WorldScene: SKScene {
         super.init(size: size)
         anchorPoint = CGPoint(0.5, 0.5)
 
+        uiNode.setScale(WorldScene.worldScale)
+        gameUINode.setScale(WorldScene.worldScale)
         worldScalingNode.setScale(WorldScene.worldScale)
         worldScalingNode << world
         self << worldScalingNode
