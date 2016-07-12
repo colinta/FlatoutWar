@@ -61,14 +61,10 @@ class TutorialLevel1: TutorialLevel {
         let wave3 = wave1 ± (TAU_4 - rand(TAU_16))
         let wave4 = wave3 ± rand(min: 10.degrees, max: 20.degrees)
         generateWarning(wave1, wave2, wave3, wave4)
-        timeline.every(3...5, start: .Delayed(), times: 6) {
-            self.generateEnemy(wave1)()
-            self.generateEnemy(wave2)()
-        } ~~> nextStep()
-        timeline.every(3...6, start: .Delayed(3), times: 5) {
-            self.generateEnemy(wave3)()
-            self.generateEnemy(wave4)()
-        } ~~> nextStep()
+        timeline.every(3...5, start: .Delayed(), times: 6, block: self.generateEnemy(wave1)) ~~> nextStep()
+        timeline.every(3...5, start: .Delayed(), times: 6, block: self.generateEnemy(wave2)) ~~> nextStep()
+        timeline.every(3...6, start: .Delayed(3), times: 5, block: self.generateEnemy(wave3)) ~~> nextStep()
+        timeline.every(3...6, start: .Delayed(3), times: 5, block: self.generateEnemy(wave4)) ~~> nextStep()
     }
 
     // four sources of weak enemies

@@ -7,17 +7,16 @@ class MainMenuWorld: World {
     override func populateWorld() {
         pauseable = false
 
-        let twoDim = TextNode(at: CGPoint(x: 0, y: 175))
-        twoDim.setScale(1.25)
-        twoDim.font = .Big
-        twoDim.text = "2DIM:"
-        self << twoDim
+        let twoDim = TextNode(fixed: .Top(x: 0, y: -20))
+        twoDim.setScale(0.75)
+        twoDim.text = "2DIM"
+        self.ui << twoDim
 
-        let flatoutWar = TextNode(at: CGPoint(x: 0, y: 100))
-        twoDim.setScale(1.1)
+        let flatoutWar = TextNode(fixed: .Top(x: 0, y: -70))
+        flatoutWar.setScale(1.1)
         flatoutWar.text = "FLATOUT WAR"
         flatoutWar.font = .Big
-        self << flatoutWar
+        self.ui << flatoutWar
 
         let howMany: Int = rand(8...15)
         howMany.times {

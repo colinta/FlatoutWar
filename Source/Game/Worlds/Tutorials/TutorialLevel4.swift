@@ -90,7 +90,7 @@ class TutorialLevel4: TutorialLevel {
             let dist: CGFloat = 5.5
             let ghost = self.generateEnemyGhost(mimic: EnemyFastSoldierNode(), angle: screenAngle, extra: 10)
             ghost.name = "pair ghost"
-            ghost.rotateTowards(point: .zero)
+            ghost.rotateTowards(self.playerNode)
 
             let angle = ghost.position.angle
             let left = CGVector(r: dist, a: angle + TAU_4)
@@ -115,7 +115,7 @@ class TutorialLevel4: TutorialLevel {
             let dist: CGFloat = 5.5
             let ghost = self.generateEnemyGhost(mimic: EnemyFastSoldierNode(), angle: screenAngle, extra: 10)
             ghost.name = "pair ghost"
-            ghost.rotateTowards(point: .zero)
+            ghost.rotateTowards(self.playerNode)
 
             let angle = ghost.position.angle
             let left = CGVector(r: dist, a: angle + TAU_4)
@@ -142,7 +142,7 @@ class TutorialLevel4: TutorialLevel {
             let dist: CGFloat = 5.5
             let ghost = self.generateEnemyGhost(mimic: EnemyFastSoldierNode(), angle: screenAngle, extra: 10)
             ghost.name = "pair ghost"
-            ghost.rotateTowards(point: .zero)
+            ghost.rotateTowards(self.playerNode)
 
             let angle = ghost.position.angle
             let left = CGVector(r: dist, a: angle + TAU_4)
