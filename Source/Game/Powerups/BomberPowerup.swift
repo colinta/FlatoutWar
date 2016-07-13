@@ -5,7 +5,10 @@
 class BomberPowerup: Powerup {
     override var name: String { return "BOMBER" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Bomber }
-    override var resourceCost: Int { return 15 }
+    override var nextResourceCosts: [Int: Int] { return [
+        0: 50,
+        1: 100,
+    ] }
 
     required init(count: Int) {
         super.init(count: count)
@@ -19,7 +22,7 @@ class BomberPowerup: Powerup {
         level.timeRate = slowmo
 
         let pathNode = PathDrawingNode()
-        level << pathNode
+        playerNode << pathNode
         powerupEnabled = false
 
         let prevDefault = level.defaultNode
@@ -51,7 +54,7 @@ class BomberPowerup: Powerup {
                 bomber.fadeTo(0, duration: 1, removeNode: true)
                 completion()
             }
-            level << bomber
+            playerNode << bomber
 
             self.powerupRunning()
             restore()

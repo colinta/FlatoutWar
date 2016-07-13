@@ -5,7 +5,13 @@
 class GrenadePowerup: Powerup {
     override var name: String { return "GRENADES" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Grenade }
-    override var resourceCost: Int { return 5 }
+    override var nextResourceCosts: [Int: Int] { return [
+        0: 10,
+        1: 20,
+        2: 40,
+        3: 60,
+        4: 80,
+    ] }
 
     required init(count: Int) {
         super.init(count: count)
@@ -23,13 +29,13 @@ class GrenadePowerup: Powerup {
                 self.slowmo(false)
                 let bomb = BombNode(maxRadius: 30)
                 bomb.position = position
-                level << bomb
+                playerNode << bomb
             }
             arcToComponent.removeNodeOnArrived()
             grenade.alpha = 0
             grenade.fadeTo(1, duration: arcDuration)
 
-            level << grenade
+            playerNode << grenade
             level.timeline.after(arcDuration, block: completion)
         }
     }

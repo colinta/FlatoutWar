@@ -5,7 +5,11 @@
 class LaserPowerup: Powerup {
     override var name: String { return "LASER" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Laser }
-    override var resourceCost: Int { return 10 }
+    override var nextResourceCosts: [Int: Int] { return [
+        0: 20,
+        1: 40,
+        2: 80,
+    ] }
 
     required init(count: Int) {
         super.init(count: count)
@@ -23,7 +27,7 @@ class LaserPowerup: Powerup {
                 level.timeline.after(delay) {
                     let laser = LaserBeamNode(angle: angle ± rand(2.degrees))
                     laser.position = playerNode.position + offset
-                    level << laser
+                    playerNode << laser
                 }
             }
             completion()

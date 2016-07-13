@@ -363,7 +363,6 @@ extension Level {
                 x: 20,
                 y: -20 - CGFloat(index) * 50
             )
-            powerup.resourcePercent = resourcePercent
             powerup.addToLevel(self, playerNode: playerNode, start: calculateFixedPosition(start), dest: dest)
         }
     }

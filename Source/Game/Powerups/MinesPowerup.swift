@@ -5,7 +5,11 @@
 class MinesPowerup: Powerup {
     override var name: String { return "MINES" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Mines }
-    override var resourceCost: Int { return 10 }
+    override var nextResourceCosts: [Int: Int] { return [
+        0: 20,
+        1: 40,
+        2: 80,
+    ] }
 
     required init(count: Int) {
         super.init(count: count)

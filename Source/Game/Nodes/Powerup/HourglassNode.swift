@@ -19,6 +19,7 @@ class HourglassNode: Node {
     required init() {
         super.init()
         size = CGSize(HourglassSize)
+        setScale(0)
 
         self << sprite
         self << slowdownSprite

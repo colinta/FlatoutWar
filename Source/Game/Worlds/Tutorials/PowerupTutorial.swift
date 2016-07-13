@@ -6,13 +6,9 @@ class PowerupTutorial: Tutorial {
     var powerups: [Powerup] = []
     var powerupButtons: [Button] = []
     var mines = 3
-    var resourcePercent = ResourcePercent(max: 100)
 
     override func populateWorld() {
         super.populateWorld()
-
-        resourcePercent.gain(100)
-        ui << resourcePercent
 
         playerNode.firingComponent?.enabled = false
         playerNode.radarNode.removeFromParent()
@@ -93,13 +89,6 @@ class PowerupTutorial: Tutorial {
             anyButton.enabled = false
         }
 
-        if powerup.resourceCost < resourcePercent.collected {
-            resourcePercent.spend(powerup.resourceCost)
-        }
-        else {
-            resourcePercent.spend(resourcePercent.collected)
-        }
-
         powerup.activate(self, playerNode: self.playerNode) {
             if powerup is MinesPowerup {
                 self.mines -= 1
@@ -130,10 +119,6 @@ class PowerupTutorial: Tutorial {
             delay += nextDelay
             nextDelay -= 0.15
         }
-
-        showWhy([
-            "POWERUPS REQUIRE RESOURCES",
-        ])
     }
 
     func done() {

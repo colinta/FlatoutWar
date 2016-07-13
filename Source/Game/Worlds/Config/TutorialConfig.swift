@@ -11,7 +11,6 @@ class TutorialConfig: LevelConfig {
                 (MinesPowerup(count: 1), 2),
                 (BomberPowerup(count: 0), nil),
                 (CoffeePowerup(count: 0), nil),
-                (DecoyPowerup(count: 0), nil),
                 (HourglassPowerup(count: 0), nil),
                 (NetPowerup(count: 0), nil),
                 (PulsePowerup(count: 0), nil),

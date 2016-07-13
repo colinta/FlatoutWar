@@ -5,20 +5,6 @@
 private let PowerupYOffset: CGFloat = 40
 
 class Powerup {
-    static let All: [Powerup] = [
-        BomberPowerup(),
-        CoffeePowerup(),
-        DecoyPowerup(),
-        GrenadePowerup(),
-        HourglassPowerup(),
-        LaserPowerup(),
-        MinesPowerup(),
-        NetPowerup(),
-        PulsePowerup(),
-        ShieldPowerup(),
-        SoldiersPowerup(),
-    ]
-
     var timeout: CGFloat = 5
     var cooldown: CGFloat = 0
     var cancellable = true
@@ -28,7 +14,13 @@ class Powerup {
 
     let initialCount: Int
     var count: Int = 0
-    var resourceCost: Int { return 0 }
+    var nextResourceCost: Currency? {
+        if let cost = nextResourceCosts[count] {
+            return Currency(resources: cost)
+        }
+        return nil
+    }
+    var nextResourceCosts: [Int: Int] { return [:] }
     var powerupButton: Button?
     var powerupCancelButton: Button?
     var powerupCount: TextNode?
@@ -36,7 +28,6 @@ class Powerup {
     var powerupEnabled = true
 
     weak var level: World?
-    weak var resourcePercent: ResourcePercent?
     weak var playerNode: Node?
 
     required init(count: Int) {
@@ -46,6 +37,10 @@ class Powerup {
 
     convenience init() {
         self.init(count: 0)
+    }
+
+    func clone() -> Powerup {
+        return self.dynamicType.init(count: self.count)
     }
 
     func buttonIcon() -> (Button, SKNode) {
@@ -68,20 +63,32 @@ class Powerup {
         return SKSpriteNode(id: .None)
     }
 
+    func powerupCountNode() -> TextNode {
+        let powerupCount = TextNode()
+        powerupCount.font = .Tiny
+        powerupCount.position = CGPoint(14, -10)
+        powerupCount.text = "\(count)"
+        powerupCount.alignment = .Left
+        return powerupCount
+    }
+
+    func resourceCostNode() -> TextNode {
+        let resourceCost = TextNode()
+        resourceCost.color = ResourceBlue
+        resourceCost.font = .Tiny
+        resourceCost.position = CGPoint(14, 10)
+        if let nextResourceCost = nextResourceCost {
+            resourceCost.text = "\(nextResourceCost.resources)"
+        }
+        resourceCost.alignment = .Left
+        return resourceCost
+    }
+
     func addToLevel(level: World, playerNode: Node, start: CGPoint, dest: Position) {
         self.level = level
         self.playerNode = playerNode
 
-        let resourceCount = TextNode()
-        resourceCount.color = ResourceBlue
-        resourceCount.font = .Tiny
-        resourceCount.position = CGPoint(20, 10)
-        resourceCount.text = "\(resourceCost)"
-
-        let powerupCount = TextNode()
-        powerupCount.font = .Tiny
-        powerupCount.position = CGPoint(20, -10)
-        powerupCount.text = "\(count)"
+        let powerupCount = powerupCountNode()
         self.powerupCount = powerupCount
 
         let powerupCountdown = SKSpriteNode(id: .PowerupTimer(percent: 100))
@@ -94,7 +101,6 @@ class Powerup {
         button << icon()
         level.gameUI << button
         button << powerupCount
-        button << resourceCount
         button.onTapped(self.activateIfEnabled)
         button.moveTo(dest, duration: 1)
         powerupButton = button
@@ -143,10 +149,6 @@ class Powerup {
         if let level = level, playerNode = playerNode {
             powerupStart()
 
-            if let resourcePercent = resourcePercent {
-                resourcePercent.spend(resourceCost)
-            }
-
             activate(level, playerNode: playerNode) {
                 self.count -= 1
                 self.powerupCount?.text = "\(self.count)"
@@ -169,9 +171,6 @@ class Powerup {
                 powerupEnd()
             }
         }
-        else if let powerupButton = powerupButton, resourcePercent = resourcePercent {
-            powerupButton.enabled = resourcePercent.collected >= resourceCost
-        }
     }
 
     func activate(level: World, playerNode: Node, completion: Block = {}) {
@@ -187,7 +186,7 @@ class Powerup {
     }
 
     func onNextTap(slowmo slowmo: Bool = false, onTap: (CGPoint) -> Void) {
-        if let level = level {
+        if let level = level, playerNode = playerNode {
             if slowmo {
                 self.slowmo(true)
             }
@@ -213,9 +212,6 @@ class Powerup {
             let cancelTimeout: Block
             if cancellable {
                 let cancel: Block = {
-                    if let resourcePercent = self.resourcePercent {
-                        resourcePercent.gain(self.resourceCost)
-                    }
                     self.powerupEnd()
                     restore(slowmo: true)
                 }
@@ -231,7 +227,7 @@ class Powerup {
                 self.powerupCancel = nil
                 cancelTimeout()
 
-                let position = tapNode.convertPoint(location, toNode: level)
+                let position = tapNode.convertPoint(location, toNode: playerNode)
                 onTap(position)
 
                 self.powerupRunning()
