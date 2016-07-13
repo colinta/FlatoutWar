@@ -6,7 +6,7 @@ class MinesPowerupArtist: PowerupArtist {
     override func draw(context: CGContext) {
         super.draw(context)
 
-        let outerRadius = size.width / 3
+        let outerRadius = size.width / 2 - 3
         let innerRadius = outerRadius - 2
         let segmentCount = 8
         let smallArc: CGFloat = 10.degrees

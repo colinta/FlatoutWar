@@ -7,7 +7,7 @@ class SoldiersPowerupArtist: PowerupArtist {
         super.draw(context)
 
         let soldierMargin: CGFloat = 2
-        let soldierSize = size / 2 - CGSize(soldierMargin)
+        let soldierSize = size / 2 - CGSize(soldierMargin * 2)
 
         for sx in [-1, 1] as [CGFloat] {
             for sy in [-1, 1] as [CGFloat] {
