@@ -8,6 +8,10 @@ class UpgradeConfigSummary: Config {
         BaseConfigSummary(),
     ]
 
+    var availableCurrency: Currency {
+        return Currency(experience: availableExperience, resources: availableResources)
+    }
+
     var totalGainedExperience: Int {
         return configs.map { $0.totalGainedExperience }.reduce(0, combine: +)
     }
