@@ -166,11 +166,16 @@ class Node: SKNode {
             return []
         }
 
-        let nodes = children.filter { sknode in
-            return sknode is Node
-        } as! [Node]
+        let nodes: [Node] = children.flatMap { sknode in
+            if let node = sknode as? Node
+                where interactive == nil || node.interactive == interactive
+            {
+                return node
+            }
+            return nil
+        }
         return nodes + (recursive ? nodes.flatMap { childNode in
-            childNode.allChildNodes()
+            childNode.allChildNodes(interactive: interactive)
         } : [])
     }
 
