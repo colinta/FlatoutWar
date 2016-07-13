@@ -4,7 +4,9 @@
 
 let WhiteColor = 0xFFFFFF
 let BlackColor = 0x0
-let BackgroundColor = 0x3f3f3f
+let NotAllowedColor = 0xCC0A10
+let AllowedColor = 0x1EC70B
+let BackgroundColor = 0x3F3F3F
 
 extension UIColor {
     convenience init(red: Int, green: Int, blue: Int, a alpha: Float) {
@@ -16,16 +18,16 @@ extension UIColor {
     }
 
     convenience init(hex: Int, alpha: Float = 1.0) {
-        self.init(red: hex >> 16 & 0xff, green: hex >> 8 & 0xff, blue: hex & 0xff, a: alpha)
+        self.init(red: hex >> 16 & 0xFF, green: hex >> 8 & 0xFF, blue: hex & 0xFF, a: alpha)
     }
 }
 
 extension Int {
     static func rgb(hex: Int) -> (r: Int, g: Int, b: Int) {
         return (
-            r: hex >> 16 & 0xff,
-            g: hex >> 8 & 0xff,
-            b: hex & 0xff
+            r: hex >> 16 & 0xFF,
+            g: hex >> 8 & 0xFF,
+            b: hex & 0xFF
         )
     }
 

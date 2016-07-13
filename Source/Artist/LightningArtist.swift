@@ -30,7 +30,7 @@ struct LightningBolt {
 }
 
 class LightningArtist: Artist {
-    var color = UIColor(hex: 0xFFFFFF)
+    var color = UIColor(hex: WhiteColor)
     var dt: CGFloat = 0.01667
     var rate: CGFloat = 2
     typealias BoltEntry = (phase: CGFloat, bolt: LightningBolt)

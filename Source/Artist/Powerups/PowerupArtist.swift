@@ -5,7 +5,7 @@
 let PowerupRed = 0xD92222
 
 class PowerupArtist: Artist {
-    var fillColor = UIColor(hex: 0x000000)
+    var fillColor = UIColor(hex: BlackColor)
     var strokeColor = UIColor(hex: PowerupRed)
 
     required init() {

@@ -22,7 +22,7 @@ class TextArtist: Artist {
     var text = "" { didSet { calculateSize() }}
     private var textSize: CGSize = .zero
 
-    var color = UIColor(hex: 0xFFFFFF)
+    var color = UIColor(hex: WhiteColor)
     var font: Font = BigFont {
         didSet {
             calculateSize()

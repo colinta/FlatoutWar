@@ -5,7 +5,7 @@
 class Line: Node {
     let sprite = SKSpriteNode()
 
-    required init(from p1: CGPoint, to p2: CGPoint, color: Int = 0xFFFFFF) {
+    required init(from p1: CGPoint, to p2: CGPoint, color: Int = WhiteColor) {
         super.init()
         position = p1
         zRotation = p1.angleTo(p2)

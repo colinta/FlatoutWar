@@ -10,7 +10,7 @@ class ResourceTutorial: Tutorial, ResourceWorld {
     var resourceFound: ((ResourceNode) -> Void)!
     let dragIndicator: Node = {
         let n = Node()
-        n << SKSpriteNode(id: .ColorCircle(size: CGSize(60), color: 0xFFFFFF))
+        n << SKSpriteNode(id: .ColorCircle(size: CGSize(60), color: WhiteColor))
         return n
     }()
 

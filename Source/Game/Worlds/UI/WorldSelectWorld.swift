@@ -328,7 +328,7 @@ extension WorldSelectWorld {
         info.position = position + CGPoint(x: -10, y: -40)
         info.setScale(0.75)
 
-        let experienceSquare = SKSpriteNode(id: .Box(color: EnemySoldierGreen))
+        let experienceSquare = SKSpriteNode(id: .ExperienceIcon)
         experienceSquare.position = CGPoint(y: 8)
         info << experienceSquare
         let experienceText = TextNode()
@@ -339,7 +339,7 @@ extension WorldSelectWorld {
         info << experienceText
 
         if level.config.expectedResources > 0 {
-            let resourceSquare = SKSpriteNode(id: .Box(color: ResourceBlue))
+            let resourceSquare = SKSpriteNode(id: .ResourceIcon)
             resourceSquare.position = CGPoint(y: -8)
             info << resourceSquare
             let resourceText = TextNode()
@@ -403,7 +403,7 @@ extension WorldSelectWorld {
         }
 
         let length = p0.distanceTo(p1)
-        let color = enabled ? 0xFFFFFF : 0x808080
+        let color = enabled ? WhiteColor : 0x808080
         let line = SKSpriteNode(id: .ColorLine(length: length, color: color))
         line.anchorPoint = CGPoint(x: 0, y: 0.5)
         line.position = p0

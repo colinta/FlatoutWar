@@ -19,7 +19,7 @@ extension ButtonStyle {
 
 class ButtonArtist: Artist {
     var style: ButtonStyle = .None
-    var color = UIColor(hex: 0xFFFFFF)
+    var color = UIColor(hex: WhiteColor)
 
     override func draw(context: CGContext) {
         super.draw(context)

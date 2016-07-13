@@ -91,12 +91,12 @@ extension ImageIdentifier {
             let artist = DotArtist()
             artist.color = UIColor(hex: color)
             return artist
-        case .ResourceBox:
+        case .ResourceIcon:
             let color = UIColor(hex: ResourceBlue)
-            let artist = RectArtist(CGSize(10), color)
+            let artist = CircleArtist(CGSize(10), color)
             artist.drawingMode = .Fill
             return artist
-        case .ExperienceBox:
+        case .ExperienceIcon:
             let color = UIColor(hex: EnemySoldierGreen)
             let artist = RectArtist(CGSize(10), color)
             artist.drawingMode = .Fill

@@ -64,7 +64,7 @@ class LabelPercent: Node {
 
         if goal == 0 {
             percent.complete = 1
-            text.color = 0xFFFFFF
+            text.color = WhiteColor
         }
         else if let goal = goal ?? max {
             percent.complete = CGFloat(collected) / CGFloat(goal)

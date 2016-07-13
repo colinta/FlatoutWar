@@ -11,7 +11,7 @@ enum PercentStyle {
     var color: Int {
         switch self {
         case .Experience: return EnemySoldierGreen
-        case .Resource: return 0xFFFFFF
+        case .Resource: return WhiteColor
         default: return 0
         }
     }
