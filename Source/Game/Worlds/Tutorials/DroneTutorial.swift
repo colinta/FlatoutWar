@@ -104,6 +104,7 @@ class DroneTutorial: Tutorial {
 
     func showSecondDemo() {
         tutorialTextNode.text = "NICE!"
+        closeButton.visible = true
 
         let moveTo = MoveToComponent()
         moveTo.target = CGPoint(x: 30, y: -60)

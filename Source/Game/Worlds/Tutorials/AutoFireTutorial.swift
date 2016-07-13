@@ -64,6 +64,7 @@ class AutoFireTutorial: Tutorial {
 
     func showSecondEnemies() {
         tutorialTextNode.text = "NICE!"
+        closeButton.visible = true
 
         let enemyLocations = [
             (start: CGPoint(r: 250, a: 0.degrees), end: CGPoint(r: 35, a: 0.degrees)),

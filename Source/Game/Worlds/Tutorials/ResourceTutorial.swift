@@ -99,6 +99,7 @@ class ResourceTutorial: Tutorial, ResourceWorld {
 
     func showSecondResource() {
         tutorialTextNode.text = "NICE!"
+        closeButton.visible = true
 
         let resourceNode = ResourceNode(at: CGPoint(x: -100, y: 100))
         resourceNode.moveTo(CGPoint(x: -100, y: -100), duration: 5)

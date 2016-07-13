@@ -9,6 +9,7 @@ class Tutorial: World {
     var nextWorld: World?
     let playerNode = BasePlayerNode()
     var whyNodes: [Node] = []
+    let closeButton = CloseButton()
 
     required init() {
         super.init()
@@ -67,7 +68,7 @@ class Tutorial: World {
         tutorialTextNode.setScale(1.5)
         ui << tutorialTextNode
 
-        let closeButton = CloseButton()
+        closeButton.visible = false
         closeButton.onTapped { _ in
             self.goToNextWorld()
         }

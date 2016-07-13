@@ -173,6 +173,7 @@ class RapidFireTutorial: Tutorial {
 
     func showSecondEnemies() {
         tutorialTextNode.text = "NICE!"
+        closeButton.visible = true
 
         let angle = -67.75.degrees
         let enemyLocations = [

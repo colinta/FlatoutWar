@@ -142,6 +142,7 @@ class PowerupTutorial: Tutorial {
         addContinueButton()
     }
 
+    var experience = 0
     func generateEnemy(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
         return {
             var screenAngle = genScreenAngle
@@ -150,10 +151,21 @@ class PowerupTutorial: Tutorial {
             }
 
             let enemyNode = EnemySoldierNode()
+            enemyNode.healthComponent?.onKilled {
+                self.experience += 1
+                if self.experience == 10 {
+                    self.nice()
+                }
+            }
             enemyNode.name = "soldier"
             enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle)
             self << enemyNode
         }
+    }
+
+    func nice() {
+        tutorialTextNode.text = "NICE!"
+        closeButton.visible = true
     }
 
     override func update(dt: CGFloat) {
