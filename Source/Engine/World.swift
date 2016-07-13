@@ -15,6 +15,7 @@ class World: Node {
     var interactionEnabled = true
     var channel = ALChannelSource(sources: 32)
 
+    var multitouchEnabled = false
     var pauseable = false
     private var shouldBePaused = false
     private var shouldBeHalted = false
@@ -503,6 +504,10 @@ extension World {
     }
 
     func worldTouchBegan(id: NSObject, worldLocation: CGPoint) {
+        guard multitouchEnabled || touchedNodes.count == 0 else {
+            return
+        }
+
         if let touchedNode = touchableNodeAtLocation(worldLocation),
             touchableComponent = touchedNode.touchableComponentFor(convertPoint(worldLocation, toNode: touchedNode))
         where !(touchedNodes.any { (info) in return info.1.1 == touchableComponent })

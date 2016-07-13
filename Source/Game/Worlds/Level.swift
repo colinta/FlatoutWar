@@ -81,6 +81,7 @@ class Level: World {
         levelSelect = .Select
         super.init()
         pauseable = true
+        multitouchEnabled = true
     }
 
     required init?(coder: NSCoder) {
