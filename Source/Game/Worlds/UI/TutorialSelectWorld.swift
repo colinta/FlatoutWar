@@ -5,8 +5,6 @@
 class TutorialSelectWorld: World {
 
     override func populateWorld() {
-        pauseable = false
-
         let worlds: [(String, () -> World)] = [
             ("AUTO AIM TUTORIAL", { return AutoFireTutorial() }),
             ("POWERUP TUTORIAL", { return PowerupTutorial() }),

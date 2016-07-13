@@ -80,6 +80,7 @@ class Level: World {
     required init() {
         levelSelect = .Select
         super.init()
+        pauseable = true
     }
 
     required init?(coder: NSCoder) {

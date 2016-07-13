@@ -21,7 +21,6 @@ class WorldSelectWorld: UIWorld {
     }
 
     override func populateWorld() {
-        pauseable = false
         worldLocations = [
             .Tutorial: CGPoint(-200, 0),
             .Base: CGPoint(-200, 100),

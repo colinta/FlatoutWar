@@ -15,7 +15,7 @@ class World: Node {
     var interactionEnabled = true
     var channel = ALChannelSource(sources: 32)
 
-    var pauseable = true
+    var pauseable = false
     private var shouldBePaused = false
     private var shouldBeHalted = false
     var isUpdating = false

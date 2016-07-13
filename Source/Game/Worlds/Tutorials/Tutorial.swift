@@ -11,15 +11,6 @@ class Tutorial: World {
     var whyNodes: [Node] = []
     let closeButton = CloseButton()
 
-    required init() {
-        super.init()
-        pauseable = false
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
     func goToNextWorld() {
         self.director?.presentWorld(nextWorld ?? WorldSelectWorld(beginAt: .Tutorial))
     }

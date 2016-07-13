@@ -6,8 +6,6 @@ class StartupWorld: World {
     var playerNode = BasePlayerNode()
 
     override func populateWorld() {
-        pauseable = false
-
         defaultNode = playerNode
         self << playerNode
 

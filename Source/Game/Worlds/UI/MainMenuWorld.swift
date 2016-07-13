@@ -5,8 +5,6 @@
 class MainMenuWorld: World {
 
     override func populateWorld() {
-        pauseable = false
-
         let twoDim = TextNode(fixed: .Top(x: 0, y: -20))
         twoDim.setScale(0.75)
         twoDim.text = "2DIM"
