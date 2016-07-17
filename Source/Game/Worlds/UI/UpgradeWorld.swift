@@ -201,7 +201,6 @@ class UpgradeWorld: UIWorld {
     func powerupSelected(powerup: Powerup) {
         let prevPowerup = prevSelectedPowerup?.0
         let prevLayer = prevSelectedPowerup?.1
-
         let start = CGPoint(x: size.width / 2 + 80)
         let dest = CGPoint(x: size.width / 2 - 60)
 
@@ -261,7 +260,7 @@ class UpgradeWorld: UIWorld {
 
         let back = generateBackButton()
         back.onTapped {
-            layer.fadeTo(0, duration: 0.5)
+            layer.fadeTo(0, duration: 0.5, removeNode: true)
             for layer in [self.powerupLayer, self.uiLayer] {
                 layer.fadeTo(1, duration: 0.5)
                 layer.moveTo(.zero, duration: 0.5)
@@ -289,19 +288,7 @@ class UpgradeWorld: UIWorld {
         }
         layer << button
 
-        switch powerup {
-        case is BomberPowerup: powerupDemo_BomberPowerup()
-        case is CoffeePowerup: powerupDemo_CoffeePowerup()
-        case is GrenadePowerup: powerupDemo_GrenadePowerup()
-        case is HourglassPowerup: powerupDemo_HourglassPowerup()
-        case is LaserPowerup: powerupDemo_LaserPowerup()
-        case is MinesPowerup: powerupDemo_MinesPowerup()
-        case is NetPowerup: powerupDemo_NetPowerup()
-        case is PulsePowerup: powerupDemo_PulsePowerup()
-        case is ShieldPowerup: powerupDemo_ShieldPowerup()
-        case is SoldiersPowerup: powerupDemo_SoldiersPowerup()
-        default: break
-        }
+        powerup.demo(layer, playerNode: playerNode, timeline: timeline)
     }
 
     func closePowerupLayer() {
@@ -309,6 +296,7 @@ class UpgradeWorld: UIWorld {
             powerupSelected(prevPowerup)
         }
 
+        self << mainLayer
         self.powerupTargetButton = nil
         powerupLayer.interactive = false
         let animationDuration: CGFloat = 1
