@@ -125,11 +125,11 @@ class Node: SKNode {
         super.encodeWithCoder(encoder)
     }
 
-    var dontReset = false
+    var autoReset = true
     override func moveToParent(node: SKNode) {
-        dontReset = true
+        autoReset = false
         super.moveToParent(node)
-        dontReset = false
+        autoReset = true
     }
 
     func moveToParent(node: SKNode, preservePosition: Bool) {
@@ -150,9 +150,17 @@ class Node: SKNode {
         }
     }
 
+    func removeFromParent(reset reset: Bool) {
+        autoReset = reset
+        removeFromParent()
+        autoReset = true
+    }
+
     override func removeFromParent() {
-        if let world = world where !dontReset {
+        if let world = world {
             world.willRemove([self] + allChildNodes())
+        }
+        if autoReset {
             for handler in _onDeath {
                 handler()
             }

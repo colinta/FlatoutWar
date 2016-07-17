@@ -157,6 +157,7 @@ class UpgradeWorld: UIWorld {
         mainLayer.fadeTo(0, duration: animationDuration / 2).onFaded {
             self.powerupLayer.interactive = true
             self.powerupLayer.fadeTo(1, duration: animationDuration / 2)
+            self.mainLayer.removeFromParent(reset: false)
         }
 
         let back = generateBackButton()
