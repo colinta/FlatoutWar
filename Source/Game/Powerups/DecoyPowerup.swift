@@ -21,9 +21,9 @@ class DecoyPowerup: Powerup {
         super.activate(level, playerNode: playerNode)
 
         self.onNextTap(slowmo: true) { position in
-            let decoy = DecoyPowerupNode(at: playerNode.position)
+            let decoy = DecoyPowerupNode(at: .zero)
             decoy.alpha = 0
-            level << decoy
+            playerNode << decoy
             decoy.moveTo(position, duration: 1)
             decoy.fadeTo(1, duration: 1)
             completion()

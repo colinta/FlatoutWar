@@ -36,9 +36,9 @@ class MinesPowerup: Powerup {
                 let a: CGFloat = CGFloat(i) * TAU / 5 ± rand(TAU_16)
                 let r: CGFloat = 17
                 let offset = CGPoint(r: r ± rand(3), a: a)
-                let node = MineNode(at: playerNode.position)
+                let node = MineNode(at: .zero)
                 node.moveTo(position + offset, duration: moveDuration)
-                level << node
+                playerNode << node
             }
             level.timeline.after(moveDuration) {
                 self.slowmo(false)

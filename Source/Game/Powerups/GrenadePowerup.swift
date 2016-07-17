@@ -21,7 +21,7 @@ class GrenadePowerup: Powerup {
         super.activate(level, playerNode: playerNode)
 
         self.onNextTap(slowmo: true) { position in
-            let grenade = GrenadePowerupNode(at: playerNode.position)
+            let grenade = GrenadePowerupNode(at: .zero)
             let arcDuration: CGFloat = 0.25
             let length: CGFloat = (position - playerNode.position).length
             let arcToComponent = grenade.arcTo(position, speed: length / arcDuration)
