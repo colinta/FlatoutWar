@@ -67,19 +67,18 @@ class TimelineComponent: Component {
         let until: ConditionBlock
         var lastRun: CGFloat = 0
         let block: Block
-        var finallyBlock: Block
+        var finallyBlock: Block = {}
 
-        init(countdown: CGFloat, generator: () -> CGFloat, startAt: CGFloat, until: ConditionBlock, block: Block, finallyBlock: Block) {
+        init(countdown: CGFloat, generator: () -> CGFloat, startAt: CGFloat, until: ConditionBlock, block: Block) {
             self.countdown = countdown
             self.generator = generator
             self.startAt = startAt
             self.until = until
             self.block = block
-            self.finallyBlock = finallyBlock
         }
 
         convenience init() {
-            self.init(countdown: 0, generator: { return 0 }, startAt: 0, until: { return false }, block: {}, finallyBlock: {})
+            self.init(countdown: 0, generator: { return 0 }, startAt: 0, until: { return false }, block: {})
         }
     }
 
@@ -169,41 +168,29 @@ class TimelineComponent: Component {
         addEvent(ConditionEvent(condition: condition, block: block))
     }
 
-    func every(interval: CGFloat, start: TimeDescriptor = .After(0), times: Int, finally finallyBlock: Block? = nil, block: Block) -> RecurringEvent {
+    func every(interval: CGFloat, start: TimeDescriptor = .After(0), block: Block) -> RecurringEvent {
+        return _every({ return interval }, start: start, until: { return false }, block: block)
+    }
+
+    func every(interval: CGFloat, start: TimeDescriptor = .After(0), times: Int, block: Block) -> RecurringEvent {
         var c = times
         let wrappedBlock: Block = {
             block()
             c -= 1
         }
         let untilBlock: ConditionBlock = { return c <= 0 }
-        return _every({ return interval }, start: start, until: untilBlock, finally: finallyBlock, block: wrappedBlock)
+        return _every({ return interval }, start: start, until: untilBlock, block: wrappedBlock)
     }
 
-    func every(interval: CGFloat, start: TimeDescriptor = .After(0), finally finallyBlock: Block? = nil, block: Block) -> RecurringEvent {
-        return _every({ return interval }, start: start, until: { return false }, finally: finallyBlock, block: block)
+    func every(interval: CGFloat, start: TimeDescriptor = .After(0), until untilBlock: ConditionBlock, block: Block) -> RecurringEvent {
+        return _every({ return interval }, start: start, until: untilBlock, block: block)
     }
 
-    func every(interval: CGFloat, start: TimeDescriptor = .After(0), untilTime: CGFloat, finally finallyBlock: Block? = nil, block: Block) -> RecurringEvent {
-        let untilBlock = { return self.time > untilTime }
-        return _every({ return interval }, start: start, until: untilBlock, finally: finallyBlock, block: block)
+    func every(interval: ClosedInterval<CGFloat>, start: TimeDescriptor = .After(0), block: Block) -> RecurringEvent {
+        return every(interval, start: start, until: { return false}, block: block)
     }
 
-    func every(interval: CGFloat, start: TimeDescriptor = .After(0), until untilBlock: ConditionBlock, finally finallyBlock: Block? = nil, block: Block) -> RecurringEvent {
-        return _every({ return interval }, start: start, until: untilBlock, finally: finallyBlock, block: block)
-    }
-
-    func every(interval: ClosedInterval<CGFloat>, start: TimeDescriptor = .After(0), untilTime: CGFloat? = nil, finally finallyBlock: Block? = nil, block: Block) -> RecurringEvent {
-        let untilBlock: ConditionBlock
-        if let untilTime = untilTime {
-            untilBlock = { return self.time > untilTime }
-        }
-        else {
-            untilBlock = { return false }
-        }
-        return every(interval, start: start, until: untilBlock, finally: finallyBlock, block: block)
-    }
-
-    func every(interval: ClosedInterval<CGFloat>, start: TimeDescriptor = .After(0), times: Int, finally finallyBlock: Block? = nil, block: Block) -> RecurringEvent {
+    func every(interval: ClosedInterval<CGFloat>, start: TimeDescriptor = .After(0), times: Int, block: Block) -> RecurringEvent {
         guard times > 0 else { return RecurringEvent() }
 
         let min = interval.start
@@ -214,24 +201,17 @@ class TimelineComponent: Component {
             c -= 1
         }
         let untilBlock: ConditionBlock = { return c <= 0 }
-        return _every({ return rand(min: min, max: max) }, start: start, until: untilBlock, finally: finallyBlock, block: wrappedBlock)
+        return _every({ return rand(min: min, max: max) }, start: start, until: untilBlock, block: wrappedBlock)
     }
 
-    func every(interval: ClosedInterval<CGFloat>, start: TimeDescriptor = .After(0), until untilBlock: ConditionBlock, finally finallyBlock: Block? = nil, block: Block) -> RecurringEvent {
+    func every(interval: ClosedInterval<CGFloat>, start: TimeDescriptor = .After(0), until untilBlock: ConditionBlock, block: Block) -> RecurringEvent {
         let min = interval.start
         let max = interval.end
-        return _every({ return rand(min: min, max: max) }, start: start, until: untilBlock, finally: finallyBlock, block: block)
+        return _every({ return rand(min: min, max: max) }, start: start, until: untilBlock, block: block)
     }
 
-    private func _every(generator: () -> CGFloat, start: TimeDescriptor = .After(0), until untilBlock: ConditionBlock, finally optFinallyBlock: Block? = nil, block: Block) -> RecurringEvent {
-        let finallyBlock: Block
-        if let block = optFinallyBlock {
-            finallyBlock = block
-        }
-        else {
-            finallyBlock = {}
-        }
-        let entry: RecurringEvent = RecurringEvent(countdown: 0, generator: generator, startAt: start.toTime(time), until: untilBlock, block: block, finallyBlock: finallyBlock)
+    private func _every(generator: () -> CGFloat, start: TimeDescriptor = .After(0), until untilBlock: ConditionBlock, block: Block) -> RecurringEvent {
+        let entry: RecurringEvent = RecurringEvent(countdown: 0, generator: generator, startAt: start.toTime(time), until: untilBlock, block: block)
         addEvent(entry)
 
         return entry
