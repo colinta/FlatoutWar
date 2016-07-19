@@ -4,8 +4,8 @@
 
 extension Powerup {
 
-    func demo(layer: Node, playerNode: BasePlayerNode, timeline: TimelineComponent) {
-        timeline.every(0.5...1) {
+    func demo(layer: Node, playerNode: BasePlayerNode, timeline: TimelineComponent) -> Block {
+        return timeline.cancellable.every(0.5...1) {
             let angle = TAU_8 ± rand(TAU_16)
 
             let enemyNode = EnemySoldierNode()

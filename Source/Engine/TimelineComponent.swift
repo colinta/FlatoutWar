@@ -8,19 +8,22 @@ class TimelineComponent: Component {
     struct CancellableWrapper {
         let timeline: TimelineComponent
 
+        func every(interval: ClosedInterval<CGFloat>, start: TimeDescriptor = .After(0), block: Block) -> Block {
+            let event = timeline.every(interval, start: start, block: block)
+            return { self.timeline.removeEvent(event)}
+        }
+
         func at(scheduledTime: TimeDescriptor, block: Block) -> Block {
             let event = Event(scheduledTime: scheduledTime.toTime(timeline.time), block: block)
             timeline.addEvent(event)
             return { self.timeline.removeEvent(event) }
         }
 
-
         func after(scheduledTime: CGFloat, block: Block) -> Block {
             let event = Event(scheduledTime: timeline.time + scheduledTime, block: block)
             timeline.addEvent(event)
             return { self.timeline.removeEvent(event) }
         }
-
 
         func when(condition: ConditionBlock, block: Block) -> Block {
             let event = ConditionEvent(condition: condition, block: block)

@@ -258,18 +258,8 @@ class UpgradeWorld: UIWorld {
         layer.fadeTo(1, start: 0, duration: 0.5)
         self << layer
 
-        let back = generateBackButton()
-        back.onTapped {
-            layer.fadeTo(0, duration: 0.5, removeNode: true)
-            for layer in [self.powerupLayer, self.uiLayer] {
-                layer.fadeTo(1, duration: 0.5)
-                layer.moveTo(.zero, duration: 0.5)
-            }
-        }
-        layer << back
-
         let playerNode = BasePlayerNode()
-        playerNode.position = CGPoint(-200, -120)
+        playerNode.position = CGPoint(-200, -100)
         let touchableComponent = TouchableComponent()
         playerNode.addComponent(touchableComponent)
         defaultNode = playerNode
@@ -279,7 +269,7 @@ class UpgradeWorld: UIWorld {
         powerup.playerNode = playerNode
 
         let button = generatePowerupButton(powerup)
-        button.position = CGPoint(-200, 0)
+        button.position = CGPoint(-200, 50)
         button.onTapped {
             button.enabled = false
             powerup.activate(self, layer: layer, playerNode: playerNode) {
@@ -288,7 +278,18 @@ class UpgradeWorld: UIWorld {
         }
         layer << button
 
-        powerup.demo(layer, playerNode: playerNode, timeline: timeline)
+        let cancelDemo = powerup.demo(layer, playerNode: playerNode, timeline: timeline)
+
+        let back = generateBackButton()
+        back.onTapped {
+            cancelDemo()
+            layer.fadeTo(0, duration: 0.5, removeNode: true)
+            for layer in [self.powerupLayer, self.uiLayer] {
+                layer.fadeTo(1, duration: 0.5)
+                layer.moveTo(.zero, duration: 0.5)
+            }
+        }
+        layer << back
     }
 
     func closePowerupLayer() {
