@@ -15,19 +15,19 @@ class SoldiersPowerup: Powerup {
         self.timeout = 30
     }
 
-    override func activate(level: World, playerNode: Node, completion: Block = {}) {
-        super.activate(level, playerNode: playerNode)
+    override func activate(level: World, layer: SKNode, playerNode: Node, completion: Block = {}) {
+        super.activate(level, layer: layer, playerNode: playerNode)
 
         let numSoldiers = 4
         numSoldiers.times { (i: Int) in
             let angle = TAU / CGFloat(numSoldiers) * CGFloat(i) ± rand(TAU_8)
-            let dest = CGPoint(r: 60, a: angle)
+            let dest = playerNode.position + CGPoint(r: 60, a: angle)
             let node = SoldierNode()
             node.restingPosition = dest
             node.rotateTo(angle)
             node.moveTo(dest, duration: 1)
             node.fadeTo(1, start: 0, duration: 1)
-            playerNode << node
+            layer << node
         }
 
         completion()

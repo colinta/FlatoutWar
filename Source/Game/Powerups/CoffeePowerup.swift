@@ -18,8 +18,8 @@ class CoffeePowerup: Powerup {
         self.timeout = 20
     }
 
-    override func activate(level: World, playerNode: Node, completion: Block = {}) {
-        super.activate(level, playerNode: playerNode)
+    override func activate(level: World, layer: SKNode, playerNode: Node, completion: Block = {}) {
+        super.activate(level, layer: layer, playerNode: playerNode)
 
         powerupEnabled = false
         playerNode.timeRate = 3

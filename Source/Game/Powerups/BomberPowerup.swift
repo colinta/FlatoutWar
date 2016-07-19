@@ -15,14 +15,14 @@ class BomberPowerup: Powerup {
         self.timeout = 60
     }
 
-    override func activate(level: World, playerNode: Node, completion: Block = {}) {
-        super.activate(level, playerNode: playerNode)
+    override func activate(level: World, layer: SKNode, playerNode: Node, completion: Block = {}) {
+        super.activate(level, layer: layer, playerNode: playerNode)
 
         let slowmo: CGFloat = 0.333
         level.timeRate = slowmo
 
         let pathNode = PathDrawingNode()
-        playerNode << pathNode
+        layer << pathNode
         powerupEnabled = false
 
         let prevDefault = level.defaultNode
@@ -54,7 +54,7 @@ class BomberPowerup: Powerup {
                 bomber.fadeTo(0, duration: 1, removeNode: true)
                 completion()
             }
-            playerNode << bomber
+            layer << bomber
 
             self.powerupRunning()
             restore()

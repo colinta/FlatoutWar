@@ -16,8 +16,8 @@ class LaserPowerup: Powerup {
         self.timeout = 30
     }
 
-    override func activate(level: World, playerNode: Node, completion: Block = {}) {
-        super.activate(level, playerNode: playerNode)
+    override func activate(level: World, layer: SKNode, playerNode: Node, completion: Block = {}) {
+        super.activate(level, layer: layer, playerNode: playerNode)
 
         self.onNextTap(slowmo: true) { position in
             let angle = position.angle
@@ -27,7 +27,7 @@ class LaserPowerup: Powerup {
                 level.timeline.after(delay) {
                     let laser = LaserBeamNode(angle: angle ± rand(2.degrees))
                     laser.position = playerNode.position + offset
-                    playerNode << laser
+                    layer << laser
                 }
             }
             completion()

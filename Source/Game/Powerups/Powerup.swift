@@ -174,6 +174,10 @@ class Powerup {
     }
 
     func activate(level: World, playerNode: Node, completion: Block = {}) {
+        activate(level, layer: level, playerNode: playerNode, completion: completion)
+    }
+
+    func activate(level: World, layer: SKNode, playerNode: Node, completion: Block = {}) {
     }
 
     func slowmo(onoff: Bool) {
@@ -186,7 +190,7 @@ class Powerup {
     }
 
     func onNextTap(slowmo slowmo: Bool = false, onTap: (CGPoint) -> Void) {
-        if let level = level, playerNode = playerNode {
+        if let level = level {
             if slowmo {
                 self.slowmo(true)
             }
@@ -227,7 +231,7 @@ class Powerup {
                 self.powerupCancel = nil
                 cancelTimeout()
 
-                let position = tapNode.convertPoint(location, toNode: playerNode)
+                let position = tapNode.convertPoint(location, toNode: level)
                 onTap(position)
 
                 self.powerupRunning()

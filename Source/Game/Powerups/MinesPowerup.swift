@@ -15,8 +15,8 @@ class MinesPowerup: Powerup {
         super.init(count: count)
     }
 
-    override func activate(level: World, playerNode: Node, completion: Block = {}) {
-        super.activate(level, playerNode: playerNode)
+    override func activate(level: World, layer: SKNode, playerNode: Node, completion: Block = {}) {
+        super.activate(level, layer: layer, playerNode: playerNode)
 
         self.onNextTap(slowmo: true) { tapPosition in
             let position: CGPoint
@@ -35,10 +35,10 @@ class MinesPowerup: Powerup {
             5.times { (i: Int) in
                 let a: CGFloat = CGFloat(i) * TAU / 5 ± rand(TAU_16)
                 let r: CGFloat = 17
-                let offset = CGPoint(r: r ± rand(3), a: a)
-                let node = MineNode(at: .zero)
-                node.moveTo(position + offset, duration: moveDuration)
-                playerNode << node
+                let offset = position + CGPoint(r: r ± rand(3), a: a)
+                let node = MineNode(at: playerNode.position)
+                node.moveTo(offset, duration: moveDuration)
+                layer << node
             }
             level.timeline.after(moveDuration) {
                 self.slowmo(false)

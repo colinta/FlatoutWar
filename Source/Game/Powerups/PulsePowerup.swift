@@ -14,11 +14,11 @@ class PulsePowerup: Powerup {
         self.timeout = 10
     }
 
-    override func activate(level: World, playerNode: Node, completion: Block = {}) {
-        super.activate(level, playerNode: playerNode)
+    override func activate(level: World, layer: SKNode, playerNode: Node, completion: Block = {}) {
+        super.activate(level, layer: layer, playerNode: playerNode)
 
-        let node = PulseNode()
-        playerNode << node
+        let node = PulseNode(at: playerNode.position)
+        layer << node
 
         level.timeline.after(PulseNode.MaxTime, block: completion)
         powerupRunning()

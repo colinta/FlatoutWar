@@ -282,7 +282,7 @@ class UpgradeWorld: UIWorld {
         button.position = CGPoint(-200, 0)
         button.onTapped {
             button.enabled = false
-            powerup.activate(self, playerNode: playerNode) {
+            powerup.activate(self, layer: layer, playerNode: playerNode) {
                 button.enabled = true
             }
         }

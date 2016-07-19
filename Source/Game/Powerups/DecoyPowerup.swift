@@ -17,15 +17,14 @@ class DecoyPowerup: Powerup {
         self.timeout = 2
     }
 
-    override func activate(level: World, playerNode: Node, completion: Block = {}) {
-        super.activate(level, playerNode: playerNode)
+    override func activate(level: World, layer: SKNode, playerNode: Node, completion: Block = {}) {
+        super.activate(level, layer: layer, playerNode: playerNode)
 
         self.onNextTap(slowmo: true) { position in
-            let decoy = DecoyPowerupNode(at: .zero)
-            decoy.alpha = 0
-            playerNode << decoy
+            let decoy = DecoyPowerupNode(at: playerNode.position)
             decoy.moveTo(position, duration: 1)
-            decoy.fadeTo(1, duration: 1)
+            decoy.fadeTo(1, start: 0, duration: 1)
+            layer << decoy
             completion()
         }
     }
