@@ -10,6 +10,7 @@ class PulseNode: Node {
 
     class Pulse {
         var time: CGFloat = 0
+        var active = true
         private let pulseRate: CGFloat
         private let timeOffset: CGFloat
         private var radius: CGFloat = 0 {
@@ -34,7 +35,11 @@ class PulseNode: Node {
                 let myTime = time - timeOffset
                 radius = myTime * pulseRate
 
-                if PulseNode.MaxTime - myTime < 2 {
+                if PulseNode.MaxTime - myTime < 0 {
+                    node.alpha = 0
+                    active = false
+                }
+                else if PulseNode.MaxTime - myTime < 2 {
                     node.alpha = interpolate(PulseNode.MaxTime - myTime, from: (2, 0), to: (1, 0))
                 }
                 else if myTime < 2 {
@@ -75,11 +80,16 @@ class PulseNode: Node {
             p.update(dt)
         }
 
+        guard pulses.any({ $0.active }) else {
+            removeFromParent()
+            return
+        }
+
         if let world = world {
             for enemy in world.enemies where enemy.enemyComponent!.targetable {
-                for p in pulses {
-                    let innerR = p.radius - 1
-                    let outerR = p.radius + 1
+                for p in pulses where p.active {
+                    let innerR: CGFloat = max(p.radius - enemy.radius, 0)
+                    let outerR: CGFloat = p.radius + enemy.radius
                     if self.distanceTo(enemy, within: outerR) && !self.distanceTo(enemy, within: innerR) {
                         enemy.healthComponent?.inflict(Damage * Float(dt))
 
