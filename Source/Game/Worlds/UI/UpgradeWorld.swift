@@ -39,10 +39,12 @@ class UpgradeWorld: UIWorld {
 
     func generateDoneButton() -> Button {
         let done = Button()
-        done.alignment = .Left
-        done.position = CGPoint(x: size.width / 2 + 15, y: size.height / 2 - 30)
+        done.alignment = .Right
+        done.position = CGPoint(x: size.width / 2 - 15, y: size.height / 2 - 30)
         done.text = "DONE >"
-        done.onTapped(saveAndExit)
+        done.onTapped {
+            self.fadeTo(0, duration: 0.5).onFaded(self.saveAndExit)
+        }
         return done
     }
 
