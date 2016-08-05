@@ -66,14 +66,18 @@ class DraggableComponent: Component {
         self.centeredAround = nil
     }
 
-    func maintainDistance(dist: CGFloat, around: Node) {
-        if let node = node where !node.distanceTo(around, within: dist) {
-            let angle = around.angleTo(node)
-            node.position = around.position + CGPoint(r: dist, a: angle)
+    func maintainDistance(maxDist: CGFloat, around aroundNode: Node) {
+        if let node = node
+        where
+            !node.distanceTo(aroundNode, within: maxDist) ||
+            node.distanceTo(aroundNode) < aroundNode.radius
+        {
+            let angle = aroundNode.angleTo(node)
+            node.position = aroundNode.position + CGPoint(r: maxDist, a: angle)
         }
 
-        self.maxDistance = dist
-        self.centeredAround = around
+        self.maxDistance = maxDist
+        self.centeredAround = aroundNode
     }
 
     override func update(dt: CGFloat) {
@@ -177,10 +181,10 @@ class DraggableComponent: Component {
             for playerNode in players {
                 if playerNode == node { continue }
 
-                let dist = playerNode.radius + node.radius
-                if placeholder.distanceTo(playerNode, within: dist) {
+                let minDist = playerNode.radius + node.radius
+                if placeholder.distanceTo(playerNode, within: minDist) {
                     let angle = playerNode.angleTo(placeholder)
-                    let point = node.convertPoint(playerNode.position + CGPoint(r: dist, a: angle), fromNode: node.parent!)
+                    let point = node.convertPoint(playerNode.position + CGPoint(r: minDist, a: angle), fromNode: node.parent!)
                     placeholder.position = point
                 }
             }
