@@ -153,11 +153,11 @@ class UpgradeWorld: UIWorld {
         mainLayer.interactive = false
         powerupButton.enabled = false
         let startPosition = powerupButton.position
-        let dest = CGPoint(y: -10)
+        let dest = CGPoint(startPosition.x + 25, y: size.height / 2 - 80)
 
         let powerupTargetButton = generatePowerupButton(powerup)
         self.powerupTargetButton = powerupTargetButton
-        powerupTargetButton.moveTo(startPosition + CGPoint(x: 20), start: startPosition, speed: 150)
+        powerupTargetButton.moveTo(dest, start: startPosition, speed: 150)
         uiLayer << powerupTargetButton
 
         let animationDuration: CGFloat = 1
@@ -176,6 +176,7 @@ class UpgradeWorld: UIWorld {
         powerupLayer << back
 
         powerupButtons = []
+        let center = CGPoint(y: -10)
         let purchaseablePowerups = [powerup.clone()] + levelConfig.purchaseablePowerups
         var angle: CGFloat = TAU_4
         let buttonRadius: CGFloat = 90
@@ -186,8 +187,8 @@ class UpgradeWorld: UIWorld {
             }
 
             let powerupButton = generatePowerupButton(purchaseablePowerup, includeCount: false, includeCost: true)
-            let p0 = dest + CGPoint(r: 2 * buttonRadius, a: angle)
-            let p1 = dest + CGPoint(r: buttonRadius, a: angle)
+            let p0 = center + CGPoint(r: 2 * buttonRadius, a: angle)
+            let p1 = center + CGPoint(r: buttonRadius, a: angle)
             powerupButton.moveTo(p1, start: p0, duration: animationDuration)
             powerupButton.enabled = purchaseablePowerup.nextResourceCost != nil
             powerupLayer << powerupButton
