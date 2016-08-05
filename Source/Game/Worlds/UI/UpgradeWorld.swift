@@ -155,10 +155,10 @@ class UpgradeWorld: UIWorld {
         let startPosition = powerupButton.position
         let dest = CGPoint(y: -10)
 
-        let powerupTarget = generatePowerupButton(powerup)
-        powerupTarget.moveTo(dest, start: startPosition, duration: 1)
-        uiLayer << powerupTarget
-        powerupTargetButton = powerupTarget
+        let powerupTargetButton = generatePowerupButton(powerup)
+        self.powerupTargetButton = powerupTargetButton
+        powerupTargetButton.moveTo(startPosition + CGPoint(x: 20), start: startPosition, speed: 150)
+        uiLayer << powerupTargetButton
 
         let animationDuration: CGFloat = 1
         mainLayer.fadeTo(0, duration: animationDuration / 2).onFaded {
@@ -169,11 +169,8 @@ class UpgradeWorld: UIWorld {
 
         let back = generateBackButton()
         back.onTapped {
-            powerupTarget.moveTo(startPosition, duration: 1).onArrived {
-                powerupButton.enabled = true
-                powerupTarget.removeFromParent()
-            }
-
+            powerupTargetButton.moveTo(startPosition, speed: 150)
+            powerupButton.enabled = true
             self.closePowerupLayer()
         }
         powerupLayer << back
@@ -305,13 +302,17 @@ class UpgradeWorld: UIWorld {
         }
 
         self << mainLayer
-        self.powerupTargetButton = nil
         powerupLayer.interactive = false
         let animationDuration: CGFloat = 1
+        powerupTargetButton.moveToParent(self, preservePosition: true)
         powerupLayer.fadeTo(0, duration: animationDuration / 2).onFaded {
             self.mainLayer.interactive = true
             self.powerupLayer.removeAllChildren()
-            self.mainLayer.fadeTo(1, duration: animationDuration / 2)
+
+            self.mainLayer.fadeTo(1, duration: animationDuration / 2).onFaded {
+                self.powerupTargetButton.removeFromParent()
+                self.powerupTargetButton = nil
+            }
         }
     }
 
