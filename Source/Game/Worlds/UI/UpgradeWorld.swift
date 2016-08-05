@@ -22,6 +22,11 @@ class UpgradeWorld: UIWorld {
     var gainedExperience: TextNode!
 
     func saveAndExit() {
+        levelConfig.storedPlayers = [playerNode] + armyNodes.map { node in
+            node.position = convertPosition(node)
+            return node
+        }
+        director?.presentWorld(nextWorld)
     }
 
     func generateBackButton() -> Button {
