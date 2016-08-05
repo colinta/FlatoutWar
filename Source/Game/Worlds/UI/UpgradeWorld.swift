@@ -135,8 +135,8 @@ class UpgradeWorld: UIWorld {
         purchase.position = position
 
         let x: CGFloat = -size.width / 2 + 40
-        var y: CGFloat = size.height / 2 - 40
         let dy: CGFloat = 80
+        var y: CGFloat = size.height / 2 - dy
         for powerup in levelConfig.activatedPowerups {
             let powerupButton = generatePowerupButton(powerup)
             powerupButton.position = CGPoint(x, y)
