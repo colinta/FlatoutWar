@@ -56,7 +56,6 @@ class UpgradeWorld: UIWorld {
     override func populateWorld() {
         super.populateWorld()
 
-        levelConfig.storedPlayers = [BasePlayerNode(), DroneNode()]
         for node in levelConfig.storedPlayers {
             if let node = node as? BasePlayerNode {
                 playerNode = node
