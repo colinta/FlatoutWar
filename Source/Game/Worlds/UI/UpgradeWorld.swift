@@ -119,6 +119,7 @@ class UpgradeWorld: UIWorld {
         for armyNode in armyNodes {
             let position = CGPoint(r: buttonRadius, a: angle)
 
+            armyNode.position = .zero
             armyNode.touchableComponent?.enabled = false
 
             let armyNodeButton = Button()
