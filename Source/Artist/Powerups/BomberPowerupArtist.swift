@@ -5,11 +5,6 @@
 class BomberPowerupArtist: PowerupArtist {
     var numBombs: Int = 8
 
-    required init() {
-        super.init()
-        rotation = -45.degrees
-    }
-
     override func draw(context: CGContext) {
         super.draw(context)
 

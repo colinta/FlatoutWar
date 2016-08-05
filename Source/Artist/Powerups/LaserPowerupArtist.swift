@@ -5,11 +5,11 @@
 class LaserPowerupArtist: PowerupArtist {
     required init() {
         super.init()
-        rotation = 45.degrees
     }
 
     override func draw(context: CGContext) {
         super.draw(context)
+        rotate(context, angle: 45.degrees)
 
         let dy = size.height / 9 / 2
         let dx = size.width / 9

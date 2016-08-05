@@ -19,7 +19,6 @@ class DroneRadarArtist: Artist {
         CGContextSetStrokeColorWithColor(context, stroke.CGColor)
         CGContextSetLineWidth(context, 1)
 
-        CGContextSetAlpha(context, alpha)
         CGContextAddEllipseInRect(context, middle.rect(size: size))
         CGContextDrawPath(context, .Stroke)
     }
