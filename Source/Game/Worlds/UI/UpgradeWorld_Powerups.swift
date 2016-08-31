@@ -2,16 +2,10 @@
 ///  UpgradeWorld_Powerups.swift
 //
 
-private let PurchaseAnimationDuration: CGFloat = 1
-private let ButtonAnimationDuration: CGFloat = 0.5
-private let LayerAnimationDuration: CGFloat = 0.3
-
-
 extension UpgradeWorld {
     func showPowerupUpgrade(mainButton mainPowerupButton: PowerupUpgradeButton) {
         let assignedPowerup = mainPowerupButton.powerup
         mainLayer.interactive = false
-        mainPowerupButton.enabled = false
         let startPosition = mainPowerupButton.position
         let dest = CGPoint(x: startPosition.x + 50)
 
@@ -309,8 +303,6 @@ extension UpgradeWorld {
         defaultNode = nil
         powerupLayer.interactive = false
 
-        tempPowerupButton.enabled = false
-        mainPowerupButton.enabled = true
         tempPowerupButton.moveToParent(self, preservePosition: true)
         tempPowerupButton.moveTo(mainPowerupButton.position, speed: 150)
         powerupLayer.fadeTo(0, duration: PurchaseAnimationDuration / 2).onFaded {

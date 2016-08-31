@@ -2,8 +2,13 @@
 ///  UpgradeWorld.swift
 //
 
+let PurchaseAnimationDuration: CGFloat = 1
+let ButtonAnimationDuration: CGFloat = 0.5
+let LayerAnimationDuration: CGFloat = 0.3
+
 
 class UpgradeWorld: UIWorld {
+
     var nextWorld: Level!
     let config = UpgradeConfigSummary()
     var levelConfig: LevelConfig { return nextWorld.config }
@@ -15,7 +20,7 @@ class UpgradeWorld: UIWorld {
     let powerupLayer = Node()
     var prevSelectedPowerupLayer: Node?
 
-    let upgradeTowerLayer = Node()
+    let upgradeArmyLayer = Node()
     let purchaseTowerLayer = Node()
 
     var gainedResources: TextNode!
@@ -87,9 +92,8 @@ class UpgradeWorld: UIWorld {
         }
 
         do {
-            upgradeTowerLayer << generateBackButton()
-            upgradeTowerLayer.alpha = 0
-            self << upgradeTowerLayer
+            upgradeArmyLayer.alpha = 0
+            self << upgradeArmyLayer
         }
 
         do {
@@ -116,36 +120,13 @@ class UpgradeWorld: UIWorld {
     }
 
     func showMainScreen() {
-        playerNode.position = .zero
         playerNode.disableTouchForUI()
-        let playerNodeButton = Button()
-        playerNodeButton.style = .Circle
-        playerNodeButton << playerNode
+        let playerNodeButton = ArmyUpgradeButton(node: playerNode)
         mainLayer << playerNodeButton
 
-        var angle = 7 * TAU_12
-        let buttonRadius: CGFloat = 80
-        let deltaAngle = TAU / CGFloat(armyNodes.count + 1)
-        for armyNode in armyNodes {
-            let position = CGPoint(r: buttonRadius, a: angle)
-
-            armyNode.position = .zero
-            armyNode.touchableComponent?.enabled = false
-
-            let armyNodeButton = Button()
-            armyNodeButton.position = position
-            armyNodeButton.style = .Circle
-            armyNodeButton << armyNode
-            mainLayer << armyNodeButton
-
-            angle += deltaAngle
-        }
-
-        let position = CGPoint(r: buttonRadius, a: angle)
-        let purchaseTower = Button(at: position)
-        purchaseTower.style = .Circle
-        purchaseTower.text = "+"
-        mainLayer << purchaseTower
+        let purchaseTower = Button()
+        let armyButtons = armyNodes.map { ArmyUpgradeButton(node: $0) }
+        positionArmyButtons(playerNodeButton, armyButtons: armyButtons, purchaseTower: purchaseTower)
 
         let x: CGFloat = -size.width / 2 + 40
         let dy: CGFloat = 80
