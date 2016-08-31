@@ -32,8 +32,8 @@ class DroneNode: Node, DraggableNode {
     private func updateSprites() {
         sprite.textureId(.Drone(upgrade: upgrade, health: healthComponent?.healthInt ?? 100))
         placeholder.textureId(.Drone(upgrade: upgrade, health: 100))
-        radar1.textureId(.DroneRadar(radius: Int(targetingComponent!.radius!)))
-        radar2.textureId(.DroneRadar(radius: Int(targetingComponent!.radius!)))
+        radar1.textureId(.DroneRadar(upgrade: upgrade))
+        radar2.textureId(.DroneRadar(upgrade: upgrade))
     }
 
     var cursor = CursorNode()
@@ -265,11 +265,11 @@ extension FiveUpgrades {
 
     var droneRadarRadius: CGFloat {
         switch self {
-            case .One: return 75
-            case .Two: return 85
-            case .Three: return 95
-            case .Four: return 105
-            case .Five: return 135
+        case .One: return 75
+        case .Two: return 85
+        case .Three: return 95
+        case .Four: return 105
+        case .Five: return 135
         }
     }
 

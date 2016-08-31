@@ -86,6 +86,7 @@ class DroneArtist: Artist {
                 CGContextAddLineToPoint(context, middle.x - innerRadius, 0)
                 CGContextAddLineToPoint(context, middle.x - innerRadius, middle.y - innerRadius)
                 CGContextClosePath(context)
+                CGContextDrawPath(context, .Stroke)
             }
             else {
                 CGContextSetAlpha(context, 0.5)

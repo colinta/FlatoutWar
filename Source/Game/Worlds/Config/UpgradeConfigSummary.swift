@@ -8,40 +8,38 @@ class UpgradeConfigSummary: Config {
         BaseConfigSummary(),
     ]
 
-    var availableCurrency: Currency {
-        return Currency(experience: availableExperience, resources: availableResources)
-    }
-
-    var totalGainedExperience: Int {
+    private var totalGainedExperience: Int {
         return configs.map { $0.totalGainedExperience }.reduce(0, combine: +)
     }
     var spentExperience: Int {
         get { return Defaults["\(configKey)-spentExperience"].int ?? 0 }
+        set { return Defaults["\(configKey)-spentExperience"] = newValue }
     }
     var availableExperience: Int {
         return totalGainedExperience - spentExperience
     }
 
-    var totalGainedResources: Int {
+    private var totalGainedResources: Int {
         return configs.map { $0.totalGainedResources }.reduce(0, combine: +)
     }
     var spentResources: Int {
         get { return Defaults["\(configKey)-spentResources"].int ?? 0 }
+        set { return Defaults["\(configKey)-spentResources"] = newValue }
     }
     var availableResources: Int {
         return totalGainedResources - spentResources
     }
 
-    func canAfford(experience experience: Int = 0, resources: Int = 0) -> Bool {
-        return availableExperience - experience >= 0 && availableResources - resources >= 0
+    func canAfford(amount: Currency) -> Bool {
+        return availableExperience - amount.experience >= 0 && availableResources - amount.resources >= 0
     }
 
-    func spent(experience experience: Int = 0, resources: Int = 0) {
-        if experience > 0 {
-            Defaults["\(configKey)-spentExperience"] = spentExperience + experience
+    func spent(amount: Currency) {
+        if amount.experience > 0 {
+            Defaults["\(configKey)-spentExperience"] = spentExperience + amount.experience
         }
-        if resources > 0 {
-            Defaults["\(configKey)-spentResources"] = spentResources + resources
+        if amount.resources > 0 {
+            Defaults["\(configKey)-spentResources"] = spentResources + amount.resources
         }
     }
 

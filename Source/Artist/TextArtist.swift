@@ -52,6 +52,7 @@ class TextArtist: Artist {
     override func draw(context: CGContext) {
         CGContextSetLineWidth(context, 0.5)
         CGContextSetStrokeColorWithColor(context, color.CGColor)
+        CGContextSetFillColorWithColor(context, color.CGColor)
 
         CGContextSaveGState(context)
         CGContextScaleCTM(context, textScale, textScale)
@@ -70,11 +71,12 @@ class TextArtist: Artist {
                     }
                 }
 
-                if letter.style == .Loop {
+                if letter.style.closesPath {
                     CGContextClosePath(context)
                 }
             }
-            CGContextDrawPath(context, .Stroke)
+
+            CGContextDrawPath(context, letter.style.drawPath)
             CGContextTranslateCTM(context, letter.size.width + letterSpace, 0)
         }
         CGContextRestoreGState(context)

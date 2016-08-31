@@ -22,16 +22,35 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             BaseLevel1Config().storedPowerups = [
                 (GrenadePowerup(count: 2), 0),
                 (LaserPowerup(count: 1), 1),
-                (MinesPowerup(count: 1), 2),
-                (BomberPowerup(count: 0), nil),
-                (ShieldPowerup(count: 0), nil),
-                (SoldiersPowerup(count: 0), nil),
-                (PulsePowerup(count: 0), nil),
-                (NetPowerup(count: 0), nil),
+                (MinesPowerup(count: 2), 2),
                 (HourglassPowerup(count: 0), nil),
-                (CoffeePowerup(count: 0), nil),
             ]
         }
+        justOnce("2016-08-17") {
+            if BaseLevel1Config().storedPlayers.isEmpty {
+                BaseLevel1Config().storedPlayers = [BasePlayerNode(), DroneNode(at: CGPoint(x: 80))]
+            }
+            if TutorialLevel6Config().storedPlayers.isEmpty {
+                TutorialLevel6Config().storedPlayers = [BasePlayerNode(), DroneNode(at: CGPoint(x: 80))]
+            }
+        }
+        let upgradeConfig = UpgradeConfigSummary()
+        print("spent: (\(upgradeConfig.spentExperience), \(upgradeConfig.spentResources))")
+        print("storedPowerups:")
+        for entry in BaseLevel1Config().storedPowerups {
+            let orderStr: String
+            if let order = entry.order { orderStr = "\(order)" }
+            else { orderStr = "--" }
+            print("- \(entry.powerup.dynamicType) count: \(entry.powerup.count), order: \(orderStr)")
+        }
+        upgradeConfig.spentExperience = 0
+        upgradeConfig.spentResources = 0
+        BaseLevel1Config().storedPowerups = [
+            (GrenadePowerup(count: 2), 0),
+            (LaserPowerup(count: 1), 1),
+            (MinesPowerup(count: 2), 2),
+            (HourglassPowerup(count: 0), nil),
+        ]
 
         device = ALDevice(deviceSpecifier: nil)
         context = ALContext(onDevice: device, attributes: nil)

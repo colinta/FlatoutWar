@@ -75,7 +75,7 @@ indirect enum ImageIdentifier {
     case PowerupTimer(percent: Int)
 
     case Drone(upgrade: FiveUpgrades, health: Int)
-    case DroneRadar(radius: Int)
+    case DroneRadar(upgrade: FiveUpgrades)
     case Turret(upgrade: FiveUpgrades, health: Int)
     case TurretRadar(upgrade: FiveUpgrades)
     case Resource(goal: Int, remaining: Int)
@@ -187,8 +187,8 @@ indirect enum ImageIdentifier {
             return "PowerupTimer_percent-\(percent)"
         case let .Drone(upgrade, health):
             return "Drone_upgrade-\(upgrade.name)_health-\(health)"
-        case let .DroneRadar(radius):
-            return "Drone_radius-\(radius)"
+        case let .DroneRadar(upgrade):
+            return "Drone_upgrade-\(upgrade.name)"
         case let .Turret(upgrade, health):
             return "Turret_upgrade-\(upgrade.name)_health-\(health)"
         case let .TurretRadar(upgrade):

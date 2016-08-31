@@ -23,6 +23,7 @@ class ConfigSummary: Config {
     var totalGainedResources: Int {
         return configs.map { $0.gainedResources }.reduce(0, combine: +)
     }
+    
     var worldCompleted: Bool {
         return configs.all { $0.levelCompleted }
     }

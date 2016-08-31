@@ -12,7 +12,6 @@ class Powerup {
     var name: String { return "" }
     var powerupType: ImageIdentifier.PowerupType? { return .None }
 
-    let initialCount: Int
     var count: Int = 0
     var nextResourceCost: Currency? {
         if let cost = nextResourceCosts[count] {
@@ -31,7 +30,6 @@ class Powerup {
     weak var playerNode: Node?
 
     required init(count: Int) {
-        self.initialCount = count
         self.count = count
     }
 

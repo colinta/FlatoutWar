@@ -2,6 +2,7 @@
 ///  UpgradeWorld.swift
 //
 
+
 class UpgradeWorld: UIWorld {
     var nextWorld: Level!
     let config = UpgradeConfigSummary()
@@ -11,15 +12,16 @@ class UpgradeWorld: UIWorld {
     var armyNodes: [Node] = []
     let mainLayer = Node()
 
-    var powerupTargetButton: PowerupUpgradeButton!
-    var powerupButtons: [PowerupUpgradeButton] = []
     let powerupLayer = Node()
+    var prevSelectedPowerupLayer: Node?
 
     let upgradeTowerLayer = Node()
     let purchaseTowerLayer = Node()
 
     var gainedResources: TextNode!
+    var printedResources: Int = 0
     var gainedExperience: TextNode!
+    var printedExperience: Int = 0
 
     func saveAndExit() {
         levelConfig.storedPlayers = [playerNode] + armyNodes.map { node in
@@ -27,6 +29,18 @@ class UpgradeWorld: UIWorld {
             return node
         }
         director?.presentWorld(nextWorld)
+    }
+
+    override func update(dt: CGFloat) {
+        super.update(dt)
+        if config.availableResources < printedResources {
+            printedResources -= 1
+            gainedResources.text = "\(printedResources)"
+        }
+        if config.availableExperience < printedExperience {
+            printedExperience -= 1
+            gainedResources.text = "\(printedExperience)"
+        }
     }
 
     func generateBackButton() -> Button {
@@ -49,8 +63,7 @@ class UpgradeWorld: UIWorld {
     }
 
     func generatePowerupButton(powerup: Powerup, includeCount: Bool = true, includeCost: Bool = false) -> PowerupUpgradeButton {
-        let powerupButton = PowerupUpgradeButton(powerup: powerup, includeCount: includeCount, includeCost: includeCost)
-        return powerupButton
+        return PowerupUpgradeButton(powerup: powerup, includeCount: includeCount, includeCost: includeCost)
     }
 
     override func populateWorld() {
@@ -92,7 +105,9 @@ class UpgradeWorld: UIWorld {
         uiLayer << title
 
         let (gainedResources, gainedExperience) = populateCurrencies(config)
+        self.printedResources = config.availableResources
         self.gainedResources = gainedResources
+        self.printedExperience = config.availableExperience
         self.gainedExperience = gainedExperience
 
         showMainScreen()
@@ -101,11 +116,6 @@ class UpgradeWorld: UIWorld {
     }
 
     func showMainScreen() {
-        let purchase = Button()
-        purchase.style = .Circle
-        purchase.text = "+"
-        mainLayer << purchase
-
         playerNode.position = .zero
         playerNode.disableTouchForUI()
         let playerNodeButton = Button()
@@ -132,7 +142,10 @@ class UpgradeWorld: UIWorld {
         }
 
         let position = CGPoint(r: buttonRadius, a: angle)
-        purchase.position = position
+        let purchaseTower = Button(at: position)
+        purchaseTower.style = .Circle
+        purchaseTower.text = "+"
+        mainLayer << purchaseTower
 
         let x: CGFloat = -size.width / 2 + 40
         let dy: CGFloat = 80
@@ -141,179 +154,9 @@ class UpgradeWorld: UIWorld {
             let powerupButton = generatePowerupButton(powerup)
             powerupButton.position = CGPoint(x, y)
             mainLayer << powerupButton
-            powerupButton.onTapped {
-                self.showPowerupUpgrade(powerup, powerupButton: powerupButton)
-            }
+            powerupButton.onTapped { self.showPowerupUpgrade(mainButton: powerupButton) }
 
             y -= dy
-        }
-    }
-
-    func showPowerupUpgrade(powerup: Powerup, powerupButton: PowerupUpgradeButton) {
-        mainLayer.interactive = false
-        powerupButton.enabled = false
-        let startPosition = powerupButton.position
-        let dest = CGPoint(startPosition.x + 25, y: size.height / 2 - 80)
-
-        let powerupTargetButton = generatePowerupButton(powerup)
-        self.powerupTargetButton = powerupTargetButton
-        powerupTargetButton.moveTo(dest, start: startPosition, speed: 150)
-        uiLayer << powerupTargetButton
-
-        let animationDuration: CGFloat = 1
-        mainLayer.fadeTo(0, duration: animationDuration / 2).onFaded {
-            self.powerupLayer.interactive = true
-            self.powerupLayer.fadeTo(1, duration: animationDuration / 2)
-            self.mainLayer.removeFromParent(reset: false)
-        }
-
-        let back = generateBackButton()
-        back.onTapped {
-            powerupTargetButton.moveTo(startPosition, speed: 150)
-            powerupButton.enabled = true
-            self.closePowerupLayer()
-        }
-        powerupLayer << back
-
-        powerupButtons = []
-        let center = CGPoint(y: -10)
-        let purchaseablePowerups = [powerup.clone()] + levelConfig.purchaseablePowerups
-        var angle: CGFloat = TAU_4
-        let buttonRadius: CGFloat = 90
-        let deltaAngle = TAU / CGFloat(purchaseablePowerups.count)
-        for purchaseablePowerup in purchaseablePowerups {
-            if purchaseablePowerup == powerup {
-                purchaseablePowerup.count += 1
-            }
-
-            let powerupButton = generatePowerupButton(purchaseablePowerup, includeCount: false, includeCost: true)
-            let p0 = center + CGPoint(r: 2 * buttonRadius, a: angle)
-            let p1 = center + CGPoint(r: buttonRadius, a: angle)
-            powerupButton.moveTo(p1, start: p0, duration: animationDuration)
-            powerupButton.enabled = purchaseablePowerup.nextResourceCost != nil
-            powerupLayer << powerupButton
-
-            powerupButton.onTapped {
-                self.powerupSelected(purchaseablePowerup)
-            }
-
-            powerupButtons << powerupButton
-            angle += deltaAngle
-        }
-    }
-
-    var prevSelectedPowerup: (Powerup, Node)?
-    func powerupSelected(powerup: Powerup) {
-        let prevPowerup = prevSelectedPowerup?.0
-        let prevLayer = prevSelectedPowerup?.1
-        let start = CGPoint(x: size.width / 2 + 80)
-        let dest = CGPoint(x: size.width / 2 - 60)
-
-        if let prevLayer = prevLayer {
-            prevLayer.moveTo(start, duration: 0.3)
-        }
-
-        if prevPowerup == powerup {
-            powerupTargetButton.offTapped()
-            powerupTargetButton.restoreOriginal()
-            powerupTargetButton.setScale(1)
-            powerupTargetButton.background = nil
-            prevSelectedPowerup = nil
-            return
-        }
-
-        if let cost = powerup.nextResourceCost
-        where cost < config.availableCurrency
-        {
-            powerupTargetButton.currentPowerup = powerup
-            powerupTargetButton.setScale(1.1)
-            powerupTargetButton.background = AllowedColor
-        }
-        else {
-            powerupTargetButton.setScale(1)
-            powerupTargetButton.background = NotAllowedColor
-        }
-
-        let layer = Node()
-        powerupLayer << layer
-
-        let powerupIcon = powerup.icon()
-        powerupIcon.position = CGPoint(y: 50)
-        layer << powerupIcon
-
-        let tryButton = Button()
-        tryButton.style = .RectToFit
-        tryButton.text = "TRY >"
-        tryButton.onTapped {
-            self.powerupDemo(powerup.clone())
-        }
-        layer << tryButton
-
-        layer.moveTo(dest, start: start, duration: 0.3)
-        prevSelectedPowerup = (powerup, layer)
-    }
-
-    func powerupDemo(powerup: Powerup) {
-        for layer in [powerupLayer, uiLayer] {
-            layer.fadeTo(0, duration: 0.5)
-            layer.moveTo(CGPoint(x: -100), duration: 0.5)
-        }
-
-        let layer = Node()
-        layer.fadeTo(1, start: 0, duration: 0.5)
-        self << layer
-
-        let playerNode = BasePlayerNode()
-        playerNode.position = CGPoint(-200, -100)
-        let touchableComponent = TouchableComponent()
-        playerNode.addComponent(touchableComponent)
-        defaultNode = playerNode
-        layer << playerNode
-
-        powerup.level = self
-        powerup.playerNode = playerNode
-
-        let button = generatePowerupButton(powerup)
-        button.position = CGPoint(-200, 50)
-        button.onTapped {
-            button.enabled = false
-            powerup.activate(self, layer: layer, playerNode: playerNode) {
-                button.enabled = true
-            }
-        }
-        layer << button
-
-        let cancelDemo = powerup.demo(layer, playerNode: playerNode, timeline: timeline)
-
-        let back = generateBackButton()
-        back.onTapped {
-            cancelDemo()
-            layer.fadeTo(0, duration: 0.5, removeNode: true)
-            for layer in [self.powerupLayer, self.uiLayer] {
-                layer.fadeTo(1, duration: 0.5)
-                layer.moveTo(.zero, duration: 0.5)
-            }
-        }
-        layer << back
-    }
-
-    func closePowerupLayer() {
-        if let prevPowerup = prevSelectedPowerup?.0 {
-            powerupSelected(prevPowerup)
-        }
-
-        self << mainLayer
-        powerupLayer.interactive = false
-        let animationDuration: CGFloat = 1
-        powerupTargetButton.moveToParent(self, preservePosition: true)
-        powerupLayer.fadeTo(0, duration: animationDuration / 2).onFaded {
-            self.mainLayer.interactive = true
-            self.powerupLayer.removeAllChildren()
-
-            self.mainLayer.fadeTo(1, duration: animationDuration / 2).onFaded {
-                self.powerupTargetButton.removeFromParent()
-                self.powerupTargetButton = nil
-            }
         }
     }
 

@@ -22,6 +22,13 @@ enum ButtonStyle {
         }
     }
 
+    var margins: UIEdgeInsets {
+        switch self {
+        case .RectToFit: return UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        default: return UIEdgeInsetsZero
+        }
+    }
+
 }
 
 class Button: TextNode {
@@ -53,7 +60,7 @@ class Button: TextNode {
     var enabled = true {
         didSet {
             if alphaOverride {
-                alpha = enabled ? 1 : 0.25
+                alpha = enabled ? 1 : 0.25  // sets alphaOverride to false
                 alphaOverride = true
             }
             touchableComponent?.enabled = enabled
@@ -75,6 +82,17 @@ class Button: TextNode {
     override func setScale(scale: CGFloat) {
         preferredScale = scale
         super.setScale(scale)
+    }
+
+    override func calculateMargins() -> UIEdgeInsets {
+        let margins = super.calculateMargins()
+        let styleMargins = style.margins
+        return UIEdgeInsets(
+            top: margins.top + styleMargins.top,
+            left: margins.left + styleMargins.left,
+            bottom: margins.bottom + styleMargins.bottom,
+            right: margins.right + styleMargins.right
+            )
     }
 
     override func reset() {
@@ -129,24 +147,19 @@ class Button: TextNode {
         var minY = -height / 2
         var maxY = height / 2
 
-        switch style {
-        case .None:
-            switch alignment {
-            case .Left:
-                minX = 0
-                maxX = width
-            case .Right:
-                minX = -width
-                maxX = 0
-            default:
-                minX = -width / 2
-                maxX = width / 2
-            }
+        switch alignment {
+        case .Left:
+            minX = 0
+            maxX = width
+        case .Right:
+            minX = -width
+            maxX = 0
         default:
             minX = -width / 2
             maxX = width / 2
         }
 
+        let margins = calculateMargins()
         minX -= margins.left
         maxX += margins.right
         minY -= margins.bottom
@@ -162,8 +175,11 @@ class Button: TextNode {
         case .None:
             break
         case .RectToFit:
-            let margin: CGFloat = 10
-            size = CGSize(CGFloat(ceil(textSize.width)) + margin, CGFloat(ceil(textSize.height)) + margin)
+            let rectMargin: CGFloat = 10
+            size = CGSize(CGFloat(ceil(textSize.width)) + rectMargin, CGFloat(ceil(textSize.height)) + rectMargin)
+            let margins = calculateMargins()
+            size.width += margins.left + margins.right
+            size.height += margins.top + margins.bottom
             textureStyle = .RectSized(Int(size.width), Int(size.height))
         default:
             size = style.size

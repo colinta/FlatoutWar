@@ -44,19 +44,23 @@ class LevelConfig: Config {
 
     var storedPowerups: [(powerup: Powerup, order: Int?)] {
         get {
-            let configs: [NSDictionary]? = Defaults["\(configKey)-storedPowerups"].array as? [NSDictionary]
-            let powerups = configs?.flatMap {
-                return PowerupStorage.fromDefaults($0)
-            }.sort { a, b in
-                if let orderA = a.order, orderB = a.order {
-                    return orderA < orderB
+            if let configs: [NSDictionary] = Defaults["\(configKey)-storedPowerups"].array as? [NSDictionary] {
+                let powerups = configs.flatMap {
+                    return PowerupStorage.fromDefaults($0)
+                }.sort { a, b in
+                    if let orderA = a.order, orderB = a.order {
+                        return orderA < orderB
+                    }
+                    else if a.order != nil {
+                        return true
+                    }
+                    return false
                 }
-                else if a.order != nil {
-                    return true
-                }
-                return false
+                return powerups
             }
-            return powerups ?? []
+            else {
+                return []
+            }
         }
         set {
             let storage: [NSDictionary] = newValue.map { entry in
@@ -68,6 +72,43 @@ class LevelConfig: Config {
 
     var purchaseablePowerups: [Powerup] {
         return storedPowerups.filter { $0.order == nil }.map { $0.powerup }
+    }
+
+    func appendPowerup(powerup: Powerup) {
+        guard !storedPowerups.any({ $0.powerup == powerup }) else { return }
+
+        storedPowerups = storedPowerups + [(powerup: powerup, order: nil)]
+    }
+
+    func updatePowerup(powerup: Powerup) {
+        let storage: [NSDictionary] = storedPowerups.map { entry in
+            let entryPowerup: Powerup
+            if entry.powerup == powerup {
+                entryPowerup = powerup
+            }
+            else {
+                entryPowerup = entry.powerup
+            }
+            return PowerupStorage.toDefaults(entryPowerup, order: entry.order)
+        }.flatMap { $0 }
+        Defaults["\(configKey)-storedPowerups"] = storage
+    }
+
+    func replacePowerup(prevPowerup: Powerup, with newPowerup: Powerup) {
+        let storage: [NSDictionary] = storedPowerups.map { entry in
+            let entryPowerup: Powerup
+            if entry.powerup == prevPowerup {
+                entryPowerup = newPowerup
+            }
+            else if entry.powerup == newPowerup {
+                entryPowerup = prevPowerup
+            }
+            else {
+                entryPowerup = entry.powerup
+            }
+            return PowerupStorage.toDefaults(entryPowerup, order: entry.order)
+        }.flatMap { $0 }
+        Defaults["\(configKey)-storedPowerups"] = storage
     }
 
     var activatedPowerups: [Powerup] {

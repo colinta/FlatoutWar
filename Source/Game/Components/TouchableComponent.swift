@@ -84,6 +84,8 @@ class TouchableComponent: Component {
 
     override func reset() {
         super.reset()
+        containsTouchTest = nil
+        shouldAcceptTouchTest = nil
         touchEvents = [:]
         _onDragged = []
     }

@@ -2,7 +2,7 @@
 ///  HourglassPowerup.swift
 //
 
-let HourglassSize: CGFloat = 225
+let HourglassSize: CGFloat = 400
 
 class HourglassPowerup: Powerup {
     override var name: String { return "HOURGLASS" }

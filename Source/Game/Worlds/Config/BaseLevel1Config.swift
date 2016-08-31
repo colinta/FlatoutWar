@@ -7,6 +7,11 @@ class BaseLevel1Config: LevelConfig {
     // override var requiredExperience: Int { return 0 }
     override var expectedResources: Int { return 0 }
 
+    override init() {
+        super.init()
+        appendPowerup(HourglassPowerup())
+    }
+
     override func nextLevel() -> Level {
         return BaseLevel2()
     }

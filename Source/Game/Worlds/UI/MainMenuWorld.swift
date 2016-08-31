@@ -9,6 +9,11 @@ class MainMenuWorld: World {
         twoDim.setScale(0.75)
         twoDim.text = "2DIM"
         self.ui << twoDim
+        let wanderingComponent = WanderingComponent()
+        wanderingComponent.wanderingRadius = 50
+        wanderingComponent.maxSpeed = 10
+        twoDim.addComponent(wanderingComponent)
+
 
         let flatoutWar = TextNode(fixed: .Top(x: 0, y: -70))
         flatoutWar.setScale(1.1)

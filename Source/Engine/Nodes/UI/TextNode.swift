@@ -26,6 +26,10 @@ class TextNode: Node {
     }
     var margins: UIEdgeInsets = UIEdgeInsetsZero
 
+    func calculateMargins() -> UIEdgeInsets {
+        return self.margins
+    }
+
     override var zPosition: CGFloat {
         didSet {
             for sprite in textSprite.children {
@@ -70,25 +74,27 @@ class TextNode: Node {
         }
 
         var x: CGFloat
+        let margins = calculateMargins()
         switch alignment {
             case .Left:
                 x = margins.left
             case .Right:
                 x = -size.width - margins.right
             default:
-                x = -size.width / 2 + margins.left
+                x = -size.width / 2
         }
         for sprite in sprites {
             x += sprite.size.width / 2
             sprite.position.x = x
-            sprite.position.y = -heightOffset / 2 - margins.top
+            sprite.position.y = -heightOffset / 2 //- margins.top
             sprite.zPosition = zPosition
             textSprite << sprite
             x += sprite.size.width / 2 + letterSpace
         }
 
         self.textSize = size * textScale
-        self.size = size
+        let marginsSize = CGSize(margins.left + margins.right, margins.top + margins.bottom)
+        self.size = marginsSize + size
     }
 
 }

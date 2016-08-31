@@ -54,7 +54,7 @@ class HourglassNode: Node {
             if timeout <= 0 {
                 growOutComponent.removeFromNode()
 
-                let scaleTo = self.scaleTo(0, duration: HourglassTimeout)
+                let scaleTo = self.scaleTo(0, duration: 2 * HourglassTimeout)
                 scaleTo.onScaled {
                     self.removeFromParent()
                 }

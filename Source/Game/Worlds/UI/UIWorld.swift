@@ -24,7 +24,7 @@ class UIWorld: World {
         experienceInfo << experienceSquare
 
         let gainedExperience = TextNode()
-        gainedExperience.text = "\(config.totalGainedExperience)"
+        gainedExperience.text = "\(config.availableExperience)"
         gainedExperience.position = CGPoint(x: -10)
         gainedExperience.alignment = .Right
         experienceInfo << gainedExperience
@@ -37,7 +37,7 @@ class UIWorld: World {
         resourceInfo << resourceSquare
 
         let gainedResources = TextNode()
-        gainedResources.text = "\(config.totalGainedResources)"
+        gainedResources.text = "\(config.availableResources)"
         gainedResources.position = CGPoint(x: -10)
         gainedResources.alignment = .Right
         resourceInfo << gainedResources

@@ -5,10 +5,21 @@
 class Playground: World {
 
     override func populateWorld() {
-        let text = TextNode()
-        text.setScale(1.5)
-        text.text = "2DIM"
-        self << text
+        let drones: [(DroneNode, FiveUpgrades)] = [
+            (DroneNode(), .One),
+            (DroneNode(), .Two),
+            (DroneNode(), .Three),
+            (DroneNode(), .Four),
+            (DroneNode(), .Five),
+        ]
+        var x: CGFloat = -100
+        let dx: CGFloat = 50
+        for (drone, upgrade) in drones {
+            drone.position = CGPoint(x: x)
+            drone.upgrade = upgrade
+            self << drone
+            x += dx
+        }
     }
 
     override func worldShook() {

@@ -6,6 +6,20 @@ struct Letter: Equatable {
     enum Style {
         case Loop
         case Line
+        case Fill
+
+        var closesPath: Bool {
+            switch self {
+            case .Line: return false
+            case .Loop, .Fill: return true
+            }
+        }
+        var drawPath: CGPathDrawingMode {
+            switch self {
+            case .Line, .Loop: return .Stroke
+            case .Fill: return .Fill
+            }
+        }
     }
 
     let style: Style

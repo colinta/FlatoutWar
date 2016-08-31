@@ -56,7 +56,6 @@ class PowerupStorage {
     }
 
     static func toDefaults(powerup: Powerup, order: Int?) -> NSDictionary? {
-        let defaults = NSMutableDictionary()
         let type: Type?
         if powerup is BomberPowerup {
             type = .Bomber
@@ -96,8 +95,9 @@ class PowerupStorage {
         }
 
         if let type = type {
+            let defaults = NSMutableDictionary()
             defaults["type"] = type.rawValue
-            defaults["count"] = powerup.initialCount
+            defaults["count"] = powerup.count
             defaults["order"] = order
             return defaults
         }
