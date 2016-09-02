@@ -187,13 +187,6 @@ class Node: SKNode {
         } : [])
     }
 
-    func applyUpgrade(type: UpgradeType) {
-    }
-
-    func availableUpgrades() -> [UpgradeInfo] {
-        return []
-    }
-
 }
 
 // MARK: Update Cycle

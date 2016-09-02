@@ -1,5 +1,5 @@
 ////
-///  BaseTurretBulletArtist.swift
+///  BulletArtist.swift
 //
 
 extension BulletNode.Style {
@@ -12,30 +12,24 @@ extension BulletNode.Style {
     }
 }
 
-class BaseTurretBulletArtist: Artist {
+class BulletArtist: Artist {
     var color: UIColor
-    var upgrade = FiveUpgrades.Default
+    var upgrade: HasUpgrade = .False
 
-    static func bulletSize(upgrade: FiveUpgrades) -> CGSize {
+    static func bulletSize(upgrade: HasUpgrade) -> CGSize {
         switch upgrade {
-        case .One:
+        case .False:
             return 3 * CGSize(width: 2, height: 2)
-        case .Two:
-            return 3 * CGSize(width: 2.5, height: 1.6)
-        case .Three:
+        case .True:
             return 3 * CGSize(width: 3, height: 1.333)
-        case .Four:
-            return 3 * CGSize(width: 3.5, height: 1.142)
-        case .Five:
-            return 3 * CGSize(width: 4, height: 0.25)
         }
     }
 
-    required init(upgrade: FiveUpgrades, style: BulletNode.Style) {
+    required init(upgrade: HasUpgrade, style: BulletNode.Style) {
         self.upgrade = upgrade
         self.color = style.color
         super.init()
-        size = BaseTurretBulletArtist.bulletSize(upgrade)
+        size = BulletArtist.bulletSize(upgrade)
     }
 
     required init() {
@@ -44,7 +38,7 @@ class BaseTurretBulletArtist: Artist {
 
     override func draw(context: CGContext) {
         let r = size.width / 2
-        let bulletSize = r * BaseTurretBulletArtist.bulletSize(upgrade)
+        let bulletSize = r * BulletArtist.bulletSize(upgrade)
 
         CGContextSetStrokeColorWithColor(context, color.CGColor)
         CGContextSetFillColorWithColor(context, color.CGColor)

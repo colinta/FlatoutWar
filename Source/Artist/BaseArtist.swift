@@ -7,15 +7,17 @@ private var savedAngles: [CGFloat]?
 class BaseArtist: Artist {
     var stroke = UIColor(hex: 0xFAA564)
     var fill = UIColor(hex: 0xC6811D)
-    var upgrade: FiveUpgrades
+    var rotateUpgrade: HasUpgrade
+    var bulletUpgrade: HasUpgrade
     var health: CGFloat
 
     private var path: CGPath
     private var smallPath: CGPath
 
-    required init(upgrade: FiveUpgrades, health: CGFloat) {
+    required init(rotateUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, health: CGFloat) {
         self.health = health
-        self.upgrade = upgrade
+        self.rotateUpgrade = rotateUpgrade
+        self.bulletUpgrade = bulletUpgrade
 
         if savedAngles == nil {
             let pointCount: Int = 20
@@ -102,32 +104,25 @@ class BaseArtist: Artist {
             CGContextDrawPath(context, .FillStroke)
         }
 
-        if upgrade > 1 {
+        if rotateUpgrade || bulletUpgrade {
             CGContextSetAlpha(context, 1)
             CGContextAddPath(context, path)
             CGContextClip(context)
-            switch upgrade {
-                case .Five:
-                    CGContextAddEllipseInRect(context, middle.rect(size: size * 0.8))
-                    CGContextAddEllipseInRect(context, middle.rect(size: size * 0.6))
-                    CGContextAddEllipseInRect(context, middle.rect(size: size * 0.4))
-                    CGContextAddEllipseInRect(context, middle.rect(size: size * 0.2))
-                case .Four:
-                    CGContextAddEllipseInRect(context, middle.rect(size: size * 0.75))
-                    fallthrough
-                case .Three:
-                    CGContextMoveToPoint(context, 0, 0)
-                    CGContextAddLineToPoint(context, size.width, size.height)
-                    CGContextMoveToPoint(context, 0, size.height)
-                    CGContextAddLineToPoint(context, size.width, 0)
-                    fallthrough
-                case .Two:
-                    CGContextMoveToPoint(context, 0, middle.y)
-                    CGContextAddLineToPoint(context, size.width, middle.y)
-                    CGContextMoveToPoint(context, middle.x, 0)
-                    CGContextAddLineToPoint(context, middle.x, size.height)
-                default:
-                    break
+
+            if rotateUpgrade {
+                CGContextAddEllipseInRect(context, middle.rect(size: size * 0.8))
+                CGContextAddEllipseInRect(context, middle.rect(size: size * 0.4))
+            }
+
+            if bulletUpgrade {
+                CGContextMoveToPoint(context, 0, 0)
+                CGContextAddLineToPoint(context, size.width, size.height)
+                CGContextMoveToPoint(context, 0, size.height)
+                CGContextAddLineToPoint(context, size.width, 0)
+                CGContextMoveToPoint(context, 0, middle.y)
+                CGContextAddLineToPoint(context, size.width, middle.y)
+                CGContextMoveToPoint(context, middle.x, 0)
+                CGContextAddLineToPoint(context, middle.x, size.height)
             }
             CGContextDrawPath(context, .Stroke)
         }

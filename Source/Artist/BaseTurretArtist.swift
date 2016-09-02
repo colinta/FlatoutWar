@@ -9,12 +9,14 @@ class BaseTurretArtist: Artist {
     static let width: CGFloat = 24
 
     private var turretPath: CGMutablePath
-    var upgrade: FiveUpgrades
+    var bulletUpgrade: HasUpgrade
+    var turretUpgrade: HasUpgrade
     var stroke = UIColor(hex: 0xFD9916)
     var fill = UIColor(hex: 0xD16806)
 
-    required init(upgrade: FiveUpgrades) {
-        self.upgrade = upgrade
+    required init(bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade) {
+        self.bulletUpgrade = bulletUpgrade
+        self.turretUpgrade = turretUpgrade
         turretPath = CGPathCreateMutable()
         super.init()
         initialTurretPath()
@@ -49,8 +51,8 @@ class BaseRapidTurretArtist: BaseTurretArtist {
     static let biggerR: CGFloat = 6
     static let smallerR: CGFloat = 2.5
 
-    required init(upgrade: FiveUpgrades) {
-        super.init(upgrade: upgrade)
+    required init(bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade) {
+        super.init(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade)
         size = CGSize(48)
         stroke = UIColor(hex: 0xFD9916)
         fill = UIColor(hex: 0xD1391A)
@@ -77,8 +79,8 @@ class BaseRapidTurretArtist: BaseTurretArtist {
 class BaseDoubleTurretArtist: BaseTurretArtist {
     static let doubleDist: CGFloat = 6
 
-    required init(upgrade: FiveUpgrades) {
-        super.init(upgrade: upgrade)
+    required init(bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade) {
+        super.init(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade)
         size = CGSize(48)
     }
 
@@ -121,8 +123,8 @@ class BaseBigTurretArtist: BaseTurretArtist {
     static let smallerR: CGFloat = 5.5
     static let tinierR: CGFloat = 2
 
-    required init(upgrade: FiveUpgrades) {
-        super.init(upgrade: upgrade)
+    required init(bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade) {
+        super.init(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade)
         size = CGSize(48)
     }
 

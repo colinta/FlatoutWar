@@ -13,7 +13,7 @@ class WorldController: UIViewController {
         if Defaults["colin"].bool == true {
             let world = UpgradeWorld()
             world.nextWorld = BaseLevel1()
-            view.presentWorld(world)
+            view.presentWorld(Playground())
         }
         else if Defaults["hasSeenStartup"].bool == true {
             view.presentWorld(WorldSelectWorld(beginAt: .Select))

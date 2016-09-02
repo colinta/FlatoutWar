@@ -7,12 +7,14 @@ private let startingHealth: Float = 40
 class DroneNode: Node, DraggableNode {
     static let DefaultSpeed: CGFloat = 40
 
-    var upgrade: FiveUpgrades = .One {
-        didSet {
-            targetingComponent?.radius = upgrade.droneRadarRadius
-            targetingComponent?.bulletSpeed = upgrade.droneBulletSpeed
-            updateSprites()
-        }
+    var radarUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
+    var bulletUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
+    var speedUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
+    private func updateUpgrades() {
+        targetingComponent?.radius = radarUpgrade.droneRadarRadius
+        targetingComponent?.bulletSpeed = bulletUpgrade.droneBulletSpeed
+        draggableComponent?.speed = speedUpgrade.droneMovementSpeed
+        updateSprites()
     }
     var wanderingEnabled: Bool? {
         didSet {
@@ -30,10 +32,10 @@ class DroneNode: Node, DraggableNode {
     }
 
     private func updateSprites() {
-        sprite.textureId(.Drone(upgrade: upgrade, health: healthComponent?.healthInt ?? 100))
-        placeholder.textureId(.Drone(upgrade: upgrade, health: 100))
-        radar1.textureId(.DroneRadar(upgrade: upgrade))
-        radar2.textureId(.DroneRadar(upgrade: upgrade))
+        sprite.textureId(.Drone(speedUpgrade: speedUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: healthComponent?.healthInt ?? 100))
+        placeholder.textureId(.Drone(speedUpgrade: speedUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: 100))
+        radar1.textureId(.DroneRadar(upgrade: radarUpgrade))
+        radar2.textureId(.DroneRadar(upgrade: radarUpgrade))
     }
 
     var cursor = CursorNode()
@@ -51,8 +53,6 @@ class DroneNode: Node, DraggableNode {
     required init() {
         super.init()
 
-        sprite.textureId(.Drone(upgrade: upgrade, health: 100))
-        placeholder.textureId(.Drone(upgrade: upgrade, health: 100))
         size = sprite.size
 
         self << sprite
@@ -83,8 +83,8 @@ class DroneNode: Node, DraggableNode {
         let targetingComponent = EnemyTargetingComponent()
         targetingComponent.reallySmart = true
         targetingComponent.sweepAngle = nil
-        targetingComponent.radius = upgrade.droneRadarRadius
-        targetingComponent.bulletSpeed = upgrade.droneBulletSpeed
+        targetingComponent.radius = radarUpgrade.droneRadarRadius
+        targetingComponent.bulletSpeed = bulletUpgrade.droneBulletSpeed
         addComponent(targetingComponent)
 
         let firingComponent = FiringComponent()
@@ -96,7 +96,7 @@ class DroneNode: Node, DraggableNode {
 
         let healthComponent = HealthComponent(health: startingHealth)
         healthComponent.onHurt { damage in
-            self.sprite.textureId(.Drone(upgrade: self.upgrade, health: healthComponent.healthInt))
+            self.sprite.textureId(.Drone(speedUpgrade: self.speedUpgrade, radarUpgrade: self.radarUpgrade, bulletUpgrade: self.bulletUpgrade, health: healthComponent.healthInt))
         }
         healthComponent.onKilled {
             self.world?.unselectNode(self)
@@ -114,7 +114,7 @@ class DroneNode: Node, DraggableNode {
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()
-        draggableComponent.speed = DroneNode.DefaultSpeed
+        draggableComponent.speed = speedUpgrade.droneMovementSpeed
         draggableComponent.bindTo(touchableComponent: touchableComponent)
         draggableComponent.onDragging { (isDragging, location) in
             wanderingComponent.enabled = !isDragging
@@ -157,7 +157,7 @@ class DroneNode: Node, DraggableNode {
         if phase >= 0.5 && phase <= 0.9 {
             let scale = easeOutExpo(time: interpolate(phase, from: (0.5, 0.9), to: (0, 1)))
             let alpha = interpolate(phase, from: (0.5, 0.9), to: (0.5, 0))
-            radar1.setScale(scale / Artist.Scale.Default.scale)
+            radar1.setScale(scale / Artist.Scale.Default.drawScale)
             radar1.alpha = alpha
         }
         else {
@@ -167,41 +167,12 @@ class DroneNode: Node, DraggableNode {
         if phase >= 0.6 {
             let scale = easeOutExpo(time: interpolate(phase, from: (0.6, 1.0), to: (0, 1)))
             let alpha = interpolate(phase, from: (0.6, 1.0), to: (0.5, 0))
-            radar2.setScale(scale / Artist.Scale.Default.scale)
+            radar2.setScale(scale / Artist.Scale.Default.drawScale)
             radar2.alpha = alpha
         }
         else {
             radar2.alpha = 0
         }
-    }
-
-    override func applyUpgrade(upgradeType: UpgradeType) {
-        switch upgradeType {
-        case .Upgrade: upgrade = (upgrade + 1) ?? upgrade
-        default: break
-        }
-    }
-
-    override func availableUpgrades() -> [UpgradeInfo] {
-        var upgrades: [UpgradeInfo] = []
-
-        if let nextDroneUpgrade = upgrade + 1 {
-            let upgrade = Node()
-            upgrade << SKSpriteNode(id: .Drone(upgrade: nextDroneUpgrade, health: 100))
-
-            let cost: Int
-            switch nextDroneUpgrade {
-                case .One: cost = 0
-                case .Two: cost = 100
-                case .Three: cost = 150
-                case .Four: cost = 200
-                case .Five: cost = 300
-            }
-
-            upgrades << (upgradeNode: upgrade, cost: cost, upgradeType: .Upgrade)
-        }
-
-        return upgrades
     }
 
 }
@@ -213,7 +184,7 @@ extension DroneNode {
         self.selectableComponent!.enabled = !died
         self.draggableComponent!.enabled = !died
         self.touchableComponent!.enabled = !died && (touchableEnabled ?? true)
-        self.phaseComponent!.enabled = !died
+        self.phaseComponent!.loops = !died
 
         let enabled = !isMoving && !died
         self.alpha = died ? 0.5 : 0
@@ -238,12 +209,12 @@ extension DroneNode {
             return
         }
 
-        let speed: CGFloat = upgrade.droneBulletSpeed
+        let speed: CGFloat = bulletUpgrade.droneBulletSpeed
         let bullet = BulletNode(velocity: CGPoint(r: speed, a: angle), style: .Slow)
         bullet.position = self.position
 
-        bullet.damage = upgrade.droneBulletDamage
-        bullet.size = BaseTurretBulletArtist.bulletSize(.One)
+        bullet.damage = bulletUpgrade.droneBulletDamage
+        bullet.size = BulletArtist.bulletSize(.False)
         bullet.zRotation = angle
         bullet.z = Z.Below
         ((parent as? Node) ?? world) << bullet
@@ -261,35 +232,33 @@ extension DroneNode {
 
 }
 
-extension FiveUpgrades {
+extension HasUpgrade {
 
     var droneRadarRadius: CGFloat {
         switch self {
-        case .One: return 75
-        case .Two: return 85
-        case .Three: return 95
-        case .Four: return 105
-        case .Five: return 135
+        case .False: return 75
+        case .True: return 100
         }
     }
 
     var droneBulletSpeed: CGFloat {
         switch self {
-            case .One: return 125
-            case .Two: return 125
-            case .Three: return 125
-            case .Four: return 125
-            case .Five: return 125
+        case .False: return 125
+        case .True: return 150
         }
     }
 
     var droneBulletDamage: Float {
         switch self {
-            case .One: return 1
-            case .Two: return 1.1
-            case .Three: return 1.2
-            case .Four: return 1.3
-            case .Five: return 1.6
+        case .False: return 1
+        case .True: return 1.25
+        }
+    }
+
+    var droneMovementSpeed: CGFloat {
+        switch self {
+        case .False: return 40
+        case .True: return 60
         }
     }
 

@@ -5,14 +5,22 @@
 private let startingHealth: Float = 50
 
 class TurretNode: Node {
-    var upgrade: FiveUpgrades = .One {
+    var radarUpgrade: HasUpgrade = .False {
         didSet {
-            baseNode.textureId(.Turret(upgrade: upgrade, health: healthComponent?.healthInt ?? 100))
-            radarNode.textureId(.TurretRadar(upgrade: upgrade))
-            targetingComponent?.sweepAngle = upgrade.turretSweepAngle
-            targetingComponent?.radius = upgrade.turretRadarRadius
-            targetingComponent?.bulletSpeed = upgrade.turretBulletSpeed
+            updateUpgrades()
         }
+    }
+    var upgrade: HasUpgrade = .False {
+        didSet {
+            updateUpgrades()
+        }
+    }
+    private func updateUpgrades() {
+        radarNode.textureId(.TurretRadar(upgrade: radarUpgrade))
+        targetingComponent?.sweepAngle = radarUpgrade.turretSweepAngle
+        targetingComponent?.radius = radarUpgrade.turretRadarRadius
+        baseNode.textureId(.Turret(upgrade: upgrade, health: healthComponent?.healthInt ?? 100))
+        targetingComponent?.bulletSpeed = upgrade.turretBulletSpeed
     }
 
     var cursor = CursorNode()
@@ -26,7 +34,7 @@ class TurretNode: Node {
         baseNode.textureId(.Turret(upgrade: upgrade, health: 100))
         radarNode.position = CGPoint(x: -5)
         radarNode.anchorPoint = CGPoint(0, 0.5)
-        radarNode.textureId(.TurretRadar(upgrade: upgrade))
+        radarNode.textureId(.TurretRadar(upgrade: radarUpgrade))
 
         self << baseNode
         self << cursor
@@ -37,8 +45,8 @@ class TurretNode: Node {
         addComponent(playerComponent)
 
         let targetingComponent = EnemyTargetingComponent()
-        targetingComponent.sweepAngle = upgrade.turretSweepAngle
-        targetingComponent.radius = upgrade.turretRadarRadius
+        targetingComponent.sweepAngle = radarUpgrade.turretSweepAngle
+        targetingComponent.radius = radarUpgrade.turretRadarRadius
         targetingComponent.bulletSpeed = upgrade.turretBulletSpeed
         addComponent(targetingComponent)
 
@@ -83,35 +91,6 @@ class TurretNode: Node {
         super.encodeWithCoder(encoder)
     }
 
-    override func applyUpgrade(upgradeType: UpgradeType) {
-        switch upgradeType {
-        case .Upgrade: upgrade = (upgrade + 1) ?? upgrade
-        default: break
-        }
-    }
-
-    override func availableUpgrades() -> [UpgradeInfo] {
-        var upgrades: [UpgradeInfo] = []
-
-        if let nextTurretUpgrade = upgrade + 1 {
-            let upgrade = Node()
-            upgrade << SKSpriteNode(id: .Turret(upgrade: nextTurretUpgrade, health: 100))
-
-            let cost: Int
-            switch nextTurretUpgrade {
-                case .One: cost = 0
-                case .Two: cost = 100
-                case .Three: cost = 150
-                case .Four: cost = 200
-                case .Five: cost = 300
-            }
-
-            upgrades << (upgradeNode: upgrade, cost: cost, upgradeType: .Upgrade)
-        }
-
-        return upgrades
-    }
-
 }
 
 extension TurretNode {
@@ -149,7 +128,7 @@ extension TurretNode {
         bullet.position = self.position
 
         bullet.damage = upgrade.turretBulletDamage
-        bullet.size = BaseTurretBulletArtist.bulletSize(.One)
+        bullet.size = BulletArtist.bulletSize(.False)
         bullet.zRotation = angle
         bullet.z = Z.Below
         ((parent as? Node) ?? world) << bullet
@@ -167,75 +146,53 @@ extension TurretNode {
 
 }
 
-extension FiveUpgrades {
-
-    var turretBulletDamage: Float {
-        switch self {
-            case .One: return 1.1
-            case .Two: return 1.25
-            case .Three: return 1.4
-            case .Four: return 1.6
-            case .Five: return 2
-        }
-    }
-
-    var turretCooldown: CGFloat {
-        switch self {
-            case .One: return 0.4
-            case .Two: return 0.4
-            case .Three: return 0.4
-            case .Four: return 0.4
-            case .Five: return 0.4
-        }
-    }
-
-    var turretAngularSpeed: CGFloat {
-        switch self {
-            case .One: return 3
-            case .Two: return 5
-            case .Three: return 7
-            case .Four: return 9
-            case .Five: return 15
-        }
-    }
-
-    var turretAngularAccel: CGFloat? {
-        switch self {
-            case .One: return 2
-            case .Two: return 5
-            case .Three: return 8
-            case .Four: return 11
-            case .Five: return 15
-        }
-    }
-
-    var turretBulletSpeed: CGFloat {
-        switch self {
-            case .One: return 115
-            case .Two: return 115
-            case .Three: return 140
-            case .Four: return 165
-            case .Five: return 190
-        }
-    }
-
+extension HasUpgrade {
     var turretSweepAngle: CGFloat {
         switch self {
-            case .One:   return 25.degrees
-            case .Two:   return 30.degrees
-            case .Three: return 35.degrees
-            case .Four:  return 40.degrees
-            case .Five:  return 50.degrees
+        case .False:   return 25.degrees
+        case .True:  return 40.degrees
         }
     }
 
     var turretRadarRadius: CGFloat {
         switch self {
-            case .One:   return 200
-            case .Two:   return 215
-            case .Three: return 215
-            case .Four:  return 215
-            case .Five:  return 240
+        case .False:   return 200
+        case .True:  return 230
+        }
+    }
+
+    var turretBulletDamage: Float {
+        switch self {
+        case .False: return 1.1
+        case .True: return 1.3
+        }
+    }
+
+    var turretCooldown: CGFloat {
+        switch self {
+        case .False: return 0.4
+        case .True: return 0.4
+        }
+    }
+
+    var turretAngularSpeed: CGFloat {
+        switch self {
+        case .False: return 3
+        case .True: return 6
+        }
+    }
+
+    var turretAngularAccel: CGFloat? {
+        switch self {
+        case .False: return 2
+        case .True: return 8
+        }
+    }
+
+    var turretBulletSpeed: CGFloat {
+        switch self {
+        case .False: return 115
+        case .True: return 140
         }
     }
 

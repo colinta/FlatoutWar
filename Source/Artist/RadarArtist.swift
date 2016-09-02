@@ -2,14 +2,11 @@
 ///  RadarArtist.swift
 //
 
-extension FiveUpgrades {
+extension HasUpgrade {
     var baseRadarColor: Int {
         switch self {
-            case .One: return 0xFCF10C
-            case .Two: return 0xEFDD15
-            case .Three: return 0xEBAD13
-            case .Four: return 0xE59311
-            case .Five: return 0xDD6610
+            case .False: return 0xFCF10C
+            case .True: return 0xE59311
         }
     }
 }

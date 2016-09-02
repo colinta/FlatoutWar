@@ -20,7 +20,7 @@ class EnemyDiamondArtist: Artist {
         self.init(health: 1)
     }
 
-    override func drawingOffset(scale: Scale) -> CGPoint {
+    override func drawingOffset() -> CGPoint {
         return .zero
     }
 

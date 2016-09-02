@@ -74,23 +74,23 @@ indirect enum ImageIdentifier {
     case Soldier(health: Int)
     case PowerupTimer(percent: Int)
 
-    case Drone(upgrade: FiveUpgrades, health: Int)
-    case DroneRadar(upgrade: FiveUpgrades)
-    case Turret(upgrade: FiveUpgrades, health: Int)
-    case TurretRadar(upgrade: FiveUpgrades)
+    case Drone(speedUpgrade: HasUpgrade, radarUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, health: Int)
+    case DroneRadar(upgrade: HasUpgrade)
+    case Turret(upgrade: HasUpgrade, health: Int)
+    case TurretRadar(upgrade: HasUpgrade)
     case Resource(goal: Int, remaining: Int)
     case ResourceLine(length: CGFloat)
 
     case Cursor
-    case Base(upgrade: FiveUpgrades, health: Int)
-    case BaseRadar(upgrade: FiveUpgrades)
+    case Base(rotateUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, health: Int)
+    case BaseRadar(upgrade: HasUpgrade)
     case BaseExplosion(index: Int, total: Int)
 
-    case BaseSingleTurret(upgrade: FiveUpgrades)
-    case BaseRapidTurret(upgrade: FiveUpgrades)
-    case BaseDoubleTurret(upgrade: FiveUpgrades)
-    case BaseBigTurret(upgrade: FiveUpgrades)
-    case BaseTurretBullet(upgrade: FiveUpgrades, style: BulletNode.Style)
+    case BaseSingleTurret(bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade)
+    case BaseRapidTurret(bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade)
+    case BaseDoubleTurret(bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade)
+    case BaseBigTurret(bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade)
+    case Bullet(upgrade: HasUpgrade, style: BulletNode.Style)
 
     case ColorPath(path: UIBezierPath, color: Int)
     case ColorLine(length: CGFloat, color: Int)
@@ -185,10 +185,10 @@ indirect enum ImageIdentifier {
             return "Soldier_health-\(health)"
         case let .PowerupTimer(percent):
             return "PowerupTimer_percent-\(percent)"
-        case let .Drone(upgrade, health):
-            return "Drone_upgrade-\(upgrade.name)_health-\(health)"
+        case let .Drone(speedUpgrade, radarUpgrade, bulletUpgrade, health):
+            return "Drone_speedUpgrade-\(speedUpgrade.name)_radarUpgrade-\(radarUpgrade.name)_bulletUpgrade-\(bulletUpgrade.name)_health-\(health)"
         case let .DroneRadar(upgrade):
-            return "Drone_upgrade-\(upgrade.name)"
+            return "DroneRadar_upgrade-\(upgrade.name)"
         case let .Turret(upgrade, health):
             return "Turret_upgrade-\(upgrade.name)_health-\(health)"
         case let .TurretRadar(upgrade):
@@ -204,21 +204,21 @@ indirect enum ImageIdentifier {
             return "Shield_phase-\(phase)"
         case let .ShieldSegment(health):
             return "ShieldSegment_health-\(health)"
-        case let .Base(upgrade, health):
-            return "Base_upgrade-\(upgrade.name)_health-\(health)"
+        case let .Base(rotateUpgrade, bulletUpgrade, health):
+            return "Base_rotateUpgrade-\(rotateUpgrade.name)_bulletUpgrade-\(bulletUpgrade.name)_health-\(health)"
         case let .BaseRadar(upgrade):
             return "BaseRadar_upgrade-\(upgrade.name)"
         case let .BaseExplosion(index, total):
             return "BaseExplosion_index-\(index)_total-\(total)"
-        case let .BaseSingleTurret(upgrade):
-            return "BaseSingleTurret_upgrade-\(upgrade.name)"
-        case let .BaseRapidTurret(upgrade):
-            return "BaseRapidTurret_upgrade-\(upgrade.name)"
-        case let .BaseDoubleTurret(upgrade):
-            return "BaseDoubleTurret_upgrade-\(upgrade.name)"
-        case let .BaseBigTurret(upgrade):
-            return "BaseBigTurret_upgrade-\(upgrade.name)"
-        case let .BaseTurretBullet(upgrade, style):
+        case let .BaseSingleTurret(bulletUpgrade, turretUpgrade):
+            return "BaseSingleTurret_bulletUpgrade-\(bulletUpgrade.name)_turretUpgrade-\(turretUpgrade.name)"
+        case let .BaseRapidTurret(bulletUpgrade, turretUpgrade):
+            return "BaseRapidTurret_bulletUpgrade-\(bulletUpgrade.name)_turretUpgrade-\(turretUpgrade.name)"
+        case let .BaseDoubleTurret(bulletUpgrade, turretUpgrade):
+            return "BaseDoubleTurret_bulletUpgrade-\(bulletUpgrade.name)_turretUpgrade-\(turretUpgrade.name)"
+        case let .BaseBigTurret(bulletUpgrade, turretUpgrade):
+            return "BaseBigTurret_bulletUpgrade-\(bulletUpgrade.name)_turretUpgrade-\(turretUpgrade.name)"
+        case let .Bullet(upgrade, style):
             return "BaseTurretBullet_upgrade-\(upgrade.name)_style-\(style)"
         case .ColorPath:
             return nil

@@ -28,29 +28,23 @@ class BasePlayerNode: Node {
     var turret: Turret = SimpleTurret() {
         didSet {
             radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
-            turretNode.textureId(turret.spriteId(upgrade: turretUpgrade))
+            turretNode.textureId(turret.spriteId(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade))
             targetingComponent?.enabled = turret.autoFireEnabled
             targetingComponent?.reallySmart = turret.reallySmart
         }
     }
 
-    var baseUpgrade: FiveUpgrades = .One {
-        didSet {
-            baseNode.textureId(.Base(upgrade: baseUpgrade, health: healthComponent?.healthInt ?? 100))
-            rotateToComponent?.maxAngularSpeed = baseUpgrade.baseAngularSpeed
-            rotateToComponent?.angularAccel = baseUpgrade.baseAngularAccel
-        }
-    }
-    var radarUpgrade: FiveUpgrades = .One {
-        didSet {
-            radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
-        }
-    }
-    var turretUpgrade: FiveUpgrades = .One {
-        didSet {
-            turretNode.textureId(turret.spriteId(upgrade: turretUpgrade))
-            firingComponent?.cooldown = turretUpgrade.baseCooldown
-        }
+    var rotateUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
+    var bulletUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
+    var radarUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
+    var turretUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
+    private func updateUpgrades() {
+        baseNode.textureId(.Base(rotateUpgrade: rotateUpgrade, bulletUpgrade: bulletUpgrade, health: healthComponent?.healthInt ?? 100))
+        rotateToComponent?.maxAngularSpeed = rotateUpgrade.baseAngularSpeed
+        rotateToComponent?.angularAccel = rotateUpgrade.baseAngularAccel
+        radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
+        turretNode.textureId(turret.spriteId(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade))
+        firingComponent?.cooldown = turretUpgrade.baseCooldown
     }
 
     let radarNode = SKSpriteNode()
@@ -80,11 +74,11 @@ class BasePlayerNode: Node {
         radarNode.z = .BelowPlayer
         self << radarNode
 
-        baseNode.textureId(.Base(upgrade: radarUpgrade, health: 100))
+        baseNode.textureId(.Base(rotateUpgrade: rotateUpgrade, bulletUpgrade: bulletUpgrade, health: 100))
         baseNode.z = .Player
         self << baseNode
 
-        turretNode.textureId(turret.spriteId(upgrade: turretUpgrade))
+        turretNode.textureId(turret.spriteId(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade))
         turretNode.z = .AbovePlayer
         self << turretNode
 
@@ -106,7 +100,7 @@ class BasePlayerNode: Node {
         let healthComponent = HealthComponent(health: 100)
         healthComponent.onHurt { amount in
             self.onHurt()
-            self.baseNode.textureId(.Base(upgrade: .One, health: healthComponent.healthInt))
+            self.baseNode.textureId(.Base(rotateUpgrade: .False, bulletUpgrade: .False, health: healthComponent.healthInt))
         }
         addComponent(healthComponent)
 
@@ -123,8 +117,8 @@ class BasePlayerNode: Node {
         let rotateToComponent = RotateToComponent()
         rotateToComponent.currentAngle = 0
         rotateToComponent.applyTo = baseNode
-        rotateToComponent.maxAngularSpeed = baseUpgrade.baseAngularSpeed
-        rotateToComponent.angularAccel = baseUpgrade.baseAngularAccel
+        rotateToComponent.maxAngularSpeed = rotateUpgrade.baseAngularSpeed
+        rotateToComponent.angularAccel = rotateUpgrade.baseAngularAccel
         addComponent(rotateToComponent)
 
         let targetingComponent = EnemyTargetingComponent()
@@ -206,94 +200,6 @@ class BasePlayerNode: Node {
         }
     }
 
-    override func applyUpgrade(upgradeType: UpgradeType) {
-        switch upgradeType {
-        case .Upgrade: baseUpgrade = (baseUpgrade + 1) ?? baseUpgrade
-        case .RadarUpgrade: radarUpgrade = (radarUpgrade + 1) ?? radarUpgrade
-        case .TurretUpgrade: turretUpgrade = (turretUpgrade + 1) ?? turretUpgrade
-        // default: break
-        }
-    }
-
-    override func availableUpgrades() -> [UpgradeInfo] {
-        var upgrades: [UpgradeInfo] = []
-
-        if let nextBaseUpgrade = baseUpgrade + 1 {
-            let upgrade = BasePlayerRotatingDemoNode(baseUpgrade: nextBaseUpgrade, radarUpgrade: radarUpgrade, turretUpgrade: turretUpgrade)
-
-            let cost: Int
-            switch nextBaseUpgrade {
-                case .Two: cost = 100
-                case .Three: cost = 150
-                case .Four: cost = 200
-                case .Five: cost = 300
-                default: cost = 0
-            }
-
-            upgrades << (upgradeNode: upgrade, cost: cost, upgradeType: .Upgrade)
-        }
-
-        if let nextRadarUpgrade = radarUpgrade + 1 {
-            let upgrade = Node()
-            upgrade << {
-                let node = SKSpriteNode(id: .Base(upgrade: baseUpgrade, health: 100))
-                node.z = .Default
-                return node
-            }()
-            upgrade << {
-                let node = SKSpriteNode(id: .BaseRadar(upgrade: nextRadarUpgrade))
-                node.anchorPoint = CGPoint(0, 0.5)
-                node.z = .Below
-                return node
-            }()
-            upgrade << {
-                let node = SKSpriteNode(id: .BaseSingleTurret(upgrade: turretUpgrade))
-                node.z = .Above
-                return node
-            }()
-
-            let cost: Int
-            switch nextRadarUpgrade {
-                case .Two: cost = 100
-                case .Three: cost = 150
-                case .Four: cost = 200
-                case .Five: cost = 300
-                default: cost = 0
-            }
-
-            upgrades << (upgradeNode: upgrade, cost: cost, upgradeType: .RadarUpgrade)
-        }
-
-        if let nextTurretUpgrade = turretUpgrade + 1 {
-            let current = Node()
-            current << {
-                let node = SKSpriteNode(id: .Base(upgrade: baseUpgrade, health: 100))
-                node.z = .Default
-                return node
-            }()
-            current << {
-                let node = SKSpriteNode(id: .BaseSingleTurret(upgrade: turretUpgrade))
-                node.z = .Above
-                return node
-            }()
-
-            let upgrade = BasePlayerFiringDemoNode(baseUpgrade: baseUpgrade, radarUpgrade: radarUpgrade, turretUpgrade: nextTurretUpgrade)
-
-            let cost: Int
-            switch nextTurretUpgrade {
-                case .Two: cost = 100
-                case .Three: cost = 150
-                case .Four: cost = 200
-                case .Five: cost = 300
-                default: cost = 0
-            }
-
-            upgrades << (upgradeNode: upgrade, cost: cost, upgradeType: .TurretUpgrade)
-        }
-
-        return upgrades
-    }
-
 }
 
 // MARK: Aiming helpers
@@ -324,7 +230,7 @@ extension BasePlayerNode {
             return
         }
 
-        let velocity: CGFloat = radarUpgrade.baseBulletSpeed
+        let velocity: CGFloat = turretUpgrade.baseBulletSpeed
         let style: BulletNode.Style
         var damageFactor: Float = 1
         if firingComponent?.forceFire ?? false {
@@ -339,7 +245,7 @@ extension BasePlayerNode {
         bullet.timeRate = self.timeRate
 
         bullet.damage = turretUpgrade.baseBulletDamage
-        bullet.size = BaseTurretBulletArtist.bulletSize(.One)
+        bullet.size = BulletArtist.bulletSize(.False)
         bullet.zRotation = angle
         bullet.z = Z.Below
         bullet.damage *= damageFactor
@@ -434,76 +340,53 @@ extension BasePlayerNode {
 
 }
 
-extension FiveUpgrades {
-
-    var baseBulletDamage: Float {
-        switch self {
-            case .One: return 1
-            case .Two: return 1.1
-            case .Three: return 1.2
-            case .Four: return 1.3
-            case .Five: return 1.6
-        }
-    }
-
-    var baseCooldown: CGFloat {
-        switch self {
-            case .One: return 0.35
-            case .Two: return 0.35
-            case .Three: return 0.35
-            case .Four: return 0.35
-            case .Five: return 0.35
-        }
-    }
-
-    var baseAngularSpeed: CGFloat {
-        switch self {
-            case .One: return 4
-            case .Two: return 6
-            case .Three: return 8
-            case .Four: return 10
-            case .Five: return 16
-        }
-    }
-
-    var baseAngularAccel: CGFloat? {
-        switch self {
-            case .One: return 3
-            case .Two: return 6
-            case .Three: return 9
-            case .Four: return 12
-            case .Five: return nil  // no 'warm up' acceleration
-        }
-    }
-
-    var baseBulletSpeed: CGFloat {
-        switch self {
-            case .One: return 125
-            case .Two: return 125
-            case .Three: return 150
-            case .Four: return 175
-            case .Five: return 200
-        }
-    }
-
+extension HasUpgrade {
     var baseSweepAngle: CGFloat {
         switch self {
-            case .One:   return 30.degrees
-            case .Two:   return 35.degrees
-            case .Three: return 35.degrees
-            case .Four:  return 35.degrees
-            case .Five:  return 45.degrees
+        case .False:   return 30.degrees
+        case .True:  return 45.degrees
         }
     }
 
     var baseRadarRadius: CGFloat {
         switch self {
-            case .One:   return 300
-            case .Two:   return 315
-            case .Three: return 315
-            case .Four:  return 315
-            case .Five:  return 340
+        case .False:   return 300
+        case .True:   return 340
         }
     }
 
+    var baseAngularSpeed: CGFloat {
+        switch self {
+            case .False: return 4
+            case .True: return 10
+        }
+    }
+
+    var baseAngularAccel: CGFloat? {
+        switch self {
+            case .False: return 3
+            case .True: return 12
+        }
+    }
+
+    var baseBulletDamage: Float {
+        switch self {
+            case .False: return 1
+            case .True: return 1.25
+        }
+    }
+
+    var baseCooldown: CGFloat {
+        switch self {
+            case .False: return 0.35
+            case .True: return 0.35
+        }
+    }
+
+    var baseBulletSpeed: CGFloat {
+        switch self {
+            case .False: return 125
+            case .True: return 175
+        }
+    }
 }

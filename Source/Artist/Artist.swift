@@ -32,7 +32,7 @@ class Artist {
             return .Normal
         }
 
-        var scale: CGFloat {
+        var drawScale: CGFloat {
             switch self {
             case .Small: return 1
             case .Normal: return 2
@@ -57,7 +57,7 @@ class Artist {
             middle = CGPoint(x: size.width / 2, y: size.height / 2)
         }
     }
-    var scale: CGFloat = 1
+    var scale: Scale = .Small
 
     enum Shadowed {
         case False
@@ -70,14 +70,14 @@ class Artist {
     required init() {
     }
 
-    func drawInContext(context: CGContext, scale: Scale) {
+    func drawInContext(context: CGContext) {
         CGContextSaveGState(context)
-        CGContextScaleCTM(context, self.scale, self.scale)
+        CGContextScaleCTM(context, scale.drawScale, scale.drawScale)
 
-        let offset = drawingOffset(scale)
+        let offset = drawingOffset()
         CGContextTranslateCTM(context, offset.x, offset.y)
 
-        draw(context, scale: scale)
+        draw(context)
         CGContextRestoreGState(context)
     }
 
@@ -87,14 +87,10 @@ class Artist {
         CGContextTranslateCTM(context, -size.width / 2, -size.height / 2)
     }
 
-    func draw(context: CGContext, scale: Scale) {
-        draw(context)
-    }
-
     func draw(context: CGContext) {
     }
 
-    func drawingOffset(scale: Scale) -> CGPoint {
+    func drawingOffset() -> CGPoint {
         if shadowed {
             let shadowSize = shadowed.floatValue
             switch scale {
@@ -111,9 +107,9 @@ class Artist {
         }
     }
 
-    func imageSize(scale: Scale) -> CGSize {
+    func imageSize() -> CGSize {
         var size = self.size
-        let offset = drawingOffset(scale)
+        let offset = drawingOffset()
         size += CGSize(
             width: offset.x * 2,
             height: offset.y * 2
@@ -148,12 +144,12 @@ extension Artist {
         }
 
         let artist = id.artist
-        artist.scale = scale.scale
-        let size = artist.imageSize(scale) * artist.scale
+        artist.scale = scale
+        let size = artist.imageSize() * scale.drawScale
 
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
         let context = UIGraphicsGetCurrentContext()!
-        artist.drawInContext(context, scale: scale)
+        artist.drawInContext(context)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
 

@@ -123,15 +123,15 @@ class IntroductionCutSceneWorld: World {
             Scene(
                 run: { parent in
                     let player = BasePlayerNode()
-                    player.radarNode.textureId(.BaseRadar(upgrade: .One), scale: .Zoomed)
-                    player.baseNode.textureId(.Base(upgrade: .One, health: 100), scale: .Zoomed)
-                    player.turretNode.textureId(.BaseSingleTurret(upgrade: .One), scale: .Zoomed)
+                    player.radarNode.textureId(.BaseRadar(upgrade: .False), scale: .Zoomed)
+                    player.baseNode.textureId(.Base(rotateUpgrade: .False, bulletUpgrade: .False, health: 100), scale: .Zoomed)
+                    player.turretNode.textureId(.BaseSingleTurret(bulletUpgrade: .False, turretUpgrade: .False), scale: .Zoomed)
                     player.position = CGPoint(x: -200)
                     player.scaleTo(1, start: 4, duration: 3)
                     player.fadeTo(1, start: 0, duration: 2).onFaded {
-                        player.radarNode.textureId(.BaseRadar(upgrade: .One))
-                        player.baseNode.textureId(.Base(upgrade: .One, health: 100))
-                        player.turretNode.textureId(.BaseSingleTurret(upgrade: .One))
+                        player.radarNode.textureId(.BaseRadar(upgrade: .False))
+                        player.baseNode.textureId(.Base(rotateUpgrade: .False, bulletUpgrade: .False, health: 100))
+                        player.turretNode.textureId(.BaseSingleTurret(bulletUpgrade: .False, turretUpgrade: .False))
                     }
                     parent << player
                 },
@@ -177,7 +177,8 @@ class IntroductionCutSceneWorld: World {
                     player.rotateToComponent?.target = TAU_2
 
                     let drone1 = DroneNode(at: player.position + CGPoint(r: 100, a: TAU_2 - TAU_16))
-                    drone1.upgrade = .Two
+                    drone1.speedUpgrade = .True
+                    drone1.radarUpgrade = .True
                     parent << drone1
 
                     let turret = TurretNode(at: player.position + CGPoint(x: -150, y: -80))

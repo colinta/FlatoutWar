@@ -11,13 +11,7 @@ class PlayerComponent: Component {
     var intersectable: Bool = true
     var targetable: Bool = true
     var rammedBehavior: Rammed = .Damaged
-    weak var intersectionNode: SKNode! {
-        didSet {
-            if intersectionNode.frame.size == .zero {
-                fatalError("intersectionNodes should not have zero size")
-            }
-        }
-    }
+    weak var intersectionNode: SKNode!
 
     required override init() {
         super.init()

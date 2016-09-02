@@ -5,24 +5,33 @@
 class Playground: World {
 
     override func populateWorld() {
-        let drones: [(DroneNode, FiveUpgrades)] = [
-            (DroneNode(), .One),
-            (DroneNode(), .Two),
-            (DroneNode(), .Three),
-            (DroneNode(), .Four),
-            (DroneNode(), .Five),
+        let drones: [(DroneNode, speed: HasUpgrade, radar: HasUpgrade, bullet: HasUpgrade)] = [
+            (DroneNode(), speed: .False, radar: .False, bullet: .False),
+            (DroneNode(), speed: .False, radar: .False, bullet: .True),
+            (DroneNode(), speed: .False, radar: .True, bullet: .False),
+            (DroneNode(), speed: .False, radar: .True, bullet: .True),
+            (DroneNode(), speed: .True, radar: .False, bullet: .False),
+            (DroneNode(), speed: .True, radar: .False, bullet: .True),
+            (DroneNode(), speed: .True, radar: .True, bullet: .False),
+            (DroneNode(), speed: .True, radar: .True, bullet: .True),
         ]
-        var x: CGFloat = -100
+        var x: CGFloat = -125
         let dx: CGFloat = 50
-        for (drone, upgrade) in drones {
+        for (drone, speed, radar, bullet) in drones {
             drone.position = CGPoint(x: x)
-            drone.upgrade = upgrade
+            drone.speedUpgrade = speed
+            drone.radarUpgrade = radar
+            drone.bulletUpgrade = bullet
             self << drone
             x += dx
         }
     }
 
     override func worldShook() {
+        for (drone, _, _, _) in drones {
+            drone.healthComponent!.restore(drone.healthComponent!.startingHealth)
+            drone.droneEnabled(isMoving: false)
+        }
     }
 
     override func update(dt: CGFloat) {

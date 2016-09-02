@@ -14,19 +14,19 @@ class Turret {
     var rapidFireEnabled = false
     var reallySmart = false
 
-    func spriteId(upgrade upgrade: FiveUpgrades) -> ImageIdentifier {
+    func spriteId(bulletUpgrade bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade) -> ImageIdentifier {
         return .None
     }
 
-    func radarId(upgrade upgrade: FiveUpgrades) -> ImageIdentifier {
+    func radarId(upgrade upgrade: HasUpgrade) -> ImageIdentifier {
         return .BaseRadar(upgrade: upgrade)
     }
 
     func button() -> Button {
-        let body = SKSpriteNode(id: .Base(upgrade: .One, health: 100))
+        let body = SKSpriteNode(id: .Base(rotateUpgrade: .False, bulletUpgrade: .False, health: 100))
         body.z = .Player
 
-        let turret = SKSpriteNode(id: spriteId(upgrade: .One))
+        let turret = SKSpriteNode(id: spriteId(bulletUpgrade: .False, turretUpgrade: .False))
         turret.z = .AbovePlayer
 
         let node = Node()
@@ -53,8 +53,8 @@ class SimpleTurret: Turret {
         rapidFireEnabled = false
     }
 
-    override func spriteId(upgrade upgrade: FiveUpgrades) -> ImageIdentifier {
-        return .BaseSingleTurret(upgrade: upgrade)
+    override func spriteId(bulletUpgrade bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade) -> ImageIdentifier {
+        return .BaseSingleTurret(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade)
     }
 
 }
@@ -68,11 +68,11 @@ class RapidTurret: Turret {
         rapidFireEnabled = true
     }
 
-    override func spriteId(upgrade upgrade: FiveUpgrades) -> ImageIdentifier {
-        return .BaseRapidTurret(upgrade: upgrade)
+    override func spriteId(bulletUpgrade bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade) -> ImageIdentifier {
+        return .BaseRapidTurret(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade)
     }
 
-    override func radarId(upgrade upgrade: FiveUpgrades) -> ImageIdentifier {
+    override func radarId(upgrade upgrade: HasUpgrade) -> ImageIdentifier {
         return .ColorLine(length: upgrade.baseRadarRadius + 25, color: upgrade.baseRadarColor)
     }
 

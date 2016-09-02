@@ -44,14 +44,14 @@ extension SKSpriteNode {
     convenience init(id: ImageIdentifier, at position: CGPoint = .zero, scale: Artist.Scale = .Default) {
         let texture = SKTexture.id(id, scale: scale)
         self.init(texture: texture)
-        setScale(1 / scale.scale)
+        setScale(1 / scale.drawScale)
         self.position = position
         self.shadowedBitMask = 0xFFFFFFFF
     }
 
     func textureId(id: ImageIdentifier, scale: Artist.Scale = .Default) {
         if self.texture == nil {
-            setScale(1 / scale.scale)
+            setScale(1 / scale.drawScale)
         }
         let texture = SKTexture.id(id, scale: scale)
         self.texture = texture

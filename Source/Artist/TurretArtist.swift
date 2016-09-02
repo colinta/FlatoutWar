@@ -5,10 +5,10 @@
 class TurretArtist: Artist {
     var baseColor = UIColor(hex: 0xFFEC24)
     var turretColor = UIColor(hex: 0xCDA715)
-    var upgrade = FiveUpgrades.Default
+    var upgrade: HasUpgrade = .False
     var health: CGFloat
 
-    required init(upgrade: FiveUpgrades, health: CGFloat) {
+    required init(upgrade: HasUpgrade, health: CGFloat) {
         self.upgrade = upgrade
         self.health = health
 
@@ -21,14 +21,9 @@ class TurretArtist: Artist {
         fatalError("init() has not been implemented")
     }
 
-    override func drawingOffset(scale: Scale) -> CGPoint {
-        var offset = super.drawingOffset(scale)
-
-        switch upgrade {
-        case .Five, .Four, .Three, .Two, .One:
-            offset += CGPoint(x: 1.5, y: 1.5)
-        }
-
+    override func drawingOffset() -> CGPoint {
+        var offset = super.drawingOffset()
+        offset += CGPoint(x: 1.5, y: 1.5)
         return offset
     }
 
@@ -39,7 +34,7 @@ class TurretArtist: Artist {
 
         CGContextSaveGState(context)
         CGContextScaleCTM(context, 0.9, 0.9)
-        let pointCount = 4 + upgrade.int
+        let pointCount = 5 + (upgrade ? 3 : 0)
         let angleDelta = TAU / CGFloat(pointCount)
         let radius = size.width / 2
         var first = true
@@ -106,15 +101,8 @@ class TurretArtist: Artist {
 
         CGContextSetFillColorWithColor(context, turretColor.CGColor)
         CGContextSetLineWidth(context, 2)
-        switch upgrade {
-        case .Five:  fallthrough
-        case .Four:  fallthrough
-        case .Three: fallthrough
-        case .Two:   fallthrough
-        case .One:
-            CGContextAddRect(context, CGRect(x: -2, y: -2, width: size.width / 2 + 2, height: 4))
-            CGContextDrawPath(context, .Fill)
-        }
+        CGContextAddRect(context, CGRect(x: -2, y: -2, width: size.width / 2 + 2, height: 4))
+        CGContextDrawPath(context, .Fill)
     }
 
 }
