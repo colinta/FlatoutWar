@@ -4,16 +4,16 @@
 
 class PowerupStorage {
     enum Type: Int {
-        case Bomber
-        case Coffee
         case Grenade
-        case Hourglass
         case Laser
         case Mines
-        case Net
-        case Pulse
-        case Shield
+        case Hourglass
         case Soldiers
+        case Net
+        case Shield
+        case Coffee
+        case Pulse
+        case Bomber
     }
 
     static func fromDefaults(defaults: NSDictionary) -> (powerup: Powerup, order: Int?)? {
