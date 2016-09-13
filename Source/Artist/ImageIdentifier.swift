@@ -31,7 +31,6 @@ indirect enum ImageIdentifier {
     }
 
     enum PowerupType {
-        case Decoy
         case Mines
         case Grenade
         case Bomber

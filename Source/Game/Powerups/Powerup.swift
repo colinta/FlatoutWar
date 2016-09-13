@@ -254,9 +254,6 @@ func ==(lhs: Powerup, rhs: Powerup) -> Bool {
     if lhs is CoffeePowerup && rhs is CoffeePowerup {
         return true
     }
-    if lhs is DecoyPowerup && rhs is DecoyPowerup {
-        return true
-    }
     if lhs is GrenadePowerup && rhs is GrenadePowerup {
         return true
     }

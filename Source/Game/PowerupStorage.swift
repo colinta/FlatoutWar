@@ -6,7 +6,6 @@ class PowerupStorage {
     enum Type: Int {
         case Bomber
         case Coffee
-        case Decoy
         case Grenade
         case Hourglass
         case Laser
@@ -31,8 +30,6 @@ class PowerupStorage {
             powerup = BomberPowerup(count: count)
         case .Coffee:
             powerup = CoffeePowerup(count: count)
-        case .Decoy:
-            powerup = DecoyPowerup(count: count)
         case .Grenade:
             powerup = GrenadePowerup(count: count)
         case .Hourglass:
@@ -62,9 +59,6 @@ class PowerupStorage {
         }
         else if powerup is CoffeePowerup {
             type = .Coffee
-        }
-        else if powerup is DecoyPowerup {
-            type = .Decoy
         }
         else if powerup is GrenadePowerup {
             type = .Grenade

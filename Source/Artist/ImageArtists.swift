@@ -42,8 +42,6 @@ extension ImageIdentifier.EnemyType {
 extension ImageIdentifier.PowerupType {
     func artist() -> Artist {
         switch self {
-            case .Decoy:
-                return DecoyPowerupArtist()
             case .Mines:
                 return MinesPowerupArtist()
             case .Grenade:
