@@ -39,7 +39,9 @@ class DroneNode: Node, DraggableNode {
     }
 
     var cursor = CursorNode()
+    let scale1 = SKSpriteNode()
     let radar1 = SKSpriteNode()
+    let scale2 = SKSpriteNode()
     let radar2 = SKSpriteNode()
     var sprite = SKSpriteNode()
     let placeholder = SKSpriteNode()
@@ -73,8 +75,10 @@ class DroneNode: Node, DraggableNode {
         phaseComponent.duration = 3.333
         addComponent(phaseComponent)
 
-        self << radar1
-        self << radar2
+        scale1 << radar1
+        self << scale1
+        scale2 << radar2
+        self << scale2
 
         let wanderingComponent = WanderingComponent()
         wanderingComponent.wanderingRadius = 10
@@ -157,21 +161,21 @@ class DroneNode: Node, DraggableNode {
         if phase >= 0.5 && phase <= 0.9 {
             let scale = easeOutExpo(time: interpolate(phase, from: (0.5, 0.9), to: (0, 1)))
             let alpha = interpolate(phase, from: (0.5, 0.9), to: (0.5, 0))
-            radar1.setScale(scale / Artist.Scale.Default.drawScale)
-            radar1.alpha = alpha
+            scale1.setScale(scale)
+            scale1.alpha = alpha
         }
         else {
-            radar1.alpha = 0
+            scale1.alpha = 0
         }
 
         if phase >= 0.6 {
             let scale = easeOutExpo(time: interpolate(phase, from: (0.6, 1.0), to: (0, 1)))
             let alpha = interpolate(phase, from: (0.6, 1.0), to: (0.5, 0))
-            radar2.setScale(scale / Artist.Scale.Default.drawScale)
-            radar2.alpha = alpha
+            scale2.setScale(scale)
+            scale2.alpha = alpha
         }
         else {
-            radar2.alpha = 0
+            scale2.alpha = 0
         }
     }
 

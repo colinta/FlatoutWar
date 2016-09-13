@@ -76,6 +76,7 @@ indirect enum ImageIdentifier {
 
     case Drone(speedUpgrade: HasUpgrade, radarUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, health: Int)
     case DroneRadar(upgrade: HasUpgrade)
+    case DroneRadarUpgrade
     case Turret(upgrade: HasUpgrade, health: Int)
     case TurretRadar(upgrade: HasUpgrade)
     case Resource(goal: Int, remaining: Int)
@@ -189,6 +190,8 @@ indirect enum ImageIdentifier {
             return "Drone_speedUpgrade-\(speedUpgrade.name)_radarUpgrade-\(radarUpgrade.name)_bulletUpgrade-\(bulletUpgrade.name)_health-\(health)"
         case let .DroneRadar(upgrade):
             return "DroneRadar_upgrade-\(upgrade.name)"
+        case .DroneRadarUpgrade:
+            return "DroneRadarUpgrade"
         case let .Turret(upgrade, health):
             return "Turret_upgrade-\(upgrade.name)_health-\(health)"
         case let .TurretRadar(upgrade):

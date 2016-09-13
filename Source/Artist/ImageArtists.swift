@@ -205,6 +205,11 @@ extension ImageIdentifier {
             artist.color = upgrade.droneRadarColor
             artist.lineWidth = upgrade.droneRadarWidth
             return artist
+        case .DroneRadarUpgrade:
+            let artist = DroneRadarArtist(radius: 25)
+            artist.color = HasUpgrade.True.droneRadarColor
+            artist.lineWidth = HasUpgrade.True.droneRadarWidth
+            return artist
         case let .Turret(upgrade, healthInt):
             let health = CGFloat(healthInt) / 100
             let artist = TurretArtist(upgrade: upgrade, health: health)

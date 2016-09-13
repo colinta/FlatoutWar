@@ -22,7 +22,7 @@ class DroneArtist: Artist {
         self.radarUpgrade = radarUpgrade
         self.bulletUpgrade = bulletUpgrade
         self.health = health
-        self.stroke = UIColor(hex: bulletUpgrade ? DroneUpgradeColor : DroneColor)
+        self.stroke = UIColor(hex: speedUpgrade ? DroneUpgradeColor : DroneColor)
 
         super.init()
         shadowed = .True
@@ -36,7 +36,7 @@ class DroneArtist: Artist {
     override func drawingOffset() -> CGPoint {
         var offset = super.drawingOffset()
 
-        if speedUpgrade {
+        if bulletUpgrade {
             offset += CGPoint(x: 1.5, y: 1.5)
         }
 
@@ -52,7 +52,7 @@ class DroneArtist: Artist {
             drawRadar(context)
         }
 
-        if speedUpgrade {
+        if bulletUpgrade {
             drawFastDrone(context)
         }
         else {
