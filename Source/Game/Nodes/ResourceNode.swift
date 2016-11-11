@@ -3,7 +3,7 @@
 //
 
 protocol ResourceWorld: class {
-    func playerFoundResource(resourceNode: ResourceNode)
+    func playerFoundResource(node: ResourceNode)
 }
 
 private let InitialDecay: CGFloat = 2
@@ -34,15 +34,15 @@ class ResourceNode: Node {
     }
 
     required init?(coder: NSCoder) {
-        self.goal = coder.decodeInt("goal") ?? 30
-        self.remaining = coder.decodeInt("remaining") ?? 30
+        self.goal = coder.decodeInt(key: "goal") ?? 30
+        self.remaining = coder.decodeInt(key: "remaining") ?? 30
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
-        encoder.encode(goal, key: "goal")
-        encoder.encode(remaining, key: "remaining")
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
+        encoder.encode(goal, forKey: "goal")
+        encoder.encode(remaining, forKey: "remaining")
     }
 
     func updateSprite() {
@@ -54,13 +54,13 @@ class ResourceNode: Node {
         sprite.textureId(.Resource(goal: goal, remaining: max(remaining, 0)))
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         if locked {
             decay -= dt
             if decay <= 0 {
                 5.times {
                     let node = ShrapnelNode(type: .ColorBox(size: CGSize(10), color: ResourceBlue), size: .Small)
-                    node.setupAround(self)
+                    node.setupAround(node: self)
                     world?.addChild(node)
                 }
                 remaining -= 1

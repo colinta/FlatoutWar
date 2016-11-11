@@ -11,12 +11,12 @@ class PulseNode: Node {
     class Pulse {
         var time: CGFloat = 0
         var active = true
-        private let pulseRate: CGFloat
-        private let timeOffset: CGFloat
-        private var radius: CGFloat = 0 {
+        fileprivate let pulseRate: CGFloat
+        fileprivate let timeOffset: CGFloat
+        fileprivate var radius: CGFloat = 0 {
             didSet {
-                let path = CGPathCreateMutable()
-                CGPathAddEllipseInRect(path, nil, CGPoint.zero.rect(size: CGSize(r: radius)))
+                let path = CGMutablePath()
+                path.addEllipse(in: CGRect(size: CGSize(r: radius)))
                 node.path = path
             }
         }
@@ -29,7 +29,7 @@ class PulseNode: Node {
             node.lineWidth = 1
         }
 
-        func update(dt: CGFloat) {
+        func update(_ dt: CGFloat) {
             time += dt
             if time >= timeOffset {
                 let myTime = time - timeOffset
@@ -71,11 +71,11 @@ class PulseNode: Node {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         for p in pulses {
             p.update(dt)
         }
@@ -91,7 +91,7 @@ class PulseNode: Node {
                     let innerR: CGFloat = max(p.radius - enemy.radius, 0)
                     let outerR: CGFloat = p.radius + enemy.radius
                     if self.distanceTo(enemy, within: outerR) && !self.distanceTo(enemy, within: innerR) {
-                        enemy.healthComponent?.inflict(Damage * Float(dt))
+                        enemy.healthComponent?.inflict(damage: Damage * Float(dt))
 
                         if let jiggleComponent = enemy.jiggleComponent {
                             jiggleComponent.resetTimeout()

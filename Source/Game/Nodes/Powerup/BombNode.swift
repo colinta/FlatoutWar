@@ -26,11 +26,11 @@ class BombNode: Node {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         attack()
 
         time += dt * rate
@@ -52,7 +52,7 @@ class BombNode: Node {
             let distance: CGFloat = abs(enemyPosition.length - enemy.radius)
             if distance <= maxRadius {
                 let enemyDamage = Float(interpolate(distance / maxRadius, from: (0, 1), to: (damage, damage / 2)))
-                enemy.healthComponent?.inflict(enemyDamage)
+                enemy.healthComponent?.inflict(damage: enemyDamage)
             }
         }
     }

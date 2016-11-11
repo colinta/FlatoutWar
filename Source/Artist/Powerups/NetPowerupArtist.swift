@@ -6,15 +6,15 @@ class NetPowerupArtist: PowerupArtist {
     var fill = true
     var phase: CGFloat = 0
 
-    override func draw(context: CGContext) {
-        super.draw(context)
+    override func draw(in context: CGContext) {
+        super.draw(in: context)
 
-        CGContextAddEllipseInRect(context, middle.rect(size: size))
+        context.addEllipse(in: CGRect(center: middle, size: size))
         if fill {
-            CGContextDrawPath(context, .FillStroke)
+            context.drawPath(using: .fillStroke)
         }
         else {
-            CGContextDrawPath(context, .Stroke)
+            context.drawPath(using: .stroke)
         }
 
         let r = size.width / 2
@@ -22,8 +22,8 @@ class NetPowerupArtist: PowerupArtist {
         let dx = size.width / 6
         let dy = size.height / 6
 
-        CGContextSetAlpha(context, 0.5)
-        CGContextTranslateCTM(context, middle.x, middle.y)
+        context.setAlpha(0.5)
+        context.translateBy(x: middle.x, y: middle.y)
         let factor: CGFloat = abs(sin(phase * TAU) / 4)
         for s in [-1.5, -0.5, 0.5, 1.5] as [CGFloat] {
             let sign: CGFloat = abs(s) / s
@@ -33,8 +33,8 @@ class NetPowerupArtist: PowerupArtist {
                 let y0: CGFloat = 0
                 let y1: CGFloat = sqrt(rr - pow(x1, 2))
                 let y2 = -y1
-                CGContextMoveToPoint(context, x1, y1)
-                CGContextAddQuadCurveToPoint(context, x2, y0, x1, y2)
+                context.move(to: CGPoint(x: x1, y: y1))
+                context.addQuadCurve(to: CGPoint(x2, y0), control: CGPoint(x1, y2))
             }
 
             do {
@@ -43,11 +43,11 @@ class NetPowerupArtist: PowerupArtist {
                 let x0: CGFloat = 0
                 let x1: CGFloat = sqrt(rr - pow(y1, 2))
                 let x2 = -x1
-                CGContextMoveToPoint(context, x1, y1)
-                CGContextAddQuadCurveToPoint(context, x0, y2, x2, y1)
+                context.move(to: CGPoint(x: x1, y: y1))
+                context.addQuadCurve(to: CGPoint(x0, y2), control: CGPoint(x2, y1))
             }
         }
-        CGContextDrawPath(context, .Stroke)
+        context.drawPath(using: .stroke)
     }
 
 }

@@ -2,15 +2,15 @@
 ///  Easing.swift
 //
 
-typealias EasingEquation = (time: CGFloat, initial: CGFloat, final: CGFloat) -> CGFloat
+typealias EasingEquation = (CGFloat, CGFloat, CGFloat) -> CGFloat
 
-func easeLinear(time time: CGFloat, initial: CGFloat = 0, final finalValue: CGFloat = 1) -> CGFloat {
+func easeLinear(time: CGFloat, initial: CGFloat = 0, final finalValue: CGFloat = 1) -> CGFloat {
     guard time > 0 else { return initial }
     guard time < 1 else { return finalValue }
     return initial + (finalValue - initial) * time
 }
 
-func easeOutExpo(time time: CGFloat, initial: CGFloat = 0, final finalValue: CGFloat = 1) -> CGFloat {
+func easeOutExpo(time: CGFloat, initial: CGFloat = 0, final finalValue: CGFloat = 1) -> CGFloat {
     guard time > 0 else { return initial }
     guard time < 1 else { return finalValue }
     let delta = finalValue - initial
@@ -18,7 +18,7 @@ func easeOutExpo(time time: CGFloat, initial: CGFloat = 0, final finalValue: CGF
     return delta * dist + initial
 }
 
-func easeOutCubic(time time: CGFloat, initial: CGFloat = 0, final finalValue: CGFloat = 1) -> CGFloat {
+func easeOutCubic(time: CGFloat, initial: CGFloat = 0, final finalValue: CGFloat = 1) -> CGFloat {
     guard time > 0 else { return initial }
     guard time < 1 else { return finalValue }
     let delta = finalValue - initial
@@ -26,7 +26,7 @@ func easeOutCubic(time time: CGFloat, initial: CGFloat = 0, final finalValue: CG
     return delta * dist + initial
 }
 
-func easeOutElastic(time time: CGFloat, initial: CGFloat = 0, final finalValue: CGFloat = 1) -> CGFloat {
+func easeOutElastic(time: CGFloat, initial: CGFloat = 0, final finalValue: CGFloat = 1) -> CGFloat {
     guard time > 0 else { return initial }
     guard time < 1 else { return finalValue }
 
@@ -36,13 +36,13 @@ func easeOutElastic(time time: CGFloat, initial: CGFloat = 0, final finalValue: 
     return (finalValue - initial) * pow(2, -10 * time) * sin((time - s) * TAU / p) + finalValue
 }
 
-func easeInElastic(time time: CGFloat, initial: CGFloat = 0, final finalValue: CGFloat = 1) -> CGFloat {
+func easeInElastic(time: CGFloat, initial: CGFloat = 0, final finalValue: CGFloat = 1) -> CGFloat {
     guard time > 0 else { return initial }
     guard time < 1 else { return finalValue }
     return easeOutElastic(time: 1 - time, initial: finalValue, final: initial)
 }
 
-func easeInBack(time time: CGFloat, initial: CGFloat = 0, final finalValue: CGFloat = 1) -> CGFloat {
+func easeInBack(time: CGFloat, initial: CGFloat = 0, final finalValue: CGFloat = 1) -> CGFloat {
     let s: CGFloat = 1.70158
     return (finalValue - initial) * time * time * ((s + 1) * time - s) + initial
 }
@@ -56,15 +56,15 @@ enum Easing {
     case EaseOutExpo
     case Custom(EasingEquation)
 
-    var ease: EasingEquation {
+    func ease(time: CGFloat, initial: CGFloat, final: CGFloat) -> CGFloat {
         switch self {
-        case Linear: return easeLinear
-        case EaseInElastic: return easeInElastic
-        case EaseInBack: return easeInBack
-        case EaseOutCubic: return easeOutCubic
-        case EaseOutElastic: return easeOutElastic
-        case EaseOutExpo: return easeOutExpo
-        case let Custom(eq): return eq
+        case .Linear: return easeLinear(time: time, initial: initial, final: final)
+        case .EaseInElastic: return easeInElastic(time: time, initial: initial, final: final)
+        case .EaseInBack: return easeInBack(time: time, initial: initial, final: final)
+        case .EaseOutCubic: return easeOutCubic(time: time, initial: initial, final: final)
+        case .EaseOutElastic: return easeOutElastic(time: time, initial: initial, final: final)
+        case .EaseOutExpo: return easeOutExpo(time: time, initial: initial, final: final)
+        case let .Custom(eq): return eq(time, initial, final)
         }
     }
 

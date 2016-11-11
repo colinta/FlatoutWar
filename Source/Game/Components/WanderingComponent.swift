@@ -30,7 +30,7 @@ class WanderingComponent: Component {
     private var wanderingTimeLimit: CGFloat = 0
     private var currentWanderingTime: CGFloat = 0
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         let currentTargetLocation: CGPoint
         if let loc = self.currentTargetLocation {
             currentTargetLocation = loc

@@ -4,16 +4,26 @@
 
 class WorldController: UIViewController {
     var worldView: WorldView?
+    override var shouldAutorotate: Bool {
+        return true
+    }
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .landscape
+    }
+
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
 
     override func loadView() {
-        let view = WorldView(frame: UIScreen.mainScreen().bounds)
+        let view = WorldView(frame: UIScreen.main.bounds)
         self.worldView = view
         self.view = worldView
 
         if Defaults["colin"].bool == true {
             let world = UpgradeWorld()
             world.nextWorld = BaseLevel1()
-            view.presentWorld(Playground())
+            view.presentWorld(world)
         }
         else if Defaults["hasSeenStartup"].bool == true {
             view.presentWorld(WorldSelectWorld(beginAt: .Select))
@@ -23,18 +33,6 @@ class WorldController: UIViewController {
         }
 
         // view.showsFPS = true
-    }
-
-    override func shouldAutorotate() -> Bool {
-        return true
-    }
-
-    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
-        return .Landscape
-    }
-
-    override func prefersStatusBarHidden() -> Bool {
-        return true
     }
 
     func halt() {

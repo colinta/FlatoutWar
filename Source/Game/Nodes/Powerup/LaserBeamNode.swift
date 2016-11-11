@@ -41,10 +41,10 @@ class LaserBeamNode: Node {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         if let enemy = damaging {
             let damage = DamageRate * dt
-            enemy.healthComponent?.inflict(Float(damage))
+            enemy.healthComponent?.inflict(damage: Float(damage))
             let rate = Speed / DamageRate
             maxLength -= damage * rate
             if maxLength <= 0 {

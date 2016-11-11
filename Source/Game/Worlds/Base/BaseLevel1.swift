@@ -63,7 +63,7 @@ class BaseLevel1: BaseLevel {
             self.timeline.at(.Delayed()) {
                 for i in 0..<5 {
                     let myAngle = angle + CGFloat(i - 2) * delta
-                    self.timeline.after(CGFloat(i) * 0.1, block: self.generateEnemy(myAngle, spread: 0, constRadius: true))
+                    self.timeline.after(time: CGFloat(i) * 0.1, block: self.generateEnemy(myAngle, spread: 0, constRadius: true))
                 }
             }
         } ~~> nextStep()
@@ -75,7 +75,7 @@ class BaseLevel1: BaseLevel {
             self.onNoMoreEnemies { self.beginWave5() }
         }
 
-        let angles = [
+        let angles: [CGFloat] = [
             -size.angle * 7 / 8,
             -size.angle / 2,
             0,
@@ -113,7 +113,7 @@ class BaseLevel1: BaseLevel {
         timeline.every(8...10, start: .Delayed(), times: 4, block: { self.generateDozer(rand(TAU))() })
     }
 
-    func generateDozer(genScreenAngle: CGFloat, spread: CGFloat = 0) -> Block {
+    func generateDozer(_ genScreenAngle: CGFloat, spread: CGFloat = 0) -> Block {
         return {
             var screenAngle = genScreenAngle
             if spread > 0 {
@@ -123,7 +123,7 @@ class BaseLevel1: BaseLevel {
             let height: CGFloat = CGFloat(enemyCount * 12) + 2
             let dozer = EnemyDozerNode()
             dozer.name = "dozer"
-            dozer.position = self.outsideWorld(dozer, angle: screenAngle)
+            dozer.position = self.outsideWorld(node: dozer, angle: screenAngle)
             dozer.rotateTowards(point: .zero)
             self << dozer
 
@@ -135,7 +135,7 @@ class BaseLevel1: BaseLevel {
                 let enemy = EnemySoldierNode(at: location)
                 enemy.name = "dozer soldier"
                 enemy.rotateTo(dozer.zRotation)
-                enemy.follow(dozer, scatter: .None)
+                enemy.follow(leader: dozer, scatter: .None)
                 self << enemy
             }
         }

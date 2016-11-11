@@ -13,8 +13,8 @@ class FollowComponent: Component {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
 }

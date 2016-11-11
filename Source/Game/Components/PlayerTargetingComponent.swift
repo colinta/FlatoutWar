@@ -6,9 +6,9 @@ class PlayerTargetingComponent: Component {
     var targetingEnabled: Bool = true
     var currentTarget: Node?
 
-    typealias OnTargetAcquired = (target: Node?) -> Void
+    typealias OnTargetAcquired = ((target: Node?)) -> Void
     var _onTargetAcquired: [OnTargetAcquired] = []
-    func onTargetAcquired(handler: OnTargetAcquired) { _onTargetAcquired << handler }
+    func onTargetAcquired(_ handler: @escaping OnTargetAcquired) { _onTargetAcquired << handler }
 
     required override init() {
         super.init()
@@ -18,8 +18,8 @@ class PlayerTargetingComponent: Component {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
     override func reset() {
@@ -31,8 +31,9 @@ class PlayerTargetingComponent: Component {
     func acquireTarget(world: World) -> Node? {
         guard targetingEnabled else { return nil }
 
-        if let currentTarget = currentTarget
-        where currentTarget.world == world && currentTarget.playerComponent!.targetable
+        if let currentTarget = currentTarget,
+            currentTarget.world == world,
+            currentTarget.playerComponent!.targetable
         {
             return currentTarget
         }
@@ -41,7 +42,7 @@ class PlayerTargetingComponent: Component {
             return player.playerComponent!.targetable
         }.map { (player) -> (player: Node, dist: CGFloat) in
             return (player: player, dist: node.position.distanceTo(player.position))
-        }.sort { a, b in
+        }.sorted { a, b in
             return a.dist < b.dist
         }
         guard targets.count > 0 else { return nil }
@@ -63,19 +64,19 @@ class PlayerTargetingComponent: Component {
         }?.player
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         guard let world = node.world else { return }
 
         if targetingEnabled {
-            let newTarget = acquireTarget(world)
-            if let newTarget = newTarget where newTarget != currentTarget {
+            let newTarget = acquireTarget(world: world)
+            if let newTarget = newTarget, newTarget != currentTarget {
                 for handler in _onTargetAcquired {
-                    handler(target: newTarget)
+                    handler(newTarget)
                 }
             }
             else if newTarget == nil && currentTarget != nil {
                 for handler in _onTargetAcquired {
-                    handler(target: newTarget)
+                    handler(newTarget)
                 }
             }
             currentTarget = newTarget

@@ -6,7 +6,7 @@ class TutorialLevel5: TutorialLevel {
     override func loadConfig() -> LevelConfig { return TutorialLevel5Config() }
 
     override func populateLevel() {
-        timeline.after(1) {
+        timeline.after(time: 1) {
             self.introduceDrone()
         }
 

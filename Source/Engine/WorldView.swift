@@ -7,20 +7,20 @@ class WorldView: SKView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = UIColor(hex: BackgroundColor)
-        multipleTouchEnabled = true
+        isMultipleTouchEnabled = true
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func motionEnded(motion: UIEventSubtype, withEvent event: UIEvent?) {
-        if motion == .MotionShake {
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
             (scene as? WorldScene)?.gameShook()
         }
     }
 
-    func presentWorld(world: World) {
+    func presentWorld(_ world: World) {
         (self.scene as? WorldScene)?.world.reset()
         Artist.clearCache()
         SKTexture.clearCache()

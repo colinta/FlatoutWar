@@ -37,32 +37,32 @@ class CursorNode: Node {
     }
 
     required init?(coder: NSCoder) {
-        selected = coder.decode("selected") ?? false
+        selected = coder.decode(key: "selected") ?? false
         super.init(coder: coder)
-        sprite = coder.decode("sprite") ?? sprite
-        destAlpha = coder.decodeCGFloat("destAlpha")
-        destScale = coder.decodeCGFloat("destScale")
+        sprite = coder.decode(key: "sprite") ?? sprite
+        destAlpha = coder.decodeCGFloat(key: "destAlpha")
+        destScale = coder.decodeCGFloat(key: "destScale")
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
-        encoder.encode(selected, key: "selected")
-        encoder.encode(sprite, key: "sprite")
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
+        encoder.encode(selected, forKey: "selected")
+        encoder.encode(sprite, forKey: "sprite")
         if let destAlpha = destAlpha {
-            encoder.encode(destAlpha, key: "destAlpha")
+            encoder.encode(destAlpha, forKey: "destAlpha")
         }
         if let destScale = destScale {
-            encoder.encode(destScale, key: "destScale")
+            encoder.encode(destScale, forKey: "destScale")
         }
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         guard xScale > 0 || destScale != nil else {
             return
         }
         sprite.zRotation += dRotation * dt
 
-        if let destScale = destScale, destScalePhase = destScalePhase {
+        if let destScale = destScale, let destScalePhase = destScalePhase {
             if let currentScale = moveValue(destScalePhase, towards: destScale, by: dScale * dt) {
                 let spriteScale = easeOutElastic(time: currentScale)
                 setScale(spriteScale)

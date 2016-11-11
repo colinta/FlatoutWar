@@ -25,8 +25,8 @@ class JiggleComponent: ApplyToNodeComponent {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
     override func reset() {
@@ -42,7 +42,7 @@ class JiggleComponent: ApplyToNodeComponent {
         start = node.position
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         if let start = start {
             if var timeout = timeout {
                 timeout = timeout - dt

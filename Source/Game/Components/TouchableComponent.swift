@@ -78,8 +78,8 @@ class TouchableComponent: Component {
         super.init()
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
     override func reset() {
@@ -90,7 +90,7 @@ class TouchableComponent: Component {
         _onDragged = []
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         if isTouching {
             self.touchedFor = touchedFor + dt
         }
@@ -99,7 +99,7 @@ class TouchableComponent: Component {
 
 extension TouchableComponent {
 
-    func tapped(location: CGPoint) {
+    func tapped(at location: CGPoint) {
         guard !isIgnoring else { return }
 
         trigger(.Tapped, location: location)
@@ -111,7 +111,7 @@ extension TouchableComponent {
         }
     }
 
-    func pressed(location: CGPoint) {
+    func pressed(at location: CGPoint) {
         guard !isIgnoring else { return }
 
         trigger(.Pressed, location: location)
@@ -123,7 +123,7 @@ extension TouchableComponent {
         }
     }
 
-    func touchBegan(location: CGPoint) {
+    func touchBegan(at location: CGPoint) {
         isIgnoring = !self.enabled
         guard !isIgnoring else { return }
 
@@ -134,7 +134,7 @@ extension TouchableComponent {
         trigger(.Down, location: location)
         trigger(.Moved, location: location)
 
-        touchUpdateInOut(location)
+        touchUpdateInOut(at: location)
         if isTouchingInside {
             trigger(.DownInside, location: location)
             trigger(.MovedInside, location: location)
@@ -147,23 +147,23 @@ extension TouchableComponent {
         prevLocation = pointInWorld(location)
     }
 
-    func pointInWorld(location: CGPoint) -> CGPoint? {
+    func pointInWorld(_ location: CGPoint) -> CGPoint? {
         if let scene = node.scene {
-            let sceneLocation = scene.convertPoint(location, fromNode: node)
-            return scene.convertPointToView(sceneLocation)
+            let sceneLocation = scene.convert(location, from: node)
+            return scene.convertPoint(toView: sceneLocation)
         }
         return nil
     }
 
-    func pointInNode(location: CGPoint) -> CGPoint? {
+    func pointInNode(_ location: CGPoint) -> CGPoint? {
         if let scene = node.scene {
-            let sceneLocation = scene.convertPointFromView(location)
-            return scene.convertPoint(sceneLocation, toNode: node)
+            let sceneLocation = scene.convertPoint(fromView: location)
+            return scene.convert(sceneLocation, to: node)
         }
         return nil
     }
 
-    func touchEnded(location: CGPoint) {
+    func touchEnded(at location: CGPoint) {
         if !isIgnoring {
             if isTouchingInside {
                 trigger(.Exit, location: location)
@@ -182,8 +182,8 @@ extension TouchableComponent {
         prevLocation = nil
     }
 
-    func touchUpdateInOut(location: CGPoint) {
-        let isInsideNow = containsTouch(location)
+    func touchUpdateInOut(at location: CGPoint) {
+        let isInsideNow = containsTouch(at: location)
         if !isTouchingInside && isInsideNow {
             isTouchingInside = true
             trigger(.Enter, location: location)
@@ -194,30 +194,30 @@ extension TouchableComponent {
         }
     }
 
-    func draggingBegan(location: CGPoint) {
+    func draggingBegan(at location: CGPoint) {
         guard !isIgnoring else { return }
 
         trigger(.DragBegan, location: location)
-        touchUpdateInOut(location)
+        touchUpdateInOut(at: location)
 
         prevLocation = pointInWorld(location)
     }
 
-    func draggingMoved(location: CGPoint) {
+    func draggingMoved(at location: CGPoint) {
         guard !isIgnoring else { return }
 
         trigger(.Moved, location: location)
         trigger(.DragMoved, location: location)
 
         if let prevLocation = prevLocation,
-            localPoint = pointInNode(prevLocation)
+            let localPoint = pointInNode(prevLocation)
         {
             for handler in _onDragged {
                 handler(localPoint, location)
             }
         }
 
-        touchUpdateInOut(location)
+        touchUpdateInOut(at: location)
         if isTouchingInside {
             trigger(.MovedInside, location: location)
         }
@@ -228,7 +228,7 @@ extension TouchableComponent {
         prevLocation = pointInWorld(location)
     }
 
-    func draggingEnded(location: CGPoint) {
+    func draggingEnded(at location: CGPoint) {
         guard !isIgnoring else { return }
         trigger(.DragEnded, location: location)
     }
@@ -237,18 +237,18 @@ extension TouchableComponent {
 
 extension TouchableComponent {
 
-    func onDragged(handler: OnDragged) {
+    func onDragged(_ handler: @escaping OnDragged) {
         _onDragged << handler
     }
     func offDragged() {
         _onDragged = []
     }
 
-    func off(event: TouchEvent) {
+    func off(_ event: TouchEvent) {
         touchEvents[event] = nil
     }
 
-    func on(event: TouchEvent, _ handler: OnTouchEvent) {
+    func on(_ event: TouchEvent, _ handler: @escaping OnTouchEvent) {
         if touchEvents[event] == nil {
             touchEvents[event] = [handler]
         }
@@ -257,7 +257,7 @@ extension TouchableComponent {
         }
     }
 
-    func trigger(event: TouchEvent, location: CGPoint) {
+    func trigger(_ event: TouchEvent, location: CGPoint) {
         if let handlers = touchEvents[event] {
             for handler in handlers {
                 handler(location)
@@ -274,11 +274,11 @@ extension TouchableComponent {
     }
 
 
-    func shouldAcceptTouch(location: CGPoint) -> Bool {
+    func shouldAcceptTouch(at location: CGPoint) -> Bool {
         return shouldAcceptTouchTest?(node, location) ?? true
     }
 
-    func containsTouch(location: CGPoint) -> Bool {
+    func containsTouch(at location: CGPoint) -> Bool {
         guard enabled else { return false }
         return containsTouchTest?(node, location) ?? false
     }

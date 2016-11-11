@@ -9,9 +9,9 @@ class IntroductionCutSceneWorld: World {
         let pause: CGFloat
         let run: (Node) -> Void
         let text: [String]
-        let cleanup: (World -> Void)
+        let cleanup: (World) -> Void
 
-        init(duration: CGFloat = 5, pause: CGFloat = 1, run: (Node) -> Void, text: [String], cleanup: (World) -> Void = { _ in }) {
+        init(duration: CGFloat = 5, pause: CGFloat = 1, run: @escaping (Node) -> Void, text: [String], cleanup: @escaping (World) -> Void = { _ in }) {
             self.duration = duration
             self.pause = pause
             self.run = run
@@ -67,7 +67,7 @@ class IntroductionCutSceneWorld: World {
                         let player = Node()
                         let sprite = SKSpriteNode(id: .Warning)
                         player << sprite
-                        player.position = CGPoint(y: -100) + self.outsideWorld(player, angle: self.randSideAngle(.Bottom))
+                        player.position = CGPoint(y: -100) + self.outsideWorld(node: player, angle: self.randSideAngle(.Bottom))
                         let component = PlayerComponent()
                         component.intersectionNode = sprite
                         player.addComponent(component)
@@ -161,7 +161,7 @@ class IntroductionCutSceneWorld: World {
                     "SURVIVE",
                 ],
                 cleanup: { world in
-                    world.timeline.after(fadeDuration - 0.1) {
+                    world.timeline.after(time: fadeDuration - 0.1) {
                         for enemy in world.enemies {
                             enemy.scaleTo(0, duration: 0.1)
                         }
@@ -185,7 +185,7 @@ class IntroductionCutSceneWorld: World {
                     turret.rotateTo(150.degrees)
                     parent << turret
 
-                    self.timeline.after(0.5) {
+                    self.timeline.after(time: 0.5) {
                         let drone2 = DroneNode(at: player.position)
                         drone2.moveTo(player.position + CGPoint(r: 100, a: TAU_2 + 8.degrees), duration: 3)
                         drone2.fadeTo(1, start: 0, duration: 1)
@@ -210,7 +210,7 @@ class IntroductionCutSceneWorld: World {
                     "BUILD YOUR ARMY",
                 ],
                 cleanup: { world in
-                    world.timeline.after(fadeDuration - 0.1) {
+                    world.timeline.after(time: fadeDuration - 0.1) {
                         for enemy in world.enemies {
                             enemy.scaleTo(0, duration: 0.1)
                         }
@@ -244,7 +244,7 @@ class IntroductionCutSceneWorld: World {
                     delay = 0
                 }
 
-                self.timeline.after(delay) {
+                self.timeline.after(time: delay) {
                     let parent = scene.parent
                     scene.run(parent)
                     let text = scene.text
@@ -260,7 +260,7 @@ class IntroductionCutSceneWorld: World {
                     prevScene = scene
                 }
             }
-            sceneIndex = sceneIndex.successor()
+            sceneIndex = scenes.index(after: sceneIndex)
             time += scene.duration + scene.pause
         }
 

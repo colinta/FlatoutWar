@@ -7,7 +7,7 @@ class TutorialLevel4: TutorialLevel {
 
     override func populateLevel() {
         moveCamera(to: CGPoint(x: 180, y: 0), duration: 2)
-        timeline.after(1, block: beginWave1)
+        timeline.after(time: 1, block: beginWave1)
 
         var delay: CGFloat = 3
         8.times { (i: Int) in
@@ -85,7 +85,7 @@ class TutorialLevel4: TutorialLevel {
         }
     }
 
-    func generateEnemyPair(screenAngle: CGFloat) -> Block {
+    func generateEnemyPair(_ screenAngle: CGFloat) -> Block {
         return {
             let dist: CGFloat = 5.5
             let ghost = self.generateEnemyGhost(mimic: EnemyFastSoldierNode(), angle: screenAngle, extra: 10)
@@ -104,13 +104,13 @@ class TutorialLevel4: TutorialLevel {
                 let enemy = EnemyFastSoldierNode(at: origin)
                 enemy.name = "pair soldier"
                 enemy.rotateTo(ghost.zRotation)
-                enemy.follow(ghost)
+                enemy.follow(leader: ghost)
                 self << enemy
             }
         }
     }
 
-    func generateEnemyTrio(screenAngle: CGFloat) -> Block {
+    func generateEnemyTrio(_ screenAngle: CGFloat) -> Block {
         return {
             let dist: CGFloat = 5.5
             let ghost = self.generateEnemyGhost(mimic: EnemyFastSoldierNode(), angle: screenAngle, extra: 10)
@@ -131,13 +131,13 @@ class TutorialLevel4: TutorialLevel {
                 let enemy = EnemyFastSoldierNode(at: origin)
                 enemy.name = "trio soldier"
                 enemy.rotateTo(ghost.zRotation)
-                enemy.follow(ghost)
+                enemy.follow(leader: ghost)
                 self << enemy
             }
         }
     }
 
-    func generateEnemyQuad(screenAngle: CGFloat) -> Block {
+    func generateEnemyQuad(_ screenAngle: CGFloat) -> Block {
         return {
             let dist: CGFloat = 5.5
             let ghost = self.generateEnemyGhost(mimic: EnemyFastSoldierNode(), angle: screenAngle, extra: 10)
@@ -159,7 +159,7 @@ class TutorialLevel4: TutorialLevel {
                 let enemy = EnemyFastSoldierNode(at: origin)
                 enemy.name = "quad soldier"
                 enemy.rotateTo(ghost.zRotation)
-                enemy.follow(ghost)
+                enemy.follow(leader: ghost)
                 self << enemy
             }
         }

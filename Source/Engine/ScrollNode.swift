@@ -6,7 +6,7 @@ class ScrollNode: Node {
     var fixedX = false
     var fixedY = false
     let content = Node()
-    var contentInsets = UIEdgeInsetsZero
+    var contentInsets: UIEdgeInsets = .zero
 
     required init() {
         super.init()
@@ -24,18 +24,18 @@ class ScrollNode: Node {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func onDown(location: CGPoint) {
+    func onDown(at location: CGPoint) {
         content.moveToComponent?.removeFromNode()
     }
 
-    func onDragged(prev: CGPoint, location: CGPoint) {
+    func onDragged(from prev: CGPoint, to location: CGPoint) {
         let delta = location - prev
         let dx = fixedX ? 0 : delta.x
         let dy = fixedY ? 0 : delta.y
         content.position = CGPoint(content.position.x + dx, content.position.y + dy)
     }
 
-    func onUp(location: CGPoint) {
+    func onUp(at location: CGPoint) {
         guard let world = world else { return }
 
         let frame = calculateAccumulatedFrame()

@@ -11,7 +11,7 @@ class EnemySoldierNode: Node {
     var sprite = SKSpriteNode()
     var rammingDamage: Float = Damage
 
-    private var hurtSound = OpenALManager.sharedInstance().bufferFromFile("bang.caf")
+    private var hurtSound = OpenALManager.sharedInstance().buffer(fromFile: "bang.caf")
 
     enum Scatter {
         case RunAway
@@ -46,8 +46,8 @@ class EnemySoldierNode: Node {
         enemyComponent.experience = Experience
         enemyComponent.onAttacked { projectile in
             if let damage = projectile.projectileComponent?.damage {
-                self.generateBulletShrapnel(damage)
-                self.healthComponent?.inflict(damage)
+                self.generateBulletShrapnel(damage: damage)
+                self.healthComponent?.inflict(damage: damage)
             }
         }
         addComponent(enemyComponent)
@@ -74,12 +74,12 @@ class EnemySoldierNode: Node {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
     func onRammed(player: Node) {
-        player.healthComponent?.inflict(rammingDamage)
+        player.healthComponent?.inflict(damage: rammingDamage)
         rammingDamage = 0
         rammingComponent?.enabled = false
         generateRammingExplosion()
@@ -95,7 +95,7 @@ class EnemySoldierNode: Node {
     }
 
     func onHurt() {
-        world?.channel.play(hurtSound)
+        _ = world?.channel?.play(hurtSound)
     }
 
     func generateRammingExplosion() {
@@ -103,7 +103,7 @@ class EnemySoldierNode: Node {
             let explosion = EnemyAttackExplosionNode(at: self.position)
             explosion.zRotation = self.zRotation
             world << explosion
-            generateBigShrapnel(dist: 60, angle: zRotation + TAU_2, spread: TAU_16)
+            generateBigShrapnel(distance: 60, angle: zRotation + TAU_2, spread: TAU_16)
         }
     }
 
@@ -111,24 +111,24 @@ class EnemySoldierNode: Node {
         if let world = self.world {
             let explosion = EnemyExplosionNode(at: self.position)
             world << explosion
-            self.generateBigShrapnel(dist: 10, angle: 0, spread: TAU)
+            self.generateBigShrapnel(distance: 10, angle: 0, spread: TAU)
         }
     }
 
-    func generateBigShrapnel(dist dist: CGFloat, angle: CGFloat, spread: CGFloat) {
+    func generateBigShrapnel(distance dist: CGFloat, angle: CGFloat, spread: CGFloat) {
         guard let world = self.world else {
             return
         }
 
         let locations = [
-            world.convertPoint(CGPoint(x: radius / 2, y: radius / 2), fromNode: self),
-            world.convertPoint(CGPoint(x: radius / 2, y:-radius / 2), fromNode: self),
-            world.convertPoint(CGPoint(x:-radius / 2, y: radius / 2), fromNode: self),
-            world.convertPoint(CGPoint(x:-radius / 2, y:-radius / 2), fromNode: self),
+            world.convert(CGPoint(x: radius / 2, y: radius / 2), from: self),
+            world.convert(CGPoint(x: radius / 2, y:-radius / 2), from: self),
+            world.convert(CGPoint(x:-radius / 2, y: radius / 2), from: self),
+            world.convert(CGPoint(x:-radius / 2, y:-radius / 2), from: self),
         ]
         4.times { (i: Int) in
             let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Big)
-            node.setupAround(self, at: locations[i])
+            node.setupAround(node: self, at: locations[i])
             let dest = CGPoint(r: rand(min: dist, max: dist * 1.5), a: angle ± rand(spread))
             node.moveToComponent?.target = node.position + dest
             world << node
@@ -139,7 +139,7 @@ class EnemySoldierNode: Node {
         if let world = self.world {
             Int(damage * 10).times {
                 let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Small)
-                node.setupAround(self)
+                node.setupAround(node: self)
                 world << node
             }
         }

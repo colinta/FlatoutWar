@@ -12,15 +12,15 @@ class PhaseComponent: Component {
     }
     var duration: CGFloat = 0
 
-    typealias OnPhase = (phase: CGFloat) -> Void
+    typealias OnPhase = ((phase: CGFloat)) -> Void
     private var _onPhase: [OnPhase] = []
-    func onPhase(handler: OnPhase) {
+    func onPhase(_ handler: @escaping OnPhase) {
         _onPhase << handler
     }
 
-    typealias OnValue = (value: CGFloat) -> Void
+    typealias OnValue = (CGFloat) -> Void
     private var _onValue: [OnValue] = []
-    func onValue(handler: OnValue) {
+    func onValue(_ handler: @escaping OnValue) {
         _onValue << handler
     }
 
@@ -34,12 +34,12 @@ class PhaseComponent: Component {
         _onValue = []
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         guard duration > 0 else { return }
 
         _phase = (_phase + dt / duration)
         if loops {
-            _phase = _phase % 1.0
+            _phase = _phase.truncatingRemainder(dividingBy: 1)
         }
         else if _phase > 1 {
             _phase = 1
@@ -48,14 +48,14 @@ class PhaseComponent: Component {
         if _onPhase.count > 0 {
             let phase = self.phase
             for handler in _onPhase {
-                handler(phase: phase)
+                handler(phase)
             }
         }
 
         if _onValue.count > 0 {
             let value = self.value
             for handler in _onValue {
-                handler(value: value)
+                handler(value)
             }
         }
     }

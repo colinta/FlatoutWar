@@ -15,24 +15,24 @@ class SelectableComponent: Component {
         _onSelected = []
     }
 
-    func bindTo(touchableComponent touchableComponent: TouchableComponent) {
+    func bindTo(touchableComponent: TouchableComponent) {
         touchableComponent.on(.DownInside, onTouchIn)
         touchableComponent.on(.Pressed, onTouchPressed)
         touchableComponent.on(.Up, onTouchEnded)
     }
 
-    func changeSelected(selected: Bool) {
+    func changeSelected(_ selected: Bool) {
         self.selected = selected
         for handler in _onSelected {
             handler(selected)
         }
     }
 
-    func onSelected(handler: SimpleOnSelected) {
+    func onSelected(_ handler: @escaping SimpleOnSelected) {
         _onSelected << { selected in handler(selected) }
     }
 
-    func onTouchIn(location: CGPoint) {
+    func onTouchIn(_ location: CGPoint) {
         guard enabled else { return }
 
         if node.world?.selectedNode != node {
@@ -41,7 +41,7 @@ class SelectableComponent: Component {
         }
     }
 
-    func onTouchPressed(location: CGPoint) {
+    func onTouchPressed(_ location: CGPoint) {
         guard enabled else { return }
 
         if !selecting {
@@ -49,14 +49,8 @@ class SelectableComponent: Component {
         }
     }
 
-    func onTouchEnded(location: CGPoint) {
+    func onTouchEnded(_ location: CGPoint) {
         selecting = false
-    }
-
-    func selectedHandler(selected: Bool) {
-        for handler in _onSelected {
-            handler(selected)
-        }
     }
 
 }

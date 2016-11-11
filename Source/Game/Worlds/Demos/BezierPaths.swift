@@ -25,7 +25,7 @@ class BezierPaths: World {
         dots = []
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         if time >= 1 {
             addDots = false
             time = 0
@@ -54,17 +54,17 @@ class BezierPaths: World {
                 newPoints << point
 
                 if isFirst {
-                    path.moveToPoint(point)
+                    path.move(to: point)
                 }
                 else {
-                    path.addLineToPoint(point)
+                    path.addLine(to: point)
                 }
                 isFirst = false
             }
             pointCount = newPoints.count
         }
 
-        if let point = newPoints.first where addDots {
+        if let point = newPoints.first, addDots {
             let dot = Dot(at: point)
             dots << dot
             self << dot
@@ -84,7 +84,7 @@ class BezierPaths: World {
         touchDots = []
     }
 
-    override func worldTouchEnded(id: NSObject, worldLocation: CGPoint) {
+    override func worldTouchEnded(_ id: NSObject, worldLocation: CGPoint) {
         super.worldTouchEnded(id, worldLocation: worldLocation)
 
         clear()

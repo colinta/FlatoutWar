@@ -17,9 +17,9 @@ class EnemyComponent: Component {
         }
     }
 
-    typealias OnAttacked = (projectile: Node) -> Void
+    typealias OnAttacked = ((projectile: Node)) -> Void
     var _onAttacked: [OnAttacked] = []
-    func onAttacked(handler: OnAttacked) { _onAttacked << handler }
+    func onAttacked(_ handler: @escaping OnAttacked) { _onAttacked.append(handler) }
 
     override func reset() {
         super.reset()
@@ -34,8 +34,8 @@ class EnemyComponent: Component {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
     override func didAddToNode() {
@@ -47,7 +47,7 @@ class EnemyComponent: Component {
 
     func attacked(by node: Node) {
         for handler in _onAttacked {
-            handler(projectile: node)
+            handler(node)
         }
     }
 

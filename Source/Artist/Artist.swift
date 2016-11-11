@@ -10,12 +10,13 @@ class Artist {
     }
 
     static func saveCache() {
-        let documents = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true).first!
+        let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
         for (name, image) in generatedImages {
             let data = UIImagePNGRepresentation(image)
-            let filename = "\(name.stringByReplacingOccurrencesOfString(":", withString: ";")).png"
-            let path = NSURL(fileURLWithPath: documents).URLByAppendingPathComponent(filename)
-            try! data?.writeToURL(path, options: .AtomicWrite)
+            let filename = "\(name.replacingOccurrences(of: ":", with: ";")).png"
+            if let data = data, let path = NSURL(fileURLWithPath: documents).appendingPathComponent(filename) {
+                try! data.write(to: path, options: [.atomicWrite])
+            }
         }
     }
 
@@ -24,8 +25,8 @@ class Artist {
         case Normal
         case Zoomed
         static var Default: Scale {
-            if UIDevice.currentDevice().userInterfaceIdiom == .Pad ||
-                UIScreen.mainScreen().scale == 3
+            if UIDevice.current.userInterfaceIdiom == .pad ||
+                UIScreen.main.scale == 3
             {
                 return .Zoomed
             }
@@ -70,28 +71,28 @@ class Artist {
     required init() {
     }
 
-    func drawInContext(context: CGContext) {
-        CGContextSaveGState(context)
-        CGContextScaleCTM(context, scale.drawScale, scale.drawScale)
+    func generate(in context: CGContext) {
+        context.saveGState()
+        context.scaleBy(x: scale.drawScale, y: scale.drawScale)
 
         let offset = drawingOffset()
-        CGContextTranslateCTM(context, offset.x, offset.y)
+        context.translateBy(x: offset.x, y: offset.y)
 
-        draw(context)
-        CGContextRestoreGState(context)
+        draw(in: context)
+        context.restoreGState()
     }
 
     func rotate(context: CGContext, angle: CGFloat) {
-        CGContextTranslateCTM(context, size.width / 2, size.height / 2)
-        CGContextRotateCTM(context, angle)
-        CGContextTranslateCTM(context, -size.width / 2, -size.height / 2)
+        context.translateBy(x: size.width / 2, y: size.height / 2)
+        context.rotate(by: angle)
+        context.translateBy(x: -size.width / 2, y: -size.height / 2)
     }
 
-    func draw(context: CGContext) {
+    func draw(in context: CGContext) {
     }
 
     func drawingOffset() -> CGPoint {
-        if shadowed {
+        if shadowed.boolValue {
             let shadowSize = shadowed.floatValue
             switch scale {
             case .Small:
@@ -120,21 +121,21 @@ class Artist {
     }
 }
 
-extension Artist.Shadowed: BooleanType {
+extension Artist.Shadowed {
     var boolValue: Bool {
         return floatValue > 0
     }
     var floatValue: CGFloat {
         switch self {
-        case False: return 0
-        case True: return 5
-        case let Size(size): return size
+        case .False: return 0
+        case .True: return 5
+        case let .Size(size): return size
         }
     }
 }
 
 extension Artist {
-    class func generate(id: ImageIdentifier, scale: Scale = .Default) -> UIImage {
+    class func generate(_ id: ImageIdentifier, scale: Scale = .Default) -> UIImage {
         var cacheName: String?
         if let name = id.name {
             cacheName = "\(name)\(scale.suffix)"
@@ -149,13 +150,13 @@ extension Artist {
 
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
         let context = UIGraphicsGetCurrentContext()!
-        artist.drawInContext(context)
+        artist.generate(in: context)
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
 
         if let cacheName = cacheName {
             generatedImages[cacheName] = image
         }
-        return image
+        return image!
     }
 }

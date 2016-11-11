@@ -23,8 +23,8 @@ class Line: Node {
         fatalError("init() has not been implemented")
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
 }

@@ -8,8 +8,8 @@ enum HasUpgrade {
 
     init(safe val: Bool?) {
         switch val {
-        case .Some(true): self = .True
-        case .None, .Some(false): self = .False
+        case .some(true): self = .True
+        case .none, .some(false): self = .False
         }
     }
 
@@ -18,13 +18,13 @@ enum HasUpgrade {
     }
 }
 
-extension HasUpgrade: BooleanLiteralConvertible {
+extension HasUpgrade: ExpressibleByBooleanLiteral {
     init(booleanLiteral value: Bool) {
         self = value ? .True : .False
     }
 }
 
-extension HasUpgrade: BooleanType {
+extension HasUpgrade {
     var boolValue: Bool { return self == .True }
 }
 

@@ -10,7 +10,7 @@ class CursorArtist: Artist {
         size = CGSize(80)
     }
 
-    override func draw(context: CGContext) {
+    override func draw(in context: CGContext) {
         let lineWidth: CGFloat = 2
         let radius = middle.x - lineWidth / 2
         let numArcs = 18
@@ -18,12 +18,12 @@ class CursorArtist: Artist {
             let a1 = CGFloat(2 * i) * TAU_2 / CGFloat(numArcs)
             let a2 = CGFloat(2 * i + 1) * TAU_2 / CGFloat(numArcs)
             let pt = CGPoint(r: radius, a: a1)
-            CGContextMoveToPoint(context, middle.x + pt.x, middle.y + pt.y)
-            CGContextAddArc(context, middle.x, middle.y, radius, a1, a2, 0)
+            context.move(to: middle + pt)
+            context.addArc(center: middle, radius: radius, startAngle: a1, endAngle: a2, clockwise: false)
         }
-        CGContextSetLineWidth(context, lineWidth)
-        CGContextSetStrokeColorWithColor(context, color.CGColor)
-        CGContextDrawPath(context, .Stroke)
+        context.setLineWidth(lineWidth)
+        context.setStrokeColor(color.cgColor)
+        context.drawPath(using: .stroke)
     }
 
 }

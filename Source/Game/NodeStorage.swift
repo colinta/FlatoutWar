@@ -3,14 +3,14 @@
 //
 
 class NodeStorage {
-    enum Type: Int {
+    enum PowerupType: Int {
         case Drone
         case BasePlayer
     }
 
-    static func fromDefaults(defaults: NSDictionary) -> Node? {
+    static func fromDefaults(_ defaults: NSDictionary) -> Node? {
         guard let typeint = defaults["type"] as? Int else { return nil }
-        guard let type: Type = Type(rawValue: typeint) else { return nil }
+        guard let type: PowerupType = PowerupType(rawValue: typeint) else { return nil }
 
         let node: Node
         switch type {
@@ -30,7 +30,7 @@ class NodeStorage {
         }
 
         if let x = defaults["position.x"] as? Float,
-            y = defaults["position.y"] as? Float {
+            let y = defaults["position.y"] as? Float {
             node.position = CGPoint(x: CGFloat(x), y: CGFloat(y))
         }
 
@@ -39,7 +39,7 @@ class NodeStorage {
 
     static func toDefaults(node: Node) -> NSDictionary? {
         let defaults = NSMutableDictionary()
-        let type: Type?
+        let type: PowerupType?
         if let node = node as? BasePlayerNode {
             type = .BasePlayer
             defaults["radarUpgrade"] = node.radarUpgrade.boolValue

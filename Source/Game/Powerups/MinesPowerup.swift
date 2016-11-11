@@ -15,8 +15,8 @@ class MinesPowerup: Powerup {
         super.init(count: count)
     }
 
-    override func activate(level: World, layer: SKNode, playerNode: Node, completion: Block = {}) {
-        super.activate(level, layer: layer, playerNode: playerNode)
+    override func activate(level: World, layer: SKNode, playerNode: Node, completion: @escaping Block = {}) {
+        super.activate(level: level, layer: layer, playerNode: playerNode)
 
         self.onNextTap(slowmo: true) { tapPosition in
             let position: CGPoint
@@ -40,8 +40,8 @@ class MinesPowerup: Powerup {
                 node.moveTo(offset, duration: moveDuration)
                 layer << node
             }
-            level.timeline.after(moveDuration) {
-                self.slowmo(false)
+            level.timeline.after(time: moveDuration) {
+                self.slowmo(on: false)
                 completion()
             }
         }

@@ -30,7 +30,7 @@ class PowerupTutorial: Tutorial {
         self.powerups = powerups
 
         var tapLabel: SKNode?
-        let cancel = timeline.cancellable.after(3) {
+        let cancel = timeline.cancellable.after(time: 3) {
             tapLabel = self.showTapLabel()
         }
 
@@ -49,7 +49,7 @@ class PowerupTutorial: Tutorial {
         }
 
         let duration: CGFloat = 1
-        for (index, button) in powerupButtons.enumerate() {
+        for (index, button) in powerupButtons.enumerated() {
             ui << button
             let start: Position = .Left(
                 x: -150,
@@ -84,12 +84,12 @@ class PowerupTutorial: Tutorial {
         return tapLabel
     }
 
-    func chosePowerup(powerup: Powerup, position: CGPoint, button: Button) {
+    func chosePowerup(_ powerup: Powerup, position: CGPoint, button: Button) {
         for anyButton in powerupButtons {
             anyButton.enabled = false
         }
 
-        powerup.activate(self, playerNode: self.playerNode) {
+        powerup.activate(level: self, playerNode: self.playerNode) {
             if powerup is MinesPowerup {
                 self.mines -= 1
                 if self.mines > 0 {
@@ -128,7 +128,7 @@ class PowerupTutorial: Tutorial {
     }
 
     var experience = 0
-    func generateEnemy(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
+    func generateEnemy(_ genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
         return {
             var screenAngle = genScreenAngle
             if spread > 0 {
@@ -143,7 +143,7 @@ class PowerupTutorial: Tutorial {
                 }
             }
             enemyNode.name = "soldier"
-            enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle)
+            enemyNode.position = self.outsideWorld(node: enemyNode, angle: screenAngle)
             self << enemyNode
         }
     }
@@ -153,7 +153,7 @@ class PowerupTutorial: Tutorial {
         closeButton.visible = true
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         super.update(dt)
         for powerup in powerups {
             powerup.update(dt)

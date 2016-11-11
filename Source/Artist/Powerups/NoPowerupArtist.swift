@@ -3,29 +3,29 @@
 //
 
 class NoPowerupArtist: PowerupArtist {
-    override func draw(context: CGContext) {
-        super.draw(context)
+    override func draw(in context: CGContext) {
+        super.draw(in: context)
 
-        CGContextTranslateCTM(context, middle.x, middle.y)
-        CGContextRotateCTM(context, 45.degrees)
+        context.translateBy(x: middle.x, y: middle.y)
+        context.rotate(by: 45.degrees)
 
         let smallR: CGFloat = 2
         let bigR: CGFloat = middle.x
-        CGContextMoveToPoint(context, -bigR, smallR)
-        CGContextAddLineToPoint(context, -bigR, -smallR)
-        CGContextAddLineToPoint(context, -smallR, -smallR)
-        CGContextAddLineToPoint(context, -smallR, -bigR)
-        CGContextAddLineToPoint(context, smallR, -bigR)
-        CGContextAddLineToPoint(context, smallR, -smallR)
-        CGContextAddLineToPoint(context, bigR, -smallR)
-        CGContextAddLineToPoint(context, bigR, smallR)
-        CGContextAddLineToPoint(context, smallR, smallR)
-        CGContextAddLineToPoint(context, smallR, bigR)
-        CGContextAddLineToPoint(context, -smallR, bigR)
-        CGContextAddLineToPoint(context, -smallR, smallR)
-        CGContextClosePath(context)
+        context.move(to: CGPoint(x: -bigR, y: smallR))
+        context.addLine(to: CGPoint(x: -bigR, y: -smallR))
+        context.addLine(to: CGPoint(x: -smallR, y: -smallR))
+        context.addLine(to: CGPoint(x: -smallR, y: -bigR))
+        context.addLine(to: CGPoint(x: smallR, y: -bigR))
+        context.addLine(to: CGPoint(x: smallR, y: -smallR))
+        context.addLine(to: CGPoint(x: bigR, y: -smallR))
+        context.addLine(to: CGPoint(x: bigR, y: smallR))
+        context.addLine(to: CGPoint(x: smallR, y: smallR))
+        context.addLine(to: CGPoint(x: smallR, y: bigR))
+        context.addLine(to: CGPoint(x: -smallR, y: bigR))
+        context.addLine(to: CGPoint(x: -smallR, y: smallR))
+        context.closePath()
 
-        CGContextDrawPath(context, .FillStroke)
+        context.drawPath(using: .fillStroke)
     }
 
 }

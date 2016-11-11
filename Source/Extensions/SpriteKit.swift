@@ -9,7 +9,7 @@ extension SKTexture {
         generatedTextures = [:]
     }
 
-    static func id(id: ImageIdentifier, scale: Artist.Scale = .Default) -> SKTexture {
+    static func id(_ id: ImageIdentifier, scale: Artist.Scale = .Default) -> SKTexture {
         let cacheName = id.name
         if let cacheName = cacheName {
             if let cached = generatedTextures[cacheName] {
@@ -35,7 +35,7 @@ extension SKLightNode {
         let light = SKLightNode()
         light.falloff = 0.01
         light.ambientColor = UIColor(hex: 0x5f5f5f)
-        light.lightColor = .whiteColor()
+        light.lightColor = .white
         return light
     }
 }
@@ -49,7 +49,7 @@ extension SKSpriteNode {
         self.shadowedBitMask = 0xFFFFFFFF
     }
 
-    func textureId(id: ImageIdentifier, scale: Artist.Scale = .Default) {
+    func textureId(_ id: ImageIdentifier, scale: Artist.Scale = .Default) {
         if self.texture == nil {
             setScale(1 / scale.drawScale)
         }
@@ -67,43 +67,43 @@ extension SKNode {
 
     var visible: Bool {
         get {
-            if let parent = parent where !parent.visible {
+            if let parent = parent, !parent.visible {
                 return false
             }
-            return !hidden && alpha > 0.1
+            return !isHidden && alpha > 0.1
         }
-        set { hidden = !newValue }
+        set { isHidden = !newValue }
     }
 
-    static func size(size: CGSize) -> SKNode {
+    static func size(_ size: CGSize) -> SKNode {
         return SKSpriteNode(texture: nil, size: size)
     }
 
-    func isParentOf(child: SKNode) -> Bool {
+    func isParentOf(_ child: SKNode) -> Bool {
         return child.inParentHierarchy(self)
     }
 
-    func rotateTo(angle: CGFloat) {
+    func rotateTo(_ angle: CGFloat) {
         zRotation = angle
     }
 
-    func rotateTowards(node: SKNode) {
+    func rotateTowards(_ node: SKNode) {
         let angle = angleTo(node)
         rotateTo(angle)
     }
 
-    func rotateTowards(point point: CGPoint) {
+    func rotateTowards(point: CGPoint) {
         let angle = (point - position).angle
         rotateTo(angle)
     }
 
-    func distanceTo(node: SKNode) -> CGFloat {
+    func distanceTo(_ node: SKNode) -> CGFloat {
         return sqrt(roughDistanceTo(node))
     }
 
-    func roughDistanceTo(node: SKNode) -> CGFloat {
+    func roughDistanceTo(_ node: SKNode) -> CGFloat {
         let world = (self as? Node)?.world ?? (node as? Node)?.world
-        if let world = world where world.isParentOf(self) && world.isParentOf(node) {
+        if let world = world, world.isParentOf(self), world.isParentOf(node) {
             let posSelf = world.convertPosition(self)
             let posNode = world.convertPosition(node)
             return posSelf.roughDistanceTo(posNode)
@@ -112,9 +112,9 @@ extension SKNode {
         return position.roughLength
     }
 
-    func distanceTo(node: SKNode, within radius: CGFloat) -> Bool {
+    func distanceTo(_ node: SKNode, within radius: CGFloat) -> Bool {
         let world = (self as? Node)?.world ?? (node as? Node)?.world
-        if let world = world where world.isParentOf(self) && world.isParentOf(node) {
+        if let world = world, world.isParentOf(self), world.isParentOf(node) {
             let posSelf = world.convertPosition(self)
             let posNode = world.convertPosition(node)
             return posSelf.distanceTo(posNode, within: radius)
@@ -123,9 +123,9 @@ extension SKNode {
         return position.lengthWithin(radius)
     }
 
-    func angleTo(node: SKNode) -> CGFloat {
+    func angleTo(_ node: SKNode) -> CGFloat {
         let world = (self as? Node)?.world ?? (node as? Node)?.world
-        if let world = world where world.isParentOf(self) && world.isParentOf(node) {
+        if let world = world, world.isParentOf(self), world.isParentOf(node) {
             let posSelf = world.convertPosition(self)
             let posNode = world.convertPosition(node)
             return (posNode - posSelf).angle
@@ -134,7 +134,7 @@ extension SKNode {
         return position.angle
     }
 
-    func convertPosition(node: SKNode) -> CGPoint {
+    func convertPosition(_ node: SKNode) -> CGPoint {
         if node.parent == nil || self.parent == nil {
             if self is World {
                 return node.position
@@ -147,10 +147,10 @@ extension SKNode {
             }
         }
         else if node.parent == self.parent {
-            return convertPoint(node.position, fromNode: node.parent!)
+            return convert(node.position, from: node.parent!)
         }
         else {
-            return convertPoint(.zero, fromNode: node)
+            return convert(.zero, from: node)
         }
     }
 

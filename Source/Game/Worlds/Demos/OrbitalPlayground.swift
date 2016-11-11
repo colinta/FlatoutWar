@@ -31,13 +31,13 @@ class OrbitalPlayground: World {
         }
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         time += dt
 
         for (_, sprite, _, offset, factor) in sprites {
             let t = factor * (time - offset * TAU)
-            let p0 = p(t)
-            let p1 = p(t + dt)
+            let p0 = p(t: t)
+            let p1 = p(t: t + dt)
             sprite.position = p0
             sprite.zRotation = p0.angleTo(p1)
         }

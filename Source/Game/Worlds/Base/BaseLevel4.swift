@@ -26,7 +26,7 @@ class BaseLevel4: BaseLevel {
                 y: -start.y
                 )
             self.generateWarning(start.angle)
-            self.timeline.after(3) {
+            self.timeline.after(time: 3) {
                 let transport = EnemyJetTransportNode()
                 var control = (start + dest) / 2
                 if start.x > 0 {

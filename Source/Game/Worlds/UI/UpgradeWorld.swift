@@ -36,7 +36,7 @@ class UpgradeWorld: UIWorld {
         director?.presentWorld(nextWorld)
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         super.update(dt)
         if config.availableResources < printedResources {
             printedResources -= 1
@@ -50,7 +50,7 @@ class UpgradeWorld: UIWorld {
 
     func generateBackButton() -> Button {
         let back = Button()
-        back.alignment = .Left
+        back.alignment = .left
         back.position = CGPoint(x: -size.width / 2 + 15, y: size.height / 2 - 30)
         back.text = "< BACK"
         return back
@@ -58,7 +58,7 @@ class UpgradeWorld: UIWorld {
 
     func generateDoneButton() -> Button {
         let done = Button()
-        done.alignment = .Right
+        done.alignment = .right
         done.position = CGPoint(x: size.width / 2 - 15, y: size.height / 2 - 30)
         done.text = "DONE >"
         done.onTapped {
@@ -67,7 +67,7 @@ class UpgradeWorld: UIWorld {
         return done
     }
 
-    func generatePowerupButton(powerup: Powerup, includeCount: Bool = true, includeCost: Bool = false) -> PowerupUpgradeButton {
+    func generatePowerupButton(_ powerup: Powerup, includeCount: Bool = true, includeCost: Bool = false) -> PowerupUpgradeButton {
         return PowerupUpgradeButton(powerup: powerup, includeCount: includeCount, includeCost: includeCost)
     }
 
@@ -108,7 +108,7 @@ class UpgradeWorld: UIWorld {
         title.position = CGPoint(y: size.height / 2 - 22)
         uiLayer << title
 
-        let (gainedResources, gainedExperience) = populateCurrencies(config)
+        let (gainedResources, gainedExperience) = populateCurrencies(config: config)
         self.printedResources = config.availableResources
         self.gainedResources = gainedResources
         self.printedExperience = config.availableExperience
@@ -126,7 +126,7 @@ class UpgradeWorld: UIWorld {
 
         let purchaseTower = Button()
         let armyButtons = armyNodes.map { ArmyUpgradeButton(node: $0) }
-        positionArmyButtons(playerNodeButton, armyButtons: armyButtons, purchaseTower: purchaseTower)
+        positionArmyButtons(playerNodeButton: playerNodeButton, armyButtons: armyButtons, purchaseTower: purchaseTower)
 
         let x: CGFloat = -size.width / 2 + 40
         let dy: CGFloat = 80

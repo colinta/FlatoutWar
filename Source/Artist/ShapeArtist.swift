@@ -6,17 +6,17 @@ class ShapeArtist: Artist {
     var strokeColor: UIColor?
     var fillColor: UIColor?
     var lineWidth: CGFloat?
-    var drawingMode: CGPathDrawingMode = .Fill
+    var drawingMode: CGPathDrawingMode = .fill
 
-    override func draw(context: CGContext) {
+    override func draw(in context: CGContext) {
         if let fillColor = fillColor {
-            CGContextSetFillColorWithColor(context, fillColor.CGColor)
+            context.setFillColor(fillColor.cgColor)
         }
         if let lineWidth = lineWidth {
-            CGContextSetLineWidth(context, lineWidth)
+            context.setLineWidth(lineWidth)
         }
         if let strokeColor = strokeColor {
-            CGContextSetStrokeColorWithColor(context, strokeColor.CGColor)
+            context.setStrokeColor(strokeColor.cgColor)
         }
     }
 }
@@ -30,14 +30,14 @@ class RectArtist: ShapeArtist {
     }
 
     convenience required init() {
-        self.init(.zero, .whiteColor())
+        self.init(.zero, .white)
     }
 
-    override func draw(context: CGContext) {
-        super.draw(context)
+    override func draw(in context: CGContext) {
+        super.draw(in: context)
 
-        CGContextAddRect(context, CGRect(size: size))
-        CGContextDrawPath(context, drawingMode)
+        context.addRect(CGRect(size: size))
+        context.drawPath(using: drawingMode)
     }
 }
 
@@ -50,14 +50,14 @@ class CircleArtist: ShapeArtist {
     }
 
     convenience required init() {
-        self.init(.zero, .whiteColor())
+        self.init(.zero, .white)
     }
 
-    override func draw(context: CGContext) {
-        super.draw(context)
+    override func draw(in context: CGContext) {
+        super.draw(in: context)
 
-        CGContextAddEllipseInRect(context, CGRect(size: size))
-        CGContextDrawPath(context, drawingMode)
+        context.addEllipse(in: CGRect(size: size))
+        context.drawPath(using: drawingMode)
     }
 }
 
@@ -73,7 +73,7 @@ class LineArtist: ShapeArtist {
     required init(_ length: CGFloat, _ color: UIColor) {
         super.init()
         size = CGSize(width: length, height: 1)
-        drawingMode = .Stroke
+        drawingMode = .stroke
         strokeColor = color
         lineWidth = 1.pixels
     }
@@ -82,15 +82,15 @@ class LineArtist: ShapeArtist {
         fatalError("init() has not been implemented")
     }
 
-    override func draw(context: CGContext) {
-        super.draw(context)
+    override func draw(in context: CGContext) {
+        super.draw(in: context)
 
-        CGContextTranslateCTM(context, 0, middle.y)
+        context.translateBy(x: 0, y: middle.y)
         let p1 = CGPoint(x: 0)
         let p2 = CGPoint(x: size.width)
-        CGContextMoveToPoint(context, p1.x, 0)
-        CGContextAddLineToPoint(context, p2.x, 0)
-        CGContextDrawPath(context, drawingMode)
+        context.move(to: CGPoint(x: p1.x, y: 0))
+        context.addLine(to: CGPoint(x: p2.x, y: 0))
+        context.drawPath(using: drawingMode)
     }
 
 }
@@ -100,9 +100,9 @@ class PathArtist: ShapeArtist {
 
     required init(_ path: UIBezierPath, _ color: UIColor) {
         self.path = path.copy() as! UIBezierPath
-        self.path.applyTransform(CGAffineTransformMakeScale(1, -1))
+        self.path.apply(CGAffineTransform(scaleX: 1, y: -1))
         super.init()
-        self.drawingMode = .Stroke
+        self.drawingMode = .stroke
         self.strokeColor = color
         self.lineWidth = 1.pixels
 
@@ -116,14 +116,14 @@ class PathArtist: ShapeArtist {
         fatalError("init() has not been implemented")
     }
 
-    override func draw(context: CGContext) {
-        super.draw(context)
+    override func draw(in context: CGContext) {
+        super.draw(in: context)
 
         let bounds = path.bounds
-        CGContextTranslateCTM(context, -bounds.minX, -bounds.minY)
-        let cgpath = path.CGPath
-        CGContextAddPath(context, cgpath)
-        CGContextDrawPath(context, drawingMode)
+        context.translateBy(x: -bounds.minX, y: -bounds.minY)
+        let cgpath = path.cgPath
+        context.addPath(cgpath)
+        context.drawPath(using: drawingMode)
     }
 
 }

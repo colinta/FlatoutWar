@@ -11,9 +11,9 @@ class ProjectileComponent: Component {
             }
         }
     }
-    typealias OnCollision = (enemy: Node, location: CGPoint) -> Void
+    typealias OnCollision = (Node, CGPoint) -> Void
     var _onCollision: [OnCollision] = []
-    func onCollision(handler: OnCollision) { _onCollision << handler }
+    func onCollision(_ handler: @escaping OnCollision) { _onCollision << handler }
 
     override func reset() {
         super.reset()
@@ -28,8 +28,8 @@ class ProjectileComponent: Component {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
     override func didAddToNode() {
@@ -39,19 +39,19 @@ class ProjectileComponent: Component {
         }
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         guard let world = node.world else {
             return
         }
 
         for enemy in world.enemies where enemy.enemyComponent!.targetable {
-            if let died = enemy.healthComponent?.died where died { continue }
+            if let died = enemy.healthComponent?.died, died { continue }
 
-            if intersectionNode!.intersectsNode(enemy.enemyComponent!.intersectionNode!)
+            if intersectionNode!.intersects(enemy.enemyComponent!.intersectionNode!)
             {
                 if let location = node.touchingLocation(enemy) {
                     for handler in _onCollision {
-                        handler(enemy: enemy, location: location)
+                        handler(enemy, location)
                     }
 
                     enemy.enemyComponent!.attacked(by: node)

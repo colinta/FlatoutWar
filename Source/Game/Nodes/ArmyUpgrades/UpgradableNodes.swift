@@ -3,5 +3,5 @@
 //
 
 protocol UpgradeableNodes: class {
-    func availableUpgrades(world upgradeWorld: UpgradeWorld) -> [Button]
+    func availableUpgrades(world upgradeWorld: World) -> [(Button, String)]
 }

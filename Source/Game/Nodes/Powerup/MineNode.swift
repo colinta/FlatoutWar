@@ -19,7 +19,7 @@ class MineNode: Node {
             if let world = self.world {
                 NumFragments.times { (i: Int) in
                     let angle = CGFloat(i) * TAU / CGFloat(NumFragments)
-                    let absLocation = world.convertPoint(location, fromNode: self)
+                    let absLocation = world.convert(location, from: self)
                     let fragmentNode = MineFragmentNode(angle: angle)
                     fragmentNode.position = absLocation
                     world << fragmentNode
@@ -34,8 +34,8 @@ class MineNode: Node {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
 }

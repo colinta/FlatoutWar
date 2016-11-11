@@ -27,7 +27,7 @@ class PlayerExplosionNode: Node {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         phase += dt / duration
         guard phase <= 1 else {
             return
@@ -36,7 +36,7 @@ class PlayerExplosionNode: Node {
         let distance = easeOutCubic(time: phase)
         let alpha = easeOutCubic(time: phase, initial: 1, final: 0.25)
 
-        for (i, (sprite, rotation, maxDistance)) in sprites.enumerate() {
+        for (i, (sprite, rotation, maxDistance)) in sprites.enumerated() {
             let angle = TAU / CGFloat(sprites.count) * CGFloat(i)
             sprite.position = CGPoint(r: distance * maxDistance, a: angle)
             sprite.alpha = alpha

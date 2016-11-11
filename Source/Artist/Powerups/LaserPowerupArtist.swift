@@ -7,9 +7,9 @@ class LaserPowerupArtist: PowerupArtist {
         super.init()
     }
 
-    override func draw(context: CGContext) {
-        super.draw(context)
-        rotate(context, angle: 45.degrees)
+    override func draw(in context: CGContext) {
+        super.draw(in: context)
+        rotate(context: context, angle: 45.degrees)
 
         let dy = size.height / 9 / 2
         let dx = size.width / 9
@@ -27,9 +27,9 @@ class LaserPowerupArtist: PowerupArtist {
         for (sy, sx, length) in lines {
             let start = CGPoint(sx * dx, middle.y + sy * dy)
             let dest = CGPoint((sx + length) * dx, middle.y + sy * dy)
-            CGContextMoveToPoint(context, start.x, start.y)
-            CGContextAddLineToPoint(context, dest.x, dest.y)
-            CGContextDrawPath(context, .Stroke)
+            context.move(to: start)
+            context.addLine(to: dest)
+            context.drawPath(using: .stroke)
         }
     }
 

@@ -18,13 +18,13 @@ class BackgroundAudioNode: Node {
     var deltaVolume: CGFloat = 3.333
 
     convenience init?(name: String) {
-        guard let url = NSBundle.mainBundle().URLForResource(name, withExtension: "caf") else { return nil }
+        guard let url = Bundle.main.url(forResource: name, withExtension: "caf") else { return nil }
         self.init(url: url)
     }
 
-    init(url: NSURL) {
+    init(url: URL) {
         do {
-            let audioPlayer = try AVAudioPlayer(contentsOfURL: url)
+            let audioPlayer = try AVAudioPlayer(contentsOf: url)
             audioPlayer.prepareToPlay()
             audioPlayer.volume = 0
             audioPlayer.numberOfLoops = 10
@@ -44,7 +44,7 @@ class BackgroundAudioNode: Node {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         guard let audioPlayer = audioPlayer else { return }
 
         if let volume = moveValue(CGFloat(audioPlayer.volume), towards: volume, by: dt * deltaVolume) {

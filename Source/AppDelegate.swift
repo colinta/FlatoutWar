@@ -2,7 +2,6 @@
 ///  AppDelegate.swift
 //
 
-import UIKit
 import AVFoundation
 
 
@@ -14,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var context: ALContext!
     var soundBuffer: [ALBuffer] = []
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         justOnce("2016-07-07") {
             TutorialConfigSummary().completeAll()
         }
@@ -34,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 TutorialLevel6Config().storedPlayers = [BasePlayerNode(), DroneNode(at: CGPoint(x: 80))]
             }
         }
+
         let upgradeConfig = UpgradeConfigSummary()
         print("spent: (\(upgradeConfig.spentExperience), \(upgradeConfig.spentResources))")
         print("storedPowerups:")
@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let orderStr: String
             if let order = entry.order { orderStr = "\(order)" }
             else { orderStr = "--" }
-            print("- \(entry.powerup.dynamicType) count: \(entry.powerup.count), order: \(orderStr)")
+            print("- \(type(of: entry.powerup)) count: \(entry.powerup.count), order: \(orderStr)")
         }
         upgradeConfig.spentExperience = 0
         upgradeConfig.spentResources = 0
@@ -53,19 +53,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         ]
 
         device = ALDevice(deviceSpecifier: nil)
-        context = ALContext(onDevice: device, attributes: nil)
-        let manager = OpenALManager.sharedInstance()
-        let session = OALAudioSession.sharedInstance()
-        manager.currentContext = context
+        context = ALContext(on: device, attributes: nil)
+        if let manager = OpenALManager.sharedInstance() {
+            manager.currentContext = context
 
-        session.handleInterruptions = true
-        session.allowIpod = true
-        session.honorSilentSwitch = true
+            let sounds = Bundle.main.paths(forResourcesOfType: "caf", inDirectory: nil)
+            for sound in sounds {
+                if let sound = manager.buffer(fromFile: sound) {
+                    soundBuffer << sound
+                }
+            }
+        }
 
-        let mainBundle = NSBundle.mainBundle()
-        let sounds = mainBundle.pathsForResourcesOfType("caf", inDirectory: nil)
-        for sound in sounds {
-            soundBuffer << manager.bufferFromFile(sound)
+        if let session = OALAudioSession.sharedInstance() {
+            session.handleInterruptions = true
+            session.allowIpod = true
+            session.honorSilentSwitch = true
         }
 
         do {
@@ -73,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         catch {}
 
-        let window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        let window = UIWindow(frame: UIScreen.main.bounds)
         self.window = window
 
         var i = 0
@@ -87,19 +90,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func applicationDidReceiveMemoryWarning(application: UIApplication) {
+    func applicationDidReceiveMemoryWarning(_ application: UIApplication) {
         Artist.clearCache()
         SKTexture.clearCache()
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
         // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
         (window?.rootViewController as? WorldController)?.halt()
     }
 
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
         // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
         (window?.rootViewController as? WorldController)?.resume()
     }

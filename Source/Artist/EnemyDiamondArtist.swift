@@ -24,39 +24,39 @@ class EnemyDiamondArtist: Artist {
         return .zero
     }
 
-    override func draw(context: CGContext) {
-        CGContextSetFillColorWithColor(context, color.CGColor)
+    override func draw(in context: CGContext) {
+        context.setFillColor(color.cgColor)
 
         if health < 1 {
             let x = size.width * health
             if x > middle.x {
                 let y1 = interpolate(x, from: (size.width, middle.x), to: (middle.y, 0))
                 let y2 = size.height - y1
-                CGContextMoveToPoint(context, x, y1)
-                CGContextAddLineToPoint(context, middle.x, 0)
-                CGContextAddLineToPoint(context, 0, middle.y)
-                CGContextAddLineToPoint(context, middle.x, size.height)
-                CGContextAddLineToPoint(context, x, y2)
-                CGContextClosePath(context)
+                context.move(to: CGPoint(x: x, y: y1))
+                context.addLine(to: CGPoint(x: middle.x, y: 0))
+                context.addLine(to: CGPoint(x: 0, y: middle.y))
+                context.addLine(to: CGPoint(x: middle.x, y: size.height))
+                context.addLine(to: CGPoint(x: x, y: y2))
+                context.closePath()
             }
             else {
                 let y1 = interpolate(x, from: (0, middle.x), to: (middle.y, 0))
                 let y2 = size.height - y1
-                CGContextMoveToPoint(context, x, y1)
-                CGContextAddLineToPoint(context, 0, middle.y)
-                CGContextAddLineToPoint(context, x, y2)
-                CGContextClosePath(context)
+                context.move(to: CGPoint(x: x, y: y1))
+                context.addLine(to: CGPoint(x: 0, y: middle.y))
+                context.addLine(to: CGPoint(x: x, y: y2))
+                context.closePath()
             }
-            CGContextDrawPath(context, .Fill)
-            CGContextSetAlpha(context, 0.25)
+            context.drawPath(using: .fill)
+            context.setAlpha(0.25)
         }
 
-        CGContextMoveToPoint(context, size.width, middle.y)
-        CGContextAddLineToPoint(context, middle.x, 0)
-        CGContextAddLineToPoint(context, 0, middle.y)
-        CGContextAddLineToPoint(context, middle.x, size.height)
-        CGContextClosePath(context)
-        CGContextDrawPath(context, .Fill)
+        context.move(to: CGPoint(x: size.width, y: middle.y))
+        context.addLine(to: CGPoint(x: middle.x, y: 0))
+        context.addLine(to: CGPoint(x: 0, y: middle.y))
+        context.addLine(to: CGPoint(x: middle.x, y: size.height))
+        context.closePath()
+        context.drawPath(using: .fill)
     }
 
 }

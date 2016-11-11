@@ -31,8 +31,8 @@ class EnemyJetTransportNode: Node {
         enemyComponent.experience = 0
         enemyComponent.onAttacked { projectile in
             if let damage = projectile.projectileComponent?.damage {
-                self.generateShrapnel(damage)
-                self.healthComponent?.inflict(damage)
+                self.generateShrapnel(damage: damage)
+                self.healthComponent?.inflict(damage: damage)
             }
         }
         addComponent(enemyComponent)
@@ -44,8 +44,8 @@ class EnemyJetTransportNode: Node {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
     func enemyType() -> ImageIdentifier.EnemyType {
@@ -56,7 +56,7 @@ class EnemyJetTransportNode: Node {
         sprite.textureId(.Enemy(enemyType(), health: healthComponent?.healthInt ?? 100))
     }
 
-    func transportPayload(payload: [Node]) {
+    func transportPayload(_ payload: [Node]) {
         if let prevPayload = self.payload {
             for node in prevPayload {
                 node.removeFromParent()
@@ -105,12 +105,12 @@ class EnemyJetTransportNode: Node {
 
             while timeout - t < 0 {
                 if let node = self.payload?.first,
-                    world = self.world
+                    let world = self.world
                 {
                     self.enemyComponent?.experience -= node.enemyComponent?.experience ?? 0
                     node.active = true
-                    node.moveToParent(world)
-                    self.payload?.removeAtIndex(0)
+                    node.move(toParent: world)
+                    self.payload?.remove(at: 0)
                 }
                 else {
                     break
@@ -124,14 +124,14 @@ class EnemyJetTransportNode: Node {
         if let world = self.world {
             let explosion = EnemyExplosionNode(at: self.position)
             world << explosion
-            self.generateBigShrapnel(dist: 10, angle: 0, spread: TAU)
+            self.generateBigShrapnel(distance: 10, angle: 0, spread: TAU)
         }
     }
 
-    func generateBigShrapnel(dist dist: CGFloat, angle: CGFloat, spread: CGFloat) {
+    func generateBigShrapnel(distance dist: CGFloat, angle: CGFloat, spread: CGFloat) {
         if let world = self.world {
             let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Actual)
-            node.setupAround(self, at: self.position,
+            node.setupAround(node: self, at: self.position,
                 rotateSpeed: rand(min: 5, max: 8),
                 distance: rand(10)
                 )
@@ -143,7 +143,7 @@ class EnemyJetTransportNode: Node {
         if let world = self.world {
             Int(damage * 10).times {
                 let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Small)
-                node.setupAround(self)
+                node.setupAround(node: self)
                 world << node
             }
         }

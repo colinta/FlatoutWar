@@ -11,6 +11,7 @@ class UIWorld: World {
         self << uiLayer
     }
 
+    @discardableResult
     func populateCurrencies(config: UpgradeConfigSummary) -> (TextNode, TextNode) {
         let resourceX = size.width / 2 - 10
         let resourceY = -size.height / 2 + 20
@@ -26,7 +27,7 @@ class UIWorld: World {
         let gainedExperience = TextNode()
         gainedExperience.text = "\(config.availableExperience)"
         gainedExperience.position = CGPoint(x: -10)
-        gainedExperience.alignment = .Right
+        gainedExperience.alignment = .right
         experienceInfo << gainedExperience
 
         let resourceInfo = SKNode()
@@ -39,7 +40,7 @@ class UIWorld: World {
         let gainedResources = TextNode()
         gainedResources.text = "\(config.availableResources)"
         gainedResources.position = CGPoint(x: -10)
-        gainedResources.alignment = .Right
+        gainedResources.alignment = .right
         resourceInfo << gainedResources
 
         return (gainedResources, gainedExperience)

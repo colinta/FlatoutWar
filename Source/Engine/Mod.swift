@@ -28,5 +28,5 @@ struct Mod {
 extension Mod: Equatable {}
 
 func ==(lhs: Mod, rhs: Mod) -> Bool {
-    return lhs.id.UUIDString == rhs.id.UUIDString
+    return lhs.id.uuidString == rhs.id.uuidString
 }

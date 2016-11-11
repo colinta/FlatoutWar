@@ -21,7 +21,7 @@ class ApplyToNodeComponent: Component {
         applyTo = node
     }
 
-    func apply(@noescape block: (SKNode) -> Void) {
+    func apply(_ block: (SKNode) -> Void) {
         if let node = applyTo {
             block(node)
         }

@@ -77,7 +77,7 @@ class TutorialLevel2: TutorialLevel {
             self.generateWarning(wave)
             self.timeline.at(.Delayed()) {
                 var radius: CGFloat = 0
-                let position = self.outsideWorld(EnemySoldierNode(), angle: wave)
+                let position = self.outsideWorld(node: EnemySoldierNode(), angle: wave)
                 let angle = self.playerNode.position.angleTo(position)
                 4.times {
                     let enemyNode = EnemySoldierNode()
@@ -90,7 +90,7 @@ class TutorialLevel2: TutorialLevel {
         }
     }
 
-    func generateEnemyFormation(screenAngle: CGFloat) -> Block {
+    func generateEnemyFormation(_ screenAngle: CGFloat) -> Block {
         return {
             let dist: CGFloat = 25
             let enemyLeader = EnemyLeaderNode()
@@ -116,7 +116,7 @@ class TutorialLevel2: TutorialLevel {
                 let enemy = EnemySoldierNode(at: origin)
                 enemy.name = "formation soldier"
                 enemy.rotateTo(enemyLeader.zRotation)
-                enemy.follow(enemyLeader)
+                enemy.follow(leader: enemyLeader)
                 self << enemy
             }
         }

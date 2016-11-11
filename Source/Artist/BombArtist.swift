@@ -32,7 +32,7 @@ class BombArtist: Artist {
         fatalError("init() has not been implemented")
     }
 
-    override func draw(context: CGContext) {
+    override func draw(in context: CGContext) {
         let r = Int(interpolate(time, from: (0, 1), to: (CGFloat(colorStart.r), CGFloat(colorEnd.r))))
         let g = Int(interpolate(time, from: (0, 1), to: (CGFloat(colorStart.g), CGFloat(colorEnd.g))))
         let b = Int(interpolate(time, from: (0, 1), to: (CGFloat(colorStart.b), CGFloat(colorEnd.b))))
@@ -42,11 +42,11 @@ class BombArtist: Artist {
         for t in sizes {
             if time < t { continue }
             let ellipseSize = CGSize(r: interpolate(time, from: (t, 1), to: (0, maxRadius)))
-            CGContextAddEllipseInRect(context, middle.rect(size: ellipseSize))
+            context.addEllipse(in: CGRect(center: middle, size: ellipseSize))
         }
 
-        CGContextSetStrokeColorWithColor(context, stroke.CGColor)
-        CGContextDrawPath(context, .Stroke)
+        context.setStrokeColor(stroke.cgColor)
+        context.drawPath(using: .stroke)
     }
 
 }

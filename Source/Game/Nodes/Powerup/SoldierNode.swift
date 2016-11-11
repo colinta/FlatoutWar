@@ -52,8 +52,8 @@ class SoldierNode: Node {
         rammingComponent.maxTurningSpeed = Speed
         rammingComponent.onRammed { enemy in
             let damage = min(enemy.healthComponent?.health ?? 0, healthComponent.health)
-            enemy.healthComponent?.inflict(damage)
-            healthComponent.inflict(damage)
+            enemy.healthComponent?.inflict(damage: damage)
+            healthComponent.inflict(damage: damage)
         }
         addComponent(rammingComponent)
 
@@ -67,8 +67,8 @@ class SoldierNode: Node {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
     func updateTexture() {

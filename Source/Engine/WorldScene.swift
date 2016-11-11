@@ -12,14 +12,14 @@ class WorldScene: SKScene {
     private var pauseNode: SKNode?
     var uiNode: Node
     var gameUINode: Node
-    var prevTime: NSTimeInterval?
+    var prevTime: TimeInterval?
     var touchSessions: [UITouch: TouchSession] = [:]
 
     static var worldScale: CGFloat {
         if let scale = CalculatedWorldScale {
             return scale
         }
-        let screenSize = UIScreen.mainScreen().bounds
+        let screenSize = UIScreen.main.bounds
         let scale = CGPoint(x: screenSize.width / DesiredSize.width, y: screenSize.height / DesiredSize.height)
         let worldScale = max(min(scale.x, scale.y), 1)
         CalculatedWorldScale = worldScale
@@ -45,7 +45,7 @@ class WorldScene: SKScene {
         // let blur = CIFilter(name: "CIGaussianBlur", withInputParameters: ["inputRadius": 10])
         let blur = CIFilter(name: "CIColorMonochrome", withInputParameters: [
             "inputIntensity": 0.5,
-            "inputColor": CIColor(color: .blackColor())
+            "inputColor": CIColor(color: .black)
         ])
         effectNode.filter = blur
 
@@ -55,23 +55,23 @@ class WorldScene: SKScene {
 
     func worldPaused() {
         if let view = view {
-            if let texture = view.textureFromNode(self) {
+            if let texture = view.texture(from: self) {
                 effectNode.removeAllChildren()
                 let sprite = SKSpriteNode(texture: texture)
                 effectNode << sprite
-                if let texture = view.textureFromNode(effectNode) {
+                if let texture = view.texture(from: effectNode) {
                     pauseNode = SKSpriteNode(texture: texture)
                     self << pauseNode!
-                    world.hidden = true
-                    gameUINode.hidden = true
+                    world.isHidden = true
+                    gameUINode.isHidden = true
                 }
             }
         }
     }
 
     func worldUnpaused() {
-        world.hidden = false
-        gameUINode.hidden = false
+        world.isHidden = false
+        gameUINode.isHidden = false
 
         if let pauseNode = pauseNode {
             pauseNode.removeFromParent()
@@ -80,14 +80,14 @@ class WorldScene: SKScene {
     }
 
     required init?(coder: NSCoder) {
-        world = coder.decode("world")
-        uiNode = coder.decode("ui")
-        gameUINode = coder.decode("gameUINode")
-        prevTime = NSTimeInterval(coder.decodeFloat("prevTime") ?? 0)
+        world = coder.decode(key: "world")
+        uiNode = coder.decode(key: "ui")
+        gameUINode = coder.decode(key: "gameUINode")
+        prevTime = TimeInterval(coder.decodeFloat(key: "prevTime") ?? 0)
         super.init(coder: coder)
     }
 
-    override func update(currentTime: NSTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         if let prevTime = prevTime {
             let dt = CGFloat(currentTime - prevTime)
             world.updateWorld(dt)
@@ -102,9 +102,9 @@ extension WorldScene {
         world.worldShook()
     }
 
-    override func touchesBegan(touchesSet: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touchesSet: Set<UITouch>, with event: UIEvent?) {
         for touch in touchesSet {
-            let worldLocation = touch.locationInNode(world)
+            let worldLocation = touch.location(in: world)
             let touchSession = TouchSession(
                 touch: touch,
                 location: worldLocation
@@ -115,10 +115,10 @@ extension WorldScene {
         }
     }
 
-    override func touchesMoved(touchesSet: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesMoved(_ touchesSet: Set<UITouch>, with event: UIEvent?) {
         for touch in touchesSet {
             if let touchSession = touchSessions[touch] {
-                let worldLocation = touchSession.touch.locationInNode(world)
+                let worldLocation = touchSession.touch.location(in: world)
                 touchSession.currentLocation = worldLocation
 
                 if touchSession.dragging {
@@ -134,7 +134,7 @@ extension WorldScene {
         }
     }
 
-    override func touchesEnded(touchesSet: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touchesSet: Set<UITouch>, with event: UIEvent?) {
         for touch in touchesSet {
             if let touchSession = touchSessions[touch] {
                 if touchSession.dragging {
@@ -154,7 +154,7 @@ extension WorldScene {
         }
     }
 
-    override func touchesCancelled(touchesSet: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(_ touchesSet: Set<UITouch>?, with event: UIEvent?) {
         guard let touchesSet = touchesSet else { return }
         for touch in touchesSet {
             if let touchSession = touchSessions[touch] {

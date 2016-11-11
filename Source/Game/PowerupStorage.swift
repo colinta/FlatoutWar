@@ -3,7 +3,7 @@
 //
 
 class PowerupStorage {
-    enum Type: Int {
+    enum PowerupType: Int {
         case Grenade
         case Laser
         case Mines
@@ -18,8 +18,8 @@ class PowerupStorage {
 
     static func fromDefaults(defaults: NSDictionary) -> (powerup: Powerup, order: Int?)? {
         guard let typeint = defaults["type"] as? Int,
-            type: Type = Type(rawValue: typeint),
-            count: Int = defaults["count"] as? Int else
+            let type: PowerupType = PowerupType(rawValue: typeint),
+            let count: Int = defaults["count"] as? Int else
         {
             return nil
         }
@@ -53,7 +53,7 @@ class PowerupStorage {
     }
 
     static func toDefaults(powerup: Powerup, order: Int?) -> NSDictionary? {
-        let type: Type?
+        let type: PowerupType?
         if powerup is BomberPowerup {
             type = .Bomber
         }

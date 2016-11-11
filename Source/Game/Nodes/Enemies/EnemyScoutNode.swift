@@ -20,8 +20,8 @@ class EnemyScoutNode: EnemySoldierNode {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
     override func enemyType() -> ImageIdentifier.EnemyType {

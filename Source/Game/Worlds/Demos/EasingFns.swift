@@ -31,8 +31,8 @@ class EasingFns: World {
         applyFunction(easings[easingIndex])
     }
 
-    func applyFunction(fn: Easing) {
-        for (i, node) in dots.enumerate() {
+    func applyFunction(_ fn: Easing) {
+        for (i, node) in dots.enumerated() {
             let time = CGFloat(i) / CGFloat(dots.count)
             let x = interpolate(CGFloat(i), from: (0, CGFloat(dots.count)), to: (-100, 100))
             let y = fn.ease(time: time, initial: 0, final: 200)
@@ -40,7 +40,7 @@ class EasingFns: World {
         }
     }
 
-    override func worldTouchBegan(id: NSObject, worldLocation: CGPoint) {
+    override func worldTouchBegan(_ id: NSObject, worldLocation: CGPoint) {
         super.worldTouchBegan(id, worldLocation: worldLocation)
         easingIndex = (easingIndex + 1) % easings.count
         applyFunction(easings[easingIndex])

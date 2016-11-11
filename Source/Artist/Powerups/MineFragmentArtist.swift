@@ -9,17 +9,17 @@ class MineFragmentArtist: PowerupArtist {
         size = CGSize(5)
     }
 
-    override func draw(context: CGContext) {
-        super.draw(context)
+    override func draw(in context: CGContext) {
+        super.draw(in: context)
 
         let d: CGFloat = 1.5
         let D: CGFloat = 2.5
-        CGContextMoveToPoint(context, 0, middle.y + d)
-        CGContextAddLineToPoint(context, size.width, middle.y + D)
-        CGContextAddLineToPoint(context, size.width, middle.y - D)
-        CGContextAddLineToPoint(context, 0, middle.y - d)
-        CGContextClosePath(context)
-        CGContextDrawPath(context, .FillStroke)
+        context.move(to: CGPoint(x: 0, y: middle.y + d))
+        context.addLine(to: CGPoint(x: size.width, y: middle.y + D))
+        context.addLine(to: CGPoint(x: size.width, y: middle.y - D))
+        context.addLine(to: CGPoint(x: 0, y: middle.y - d))
+        context.closePath()
+        context.drawPath(using: .fillStroke)
     }
 
 }

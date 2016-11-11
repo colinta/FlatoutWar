@@ -21,36 +21,36 @@ class EnemyJetArtist: Artist {
         return .zero
     }
 
-    override func draw(context: CGContext) {
-        CGContextSetFillColorWithColor(context, color.CGColor)
+    override func draw(in context: CGContext) {
+        context.setFillColor(color.cgColor)
 
         if health == 1 {
-            CGContextMoveToPoint(context, size.width, middle.y)
-            CGContextAddLineToPoint(context, 0, size.height)
-            CGContextAddLineToPoint(context, innerX, middle.y)
-            CGContextAddLineToPoint(context, 0, 0)
-            CGContextClosePath(context)
-            CGContextDrawPath(context, .Fill)
+            context.move(to: CGPoint(x: size.width, y: middle.y))
+            context.addLine(to: CGPoint(x: 0, y: size.height))
+            context.addLine(to: CGPoint(x: innerX, y: middle.y))
+            context.addLine(to: .zero)
+            context.closePath()
+            context.drawPath(using: .fill)
         }
         else {
             let x = size.width * (1 - health)
             let healthX = max(innerX, x)
             let deltaY = health * size.height / 2
 
-            CGContextMoveToPoint(context, size.width, middle.y)
-            CGContextAddLineToPoint(context, x, middle.y + deltaY)
-            CGContextAddLineToPoint(context, healthX, middle.y)
-            CGContextAddLineToPoint(context, x, middle.y - deltaY)
-            CGContextClosePath(context)
-            CGContextDrawPath(context, .Fill)
+            context.move(to: CGPoint(x: size.width, y: middle.y))
+            context.addLine(to: CGPoint(x: x, y: middle.y + deltaY))
+            context.addLine(to: CGPoint(x: healthX, y: middle.y))
+            context.addLine(to: CGPoint(x: x, y: middle.y - deltaY))
+            context.closePath()
+            context.drawPath(using: .fill)
 
-            CGContextSetAlpha(context, 0.25)
-            CGContextMoveToPoint(context, size.width, middle.y)
-            CGContextAddLineToPoint(context, 0, size.height)
-            CGContextAddLineToPoint(context, innerX, middle.y)
-            CGContextAddLineToPoint(context, 0, 0)
-            CGContextClosePath(context)
-            CGContextDrawPath(context, .Fill)
+            context.setAlpha(0.25)
+            context.move(to: CGPoint(x: size.width, y: middle.y))
+            context.addLine(to: CGPoint(x: 0, y: size.height))
+            context.addLine(to: CGPoint(x: innerX, y: middle.y))
+            context.addLine(to: .zero)
+            context.closePath()
+            context.drawPath(using: .fill)
         }
     }
 
@@ -64,20 +64,20 @@ class EnemyBigJetArtist: EnemyJetArtist {
         size = CGSize(16)
     }
 
-    override func draw(context: CGContext) {
-        CGContextSaveGState(context)
-        super.draw(context)
-        CGContextRestoreGState(context)
+    override func draw(in context: CGContext) {
+        context.saveGState()
+        super.draw(in: context)
+        context.restoreGState()
 
-        CGContextSetFillColorWithColor(context, darkColor.CGColor)
+        context.setFillColor(darkColor.cgColor)
         let dx: CGFloat = 1
         let dy: CGFloat = 0.5
-        CGContextMoveToPoint(context, size.width * 1/4 - dx, size.height * 1/8 - dy)
-        CGContextAddLineToPoint(context, size.width * 1/4 - dx, size.height * 7/8 + dy)
-        CGContextAddLineToPoint(context, size.width * 1/4 + dx, size.height * 7/8 - dy)
-        CGContextAddLineToPoint(context, size.width * 1/4 + dx, size.height * 1/8 + dy)
-        CGContextClosePath(context)
-        CGContextDrawPath(context, .Fill)
+        context.move(to: CGPoint(x: size.width * 1/4 - dx, y: size.height * 1/8 - dy))
+        context.addLine(to: CGPoint(x: size.width * 1/4 - dx, y: size.height * 7/8 + dy))
+        context.addLine(to: CGPoint(x: size.width * 1/4 + dx, y: size.height * 7/8 - dy))
+        context.addLine(to: CGPoint(x: size.width * 1/4 + dx, y: size.height * 1/8 + dy))
+        context.closePath()
+        context.drawPath(using: .fill)
     }
 
 }
@@ -90,19 +90,19 @@ class EnemyJetTransportArtist: EnemyJetArtist {
         size = CGSize(40)
     }
 
-    override func draw(context: CGContext) {
+    override func draw(in context: CGContext) {
 
-        CGContextSaveGState(context)
-        super.draw(context)
-        CGContextRestoreGState(context)
+        context.saveGState()
+        super.draw(in: context)
+        context.restoreGState()
 
-        CGContextSetLineWidth(context, 1.0)
-        CGContextSetStrokeColorWithColor(context, darkColor.CGColor)
-        CGContextMoveToPoint(context, size.width * 1/4, size.height * 1/8)
-        CGContextAddLineToPoint(context, size.width * 1/4, size.height * 7/8)
-        CGContextMoveToPoint(context, size.width * 3/8, size.height * 3/16)
-        CGContextAddLineToPoint(context, size.width * 3/8, size.height * 13/16)
-        CGContextDrawPath(context, .Stroke)
+        context.setLineWidth(1.0)
+        context.setStrokeColor(darkColor.cgColor)
+        context.move(to: CGPoint(x: size.width * 1/4, y: size.height * 1/8))
+        context.addLine(to: CGPoint(x: size.width * 1/4, y: size.height * 7/8))
+        context.move(to: CGPoint(x: size.width * 3/8, y: size.height * 3/16))
+        context.addLine(to: CGPoint(x: size.width * 3/8, y: size.height * 13/16))
+        context.drawPath(using: .stroke)
     }
 
 }

@@ -37,15 +37,15 @@ class BomberPowerupNode: Node {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
-    override func rotateTo(angle: CGFloat) {
+    override func rotateTo(_ angle: CGFloat) {
         rotateToComponent?.target = angle
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         let timeChunk = followPathComponent.totalTime / (CGFloat(initialBombCount) - 1)
         let timeCheck = timeChunk * CGFloat(initialBombCount - numBombs)
         if followPathComponent.time >= timeCheck {

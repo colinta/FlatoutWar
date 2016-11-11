@@ -10,7 +10,7 @@ class DroneNode: Node, DraggableNode {
     var radarUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
     var bulletUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
     var speedUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
-    private func updateUpgrades() {
+    fileprivate func updateUpgrades() {
         targetingComponent?.radius = radarUpgrade.droneRadarRadius
         targetingComponent?.bulletSpeed = bulletUpgrade.droneBulletSpeed
         draggableComponent?.speed = speedUpgrade.droneMovementSpeed
@@ -31,7 +31,7 @@ class DroneNode: Node, DraggableNode {
         }
     }
 
-    private func updateSprites() {
+    fileprivate func updateSprites() {
         sprite.textureId(.Drone(speedUpgrade: speedUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: healthComponent?.healthInt ?? 100))
         placeholder.textureId(.Drone(speedUpgrade: speedUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: 100))
         radar1.textureId(.DroneRadar(upgrade: radarUpgrade))
@@ -62,7 +62,7 @@ class DroneNode: Node, DraggableNode {
         self << placeholder
 
         placeholder.alpha = 0.5
-        placeholder.hidden = true
+        placeholder.isHidden = true
 
         let playerComponent = PlayerComponent()
         playerComponent.targetable = false
@@ -109,7 +109,7 @@ class DroneNode: Node, DraggableNode {
         addComponent(healthComponent)
 
         let touchableComponent = TouchableComponent()
-        touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest(.Square)
+        touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest(shape: .Square)
         addComponent(touchableComponent)
 
         let selectableComponent = SelectableComponent()
@@ -137,18 +137,18 @@ class DroneNode: Node, DraggableNode {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        touchableComponent?.containsTouchTest = TouchableComponent.defaultTouchTest(.Square)
-        cursor = coder.decode("cursor") ?? cursor
-        sprite = coder.decode("sprite") ?? sprite
+        touchableComponent?.containsTouchTest = TouchableComponent.defaultTouchTest(shape: .Square)
+        cursor = coder.decode(key: "cursor") ?? cursor
+        sprite = coder.decode(key: "sprite") ?? sprite
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
-        encoder.encode(cursor, key: "cursor")
-        encoder.encode(sprite, key: "sprite")
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
+        encoder.encode(cursor, forKey: "cursor")
+        encoder.encode(sprite, forKey: "sprite")
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         let phase: CGFloat
         if selectableComponent!.selected {
             phase = 0.9
@@ -183,7 +183,7 @@ class DroneNode: Node, DraggableNode {
 
 extension DroneNode {
 
-    func droneEnabled(isMoving isMoving: Bool) {
+    func droneEnabled(isMoving: Bool) {
         let died = healthComponent!.died
         self.selectableComponent!.enabled = !died
         self.draggableComponent!.enabled = !died
@@ -208,7 +208,7 @@ extension DroneNode {
 
 extension DroneNode {
 
-    private func fireBullet(angle angle: CGFloat) {
+    fileprivate func fireBullet(angle: CGFloat) {
         guard let world = world else {
             return
         }
@@ -218,7 +218,7 @@ extension DroneNode {
         bullet.position = self.position
 
         bullet.damage = bulletUpgrade.droneBulletDamage
-        bullet.size = BulletArtist.bulletSize(.False)
+        bullet.size = BulletArtist.bulletSize(upgrade: .False)
         bullet.zRotation = angle
         bullet.z = Z.Below
         ((parent as? Node) ?? world) << bullet
@@ -230,7 +230,7 @@ extension DroneNode {
 
 extension DroneNode {
 
-    func onSelected(selected: Bool) {
+    func onSelected(_ selected: Bool) {
         cursor.selected = selected
     }
 

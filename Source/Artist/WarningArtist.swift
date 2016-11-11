@@ -11,10 +11,10 @@ class WarningArtist: Artist {
         size = CGSize(10)
     }
 
-    override func draw(context: CGContext) {
-        CGContextSetLineWidth(context, 1)
-        CGContextSetFillColorWithColor(context, fill.CGColor)
-        CGContextSetStrokeColorWithColor(context, stroke.CGColor)
+    override func draw(in context: CGContext) {
+        context.setLineWidth(1)
+        context.setFillColor(fill.cgColor)
+        context.setStrokeColor(stroke.cgColor)
 
         let radius: CGFloat = 2
         let triRadius: CGFloat = size.height / 2 - radius
@@ -36,22 +36,22 @@ class WarningArtist: Artist {
             p1: c + CGPoint(r: 2 * radius, a: 5 * TAU_12),
             p2: c + CGPoint(r: radius, a: 7 * TAU_12)
             )
-        CGContextMoveToPoint(context, C.p2.x, C.p2.y)
-        CGContextAddArcToPoint(context, A.p1.x, A.p1.y, A.p2.x, A.p2.y, radius)
-        CGContextAddArcToPoint(context, B.p1.x, B.p1.y, B.p2.x, B.p2.y, radius)
-        CGContextAddArcToPoint(context, C.p1.x, C.p1.y, C.p2.x, C.p2.y, radius)
-        CGContextClosePath(context)
-        CGContextDrawPath(context, .Fill)
+        context.move(to: C.p2)
+        context.addArc(tangent1End: A.p1, tangent2End: A.p2, radius: radius)
+        context.addArc(tangent1End: B.p1, tangent2End: B.p2, radius: radius)
+        context.addArc(tangent1End: C.p1, tangent2End: C.p2, radius: radius)
+        context.closePath()
+        context.drawPath(using: .fill)
 
         let exHeight: CGFloat = 7
         let exDotHeight: CGFloat = 1
         let exOffset = exDotHeight / 2
-        CGContextTranslateCTM(context, 0, -exOffset)
-        CGContextMoveToPoint(context, center.x, center.y - exHeight / 2 )
-        CGContextAddLineToPoint(context, center.x, center.y + exHeight / 2 - 2 * exDotHeight )
-        CGContextMoveToPoint(context, center.x, center.y + exHeight / 2 - exDotHeight )
-        CGContextAddLineToPoint(context, center.x, center.y + exHeight / 2 )
-        CGContextDrawPath(context, .Stroke)
+        context.translateBy(x: 0, y: -exOffset)
+        context.move(to: CGPoint(x: center.x, y: center.y - exHeight / 2 ))
+        context.addLine(to: CGPoint(x: center.x, y: center.y + exHeight / 2 - 2 * exDotHeight ))
+        context.move(to: CGPoint(x: center.x, y: center.y + exHeight / 2 - exDotHeight ))
+        context.addLine(to: CGPoint(x: center.x, y: center.y + exHeight / 2 ))
+        context.drawPath(using: .stroke)
     }
 
 }

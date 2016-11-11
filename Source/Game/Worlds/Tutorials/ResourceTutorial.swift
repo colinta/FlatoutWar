@@ -16,10 +16,10 @@ class ResourceTutorial: Tutorial, ResourceWorld {
 
     var after2: Block!
 
-    override func didAdd(node: Node) {
+    override func didAdd(_ node: Node) {
         super.didAdd(node)
         if let enemyComponent = node.enemyComponent,
-            healthComponent = node.healthComponent
+            let healthComponent = node.healthComponent
         {
             healthComponent.onKilled {
                 self.experiencePercent.gain(enemyComponent.experience)
@@ -60,13 +60,13 @@ class ResourceTutorial: Tutorial, ResourceWorld {
         let resourceButton = Button()
         resourceButton.size = CGSize(60)
         resourceButton.touchableComponent?.on(.DragBegan) { location in
-            self.playerNode.onDragResourceBegan(.zero)
+            self.playerNode.onDragResourceBegan(at: .zero)
         }
         resourceButton.touchableComponent?.on(.DragMoved) { location in
-            self.playerNode.onDraggedResource(prev: .zero, location: location)
+            self.playerNode.onDraggedResource(from: .zero, to: location)
         }
         resourceButton.touchableComponent?.on(.DragEnded) { location in
-            self.playerNode.onDragResourceEnded(location)
+            self.playerNode.onDragResourceEnded(at: location)
         }
         resourceFound = { resourceNode in
             self.dragIndicator.fadeTo(0, rate: 3.333)
@@ -74,11 +74,11 @@ class ResourceTutorial: Tutorial, ResourceWorld {
         }
         self << resourceButton
 
-        timeline.after(1) {
+        timeline.after(time: 1) {
             self.showFirstDrag()
         }
 
-        timeline.after(3) {
+        timeline.after(time: 3) {
             var distOffset: CGFloat = 0
             30.times { (i: Int) in
                 let soldier = EnemySoldierNode()
@@ -108,7 +108,7 @@ class ResourceTutorial: Tutorial, ResourceWorld {
         resourceFound = { _ in }
     }
 
-    func playerFoundResource(resourceNode: ResourceNode) {
+    func playerFoundResource(node resourceNode: ResourceNode) {
         resourceNode.locked = true
         resourceNode.disableMovingComponents()
 
@@ -134,7 +134,7 @@ class ResourceTutorial: Tutorial, ResourceWorld {
         resourceFound(resourceNode)
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         dragIndicator.moveToComponent?.target = firstResource.position
     }
 

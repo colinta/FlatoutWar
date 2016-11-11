@@ -41,31 +41,31 @@ extension CGPoint {
         return CGFloat(pow(self.x, 2) + pow(self.y, 2))
     }
 
-    func roughDistanceTo(other: CGPoint) -> CGFloat {
+    func roughDistanceTo(_ other: CGPoint) -> CGFloat {
         return CGFloat(pow(other.x - self.x, 2) + pow(other.y - self.y, 2))
     }
 
-    func distanceTo(other: CGPoint) -> CGFloat {
+    func distanceTo(_ other: CGPoint) -> CGFloat {
         return CGFloat(sqrt(roughDistanceTo(other)))
     }
 
-    func distanceTo(other: CGPoint, within radius: CGFloat) -> Bool {
+    func distanceTo(_ other: CGPoint, within radius: CGFloat) -> Bool {
         return roughDistanceTo(other) <= pow(radius, 2)
     }
 
-    func lengthWithin(radius: CGFloat) -> Bool {
+    func lengthWithin(_ radius: CGFloat) -> Bool {
         return roughLength <= pow(radius, 2)
     }
 
-    func angleTo(point: CGPoint) -> CGFloat {
+    func angleTo(_ point: CGPoint) -> CGFloat {
         return CGFloat(atan2(point.y - self.y, point.x - self.x))
     }
 
-    func angleTo(point: CGPoint, around center: CGPoint) -> CGFloat {
+    func angleTo(_ point: CGPoint, around center: CGPoint) -> CGFloat {
         return CGFloat(atan2(point.y - center.y, point.x - center.x) - atan2(self.y - center.y, self.x - center.x))
     }
 
-    func ensureInside(rect: CGRect) -> CGPoint {
+    func ensureInside(_ rect: CGRect) -> CGPoint {
         if rect.contains(self) { return self }
 
         return CGPoint(
@@ -74,16 +74,8 @@ extension CGPoint {
         )
     }
 
-    func rect(size size: CGSize) -> CGRect {
-        return CGRect(x: x - size.width / 2, y: y - size.height / 2, width: size.width, height: size.height)
-    }
-
-    func rect(radius radius: CGFloat) -> CGRect {
-        return rect(size: CGSize(r: radius))
-    }
-
     // calculates a position between self and the target
-    func pointTowards(target: CGPoint, speed: CGFloat, dt: CGFloat, radius: CGFloat? = nil) -> CGPoint? {
+    func pointTowards(_ target: CGPoint, speed: CGFloat, dt: CGFloat, radius: CGFloat? = nil) -> CGPoint? {
         guard speed > 0 else {
             return pointTowards(target, speed: -speed, dt: dt, radius: radius)
         }
@@ -93,8 +85,9 @@ extension CGPoint {
             return nil
         }
 
-        if let radius = radius
-        where roughDistance < pow(radius, 2) {
+        if let radius = radius,
+            roughDistance < pow(radius, 2)
+        {
             return nil
         }
 
@@ -116,7 +109,7 @@ extension CGPoint {
         return self + CGPoint(r: dist, a: angle)
     }
 
-    static func average(locations: [CGPoint]) -> CGPoint {
+    static func average(_ locations: [CGPoint]) -> CGPoint {
         var retVal: CGPoint = .zero
         for location in locations {
             retVal.x += location.x / CGFloat(locations.count)
@@ -126,65 +119,70 @@ extension CGPoint {
     }
 }
 
-func +(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+func + (lhs: CGPoint, rhs: CGPoint) -> CGPoint {
     return CGPoint(
         x: lhs.x + rhs.x,
         y: lhs.y + rhs.y
     )
 }
 
-func -(lhs: CGPoint, rhs: CGPoint) -> CGPoint {
+func - (lhs: CGPoint, rhs: CGPoint) -> CGPoint {
     return CGPoint(
         x: lhs.x - rhs.x,
         y: lhs.y - rhs.y
     )
 }
 
-func +(lhs: CGPoint, rhs: CGSize) -> CGPoint {
+func + (lhs: CGPoint, rhs: CGSize) -> CGPoint {
     return CGPoint(
         x: lhs.x + rhs.width,
         y: lhs.y + rhs.height
     )
 }
 
-func -(lhs: CGPoint, rhs: CGSize) -> CGPoint {
+func - (lhs: CGPoint, rhs: CGSize) -> CGPoint {
     return CGPoint(
         x: lhs.x - rhs.width,
         y: lhs.y - rhs.height
     )
 }
 
-func +=(inout lhs: CGPoint, rhs: CGPoint) {
+func += (lhs: inout CGPoint, rhs: CGPoint) {
     lhs.x += rhs.x
     lhs.y += rhs.y
 }
 
-func -=(inout lhs: CGPoint, rhs: CGPoint) {
+func -= (lhs: inout CGPoint, rhs: CGPoint) {
     lhs.x -= rhs.x
     lhs.y -= rhs.y
 }
 
-func *=(inout lhs: CGPoint, scale: CGFloat) {
+func *= (lhs: inout CGPoint, scale: CGFloat) {
     lhs.x = lhs.x * scale
     lhs.y = lhs.y * scale
 }
 
-func *(lhs: CGPoint, rhs: CGSize) -> CGPoint {
+func /= (lhs: inout CGPoint, scale: CGFloat) {
+    lhs.x = lhs.x / scale
+    lhs.y = lhs.y / scale
+}
+
+func * (lhs: CGPoint, rhs: CGSize) -> CGPoint {
     return CGPoint(x: lhs.x * rhs.width, y: lhs.y * rhs.height)
 }
-func *(lhs: CGPoint, rhs: CGVector) -> CGPoint {
+func * (lhs: CGPoint, rhs: CGVector) -> CGPoint {
     return CGPoint(x: lhs.x * rhs.dx, y: lhs.y * rhs.dy)
 }
 
-func *(lhs: CGFloat, rhs: CGPoint) -> CGPoint { return rhs * lhs }
-func *(lhs: CGPoint, rhs: CGFloat) -> CGPoint {
+func * (lhs: CGFloat, rhs: CGPoint) -> CGPoint { return rhs * lhs }
+func * (lhs: CGPoint, rhs: CGFloat) -> CGPoint {
     return CGPoint(
         x: lhs.x * rhs,
         y: lhs.y * rhs
     )
 }
 
-func /(lhs: CGPoint, rhs: CGFloat) -> CGPoint {
+func / (lhs: CGPoint, rhs: CGFloat) -> CGPoint {
     return CGPoint(
         x: lhs.x / rhs,
         y: lhs.y / rhs

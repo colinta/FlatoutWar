@@ -14,11 +14,11 @@ class Turret {
     var rapidFireEnabled = false
     var reallySmart = false
 
-    func spriteId(bulletUpgrade bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade) -> ImageIdentifier {
+    func spriteId(bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade) -> ImageIdentifier {
         return .None
     }
 
-    func radarId(upgrade upgrade: HasUpgrade) -> ImageIdentifier {
+    func radarId(upgrade: HasUpgrade) -> ImageIdentifier {
         return .BaseRadar(upgrade: upgrade)
     }
 
@@ -53,7 +53,7 @@ class SimpleTurret: Turret {
         rapidFireEnabled = false
     }
 
-    override func spriteId(bulletUpgrade bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade) -> ImageIdentifier {
+    override func spriteId(bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade) -> ImageIdentifier {
         return .BaseSingleTurret(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade)
     }
 
@@ -68,11 +68,11 @@ class RapidTurret: Turret {
         rapidFireEnabled = true
     }
 
-    override func spriteId(bulletUpgrade bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade) -> ImageIdentifier {
+    override func spriteId(bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade) -> ImageIdentifier {
         return .BaseRapidTurret(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade)
     }
 
-    override func radarId(upgrade upgrade: HasUpgrade) -> ImageIdentifier {
+    override func radarId(upgrade: HasUpgrade) -> ImageIdentifier {
         return .ColorLine(length: upgrade.baseRadarRadius + 25, color: upgrade.baseRadarColor)
     }
 

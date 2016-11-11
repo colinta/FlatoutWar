@@ -10,12 +10,12 @@ class HourglassZoneArtist: Artist {
         size = CGSize(HourglassSize)
     }
 
-    override func draw(context: CGContext) {
+    override func draw(in context: CGContext) {
         let lineWidth: CGFloat = 1
-        CGContextSetLineWidth(context, lineWidth)
-        CGContextSetStrokeColorWithColor(context, color.CGColor)
-        CGContextAddEllipseInRect(context, CGRect(size: size))
-        CGContextDrawPath(context, .Stroke)
+        context.setLineWidth(lineWidth)
+        context.setStrokeColor(color.cgColor)
+        context.addEllipse(in: CGRect(size: size))
+        context.drawPath(using: .stroke)
     }
 
 }

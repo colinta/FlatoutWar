@@ -7,12 +7,12 @@ private enum PathSegment {
     case Line(CGPoint, CGPoint)
     case Quad(CGPoint, CGPoint, control: CGPoint)
 
-    func pointAt(t: CGFloat) -> CGPoint {
+    func pointAt(time t: CGFloat) -> CGPoint {
         switch self {
-        case let Start(pt): return pt
-        case let Line(pt1, pt2):
+        case let .Start(pt): return pt
+        case let .Line(pt1, pt2):
             return pt1 + (pt2 - pt1) * t
-        case let Quad(pt1, pt2, control):
+        case let .Quad(pt1, pt2, control):
             let m1 = pt1 + (control - pt1) * t
             let m2 = control + (pt2 - control) * t
             return m1 + (m2 - m1) * t
@@ -20,23 +20,23 @@ private enum PathSegment {
     }
 }
 
-private func pointsToBezierPath(points: [CGPoint]) -> UIBezierPath {
+private func pointsToBezierPath(_ points: [CGPoint]) -> UIBezierPath {
     let bezierPath = UIBezierPath()
     let segments = pointsToSegments(points)
     for segment in segments {
         switch segment {
         case let .Start(point):
-            bezierPath.moveToPoint(point)
+            bezierPath.move(to: point)
         case let .Line(_, point):
-            bezierPath.addLineToPoint(point)
+            bezierPath.addLine(to: point)
         case let .Quad(_, point, control):
-            bezierPath.addQuadCurveToPoint(point, controlPoint: control)
+            bezierPath.addQuadCurve(to: point, controlPoint: control)
         }
     }
     return bezierPath
 }
 
-private func pointsToSegments(points: [CGPoint]) -> [PathSegment] {
+private func pointsToSegments(_ points: [CGPoint]) -> [PathSegment] {
     var retVal: [PathSegment] = []
 
     var prevPoint: CGPoint?
@@ -62,13 +62,13 @@ private func pointsToSegments(points: [CGPoint]) -> [PathSegment] {
         prevPoint = point
     }
 
-    if let lastPoint = prevPoint, prevDest = prevDest {
+    if let lastPoint = prevPoint, let prevDest = prevDest {
         retVal << .Line(prevDest, lastPoint)
     }
     return retVal
 }
 
-private func segmentsToLengths(segments: [PathSegment]) -> [(PathSegment, CGFloat)] {
+private func segmentsToLengths(_ segments: [PathSegment]) -> [(PathSegment, CGFloat)] {
     var lengths: [(PathSegment, CGFloat)] = []
     for segment in segments {
         let length: CGFloat
@@ -87,7 +87,7 @@ private func segmentsToLengths(segments: [PathSegment]) -> [(PathSegment, CGFloa
 
 
 class PathDrawingNode: Node {
-    var pathFn: (t: CGFloat, v: CGFloat) -> CGPoint = { _ in return .zero }
+    var pathFn: ((t: CGFloat, v: CGFloat)) -> CGPoint = { _ in return .zero }
 
     required init() {
         super.init()
@@ -134,7 +134,7 @@ class PathDrawingNode: Node {
                 let segmentInfo = adjustedLengths.firstMatch { $0.cummulative > length }
                 if let segmentInfo = segmentInfo {
                     let t = 1 - (segmentInfo.cummulative - length) / segmentInfo.length
-                    return segmentInfo.segment.pointAt(t)
+                    return segmentInfo.segment.pointAt(time: t)
                 }
                 return .zero
             }
@@ -146,7 +146,7 @@ class PathDrawingNode: Node {
         super.init(coder: coder)
     }
 
-    private func reducePointsToLength(points: [CGPoint], max maxLength: CGFloat) -> [CGPoint] {
+    private func reducePointsToLength(_ points: [CGPoint], max maxLength: CGFloat) -> [CGPoint] {
         var retVal: [CGPoint] = []
         var totalLength: CGFloat = 0
         var index = points.count
@@ -163,21 +163,21 @@ class PathDrawingNode: Node {
                 if totalLength + length > maxLength {
                     let radius = maxLength - totalLength
                     let angle = prevPoint.angleTo(point)
-                    retVal.insert(prevPoint + CGPoint(r: radius, a: angle), atIndex: 0)
+                    retVal.insert(prevPoint + CGPoint(r: radius, a: angle), at: 0)
                     break
                 }
                 totalLength += length
             }
 
-            retVal.insert(point, atIndex: 0)
+            retVal.insert(point, at: 0)
             prevPoint = point
         }
 
         return retVal
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
 }

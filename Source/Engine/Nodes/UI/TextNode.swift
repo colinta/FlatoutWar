@@ -21,10 +21,10 @@ class TextNode: Node {
     var color: Int = WhiteColor {
         didSet { updateTextNodes() }
     }
-    var alignment: NSTextAlignment = .Center {
+    var alignment: NSTextAlignment = .center {
         didSet { updateTextNodes() }
     }
-    var margins: UIEdgeInsets = UIEdgeInsetsZero
+    var margins: UIEdgeInsets = .zero
 
     func calculateMargins() -> UIEdgeInsets {
         return self.margins
@@ -76,9 +76,9 @@ class TextNode: Node {
         var x: CGFloat
         let margins = calculateMargins()
         switch alignment {
-            case .Left:
+            case .left:
                 x = margins.left
-            case .Right:
+            case .right:
                 x = -size.width - margins.right
             default:
                 x = -size.width / 2

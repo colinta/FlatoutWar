@@ -25,17 +25,17 @@ class EnemyAttackExplosionNode: Node {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        phase = coder.decodeCGFloat("phase") ?? 0
-        sprites = coder.decode("sprites") ?? []
+        phase = coder.decodeCGFloat(key: "phase") ?? 0
+        sprites = coder.decode(key: "sprites") ?? []
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
-        encoder.encode(phase, key: "phase")
-        encoder.encode(sprites, key: "sprites")
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
+        encoder.encode(phase, forKey: "phase")
+        encoder.encode(sprites, forKey: "sprites")
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         phase += dt / duration
         guard phase <= 1 else {
             removeFromParent()
@@ -48,7 +48,7 @@ class EnemyAttackExplosionNode: Node {
         let length = min(distance, maxLength)
         let alpha = min(1, 4 * (1 - phase))
 
-        for (i, sprite) in sprites.enumerate() {
+        for (i, sprite) in sprites.enumerated() {
             let angle = 175.degrees + 10.degrees * CGFloat(i) / CGFloat(sprites.count - 1)
             sprite.textureId(.ColorLine(length: length, color: color))
             sprite.position = CGPoint(r: distance, a: angle)

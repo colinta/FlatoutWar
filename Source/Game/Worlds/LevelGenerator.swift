@@ -3,10 +3,9 @@
 //
 
 extension Level {
-    func generateWarning(screenAngles: CGFloat...) {
+    func generateWarning(_ screenAngles: CGFloat...) {
         let insetSize = SKSpriteNode(id: .Warning).size + CGSize(10)
-        let innerRect = CGRect.zero
-            .grow(by: size - insetSize)
+        let innerRect = CGRect(centerSize: size - insetSize)
         for screenAngle in screenAngles {
             let warning = Node()
             let sprite = SKSpriteNode(id: .Warning)
@@ -16,7 +15,7 @@ extension Level {
                 .ensureInside(innerRect)
             warning.addComponent(JiggleComponent(timeout: nil))
             warning.fadeTo(1, start: 0, duration: 1)
-            timeline.after(2) {
+            timeline.after(time: 2) {
                 warning.fadeTo(0, start: 1, duration: 1)
             }
             gameUI << warning
@@ -43,7 +42,7 @@ extension Level {
         }
     }
 
-    func generateResourceDrop(side: Side? = nil) -> Block {
+    func generateResourceDrop(_ side: Side? = nil) -> Block {
         if let side = side {
             return {
                 let resourceNode = ResourceNode(goal: 20)
@@ -69,8 +68,8 @@ extension Level {
 
                 startPosition += self.cameraNode.position
                 finalPosition += self.cameraNode.position
-                startPosition / min(self.xScale, 1)
-                finalPosition / min(self.xScale, 1)
+                // startPosition /= min(self.xScale, 1)
+                // finalPosition /= min(self.xScale, 1)
 
                 resourceNode.position = startPosition
                 resourceNode.moveTo(finalPosition, speed: 100, removeNode: true)
@@ -83,7 +82,7 @@ extension Level {
     }
 
 
-    func generateEnemy(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561, constRadius: Bool = false) -> Block {
+    func generateEnemy(_ genScreenAngle: CGFloat, spread: CGFloat = 0.087266561, constRadius: Bool = false) -> Block {
         return {
             var screenAngle = genScreenAngle
             if spread > 0 {
@@ -96,13 +95,13 @@ extension Level {
                 enemyNode.position = CGPoint(r: self.outerRadius, a: screenAngle)
             }
             else {
-                enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle)
+                enemyNode.position = self.outsideWorld(node: enemyNode, angle: screenAngle)
             }
             self << enemyNode
         }
     }
 
-    func generateSlowEnemy(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
+    func generateSlowEnemy(_ genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
         return {
             var screenAngle = genScreenAngle
             if spread > 0 {
@@ -110,12 +109,12 @@ extension Level {
             }
             let enemyNode = EnemySlowSoldierNode()
             enemyNode.name = "slow"
-            enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle)
+            enemyNode.position = self.outsideWorld(node: enemyNode, angle: screenAngle)
             self << enemyNode
         }
     }
 
-    func generateLeaderEnemy(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561, constRadius: Bool = false) -> Block {
+    func generateLeaderEnemy(_ genScreenAngle: CGFloat, spread: CGFloat = 0.087266561, constRadius: Bool = false) -> Block {
         return {
             var screenAngle = genScreenAngle
             if spread > 0 {
@@ -128,13 +127,13 @@ extension Level {
                 enemyNode.position = CGPoint(r: self.outerRadius, a: screenAngle)
             }
             else {
-                enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle)
+                enemyNode.position = self.outsideWorld(node: enemyNode, angle: screenAngle)
             }
             self << enemyNode
         }
     }
 
-    func generateScouts(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561, constRadius: Bool = false) -> Block {
+    func generateScouts(_ genScreenAngle: CGFloat, spread: CGFloat = 0.087266561, constRadius: Bool = false) -> Block {
         return {
             var screenAngle = genScreenAngle
             let d: CGFloat = 8
@@ -151,18 +150,18 @@ extension Level {
                     enemyNode.position = CGPoint(r: self.outerRadius, a: screenAngle) + dp
                 }
                 else {
-                    enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle) + dp
+                    enemyNode.position = self.outsideWorld(node: enemyNode, angle: screenAngle) + dp
                 }
                 self << enemyNode
             }
         }
     }
 
-    func generateJet(genScreenAngle: CGFloat, spread: CGFloat = 0) -> Block {
+    func generateJet(_ genScreenAngle: CGFloat, spread: CGFloat = 0) -> Block {
         return {
             let jet = EnemyJetNode()
             jet.name = "jet"
-            jet.position = self.outsideWorld(jet, angle: genScreenAngle)
+            jet.position = self.outsideWorld(node: jet, angle: genScreenAngle)
 
             let angle = normalizeAngle(jet.position.angle)
             let sizeAngle = self.size.angle
@@ -183,11 +182,11 @@ extension Level {
         }
     }
 
-    func generateBigJet(genScreenAngle: CGFloat, spread: CGFloat = 0) -> Block {
+    func generateBigJet(_ genScreenAngle: CGFloat, spread: CGFloat = 0) -> Block {
         return {
             let jet = EnemyBigJetNode()
             jet.name = "bigjet"
-            jet.position = self.outsideWorld(jet, angle: genScreenAngle)
+            jet.position = self.outsideWorld(node: jet, angle: genScreenAngle)
 
             let angle = normalizeAngle(jet.position.angle)
             let sizeAngle = self.size.angle
@@ -208,11 +207,11 @@ extension Level {
         }
     }
 
-    func generateBigJetWithFollowers(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
+    func generateBigJetWithFollowers(_ genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
         return {
             let jet = EnemyBigJetNode()
             jet.name = "bigjet leader"
-            jet.position = self.outsideWorld(jet, angle: genScreenAngle) + CGPoint(y: ±rand(spread))
+            jet.position = self.outsideWorld(node: jet, angle: genScreenAngle) + CGPoint(y: ±rand(spread))
             jet.rotateTowards(point: .zero)
             self << jet
 
@@ -224,14 +223,14 @@ extension Level {
                 let enemy = EnemyJetNode(at: location)
                 enemy.name = "bigjet follower"
                 enemy.rotateTo(prevNode.zRotation)
-                enemy.follow(prevNode, scatter: .None, component: FollowTargetComponent())
+                enemy.follow(leader: prevNode, scatter: .None, component: FollowTargetComponent())
                 self << enemy
                 prevNode = enemy
             }
         }
     }
 
-    func generateLeaderWithLinearFollowers(genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
+    func generateLeaderWithLinearFollowers(_ genScreenAngle: CGFloat, spread: CGFloat = 0.087266561) -> Block {
         return {
             var screenAngle = genScreenAngle
             if spread > 0 {
@@ -239,7 +238,7 @@ extension Level {
             }
             let dist: CGFloat = 25
             let enemyLeader = EnemyLeaderNode()
-            let leaderPosition = self.outsideWorld(enemyLeader, angle: screenAngle)
+            let leaderPosition = self.outsideWorld(node: enemyLeader, angle: screenAngle)
             enemyLeader.position = leaderPosition
             enemyLeader.rotateTowards(point: .zero)
             enemyLeader.name = "linear leader"
@@ -250,13 +249,13 @@ extension Level {
                 let enemy = EnemySoldierNode(at: location)
                 enemy.name = "linear soldier"
                 enemy.rotateTo(enemyLeader.zRotation)
-                enemy.follow(enemyLeader)
+                enemy.follow(leader: enemyLeader)
                 self << enemy
             }
         }
     }
 
-    func generateEnemyGhost(mimic mimic: Node, angle screenAngle: CGFloat, extra: CGFloat = 0) -> Node {
+    func generateEnemyGhost(mimic: Node, angle screenAngle: CGFloat, extra: CGFloat = 0) -> Node {
         let position = outsideWorld(extra: extra, angle: screenAngle)
         let enemyGhost = Node(at: position)
         let sprite = SKNode.size(mimic.size)

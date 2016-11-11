@@ -3,18 +3,18 @@
 //
 
 class PulsePowerupArtist: PowerupArtist {
-    override func draw(context: CGContext) {
-        super.draw(context)
+    override func draw(in context: CGContext) {
+        super.draw(in: context)
 
         let pulseRadii: [CGFloat] = [
             15,
             12,
             7.5,
         ]
-        CGContextTranslateCTM(context, middle.x, middle.y)
+        context.translateBy(x: middle.x, y: middle.y)
         for pulseRadius in pulseRadii {
-            CGContextAddEllipseInRect(context, CGPoint.zero.rect(size: CGSize(r: pulseRadius)))
-            CGContextDrawPath(context, .FillStroke)
+            context.addEllipse(in: CGRect(center: CGPoint.zero, size: CGSize(r: pulseRadius)))
+            context.drawPath(using: .fillStroke)
         }
     }
 

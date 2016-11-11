@@ -14,7 +14,10 @@ func <<(lhs: SKNode, rhs: SKNode) {
     lhs.addChild(rhs)
 }
 
-func << <EC1 : RangeReplaceableCollectionType, EC2 : Any where EC1.Generator.Element == EC2>(inout lhs: EC1, rhs: EC2) -> EC1 {
+@discardableResult
+func << <EC1 : RangeReplaceableCollection, EC2 : Any>(lhs: inout EC1, rhs: EC2) -> EC1
+    where EC2 == EC1.Iterator.Element
+{
     lhs.append(rhs)
     return lhs
 }

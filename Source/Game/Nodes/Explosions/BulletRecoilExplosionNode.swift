@@ -25,17 +25,17 @@ class BulletRecoilExplosionNode: Node {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        phase = coder.decodeCGFloat("phase") ?? 0
-        sprites = coder.decode("sprites") ?? []
+        phase = coder.decodeCGFloat(key: "phase") ?? 0
+        sprites = coder.decode(key: "sprites") ?? []
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
-        encoder.encode(phase, key: "phase")
-        encoder.encode(sprites, key: "sprites")
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
+        encoder.encode(phase, forKey: "phase")
+        encoder.encode(sprites, forKey: "sprites")
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         phase += dt / duration
         guard phase <= 1 else {
             removeFromParent()
@@ -47,7 +47,7 @@ class BulletRecoilExplosionNode: Node {
         let length = min(2 * distance, maxLength)
         let alpha = min(1, 4 * (1 - phase))
 
-        for (i, sprite) in sprites.enumerate() {
+        for (i, sprite) in sprites.enumerated() {
             let angle = 135.degrees + 90.degrees * CGFloat(i) / CGFloat(sprites.count - 1)
             sprite.textureId(.HueLine(length: length, hue: hue))
             sprite.position = CGPoint(r: distance, a: angle)

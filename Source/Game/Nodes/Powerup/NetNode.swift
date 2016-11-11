@@ -21,11 +21,11 @@ class NetNode: Node {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         sprite.textureId(.Net(phase: Int(phaseComponent!.phase * 100)))
 
         if let world = world {

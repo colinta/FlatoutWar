@@ -2,27 +2,24 @@
 ///  FreeMethods.swift
 //
 
-public func inBackground(block: Block) {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), block)
+public func inBackground(_ block: @escaping Block) {
+    DispatchQueue.global(qos: .userInitiated).async(execute: block)
 }
 
-public func inForeground(block: Block) {
-    dispatch_async(dispatch_get_main_queue(), block)
+public func inForeground(_ block: @escaping Block) {
+    DispatchQueue.main.async(execute: block)
 }
 
 public typealias Block = () -> Void
 public typealias ConditionBlock = () -> Bool
-public typealias ThrottledBlock = (dt: CGFloat, Block) -> Void
-public typealias CancellableBlock = Bool -> Void
+public typealias ThrottledBlock = (CGFloat, Block) -> Void
+public typealias CancellableBlock = (Bool) -> Void
 public typealias TakesIndexBlock = (Int) -> Void
 
 
-infix operator ++ {
-    associativity left
-    precedence 150
-}
+infix operator ++ : AdditionPrecedence
 
-func ++(lhs: Block, rhs: Block) -> Block {
+func ++ (lhs: @escaping Block, rhs: @escaping Block) -> Block {
     return {
         lhs()
         rhs()
@@ -33,7 +30,7 @@ func ++(lhs: Block, rhs: Block) -> Block {
 public class Proc {
     var block: Block
 
-    public init(_ block: Block) {
+    public init(_ block: @escaping Block) {
         self.block = block
     }
 
@@ -44,15 +41,15 @@ public class Proc {
 }
 
 
-public func times(times: Int, @noescape block: Block) {
+public func times(_ times: Int, block: Block) {
     times_(times) { (index: Int) in block() }
 }
 
-public func times(times: Int, @noescape block: TakesIndexBlock) {
+public func times(_ times: Int, block: TakesIndexBlock) {
     times_(times, block: block)
 }
 
-private func times_(times: Int, @noescape block: TakesIndexBlock) {
+private func times_(_ times: Int, block: TakesIndexBlock) {
     if times <= 0 {
         return
     }
@@ -64,16 +61,16 @@ private func times_(times: Int, @noescape block: TakesIndexBlock) {
 }
 
 extension Int {
-    public func times(@noescape block: Block) {
+    public func times(_ block: Block) {
         times_(self) { (index: Int) in block() }
     }
 
-    public func times(@noescape block: TakesIndexBlock) {
+    public func times(_ block: TakesIndexBlock) {
         times_(self, block: block)
     }
 }
 
-public func afterN(block: Block) -> (() -> Block) {
+public func afterN(_ block: @escaping Block) -> (() -> Block) {
     var remaining = 0
     return {
         remaining += 1
@@ -86,7 +83,7 @@ public func afterN(block: Block) -> (() -> Block) {
     }
 }
 
-public func after(times: Int, _ block: Block) -> Block {
+public func after(_ times: Int, _ block: @escaping Block) -> Block {
     if times == 0 {
         block()
         return {}
@@ -101,7 +98,7 @@ public func after(times: Int, _ block: Block) -> Block {
     }
 }
 
-public func until(times: Int, block: Block) -> Block {
+public func until(_ times: Int, block: @escaping Block) -> Block {
     if times == 0 {
         return {}
     }
@@ -115,11 +112,11 @@ public func until(times: Int, block: Block) -> Block {
     }
 }
 
-public func once(block: Block) -> Block {
+public func once(_ block: @escaping Block) -> Block {
     return until(1, block: block)
 }
 
-public func timeout(duration: NSTimeInterval, block: Block) -> Block {
+public func timeout(_ duration: TimeInterval, block: @escaping Block) -> Block {
     let handler = once(block)
     _ = delay(duration) {
         handler()
@@ -127,17 +124,17 @@ public func timeout(duration: NSTimeInterval, block: Block) -> Block {
     return handler
 }
 
-public func delay(duration: NSTimeInterval, block: Block) {
+public func delay(_ duration: TimeInterval, block: @escaping Block) {
     let proc = Proc(block)
-    _ = NSTimer.scheduledTimerWithTimeInterval(duration, target: proc, selector: #selector(Proc.run), userInfo: nil, repeats: false)
+    _ = Timer.scheduledTimer(timeInterval: duration, target: proc, selector: #selector(Proc.run), userInfo: nil, repeats: false)
 }
 
-public func delay(duration: NSTimeInterval) -> ThrottledBlock {
+public func delay(_ duration: TimeInterval) -> ThrottledBlock {
     var countdown = duration
     var ranOnce = false
     return { (dt, block) in
         if !ranOnce {
-            countdown -= NSTimeInterval(dt)
+            countdown -= TimeInterval(dt)
             if countdown <= 0 {
                 ranOnce = true
                 block()
@@ -146,11 +143,11 @@ public func delay(duration: NSTimeInterval) -> ThrottledBlock {
     }
 }
 
-public func throttle(every: NSTimeInterval) -> ThrottledBlock {
+public func throttle(_ every: TimeInterval) -> ThrottledBlock {
     var countdown = every
 
     return { (dt, block) in
-        countdown -= NSTimeInterval(dt)
+        countdown -= TimeInterval(dt)
         if countdown <= 0 {
             countdown = every
             block()
@@ -158,7 +155,7 @@ public func throttle(every: NSTimeInterval) -> ThrottledBlock {
     }
 }
 
-public func justOnce(key: String, block: Block) {
+public func justOnce(_ key: String, block: Block) {
     if Defaults["JustOnce-\(key)"].bool != true {
         Defaults["JustOnce-\(key)"] = true
         block()

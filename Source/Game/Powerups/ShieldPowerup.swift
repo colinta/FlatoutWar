@@ -13,8 +13,8 @@ class ShieldPowerup: Powerup {
         super.init(count: count)
     }
 
-    override func activate(level: World, layer: SKNode, playerNode: Node, completion: Block = {}) {
-        super.activate(level, layer: layer, playerNode: playerNode)
+    override func activate(level: World, layer: SKNode, playerNode: Node, completion: @escaping Block = {}) {
+        super.activate(level: level, layer: layer, playerNode: playerNode)
 
         let node = ShieldNode(at: playerNode.position)
         node.scaleTo(1, start: 0, duration: 1)

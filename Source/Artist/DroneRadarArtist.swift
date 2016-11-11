@@ -16,12 +16,12 @@ class DroneRadarArtist: Artist {
         fatalError("init() has not been implemented")
     }
 
-    override func draw(context: CGContext) {
-        CGContextSetStrokeColorWithColor(context, UIColor(hex: color).CGColor)
-        CGContextSetLineWidth(context, lineWidth)
+    override func draw(in context: CGContext) {
+        context.setStrokeColor(UIColor(hex: color).cgColor)
+        context.setLineWidth(lineWidth)
 
-        CGContextAddEllipseInRect(context, middle.rect(size: size))
-        CGContextDrawPath(context, .Stroke)
+        context.addEllipse(in: CGRect(center: middle, size: size))
+        context.drawPath(using: .stroke)
     }
 }
 

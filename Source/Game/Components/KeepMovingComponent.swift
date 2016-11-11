@@ -15,15 +15,15 @@ class KeepMovingComponent: ApplyToNodeComponent {
     }
 
     required init?(coder: NSCoder) {
-        velocity = coder.decodePoint("velocity") ?? .zero
+        velocity = coder.decodePoint(key: "velocity") ?? .zero
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         apply { applyTo in
             applyTo.position = applyTo.position + dt * self.velocity
         }

@@ -36,7 +36,7 @@ class StartupWorld: World {
 
         timeline.at(10) {
             let enemy = EnemySoldierNode()
-            enemy.position = self.outsideWorld(enemy, angle: 135.degrees)
+            enemy.position = self.outsideWorld(node: enemy, angle: 135.degrees)
             enemy.zRotation = 0
             self << enemy
         }
@@ -96,7 +96,7 @@ class StartupWorld: World {
         }
     }
 
-    override func didAdd(node: Node) {
+    override func didAdd(_ node: Node) {
         super.didAdd(node)
         if node.isEnemy || node.isPlayer || node.isProjectile {
             node.alpha = playerNode.alpha
@@ -130,7 +130,8 @@ class StartupWorld: World {
         }
     }
 
-    func spawn(_radius: CGFloat? = nil) -> EnemySoldierNode {
+    @discardableResult
+    func spawn(_ _radius: CGFloat? = nil) -> EnemySoldierNode {
         let radius = (_radius ?? outerRadius / xScale)
         let enemyNode = EnemySoldierNode()
         enemyNode.position = CGPoint(r: radius, a: rand(TAU))
@@ -139,7 +140,8 @@ class StartupWorld: World {
         return enemyNode
     }
 
-    func spawnGiant(_radius: CGFloat? = nil) -> EnemySoldierNode {
+    @discardableResult
+    func spawnGiant(_ _radius: CGFloat? = nil) -> EnemySoldierNode {
         let radius = (_radius ?? outerRadius / xScale)
         let enemyNode = EnemyGiantNode()
         enemyNode.position = CGPoint(r: radius, a: rand(TAU))

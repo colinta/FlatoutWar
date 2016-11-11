@@ -27,14 +27,14 @@ class TurretArtist: Artist {
         return offset
     }
 
-    override func draw(context: CGContext) {
-        CGContextSetShadowWithColor(context, .zero, 5, baseColor.CGColor)
-        CGContextSetFillColorWithColor(context, baseColor.CGColor)
-        CGContextTranslateCTM(context, middle.x, middle.y)
+    override func draw(in context: CGContext) {
+        context.setShadow(offset: .zero, blur: 5, color: baseColor.cgColor)
+        context.setFillColor(baseColor.cgColor)
+        context.translateBy(x: middle.x, y: middle.y)
 
-        CGContextSaveGState(context)
-        CGContextScaleCTM(context, 0.9, 0.9)
-        let pointCount = 5 + (upgrade ? 3 : 0)
+        context.saveGState()
+        context.scaleBy(x: 0.9, y: 0.9)
+        let pointCount = 5 + (upgrade.boolValue ? 3 : 0)
         let angleDelta = TAU / CGFloat(pointCount)
         let radius = size.width / 2
         var first = true
@@ -43,44 +43,44 @@ class TurretArtist: Artist {
                 let angle = angleDelta * CGFloat(i)
                 let point = CGPoint(r: radius, a: angle)
                 if first {
-                    CGContextMoveToPoint(context, point.x, point.y)
+                    context.move(to: point)
                     first = false
                 }
                 else {
-                    CGContextAddLineToPoint(context, point.x, point.y)
+                    context.addLine(to: point)
                 }
             }
-            CGContextClosePath(context)
-            CGContextDrawPath(context, .Fill)
+            context.closePath()
+            context.drawPath(using: .fill)
         }
         else {
-            CGContextSetAlpha(context, 0.5)
+            context.setAlpha(0.5)
             for i in 0..<pointCount {
                 let angle = angleDelta * CGFloat(i)
                 let point = CGPoint(r: radius, a: angle)
                 if first {
-                    CGContextMoveToPoint(context, point.x, point.y)
+                    context.move(to: point)
                     first = false
                 }
                 else {
-                    CGContextAddLineToPoint(context, point.x, point.y)
+                    context.addLine(to: point)
                 }
             }
-            CGContextClosePath(context)
-            CGContextDrawPath(context, .Fill)
+            context.closePath()
+            context.drawPath(using: .fill)
 
-            CGContextSetAlpha(context, 1)
+            context.setAlpha(1)
             let healthAngle = health * TAU
             first = true
             for i in 0..<pointCount {
                 let angle = angleDelta * CGFloat(i)
                 let point = CGPoint(r: radius, a: angle)
                 if first {
-                    CGContextMoveToPoint(context, point.x, point.y)
+                    context.move(to: point)
                     first = false
                 }
                 else {
-                    CGContextAddLineToPoint(context, point.x, point.y)
+                    context.addLine(to: point)
                 }
 
                 if angle + angleDelta > healthAngle {
@@ -89,20 +89,20 @@ class TurretArtist: Artist {
                         x: interpolate(healthAngle - angle, from: (0, angleDelta), to: (point.x, healthPoint.x)),
                         y: interpolate(healthAngle - angle, from: (0, angleDelta), to: (point.y, healthPoint.y))
                         )
-                    CGContextAddLineToPoint(context, interPoint.x, interPoint.y)
-                    CGContextAddLineToPoint(context, 0, 0)
+                    context.addLine(to: interPoint)
+                    context.addLine(to: .zero)
                     break
                 }
             }
-            CGContextClosePath(context)
-            CGContextDrawPath(context, .Fill)
+            context.closePath()
+            context.drawPath(using: .fill)
         }
-        CGContextRestoreGState(context)
+        context.restoreGState()
 
-        CGContextSetFillColorWithColor(context, turretColor.CGColor)
-        CGContextSetLineWidth(context, 2)
-        CGContextAddRect(context, CGRect(x: -2, y: -2, width: size.width / 2 + 2, height: 4))
-        CGContextDrawPath(context, .Fill)
+        context.setFillColor(turretColor.cgColor)
+        context.setLineWidth(2)
+        context.addRect(CGRect(x: -2, y: -2, width: size.width / 2 + 2, height: 4))
+        context.drawPath(using: .fill)
     }
 
 }

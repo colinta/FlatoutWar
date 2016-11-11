@@ -76,7 +76,7 @@ class TutorialLevel6: TutorialLevel {
         timeline.every(1.5...2.5, start: .Delayed(), times: 8, block: generateEnemy(wave2))
     }
 
-    func generateEnemyColumn(screenAngle: CGFloat) -> Block {
+    func generateEnemyColumn(_ screenAngle: CGFloat) -> Block {
         return {
             let ghost = self.generateEnemyGhost(mimic: EnemySoldierNode(), angle: screenAngle, extra: 10)
             ghost.name = "pair ghost"
@@ -99,18 +99,18 @@ class TutorialLevel6: TutorialLevel {
                     let enemy = EnemySoldierNode(at: origin)
                     enemy.name = "soldier"
                     enemy.rotateTo(ghost.zRotation)
-                    enemy.follow(ghost)
+                    enemy.follow(leader: ghost)
                     self << enemy
                 }
             }
         }
     }
 
-    func generateGiant(screenAngle: CGFloat) -> Block {
+    func generateGiant(_ screenAngle: CGFloat) -> Block {
         return {
             let enemyNode = EnemyGiantNode()
             enemyNode.name = "giant"
-            enemyNode.position = self.outsideWorld(enemyNode, angle: screenAngle)
+            enemyNode.position = self.outsideWorld(node: enemyNode, angle: screenAngle)
             self << enemyNode
         }
     }

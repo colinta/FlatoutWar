@@ -5,10 +5,10 @@
 class AutoFireTutorial: Tutorial {
     let experiencePercent = ExperiencePercent(goal: 5)
 
-    override func didAdd(node: Node) {
+    override func didAdd(_ node: Node) {
         super.didAdd(node)
         if let enemyComponent = node.enemyComponent,
-            healthComponent = node.healthComponent
+            let healthComponent = node.healthComponent
         {
             healthComponent.onKilled {
                 self.experiencePercent.gain(enemyComponent.experience)
@@ -40,7 +40,7 @@ class AutoFireTutorial: Tutorial {
             (start: CGPoint(r: 150, a: -90.degrees), end: CGPoint(r: 100, a: -90.degrees)),
             (start: CGPoint(r: 160, a: -100.degrees), end: CGPoint(r: 110, a: -100.degrees)),
         ]
-        showEnemies(enemyLocations)
+        showEnemies(at: enemyLocations)
     }
 
     func showFirstButton() {
@@ -82,7 +82,7 @@ class AutoFireTutorial: Tutorial {
             enemyNode.addComponent(moveTo)
         }
 
-        timeline.after(1) {
+        timeline.after(time: 1) {
             self.showSecondButton()
         }
     }

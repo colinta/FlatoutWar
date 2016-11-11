@@ -17,9 +17,9 @@ class EnemyTargetingComponent: Component {
     var currentTargetVector: CGPoint?
     var currentTargetPrevLocation: CGPoint?
 
-    typealias OnTargetAcquired = (target: Node?) -> Void
+    typealias OnTargetAcquired = ((target: Node?)) -> Void
     var _onTargetAcquired: [OnTargetAcquired] = []
-    func onTargetAcquired(handler: OnTargetAcquired) { _onTargetAcquired << handler }
+    func onTargetAcquired(_ handler: @escaping OnTargetAcquired) { _onTargetAcquired.append(handler) }
 
     override func reset() {
         super.reset()
@@ -35,32 +35,32 @@ class EnemyTargetingComponent: Component {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         let prevTarget = currentTarget
-        if let enemy = currentTarget
-            where !isViableTarget(enemy)
+        if let enemy = currentTarget,
+            !isViableTarget(enemy)
         {
             currentTarget = nil
         }
 
         let isRotating = node.rotateToComponent?.isRotating ?? false
-        if let world = node.world where currentTarget == nil && !isRotating {
-            acquireTarget(world)
+        if let world = node.world, currentTarget == nil, !isRotating {
+            acquireTarget(world: world)
         }
 
         if prevTarget != currentTarget {
             for handler in _onTargetAcquired {
-                handler(target: currentTarget)
+                handler(currentTarget)
             }
         }
 
         if let prevLocation = currentTargetPrevLocation,
-            currentLocation = currentTarget?.position
-        where reallySmart
+            let currentLocation = currentTarget?.position,
+            reallySmart
         {
             currentTargetVector = (currentLocation - prevLocation) / dt
         }
@@ -68,11 +68,12 @@ class EnemyTargetingComponent: Component {
         currentTargetPrevLocation = currentTarget?.position
     }
 
-    func isViableTarget(enemy: Node) -> Bool {
+    func isViableTarget(_ enemy: Node) -> Bool {
         guard let radius = radius,
-            world = node.world
-            where world.enemies.contains(enemy) && enemy.enemyComponent!.targetable else
-        {
+            let world = node.world,
+            world.enemies.contains(enemy),
+            enemy.enemyComponent!.targetable
+        else {
             return false
         }
 
@@ -110,12 +111,12 @@ class EnemyTargetingComponent: Component {
 
         if reallySmart {
             if let currentVector = currentTargetVector,
-                parent = currentTarget.parent,
-                bulletSpeed = bulletSpeed
+                let parent = currentTarget.parent,
+                let bulletSpeed = bulletSpeed
             {
                 let time = node.distanceTo(currentTarget) / bulletSpeed
                 let predictedPosition = currentTarget.position + currentVector * time
-                let relativePosition = node.convertPoint(predictedPosition, fromNode: parent)
+                let relativePosition = node.convert(predictedPosition, from: parent)
                 return relativePosition.angle
             }
             return nil
@@ -125,8 +126,8 @@ class EnemyTargetingComponent: Component {
     }
 
     private func acquireTarget(world: World) {
-        if let currentTarget = currentTarget
-        where currentTarget.world != node.world
+        if let currentTarget = currentTarget,
+            currentTarget.world != node.world
         {
             self.currentTarget = nil
         }

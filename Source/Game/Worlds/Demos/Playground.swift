@@ -9,7 +9,7 @@ class Playground: World {
         let buttons = drone.availableUpgrades(world: self)
         var x: CGFloat = -75
         let dx: CGFloat = 75
-        for button in buttons {
+        for (button, label) in buttons {
             button.position = CGPoint(x: x)
             self << button
             x += dx
@@ -22,7 +22,7 @@ class Playground: World {
     override func worldShook() {
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
     }
 
     func letters() {

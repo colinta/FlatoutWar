@@ -18,12 +18,13 @@ class TouchEmulationComponent: Component {
         }
         set {
             if let currentPosition = currentPosition,
-                world = node.world
-            where _targets.count > 0 {
+                let world = node.world,
+                _targets.count > 0
+            {
                 touchEnded(world, position: currentPosition)
             }
 
-            if let target = newValue.first where newValue.count == 1 {
+            if let target = newValue.first, newValue.count == 1 {
                 _targets = [target, target]
             }
             else {
@@ -31,7 +32,7 @@ class TouchEmulationComponent: Component {
             }
 
             if let first = _targets.first {
-                _targets.removeAtIndex(0)
+                _targets.remove(at: 0)
                 currentPosition = first
             }
             else {
@@ -61,7 +62,7 @@ class TouchEmulationComponent: Component {
 
     typealias OnArrived = () -> Void
     private var _onArrived: [OnArrived] = []
-    func onArrived(handler: OnArrived) {
+    func onArrived(_ handler: @escaping OnArrived) {
         _onArrived << handler
     }
 
@@ -87,7 +88,7 @@ class TouchEmulationComponent: Component {
         _onArrived = []
     }
 
-    func tap(position: CGPoint) {
+    func tap(at position: CGPoint) {
         guard let world = node.world else { return }
         guard !touching && _targets.count == 0 else { fatalError("tap can only be called if targets is empty") }
         touchBegan(world, position: position)
@@ -95,7 +96,7 @@ class TouchEmulationComponent: Component {
         touchEnded(world, position: position)
     }
 
-    func press(position: CGPoint) {
+    func press(at position: CGPoint) {
         guard let world = node.world else { return }
         guard !touching && _targets.count == 0 else { fatalError("press can only be called if targets is empty") }
         touchBegan(world, position: position)
@@ -103,10 +104,10 @@ class TouchEmulationComponent: Component {
         touchEnded(world, position: position)
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         guard let currentTarget = targets.first,
-            currentPosition = currentPosition,
-            world = node.world
+            let currentPosition = currentPosition,
+            let world = node.world
         else {
             return
         }
@@ -130,7 +131,7 @@ class TouchEmulationComponent: Component {
         }
 
         if currentPosition.distanceTo(currentTarget, within: dt * speed) {
-            targets.removeAtIndex(0)
+            targets.remove(at: 0)
 
             if let nextTarget = targets.first {
                 let remTime = dt - currentPosition.distanceTo(currentTarget) / speed
@@ -170,7 +171,7 @@ class TouchEmulationComponent: Component {
         }
     }
 
-    private func touchUpdate(world: World, position: CGPoint) {
+    private func touchUpdate(_ world: World, position: CGPoint) {
         if !touching {
             touchBegan(world, position: position)
             touching = true
@@ -182,11 +183,11 @@ class TouchEmulationComponent: Component {
         }
     }
 
-    private func touchBegan(world: World, position: CGPoint) {
+    private func touchBegan(_ world: World, position: CGPoint) {
         world.worldTouchBegan(id, worldLocation: position)
     }
 
-    private func touchEnded(world: World, position: CGPoint) {
+    private func touchEnded(_ world: World, position: CGPoint) {
         if dragging {
             dragEnded(world, position: position)
         }
@@ -195,15 +196,15 @@ class TouchEmulationComponent: Component {
         dragging = false
     }
 
-    private func dragBegan(world: World, position: CGPoint) {
+    private func dragBegan(_ world: World, position: CGPoint) {
         world.worldDraggingBegan(id, worldLocation: position)
     }
 
-    private func dragMoved(world: World, position: CGPoint) {
+    private func dragMoved(_ world: World, position: CGPoint) {
         world.worldDraggingMoved(id, worldLocation: position)
     }
 
-    private func dragEnded(world: World, position: CGPoint) {
+    private func dragEnded(_ world: World, position: CGPoint) {
         world.worldDraggingEnded(id, worldLocation: position)
     }
 

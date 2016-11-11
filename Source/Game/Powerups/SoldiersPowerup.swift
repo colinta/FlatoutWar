@@ -15,8 +15,8 @@ class SoldiersPowerup: Powerup {
         self.timeout = 30
     }
 
-    override func activate(level: World, layer: SKNode, playerNode: Node, completion: Block = {}) {
-        super.activate(level, layer: layer, playerNode: playerNode)
+    override func activate(level: World, layer: SKNode, playerNode: Node, completion: @escaping Block = {}) {
+        super.activate(level: level, layer: layer, playerNode: playerNode)
 
         let numSoldiers = 4
         numSoldiers.times { (i: Int) in

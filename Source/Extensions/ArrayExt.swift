@@ -3,20 +3,24 @@
 //
 
 
-extension SequenceType {
+extension Sequence {
 
-    func any(@noescape test: (el: Generator.Element) -> Bool) -> Bool {
+    func none(_ test: (_ el: Iterator.Element) -> Bool) -> Bool {
+        return !any(test)
+    }
+
+    func any(_ test: (_ el: Iterator.Element) -> Bool) -> Bool {
         for ob in self {
-            if test(el: ob) {
+            if test(ob) {
                 return true
             }
         }
         return false
     }
 
-    func all(test: (el: Generator.Element) -> Bool) -> Bool {
+    func all(_ test: (_ el: Iterator.Element) -> Bool) -> Bool {
         for ob in self {
-            if !test(el: ob) {
+            if !test(ob) {
                 return false
             }
         }
@@ -26,42 +30,42 @@ extension SequenceType {
 }
 
 extension Array {
-    typealias MatcherFn = (el: Element) -> Bool
+    typealias MatcherFn = (Element) -> Bool
 
-    func get(index: Int) -> Element? {
-        return (startIndex..<endIndex).contains(index) ? self[index] : .None
+    func get(_ index: Int) -> Element? {
+        return (startIndex..<endIndex).contains(index) ? self[index] : .none
     }
 
-    func zip<T>(array: [T]) -> [(Element, T)] {
+    func zip<T>(_ array: [T]) -> [(Element, T)] {
         var retVal: [(Element, T)] = []
-        for (index, item) in array.enumerate() {
+        for (index, item) in array.enumerated() {
             retVal.append((self[index], item))
         }
         return retVal
     }
 
-    func firstMatch(@noescape test: MatcherFn) -> Element? {
+    func firstMatch(_ test: MatcherFn) -> Element? {
         for ob in self {
-            if test(el: ob) {
+            if test(ob) {
                 return ob
             }
         }
         return nil
     }
 
-    func lastMatch(@noescape test: MatcherFn) -> Element? {
+    func lastMatch(_ test: MatcherFn) -> Element? {
         var match: Element?
         for ob in self {
-            if test(el: ob) {
+            if test(ob) {
                 match = ob
             }
         }
         return match
     }
 
-    func all(@noescape test: MatcherFn) -> Bool {
+    func all(_ test: MatcherFn) -> Bool {
         for ob in self {
-            if !test(el: ob) {
+            if !test(ob) {
                 return false
             }
         }
@@ -74,12 +78,12 @@ extension Array {
         return self[i]
     }
 
-    func randWeighted(weightFn: (Element) -> Float) -> Element? {
+    func randWeighted(_ weightFn: (Element) -> Float) -> Element? {
         guard count > 0 else { return nil }
         let weights = self.map { weightFn($0) }
-        let totalWeight: Float = weights.reduce(0, combine: +)
+        let totalWeight: Float = weights.reduce(0, +)
         var rnd: Float = Float(drand48() * Double(totalWeight))
-        for (i, el) in self.enumerate() {
+        for (i, el) in self.enumerated() {
             rnd -= weights[i]
             if rnd < 0 {
                 return el
@@ -90,18 +94,18 @@ extension Array {
 
 }
 
-extension RangeReplaceableCollectionType {
-    mutating func removeMatches(@noescape test: (el: Generator.Element) -> Bool) {
-        while let index = self.indexOf(test) {
-            removeAtIndex(index)
+extension RangeReplaceableCollection {
+    mutating func removeMatches(_ test: (Iterator.Element) -> Bool) {
+        while let index = self.index(where: test) {
+            remove(at: index)
         }
     }
 }
 
-extension RangeReplaceableCollectionType where Generator.Element: Equatable {
-    mutating func remove(item: Generator.Element) {
-        if let index = self.indexOf(item) {
-            removeAtIndex(index)
+extension RangeReplaceableCollection where Iterator.Element: Equatable {
+    mutating func remove(_ item: Iterator.Element) {
+        if let index = self.index(of: item) {
+            remove(at: index)
         }
     }
 

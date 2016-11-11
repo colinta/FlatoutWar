@@ -15,8 +15,8 @@ class BomberPowerup: Powerup {
         self.timeout = 60
     }
 
-    override func activate(level: World, layer: SKNode, playerNode: Node, completion: Block = {}) {
-        super.activate(level, layer: layer, playerNode: playerNode)
+    override func activate(level: World, layer: SKNode, playerNode: Node, completion: @escaping Block = {}) {
+        super.activate(level: level, layer: layer, playerNode: playerNode)
 
         let slowmo: CGFloat = 0.333
         level.timeRate = slowmo

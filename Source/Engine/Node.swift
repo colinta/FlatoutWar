@@ -6,7 +6,7 @@ class Node: SKNode {
     var active = true
     var interactive = true
     var timeRate: CGFloat = 1
-    private var mods: [Mod] = []
+    fileprivate var mods: [Mod] = []
 
     var fixedPosition: Position? {
         didSet {
@@ -51,7 +51,7 @@ class Node: SKNode {
 
     typealias OnDeath = Block
     private var _onDeath: [OnDeath] = []
-    func onDeath(handler: OnDeath) { _onDeath << handler }
+    func onDeath(_ handler: @escaping OnDeath) { _onDeath.append(handler) }
 
     func reset() {
         for component in components {
@@ -105,10 +105,10 @@ class Node: SKNode {
 
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        components = coder.decode("components") ?? []
-        active = coder.decodeBool("active") ?? true
-        size = coder.decodeSize("size") ?? .zero
-        if let z = coder.decodeCGFloat("z") {
+        components = coder.decode(key: "components") ?? []
+        active = coder.decodeBool(key: "active") ?? true
+        size = coder.decodeSize(key: "size") ?? .zero
+        if let z = coder.decodeCGFloat(key: "z") {
             self.z = Z(rawValue: z) ?? .Default
         }
         else {
@@ -117,40 +117,40 @@ class Node: SKNode {
         unarchiveComponents()
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        encoder.encode(components, key: "components")
-        encoder.encode(active, key: "active")
-        encoder.encode(size, key: "size")
-        encoder.encode(z.rawValue, key: "z")
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        encoder.encode(components, forKey: "components")
+        encoder.encode(active, forKey: "active")
+        encoder.encode(size, forKey: "size")
+        encoder.encode(z.rawValue, forKey: "z")
+        super.encode(with: encoder)
     }
 
     var autoReset = true
-    override func moveToParent(node: SKNode) {
+    override func move(toParent node: SKNode) {
         autoReset = false
-        super.moveToParent(node)
+        super.move(toParent: node)
         autoReset = true
     }
 
-    func moveToParent(node: SKNode, preservePosition: Bool) {
+    func move(toParent node: SKNode, preservePosition: Bool) {
         if preservePosition {
-            let p = node.convertPoint(position, fromNode: self.parent!)
-            moveToParent(node)
+            let p = node.convert(position, from: self.parent!)
+            move(toParent: node)
             position = p
         }
         else {
-            moveToParent(node)
+            move(toParent: node)
         }
     }
 
-    override func insertChild(node: SKNode, atIndex index: Int) {
-        super.insertChild(node, atIndex: index)
-        if let world = world, node = node as? Node where world != self {
+    override func insertChild(_ node: SKNode, at index: Int) {
+        super.insertChild(node, at: index)
+        if let world = world, let node = node as? Node, world != self {
             world.processNewNode(node)
         }
     }
 
-    func removeFromParent(reset reset: Bool) {
+    func removeFromParent(reset: Bool) {
         autoReset = reset
         removeFromParent()
         autoReset = true
@@ -169,14 +169,13 @@ class Node: SKNode {
         super.removeFromParent()
     }
 
-    func allChildNodes(recursive recursive: Bool = true, interactive: Bool? = nil) -> [Node] {
-        if let interactive = interactive where interactive != self.interactive {
+    func allChildNodes(recursive: Bool = true, interactive: Bool? = nil) -> [Node] {
+        if let interactive = interactive, interactive != self.interactive {
             return []
         }
 
         let nodes: [Node] = children.flatMap { sknode in
-            if let node = sknode as? Node
-                where interactive == nil || node.interactive == interactive
+            if let node = sknode as? Node, interactive == nil || node.interactive == interactive
             {
                 return node
             }
@@ -196,7 +195,7 @@ extension Node {
     func levelCompleted() {
     }
 
-    func updateNodes(dtReal: CGFloat) {
+    func updateNodes(_ dtReal: CGFloat) {
         guard active else { return }
         guard world != nil else { return }
 
@@ -213,7 +212,7 @@ extension Node {
         }
     }
 
-    func update(dt: CGFloat) {
+    func update(_ dt: CGFloat) {
     }
 
 }
@@ -222,13 +221,13 @@ extension Node {
 
 extension Node {
 
-    override func rotateTo(angle: CGFloat) {
+    override func rotateTo(_ angle: CGFloat) {
         super.rotateTo(angle)
         rotateToComponent?.currentAngle = angle
         rotateToComponent?.target = nil
     }
 
-    func touchingLocation(node: Node) -> CGPoint? {
+    func touchingLocation(_ node: Node) -> CGPoint? {
         if touches(node) {
             let a = self.angleTo(node)
             return CGPoint(r: radius, a: a)
@@ -242,7 +241,7 @@ extension Node {
 
 extension Node {
 
-    func touches(other: Node) -> Bool {
+    func touches(_ other: Node) -> Bool {
         return shape.touchTest(self, and: other)
     }
 
@@ -268,7 +267,7 @@ extension Node {
         wanderingComponent?.enabled = false
     }
 
-    func addComponent(component: Component) {
+    func addComponent(_ component: Component) {
         component.node = self
         components << component
 
@@ -303,8 +302,8 @@ extension Node {
         component.didAddToNode()
     }
 
-    func removeComponent(component: Component) {
-        if let index = components.indexOf(component) {
+    func removeComponent(_ component: Component) {
+        if let index = components.index(of: component) {
             if component == arcToComponent { arcToComponent = nil }
             else if component == draggableComponent { draggableComponent = nil }
             else if component == enemyComponent { enemyComponent = nil }
@@ -333,11 +332,11 @@ extension Node {
             else if component == touchableComponent { touchableComponent = nil }
             else if component == wanderingComponent { wanderingComponent = nil }
 
-            components.removeAtIndex(index)
+            components.remove(at: index)
         }
     }
 
-    private func unarchiveComponents() {
+    fileprivate func unarchiveComponents() {
         for component in components {
             if let component = component as? ArcToComponent { arcToComponent = component }
             else if let component = component as? DraggableComponent { draggableComponent = component }
@@ -372,21 +371,23 @@ extension Node {
 }
 
 extension Node {
-    func addMod(mod: Mod) -> NSUUID {
+
+    @discardableResult
+    func addMod(_ mod: Mod) -> NSUUID {
         if !mods.contains(mod) {
             mods << mod
         }
         return mod.id
     }
 
-    func removeMod(mod: Mod) {
+    func removeMod(_ mod: Mod) {
         removeMod(mod.id)
     }
 
-    func removeMod(id: NSUUID) {
-        for (index, mod) in mods.enumerate() {
+    func removeMod(_ id: NSUUID) {
+        for (index, mod) in mods.enumerated() {
             if mod.id == id {
-                mods.removeAtIndex(index)
+                mods.remove(at: index)
                 break
             }
         }
@@ -396,7 +397,7 @@ extension Node {
         return getAttr(.TimeRate).timeRate
     }
 
-    func getAttr(attr: Attr) -> AttrMod {
+    func getAttr(_ attr: Attr) -> AttrMod {
         switch attr {
         case .Halted:
             for mod in mods {

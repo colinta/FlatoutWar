@@ -3,8 +3,8 @@
 //
 
 class MinesPowerupArtist: PowerupArtist {
-    override func draw(context: CGContext) {
-        super.draw(context)
+    override func draw(in context: CGContext) {
+        super.draw(in: context)
 
         let outerRadius = size.width / 2 - 3
         let innerRadius = outerRadius - 2
@@ -12,7 +12,7 @@ class MinesPowerupArtist: PowerupArtist {
         let smallArc: CGFloat = 10.degrees
         let arc = TAU / CGFloat(segmentCount)
 
-        CGContextTranslateCTM(context, middle.x, middle.y)
+        context.translateBy(x: middle.x, y: middle.y)
         var angle: CGFloat = -smallArc / 2
         var first = true
         segmentCount.times {
@@ -21,19 +21,19 @@ class MinesPowerupArtist: PowerupArtist {
             let p3 = CGPoint(r: outerRadius, a: angle + smallArc)
             let p4 = CGPoint(r: innerRadius, a: angle + smallArc)
             if first {
-                CGContextMoveToPoint(context, p1.x, p1.y)
+                context.move(to: p1)
             }
             else {
-                CGContextAddLineToPoint(context, p1.x, p1.y)
+                context.addLine(to: p1)
             }
-            CGContextAddLineToPoint(context, p2.x, p2.y)
-            CGContextAddLineToPoint(context, p3.x, p3.y)
-            CGContextAddLineToPoint(context, p4.x, p4.y)
+            context.addLine(to: p2)
+            context.addLine(to: p3)
+            context.addLine(to: p4)
             angle += arc
             first = false
         }
-        CGContextClosePath(context)
-        CGContextDrawPath(context, .FillStroke)
+        context.closePath()
+        context.drawPath(using: .fillStroke)
     }
 
 }

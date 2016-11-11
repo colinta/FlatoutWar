@@ -92,17 +92,17 @@ extension ImageIdentifier {
         case .ResourceIcon:
             let color = UIColor(hex: ResourceBlue)
             let artist = CircleArtist(CGSize(10), color)
-            artist.drawingMode = .Fill
+            artist.drawingMode = .fill
             return artist
         case .ExperienceIcon:
             let color = UIColor(hex: EnemySoldierGreen)
             let artist = RectArtist(CGSize(10), color)
-            artist.drawingMode = .Fill
+            artist.drawingMode = .fill
             return artist
         case let .Box(colorInt):
             let color = UIColor(hex: colorInt)
             let artist = RectArtist(CGSize(10), color)
-            artist.drawingMode = .Fill
+            artist.drawingMode = .fill
             return artist
         case let .WhiteLetter(letter, size):
             let artist = TextArtist()
@@ -276,32 +276,32 @@ extension ImageIdentifier {
         case let .ColorCircle(size, color):
             let color = UIColor(hex: color)
             let artist = CircleArtist(size, color)
-            artist.drawingMode = .Stroke
+            artist.drawingMode = .stroke
             return artist
         case let .ColorBox(size, color):
             let color = UIColor(hex: color)
             let artist = RectArtist(size, color)
-            artist.drawingMode = .Stroke
+            artist.drawingMode = .stroke
             return artist
         case let .HueBox(size, hue):
             let color = UIColor(hue: CGFloat(hue) / 255, saturation: 1, brightness: 1, alpha: 1)
             let artist = RectArtist(size, color)
-            artist.drawingMode = .Stroke
+            artist.drawingMode = .stroke
             return artist
         case let .FillColorCircle(size, color):
             let color = UIColor(hex: color)
             let artist = CircleArtist(size, color)
-            artist.drawingMode = .Fill
+            artist.drawingMode = .fill
             return artist
         case let .FillColorBox(size, color):
             let color = UIColor(hex: color)
             let artist = RectArtist(size, color)
-            artist.drawingMode = .Fill
+            artist.drawingMode = .fill
             return artist
         case let .FillHueBox(size, hue):
             let color = UIColor(hue: CGFloat(hue) / 255, saturation: 1, brightness: 1, alpha: 1)
             let artist = RectArtist(size, color)
-            artist.drawingMode = .Fill
+            artist.drawingMode = .fill
             return artist
         }
     }

@@ -38,8 +38,8 @@ class BaseArtist: Artist {
             savedAngles = angles
         }
 
-        self.path = CGPathCreateMutable()
-        self.smallPath = CGPathCreateMutable()
+        self.path = CGMutablePath()
+        self.smallPath = CGMutablePath()
 
         super.init()
         size = CGSize(40)
@@ -50,7 +50,7 @@ class BaseArtist: Artist {
         fatalError("init() has not been implemented")
     }
 
-    private func generatePaths(health health: CGFloat) {
+    private func generatePaths(health: CGFloat) {
         self.path = generatePath()
         if health == 1 {
             self.smallPath = generatePath()
@@ -60,71 +60,71 @@ class BaseArtist: Artist {
         }
     }
 
-    private func generatePath(max max: CGFloat? = nil) -> CGPath {
-        let path = CGPathCreateMutable()
+    private func generatePath(max: CGFloat? = nil) -> CGPath {
+        let path = CGMutablePath()
         var first = true
         let r = size.width / 2
         for a in savedAngles! {
-            if let max = max where a > max {
+            if let max = max, a > max {
                 break
             }
 
             let p = middle + CGPoint(r: r, a: TAU_2 + a)
             if first {
-                CGPathMoveToPoint(path, nil, p.x, p.y)
+                path.move(to: p)
                 first = false
             }
             else {
-                CGPathAddLineToPoint(path, nil, p.x, p.y)
+                path.addLine(to: p)
             }
         }
         if let max = max {
             if first {
-                CGPathMoveToPoint(path, nil, middle.x, middle.y)
+                path.move(to: middle)
             }
 
             let p = middle + CGPoint(r: r, a: TAU_2 + max)
-            CGPathAddLineToPoint(path, nil, p.x, p.y)
-            CGPathAddLineToPoint(path, nil, middle.x, middle.y)
+            path.addLine(to: p)
+            path.addLine(to: middle)
         }
-        CGPathCloseSubpath(path)
+        path.closeSubpath()
         return path
     }
 
-    override func draw(context: CGContext) {
-        CGContextSetAlpha(context, 1)
-        CGContextSetStrokeColorWithColor(context, stroke.CGColor)
-        CGContextSetFillColorWithColor(context, fill.CGColor)
-        CGContextAddPath(context, smallPath)
-        CGContextDrawPath(context, .FillStroke)
+    override func draw(in context: CGContext) {
+        context.setAlpha(1)
+        context.setStrokeColor(stroke.cgColor)
+        context.setFillColor(fill.cgColor)
+        context.addPath(smallPath)
+        context.drawPath(using: .fillStroke)
 
         if health < 1 {
-            CGContextSetAlpha(context, 0.5)
-            CGContextAddPath(context, path)
-            CGContextDrawPath(context, .FillStroke)
+            context.setAlpha(0.5)
+            context.addPath(path)
+            context.drawPath(using: .fillStroke)
         }
 
-        if rotateUpgrade || bulletUpgrade {
-            CGContextSetAlpha(context, 1)
-            CGContextAddPath(context, path)
-            CGContextClip(context)
+        if rotateUpgrade.boolValue || bulletUpgrade.boolValue {
+            context.setAlpha(1)
+            context.addPath(path)
+            context.clip()
 
-            if rotateUpgrade {
-                CGContextAddEllipseInRect(context, middle.rect(size: size * 0.8))
-                CGContextAddEllipseInRect(context, middle.rect(size: size * 0.4))
+            if rotateUpgrade.boolValue {
+                context.addEllipse(in: CGRect(center: middle, size: size * 0.8))
+                context.addEllipse(in: CGRect(center: middle, size: size * 0.4))
             }
 
-            if bulletUpgrade {
-                CGContextMoveToPoint(context, 0, 0)
-                CGContextAddLineToPoint(context, size.width, size.height)
-                CGContextMoveToPoint(context, 0, size.height)
-                CGContextAddLineToPoint(context, size.width, 0)
-                CGContextMoveToPoint(context, 0, middle.y)
-                CGContextAddLineToPoint(context, size.width, middle.y)
-                CGContextMoveToPoint(context, middle.x, 0)
-                CGContextAddLineToPoint(context, middle.x, size.height)
+            if bulletUpgrade.boolValue {
+                context.move(to: .zero)
+                context.addLine(to: CGPoint(x: size.width, y: size.height))
+                context.move(to: CGPoint(x: 0, y: size.height))
+                context.addLine(to: CGPoint(x: size.width, y: 0))
+                context.move(to: CGPoint(x: 0, y: middle.y))
+                context.addLine(to: CGPoint(x: size.width, y: middle.y))
+                context.move(to: CGPoint(x: middle.x, y: 0))
+                context.addLine(to: CGPoint(x: middle.x, y: size.height))
             }
-            CGContextDrawPath(context, .Stroke)
+            context.drawPath(using: .stroke)
         }
     }
 
@@ -147,23 +147,23 @@ class BaseExplosionArtist: Artist {
         fatalError("init() has not been implemented")
     }
 
-    override func draw(context: CGContext) {
-        CGContextSetAlpha(context, 0.5)
-        CGContextSetStrokeColorWithColor(context, stroke.CGColor)
-        CGContextSetFillColorWithColor(context, fill.CGColor)
+    override func draw(in context: CGContext) {
+        context.setAlpha(0.5)
+        context.setStrokeColor(stroke.cgColor)
+        context.setFillColor(fill.cgColor)
 
         let angle2 = angle + spread ± rand(2.degrees)
         let p1 = middle + CGPoint(r: size.width / 2, a: angle)
         let p2 = middle + CGPoint(r: size.width / 2, a: angle2)
-        CGContextMoveToPoint(context, middle.x, middle.y)
-        CGContextAddLineToPoint(context, p1.x, p1.y)
-        CGContextAddLineToPoint(context, p2.x, p2.y)
-        CGContextClosePath(context)
-        CGContextDrawPath(context, .Fill)
+        context.move(to: middle)
+        context.addLine(to: p1)
+        context.addLine(to: p2)
+        context.closePath()
+        context.drawPath(using: .fill)
 
-        CGContextMoveToPoint(context, p1.x, p1.y)
-        CGContextAddLineToPoint(context, p2.x, p2.y)
-        CGContextDrawPath(context, .Stroke)
+        context.move(to: p1)
+        context.addLine(to: p2)
+        context.drawPath(using: .stroke)
     }
 
 }

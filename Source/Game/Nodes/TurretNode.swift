@@ -15,7 +15,7 @@ class TurretNode: Node {
             updateUpgrades()
         }
     }
-    private func updateUpgrades() {
+    fileprivate func updateUpgrades() {
         radarNode.textureId(.TurretRadar(upgrade: radarUpgrade))
         targetingComponent?.sweepAngle = radarUpgrade.turretSweepAngle
         targetingComponent?.radius = radarUpgrade.turretRadarRadius
@@ -65,7 +65,7 @@ class TurretNode: Node {
             self.world?.unselectNode(self)
             self.turretEnabled(isMoving: false)
 
-            self.world?.timeline.after(20) {
+            self.world?.timeline.after(time: 20) {
                 healthComponent.startingHealth = startingHealth
                 self.baseNode.textureId(.Turret(upgrade: self.upgrade, health: healthComponent.healthInt))
                 self.turretEnabled(isMoving: false)
@@ -74,7 +74,7 @@ class TurretNode: Node {
         addComponent(healthComponent)
 
         let touchableComponent = TouchableComponent()
-        touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest(.Circle)
+        touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest(shape: .Circle)
         addComponent(touchableComponent)
 
         let selectableComponent = SelectableComponent()
@@ -87,15 +87,15 @@ class TurretNode: Node {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
 }
 
 extension TurretNode {
 
-    func turretEnabled(isMoving isMoving: Bool) {
+    func turretEnabled(isMoving: Bool) {
         let died = healthComponent!.died
         self.selectableComponent!.enabled = !died
         self.touchableComponent!.enabled = !died
@@ -118,7 +118,7 @@ extension TurretNode {
 
 extension TurretNode {
 
-    private func fireBullet(angle angle: CGFloat) {
+    fileprivate func fireBullet(angle: CGFloat) {
         guard let world = world else {
             return
         }
@@ -128,7 +128,7 @@ extension TurretNode {
         bullet.position = self.position
 
         bullet.damage = upgrade.turretBulletDamage
-        bullet.size = BulletArtist.bulletSize(.False)
+        bullet.size = BulletArtist.bulletSize(upgrade: .False)
         bullet.zRotation = angle
         bullet.z = Z.Below
         ((parent as? Node) ?? world) << bullet
@@ -140,7 +140,7 @@ extension TurretNode {
 
 extension TurretNode {
 
-    func onSelected(selected: Bool) {
+    func onSelected(_ selected: Bool) {
         cursor.selected = selected
     }
 

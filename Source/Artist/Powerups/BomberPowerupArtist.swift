@@ -5,20 +5,20 @@
 class BomberPowerupArtist: PowerupArtist {
     var numBombs: Int = 8
 
-    override func draw(context: CGContext) {
-        super.draw(context)
+    override func draw(in context: CGContext) {
+        super.draw(in: context)
 
         let margin: CGFloat = 5
         let maxDim = min(size.width, size.height) - margin
         let minDim = margin
         let centerDim = (maxDim + minDim) / 2
         let innerX = minDim + (maxDim - minDim) / 7
-        CGContextMoveToPoint(context, maxDim, centerDim)
-        CGContextAddLineToPoint(context, minDim, maxDim)
-        CGContextAddLineToPoint(context, innerX, centerDim)
-        CGContextAddLineToPoint(context, minDim, minDim)
-        CGContextClosePath(context)
-        CGContextDrawPath(context, .FillStroke)
+        context.move(to: CGPoint(x: maxDim, y: centerDim))
+        context.addLine(to: CGPoint(x: minDim, y: maxDim))
+        context.addLine(to: CGPoint(x: innerX, y: centerDim))
+        context.addLine(to: CGPoint(x: minDim, y: minDim))
+        context.closePath()
+        context.drawPath(using: .fillStroke)
 
         let dist: CGFloat = (maxDim - minDim) / 4
         let angle = atan2(centerDim - minDim, maxDim - minDim)
@@ -38,12 +38,12 @@ class BomberPowerupArtist: PowerupArtist {
                     x: x, y: y,
                     width: smallDim, height: smallDim
                 )
-                CGContextAddEllipseInRect(context, rect)
+                context.addEllipse(in: rect)
 
                 remainingBombs -= 1
                 if remainingBombs <= 0 { break }
             }
-            CGContextDrawPath(context, .FillStroke)
+            context.drawPath(using: .fillStroke)
         }
     }
 

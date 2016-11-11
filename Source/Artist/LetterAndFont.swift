@@ -16,8 +16,8 @@ struct Letter: Equatable {
         }
         var drawPath: CGPathDrawingMode {
             switch self {
-            case .Line, .Loop: return .Stroke
-            case .Fill: return .Fill
+            case .Line, .Loop: return .stroke
+            case .Fill: return .fill
             }
         }
     }
@@ -29,7 +29,7 @@ struct Letter: Equatable {
 
 func ==(lhs: Letter, rhs: Letter) -> Bool {
     if lhs.style == rhs.style && lhs.size == rhs.size && lhs.points.count == rhs.points.count {
-        for (index, point) in lhs.points.enumerate() {
+        for (index, point) in lhs.points.enumerated() {
             if rhs.points[index] != point {
                 return false
             }

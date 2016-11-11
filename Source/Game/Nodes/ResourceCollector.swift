@@ -25,7 +25,7 @@ class ResourceCollector: Node {
 
     typealias OnHarvest = (Int) -> Void
     var _onHarvest: [OnHarvest] = []
-    func onHarvest(handler: OnHarvest) { _onHarvest  << handler }
+    func onHarvest(_ handler: @escaping OnHarvest) { _onHarvest  << handler }
 
     required init(resource resourceNode: ResourceNode) {
         self.resourceNode = resourceNode
@@ -50,20 +50,22 @@ class ResourceCollector: Node {
         _onHarvest = []
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
     override func levelCompleted() {
         active = false
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         if initialPosition == nil {
             initialPosition = position
         }
 
-        if resourceNode?.remaining <= 0 && collecting {
+        if let remaining = resourceNode?.remaining,
+            remaining <= 0 && collecting
+        {
             self.stopCollecting()
         }
     }
@@ -79,7 +81,7 @@ class ResourceCollector: Node {
     }
 
     func harvest() {
-        guard let resourceNode = resourceNode, initialPosition = initialPosition else {
+        guard let resourceNode = resourceNode, let initialPosition = initialPosition else {
             stopCollecting()
             return
         }
@@ -104,15 +106,15 @@ class ResourceCollector: Node {
     }
 
     private func stopCollecting() {
-        self.resourceLine?.runAction(
+        self.resourceLine?.run(
             SKAction.sequence([
-                SKAction.fadeOutWithDuration(0.5),
+                SKAction.fadeOut(withDuration: 0.5),
                 SKAction.removeFromParent(),
             ])
         )
-        self.runAction(
+        self.run(
             SKAction.sequence([
-                SKAction.fadeOutWithDuration(0.5),
+                SKAction.fadeOut(withDuration: 0.5),
                 SKAction.removeFromParent(),
             ])
         )

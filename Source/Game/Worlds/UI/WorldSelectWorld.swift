@@ -49,7 +49,7 @@ class WorldSelectWorld: UIWorld {
         let tutorialConfig = TutorialConfigSummary()
         let baseConfig = BaseConfigSummary()
 
-        populateCurrencies(summaryConfig)
+        populateCurrencies(config: summaryConfig)
 
         do {
             let button = Button(at: worldLocations[.Tutorial]!)
@@ -107,7 +107,7 @@ class WorldSelectWorld: UIWorld {
         let animationDurationIn: CGFloat = 0.8
         let animationDurationOut: CGFloat = 0.5
         if animate {
-            timeline.after(animationDurationIn) { self.interactionEnabled = true }
+            timeline.after(time: animationDurationIn) { self.interactionEnabled = true }
             worldSelect.fadeTo(0, duration: animationDurationIn)
             worldSelect.scaleTo(1.5, duration: animationDurationIn)
             moveCamera(to: levelLocation, duration: animationDurationIn)
@@ -129,7 +129,7 @@ class WorldSelectWorld: UIWorld {
         backButton.size = CGSize(width: 15, height: 15)
         backButton.onTapped {
             self.interactionEnabled = false
-            self.timeline.after(1) { self.interactionEnabled = true }
+            self.timeline.after(time: 1) { self.interactionEnabled = true }
             levelSelect.fadeTo(0, duration: animationDurationOut, removeNode: true)
             levelSelect.scaleTo(0.5, duration: animationDurationOut)
             self.worldSelect.fadeTo(1, duration: animationDurationOut)
@@ -142,7 +142,7 @@ class WorldSelectWorld: UIWorld {
     }
 
 // MARK: TUTORIAL
-    func transitionToTutorial(animate animate: Bool = true) {
+    func transitionToTutorial(animate: Bool = true) {
         let levelSelect = transitionToLevel(at: worldLocations[.Tutorial]!, animate: animate)
 
         let tutorialTitle = TextNode(at: CGPoint(y: 130))
@@ -223,7 +223,7 @@ class WorldSelectWorld: UIWorld {
     }
 
 // MARK: BASE
-    func transitionToBase(animate animate: Bool = true) {
+    func transitionToBase(animate: Bool = true) {
         let levelSelect = transitionToLevel(at: worldLocations[.Base]!, animate: animate)
 
         let tutorialTitle = TextNode(at: CGPoint(y: 130))
@@ -333,7 +333,7 @@ extension WorldSelectWorld {
         let experienceText = TextNode()
         experienceText.position = CGPoint(x: 8, y: 8)
         experienceText.setScale(0.5)
-        experienceText.alignment = .Left
+        experienceText.alignment = .left
         experienceText.text = "\(level.config.gainedExperience)"
         info << experienceText
 
@@ -344,7 +344,7 @@ extension WorldSelectWorld {
             let resourceText = TextNode()
             resourceText.position = CGPoint(x: 8, y: -8)
             resourceText.setScale(0.5)
-            resourceText.alignment = .Left
+            resourceText.alignment = .left
             resourceText.text = "\(level.config.gainedResources)"
             info << resourceText
         }
@@ -352,7 +352,7 @@ extension WorldSelectWorld {
         return info
     }
 
-    func lineBetween(position: CGPoint, and prevPosition: CGPoint, enabled: Bool) -> SKNode {
+    func lineBetween(_ position: CGPoint, and prevPosition: CGPoint, enabled: Bool) -> SKNode {
         let dx: CGFloat = 25
         let dy: CGFloat = 25
         var p0 = prevPosition

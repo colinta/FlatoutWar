@@ -6,7 +6,7 @@ import AVFoundation
 
 
 class Level: World {
-    private var _config: LevelConfig?
+    fileprivate var _config: LevelConfig?
     var config: LevelConfig {
         if let config = _config {
             return config
@@ -38,7 +38,7 @@ class Level: World {
     var expectedResources = 0
     var gainedResources = 0
 
-    private var shouldPopulatePlayer = true
+    fileprivate var shouldPopulatePlayer = true
     var playerNode = BasePlayerNode() {
         willSet {
             if playerNode != newValue {
@@ -58,7 +58,7 @@ class Level: World {
         didSet {
             let duration: CGFloat?
             let speed: CGFloat?
-            if let currentSpeed = cameraMove.speed where currentSpeed > 10 {
+            if let currentSpeed = cameraMove.speed, currentSpeed > 10 {
                 speed = currentSpeed
                 duration = nil
             }
@@ -99,12 +99,12 @@ class Level: World {
 
         setScale(2)
         fadeTo(1, start: 0, duration: 0.5)
-        timeline.after(1.75, block: {
+        timeline.after(time: 1.75, block: {
             self.cameraAdjustmentEnabled = true
             self.cameraZoom.target = 1.0
             self.cameraZoom.rate = 0.5
 
-            self.timeline.after(2, block: self.populateLevel)
+            self.timeline.after(time: 2, block: self.populateLevel)
         })
 
         populateUI()
@@ -121,14 +121,14 @@ class Level: World {
         }
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         super.update(dt)
         for powerup in powerups {
             powerup.update(dt)
         }
 
-        if let angle = playerNode.rotateToComponent?.target
-        where cameraAdjustmentEnabled
+        if let angle = playerNode.rotateToComponent?.target,
+            cameraAdjustmentEnabled
         {
             if angle != cameraAngle {
                 cameraAdjustment = CGPoint(r: 20, a: angle)
@@ -180,10 +180,10 @@ class Level: World {
         print("gainedResources: \(gainedResources)")
     }
 
-    override func didAdd(node: Node) {
+    override func didAdd(_ node: Node) {
         super.didAdd(node)
         if let enemyComponent = node.enemyComponent,
-            healthComponent = node.healthComponent
+            let healthComponent = node.healthComponent
         {
             let exp = enemyComponent.experience
             addToPossibleExperience(exp)
@@ -213,19 +213,19 @@ class Level: World {
     override func moveCamera(from start: CGPoint? = nil, to target: CGPoint? = nil, zoom: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, handler: MoveToComponent.OnArrived? = nil) {
         var adjustedTarget: CGPoint? = target
         cameraPosition = target
-        if let target = target where cameraAdjustmentEnabled {
+        if let target = target, cameraAdjustmentEnabled {
             adjustedTarget = target + cameraAdjustment
         }
-        super.moveCamera(to: adjustedTarget, from: start, zoom: zoom, duration: duration, rate: rate, handler: handler)
+        super.moveCamera(from: start, to: adjustedTarget, zoom: zoom, duration: duration, rate: rate, handler: handler)
     }
 }
 
 extension Level {
-    func addToPossibleExperience(exp: Int) {
+    func addToPossibleExperience(_ exp: Int) {
         possibleExperience += exp
     }
 
-    func addToGainedExperience(exp: Int) {
+    func addToGainedExperience(_ exp: Int) {
         gainedExperience += exp
     }
 }
@@ -234,7 +234,7 @@ extension Level {
     func populateLevel() {
     }
 
-    private func populateUI() {
+    fileprivate func populateUI() {
         if config.trackExperience {
             experiencePercent = ExperiencePercent(goal: config.possibleExperience)
             ui << experiencePercent!
@@ -302,7 +302,7 @@ extension Level {
         ui << nextButton
     }
 
-    private func populatePlayerNodes() {
+    fileprivate func populatePlayerNodes() {
         for node in config.storedPlayers {
             if let playerNode = node as? BasePlayerNode {
                 self.playerNode = playerNode
@@ -317,12 +317,12 @@ extension Level {
         }
     }
 
-    private func populateTurrets() {
+    fileprivate func populateTurrets() {
         let turrets = config.availableTurrets
         let buttonWidth: CGFloat = 45
         let x0: CGFloat = -CGFloat(turrets.count - 1) * buttonWidth / 2
         var buttons: [Node] = []
-        for (index, turret) in turrets.enumerate() {
+        for (index, turret) in turrets.enumerated() {
             let button = turret.button()
             buttons << button
             if index == 0 {
@@ -351,10 +351,10 @@ extension Level {
         }
     }
 
-    private func populatePowerups() {
+    fileprivate func populatePowerups() {
         let powerups = config.activatedPowerups
         self.powerups = powerups
-        for (index, powerup) in powerups.enumerate() {
+        for (index, powerup) in powerups.enumerated() {
             let start: Position = .Left(
                 x: -150,
                 y: 20 - CGFloat(index) * 80
@@ -369,7 +369,7 @@ extension Level {
 }
 
 extension Level {
-    private func updatePlayer(node: Node) {
+    fileprivate func updatePlayer(_ node: Node) {
         node.healthComponent?.onKilled {
             if self.playerNode == node {
                 self.completeLevel(success: false)
@@ -399,7 +399,7 @@ extension Level {
     }
 
     func tutorialOrLevel() -> World {
-        if let tutorial = config.tutorial() where !config.seenTutorial {
+        if let tutorial = config.tutorial(), !config.seenTutorial {
             config.seenTutorial = true
             tutorial.nextWorld = self
             return tutorial
@@ -414,7 +414,7 @@ extension Level {
 
         let success: Bool
         // sanity check against a kamikaze triggering a "successful" completion
-        if let died = playerNode.healthComponent?.died where died {
+        if let died = playerNode.healthComponent?.died, died {
             success = false
         }
         else if let successArg = successArg {
@@ -529,7 +529,7 @@ extension Level {
 }
 
 extension Level {
-    func addArmyNode(node: Node) {
+    func addArmyNode(_ node: Node) {
         if node is BasePlayerNode {
             fatalError("player node should not be added in this way")
         }
@@ -545,7 +545,7 @@ extension Level {
 }
 
 extension Level: ResourceWorld {
-    func playerFoundResource(resourceNode: ResourceNode) {
+    func playerFoundResource(node resourceNode: ResourceNode) {
         resourceNode.locked = true
         resourceNode.disableMovingComponents()
 

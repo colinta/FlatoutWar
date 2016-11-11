@@ -10,19 +10,19 @@ class ShieldArtist: PowerupArtist {
         size = CGSize(r: 57)
     }
 
-    override func draw(context: CGContext) {
-        super.draw(context)
+    override func draw(in context: CGContext) {
+        super.draw(in: context)
 
         let smallR: CGFloat = 10
         let smallSize: CGSize = size - CGSize(r: smallR)
         let center1 = CGPoint(r: smallR, a: TAU * phase + TAU_3)
         let center2 = CGPoint(r: smallR, a: TAU * phase + TAU_2_3)
         let center3 = CGPoint(r: smallR, a: TAU * phase)
-        CGContextTranslateCTM(context, middle.x, middle.y)
-        CGContextAddEllipseInRect(context, center1.rect(size: smallSize))
-        CGContextAddEllipseInRect(context, center2.rect(size: smallSize))
-        CGContextAddEllipseInRect(context, center3.rect(size: smallSize))
-        CGContextDrawPath(context, .Stroke)
+        context.translateBy(x: middle.x, y: middle.y)
+        context.addEllipse(in: CGRect(center: center1, size: smallSize))
+        context.addEllipse(in: CGRect(center: center2, size: smallSize))
+        context.addEllipse(in: CGRect(center: center3, size: smallSize))
+        context.drawPath(using: .stroke)
     }
 
 }

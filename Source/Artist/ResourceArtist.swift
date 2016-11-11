@@ -18,9 +18,9 @@ class ResourceArtist: Artist {
         self.init(amount: 30, remaining: 1)
     }
 
-    override func draw(context: CGContext) {
-        CGContextSetStrokeColorWithColor(context, color.CGColor)
-        CGContextSetFillColorWithColor(context, color.CGColor)
+    override func draw(in context: CGContext) {
+        context.setStrokeColor(color.cgColor)
+        context.setFillColor(color.cgColor)
         let spokeRemaining = interpolate(remaining, from: (0, 1), to: (0.5, 1))
         let minBallSize: CGFloat = 1.5
         let spokeSize = max(size.width / 10 * spokeRemaining, minBallSize)
@@ -29,31 +29,31 @@ class ResourceArtist: Artist {
         var spokes: [CGPoint] = []
         for angle in angles {
             let pt = middle + CGPoint(r: outerRadius, a: angle)
-            CGContextAddEllipseInRect(context, pt.rect(radius: spokeSize))
+            context.addEllipse(in: CGRect(center: pt, radius: spokeSize))
             spokes << pt
         }
 
         let innerRadius = outerRadius * remaining
         if innerRadius > 0 {
-            CGContextAddEllipseInRect(context, middle.rect(radius: max(innerRadius, minBallSize)))
+            context.addEllipse(in: CGRect(center: middle, radius: max(innerRadius, minBallSize)))
         }
-        CGContextDrawPath(context, .Fill)
+        context.drawPath(using: .fill)
 
         var first = true
         for pt in spokes {
             if first {
-                CGContextMoveToPoint(context, pt.x, pt.y)
+                context.move(to: pt)
             }
             else {
-                CGContextAddLineToPoint(context, pt.x, pt.y)
+                context.addLine(to: pt)
             }
             first = false
         }
-        CGContextClosePath(context)
-        CGContextDrawPath(context, .Stroke)
+        context.closePath()
+        context.drawPath(using: .stroke)
     }
 
-    func v1(context: CGContext) {
+    func v1(_ context: CGContext) {
         let spokeSize: CGFloat = 5
         let outerRadius: CGFloat = size.width / 2 - spokeSize / 2
         let innerRadius: CGFloat = outerRadius - spokeSize
@@ -63,40 +63,40 @@ class ResourceArtist: Artist {
         for angle in angles {
             let p0 = CGPoint(r: innerRadius, a: angle)
             let p1 = CGPoint(r: outerRadius, a: angle)
-            let pts: [CGPoint] = [
-                p0 + CGPoint(r: spokeSize / 2, a: angle - TAU_4),
-                p1 + CGPoint(r: spokeSize / 2, a: angle - TAU_4),
-                p1 + CGPoint(r: spokeSize / 2, a: angle + TAU_4),
-                p0 + CGPoint(r: spokeSize / 2, a: angle + TAU_4),
-            ]
+            var pts: [CGPoint] = []
+            pts << (p0 + CGPoint(r: spokeSize / 2, a: angle - TAU_4))
+            pts << (p1 + CGPoint(r: spokeSize / 2, a: angle - TAU_4))
+            pts << (p1 + CGPoint(r: spokeSize / 2, a: angle + TAU_4))
+            pts << (p0 + CGPoint(r: spokeSize / 2, a: angle + TAU_4))
+
             for pt in pts {
                 if first {
-                    CGContextMoveToPoint(context, middle.x + pt.x, middle.y + pt.y)
+                    context.move(to: middle + pt)
                 }
                 else {
-                    CGContextAddLineToPoint(context, middle.x + pt.x, middle.y + pt.y)
+                    context.addLine(to: middle + pt)
                 }
                 first = false
             }
         }
-        CGContextClosePath(context)
+        context.closePath()
 
         first = true
         for angle in angles {
             let pt = CGPoint(r: smallRadius, a: angle)
             if first {
-                CGContextMoveToPoint(context, middle.x + pt.x, middle.y + pt.y)
+                context.move(to: middle + pt)
             }
             else {
-                CGContextAddLineToPoint(context, middle.x + pt.x, middle.y + pt.y)
+                context.addLine(to: middle + pt)
             }
             first = false
         }
-        CGContextClosePath(context)
+        context.closePath()
 
-        CGContextSetStrokeColorWithColor(context, color.CGColor)
-        CGContextSetFillColorWithColor(context, color.CGColor)
-        CGContextEOFillPath(context)
+        context.setStrokeColor(color.cgColor)
+        context.setFillColor(color.cgColor)
+        context.fillPath(using: .evenOdd)
     }
 
 }

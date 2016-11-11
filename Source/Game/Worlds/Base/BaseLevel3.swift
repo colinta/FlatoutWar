@@ -36,10 +36,10 @@ class BaseLevel3: BaseLevel {
         let t1: CGFloat = 4
         let t2 = t1 + 8
         let t3 = t2 + 6.5
-        timeline.after(t1, block: self.generateArmyWave)
-        timeline.after(t2, block: self.generateArmyWave)
-        timeline.after(t3, block: self.generateArmyWave)
-        timeline.after(t3 + 1, block: nextStep())
+        timeline.after(time: t1, block: self.generateArmyWave)
+        timeline.after(time: t2, block: self.generateArmyWave)
+        timeline.after(time: t3, block: self.generateArmyWave)
+        timeline.after(time: t3 + 1, block: nextStep())
     }
 
     // exp 10 * 4 = 40
@@ -56,13 +56,13 @@ class BaseLevel3: BaseLevel {
             self.timeline.at(.Delayed()) {
                 for i in 0..<num {
                     let myAngle = angle + CGFloat(i - num / 2) * delta
-                    self.timeline.after(CGFloat(i) * 0.1, block: self.generateEnemy(myAngle, spread: 0, constRadius: true))
+                    self.timeline.after(time: CGFloat(i) * 0.1, block: self.generateEnemy(myAngle, spread: 0, constRadius: true))
                 }
             }
         }
     }
 
-    func generateDozer(genScreenAngle: CGFloat, spread: CGFloat) -> Block {
+    func generateDozer(_ genScreenAngle: CGFloat, spread: CGFloat) -> Block {
         return {
             var screenAngle = genScreenAngle
             if spread > 0 {
@@ -72,7 +72,7 @@ class BaseLevel3: BaseLevel {
             let height: CGFloat = CGFloat(enemyCount * 12) + 2
             let dozer = EnemyDozerNode()
             dozer.name = "dozer"
-            dozer.position = self.outsideWorld(dozer, angle: screenAngle)
+            dozer.position = self.outsideWorld(node: dozer, angle: screenAngle)
             dozer.rotateTowards(point: .zero)
             self << dozer
 
@@ -86,7 +86,7 @@ class BaseLevel3: BaseLevel {
                     let enemy = EnemyScoutNode(at: location)
                     enemy.name = "dozer scout"
                     enemy.rotateTo(dozer.zRotation)
-                    enemy.follow(dozer, scatter: .Dodge)
+                    enemy.follow(leader: dozer, scatter: .Dodge)
                     self << enemy
                 }
             }

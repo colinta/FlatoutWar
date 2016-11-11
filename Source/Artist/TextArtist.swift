@@ -49,37 +49,37 @@ class TextArtist: Artist {
         self.textSize = size
     }
 
-    override func draw(context: CGContext) {
-        CGContextSetLineWidth(context, 0.5)
-        CGContextSetStrokeColorWithColor(context, color.CGColor)
-        CGContextSetFillColorWithColor(context, color.CGColor)
+    override func draw(in context: CGContext) {
+        context.setLineWidth(0.5)
+        context.setStrokeColor(color.cgColor)
+        context.setFillColor(color.cgColor)
 
-        CGContextSaveGState(context)
-        CGContextScaleCTM(context, textScale, textScale)
-        CGContextTranslateCTM(context, (size.width - textSize.width) / 2, (size.height - textSize.height) / 2)
+        context.saveGState()
+        context.scaleBy(x: textScale, y: textScale)
+        context.translateBy(x: (size.width - textSize.width) / 2, y: (size.height - textSize.height) / 2)
         for char in (text.characters.map { String($0) }) {
             let letter = font.art[char] ?? defaultLetter(char, font.size)
             for path in letter.points {
                 var firstPoint = true
                 for pt in path {
                     if firstPoint {
-                        CGContextMoveToPoint(context, pt.x, pt.y)
+                        context.move(to: pt)
                         firstPoint = false
                     }
                     else {
-                        CGContextAddLineToPoint(context, pt.x, pt.y)
+                        context.addLine(to: pt)
                     }
                 }
 
                 if letter.style.closesPath {
-                    CGContextClosePath(context)
+                    context.closePath()
                 }
             }
 
-            CGContextDrawPath(context, letter.style.drawPath)
-            CGContextTranslateCTM(context, letter.size.width + letterSpace, 0)
+            context.drawPath(using: letter.style.drawPath)
+            context.translateBy(x: letter.size.width + letterSpace, y: 0)
         }
-        CGContextRestoreGState(context)
+        context.restoreGState()
     }
 
 }

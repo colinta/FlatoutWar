@@ -15,7 +15,7 @@ class Tutorial: World {
         self.director?.presentWorld(nextWorld ?? WorldSelectWorld(beginAt: .Tutorial))
     }
 
-    func showWhy(lines: [String]) {
+    func showWhy(_ lines: [String]) {
         for node in whyNodes {
             node.fadeTo(0, duration: 1, removeNode: true)
         }
@@ -29,7 +29,7 @@ class Tutorial: World {
             why.text = line
             why.position = CGPoint(y: y)
             why.alpha = 0
-            timeline.after(delay) {
+            timeline.after(time: delay) {
                 why.fadeTo(1, duration: 0.4)
             }
             ui << why
@@ -69,7 +69,8 @@ class Tutorial: World {
         self << playerNode
     }
 
-    func showEnemies(enemyLocations: Locations) -> [EnemySoldierNode] {
+    @discardableResult
+    func showEnemies(at enemyLocations: Locations) -> [EnemySoldierNode] {
         var nodes: [EnemySoldierNode] = []
         for locations in enemyLocations {
             let enemyNode = EnemySoldierNode(at: locations.start)

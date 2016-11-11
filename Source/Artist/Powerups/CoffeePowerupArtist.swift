@@ -3,8 +3,8 @@
 //
 
 class CoffeePowerupArtist: PowerupArtist {
-    override func draw(context: CGContext) {
-        super.draw(context)
+    override func draw(in context: CGContext) {
+        super.draw(in: context)
 
         let bigR: CGFloat = 10
         let smallR: CGFloat = 3
@@ -15,72 +15,78 @@ class CoffeePowerupArtist: PowerupArtist {
         let handleLeft: CGFloat = 2
         let handleUp: CGFloat = 3
 
-        CGContextTranslateCTM(context, bigR + handleWidth / 2, size.height - mugHeight / 2 - smallR)
-        CGContextMoveToPoint(context, -bigR, mugHeight / 2)
-        CGContextAddLineToPoint(context, -bigR, -mugHeight / 2)
+        context.translateBy(x: bigR + handleWidth / 2, y: size.height - mugHeight / 2 - smallR)
+        context.move(to: CGPoint(x: -bigR, y: mugHeight / 2))
+        context.addLine(to: CGPoint(x: -bigR, y: -mugHeight / 2))
 
         let arcRadius = mugHeight / 2 + smallR
-        CGContextAddCurveToPoint(context,
-            -smallR, -arcRadius,
-            smallR, -arcRadius,
-            bigR, -mugHeight / 2)
-        CGContextAddLineToPoint(context, bigR, mugHeight / 2)
-        CGContextAddCurveToPoint(context,
-            smallR, arcRadius,
-            -smallR, arcRadius,
-            -bigR, mugHeight / 2)
-        CGContextClosePath(context)
-        CGContextDrawPath(context, .FillStroke)
+        context.addCurve(
+            to: CGPoint(-smallR, -arcRadius),
+            control1: CGPoint(smallR, -arcRadius),
+            control2: CGPoint(bigR, -mugHeight / 2)
+            )
+        context.addLine(to: CGPoint(x: bigR, y: mugHeight / 2))
+        context.addCurve(
+            to: CGPoint(smallR, arcRadius),
+            control1: CGPoint(-smallR, arcRadius),
+            control2: CGPoint(-bigR, mugHeight / 2)
+            )
+        context.closePath()
+        context.drawPath(using: .fillStroke)
 
         // inner mug edge
-        CGContextMoveToPoint(context, -bigR, -mugHeight / 2)
-        CGContextAddCurveToPoint(context,
-            -smallR, -arcRadius + smallR * 2,
-            smallR, -arcRadius + smallR * 2,
-            bigR, -mugHeight / 2)
-        CGContextDrawPath(context, .Stroke)
+        context.move(to: CGPoint(x: -bigR, y: -mugHeight / 2))
+        context.addCurve(
+            to: CGPoint(-smallR, -arcRadius + smallR * 2),
+            control1: CGPoint(smallR, -arcRadius + smallR * 2),
+            control2: CGPoint(bigR, -mugHeight / 2)
+            )
+        context.drawPath(using: .stroke)
 
         // steam lines
         let steamR: CGFloat = 3
         let steamHeight: CGFloat = 6
         let steamX: [CGFloat] = [-bigR / 2, 0, bigR / 2]
         for x in steamX {
-            CGContextSaveGState(context)
-            CGContextTranslateCTM(context, x, -mugHeight / 2 - smallR)
-            CGContextMoveToPoint(context, 0, 0)
-            CGContextAddCurveToPoint(context,
-                steamR, -steamHeight / 2,
-                -steamR, -steamHeight / 2,
-                0, -steamHeight)
-            CGContextDrawPath(context, .Stroke)
-            CGContextRestoreGState(context)
+            context.saveGState()
+            context.translateBy(x: x, y: -mugHeight / 2 - smallR)
+            context.move(to: .zero)
+            context.addCurve(
+                to: CGPoint(steamR, -steamHeight / 2),
+                control1: CGPoint(-steamR, -steamHeight / 2),
+                control2: CGPoint(0, -steamHeight)
+                )
+            context.drawPath(using: .stroke)
+            context.restoreGState()
         }
 
         // mug handle
-        CGContextTranslateCTM(context, bigR - handleLeft, 0)
+        context.translateBy(x: bigR - handleLeft, y: 0)
         for pathFill in [true, false] {
-            CGContextMoveToPoint(context, 0, -handleHeight / 2 + handleUp)
-            CGContextAddCurveToPoint(context,
-                handleWidth, -handleHeight / 2 - handleUp,
-                handleWidth, handleHeight / 2 + handleUp,
-                0, handleHeight / 2 - handleUp)
+            context.move(to: CGPoint(x: 0, y: -handleHeight / 2 + handleUp))
+            context.addCurve(
+                to: CGPoint(handleWidth, -handleHeight / 2 - handleUp),
+                control1: CGPoint(handleWidth, handleHeight / 2 + handleUp),
+                control2: CGPoint(0, handleHeight / 2 - handleUp)
+                )
             if !pathFill {
-                CGContextDrawPath(context, .Stroke)
-                CGContextMoveToPoint(context, 0, handleHeight / 2 - handleUp - handleThickness)
+                context.drawPath(using: .stroke)
+                context.move(to: CGPoint(x: 0, y: handleHeight / 2 - handleUp - handleThickness))
             }
             else {
-                CGContextAddLineToPoint(context, 0, handleHeight / 2 - handleUp - handleThickness)
+                context.addLine(to: CGPoint(x: 0, y: handleHeight / 2 - handleUp - handleThickness))
             }
-            CGContextAddCurveToPoint(context,
-                handleWidth - handleThickness, handleHeight / 2 + handleUp - handleThickness,
-                handleWidth - handleThickness, -handleHeight / 2 - handleUp + handleThickness,
-                0, -handleHeight / 2 + handleUp + handleThickness)
+            context.addCurve(
+                to: CGPoint(handleWidth - handleThickness, handleHeight / 2 + handleUp - handleThickness),
+                control1: CGPoint(handleWidth - handleThickness, -handleHeight / 2 - handleUp + handleThickness),
+                control2: CGPoint(0, -handleHeight / 2 + handleUp + handleThickness)
+                )
             if pathFill {
-                CGContextClosePath(context)
-                CGContextDrawPath(context, .Fill)
+                context.closePath()
+                context.drawPath(using: .fill)
             }
             else {
-                CGContextDrawPath(context, .Stroke)
+                context.drawPath(using: .stroke)
             }
         }
     }

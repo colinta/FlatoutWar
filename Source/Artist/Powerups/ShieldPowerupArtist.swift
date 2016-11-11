@@ -3,8 +3,8 @@
 //
 
 class ShieldPowerupArtist: PowerupArtist {
-    override func draw(context: CGContext) {
-        super.draw(context)
+    override func draw(in context: CGContext) {
+        super.draw(in: context)
 
         let segmentCount = 15
         let arc = TAU / CGFloat(segmentCount)
@@ -12,18 +12,18 @@ class ShieldPowerupArtist: PowerupArtist {
         let outerWidth: CGFloat = 3
         let innerRadius = outerRadius - outerWidth
 
-        CGContextAddEllipseInRect(context, middle.rect(size: CGSize(r: innerRadius)))
-        CGContextDrawPath(context, .Fill)
+        context.addEllipse(in: CGRect(center: middle, size: CGSize(r: innerRadius)))
+        context.drawPath(using: .fill)
 
-        CGContextTranslateCTM(context, middle.x, middle.y)
+        context.translateBy(x: middle.x, y: middle.y)
         var angle: CGFloat = arc / 2
         segmentCount.times {
             let start = CGPoint(r: innerRadius, a: angle)
-            CGContextMoveToPoint(context, start.x, start.y)
-            CGContextAddArc(context, 0, 0, outerRadius, angle, angle + arc, 0)
-            CGContextAddArc(context, 0, 0, innerRadius, angle + arc, angle, 1)
-            CGContextClosePath(context)
-            CGContextDrawPath(context, .FillStroke)
+            context.move(to: start)
+            context.addArc(center: CGPoint(0, 0), radius: outerRadius, startAngle: angle, endAngle: angle + arc, clockwise: false)
+            context.addArc(center: CGPoint(0, 0), radius: innerRadius, startAngle: angle + arc, endAngle: angle, clockwise: true)
+            context.closePath()
+            context.drawPath(using: .fillStroke)
             angle += arc
         }
     }

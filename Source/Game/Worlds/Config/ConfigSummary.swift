@@ -18,10 +18,10 @@ class ConfigSummary: Config {
     }
 
     var totalGainedExperience: Int {
-        return configs.map { $0.gainedExperience }.reduce(0, combine: +)
+        return configs.map { $0.gainedExperience }.reduce(0, +)
     }
     var totalGainedResources: Int {
-        return configs.map { $0.gainedResources }.reduce(0, combine: +)
+        return configs.map { $0.gainedResources }.reduce(0, +)
     }
     
     var worldCompleted: Bool {

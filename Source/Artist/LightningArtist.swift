@@ -25,7 +25,8 @@ struct LightningBolt {
     }
 
     static func randomOffset() -> CGFloat {
-        return rand(-1...1) * 2
+        let offset: CGFloat = rand(-1...1)
+        return offset * 2
     }
 }
 
@@ -45,12 +46,12 @@ class LightningArtist: Artist {
         }
     }
 
-    private func newEntry(phase: CGFloat) -> BoltEntry {
+    private func newEntry(_ phase: CGFloat) -> BoltEntry {
         return (phase: phase, bolt: LightningBolt())
     }
 
-    override func draw(context: CGContext) {
-        for (index, entry) in bolts.enumerate() {
+    override func draw(in context: CGContext) {
+        for (index, entry) in bolts.enumerated() {
             let phase = entry.phase - dt * rate
             if phase < 0 {
                 bolts[index] = newEntry(1)
@@ -65,7 +66,7 @@ class LightningArtist: Artist {
         let offsetAngle = TAU_4
         for entry in bolts {
             let offsets = entry.bolt.offsets
-            CGContextMoveToPoint(context, p1.x, p1.y)
+            context.move(to: p1)
             let offsetCount = offsets.count
             for i in 0..<offsetCount {
                 let offset = offsets[i]
@@ -73,13 +74,13 @@ class LightningArtist: Artist {
                 let p = CGPoint(
                     x: p1.x + (p2.x - p1.x) * amt,
                     y: p1.y + (p2.y - p1.y) * amt) + CGPoint(r: offset, a: offsetAngle)
-                CGContextAddLineToPoint(context, p.x, p.y)
+                context.addLine(to: p)
             }
 
-            CGContextSetAlpha(context, entry.phase)
-            CGContextSetShadowWithColor(context, .zero, 3, color.CGColor)
-            CGContextSetStrokeColorWithColor(context, color.CGColor)
-            CGContextDrawPath(context, .Stroke)
+            context.setAlpha(entry.phase)
+            context.setShadow(offset: .zero, blur: 3, color: color.cgColor)
+            context.setStrokeColor(color.cgColor)
+            context.drawPath(using: .stroke)
         }
     }
 }

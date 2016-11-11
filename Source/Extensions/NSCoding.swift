@@ -5,20 +5,20 @@
 public extension NSCoder {
 
     func decode<T>(key: String) -> T {
-        return decodeObjectForKey(key) as! T
+        return decodeObject(forKey: key) as! T
     }
 
     func decodeBool(key: String) -> Bool? {
-        if containsValueForKey(key) {
-            return decodeBoolForKey(key)
+        if containsValue(forKey: key) {
+            return decodeBool(forKey: key)
         } else {
             return nil
         }
     }
 
     func decodeInt(key: String) -> Int? {
-        if containsValueForKey(key) {
-            return Int(decodeInt64ForKey(key))
+        if containsValue(forKey: key) {
+            return Int(decodeInt64(forKey: key))
         }
         else {
             return nil
@@ -26,8 +26,8 @@ public extension NSCoder {
     }
 
     func decodeFloat(key: String) -> Float? {
-        if containsValueForKey(key) {
-            return decodeFloatForKey(key)
+        if containsValue(forKey: key) {
+            return decodeFloat(forKey: key)
         }
         else {
             return nil
@@ -35,8 +35,8 @@ public extension NSCoder {
     }
 
     func decodeCGFloat(key: String) -> CGFloat? {
-        if containsValueForKey(key) {
-            return CGFloat(decodeFloatForKey(key))
+        if containsValue(forKey: key) {
+            return CGFloat(decodeFloat(forKey: key))
         }
         else {
             return nil
@@ -44,42 +44,19 @@ public extension NSCoder {
     }
 
     func decodeSize(key: String) -> CGSize? {
-        if containsValueForKey(key) {
-            return decodeCGSizeForKey(key)
+        if containsValue(forKey: key) {
+            return decodeCGSize(forKey: key)
         } else {
             return nil
         }
     }
 
     func decodePoint(key: String) -> CGPoint? {
-        if containsValueForKey(key) {
-            return decodeCGPointForKey(key)
+        if containsValue(forKey: key) {
+            return decodeCGPoint(forKey: key)
         } else {
             return nil
         }
     }
 
-}
-
-public extension NSCoder {
-    func encode(obj: Any?, key: String) {
-        if let bool = obj as? Bool {
-            encodeBool(bool, forKey: key)
-        }
-        else if let int = obj as? Int {
-            encodeInt64(Int64(int), forKey: key)
-        }
-        else if let float = obj as? Float {
-            encodeFloat(float, forKey: key)
-        }
-        else if let size = obj as? CGSize {
-            encodeCGSize(size, forKey: key)
-        }
-        else if let point = obj as? CGPoint {
-            encodeCGPoint(point, forKey: key)
-        }
-        else if let obj: AnyObject = obj as? AnyObject {
-            encodeObject(obj, forKey: key)
-        }
-    }
 }

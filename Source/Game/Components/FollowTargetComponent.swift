@@ -4,7 +4,7 @@
 
 class FollowTargetComponent: FollowComponent {
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         guard let follow = follow else { return }
 
         if let comp = node.rammingComponent {

@@ -19,22 +19,22 @@ class CropNode: Node {
         super.init(coder: coder)
     }
 
-    override func insertChild(node: SKNode, atIndex index: Int) {
+    override func insertChild(_ node: SKNode, at index: Int) {
         if let node = node as? Node {
             if index == children.count || index >= skMaskNode.children.count {
                 skMaskNode.addChild(node)
             }
             else {
-                skMaskNode.insertChild(node, atIndex: index)
+                skMaskNode.insertChild(node, at: index)
             }
             maskedNodes << node
         }
         else {
-            super.insertChild(node, atIndex: index)
+            super.insertChild(node, at: index)
         }
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         for node in maskedNodes {
             node.update(dt)
         }

@@ -5,8 +5,8 @@
 let EnemySoldierGreen = 0x3E8012
 
 class EnemySoldierArtist: Artist {
-    private var color = UIColor(hex: EnemySoldierGreen)
-    private var health: CGFloat
+    fileprivate var color = UIColor(hex: EnemySoldierGreen)
+    fileprivate var health: CGFloat
 
     required init(health: CGFloat) {
         self.health = health
@@ -22,22 +22,22 @@ class EnemySoldierArtist: Artist {
         return .zero
     }
 
-    override func draw(context: CGContext) {
-        CGContextSetFillColorWithColor(context, color.CGColor)
+    override func draw(in context: CGContext) {
+        context.setFillColor(color.cgColor)
 
         if health == 1 {
-            CGContextAddRect(context, CGRect(size: size))
-            CGContextDrawPath(context, .Fill)
+            context.addRect(CGRect(size: size))
+            context.drawPath(using: .fill)
         }
         else {
             let y = size.height * (1 - health)
 
-            CGContextAddRect(context, CGRect(x: 0, y: y, width: size.width, height: size.height - y))
-            CGContextDrawPath(context, .Fill)
+            context.addRect(CGRect(x: 0, y: y, width: size.width, height: size.height - y))
+            context.drawPath(using: .fill)
 
-            CGContextSetAlpha(context, 0.25)
-            CGContextAddRect(context, CGRect(size: size))
-            CGContextDrawPath(context, .Fill)
+            context.setAlpha(0.25)
+            context.addRect(CGRect(size: size))
+            context.drawPath(using: .fill)
         }
     }
 
@@ -66,16 +66,16 @@ class EnemyLeaderArtist: EnemySoldierArtist {
         size = CGSize(20)
     }
 
-    override func draw(context: CGContext) {
-        CGContextSaveGState(context)
-        super.draw(context)
-        CGContextRestoreGState(context)
+    override func draw(in context: CGContext) {
+        context.saveGState()
+        super.draw(in: context)
+        context.restoreGState()
 
-        CGContextSetLineWidth(context, 2.0)
-        CGContextSetStrokeColorWithColor(context, darkColor.CGColor)
-        CGContextMoveToPoint(context, size.width * 0.75, 0)
-        CGContextAddLineToPoint(context, size.width * 0.75, size.height)
-        CGContextDrawPath(context, .Stroke)
+        context.setLineWidth(2.0)
+        context.setStrokeColor(darkColor.cgColor)
+        context.move(to: CGPoint(x: size.width * 0.75, y: 0))
+        context.addLine(to: CGPoint(x: size.width * 0.75, y: size.height))
+        context.drawPath(using: .stroke)
     }
 
 }
@@ -90,19 +90,19 @@ class EnemyScoutArtist: EnemySoldierArtist {
         color = UIColor(hex: 0xEED200)
     }
 
-    override func draw(context: CGContext) {
-        CGContextSaveGState(context)
-        super.draw(context)
-        CGContextRestoreGState(context)
+    override func draw(in context: CGContext) {
+        context.saveGState()
+        super.draw(in: context)
+        context.restoreGState()
 
-        CGContextSetLineWidth(context, 1)
-        CGContextSetFillColorWithColor(context, darkColor.CGColor)
+        context.setLineWidth(1)
+        context.setFillColor(darkColor.cgColor)
         let stroke: CGFloat = 0.5
-        CGContextMoveToPoint(context, size.width * 0.75 + stroke, 0)
-        CGContextAddLineToPoint(context, size.width * 0.75 - stroke, 0)
-        CGContextAddLineToPoint(context, size.width * 0.25 - stroke, size.height)
-        CGContextAddLineToPoint(context, size.width * 0.25 + stroke, size.height)
-        CGContextDrawPath(context, .Fill)
+        context.move(to: CGPoint(x: size.width * 0.75 + stroke, y: 0))
+        context.addLine(to: CGPoint(x: size.width * 0.75 - stroke, y: 0))
+        context.addLine(to: CGPoint(x: size.width * 0.25 - stroke, y: size.height))
+        context.addLine(to: CGPoint(x: size.width * 0.25 + stroke, y: size.height))
+        context.drawPath(using: .fill)
     }
 
 }

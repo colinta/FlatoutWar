@@ -74,7 +74,7 @@ class MainMenuWorld: World {
                     center + CGVector(r: self.outerRadius * 2, a: flyAngle) + CGVector(r: ±rand(25), a: flyAngle + TAU_4),
                 ]
 
-                self.timeline.after(7) {
+                self.timeline.after(time: 7) {
                     enemy.removeFromParent()
                 }
             }

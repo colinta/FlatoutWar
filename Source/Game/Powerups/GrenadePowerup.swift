@@ -17,8 +17,8 @@ class GrenadePowerup: Powerup {
         super.init(count: count)
     }
 
-    override func activate(level: World, layer: SKNode, playerNode: Node, completion: Block = {}) {
-        super.activate(level, layer: layer, playerNode: playerNode)
+    override func activate(level: World, layer: SKNode, playerNode: Node, completion: @escaping Block = {}) {
+        super.activate(level: level, layer: layer, playerNode: playerNode)
 
         self.onNextTap(slowmo: true) { position in
             let grenade = GrenadePowerupNode(at: playerNode.position)
@@ -26,7 +26,7 @@ class GrenadePowerup: Powerup {
             let length: CGFloat = (position - playerNode.position).length
             let arcToComponent = grenade.arcTo(position, speed: length / arcDuration)
             arcToComponent.onArrived {
-                self.slowmo(false)
+                self.slowmo(on: false)
                 let bomb = BombNode(maxRadius: 30)
                 bomb.position = position
                 layer << bomb
@@ -36,7 +36,7 @@ class GrenadePowerup: Powerup {
             grenade.fadeTo(1, duration: arcDuration)
 
             layer << grenade
-            level.timeline.after(arcDuration, block: completion)
+            level.timeline.after(time: arcDuration, block: completion)
         }
     }
 

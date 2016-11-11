@@ -10,7 +10,7 @@ class Powerup {
     var cancellable = true
     var powerupCancel: Block? = nil
     var name: String { return "" }
-    var powerupType: ImageIdentifier.PowerupType? { return .None }
+    var powerupType: ImageIdentifier.PowerupType? { return .none }
 
     var count: Int = 0
     var nextResourceCost: Currency? {
@@ -38,13 +38,13 @@ class Powerup {
     }
 
     func clone() -> Powerup {
-        return self.dynamicType.init(count: self.count)
+        return type(of: self).init(count: self.count)
     }
 
     func buttonIcon() -> (Button, SKNode) {
         let button = Button()
         button.text = name
-        button.alignment = .Left
+        button.alignment = .left
 
         let icon = self.icon()
         icon.position = CGPoint(x: -icon.size.width / 2 - 4)
@@ -66,7 +66,7 @@ class Powerup {
         powerupCount.font = .Tiny
         powerupCount.position = CGPoint(14, -10)
         powerupCount.text = "\(count)"
-        powerupCount.alignment = .Left
+        powerupCount.alignment = .left
         return powerupCount
     }
 
@@ -78,11 +78,11 @@ class Powerup {
         if let nextResourceCost = nextResourceCost {
             resourceCost.text = "\(nextResourceCost.resources)"
         }
-        resourceCost.alignment = .Left
+        resourceCost.alignment = .left
         return resourceCost
     }
 
-    func addToLevel(level: World, playerNode: Node, start: CGPoint, dest: Position) {
+    func addToLevel(_ level: World, playerNode: Node, start: CGPoint, dest: Position) {
         self.level = level
         self.playerNode = playerNode
 
@@ -118,8 +118,8 @@ class Powerup {
 
     private func powerupStart() {
         guard cancellable else { return }
-        guard let powerupCancelButton = powerupCancelButton, powerupButton = powerupButton else { return }
-        if let parent = powerupButton.parent where parent != powerupCancelButton.parent {
+        guard let powerupCancelButton = powerupCancelButton, let powerupButton = powerupButton else { return }
+        if let parent = powerupButton.parent, parent != powerupCancelButton.parent {
             powerupCancelButton.removeFromParent()
             parent << powerupCancelButton
         }
@@ -129,36 +129,41 @@ class Powerup {
         powerupButton.enabled = false
     }
     func powerupRunning() {
-        guard cancellable else { return }
-        guard let powerupCancelButton = powerupCancelButton else { return }
+        guard cancellable,
+            let powerupCancelButton = powerupCancelButton
+        else { return }
         powerupCancelButton.visible = false
     }
     func powerupEnd() {
-        guard cancellable else { return }
-        guard let powerupCancelButton = powerupCancelButton, powerupButton = powerupButton else { return }
+        guard
+            cancellable,
+            let powerupCancelButton = powerupCancelButton,
+            let powerupButton = powerupButton
+        else { return }
         powerupCancelButton.visible = false
-        powerupButton.enabled = (count ?? 1) > 0
+        powerupButton.enabled = count > 0
     }
 
     func activateIfEnabled() {
-        guard powerupEnabled else { return }
-        guard (count ?? 1) > 0 else { return }
+        guard
+            powerupEnabled, count > 0,
+            let level = level,
+            let playerNode = playerNode
+        else { return }
 
-        if let level = level, playerNode = playerNode {
-            powerupStart()
+        powerupStart()
 
-            activate(level, playerNode: playerNode) {
-                self.count -= 1
-                self.powerupCount?.text = "\(self.count)"
+        activate(level: level, playerNode: playerNode) {
+            self.count -= 1
+            self.powerupCount?.text = "\(self.count)"
 
-                if (self.count ?? 1) > 0 {
-                    self.cooldown = self.timeout
-                }
+            if self.count > 0 {
+                self.cooldown = self.timeout
             }
         }
     }
 
-    func update(dt: CGFloat) {
+    func update(_ dt: CGFloat) {
         if cooldown > 0 {
             cooldown -= dt
             powerupCountdown?.alpha = 1
@@ -171,14 +176,14 @@ class Powerup {
         }
     }
 
-    func activate(level: World, playerNode: Node, completion: Block = {}) {
-        activate(level, layer: level, playerNode: playerNode, completion: completion)
+    func activate(level: World, playerNode: Node, completion: @escaping Block = {}) {
+        activate(level: level, layer: level, playerNode: playerNode, completion: completion)
     }
 
-    func activate(level: World, layer: SKNode, playerNode: Node, completion: Block = {}) {
+    func activate(level: World, layer: SKNode, playerNode: Node, completion: @escaping Block = {}) {
     }
 
-    func slowmo(onoff: Bool) {
+    func slowmo(on onoff: Bool) {
         if onoff {
             level?.timeRate = 0.333
         }
@@ -187,10 +192,10 @@ class Powerup {
         }
     }
 
-    func onNextTap(slowmo slowmo: Bool = false, onTap: (CGPoint) -> Void) {
+    func onNextTap(slowmo: Bool = false, onTap: @escaping (CGPoint) -> Void) {
         if let level = level {
             if slowmo {
-                self.slowmo(true)
+                self.slowmo(on: true)
             }
 
             let tapNode = Node()
@@ -201,9 +206,9 @@ class Powerup {
             let prevDefault = level.defaultNode
             level.defaultNode = tapNode
 
-            let restore: (slowmo: Bool) -> Void = { slowmo in
+            let restore: (Bool) -> Void = { slowmo in
                 if slowmo {
-                    self.slowmo(false)
+                    self.slowmo(on: false)
                 }
 
                 level.defaultNode = prevDefault
@@ -215,9 +220,9 @@ class Powerup {
             if cancellable {
                 let cancel: Block = {
                     self.powerupEnd()
-                    restore(slowmo: true)
+                    restore(true)
                 }
-                cancelTimeout = level.timeline.cancellable.after(3 * level.timeRate, block: cancel)
+                cancelTimeout = level.timeline.cancellable.after(time: 3 * level.timeRate, block: cancel)
                 self.powerupCancel = cancel ++ cancelTimeout
             }
             else {
@@ -229,11 +234,11 @@ class Powerup {
                 self.powerupCancel = nil
                 cancelTimeout()
 
-                let position = tapNode.convertPoint(location, toNode: level)
+                let position = tapNode.convert(location, to: level)
                 onTap(position)
 
                 self.powerupRunning()
-                restore(slowmo: slowmo)
+                restore(slowmo)
             }
             tapNode.addComponent(touchComponent)
         }

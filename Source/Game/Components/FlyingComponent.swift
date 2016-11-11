@@ -40,14 +40,15 @@ class FlyingComponent: PlayerRammingComponent {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
     override func removeTempTarget() {
-        if let flyingTarget = currentFlyingTarget
-        where flyingTarget == tempTarget {
-            self.flyingTargets.removeAtIndex(0)
+        if let flyingTarget = currentFlyingTarget,
+            flyingTarget == tempTarget
+        {
+            self.flyingTargets.remove(at: 0)
             tempTarget = currentFlyingTarget
         }
         else {
@@ -55,9 +56,10 @@ class FlyingComponent: PlayerRammingComponent {
         }
     }
 
-    override func update(dt: CGFloat) {
-        if let flyingTarget = currentFlyingTarget
-        where tempTarget == nil {
+    override func update(_ dt: CGFloat) {
+        if let flyingTarget = currentFlyingTarget,
+            tempTarget == nil
+        {
             self.tempTarget = flyingTarget
         }
 

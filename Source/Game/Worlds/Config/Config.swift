@@ -3,6 +3,6 @@
 //
 
 class Config {
-    var configKey: String { return "Config-\(self.dynamicType)" }
-    var Defaults = NSUserDefaults.standardUserDefaults()
+    var configKey: String { return "Config-\(type(of: self))" }
+    var Defaults = UserDefaults.standard
 }

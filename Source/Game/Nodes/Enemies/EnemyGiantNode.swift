@@ -18,7 +18,7 @@ class EnemyGiantNode: EnemySoldierNode {
         rammingDamage = Damage
     }
 
-    override func generateBigShrapnel(dist dist: CGFloat, angle: CGFloat, spread: CGFloat) {
+    override func generateBigShrapnel(distance dist: CGFloat, angle: CGFloat, spread: CGFloat) {
         guard let world = self.world else { return }
 
         let position = self.position
@@ -33,7 +33,7 @@ class EnemyGiantNode: EnemySoldierNode {
                 let y: CGPoint = (0.5 + CGFloat(count) / 2 - CGFloat(j)) * vy
 
                 let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Small)
-                node.setupAround(self, at: position + x + y)
+                node.setupAround(node: self, at: position + x + y)
 
                 let dest = CGPoint(r: rand(min: dist, max: dist * 1.5), a: angle ± rand(spread))
                 node.moveToComponent?.target = node.position + dest
@@ -46,8 +46,8 @@ class EnemyGiantNode: EnemySoldierNode {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
     override func enemyType() -> ImageIdentifier.EnemyType {

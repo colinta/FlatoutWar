@@ -15,9 +15,9 @@ class FiringComponent: Component {
         }
     }
 
-    typealias OnFire = (angle: CGFloat) -> Void
+    typealias OnFire = (_ angle: CGFloat) -> Void
     var _onFire: [OnFire] = []
-    func onFire(handler: OnFire) { _onFire << handler }
+    func onFire(_ handler: @escaping OnFire) { _onFire << handler }
 
     override func reset() {
         super.reset()
@@ -32,11 +32,11 @@ class FiringComponent: Component {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         guard lastFired <= 0 else {
             lastFired -= dt
             return
@@ -46,17 +46,17 @@ class FiringComponent: Component {
         if forceFire {
             let angle = (turret ?? node).zRotation
             for handler in _onFire {
-                handler(angle: angle)
+                handler(angle)
             }
             lastFired = cooldown
         }
         else if let targetingComponent = node.targetingComponent,
-            let angle = targetingComponent.angleToCurrentTarget()
-            where targetingComponent.enabled
+            let angle = targetingComponent.angleToCurrentTarget(),
+            targetingComponent.enabled
         {
             self.angle = angle
             for handler in _onFire {
-                handler(angle: angle)
+                handler(angle)
             }
             lastFired = cooldown
         }

@@ -7,7 +7,7 @@ class Component: NSObject, NSCoding {
     var enabled = true
     weak var node: Node!
 
-    func update(dt: CGFloat) {
+    func update(_ dt: CGFloat) {
     }
 
     func reset() {
@@ -28,11 +28,11 @@ class Component: NSObject, NSCoding {
 
     required init?(coder: NSCoder) {
         super.init()
-        enabled = coder.decodeBool("enabled") ?? true
+        enabled = coder.decodeBool(key: "enabled") ?? true
     }
 
-    func encodeWithCoder(encoder: NSCoder) {
-        encoder.encode(enabled, key: "enabled")
+    func encode(with encoder: NSCoder) {
+        encoder.encode(enabled, forKey: "enabled")
     }
 
 }

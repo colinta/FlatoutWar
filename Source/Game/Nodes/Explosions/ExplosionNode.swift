@@ -5,7 +5,7 @@
 private let DefaultDistance: CGFloat = 30
 private let DefaultDuration: CGFloat = 1
 
-private func radiusToLength(radius: CGFloat) -> CGFloat {
+private func radiusToLength(_ radius: CGFloat) -> CGFloat {
     return max(radius / 10, CGFloat(10))
 }
 
@@ -39,30 +39,30 @@ class ExplosionNode: Node {
     }
 
     required init?(coder: NSCoder) {
-        let lineLength = coder.decodeCGFloat("lineLength")
+        let lineLength = coder.decodeCGFloat(key: "lineLength")
         self.lineLength = lineLength ?? 0
-        duration = coder.decodeCGFloat("duration") ?? DefaultDuration
+        duration = coder.decodeCGFloat(key: "duration") ?? DefaultDuration
         super.init(coder: coder)
         if lineLength == nil {
             self.lineLength = radiusToLength(self.radius)
         }
-        phase = coder.decodeCGFloat("phase") ?? 0
-        sprites = coder.decode("sprites") ?? []
+        phase = coder.decodeCGFloat(key: "phase") ?? 0
+        sprites = coder.decode(key: "sprites") ?? []
     }
 
     convenience required init() {
         self.init(radius: DefaultDistance)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
-        encoder.encode(lineLength, key: "lineLength")
-        encoder.encode(duration, key: "duration")
-        encoder.encode(phase, key: "phase")
-        encoder.encode(sprites, key: "sprites")
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
+        encoder.encode(lineLength, forKey: "lineLength")
+        encoder.encode(duration, forKey: "duration")
+        encoder.encode(phase, forKey: "phase")
+        encoder.encode(sprites, forKey: "sprites")
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         phase += dt / duration
         guard phase <= 1 else {
             removeFromParent()
@@ -74,7 +74,7 @@ class ExplosionNode: Node {
         let length = min(distance, lineLength)
         let alpha = min(1, 4 * (1 - phase))
 
-        for (i, sprite) in sprites.enumerate() {
+        for (i, sprite) in sprites.enumerated() {
             let angle = CGFloat(i) / CGFloat(sprites.count) * TAU
             sprite.textureId(.HueLine(length: length, hue: hue))
             sprite.position = CGPoint(r: distance, a: angle)

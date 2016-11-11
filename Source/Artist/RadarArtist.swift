@@ -30,8 +30,8 @@ class RadarArtist: Artist {
         fatalError("init() has not been implemented")
     }
 
-    override func draw(context: CGContext) {
-        CGContextSetLineWidth(context, 1.pixels)
+    override func draw(in context: CGContext) {
+        context.setLineWidth(1.pixels)
 
         let innerRadius: CGFloat = 25
         let c0 = CGPoint(x: 0, y: middle.y)
@@ -44,33 +44,33 @@ class RadarArtist: Artist {
         let bottomRight = CGPoint(x: size.width, y: 0)
         let bottomInner = CGPoint(r: innerRadius, a: -sweepAngle) + CGPoint(x: 0, y: size.height / 2)
 
-        CGContextSaveGState(context)
-        CGContextMoveToPoint(context, bottomRight.x, bottomRight.y)
-        CGContextAddLineToPoint(context, bottomInner.x, bottomInner.y)
-        CGContextAddArc(context, c0.x, c0.y, innerRadius, -sweepAngle, sweepAngle, 0)
-        CGContextAddLineToPoint(context, topRight.x, topRight.y)
-        CGContextClosePath(context)
-        CGContextClip(context)
+        context.saveGState()
+        context.move(to: bottomRight)
+        context.addLine(to: bottomInner)
+        context.addArc(center: c0, radius: innerRadius, startAngle: -sweepAngle, endAngle: sweepAngle, clockwise: false)
+        context.addLine(to: topRight)
+        context.closePath()
+        context.clip()
 
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let components: [CGFloat] = [ 0.9882, 0.9451, 0.0471, 0.25,
                                   0.2471, 0.2471, 0.2471, 0.0]
         let locations: [CGFloat] = [0, 1]
-        let gradient = CGGradientCreateWithColorComponents(colorSpace, components, locations, 2)!
-        CGContextDrawLinearGradient(context, gradient, c0, centerRight, [])
-        CGContextRestoreGState(context)
+        let gradient = CGGradient(colorSpace: colorSpace, colorComponents: components, locations: locations, count: 2)!
+        context.drawLinearGradient(gradient, start: c0, end: centerRight, options: [])
+        context.restoreGState()
 
-        CGContextSetAlpha(context, 0.5)
-        CGContextSetStrokeColorWithColor(context, color.CGColor)
-        CGContextMoveToPoint(context, bottomRight.x, bottomRight.y)
-        CGContextAddLineToPoint(context, bottomInner.x, bottomInner.y)
-        CGContextAddArc(context, c0.x, c0.y, innerRadius, -sweepAngle, sweepAngle, 0)
-        CGContextAddLineToPoint(context, topRight.x, topRight.y)
-        CGContextDrawPath(context, .Stroke)
+        context.setAlpha(0.5)
+        context.setStrokeColor(color.cgColor)
+        context.move(to: bottomRight)
+        context.addLine(to: bottomInner)
+        context.addArc(center: c0, radius: innerRadius, startAngle: -sweepAngle, endAngle: sweepAngle, clockwise: false)
+        context.addLine(to: topRight)
+        context.drawPath(using: .stroke)
 
-        CGContextSetAlpha(context, 0.25)
-        CGContextMoveToPoint(context, centerInner.x, centerInner.y)
-        CGContextAddLineToPoint(context, radius, middle.y)
-        CGContextDrawPath(context, .Stroke)
+        context.setAlpha(0.25)
+        context.move(to: centerInner)
+        context.addLine(to: CGPoint(x: radius, y: middle.y))
+        context.drawPath(using: .stroke)
     }
 }

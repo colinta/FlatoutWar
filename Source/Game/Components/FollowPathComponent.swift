@@ -8,11 +8,11 @@ class FollowPathComponent: Component {
     private(set) var totalTime: CGFloat = 0
     var time: CGFloat = 0
     var velocity: CGFloat = 50
-    var pathFn: (t: CGFloat, v: CGFloat) -> (CGPoint) {
+    var pathFn: (CGFloat, CGFloat) -> (CGPoint) {
         didSet {
             time = 0
 
-            let info = pathFn(t: -1, v: velocity)
+            let info = pathFn(-1, velocity)
             totalDist = info.x
             totalTime = info.y
 
@@ -26,7 +26,7 @@ class FollowPathComponent: Component {
 
     typealias OnArrived = () -> Void
     private var _onArrived: [OnArrived] = []
-    func onArrived(handler: OnArrived) {
+    func onArrived(_ handler: @escaping OnArrived) {
         _onArrived << handler
     }
 
@@ -62,8 +62,8 @@ class FollowPathComponent: Component {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
     override func didAddToNode() {
@@ -74,19 +74,19 @@ class FollowPathComponent: Component {
 
     private func calcPA() -> (CGPoint, CGFloat) {
         let t = min(time, totalTime)
-        let currentPoint = pathFn(t: t, v: velocity)
+        let currentPoint = pathFn(t, velocity)
         var frameTime = oneFrame * 5
         var angle: CGFloat = 0
         var angleCount: CGFloat = 0
         while frameTime > 0 {
-            angle += pathFn(t: t - frameTime, v: velocity).angleTo(currentPoint)
+            angle += pathFn(t - frameTime, velocity).angleTo(currentPoint)
             angleCount += 1
             frameTime -= oneFrame
         }
         return (currentPoint, angle / angleCount)
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         time += dt
         let (p, a) = calcPA()
 

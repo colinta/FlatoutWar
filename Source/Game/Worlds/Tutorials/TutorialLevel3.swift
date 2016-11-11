@@ -93,7 +93,7 @@ class TutorialLevel3: TutorialLevel {
         timeline.at(.Delayed(58), block: self.generateEnemyFormation(wave5))
     }
 
-    func generateEnemyFormation(screenAngle: CGFloat) -> Block {
+    func generateEnemyFormation(_ screenAngle: CGFloat) -> Block {
         return {
             let dist: CGFloat = 25
             let enemyLeader = EnemyLeaderNode()
@@ -123,7 +123,7 @@ class TutorialLevel3: TutorialLevel {
                 let enemy = EnemySoldierNode(at: origin)
                 enemy.name = "formation soldier"
                 enemy.rotateTo(enemyLeader.zRotation)
-                enemy.follow(enemyLeader)
+                enemy.follow(leader: enemyLeader)
                 self << enemy
             }
         }

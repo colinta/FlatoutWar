@@ -9,7 +9,7 @@ class UpgradeConfigSummary: Config {
     ]
 
     private var totalGainedExperience: Int {
-        return configs.map { $0.totalGainedExperience }.reduce(0, combine: +)
+        return configs.map { $0.totalGainedExperience }.reduce(0, +)
     }
     var spentExperience: Int {
         get { return Defaults["\(configKey)-spentExperience"].int ?? 0 }
@@ -20,7 +20,7 @@ class UpgradeConfigSummary: Config {
     }
 
     private var totalGainedResources: Int {
-        return configs.map { $0.totalGainedResources }.reduce(0, combine: +)
+        return configs.map { $0.totalGainedResources }.reduce(0, +)
     }
     var spentResources: Int {
         get { return Defaults["\(configKey)-spentResources"].int ?? 0 }
@@ -30,11 +30,11 @@ class UpgradeConfigSummary: Config {
         return totalGainedResources - spentResources
     }
 
-    func canAfford(amount: Currency) -> Bool {
+    func canAfford(_ amount: Currency) -> Bool {
         return availableExperience - amount.experience >= 0 && availableResources - amount.resources >= 0
     }
 
-    func spent(amount: Currency) {
+    func spent(_ amount: Currency) {
         if amount.experience > 0 {
             Defaults["\(configKey)-spentExperience"] = spentExperience + amount.experience
         }

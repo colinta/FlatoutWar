@@ -2,12 +2,12 @@
 ///  BasePlayerNode.swift
 //
 
-private let ForceFireDuration: CGFloat = 0.3
-private let ForceFireDamageFactor: Float = 0.667
-private let DefaultCooldown: CGFloat = 0.35
-private let ForceFireCooldown: CGFloat = 0.12
-private let ForceFireBurnoutUp: CGFloat = 6
-private let ForceFireBurnoutDown: CGFloat = 4
+fileprivate let ForceFireDuration: CGFloat = 0.3
+fileprivate let ForceFireDamageFactor: Float = 0.667
+fileprivate let DefaultCooldown: CGFloat = 0.35
+fileprivate let ForceFireCooldown: CGFloat = 0.12
+fileprivate let ForceFireBurnoutUp: CGFloat = 6
+fileprivate let ForceFireBurnoutDown: CGFloat = 4
 
 class BasePlayerNode: Node {
     var forceFireEnabled: Bool?
@@ -16,14 +16,14 @@ class BasePlayerNode: Node {
         didSet { touchResourceComponent.enabled = forceResourceEnabled }
     }
 
-    private var hurtSound = OpenALManager.sharedInstance().bufferFromFile("killed.caf")
-    private var shootSound = OpenALManager.sharedInstance().bufferFromFile("short.caf")
+    fileprivate var hurtSound = OpenALManager.sharedInstance().buffer(fromFile: "killed.caf")
+    fileprivate var shootSound = OpenALManager.sharedInstance().buffer(fromFile: "short.caf")
 
-    private var resourceLocation: CGPoint?
-    private let resourceLine = SKSpriteNode()
-    private var resourceLock: CGPoint?
-    private var touchAimingComponent = TouchableComponent()
-    private var touchResourceComponent = TouchableComponent()
+    fileprivate var resourceLocation: CGPoint?
+    fileprivate let resourceLine = SKSpriteNode()
+    fileprivate var resourceLock: CGPoint?
+    fileprivate var touchAimingComponent = TouchableComponent()
+    fileprivate var touchResourceComponent = TouchableComponent()
 
     var turret: Turret = SimpleTurret() {
         didSet {
@@ -38,7 +38,7 @@ class BasePlayerNode: Node {
     var bulletUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
     var radarUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
     var turretUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
-    private func updateUpgrades() {
+    fileprivate func updateUpgrades() {
         baseNode.textureId(.Base(rotateUpgrade: rotateUpgrade, bulletUpgrade: bulletUpgrade, health: healthComponent?.healthInt ?? 100))
         rotateToComponent?.maxAngularSpeed = rotateUpgrade.baseAngularSpeed
         rotateToComponent?.angularAccel = rotateUpgrade.baseAngularAccel
@@ -53,7 +53,7 @@ class BasePlayerNode: Node {
     let lightNode: SKLightNode
 
     let forceFirePercent = PercentBar()
-    private var forceFireCooldown: CGFloat {
+    fileprivate var forceFireCooldown: CGFloat {
         return forceFireBurnout ? DefaultCooldown : ForceFireCooldown
     }
 
@@ -87,7 +87,7 @@ class BasePlayerNode: Node {
         forceFirePercent.complete = 0
         self << forceFirePercent
 
-        resourceLine.hidden = true
+        resourceLine.isHidden = true
         resourceLine.z = .BelowPlayer
         resourceLine.anchorPoint = CGPoint(0, 0.5)
         resourceLine.alpha = 0.5
@@ -108,7 +108,7 @@ class BasePlayerNode: Node {
         touchAimingComponent.onDragged(onDraggedAiming)
         addComponent(touchAimingComponent)
 
-        touchResourceComponent.containsTouchTest = TouchableComponent.defaultTouchTest(.Circle)
+        touchResourceComponent.containsTouchTest = TouchableComponent.defaultTouchTest(shape: .Circle)
         touchResourceComponent.on(.DragBegan, onDragResourceBegan)
         touchResourceComponent.on(.DragEnded, onDragResourceEnded)
         touchResourceComponent.onDragged(onDraggedResource)
@@ -141,12 +141,12 @@ class BasePlayerNode: Node {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
     func onHurt() {
-        world?.channel.play(hurtSound)
+        _ = world?.channel?.play(hurtSound)
     }
 
     func disableTouchForUI() {
@@ -154,7 +154,7 @@ class BasePlayerNode: Node {
         touchResourceComponent.enabled = false
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         let forceFire: Bool
         if let forceFireEnabled = self.forceFireEnabled {
             forceFire = forceFireEnabled
@@ -180,14 +180,14 @@ class BasePlayerNode: Node {
         }
 
         if let resourceLocation = resourceLocation {
-            checkForResource(resourceLocation)
+            checkForResource(at: resourceLocation)
         }
 
         firingComponent?.forceFire = forceFire
         firingComponent?.cooldown = (forceFire ? forceFireCooldown : DefaultCooldown)
 
-        if let firingAngle = firingComponent?.angle
-            where forceFireEnabled != true
+        if let firingAngle = firingComponent?.angle,
+            forceFireEnabled != true
         {
             turretNode.zRotation = firingAngle
         }
@@ -206,16 +206,16 @@ class BasePlayerNode: Node {
 
 extension BasePlayerNode {
 
-    func aimAt(node node: Node, location: CGPoint? = nil) {
+    func aimAt(node: Node, location: CGPoint? = nil) {
         let location = self.convertPosition(node) + (location ?? .zero)
         aimAt(location: location)
     }
 
-    func aimAt(location location: CGPoint) {
+    func aimAt(location: CGPoint) {
         aimAt(angle: location.angle)
     }
 
-    func aimAt(angle angle: CGFloat) {
+    func aimAt(angle: CGFloat) {
         self.rotateToComponent?.target = angle
     }
 
@@ -225,7 +225,7 @@ extension BasePlayerNode {
 
 extension BasePlayerNode {
 
-    private func fireBullet(angle angle: CGFloat) {
+    fileprivate func fireBullet(angle: CGFloat) {
         guard let world = world else {
             return
         }
@@ -245,13 +245,13 @@ extension BasePlayerNode {
         bullet.timeRate = self.timeRate
 
         bullet.damage = turretUpgrade.baseBulletDamage
-        bullet.size = BulletArtist.bulletSize(.False)
+        bullet.size = BulletArtist.bulletSize(upgrade: .False)
         bullet.zRotation = angle
         bullet.z = Z.Below
         bullet.damage *= damageFactor
         ((parent as? Node) ?? world) << bullet
 
-        world.channel.play(shootSound)
+        _ = world.channel?.play(shootSound)
     }
 
 }
@@ -260,25 +260,25 @@ extension BasePlayerNode {
 
 extension BasePlayerNode {
 
-    override func touchableComponentFor(location: CGPoint) -> TouchableComponent {
+    override func touchableComponentFor(_ location: CGPoint) -> TouchableComponent {
         if location.lengthWithin(self.radius + 10) {
             return touchResourceComponent
         }
         return touchAimingComponent
     }
 
-    func onTouchAimingTapped(location: CGPoint) {
+    func onTouchAimingTapped(at location: CGPoint) {
         targetingComponent?.currentTarget = nil
-        startRotatingTo(location.angle)
+        startRotatingTo(angle: location.angle)
     }
 
-    func onDraggedAiming(prev prevLocation: CGPoint, location: CGPoint) {
+    func onDraggedAiming(from prevLocation: CGPoint, to location: CGPoint) {
         let angle = prevLocation.angleTo(location, around: position)
         let destAngle = rotateToComponent?.destAngle ?? 0
-        startRotatingTo(destAngle + angle)
+        startRotatingTo(angle: destAngle + angle)
     }
 
-    func onDragResourceBegan(location: CGPoint) {
+    func onDragResourceBegan(at location: CGPoint) {
         resourceLocation = location
         resourceLine.textureId(.None)
         resourceLine.alpha = 0.5
@@ -286,27 +286,27 @@ extension BasePlayerNode {
         resourceLock = nil
     }
 
-    func onDraggedResource(prev prevLocation: CGPoint, location: CGPoint) {
-        checkForResource(location)
+    func onDraggedResource(from prevLocation: CGPoint, to location: CGPoint) {
+        checkForResource(at: location)
     }
 
-    func onDragResourceEnded(location: CGPoint) {
+    func onDragResourceEnded(at location: CGPoint) {
         resourceLocation = nil
         resourceLine.visible = false
     }
 
-    func checkForResource(location: CGPoint) {
+    func checkForResource(at location: CGPoint) {
         if let world = world,
-            level = world as? ResourceWorld
-        where resourceLock == nil
+            let level = world as? ResourceWorld,
+            resourceLock == nil
         {
             let dragLocation = world.convertPosition(self) + location
             for node in world.children {
-                if let resourceNode = node as? ResourceNode
-                where !resourceNode.locked &&
+                if let resourceNode = node as? ResourceNode,
+                    !resourceNode.locked,
                     dragLocation.distanceTo(resourceNode.position, within: resourceNode.radius)
                 {
-                    level.playerFoundResource(resourceNode)
+                    level.playerFoundResource(node: resourceNode)
                     resourceLock = convertPosition(resourceNode)
                     break
                 }
@@ -330,7 +330,7 @@ extension BasePlayerNode {
         rotateToComponent?.target = angle
     }
 
-    override func rotateTo(angle: CGFloat) {
+    override func rotateTo(_ angle: CGFloat) {
         baseNode.zRotation = angle
         radarNode.zRotation = angle
         turretNode.zRotation = angle

@@ -15,22 +15,22 @@ class SoldierArtist: Artist {
         self.init(health: 1)
     }
 
-    override func draw(context: CGContext) {
-        CGContextSetFillColorWithColor(context, UIColor(hex: PowerupRed).CGColor)
+    override func draw(in context: CGContext) {
+        context.setFillColor(UIColor(hex: PowerupRed).cgColor)
 
         if health == 1 {
-            CGContextAddRect(context, CGRect(size: size))
-            CGContextDrawPath(context, .Fill)
+            context.addRect(CGRect(size: size))
+            context.drawPath(using: .fill)
         }
         else {
             let y = size.height * (1 - health)
 
-            CGContextAddRect(context, CGRect(x: 0, y: y, width: size.width, height: size.height - y))
-            CGContextDrawPath(context, .Fill)
+            context.addRect(CGRect(x: 0, y: y, width: size.width, height: size.height - y))
+            context.drawPath(using: .fill)
 
-            CGContextSetAlpha(context, 0.25)
-            CGContextAddRect(context, CGRect(size: size))
-            CGContextDrawPath(context, .Fill)
+            context.setAlpha(0.25)
+            context.addRect(CGRect(size: size))
+            context.drawPath(using: .fill)
         }
     }
 

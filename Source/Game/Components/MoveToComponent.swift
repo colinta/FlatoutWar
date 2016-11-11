@@ -3,7 +3,7 @@
 //
 
 class MoveToComponent: ApplyToNodeComponent {
-    private var resetTarget = false
+    fileprivate var resetTarget = false
     var target: CGPoint? {
         didSet {
             resetTarget = false
@@ -13,14 +13,14 @@ class MoveToComponent: ApplyToNodeComponent {
         }
     }
 
-    private var _speed: CGFloat? = 100
+    fileprivate var _speed: CGFloat? = 100
     var speed: CGFloat? {
         get { return _speed }
         set {
             _speed = newValue
         }
     }
-    private var _duration: CGFloat?
+    fileprivate var _duration: CGFloat?
     var duration: CGFloat? {
         get { return _duration }
         set {
@@ -29,13 +29,13 @@ class MoveToComponent: ApplyToNodeComponent {
         }
     }
 
-    private var currentPosition: CGPoint { return node.position }
-    private var savedPosition: CGPoint?
-    private var savedVector: CGPoint?
+    fileprivate var currentPosition: CGPoint { return node.position }
+    fileprivate var savedPosition: CGPoint?
+    fileprivate var savedVector: CGPoint?
 
     typealias OnArrived = () -> Void
-    private var _onArrived: [OnArrived] = []
-    func onArrived(handler: OnArrived) {
+    fileprivate var _onArrived: [OnArrived] = []
+    func onArrived(_ handler: @escaping OnArrived) {
         _onArrived << handler
     }
 
@@ -65,7 +65,7 @@ class MoveToComponent: ApplyToNodeComponent {
         _onArrived = []
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         guard let target = target else { return }
 
         let speed: CGFloat
@@ -98,8 +98,9 @@ class MoveToComponent: ApplyToNodeComponent {
         }
         else {
             let vector: CGPoint
-            if let savedVector = savedVector, savedPosition = savedPosition
-            where savedPosition == target {
+            if let savedVector = savedVector, let savedPosition = savedPosition,
+                savedPosition == target
+            {
                 vector = savedVector
             }
             else {
@@ -119,7 +120,9 @@ class MoveToComponent: ApplyToNodeComponent {
 
 
 extension Node {
-    func moveTo(dest: Position, duration: CGFloat? = nil, speed: CGFloat? = nil) -> MoveToComponent {
+
+    @discardableResult
+    func moveTo(_ dest: Position, duration: CGFloat? = nil, speed: CGFloat? = nil) -> MoveToComponent {
         let screenSize = world!.screenSize
         let position = dest.positionIn(screenSize: screenSize)
         let moveTo = self.moveTo(position, duration: duration, speed: speed)
@@ -129,7 +132,8 @@ extension Node {
         return moveTo
     }
 
-    func moveTo(dest: CGPoint, start: CGPoint? = nil, duration: CGFloat? = nil, speed: CGFloat? = nil, removeNode: Bool = false, removeComponent: Bool = true) -> MoveToComponent {
+    @discardableResult
+    func moveTo(_ dest: CGPoint, start: CGPoint? = nil, duration: CGFloat? = nil, speed: CGFloat? = nil, removeNode: Bool = false, removeComponent: Bool = true) -> MoveToComponent {
         let moveTo: MoveToComponent
         if let moveToComponent = moveToComponent {
             moveTo = moveToComponent

@@ -18,8 +18,8 @@ class HourglassPowerup: Powerup {
         self.timeout = 10
     }
 
-    override func activate(level: World, layer: SKNode, playerNode: Node, completion: Block = {}) {
-        super.activate(level, layer: layer, playerNode: playerNode)
+    override func activate(level: World, layer: SKNode, playerNode: Node, completion: @escaping Block = {}) {
+        super.activate(level: level, layer: layer, playerNode: playerNode)
 
         powerupEnabled = false
         let hourglass = HourglassNode(at: playerNode.position)

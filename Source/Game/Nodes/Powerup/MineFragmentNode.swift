@@ -27,7 +27,7 @@ class MineFragmentNode: Node {
         projectileComponent.intersectionNode = sprite
         projectileComponent.onCollision { (enemy, location) in
             if let world = self.world {
-                let absLocation = world.convertPoint(location, fromNode: self)
+                let absLocation = world.convert(location, from: self)
                 let explosionNode = ExplosionNode(radius: ExplosionNode.SmallExplosion)
                 explosionNode.position = absLocation
                 world << explosionNode
@@ -38,15 +38,15 @@ class MineFragmentNode: Node {
     }
 
     required init?(coder: NSCoder) {
-        self.angle = coder.decodeCGFloat("angle") ?? 0
+        self.angle = coder.decodeCGFloat(key: "angle") ?? 0
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         phase += dt / Duration
         guard phase <= 1 else {
             removeFromParent()

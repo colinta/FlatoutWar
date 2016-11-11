@@ -14,21 +14,21 @@ class ArcToComponent: ApplyToNodeComponent {
     var control2: CGPoint?
     var rotate = true
 
-    private var start: CGPoint?
-    private var time: CGFloat = 0
-    private var prevDelta: CGFloat?
+    fileprivate var start: CGPoint?
+    fileprivate var time: CGFloat = 0
+    fileprivate var prevDelta: CGFloat?
 
     typealias OnArrived = () -> Void
-    private var _onArrived: [OnArrived] = []
-    func onArrived(handler: OnArrived) {
-        _onArrived << handler
+    fileprivate var _onArrived: [OnArrived] = []
+    func onArrived(_ handler: @escaping OnArrived) {
+        _onArrived.append(handler)
     }
     func clearOnArrived() { _onArrived = [] }
 
     typealias OnMoved = (CGFloat) -> Void
-    private var _onMoved: [OnMoved] = []
-    func onMoved(handler: OnMoved) {
-        _onMoved << handler
+    fileprivate var _onMoved: [OnMoved] = []
+    func onMoved(_ handler: @escaping OnMoved) {
+        _onMoved.append(handler)
     }
     func clearOnMoved() { _onMoved = [] }
 
@@ -63,7 +63,7 @@ class ArcToComponent: ApplyToNodeComponent {
         }
     }
 
-    private func pointAt(t: CGFloat, start: CGPoint, target: CGPoint) -> CGPoint {
+    private func pointAt(time t: CGFloat, start: CGPoint, target: CGPoint) -> CGPoint {
         guard t > 0 else { return start }
         guard t < 1 else { return target }
 
@@ -112,14 +112,14 @@ class ArcToComponent: ApplyToNodeComponent {
         var iter = 5
         while true {
             nextTime = time + guessDelta
-            nextPoint = pointAt(nextTime, start: start, target: target)
+            nextPoint = pointAt(time: nextTime, start: start, target: target)
             let length = current.distanceTo(nextPoint)
             if abs(maxLength - length) < accuracy {
                 break
             }
             iter -= 1
             if iter == 0 {
-                return calcNextTimeAlt(time, current: current, start: start, target: target, maxLength: maxLength)
+                return calcNextTimeAlt(time: time, current: current, start: start, target: target, maxLength: maxLength)
             }
 
             if length > 0.0001 {
@@ -139,7 +139,7 @@ class ArcToComponent: ApplyToNodeComponent {
         var nextPoint: CGPoint!, prevPoint: CGPoint?
         while true {
             nextTime += dt
-            nextPoint = pointAt(nextTime, start: start, target: target)
+            nextPoint = pointAt(time: nextTime, start: start, target: target)
             let length = current.distanceTo(nextPoint)
             if length > maxLength {
                 break
@@ -150,11 +150,16 @@ class ArcToComponent: ApplyToNodeComponent {
         return (prevTime ?? nextTime, prevPoint ?? nextPoint)
     }
 
-    override func update(dt: CGFloat) {
-        guard let speed = speed, current = self.current ?? self.start, start = start, target = target else { return }
+    override func update(_ dt: CGFloat) {
+        guard
+            let speed = speed,
+            let current = self.current ?? self.start,
+            let start = start,
+            let target = target
+        else { return }
 
         let length = speed * dt
-        let (calcTime, calcPoint) = calcNextTime(time, current: current, start: start, target: target, maxLength: length)
+        let (calcTime, calcPoint) = calcNextTime(time: time, current: current, start: start, target: target, maxLength: length)
 
         let nextTime: CGFloat
         let nextPoint: CGPoint
@@ -191,7 +196,8 @@ class ArcToComponent: ApplyToNodeComponent {
 }
 
 extension Node {
-    func arcTo(dest: CGPoint, control: CGPoint? = nil, start: CGPoint? = nil, speed: CGFloat, arcOffset: CGFloat? = nil, removeNode: Bool = false, removeComponent: Bool = true) -> ArcToComponent {
+    @discardableResult
+    func arcTo(_ dest: CGPoint, control: CGPoint? = nil, start: CGPoint? = nil, speed: CGFloat, arcOffset: CGFloat? = nil, removeNode: Bool = false, removeComponent: Bool = true) -> ArcToComponent {
         let arcTo = ArcToComponent()
         if let start = start {
             self.position = start

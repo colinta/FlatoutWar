@@ -19,7 +19,7 @@ class RotateToComponent: ApplyToNodeComponent {
     var angularAccel: CGFloat? = 3
 
     var isRotating: Bool {
-        guard let currentAngle = currentAngle, target = target else {
+        guard let currentAngle = currentAngle, let target = target else {
             return false
         }
         return (0.25).degrees < abs(deltaAngle(target, target: currentAngle))
@@ -27,7 +27,7 @@ class RotateToComponent: ApplyToNodeComponent {
 
     typealias OnRotated = Block
     private var _onRotated: [OnRotated] = []
-    func onRotated(handler: OnRotated) {
+    func onRotated(_ handler: @escaping OnRotated) {
         if target == nil {
             handler()
         }
@@ -44,8 +44,8 @@ class RotateToComponent: ApplyToNodeComponent {
         currentAngle = node.zRotation
     }
 
-    override func update(dt: CGFloat) {
-        guard let currentAngle = currentAngle, target = target else {
+    override func update(_ dt: CGFloat) {
+        guard let currentAngle = currentAngle, let target = target else {
             return
         }
 

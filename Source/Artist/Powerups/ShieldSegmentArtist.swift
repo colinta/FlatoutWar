@@ -11,8 +11,8 @@ class ShieldSegmentArtist: PowerupArtist {
         size = CGSize(width: 5, height: 25)
     }
 
-    override func draw(context: CGContext) {
-        super.draw(context)
+    override func draw(in context: CGContext) {
+        super.draw(in: context)
 
         let segmentCount = 15
         let arc = TAU / CGFloat(segmentCount)
@@ -20,16 +20,16 @@ class ShieldSegmentArtist: PowerupArtist {
         let outerWidth: CGFloat = 3
         let innerRadius = outerRadius - outerWidth
 
-        CGContextTranslateCTM(context, -55, middle.y)
-        CGContextSetAlpha(context, health)
+        context.translateBy(x: -55, y: middle.y)
+        context.setAlpha(health)
 
         let angle: CGFloat = -arc / 2
         let start = CGPoint(r: innerRadius, a: angle)
-        CGContextMoveToPoint(context, start.x, start.y)
-        CGContextAddArc(context, 0, 0, outerRadius, angle, angle + arc, 0)
-        CGContextAddArc(context, 0, 0, innerRadius, angle + arc, angle, 1)
-        CGContextClosePath(context)
-        CGContextDrawPath(context, .FillStroke)
+        context.move(to: start)
+        context.addArc(center: CGPoint(0, 0), radius: outerRadius, startAngle: angle, endAngle: angle + arc, clockwise: false)
+        context.addArc(center: CGPoint(0, 0), radius: innerRadius, startAngle: angle + arc, endAngle: angle, clockwise: true)
+        context.closePath()
+        context.drawPath(using: .fillStroke)
     }
 
 }

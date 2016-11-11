@@ -49,7 +49,7 @@ class DroneTutorial: Tutorial {
 
     func showFirstDemo() {
         self.selectNode(self.drone)
-        let enemies = showEnemies([(start: CGPoint(r: 250, a: 0.degrees), end: CGPoint(r: 60, a: 0.degrees))])
+        let enemies = showEnemies(at: [(start: CGPoint(r: 250, a: 0.degrees), end: CGPoint(r: 60, a: 0.degrees))])
         let enemyNode = enemies.first!
 
         let holdStart = drone.position + CGPoint(x: 80, y: -10)
@@ -60,38 +60,39 @@ class DroneTutorial: Tutorial {
         self << holdButton
 
         holdButton.touchableComponent!.onDragged { (prev_, location_) in
-            var prev = self.convertPoint(prev_, fromNode: holdButton)
-            var location = self.convertPoint(location_, fromNode: holdButton)
+            var prev = self.convert(prev_, from: holdButton)
+            var location = self.convert(location_, from: holdButton)
             prev.y = 0
             location.y = 0
-            self.drone.draggableComponent?.draggingMoved(prev, location: location)
+            self.drone.draggableComponent?.draggingMoved(from: prev, to: location)
 
             if self.drone.placeholder.position.x > 60 {
-                self.drone.draggableComponent!.draggingEnded(location)
+                self.drone.draggableComponent!.draggingEnded(at: location)
                 holdButton.removeFromParent()
             }
         }
         holdButton.touchableComponent!.on(.Down) { location_ in
-            var location = self.convertPoint(location_, fromNode: holdButton)
+            var location = self.convert(location_, from: holdButton)
             location.y = 0
-            self.drone.draggableComponent?.draggingBegan(location)
+            self.drone.draggableComponent?.draggingBegan(at: location)
             holdButton.text = "DRAG"
 
             let moveTo = MoveToComponent()
             moveTo.target = holdEnd
             moveTo.speed = 80
             moveTo.onArrived() {
-                if let isDragMoving = holdButton.draggableComponent?.isDragMoving
-                where !isDragMoving {
+                if let isDragMoving = holdButton.draggableComponent?.isDragMoving,
+                    !isDragMoving
+                {
                     holdButton.removeFromParent()
                 }
             }
             holdButton.addComponent(moveTo)
         }
         holdButton.touchableComponent!.on(.Up) { location_ in
-            var location = self.convertPoint(location_, fromNode: holdButton)
+            var location = self.convert(location_, from: holdButton)
             location.y = 0
-            self.drone.draggableComponent?.draggingEnded(location)
+            self.drone.draggableComponent?.draggingEnded(at: location)
             holdButton.text = "HOLD"
             holdButton.moveToComponent?.removeFromNode()
         }
@@ -111,7 +112,7 @@ class DroneTutorial: Tutorial {
         moveTo.speed = DroneNode.DefaultSpeed
         moveTo.removeComponentOnArrived()
         drone.addComponent(moveTo)
-        playerNode.startRotatingTo(0)
+        playerNode.startRotatingTo(angle: 0)
 
         let enemies = [
             (start: CGPoint(r: 300, a: TAU_2), end: CGPoint(r: 40, a: TAU_2)),
@@ -121,7 +122,7 @@ class DroneTutorial: Tutorial {
             (start: CGPoint(r: 375, a: TAU_2 + 5.degrees), end: CGPoint(r: 70, a: TAU_2 + 5.degrees)),
             (start: CGPoint(r: 375, a: TAU_2 + 10.degrees), end: CGPoint(r: 70, a: TAU_2 + 10.degrees)),
         ]
-        showEnemies(enemies)
+        showEnemies(at: enemies)
 
         moveCamera(to: CGPoint(x: -40, y: 0), handler: showSecondButton)
     }
@@ -135,21 +136,21 @@ class DroneTutorial: Tutorial {
         self << holdButton
 
         holdButton.touchableComponent!.onDragged { (prev_, location_) in
-            var prev = self.convertPoint(prev_, fromNode: holdButton)
-            var location = self.convertPoint(location_, fromNode: holdButton)
+            var prev = self.convert(prev_, from: holdButton)
+            var location = self.convert(location_, from: holdButton)
             prev.y = -2 * prev.x / 3
             location.y = -2 * location.x / 3
-            self.drone.draggableComponent?.draggingMoved(prev, location: location)
+            self.drone.draggableComponent?.draggingMoved(from: prev, to: location)
 
             if self.drone.placeholder.position.x < -70 {
-                self.drone.draggableComponent!.draggingEnded(location)
+                self.drone.draggableComponent!.draggingEnded(at: location)
                 holdButton.removeFromParent()
             }
         }
         holdButton.touchableComponent!.on(.Down) { location_ in
-            var location = self.convertPoint(location_, fromNode: holdButton)
+            var location = self.convert(location_, from: holdButton)
             location.y = -2 * location.x / 3
-            self.drone.draggableComponent?.draggingBegan(location)
+            self.drone.draggableComponent?.draggingBegan(at: location)
             holdButton.text = "DRAG"
 
             let moveTo = MoveToComponent()
@@ -158,9 +159,9 @@ class DroneTutorial: Tutorial {
             holdButton.addComponent(moveTo)
         }
         holdButton.touchableComponent!.on(.Up) { location_ in
-            var location = self.convertPoint(location_, fromNode: holdButton)
+            var location = self.convert(location_, from: holdButton)
             location.y = -2 * location.x / 3
-            self.drone.draggableComponent?.draggingEnded(location)
+            self.drone.draggableComponent?.draggingEnded(at: location)
             holdButton.text = "HOLD"
             holdButton.moveToComponent?.removeFromNode()
         }

@@ -1,9 +1,9 @@
-///  World.swift
 ////
+///  World.swift
 //
 
 class World: Node {
-    var screenSize: CGSize! {
+    var screenSize: CGSize = .zero {
         didSet {
             updateFixedNodes()
         }
@@ -17,10 +17,10 @@ class World: Node {
 
     var multitouchEnabled = false
     var pauseable = false
-    private var shouldBePaused = false
-    private var shouldBeHalted = false
+    fileprivate var shouldBePaused = false
+    fileprivate var shouldBeHalted = false
     var isUpdating = false
-    private var _halted = false
+    fileprivate var _halted = false
     var halted: Bool {
         get { return _halted }
         set(halt) {
@@ -33,7 +33,7 @@ class World: Node {
         }
     }
 
-    private var _paused = false
+    fileprivate var _paused = false
     var worldPaused: Bool {
         get { return _paused || _halted }
         set(pause) {
@@ -112,11 +112,11 @@ class World: Node {
         }
     }
 
-    func randSideAngle(sides: [Side]) -> CGFloat {
+    func randSideAngle(_ sides: [Side]) -> CGFloat {
         return randSideAngle(sides.rand())
     }
 
-    func randSideAngle(side: Side? = nil) -> CGFloat {
+    func randSideAngle(_ side: Side? = nil) -> CGFloat {
         if let side = side {
             let spread: CGFloat
             switch side {
@@ -145,7 +145,7 @@ class World: Node {
         }
     }
 
-    func outsideWorld(angle angle: CGFloat) -> CGPoint {
+    func outsideWorld(angle: CGFloat) -> CGPoint {
         return outsideWorld(extra: 0, angle: angle)
     }
 
@@ -188,8 +188,8 @@ class World: Node {
         return point
     }
 
-    private var throttleStragglers = throttle(1)
-    private var didPopulateWorld = false
+    fileprivate var throttleStragglers = throttle(1)
+    fileprivate var didPopulateWorld = false
 
     var director: WorldView? {
         return (scene as? WorldScene)?.view as? WorldView
@@ -200,8 +200,9 @@ class World: Node {
     var defaultNode: Node?
     var selectedNode: Node? {
         willSet {
-            if let selectedNode = selectedNode
-            where selectedNode != newValue {
+            if let selectedNode = selectedNode,
+                selectedNode != newValue
+            {
                 selectedNode.selectableComponent?.changeSelected(false)
             }
         }
@@ -212,25 +213,25 @@ class World: Node {
         }
     }
 
-    private var _cachedNodes: [Node]?
-    private var _cachedEnemies: [Node]?
-    private var _cachedPlayers: [Node]?
+    fileprivate var _cachedNodes: [Node]?
+    fileprivate var _cachedEnemies: [Node]?
+    fileprivate var _cachedPlayers: [Node]?
     var nodes: [Node] { return cachedNodes() }
     var enemies: [Node] { return cachedEnemies() }
     var players: [Node] { return cachedPlayers() }
 
     typealias OnNoMoreEnemies = Block
-    private var _onNoMoreEnemies = [OnNoMoreEnemies]()
-    func onNoMoreEnemies(handler: OnNoMoreEnemies) {
+    fileprivate var _onNoMoreEnemies = [OnNoMoreEnemies]()
+    func onNoMoreEnemies(_ handler: @escaping OnNoMoreEnemies) {
         if enemies.count == 0 {
             handler()
         }
-        _onNoMoreEnemies << handler
+        _onNoMoreEnemies.append(handler)
     }
 
     func disablePlayers() { setPlayersEnabled(false) }
     func enablePlayers() { setPlayersEnabled(true) }
-    private func setPlayersEnabled(enabled: Bool) {
+    fileprivate func setPlayersEnabled(_ enabled: Bool) {
         for player in players {
             player.active = enabled
         }
@@ -249,14 +250,14 @@ class World: Node {
         self.cameraNode = Node(at: CGPoint(x: 0, y: 0))
 
         super.init(coder: coder)
-        timeline = coder.decode("timeline") ?? timeline
-        defaultNode = coder.decode("defaultNode")
+        timeline = coder.decode(key: "timeline") ?? timeline
+        defaultNode = coder.decode(key: "defaultNode")
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        encoder.encode(timeline, key: "timeline")
-        encoder.encode(defaultNode, key: "defaultNode")
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        encoder.encode(timeline, forKey: "timeline")
+        encoder.encode(defaultNode, forKey: "defaultNode")
+        super.encode(with: encoder)
     }
 
     override func reset() {
@@ -264,7 +265,7 @@ class World: Node {
         _onNoMoreEnemies = []
     }
 
-    private func _populateWorld() {
+    fileprivate func _populateWorld() {
         addComponent(cameraZoom)
         cameraNode.addComponent(cameraMove)
     }
@@ -273,14 +274,14 @@ class World: Node {
     }
 
     func restartWorld() {
-        director?.presentWorld(self.dynamicType.init())
+        director?.presentWorld(type(of: self).init())
     }
 
 }
 
 extension World {
 
-    private func resetCaches(isEnemy isEnemy: Bool = true, isPlayer: Bool = true) {
+    fileprivate func resetCaches(isEnemy: Bool = true, isPlayer: Bool = true) {
         _cachedNodes = nil
         if isEnemy {
             _cachedEnemies = nil
@@ -290,13 +291,13 @@ extension World {
         }
     }
 
-    private func cachedNodes() -> [Node] {
+    fileprivate func cachedNodes() -> [Node] {
         let cached = _cachedNodes ?? allChildNodes()
         _cachedNodes = cached
         return cached
     }
 
-    private func cachedEnemies() -> [Node] {
+    fileprivate func cachedEnemies() -> [Node] {
         let cached = _cachedEnemies ?? nodes.filter { node in
             return node.isEnemy
         }
@@ -304,7 +305,7 @@ extension World {
         return cached
     }
 
-    private func cachedPlayers() -> [Node] {
+    fileprivate func cachedPlayers() -> [Node] {
         let cached = _cachedPlayers ?? nodes.filter { node in
             return node.isPlayer
         }
@@ -316,14 +317,14 @@ extension World {
 extension World {
 
     // also called by addChild
-    override func insertChild(node: SKNode, atIndex index: Int) {
-        super.insertChild(node, atIndex: index)
+    override func insertChild(_ node: SKNode, at index: Int) {
+        super.insertChild(node, at: index)
         if let node = node as? Node {
             processNewNode(node)
         }
     }
 
-    func processNewNode(node: Node) {
+    func processNewNode(_ node: Node) {
         let newNodes = [node] + node.allChildNodes()
         for node in newNodes {
             didAdd(node)
@@ -374,15 +375,15 @@ extension World {
         resetCaches()
     }
 
-    override func removeChildrenInArray(nodes: [SKNode]) {
-        super.removeChildrenInArray(nodes)
+    override func removeChildren(in nodes: [SKNode]) {
+        super.removeChildren(in: nodes)
         resetCaches()
     }
 
-    func didAdd(node: Node) {
+    func didAdd(_ node: Node) {
     }
 
-    func willRemove(nodes: [Node]) {
+    func willRemove(_ nodes: [Node]) {
         var anyEnemy = false
         var anyPlayer = false
         for node in nodes {
@@ -407,7 +408,7 @@ extension World {
 
 extension World {
 
-    func updateWorld(dtReal: CGFloat) {
+    func updateWorld(_ dtReal: CGFloat) {
         if !didPopulateWorld {
             _populateWorld()
             populateWorld()
@@ -430,7 +431,7 @@ extension World {
             updateNodes(dt)
             gameUI.updateNodes(dt * timeRate)
 
-            throttleStragglers(dt: dt, clearStragglers)
+            throttleStragglers(dt, clearStragglers)
 
             if enemies.count == 0 && hadEnemies {
                 for handler in _onNoMoreEnemies {
@@ -456,7 +457,7 @@ extension World {
         }
     }
 
-    private func clearStragglers() {
+    fileprivate func clearStragglers() {
         let maxDistance = outerRadius * 2
         for node in allChildNodes() {
             if node.projectileComponent != nil && !convertPosition(node).lengthWithin(maxDistance) {
@@ -469,11 +470,11 @@ extension World {
 
 extension World {
 
-    func selectNode(node: Node) {
+    func selectNode(_ node: Node) {
         selectedNode = node
     }
 
-    func unselectNode(node: Node) {
+    func unselectNode(_ node: Node) {
         if selectedNode == node {
             selectedNode = nil
         }
@@ -487,93 +488,95 @@ extension World {
         print("at time \(timeline.time)")
     }
 
-    func worldTapped(id: NSObject, worldLocation: CGPoint) {
+    func worldTapped(_ id: NSObject, worldLocation: CGPoint) {
         guard let (touchedNode, touchableComponent) = touchedNodes[id] else { return }
         guard touchedNode.active else { return }
 
-        let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchableComponent.tapped(location)
+        let location = convert(worldLocation, to: touchedNode)
+        touchableComponent.tapped(at: location)
     }
 
-    func worldPressed(id: NSObject, worldLocation: CGPoint) {
+    func worldPressed(_ id: NSObject, worldLocation: CGPoint) {
         guard let (touchedNode, touchableComponent) = touchedNodes[id] else { return }
         guard touchedNode.active else { return }
 
-        let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchableComponent.pressed(location)
+        let location = convert(worldLocation, to: touchedNode)
+        touchableComponent.pressed(at: location)
     }
 
-    func worldTouchBegan(id: NSObject, worldLocation: CGPoint) {
+    func worldTouchBegan(_ id: NSObject, worldLocation: CGPoint) {
         guard multitouchEnabled || touchedNodes.count == 0 else {
             return
         }
 
-        if let touchedNode = touchableNodeAtLocation(worldLocation),
-            touchableComponent = touchedNode.touchableComponentFor(convertPoint(worldLocation, toNode: touchedNode))
-        where !(touchedNodes.any { (info) in return info.1.1 == touchableComponent })
+        if let touchedNode = touchableNode(at: worldLocation),
+            let touchableComponent = touchedNode.touchableComponentFor(convert(worldLocation, to: touchedNode)),
+            touchedNodes.none({ (info) in return info.1.1 == touchableComponent })
         {
             touchedNodes[id] = (touchedNode, touchableComponent)
         }
         else if let currentNode = currentNode,
-            touchableComponent = currentNode.touchableComponentFor(convertPoint(worldLocation, toNode: currentNode))
-        where !(touchedNodes.any { (info) in return info.1.1 == touchableComponent })
+            let touchableComponent = currentNode.touchableComponentFor(convert(worldLocation, to: currentNode)),
+            touchedNodes.none({ (info) in return info.1.1 == touchableComponent })
         {
             touchedNodes[id] = (currentNode, touchableComponent)
         }
 
-        if let (touchedNode, _) = touchedNodes[id] where !touchedNode.active {
+        if let (touchedNode, _) = touchedNodes[id],
+            !touchedNode.active
+        {
             touchedNodes[id] = nil
             return
         }
 
         if let (touchedNode, touchableComponent) = touchedNodes[id] {
-            let location = convertPoint(worldLocation, toNode: touchedNode)
-            if !touchableComponent.shouldAcceptTouch(location) {
+            let location = convert(worldLocation, to: touchedNode)
+            if !touchableComponent.shouldAcceptTouch(at: location) {
                 if touchedNode == selectedNode {
                     selectedNode = nil
                 }
                 touchedNodes[id] = nil
             }
             else {
-                touchableComponent.touchBegan(location)
+                touchableComponent.touchBegan(at: location)
             }
         }
     }
 
-    func worldTouchEnded(id: NSObject, worldLocation: CGPoint) {
+    func worldTouchEnded(_ id: NSObject, worldLocation: CGPoint) {
         guard let (touchedNode, touchableComponent) = touchedNodes[id] else { return }
 
-        let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchableComponent.touchEnded(location)
+        let location = convert(worldLocation, to: touchedNode)
+        touchableComponent.touchEnded(at: location)
 
         touchedNodes[id] = nil
     }
 
-    func worldDraggingBegan(id: NSObject, worldLocation: CGPoint) {
+    func worldDraggingBegan(_ id: NSObject, worldLocation: CGPoint) {
         guard let (touchedNode, touchableComponent) = touchedNodes[id] else { return }
 
-        let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchableComponent.draggingBegan(location)
+        let location = convert(worldLocation, to: touchedNode)
+        touchableComponent.draggingBegan(at: location)
     }
 
-    func worldDraggingMoved(id: NSObject, worldLocation: CGPoint) {
+    func worldDraggingMoved(_ id: NSObject, worldLocation: CGPoint) {
         guard let (touchedNode, touchableComponent) = touchedNodes[id] else { return }
 
-        let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchableComponent.draggingMoved(location)
+        let location = convert(worldLocation, to: touchedNode)
+        touchableComponent.draggingMoved(at: location)
     }
 
-    func worldDraggingEnded(id: NSObject, worldLocation: CGPoint) {
+    func worldDraggingEnded(_ id: NSObject, worldLocation: CGPoint) {
         guard let (touchedNode, touchableComponent) = touchedNodes[id] else { return }
 
-        let location = convertPoint(worldLocation, toNode: touchedNode)
-        touchableComponent.draggingEnded(location)
+        let location = convert(worldLocation, to: touchedNode)
+        touchableComponent.draggingEnded(at: location)
     }
 
 }
 
 extension World {
-    func touchableNodeAtLocation(worldLocation: CGPoint) -> Node? {
+    func touchableNode(at worldLocation: CGPoint) -> Node? {
         guard interactionEnabled else { return nil }
 
         let uiNodes: [Node]
@@ -585,24 +588,25 @@ extension World {
         }
 
         for uiNode in uiNodes {
-            if let foundUi = touchableNodeAtLocation(worldLocation, inChildren: uiNode.allChildNodes(interactive: true)) {
+            if let foundUi = touchableNode(at: worldLocation, inChildren: uiNode.allChildNodes(interactive: true)) {
                 return foundUi
             }
         }
         if !worldPaused {
-            return touchableNodeAtLocation(worldLocation, inChildren: self.allChildNodes(interactive: true))
+            return touchableNode(at: worldLocation, inChildren: self.allChildNodes(interactive: true))
         }
         return nil
     }
 
-    private func touchableNodeAtLocation(worldLocation: CGPoint, inChildren children: [Node]) -> Node? {
-        for node in children.reverse() {
+    fileprivate func touchableNode(at worldLocation: CGPoint, inChildren children: [Node]) -> Node? {
+        for node in children.reversed() {
             guard node.touchableComponent != nil else { continue }
 
-            let nodeLocation = convertPoint(worldLocation, toNode: node)
-            if let touchableComponent = node.touchableComponentFor(nodeLocation)
-            where node.active && node.visible && touchableComponent.enabled {
-                if touchableComponent.containsTouch(nodeLocation) {
+            let nodeLocation = convert(worldLocation, to: node)
+            if let touchableComponent = node.touchableComponentFor(nodeLocation),
+                node.active, node.visible, touchableComponent.enabled
+            {
+                if touchableComponent.containsTouch(at: nodeLocation) {
                     return node
                 }
             }
@@ -670,29 +674,29 @@ extension World {
 extension World {
 
     func updateFixedNodes() {
-        if screenSize != nil {
-            var fixedNodes: [(Node, Position)] = []
-            for uiNode in [ui, gameUI] {
-                for sknode in uiNode.children {
-                    if let node = sknode as? Node, fixedPosition = node.fixedPosition {
-                        fixedNodes << (node, fixedPosition)
-                    }
+        var fixedNodes: [(Node, Position)] = []
+        for uiNode in [ui, gameUI] {
+            for sknode in uiNode.children {
+                if let node = sknode as? Node,
+                    let fixedPosition = node.fixedPosition
+                {
+                    fixedNodes << (node, fixedPosition)
                 }
             }
-
-            for (node, fixedPosition) in fixedNodes {
-                node.position = calculateFixedPosition(fixedPosition)
-            }
         }
-    }
 
-    func updateFixedNode(node: Node) {
-        if let fixedPosition = node.fixedPosition where screenSize != nil {
+        for (node, fixedPosition) in fixedNodes {
             node.position = calculateFixedPosition(fixedPosition)
         }
     }
 
-    func calculateFixedPosition(position: Position) -> CGPoint {
+    func updateFixedNode(_ node: Node) {
+        guard let fixedPosition = node.fixedPosition else { return }
+
+        node.position = calculateFixedPosition(fixedPosition)
+    }
+
+    func calculateFixedPosition(_ position: Position) -> CGPoint {
         return position.positionIn(screenSize: size)
     }
 

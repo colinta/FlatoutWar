@@ -18,12 +18,12 @@ class CoffeePowerup: Powerup {
         self.timeout = 20
     }
 
-    override func activate(level: World, layer: SKNode, playerNode: Node, completion: Block = {}) {
-        super.activate(level, layer: layer, playerNode: playerNode)
+    override func activate(level: World, layer: SKNode, playerNode: Node, completion: @escaping Block = {}) {
+        super.activate(level: level, layer: layer, playerNode: playerNode)
 
         powerupEnabled = false
         playerNode.timeRate = 3
-        level.timeline.after(CoffeePowerup.CoffeeTimeout) {
+        level.timeline.after(time: CoffeePowerup.CoffeeTimeout) {
             self.caffeineWithdrawal()
             completion()
         }

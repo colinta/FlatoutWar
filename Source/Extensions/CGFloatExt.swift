@@ -8,7 +8,7 @@ extension CGFloat {
     }
 
     var pixels: CGFloat {
-        return CGFloat(self) / UIScreen.mainScreen().scale
+        return CGFloat(self) / UIScreen.main.scale
     }
 }
 
@@ -18,7 +18,7 @@ extension Double {
     }
 
     var pixels: CGFloat {
-        return CGFloat(self) / UIScreen.mainScreen().scale
+        return CGFloat(self) / UIScreen.main.scale
     }
 }
 
@@ -29,6 +29,6 @@ extension Int {
     }
 
     var pixels: CGFloat {
-        return CGFloat(self) / UIScreen.mainScreen().scale
+        return CGFloat(self) / UIScreen.main.scale
     }
 }

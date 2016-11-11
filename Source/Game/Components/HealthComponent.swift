@@ -4,12 +4,12 @@
 
 class HealthComponent: Component {
     typealias OnKilled = Block
-    typealias OnHurt = (damage: Float) -> Void
+    typealias OnHurt = ((damage: Float)) -> Void
     private var _onKilled: [OnKilled] = []
-    func onKilled(handler: OnKilled) { _onKilled << handler }
+    func onKilled(_ handler: @escaping OnKilled) { _onKilled << handler }
 
     private var _onHurt: [OnHurt] = []
-    func onHurt(handler: OnHurt) { _onHurt << handler }
+    func onHurt(_ handler: @escaping OnHurt) { _onHurt << handler }
 
     var startingHealth: Float {
         didSet {
@@ -39,19 +39,19 @@ class HealthComponent: Component {
     }
 
     required init?(coder: NSCoder) {
-        startingHealth = coder.decodeFloat("startingHealth") ?? 0
-        health = coder.decodeFloat("health") ?? 0
+        startingHealth = coder.decodeFloat(key: "startingHealth") ?? 0
+        health = coder.decodeFloat(key: "health") ?? 0
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
-        encoder.encode(startingHealth, key: "startingHealth")
-        encoder.encode(health, key: "health")
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
+        encoder.encode(startingHealth, forKey: "startingHealth")
+        encoder.encode(health, forKey: "health")
     }
 
-    func restore(damage: Float) {
-        inflict(-damage)
+    func restore(health damage: Float) {
+        inflict(damage: -damage)
     }
 
     func inflict(damage: Float) {
@@ -61,7 +61,7 @@ class HealthComponent: Component {
         died = health <= 0
 
         for handler in _onHurt {
-            handler(damage: damage)
+            handler(damage)
         }
         if callOnKilled {
             for handler in _onKilled {

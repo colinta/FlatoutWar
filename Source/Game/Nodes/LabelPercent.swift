@@ -23,7 +23,7 @@ class LabelPercent: Node {
         self.collected = 0
         super.init()
 
-        text.alignment = .Right
+        text.alignment = .right
         text.font = .Tiny
         if let goal = goal {
             text.text = "\(goal)/\(goal)"
@@ -46,11 +46,11 @@ class LabelPercent: Node {
         updateSprites()
     }
 
-    func gain(amt: Int) {
+    func gain(_ amt: Int) {
         self.collected += amt
     }
 
-    func spend(amt: Int) {
+    func spend(_ amt: Int) {
         self.collected -= amt
     }
 
@@ -81,16 +81,16 @@ class LabelPercent: Node {
     }
 
     required init?(coder: NSCoder) {
-        self.goal = coder.decodeInt("goal")
-        self.max = coder.decodeInt("max")
-        self.collected = coder.decodeInt("collected") ?? 0
+        self.goal = coder.decodeInt(key: "goal")
+        self.max = coder.decodeInt(key: "max")
+        self.collected = coder.decodeInt(key: "collected") ?? 0
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
-        encoder.encode(goal, key: "goal")
-        encoder.encode(collected, key: "collected")
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
+        encoder.encode(goal, forKey: "goal")
+        encoder.encode(collected, forKey: "collected")
     }
 
 }

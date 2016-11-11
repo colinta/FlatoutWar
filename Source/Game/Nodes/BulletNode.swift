@@ -16,7 +16,7 @@ class BulletNode: Node {
 
         sprite.textureId(.Bullet(upgrade: .False, style: style))
         self << sprite
-        size = BulletArtist.bulletSize(.False)
+        size = BulletArtist.bulletSize(upgrade: .False)
 
         addComponent(KeepMovingComponent(velocity: velocity))
 
@@ -25,7 +25,7 @@ class BulletNode: Node {
         projectileComponent.damage = damage
         projectileComponent.onCollision { (enemy, location) in
             if let world = self.world {
-                let absLocation = world.convertPoint(location, fromNode: self)
+                let absLocation = world.convert(location, from: self)
                 let a = velocity.angle
                 let explosionNode = BulletRecoilExplosionNode(at: absLocation)
                 explosionNode.zRotation = a

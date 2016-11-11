@@ -37,7 +37,7 @@ class LevelConfig: Config {
             return nodes ?? []
         }
         set {
-            let storage: [NSDictionary] = newValue.map { NodeStorage.toDefaults($0) }.flatMap { $0 }
+            let storage: [NSDictionary] = newValue.map { NodeStorage.toDefaults(node: $0) }.flatMap { $0 }
             Defaults["\(configKey)-storedPlayers"] = storage
         }
     }
@@ -46,9 +46,9 @@ class LevelConfig: Config {
         get {
             if let configs: [NSDictionary] = Defaults["\(configKey)-storedPowerups"].array as? [NSDictionary] {
                 let powerups = configs.flatMap {
-                    return PowerupStorage.fromDefaults($0)
-                }.sort { a, b in
-                    if let orderA = a.order, orderB = a.order {
+                    return PowerupStorage.fromDefaults(defaults: $0)
+                }.sorted { a, b in
+                    if let orderA = a.order, let orderB = a.order {
                         return orderA < orderB
                     }
                     else if a.order != nil {
@@ -64,7 +64,7 @@ class LevelConfig: Config {
         }
         set {
             let storage: [NSDictionary] = newValue.map { entry in
-                return PowerupStorage.toDefaults(entry.powerup, order: entry.order)
+                return PowerupStorage.toDefaults(powerup: entry.powerup, order: entry.order)
             }.flatMap { $0 }
             Defaults["\(configKey)-storedPowerups"] = storage
         }
@@ -74,13 +74,13 @@ class LevelConfig: Config {
         return storedPowerups.filter { $0.order == nil }.map { $0.powerup }
     }
 
-    func appendPowerup(powerup: Powerup) {
+    func appendPowerup(_ powerup: Powerup) {
         guard !storedPowerups.any({ $0.powerup == powerup }) else { return }
 
         storedPowerups = storedPowerups + [(powerup: powerup, order: nil)]
     }
 
-    func updatePowerup(powerup: Powerup) {
+    func updatePowerup(_ powerup: Powerup) {
         let storage: [NSDictionary] = storedPowerups.map { entry in
             let entryPowerup: Powerup
             if entry.powerup == powerup {
@@ -89,12 +89,12 @@ class LevelConfig: Config {
             else {
                 entryPowerup = entry.powerup
             }
-            return PowerupStorage.toDefaults(entryPowerup, order: entry.order)
+            return PowerupStorage.toDefaults(powerup: entryPowerup, order: entry.order)
         }.flatMap { $0 }
         Defaults["\(configKey)-storedPowerups"] = storage
     }
 
-    func replacePowerup(prevPowerup: Powerup, with newPowerup: Powerup) {
+    func replacePowerup(_ prevPowerup: Powerup, with newPowerup: Powerup) {
         let storage: [NSDictionary] = storedPowerups.map { entry in
             let entryPowerup: Powerup
             if entry.powerup == prevPowerup {
@@ -106,7 +106,7 @@ class LevelConfig: Config {
             else {
                 entryPowerup = entry.powerup
             }
-            return PowerupStorage.toDefaults(entryPowerup, order: entry.order)
+            return PowerupStorage.toDefaults(powerup: entryPowerup, order: entry.order)
         }.flatMap { $0 }
         Defaults["\(configKey)-storedPowerups"] = storage
     }
@@ -124,16 +124,16 @@ class LevelConfig: Config {
         RapidTurret(),
     ] }
 
-    func updateMaxGainedExperience(exp: Int) {
+    func updateMaxGainedExperience(_ exp: Int) {
         Defaults["\(configKey)-gainedExperience"] = min(max(exp, gainedExperience), possibleExperience)
     }
 
-    func updateMaxGainedResources(exp: Int) {
+    func updateMaxGainedResources(_ exp: Int) {
         Defaults["\(configKey)-gainedResources"] = max(exp, gainedResources)
     }
 
     func nextLevel() -> Level {
-        fatalError("nextLevel() has not been implemented by \(self.dynamicType)")
+        fatalError("nextLevel() has not been implemented by \(type(of: self))")
     }
 
     var hasTutorial: Bool { return tutorial() != nil }

@@ -47,11 +47,11 @@ class ShieldNode: Node {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         phase = (phase + 1) % 100
         sprite.textureId(.Shield(phase: phase))
 
@@ -91,7 +91,7 @@ class ShieldNode: Node {
                                     segment.damage -= enemyHealth
                                     segment.fadeTo(CGFloat(segment.damage / segment.initialDamage), duration: 0.1)
                                 }
-                                enemy.healthComponent?.inflict(damage)
+                                enemy.healthComponent?.inflict(damage: damage)
                             }
                             break
                         }

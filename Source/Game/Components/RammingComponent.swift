@@ -29,7 +29,7 @@ class RammingComponent: Component {
 
     typealias OnRammed = (Node) -> ()
     var _onRammed: [OnRammed] = []
-    func onRammed(handler: OnRammed) { _onRammed << handler }
+    func onRammed(_ handler: @escaping OnRammed) { _onRammed << handler }
 
     required override init() {
         super.init()
@@ -39,8 +39,8 @@ class RammingComponent: Component {
         super.init(coder: coder)
     }
 
-    override func encodeWithCoder(encoder: NSCoder) {
-        super.encodeWithCoder(encoder)
+    override func encode(with encoder: NSCoder) {
+        super.encode(with: encoder)
     }
 
     override func didAddToNode() {
@@ -69,9 +69,9 @@ class RammingComponent: Component {
         tempTarget = nil
     }
 
-    override func update(dt: CGFloat) {
-        if let tempTarget = tempTarget
-        where tempTarget.distanceTo(node.position, within: 1) || tempTargetCountdown < 0
+    override func update(_ dt: CGFloat) {
+        if let tempTarget = tempTarget,
+            tempTarget.distanceTo(node.position, within: 1) || tempTargetCountdown < 0
         {
             removeTempTarget()
         }
@@ -90,7 +90,7 @@ class RammingComponent: Component {
         }
     }
 
-    func moveTowards(dt: CGFloat, _ targetLocation: CGPoint) {
+    func moveTowards(_ dt: CGFloat, _ targetLocation: CGPoint) {
         var maxSpeed = self.maxSpeed
 
         let destAngle: CGFloat
@@ -108,7 +108,7 @@ class RammingComponent: Component {
 
         var currentSpeed = maxSpeed
         if let prevSpeed = self.currentSpeed,
-            newSpeed = moveValue(prevSpeed, towards: maxSpeed, by: dt * acceleration)
+            let newSpeed = moveValue(prevSpeed, towards: maxSpeed, by: dt * acceleration)
         {
             currentSpeed = newSpeed
         }
@@ -125,7 +125,7 @@ class RammingComponent: Component {
 
 class PlayerRammingComponent: RammingComponent {
 
-    func bindTo(targetingComponent targetingComponent: PlayerTargetingComponent) {
+    func bindTo(targetingComponent: PlayerTargetingComponent) {
         targetingComponent.onTargetAcquired { target in
             self.currentTarget = target
         }
@@ -142,7 +142,7 @@ class PlayerRammingComponent: RammingComponent {
                 }
                 return true
             case .Attacks:
-                node.healthComponent?.inflict(enemyDamage)
+                node.healthComponent?.inflict(damage: enemyDamage)
             }
         }
         return false
@@ -151,7 +151,7 @@ class PlayerRammingComponent: RammingComponent {
     private func struckTarget() -> Node? {
         if let players = (node.world?.players ?? currentTarget.map { [$0] }) {
             return players.firstMatch { player in
-                return player.playerComponent!.intersectable && intersectionNode!.intersectsNode(player.playerComponent!.intersectionNode!) && node.touches(player)
+                return player.playerComponent!.intersectable && intersectionNode!.intersects(player.playerComponent!.intersectionNode!) && node.touches(player)
             }
         }
         return nil
@@ -162,7 +162,7 @@ class PlayerRammingComponent: RammingComponent {
 
 class EnemyRammingComponent: RammingComponent {
 
-    func bindTo(targetingComponent targetingComponent: EnemyTargetingComponent) {
+    func bindTo(targetingComponent: EnemyTargetingComponent) {
         targetingComponent.onTargetAcquired { target in
             self.currentTarget = target
         }
@@ -181,7 +181,7 @@ class EnemyRammingComponent: RammingComponent {
     private func struckTarget() -> Node? {
         if let enemies = (node.world?.enemies ?? currentTarget.map { [$0] }) {
             return enemies.firstMatch { enemy in
-                return enemy.enemyComponent!.targetable && intersectionNode!.intersectsNode(enemy.enemyComponent!.intersectionNode!) && node.touches(enemy)
+                return enemy.enemyComponent!.targetable && intersectionNode!.intersects(enemy.enemyComponent!.intersectionNode!) && node.touches(enemy)
             }
         }
         return nil

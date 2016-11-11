@@ -47,7 +47,7 @@ class IntersectsTestWorld: DemoWorld {
         self.addComponent(touchableComponent)
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         n1.alpha = n1.touches(n2) ? 1 : 0.5
         n2.alpha = n2.touches(n1) ? 1 : 0.5
     }

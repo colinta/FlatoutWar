@@ -23,7 +23,7 @@ class RapidFireTutorial: Tutorial {
         label.fixedPosition = .Bottom(x: 0, y: 60)
         label.alpha = 0
         gameUI << label
-        let cancel = timeline.cancellable.after(2) {
+        let cancel = timeline.cancellable.after(time: 2) {
             label.fadeTo(1, duration: 0.5)
             self.bounce(label)
         }
@@ -49,7 +49,7 @@ class RapidFireTutorial: Tutorial {
         button.moveTo(dest, duration: 0.5)
     }
 
-    func bounce(node: Node, direction: Int = 1) {
+    func bounce(_ node: Node, direction: Int = 1) {
         var p = node.position
         if direction < 0 {
             p.y -= 30
@@ -75,19 +75,19 @@ class RapidFireTutorial: Tutorial {
         moveTo.speed = EnemySoldierNode.DefaultSoldierSpeed
         enemyNode.addComponent(moveTo)
 
-        timeline.after(1.5, block: showFirstButton)
+        timeline.after(time: 1.5, block: showFirstButton)
     }
 
     func showFirstButton() {
         let holdButton = Button(at: CGPoint(x: 200, y: 0))
         holdButton.text = "HOLD"
         holdButton.touchableComponent!.onDragged { prevLoc, loc in
-            let prevWorldLoc = self.convertPoint(prevLoc, fromNode: holdButton)
-            let worldLoc = self.convertPoint(loc, fromNode: holdButton)
+            let prevWorldLoc = self.convert(prevLoc, from: holdButton)
+            let worldLoc = self.convert(loc, from: holdButton)
 
-            let prevPlayerLoc = self.convertPoint(prevWorldLoc, toNode: self.playerNode)
-            let playerLoc = self.convertPoint(worldLoc, toNode: self.playerNode)
-            self.playerNode.onDraggedAiming(prev: prevPlayerLoc, location: playerLoc)
+            let prevPlayerLoc = self.convert(prevWorldLoc, to: self.playerNode)
+            let playerLoc = self.convert(worldLoc, to: self.playerNode)
+            self.playerNode.onDraggedAiming(from: prevPlayerLoc, to: playerLoc)
         }
         holdButton.touchableComponent!.on(.Down) { _ in
             self.playerNode.forceFireEnabled = true
@@ -142,12 +142,12 @@ class RapidFireTutorial: Tutorial {
         let holdButton = Button(at: CGPoint(x: 200, y: -90))
         holdButton.text = "HOLD"
         holdButton.touchableComponent!.onDragged { prevLoc, loc in
-            let prevWorldLoc = self.convertPoint(prevLoc, fromNode: holdButton)
-            let worldLoc = self.convertPoint(loc, fromNode: holdButton)
+            let prevWorldLoc = self.convert(prevLoc, from: holdButton)
+            let worldLoc = self.convert(loc, from: holdButton)
 
-            let prevPlayerLoc = self.convertPoint(prevWorldLoc, toNode: self.playerNode)
-            let playerLoc = self.convertPoint(worldLoc, toNode: self.playerNode)
-            self.playerNode.onDraggedAiming(prev: prevPlayerLoc, location: playerLoc)
+            let prevPlayerLoc = self.convert(prevWorldLoc, to: self.playerNode)
+            let playerLoc = self.convert(worldLoc, to: self.playerNode)
+            self.playerNode.onDraggedAiming(from: prevPlayerLoc, to: playerLoc)
 
             self.playerNode.forceFireEnabled = true
             self.playerNode.firingComponent?.enabled = true

@@ -13,9 +13,9 @@ class PowerupArtist: Artist {
         size = CGSize(30)
     }
 
-    override func draw(context: CGContext) {
-        CGContextSetFillColorWithColor(context, fillColor.CGColor)
-        CGContextSetStrokeColorWithColor(context, strokeColor.CGColor)
+    override func draw(in context: CGContext) {
+        context.setFillColor(fillColor.cgColor)
+        context.setStrokeColor(strokeColor.cgColor)
     }
 
 }

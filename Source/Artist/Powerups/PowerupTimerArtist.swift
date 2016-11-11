@@ -17,18 +17,18 @@ class PowerupTimerArtist: Artist {
         self.init(percent: 1)
     }
 
-    override func draw(context: CGContext) {
-        CGContextSetFillColorWithColor(context, fillColor.CGColor)
-        CGContextSetStrokeColorWithColor(context, strokeColor.CGColor)
+    override func draw(in context: CGContext) {
+        context.setFillColor(fillColor.cgColor)
+        context.setStrokeColor(strokeColor.cgColor)
 
         let a0 = -TAU_4
         let a1 = a0 - TAU * percent
         let p0 = middle + CGPoint(0, -size.height / 2)
-        CGContextMoveToPoint(context, middle.x, middle.y)
-        CGContextAddLineToPoint(context, p0.x, p0.y)
-        CGContextAddArc(context, middle.x, middle.y, size.height / 2, a0, a1, 1)
-        CGContextClosePath(context)
-        CGContextDrawPath(context, .FillStroke)
+        context.move(to: middle)
+        context.addLine(to: p0)
+        context.addArc(center: middle, radius: size.height / 2, startAngle: a0, endAngle: a1, clockwise: true)
+        context.closePath()
+        context.drawPath(using: .fillStroke)
     }
 
 }

@@ -17,12 +17,12 @@ class FollowNodeComponent: FollowComponent {
         deltaAngle = node.zRotation - follow.zRotation
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         guard let follow = follow else { return }
 
         if let vectorLength = vectorLength,
-            vectorAngle = vectorAngle,
-            deltaAngle = deltaAngle
+            let vectorAngle = vectorAngle,
+            let deltaAngle = deltaAngle
         {
             let vector = CGPoint(r: vectorLength, a: follow.zRotation + vectorAngle)
             node.position = follow.position + vector

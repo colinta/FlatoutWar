@@ -43,7 +43,7 @@ class FadeToComponent: ApplyToNodeComponent {
 
     typealias OnFaded = Block
     private var _onFaded: [OnFaded] = []
-    func onFaded(handler: OnFaded) {
+    func onFaded(_ handler: @escaping OnFaded) {
         _onFaded << handler
     }
 
@@ -68,7 +68,7 @@ class FadeToComponent: ApplyToNodeComponent {
         }
     }
 
-    override func update(dt: CGFloat) {
+    override func update(_ dt: CGFloat) {
         guard let target = target else { return }
         guard let currentAlpha = currentAlpha else { return }
 
@@ -107,7 +107,8 @@ class FadeToComponent: ApplyToNodeComponent {
 
 extension Node {
 
-    func fadeTo(alpha: CGFloat, start: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, removeNode: Bool = false, removeComponent: Bool = true) -> FadeToComponent {
+    @discardableResult
+    func fadeTo(_ alpha: CGFloat, start: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, removeNode: Bool = false, removeComponent: Bool = true) -> FadeToComponent {
         let fade = fadeToComponent ?? FadeToComponent()
         if let start = start {
             self.alpha = start
