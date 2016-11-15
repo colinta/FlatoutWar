@@ -70,15 +70,11 @@ class Powerup {
         return powerupCount
     }
 
-    func resourceCostNode() -> TextNode {
-        let resourceCost = TextNode()
-        resourceCost.color = ResourceBlue
-        resourceCost.font = .Tiny
-        resourceCost.position = CGPoint(14, 10)
+    func resourceCostNode() -> ResourceCostText {
+        let resourceCost = ResourceCostText()
         if let nextResourceCost = nextResourceCost {
-            resourceCost.text = "\(nextResourceCost.resources)"
+            resourceCost.cost = nextResourceCost.resources
         }
-        resourceCost.alignment = .left
         return resourceCost
     }
 

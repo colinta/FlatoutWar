@@ -235,12 +235,12 @@ extension Level {
     }
 
     fileprivate func populateUI() {
-        if config.trackExperience {
+        if config.trackExperience && config.possibleExperience > 0 {
             experiencePercent = ExperiencePercent(goal: config.possibleExperience)
             ui << experiencePercent!
         }
 
-        if config.trackResources {
+        if config.trackResources && config.expectedResources > 0 {
             resourcePercent = ResourcePercent(max: config.expectedResources)
             ui << resourcePercent!
         }

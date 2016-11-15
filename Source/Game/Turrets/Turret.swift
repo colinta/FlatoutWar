@@ -14,7 +14,10 @@ class Turret {
     var rapidFireEnabled = false
     var reallySmart = false
 
-    func spriteId(bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade) -> ImageIdentifier {
+    required init() {
+    }
+
+    func spriteId(bulletUpgrade: HasUpgrade) -> ImageIdentifier {
         return .None
     }
 
@@ -22,11 +25,16 @@ class Turret {
         return .BaseRadar(upgrade: upgrade)
     }
 
+    func clone() -> Turret {
+        let turret = type(of: self).init()
+        return turret
+    }
+
     func button() -> Button {
         let body = SKSpriteNode(id: .Base(rotateUpgrade: .False, bulletUpgrade: .False, health: 100))
         body.z = .Player
 
-        let turret = SKSpriteNode(id: spriteId(bulletUpgrade: .False, turretUpgrade: .False))
+        let turret = SKSpriteNode(id: spriteId(bulletUpgrade: .False))
         turret.z = .AbovePlayer
 
         let node = Node()
@@ -47,14 +55,14 @@ class Turret {
 
 class SimpleTurret: Turret {
 
-    override init() {
+    required init() {
         super.init()
         autoFireEnabled = true
         rapidFireEnabled = false
     }
 
-    override func spriteId(bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade) -> ImageIdentifier {
-        return .BaseSingleTurret(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade)
+    override func spriteId(bulletUpgrade: HasUpgrade) -> ImageIdentifier {
+        return .BaseSingleTurret(bulletUpgrade: bulletUpgrade)
     }
 
 }
@@ -62,14 +70,14 @@ class SimpleTurret: Turret {
 
 class RapidTurret: Turret {
 
-    override init() {
+    required init() {
         super.init()
         autoFireEnabled = false
         rapidFireEnabled = true
     }
 
-    override func spriteId(bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade) -> ImageIdentifier {
-        return .BaseRapidTurret(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade)
+    override func spriteId(bulletUpgrade: HasUpgrade) -> ImageIdentifier {
+        return .BaseRapidTurret(bulletUpgrade: bulletUpgrade)
     }
 
     override func radarId(upgrade: HasUpgrade) -> ImageIdentifier {

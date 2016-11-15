@@ -11,8 +11,6 @@ class EnemySoldierNode: Node {
     var sprite = SKSpriteNode()
     var rammingDamage: Float = Damage
 
-    private var hurtSound = OpenALManager.sharedInstance().buffer(fromFile: "bang.caf")
-
     enum Scatter {
         case RunAway
         case Dodge
@@ -95,53 +93,53 @@ class EnemySoldierNode: Node {
     }
 
     func onHurt() {
-        _ = world?.channel?.play(hurtSound)
+        _ = world?.channel?.play(Sound.EnemyHurt)
     }
 
     func generateRammingExplosion() {
-        if let world = self.world {
-            let explosion = EnemyAttackExplosionNode(at: self.position)
-            explosion.zRotation = self.zRotation
-            world << explosion
-            generateBigShrapnel(distance: 60, angle: zRotation + TAU_2, spread: TAU_16)
-        }
+        guard let parent = parent else { return }
+
+        let explosion = EnemyAttackExplosionNode(at: self.position)
+        explosion.zRotation = self.zRotation
+        parent << explosion
+        generateBigShrapnel(distance: 60, angle: zRotation + TAU_2, spread: TAU_16)
     }
 
     func generateKilledExplosion() {
-        if let world = self.world {
-            let explosion = EnemyExplosionNode(at: self.position)
-            world << explosion
-            self.generateBigShrapnel(distance: 10, angle: 0, spread: TAU)
-        }
+        guard let parent = parent else { return }
+
+        let explosion = EnemyExplosionNode(at: self.position)
+        parent << explosion
+        self.generateBigShrapnel(distance: 10, angle: 0, spread: TAU)
     }
 
     func generateBigShrapnel(distance dist: CGFloat, angle: CGFloat, spread: CGFloat) {
-        guard let world = self.world else {
+        guard let parent = parent else {
             return
         }
 
         let locations = [
-            world.convert(CGPoint(x: radius / 2, y: radius / 2), from: self),
-            world.convert(CGPoint(x: radius / 2, y:-radius / 2), from: self),
-            world.convert(CGPoint(x:-radius / 2, y: radius / 2), from: self),
-            world.convert(CGPoint(x:-radius / 2, y:-radius / 2), from: self),
+            parent.convert(CGPoint(x: radius / 2, y: radius / 2), from: self),
+            parent.convert(CGPoint(x: radius / 2, y:-radius / 2), from: self),
+            parent.convert(CGPoint(x:-radius / 2, y: radius / 2), from: self),
+            parent.convert(CGPoint(x:-radius / 2, y:-radius / 2), from: self),
         ]
         4.times { (i: Int) in
             let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Big)
             node.setupAround(node: self, at: locations[i])
             let dest = CGPoint(r: rand(min: dist, max: dist * 1.5), a: angle ± rand(spread))
             node.moveToComponent?.target = node.position + dest
-            world << node
+            parent << node
         }
     }
 
     func generateBulletShrapnel(damage: Float) {
-        if let world = self.world {
-            Int(damage * 10).times {
-                let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Small)
-                node.setupAround(node: self)
-                world << node
-            }
+        guard let parent = parent else { return }
+
+        Int(damage * 10).times {
+            let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Small)
+            node.setupAround(node: self)
+            parent << node
         }
     }
 

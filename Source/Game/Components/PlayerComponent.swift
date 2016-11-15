@@ -9,7 +9,11 @@ class PlayerComponent: Component {
     }
 
     var intersectable: Bool = true
-    var targetable: Bool = true
+    private var _targetable: Bool = true
+    var targetable: Bool {
+        get { return node.active && _targetable }
+        set { _targetable = newValue }
+    }
     var rammedBehavior: Rammed = .Damaged
     weak var intersectionNode: SKNode!
 

@@ -4,7 +4,7 @@
 
 class PowerupUpgradeButton: Button {
     var icon: SKSpriteNode?
-    var resourceCostNode: TextNode?
+    var resourceCostNode: ResourceCostText?
     var powerupCountNode: TextNode?
 
     var powerup: Powerup {
@@ -39,7 +39,7 @@ class PowerupUpgradeButton: Button {
         self.icon = icon
 
         var nodes: [SKNode] = [icon]
-        var includeCount = initCounts
+        var includeCount = initCounts ?? false
         var powerupCountColor: Int?
         if let prevPowerupCountNode = powerupCountNode {
             powerupCountColor = prevPowerupCountNode.color
@@ -47,7 +47,7 @@ class PowerupUpgradeButton: Button {
             includeCount = true
         }
 
-        if includeCount == true {
+        if includeCount {
             let powerupCountNode = powerup.powerupCountNode()
             if let color = powerupCountColor {
                 powerupCountNode.color = color
@@ -56,24 +56,27 @@ class PowerupUpgradeButton: Button {
             nodes << powerupCountNode
         }
 
-        var includeCost = initResource
-        var powerupCostColor: Int?
+        var includeCost = initResource ?? false
         if let prevResourceCostNode = resourceCostNode {
-            powerupCostColor = prevResourceCostNode.color
             prevResourceCostNode.removeFromParent()
             includeCost = true
         }
 
-        if includeCost == true {
+        if includeCost {
             let resourceCostNode = powerup.resourceCostNode()
-            if let color = powerupCostColor {
-                resourceCostNode.color = color
-            }
+            resourceCostNode.position = CGPoint(x: 50, y: -15)
             self.resourceCostNode = resourceCostNode
             nodes << resourceCostNode
         }
 
-        let dx: CGFloat = (includeCount == true || includeCost == true) ? 6 : 0
+        if includeCost {
+            let label = TextNode(at: CGPoint(x: 50, y: 15))
+            label.text = powerup.name
+            label.alignment = .left
+            nodes << label
+        }
+
+        let dx: CGFloat = (includeCount || includeCost) ? 6 : 0
         for node in nodes {
             node.position.x -= dx
             self << node

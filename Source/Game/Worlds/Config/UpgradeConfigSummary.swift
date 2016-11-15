@@ -36,10 +36,10 @@ class UpgradeConfigSummary: Config {
 
     func spent(_ amount: Currency) {
         if amount.experience > 0 {
-            Defaults["\(configKey)-spentExperience"] = spentExperience + amount.experience
+            spentExperience += amount.experience
         }
         if amount.resources > 0 {
-            Defaults["\(configKey)-spentResources"] = spentResources + amount.resources
+            spentResources += amount.resources
         }
     }
 

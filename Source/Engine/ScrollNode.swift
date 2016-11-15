@@ -38,44 +38,44 @@ class ScrollNode: Node {
     func onUp(at location: CGPoint) {
         guard let world = world else { return }
 
-        let frame = calculateAccumulatedFrame()
+        let contentFrame = content.calculateAccumulatedFrame()
 
-        let maxX = world.size.width / 2
-        let minX = -world.size.width / 2
+        let maxX = world.size.width / 2 - contentInsets.right
+        let minX = -world.size.width / 2 + contentInsets.left
         let maxY = world.size.height / 2 - contentInsets.top
         let minY = -world.size.height / 2 + contentInsets.bottom
         var delta = CGPoint.zero
-        if frame.width > world.size.width {
-            if frame.minX > minX {
-                delta.x = minX - frame.minX
+        if contentFrame.width > world.size.width - contentInsets.left - contentInsets.right {
+            if contentFrame.minX > minX {
+                delta.x = minX - contentFrame.minX
             }
-            else if frame.maxX < maxX {
-                delta.x = maxX - frame.maxX
+            else if contentFrame.maxX < maxX {
+                delta.x = maxX - contentFrame.maxX
             }
         }
         else {
-            if frame.minX < minX {
-                delta.x = minX - frame.minX
+            if contentFrame.minX < minX {
+                delta.x = minX - contentFrame.minX
             }
-            else if frame.maxX > maxX {
-                delta.x = maxX - frame.maxX
+            else if contentFrame.maxX > maxX {
+                delta.x = maxX - contentFrame.maxX
             }
         }
 
-        if frame.height > world.size.height {
-            if frame.minY > minY {
-                delta.y = minY - frame.minY
+        if contentFrame.height > world.size.height - contentInsets.top - contentInsets.bottom {
+            if contentFrame.minY > minY {
+                delta.y = minY - contentFrame.minY
             }
-            else if frame.maxY < maxY {
-                delta.y = maxY - frame.maxY
+            else if contentFrame.maxY < maxY {
+                delta.y = maxY - contentFrame.maxY
             }
         }
         else {
-            if frame.minY < minY {
-                delta.y = minY - frame.minY
+            if contentFrame.minY < minY {
+                delta.y = minY - contentFrame.minY
             }
-            else if frame.maxY > maxY {
-                delta.y = maxY - frame.maxY
+            else if contentFrame.maxY > maxY {
+                delta.y = maxY - contentFrame.maxY
             }
         }
         let position = content.position + delta

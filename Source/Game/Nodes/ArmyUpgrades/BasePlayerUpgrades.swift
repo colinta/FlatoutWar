@@ -1,8 +1,8 @@
 ////
-///  DroneUpgrades.swift
+///  BasePlayerUpgrades.swift
 //
 
-extension DroneNode: UpgradeableNode {
+extension BasePlayerNode: UpgradeableNode {
 
     func applyUpgrade(type: UpgradeType) {
         switch type {
@@ -10,8 +10,8 @@ extension DroneNode: UpgradeableNode {
             radarUpgrade = true
         case .BulletUpgrade:
             bulletUpgrade = true
-        case .SpeedUpgrade:
-            speedUpgrade = true
+        case .RotateUpgrade:
+            rotateUpgrade = true
         default:
             return
         }
@@ -20,30 +20,28 @@ extension DroneNode: UpgradeableNode {
     func availableUpgrades(world upgradeWorld: World) -> [(ArmyUpgradeButton, UpgradeInfo)] {
         var upgrades: [(ArmyUpgradeButton, UpgradeInfo)] = []
 
-        var rate: CGFloat = 2
-        if radarUpgrade.boolValue { rate -= 0.3 }
-        if speedUpgrade.boolValue { rate -= 0.3 }
+        var rate: CGFloat = 2.5
+        if radarUpgrade.boolValue { rate -= 0.1 }
+        if rotateUpgrade.boolValue { rate -= 0.3 }
         if bulletUpgrade.boolValue { rate -= 0.3 }
 
         do {
             let info = UpgradeInfo(
                 title: "SPEED",
-                upgradeType: .SpeedUpgrade,
+                upgradeType: .RotateUpgrade,
                 description: ["INCREASED SPEED", "FASTER FIRING"],
-                cost: Currency(experience: 400, resources: 100),
+                cost: Currency(experience: 450, resources: 150),
                 rate: rate
             )
 
-            let node = DroneNode()
-            node.scale1.removeFromParent()
-            node.scale2.removeFromParent()
-            node.phaseComponent?.enabled = false
-            node.speedUpgrade = .True
+            let node = BasePlayerNode()
+            node.radarNode.removeFromParent()
+            node.rotateUpgrade = .True
             node.radarUpgrade = radarUpgrade
             node.bulletUpgrade = bulletUpgrade
 
             let button = ArmyUpgradeButton(node: node, info: info)
-            button.upgradeEnabled = !speedUpgrade.boolValue
+            button.upgradeEnabled = !rotateUpgrade.boolValue
 
             upgrades << (button, info)
         }
@@ -53,15 +51,13 @@ extension DroneNode: UpgradeableNode {
                 title: "BULLET",
                 upgradeType: .BulletUpgrade,
                 description: ["INCREASED DAMAGE", "FASTER BULLET SPEED"],
-                cost: Currency(experience: 350, resources: 100),
+                cost: Currency(experience: 400, resources: 150),
                 rate: rate
             )
 
-            let node = DroneNode()
-            node.scale1.removeFromParent()
-            node.scale2.removeFromParent()
-            node.phaseComponent?.enabled = false
-            node.speedUpgrade = speedUpgrade
+            let node = BasePlayerNode()
+            node.radarNode.removeFromParent()
+            node.rotateUpgrade = rotateUpgrade
             node.radarUpgrade = radarUpgrade
             node.bulletUpgrade = .True
 
@@ -76,15 +72,13 @@ extension DroneNode: UpgradeableNode {
                 title: "RADAR",
                 upgradeType: .RadarUpgrade,
                 description: ["LARGER RADAR", "PREEMPTIVE TARGETING"],
-                cost: Currency(experience: 1000, resources: 100),
+                cost: Currency(experience: 1000, resources: 150),
                 rate: rate
             )
 
-            let node = DroneNode()
-            node.scale1.removeFromParent()
-            node.scale2.removeFromParent()
-            node.phaseComponent?.enabled = false
-            node.speedUpgrade = speedUpgrade
+            let node = BasePlayerNode()
+            node.radarNode.removeFromParent()
+            node.rotateUpgrade = rotateUpgrade
             node.radarUpgrade = .True
             node.bulletUpgrade = bulletUpgrade
 
@@ -100,43 +94,56 @@ extension DroneNode: UpgradeableNode {
 
 extension HasUpgrade {
 
-    var droneTargetsPreemptively: Bool {
+    var baseTargetsPreemptively: Bool {
         return self.boolValue
     }
 
-    var droneRadarRadius: CGFloat {
+    var baseSweepAngle: CGFloat {
         switch self {
-        case .False: return 75
-        case .True: return 100
+        case .False:   return 30.degrees
+        case .True:  return 45.degrees
         }
     }
 
-    var droneCooldown: CGFloat {
+    var baseRadarRadius: CGFloat {
         switch self {
-        case .False: return 0.4
-        case .True: return 0.3
+        case .False:   return 300
+        case .True:   return 340
         }
     }
 
-    var droneBulletSpeed: CGFloat {
+    var baseAngularSpeed: CGFloat {
+        switch self {
+        case .False: return 4
+        case .True: return 10
+        }
+    }
+
+    var baseAngularAccel: CGFloat? {
+        switch self {
+        case .False: return 3
+        case .True: return 12
+        }
+    }
+
+    var baseTurretCooldown: CGFloat {
+        switch self {
+        case .False: return 0.35
+        case .True: return 0.25
+        }
+    }
+
+    var baseBulletSpeed: CGFloat {
         switch self {
         case .False: return rand(weights: (125, 3), (120, 2), (130, 1))
         case .True: return rand(weights: (135, 3), (130, 2), (140, 1))
         }
     }
 
-    var droneBulletDamage: Float {
+    var baseBulletDamage: Float {
         switch self {
-        case .False: return rand(weights: (1, 3), (1.25, 2), (1.5, 1))
-        case .True: return rand(weights: (1.5, 3), (1.75, 2), (2, 1))
+        case .False: return 1
+        case .True: return 2
         }
     }
-
-    var droneMovementSpeed: CGFloat {
-        switch self {
-        case .False: return 40
-        case .True: return 60
-        }
-    }
-
 }

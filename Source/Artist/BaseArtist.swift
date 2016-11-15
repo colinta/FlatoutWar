@@ -9,15 +9,17 @@ class BaseArtist: Artist {
     var fill = UIColor(hex: 0xC6811D)
     var rotateUpgrade: HasUpgrade
     var bulletUpgrade: HasUpgrade
+    var radarUpgrade: HasUpgrade
     var health: CGFloat
 
     private var path: CGPath
     private var smallPath: CGPath
 
-    required init(rotateUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, health: CGFloat) {
+    required init(rotateUpgrade: HasUpgrade, radarUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, health: CGFloat) {
         self.health = health
         self.rotateUpgrade = rotateUpgrade
         self.bulletUpgrade = bulletUpgrade
+        self.radarUpgrade = radarUpgrade
 
         if savedAngles == nil {
             let pointCount: Int = 20
@@ -104,7 +106,7 @@ class BaseArtist: Artist {
             context.drawPath(using: .fillStroke)
         }
 
-        if rotateUpgrade.boolValue || bulletUpgrade.boolValue {
+        if rotateUpgrade.boolValue || bulletUpgrade.boolValue || radarUpgrade.boolValue {
             context.setAlpha(1)
             context.addPath(path)
             context.clip()
@@ -112,6 +114,11 @@ class BaseArtist: Artist {
             if rotateUpgrade.boolValue {
                 context.addEllipse(in: CGRect(center: middle, size: size * 0.8))
                 context.addEllipse(in: CGRect(center: middle, size: size * 0.4))
+            }
+
+            if radarUpgrade.boolValue {
+                context.addRect(CGRect(center: middle, size: size * 0.7))
+                context.addRect(CGRect(center: middle, size: size * 0.6))
             }
 
             if bulletUpgrade.boolValue {

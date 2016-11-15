@@ -55,6 +55,8 @@ class HealthComponent: Component {
     }
 
     func inflict(damage: Float) {
+        guard enabled else { return }
+
         health = max(min(health - damage, startingHealth), 0)
 
         let callOnKilled = health <= 0 && !died

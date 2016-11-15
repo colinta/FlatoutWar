@@ -9,7 +9,7 @@ class Playground: World {
         let buttons = drone.availableUpgrades(world: self)
         var x: CGFloat = -75
         let dx: CGFloat = 75
-        for (button, label) in buttons {
+        for (button, _) in buttons {
             button.position = CGPoint(x: x)
             self << button
             x += dx

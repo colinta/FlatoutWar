@@ -75,21 +75,20 @@ indirect enum ImageIdentifier {
 
     case Drone(speedUpgrade: HasUpgrade, radarUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, health: Int)
     case DroneRadar(upgrade: HasUpgrade)
-    case DroneRadarUpgrade
     case Turret(upgrade: HasUpgrade, health: Int)
     case TurretRadar(upgrade: HasUpgrade)
     case Resource(goal: Int, remaining: Int)
     case ResourceLine(length: CGFloat)
 
     case Cursor
-    case Base(rotateUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, health: Int)
+    case Base(rotateUpgrade: HasUpgrade, radarUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, health: Int)
     case BaseRadar(upgrade: HasUpgrade)
     case BaseExplosion(index: Int, total: Int)
 
-    case BaseSingleTurret(bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade)
-    case BaseRapidTurret(bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade)
-    case BaseDoubleTurret(bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade)
-    case BaseBigTurret(bulletUpgrade: HasUpgrade, turretUpgrade: HasUpgrade)
+    case BaseSingleTurret(bulletUpgrade: HasUpgrade)
+    case BaseRapidTurret(bulletUpgrade: HasUpgrade)
+    case BaseDoubleTurret(bulletUpgrade: HasUpgrade)
+    case BaseBigTurret(bulletUpgrade: HasUpgrade)
     case Bullet(upgrade: HasUpgrade, style: BulletNode.Style)
 
     case ColorPath(path: UIBezierPath, color: Int)
@@ -189,8 +188,6 @@ indirect enum ImageIdentifier {
             return "Drone_speedUpgrade-\(speedUpgrade.name)_radarUpgrade-\(radarUpgrade.name)_bulletUpgrade-\(bulletUpgrade.name)_health-\(health)"
         case let .DroneRadar(upgrade):
             return "DroneRadar_upgrade-\(upgrade.name)"
-        case .DroneRadarUpgrade:
-            return "DroneRadarUpgrade"
         case let .Turret(upgrade, health):
             return "Turret_upgrade-\(upgrade.name)_health-\(health)"
         case let .TurretRadar(upgrade):
@@ -206,20 +203,20 @@ indirect enum ImageIdentifier {
             return "Shield_phase-\(phase)"
         case let .ShieldSegment(health):
             return "ShieldSegment_health-\(health)"
-        case let .Base(rotateUpgrade, bulletUpgrade, health):
-            return "Base_rotateUpgrade-\(rotateUpgrade.name)_bulletUpgrade-\(bulletUpgrade.name)_health-\(health)"
+        case let .Base(rotateUpgrade, radarUpgrade, bulletUpgrade, health):
+            return "Base_rotateUpgrade-\(rotateUpgrade.name)_radarUpgrade-\(radarUpgrade.name)_bulletUpgrade-\(bulletUpgrade.name)_health-\(health)"
         case let .BaseRadar(upgrade):
             return "BaseRadar_upgrade-\(upgrade.name)"
         case let .BaseExplosion(index, total):
             return "BaseExplosion_index-\(index)_total-\(total)"
-        case let .BaseSingleTurret(bulletUpgrade, turretUpgrade):
-            return "BaseSingleTurret_bulletUpgrade-\(bulletUpgrade.name)_turretUpgrade-\(turretUpgrade.name)"
-        case let .BaseRapidTurret(bulletUpgrade, turretUpgrade):
-            return "BaseRapidTurret_bulletUpgrade-\(bulletUpgrade.name)_turretUpgrade-\(turretUpgrade.name)"
-        case let .BaseDoubleTurret(bulletUpgrade, turretUpgrade):
-            return "BaseDoubleTurret_bulletUpgrade-\(bulletUpgrade.name)_turretUpgrade-\(turretUpgrade.name)"
-        case let .BaseBigTurret(bulletUpgrade, turretUpgrade):
-            return "BaseBigTurret_bulletUpgrade-\(bulletUpgrade.name)_turretUpgrade-\(turretUpgrade.name)"
+        case let .BaseSingleTurret(bulletUpgrade):
+            return "BaseSingleTurret_bulletUpgrade-\(bulletUpgrade.name)"
+        case let .BaseRapidTurret(bulletUpgrade):
+            return "BaseRapidTurret_bulletUpgrade-\(bulletUpgrade.name)"
+        case let .BaseDoubleTurret(bulletUpgrade):
+            return "BaseDoubleTurret_bulletUpgrade-\(bulletUpgrade.name)"
+        case let .BaseBigTurret(bulletUpgrade):
+            return "BaseBigTurret_bulletUpgrade-\(bulletUpgrade.name)"
         case let .Bullet(upgrade, style):
             return "BaseTurretBullet_upgrade-\(upgrade.name)_style-\(style)"
         case .ColorPath:

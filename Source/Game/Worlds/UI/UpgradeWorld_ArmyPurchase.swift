@@ -1,5 +1,5 @@
 ////
-///  UpgradeWorld_Purchase.swift
+///  UpgradeWorld_ArmyPurchase.swift
 //
 
 extension UpgradeWorld {

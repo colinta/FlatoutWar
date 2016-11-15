@@ -124,14 +124,14 @@ class IntroductionCutSceneWorld: World {
                 run: { parent in
                     let player = BasePlayerNode()
                     player.radarNode.textureId(.BaseRadar(upgrade: .False), scale: .Zoomed)
-                    player.baseNode.textureId(.Base(rotateUpgrade: .False, bulletUpgrade: .False, health: 100), scale: .Zoomed)
-                    player.turretNode.textureId(.BaseSingleTurret(bulletUpgrade: .False, turretUpgrade: .False), scale: .Zoomed)
+                    player.baseNode.textureId(.Base(rotateUpgrade: .False, radarUpgrade: .False, bulletUpgrade: .False, health: 100), scale: .Zoomed)
+                    player.turretNode.textureId(.BaseSingleTurret(bulletUpgrade: .False), scale: .Zoomed)
                     player.position = CGPoint(x: -200)
                     player.scaleTo(1, start: 4, duration: 3)
                     player.fadeTo(1, start: 0, duration: 2).onFaded {
                         player.radarNode.textureId(.BaseRadar(upgrade: .False))
-                        player.baseNode.textureId(.Base(rotateUpgrade: .False, bulletUpgrade: .False, health: 100))
-                        player.turretNode.textureId(.BaseSingleTurret(bulletUpgrade: .False, turretUpgrade: .False))
+                        player.baseNode.textureId(.Base(rotateUpgrade: .False, radarUpgrade: .False, bulletUpgrade: .False, health: 100))
+                        player.turretNode.textureId(.BaseSingleTurret(bulletUpgrade: .False))
                     }
                     parent << player
                 },

@@ -2,6 +2,9 @@
 ///  Button.swift
 //
 
+let ButtonScale: CGFloat = 1.1
+let ButtonDisabledAlpha: CGFloat = 0.25
+
 enum ButtonStyle {
     case Square
     case SquareSized(Int)
@@ -60,7 +63,7 @@ class Button: TextNode {
     var enabled = true {
         didSet {
             if alphaOverride {
-                alpha = enabled ? 1 : 0.25  // sets alphaOverride to false
+                alpha = enabled ? 1 : ButtonDisabledAlpha  // sets alphaOverride to false
                 alphaOverride = true
             }
             touchableComponent?.enabled = enabled
@@ -69,7 +72,10 @@ class Button: TextNode {
 
     func onTapped(_ behavior: ButtonBehavior) -> Self {
         onTapped {
-            self.touchableComponent?.enabled = false
+            switch behavior {
+            case .Disable:
+                self.touchableComponent?.enabled = false
+            }
         }
         return self
     }
@@ -78,6 +84,11 @@ class Button: TextNode {
     var _onTapped: [OnTapped] = []
     func onTapped(_ handler: @escaping OnTapped) { _onTapped.append(handler) }
     func offTapped() { _onTapped = [] }
+    func triggerTapped() {
+        for handler in self._onTapped {
+            handler()
+        }
+    }
 
     override func setScale(_ scale: CGFloat) {
         preferredScale = scale
@@ -122,11 +133,7 @@ class Button: TextNode {
         touchableComponent.on(.Exit) { _ in
             self.unhighlight()
         }
-        touchableComponent.on(.UpInside) { _ in
-            for handler in self._onTapped {
-                handler()
-            }
-        }
+        touchableComponent.on(.UpInside) { _ in self.triggerTapped() }
         addComponent(touchableComponent)
     }
 
@@ -214,7 +221,7 @@ class Button: TextNode {
     func highlight() {
         prevZ = zPosition
         z = .Top
-        super.setScale(preferredScale * 1.1)
+        super.setScale(preferredScale * ButtonScale)
     }
 
     func unhighlight() {

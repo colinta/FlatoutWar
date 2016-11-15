@@ -5,10 +5,13 @@
 class EnemyTargetingComponent: Component {
     var radius: CGFloat?
     var sweepAngle: CGFloat?
+    private var avoidTarget: Node?
     var currentTarget: Node? {
         didSet {
-            currentTargetVector = nil
-            currentTargetPrevLocation = nil
+            if currentTarget != oldValue {
+                currentTargetVector = nil
+                currentTargetPrevLocation = nil
+            }
         }
     }
     var turret: SKNode?
@@ -23,6 +26,7 @@ class EnemyTargetingComponent: Component {
 
     override func reset() {
         super.reset()
+        avoidTarget = nil
         currentTarget = nil
         _onTargetAcquired = []
     }
@@ -125,6 +129,11 @@ class EnemyTargetingComponent: Component {
         return node.angleTo(currentTarget)
     }
 
+    func reacquireAvoidingCurrent() {
+        avoidTarget = currentTarget
+        currentTarget = nil
+    }
+
     private func acquireTarget(world: World) {
         if let currentTarget = currentTarget,
             currentTarget.world != node.world
@@ -134,8 +143,7 @@ class EnemyTargetingComponent: Component {
 
         var bestTarget: Node? = currentTarget
         var bestDistance: CGFloat = 0
-
-        for enemy in world.enemies where isViableTarget(enemy) {
+        for enemy in world.enemies where isViableTarget(enemy) && enemy != avoidTarget {
             let enemyPosition = node.convertPosition(enemy)
             let enemyDistance = enemyPosition.roughLength
 
@@ -150,6 +158,7 @@ class EnemyTargetingComponent: Component {
         }
 
         currentTarget = bestTarget
+        avoidTarget = nil
     }
 
 }

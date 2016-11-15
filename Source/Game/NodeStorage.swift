@@ -19,7 +19,6 @@ class NodeStorage {
             player.rotateUpgrade = HasUpgrade(safe: defaults["rotateUpgrade"] as? Bool)
             player.bulletUpgrade = HasUpgrade(safe: defaults["bulletUpgrade"] as? Bool)
             player.radarUpgrade = HasUpgrade(safe: defaults["radarUpgrade"] as? Bool)
-            player.turretUpgrade = HasUpgrade(safe: defaults["turretUpgrade"] as? Bool)
             node = player
         case .Drone:
             let drone = DroneNode()
@@ -42,8 +41,9 @@ class NodeStorage {
         let type: PowerupType?
         if let node = node as? BasePlayerNode {
             type = .BasePlayer
+            defaults["rotateUpgrade"] = node.rotateUpgrade.boolValue
+            defaults["bulletUpgrade"] = node.bulletUpgrade.boolValue
             defaults["radarUpgrade"] = node.radarUpgrade.boolValue
-            defaults["turretUpgrade"] = node.turretUpgrade.boolValue
         }
         else if let node = node as? DroneNode {
             type = .Drone

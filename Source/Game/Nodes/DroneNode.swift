@@ -14,8 +14,12 @@ class DroneNode: Node, DraggableNode {
         targetingComponent?.radius = radarUpgrade.droneRadarRadius
         targetingComponent?.bulletSpeed = bulletUpgrade.droneBulletSpeed
         draggableComponent?.speed = speedUpgrade.droneMovementSpeed
+        firingComponent?.cooldown = speedUpgrade.droneCooldown
+        firingComponent?.targetsPreemptively = radarUpgrade.droneTargetsPreemptively
+        wanderingComponent?.maxSpeed = speedUpgrade.droneMovementSpeed / 10
         updateSprites()
     }
+
     var wanderingEnabled: Bool? {
         didSet {
             if let wanderingEnabled = wanderingEnabled {
@@ -52,6 +56,14 @@ class DroneNode: Node, DraggableNode {
         }
     }
 
+    override func clone() -> Node {
+        let node = super.clone() as! DroneNode
+        node.radarUpgrade = radarUpgrade
+        node.bulletUpgrade = bulletUpgrade
+        node.speedUpgrade = speedUpgrade
+        return node
+    }
+
     required init() {
         super.init()
 
@@ -81,7 +93,9 @@ class DroneNode: Node, DraggableNode {
         self << scale2
 
         let wanderingComponent = WanderingComponent()
+        wanderingComponent.centeredAround = position
         wanderingComponent.wanderingRadius = 10
+        wanderingComponent.maxSpeed = speedUpgrade.droneMovementSpeed / 10
         addComponent(wanderingComponent)
 
         let targetingComponent = EnemyTargetingComponent()
@@ -92,7 +106,7 @@ class DroneNode: Node, DraggableNode {
         addComponent(targetingComponent)
 
         let firingComponent = FiringComponent()
-        firingComponent.cooldown = 0.4
+        firingComponent.cooldown = speedUpgrade.droneCooldown
         firingComponent.onFire { angle in
             self.fireBullet(angle: angle)
         }
@@ -100,6 +114,7 @@ class DroneNode: Node, DraggableNode {
 
         let healthComponent = HealthComponent(health: startingHealth)
         healthComponent.onHurt { damage in
+            _ = self.world?.channel?.play(Sound.PlayerHurt)
             self.sprite.textureId(.Drone(speedUpgrade: self.speedUpgrade, radarUpgrade: self.radarUpgrade, bulletUpgrade: self.bulletUpgrade, health: healthComponent.healthInt))
         }
         healthComponent.onKilled {
@@ -209,9 +224,7 @@ extension DroneNode {
 extension DroneNode {
 
     fileprivate func fireBullet(angle: CGFloat) {
-        guard let world = world else {
-            return
-        }
+        guard let world = world else { return }
 
         let speed: CGFloat = bulletUpgrade.droneBulletSpeed
         let bullet = BulletNode(velocity: CGPoint(r: speed, a: angle), style: .Slow)
@@ -221,7 +234,10 @@ extension DroneNode {
         bullet.size = BulletArtist.bulletSize(upgrade: .False)
         bullet.zRotation = angle
         bullet.z = Z.Below
+        firingComponent?.damage = bullet.damage
         ((parent as? Node) ?? world) << bullet
+
+        _ = world.channel?.play(Sound.PlayerShoot)
     }
 
 }
@@ -232,38 +248,6 @@ extension DroneNode {
 
     func onSelected(_ selected: Bool) {
         cursor.selected = selected
-    }
-
-}
-
-extension HasUpgrade {
-
-    var droneRadarRadius: CGFloat {
-        switch self {
-        case .False: return 75
-        case .True: return 100
-        }
-    }
-
-    var droneBulletSpeed: CGFloat {
-        switch self {
-        case .False: return 125
-        case .True: return 150
-        }
-    }
-
-    var droneBulletDamage: Float {
-        switch self {
-        case .False: return 1
-        case .True: return 1.25
-        }
-    }
-
-    var droneMovementSpeed: CGFloat {
-        switch self {
-        case .False: return 40
-        case .True: return 60
-        }
     }
 
 }

@@ -29,9 +29,9 @@ extension HasUpgrade {
 }
 
 enum UpgradeType {
-    case Upgrade
     case RadarUpgrade
+    case BulletUpgrade
+    case SpeedUpgrade
+    case RotateUpgrade
     case TurretUpgrade
 }
-
-typealias UpgradeInfo = (upgradeNode: SKNode, cost: Int, upgradeType: UpgradeType)

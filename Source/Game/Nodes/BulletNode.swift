@@ -24,12 +24,12 @@ class BulletNode: Node {
         projectileComponent.intersectionNode = sprite
         projectileComponent.damage = damage
         projectileComponent.onCollision { (enemy, location) in
-            if let world = self.world {
-                let absLocation = world.convert(location, from: self)
+            if let parent = self.parent {
+                let absLocation = parent.convert(location, from: self)
                 let a = velocity.angle
                 let explosionNode = BulletRecoilExplosionNode(at: absLocation)
                 explosionNode.zRotation = a
-                world << explosionNode
+                parent << explosionNode
             }
             self.removeFromParent()
         }

@@ -103,6 +103,10 @@ class Node: SKNode {
         super.init()
     }
 
+    func clone() -> Node {
+        return type(of: self).init()
+    }
+
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         components = coder.decode(key: "components") ?? []
@@ -135,8 +139,12 @@ class Node: SKNode {
     func move(toParent node: SKNode, preservePosition: Bool) {
         if preservePosition {
             let p = node.convert(position, from: self.parent!)
+            let wandering = wanderingComponent?.centeredAround
             move(toParent: node)
             position = p
+            if let wandering = wandering {
+                wanderingComponent?.centeredAround = wandering
+            }
         }
         else {
             move(toParent: node)

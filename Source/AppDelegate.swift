@@ -35,14 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         let upgradeConfig = UpgradeConfigSummary()
-        print("spent: (\(upgradeConfig.spentExperience), \(upgradeConfig.spentResources))")
-        print("storedPowerups:")
-        for entry in BaseLevel1Config().storedPowerups {
-            let orderStr: String
-            if let order = entry.order { orderStr = "\(order)" }
-            else { orderStr = "--" }
-            print("- \(type(of: entry.powerup)) count: \(entry.powerup.count), order: \(orderStr)")
-        }
         upgradeConfig.spentExperience = 0
         upgradeConfig.spentResources = 0
         BaseLevel1Config().storedPowerups = [
@@ -51,6 +43,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             (MinesPowerup(count: 2), 2),
             (HourglassPowerup(count: 0), nil),
         ]
+        BaseLevel1Config().storedPlayers = [BasePlayerNode(), DroneNode(at: CGPoint(x: 80))]
 
         device = ALDevice(deviceSpecifier: nil)
         context = ALContext(on: device, attributes: nil)

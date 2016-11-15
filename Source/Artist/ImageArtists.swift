@@ -203,11 +203,6 @@ extension ImageIdentifier {
             artist.color = upgrade.droneRadarColor
             artist.lineWidth = upgrade.droneRadarWidth
             return artist
-        case .DroneRadarUpgrade:
-            let artist = DroneRadarArtist(radius: 25)
-            artist.color = HasUpgrade.True.droneRadarColor
-            artist.lineWidth = HasUpgrade.True.droneRadarWidth
-            return artist
         case let .Turret(upgrade, healthInt):
             let health = CGFloat(healthInt) / 100
             let artist = TurretArtist(upgrade: upgrade, health: health)
@@ -230,9 +225,9 @@ extension ImageIdentifier {
         case .Cursor:
             let artist = CursorArtist()
             return artist
-        case let .Base(rotateUpgrade, bulletUpgrade, healthInt):
+        case let .Base(rotateUpgrade, radarUpgrade, bulletUpgrade, healthInt):
             let health = CGFloat(healthInt) / 100
-            let artist = BaseArtist(rotateUpgrade: rotateUpgrade, bulletUpgrade: bulletUpgrade, health: health)
+            let artist = BaseArtist(rotateUpgrade: rotateUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: health)
             return artist
         case let .BaseRadar(upgrade):
             let artist = RadarArtist(
@@ -246,17 +241,17 @@ extension ImageIdentifier {
             let angle = -spread * CGFloat(index)
             let artist = BaseExplosionArtist(angle: angle, spread: spread)
             return artist
-        case let .BaseSingleTurret(bulletUpgrade, turretUpgrade):
-            let artist = BaseTurretArtist(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade)
+        case let .BaseSingleTurret(bulletUpgrade):
+            let artist = BaseTurretArtist(bulletUpgrade: bulletUpgrade)
             return artist
-        case let .BaseRapidTurret(bulletUpgrade, turretUpgrade):
-            let artist = BaseRapidTurretArtist(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade)
+        case let .BaseRapidTurret(bulletUpgrade):
+            let artist = BaseRapidTurretArtist(bulletUpgrade: bulletUpgrade)
             return artist
-        case let .BaseDoubleTurret(bulletUpgrade, turretUpgrade):
-            let artist = BaseDoubleTurretArtist(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade)
+        case let .BaseDoubleTurret(bulletUpgrade):
+            let artist = BaseDoubleTurretArtist(bulletUpgrade: bulletUpgrade)
             return artist
-        case let .BaseBigTurret(bulletUpgrade, turretUpgrade):
-            let artist = BaseBigTurretArtist(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade)
+        case let .BaseBigTurret(bulletUpgrade):
+            let artist = BaseBigTurretArtist(bulletUpgrade: bulletUpgrade)
             return artist
         case let .Bullet(upgrade, style):
             let artist = BulletArtist(upgrade: upgrade, style: style)

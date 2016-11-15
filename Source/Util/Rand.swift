@@ -66,6 +66,19 @@ func rand(_ range: CountableClosedRange<Int>) -> Int {
     return min + Int(arc4random_uniform(UInt32(max - min)))
 }
 
+func rand<T>(weights weightValues: (T, Float)...) -> T {
+    let weights = weightValues.map { $0.1 }
+    let totalWeight: Float = weights.reduce(0, +)
+    var rnd: Float = Float(drand48() * Double(totalWeight))
+    for (i, el) in weightValues.enumerated() {
+        rnd -= weights[i]
+        if rnd < 0 {
+            return el.0
+        }
+    }
+    return weightValues.last!.0
+}
+
 infix operator ± : AdditionPrecedence
 
 prefix operator ±

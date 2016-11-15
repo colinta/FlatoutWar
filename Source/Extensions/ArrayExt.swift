@@ -5,11 +5,11 @@
 
 extension Sequence {
 
-    func none(_ test: (_ el: Iterator.Element) -> Bool) -> Bool {
+    func none(_ test: (Iterator.Element) -> Bool) -> Bool {
         return !any(test)
     }
 
-    func any(_ test: (_ el: Iterator.Element) -> Bool) -> Bool {
+    func any(_ test: (Iterator.Element) -> Bool) -> Bool {
         for ob in self {
             if test(ob) {
                 return true
@@ -18,7 +18,7 @@ extension Sequence {
         return false
     }
 
-    func all(_ test: (_ el: Iterator.Element) -> Bool) -> Bool {
+    func all(_ test: (Iterator.Element) -> Bool) -> Bool {
         for ob in self {
             if !test(ob) {
                 return false

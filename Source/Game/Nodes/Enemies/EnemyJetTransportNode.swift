@@ -121,31 +121,31 @@ class EnemyJetTransportNode: Node {
     }
 
     func generateKilledExplosion() {
-        if let world = self.world {
-            let explosion = EnemyExplosionNode(at: self.position)
-            world << explosion
-            self.generateBigShrapnel(distance: 10, angle: 0, spread: TAU)
-        }
+        guard let parent = parent else { return }
+
+        let explosion = EnemyExplosionNode(at: self.position)
+        parent << explosion
+        self.generateBigShrapnel(distance: 10, angle: 0, spread: TAU)
     }
 
     func generateBigShrapnel(distance dist: CGFloat, angle: CGFloat, spread: CGFloat) {
-        if let world = self.world {
-            let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Actual)
-            node.setupAround(node: self, at: self.position,
-                rotateSpeed: rand(min: 5, max: 8),
-                distance: rand(10)
-                )
-            world << node
-        }
+        guard let parent = parent else { return }
+
+        let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Actual)
+        node.setupAround(node: self, at: self.position,
+            rotateSpeed: rand(min: 5, max: 8),
+            distance: rand(10)
+            )
+        parent << node
     }
 
     func generateShrapnel(damage: Float) {
-        if let world = self.world {
-            Int(damage * 10).times {
-                let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Small)
-                node.setupAround(node: self)
-                world << node
-            }
+        guard let parent = parent else { return }
+
+        Int(damage * 10).times {
+            let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Small)
+            node.setupAround(node: self)
+            parent << node
         }
     }
 

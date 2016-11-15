@@ -21,7 +21,7 @@ class UpgradeWorld: UIWorld {
     var prevSelectedPowerupLayer: Node?
 
     let upgradeArmyLayer = Node()
-    let purchaseTowerLayer = Node()
+    let purchaseArmyLayer = Node()
 
     var gainedResources: TextNode!
     var printedResources: Int = 0
@@ -39,12 +39,14 @@ class UpgradeWorld: UIWorld {
     override func update(_ dt: CGFloat) {
         super.update(dt)
         if config.availableResources < printedResources {
-            printedResources -= 1
+            let delta = Int(pow(10, max(1, floor(log(Float(printedResources - config.availableResources)) / log(10)) - 1)))
+            printedResources = max(config.availableResources, printedResources - delta)
             gainedResources.text = "\(printedResources)"
         }
         if config.availableExperience < printedExperience {
-            printedExperience -= 1
-            gainedResources.text = "\(printedExperience)"
+            let delta = Int(pow(10, max(1, floor(log(Float(printedExperience - config.availableExperience)) / log(10)) - 1)))
+            printedExperience = max(config.availableExperience, printedExperience - delta)
+            gainedExperience.text = "\(printedExperience)"
         }
     }
 
@@ -97,9 +99,9 @@ class UpgradeWorld: UIWorld {
         }
 
         do {
-            purchaseTowerLayer << generateBackButton()
-            purchaseTowerLayer.alpha = 0
-            self << purchaseTowerLayer
+            purchaseArmyLayer << generateBackButton()
+            purchaseArmyLayer.alpha = 0
+            self << purchaseArmyLayer
         }
 
         let title = TextNode()
@@ -121,12 +123,12 @@ class UpgradeWorld: UIWorld {
 
     func showMainScreen() {
         playerNode.disableTouchForUI()
-        let playerNodeButton = ArmyUpgradeButton(node: playerNode)
+        let playerNodeButton = ArmyUpgradeButton(node: playerNode, info: nil)
         mainLayer << playerNodeButton
 
-        let purchaseTower = Button()
-        let armyButtons = armyNodes.map { ArmyUpgradeButton(node: $0) }
-        positionArmyButtons(playerNodeButton: playerNodeButton, armyButtons: armyButtons, purchaseTower: purchaseTower)
+        let purchaseArmy = Button()
+        let armyButtons = armyNodes.map { ArmyUpgradeButton(node: $0, info: nil) }
+        positionArmyButtons(playerNodeButton: playerNodeButton, armyButtons: armyButtons, purchaseArmy: purchaseArmy)
 
         let x: CGFloat = -size.width / 2 + 40
         let dy: CGFloat = 80
@@ -139,6 +141,31 @@ class UpgradeWorld: UIWorld {
 
             y -= dy
         }
+    }
+
+    func positionArmyButtons(playerNodeButton: ArmyUpgradeButton, armyButtons: [ArmyUpgradeButton], purchaseArmy: Button) {
+        playerNodeButton.onTapped { self.showArmyUpgrade(armyButton: playerNodeButton) }
+
+        var angle = 7 * TAU_12
+        let buttonRadius: CGFloat = 80
+        let deltaAngle = TAU / CGFloat(armyButtons.count + 1)
+        for armyButton in armyButtons {
+            let position = CGPoint(r: buttonRadius, a: angle)
+
+            armyButton.position = position
+            mainLayer << armyButton
+
+            armyButton.onTapped { self.showArmyUpgrade(armyButton: armyButton) }
+
+            angle += deltaAngle
+        }
+
+        let position = CGPoint(r: buttonRadius, a: angle)
+        purchaseArmy.position = position
+        purchaseArmy.style = .Circle
+        purchaseArmy.text = "+"
+        purchaseArmy.onTapped(showArmyPurchase)
+        mainLayer << purchaseArmy
     }
 
 }

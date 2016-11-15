@@ -119,9 +119,7 @@ extension TurretNode {
 extension TurretNode {
 
     fileprivate func fireBullet(angle: CGFloat) {
-        guard let world = world else {
-            return
-        }
+        guard let world = world else { return }
 
         let speed: CGFloat = upgrade.turretBulletSpeed
         let bullet = BulletNode(velocity: CGPoint(r: speed, a: angle), style: .Slow)

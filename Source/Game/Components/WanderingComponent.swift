@@ -11,7 +11,11 @@ class WanderingComponent: Component {
         set {
             if !_adjustingPosition {
                 _centeredAround = newValue
-                currentTargetLocation = nil
+                if let currentTargetLocation = currentTargetLocation,
+                    !node.position.distanceTo(currentTargetLocation, within: wanderingRadius)
+                {
+                    self.currentTargetLocation = nil
+                }
             }
         }
     }

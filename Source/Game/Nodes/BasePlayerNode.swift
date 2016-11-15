@@ -2,49 +2,50 @@
 ///  BasePlayerNode.swift
 //
 
-fileprivate let ForceFireDuration: CGFloat = 0.3
-fileprivate let ForceFireDamageFactor: Float = 0.667
-fileprivate let DefaultCooldown: CGFloat = 0.35
-fileprivate let ForceFireCooldown: CGFloat = 0.12
-fileprivate let ForceFireBurnoutUp: CGFloat = 6
-fileprivate let ForceFireBurnoutDown: CGFloat = 4
+private let ForceFireDuration: CGFloat = 0.3
+private let ForceFireDamageFactor: Float = 0.667
+private let DefaultCooldown: CGFloat = 0.35
+private let ForceFireCooldown: CGFloat = 0.12
+private let ForceFireBurnoutUp: CGFloat = 6
+private let ForceFireBurnoutDown: CGFloat = 4
 
 class BasePlayerNode: Node {
+    var rotateUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
+    var bulletUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
+    var radarUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
+    fileprivate func updateUpgrades() {
+        baseNode.textureId(.Base(rotateUpgrade: rotateUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: healthComponent?.healthInt ?? 100))
+        radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
+        turretNode.textureId(turret.spriteId(bulletUpgrade: bulletUpgrade))
+
+        rotateToComponent?.maxAngularSpeed = rotateUpgrade.baseAngularSpeed
+        rotateToComponent?.angularAccel = rotateUpgrade.baseAngularAccel
+
+        firingComponent?.targetsPreemptively = radarUpgrade.droneTargetsPreemptively
+
+        targetingComponent?.sweepAngle = radarUpgrade.baseSweepAngle
+        targetingComponent?.radius = radarUpgrade.baseRadarRadius
+    }
+
     var forceFireEnabled: Bool?
     var forceFireBurnout = false
     var forceResourceEnabled = true {
         didSet { touchResourceComponent.enabled = forceResourceEnabled }
     }
 
-    fileprivate var hurtSound = OpenALManager.sharedInstance().buffer(fromFile: "killed.caf")
-    fileprivate var shootSound = OpenALManager.sharedInstance().buffer(fromFile: "short.caf")
-
     fileprivate var resourceLocation: CGPoint?
     fileprivate let resourceLine = SKSpriteNode()
     fileprivate var resourceLock: CGPoint?
-    fileprivate var touchAimingComponent = TouchableComponent()
-    fileprivate var touchResourceComponent = TouchableComponent()
+    fileprivate let touchAimingComponent = TouchableComponent()
+    fileprivate let touchResourceComponent = TouchableComponent()
 
     var turret: Turret = SimpleTurret() {
         didSet {
             radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
-            turretNode.textureId(turret.spriteId(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade))
+            turretNode.textureId(turret.spriteId(bulletUpgrade: bulletUpgrade))
             targetingComponent?.enabled = turret.autoFireEnabled
             targetingComponent?.reallySmart = turret.reallySmart
         }
-    }
-
-    var rotateUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
-    var bulletUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
-    var radarUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
-    var turretUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
-    fileprivate func updateUpgrades() {
-        baseNode.textureId(.Base(rotateUpgrade: rotateUpgrade, bulletUpgrade: bulletUpgrade, health: healthComponent?.healthInt ?? 100))
-        rotateToComponent?.maxAngularSpeed = rotateUpgrade.baseAngularSpeed
-        rotateToComponent?.angularAccel = rotateUpgrade.baseAngularAccel
-        radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
-        turretNode.textureId(turret.spriteId(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade))
-        firingComponent?.cooldown = turretUpgrade.baseCooldown
     }
 
     let radarNode = SKSpriteNode()
@@ -57,8 +58,13 @@ class BasePlayerNode: Node {
         return forceFireBurnout ? DefaultCooldown : ForceFireCooldown
     }
 
-    override func reset() {
-        super.reset()
+    override func clone() -> Node {
+        let node = super.clone() as! BasePlayerNode
+        node.rotateUpgrade = rotateUpgrade
+        node.bulletUpgrade = bulletUpgrade
+        node.radarUpgrade = radarUpgrade
+        node.turret = turret.clone()
+        return node
     }
 
     required init() {
@@ -74,11 +80,11 @@ class BasePlayerNode: Node {
         radarNode.z = .BelowPlayer
         self << radarNode
 
-        baseNode.textureId(.Base(rotateUpgrade: rotateUpgrade, bulletUpgrade: bulletUpgrade, health: 100))
+        baseNode.textureId(.Base(rotateUpgrade: rotateUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: 100))
         baseNode.z = .Player
         self << baseNode
 
-        turretNode.textureId(turret.spriteId(bulletUpgrade: bulletUpgrade, turretUpgrade: turretUpgrade))
+        turretNode.textureId(turret.spriteId(bulletUpgrade: bulletUpgrade))
         turretNode.z = .AbovePlayer
         self << turretNode
 
@@ -98,9 +104,8 @@ class BasePlayerNode: Node {
         addComponent(playerComponent)
 
         let healthComponent = HealthComponent(health: 100)
-        healthComponent.onHurt { amount in
+        healthComponent.onHurt { _ in
             self.onHurt()
-            self.baseNode.textureId(.Base(rotateUpgrade: .False, bulletUpgrade: .False, health: healthComponent.healthInt))
         }
         addComponent(healthComponent)
 
@@ -129,7 +134,7 @@ class BasePlayerNode: Node {
 
         let firingComponent = FiringComponent()
         firingComponent.turret = baseNode
-        firingComponent.cooldown = turretUpgrade.baseCooldown
+        firingComponent.cooldown = DefaultCooldown
         firingComponent.onFire { angle in
             self.fireBullet(angle: angle)
         }
@@ -146,7 +151,9 @@ class BasePlayerNode: Node {
     }
 
     func onHurt() {
-        _ = world?.channel?.play(hurtSound)
+        guard let healthComponent = healthComponent else { return }
+        _ = world?.channel?.play(Sound.PlayerHurt)
+        baseNode.textureId(.Base(rotateUpgrade: rotateUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: healthComponent.healthInt))
     }
 
     func disableTouchForUI() {
@@ -168,13 +175,13 @@ class BasePlayerNode: Node {
 
         if forceFire && !forceFireBurnout {
             forceFirePercent.complete += dt / ForceFireBurnoutUp
-            if forceFirePercent.complete == 1 {
+            if forceFirePercent.isComplete {
                 forceFireBurnout = true
             }
         }
         else if forceFirePercent.complete > 0 {
             forceFirePercent.complete -= dt / ForceFireBurnoutDown
-            if forceFirePercent.complete == 0 {
+            if forceFirePercent.isZero {
                 forceFireBurnout = false
             }
         }
@@ -230,7 +237,7 @@ extension BasePlayerNode {
             return
         }
 
-        let velocity: CGFloat = turretUpgrade.baseBulletSpeed
+        let velocity: CGFloat = bulletUpgrade.baseBulletSpeed
         let style: BulletNode.Style
         var damageFactor: Float = 1
         if firingComponent?.forceFire ?? false {
@@ -244,14 +251,14 @@ extension BasePlayerNode {
         bullet.position = self.position
         bullet.timeRate = self.timeRate
 
-        bullet.damage = turretUpgrade.baseBulletDamage
         bullet.size = BulletArtist.bulletSize(upgrade: .False)
         bullet.zRotation = angle
         bullet.z = Z.Below
-        bullet.damage *= damageFactor
+        bullet.damage = bulletUpgrade.baseBulletDamage * damageFactor
+        firingComponent?.damage = bullet.damage
         ((parent as? Node) ?? world) << bullet
 
-        _ = world.channel?.play(shootSound)
+        _ = world.channel?.play(Sound.PlayerShoot)
     }
 
 }
@@ -338,55 +345,4 @@ extension BasePlayerNode {
         rotateToComponent?.target = nil
     }
 
-}
-
-extension HasUpgrade {
-    var baseSweepAngle: CGFloat {
-        switch self {
-        case .False:   return 30.degrees
-        case .True:  return 45.degrees
-        }
-    }
-
-    var baseRadarRadius: CGFloat {
-        switch self {
-        case .False:   return 300
-        case .True:   return 340
-        }
-    }
-
-    var baseAngularSpeed: CGFloat {
-        switch self {
-            case .False: return 4
-            case .True: return 10
-        }
-    }
-
-    var baseAngularAccel: CGFloat? {
-        switch self {
-            case .False: return 3
-            case .True: return 12
-        }
-    }
-
-    var baseBulletDamage: Float {
-        switch self {
-            case .False: return 1
-            case .True: return 1.25
-        }
-    }
-
-    var baseCooldown: CGFloat {
-        switch self {
-            case .False: return 0.35
-            case .True: return 0.35
-        }
-    }
-
-    var baseBulletSpeed: CGFloat {
-        switch self {
-            case .False: return 125
-            case .True: return 175
-        }
-    }
 }

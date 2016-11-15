@@ -7,6 +7,8 @@ class PercentBar: Node {
     let minSprite = SKSpriteNode()
 
     var style: PercentStyle = .Default { didSet { updateSprite() } }
+    var isComplete: Bool { return complete == 1 }
+    var isZero: Bool { return complete == 0 }
     var complete: CGFloat = 0 { didSet {
         if complete < 0 || complete > 1 {
             complete = min(max(complete, 0), 1)

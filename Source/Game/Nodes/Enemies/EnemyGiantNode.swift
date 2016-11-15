@@ -19,7 +19,7 @@ class EnemyGiantNode: EnemySoldierNode {
     }
 
     override func generateBigShrapnel(distance dist: CGFloat, angle: CGFloat, spread: CGFloat) {
-        guard let world = self.world else { return }
+        guard let world = world else { return }
 
         let position = self.position
         let angle = self.zRotation

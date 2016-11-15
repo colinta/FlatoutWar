@@ -332,7 +332,6 @@ extension World {
 
         _cachedNodes = nodes + newNodes
         var reacquire = false
-        var fixedPositions = false
         for child in newNodes {
             if child.isEnemy {
                 _cachedEnemies = (_cachedEnemies ?? []) + [child]
@@ -344,16 +343,12 @@ extension World {
             }
 
             if child.fixedPosition != nil {
-                fixedPositions = true
+                updateFixedNode(child)
             }
         }
 
         if reacquire {
             reacquirePlayerTargets()
-        }
-
-        if fixedPositions {
-            updateFixedNodes()
         }
     }
 
@@ -604,11 +599,10 @@ extension World {
 
             let nodeLocation = convert(worldLocation, to: node)
             if let touchableComponent = node.touchableComponentFor(nodeLocation),
-                node.active, node.visible, touchableComponent.enabled
+                node.active, node.visible, touchableComponent.enabled,
+                touchableComponent.containsTouch(at: nodeLocation)
             {
-                if touchableComponent.containsTouch(at: nodeLocation) {
-                    return node
-                }
+                return node
             }
         }
         return nil

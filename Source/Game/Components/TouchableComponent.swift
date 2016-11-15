@@ -273,7 +273,6 @@ extension TouchableComponent {
         return shape.touchTest
     }
 
-
     func shouldAcceptTouch(at location: CGPoint) -> Bool {
         return shouldAcceptTouchTest?(node, location) ?? true
     }
