@@ -230,6 +230,12 @@ class Powerup {
                 self.powerupCancel = nil
                 cancelTimeout()
 
+                let node = Node()
+                node.position = location
+                node << SKSpriteNode(id: .ColorCircle(size: CGSize(60), color: WhiteColor))
+                node.scaleTo(0, duration: 0.3, removeNode: true)
+                level.addChild(node)
+
                 let position = tapNode.convert(location, to: level)
                 onTap(position)
 
