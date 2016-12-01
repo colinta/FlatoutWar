@@ -25,14 +25,13 @@ class BaseArtist: Artist {
             let pointCount: Int = 20
             var angles: [CGFloat] = []
             let angleDelta = TAU / CGFloat(pointCount)
-            let angleRand = angleDelta / 2
             for i in 0..<pointCount {
                 let angle: CGFloat
                 if i == 0 {
                     angle = 0
                 }
                 else {
-                    angle = angleDelta * CGFloat(i) ± rand(angleRand)
+                    angle = angleDelta * CGFloat(i)
                 }
                 angles << angle
             }

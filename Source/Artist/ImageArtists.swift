@@ -19,7 +19,7 @@ extension ImageIdentifier.EnemyType {
             artist = EnemyFastSoldierArtist(health: health)
         case .GiantSoldier:
             artist = EnemySoldierArtist(health: health)
-            artist.size *= 10
+            artist.size = CGSize(100)
         case .Leader:
             artist = EnemyLeaderArtist(health: health)
         case .Scout:
