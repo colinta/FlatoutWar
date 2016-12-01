@@ -3,6 +3,9 @@
 //
 
 extension DroneNode: UpgradeableNode {
+    func upgradeTitle() -> String {
+        return "DODEC DRONE"
+    }
 
     func applyUpgrade(type: UpgradeType) {
         switch type {

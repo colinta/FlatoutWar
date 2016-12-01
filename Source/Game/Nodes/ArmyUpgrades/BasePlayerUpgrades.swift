@@ -3,6 +3,9 @@
 //
 
 extension BasePlayerNode: UpgradeableNode {
+    func upgradeTitle() -> String {
+        return "ICOSAGON"
+    }
 
     func applyUpgrade(type: UpgradeType) {
         switch type {

@@ -8,6 +8,7 @@ let LayerAnimationDuration: CGFloat = 0.3
 
 
 class UpgradeWorld: UIWorld {
+    let title = TextNode()
 
     var nextWorld: Level!
     let config = UpgradeConfigSummary()
@@ -33,6 +34,7 @@ class UpgradeWorld: UIWorld {
             node.position = convertPosition(node)
             return node
         }
+        levelConfig.didUpgrade = true
         director?.presentWorld(nextWorld)
     }
 
@@ -73,6 +75,10 @@ class UpgradeWorld: UIWorld {
         return PowerupUpgradeButton(powerup: powerup, includeCount: includeCount, includeCost: includeCost)
     }
 
+    func willShowMain() {
+        title.text = "ARMORY"
+    }
+
     override func populateWorld() {
         super.populateWorld()
 
@@ -99,12 +105,10 @@ class UpgradeWorld: UIWorld {
         }
 
         do {
-            purchaseArmyLayer << generateBackButton()
             purchaseArmyLayer.alpha = 0
             self << purchaseArmyLayer
         }
 
-        let title = TextNode()
         title.font = .Big
         title.text = "ARMORY"
         title.position = CGPoint(y: size.height / 2 - 22)
@@ -166,6 +170,30 @@ class UpgradeWorld: UIWorld {
         purchaseArmy.text = "+"
         purchaseArmy.onTapped(showArmyPurchase)
         mainLayer << purchaseArmy
+    }
+
+    enum ButtonState {
+        case Inactive
+        case Active
+        case Selecting
+    }
+    func positionForUpgradeButton(
+        index: Int,
+        state: ButtonState
+        ) -> CGPoint
+    {
+        let center = CGPoint(0, 80)
+        let dy: CGFloat = -80
+        let dx: CGFloat = 160
+
+        switch state {
+        case .Active:
+            return center + CGPoint(y: dy * CGFloat(index))
+        case .Inactive:
+            return center + CGPoint(dx, dy * CGFloat(index))
+        case .Selecting:
+            return CGPoint(y: 60)
+        }
     }
 
 }

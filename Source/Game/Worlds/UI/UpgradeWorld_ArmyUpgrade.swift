@@ -4,32 +4,18 @@
 
 extension UpgradeWorld {
 
-    private enum ArmyUpgradeState {
-        case Inactive
-        case Active
-        case Selecting
-    }
-    private func positionForArmyUpgradeButton(
-        index: Int,
-        state: ArmyUpgradeState
-        ) -> CGPoint
-    {
-        let center = CGPoint(0, 80)
-        let dy: CGFloat = -80
-        let dx: CGFloat = 160
-
-        switch state {
-        case .Active:
-            return center + CGPoint(y: dy * CGFloat(index))
-        case .Inactive:
-            return center + CGPoint(dx, dy * CGFloat(index))
-        case .Selecting:
-            return CGPoint(y: 60)
-        }
-    }
-
     func showArmyUpgrade(armyButton originalArmyButton: ArmyUpgradeButton) {
-        let armyUpgrades = (originalArmyButton.node as! UpgradeableNode).availableUpgrades(world: self)
+        mainLayer.interactive = false
+        mainLayer.fadeTo(0, duration: PurchaseAnimationDuration / 2).onFaded {
+            self.upgradeArmyLayer.interactive = true
+            self.upgradeArmyLayer.fadeTo(1, duration: PurchaseAnimationDuration / 2)
+            self.mainLayer.removeFromParent(reset: false)
+        }
+
+        let upgradeable = originalArmyButton.node as! UpgradeableNode
+        title.text = upgradeable.upgradeTitle()
+        let armyUpgrades = upgradeable.availableUpgrades(world: self)
+
         let originalArmyNode = originalArmyButton.node
         originalArmyButton.alpha = 0
         let armyCurrentNode = Button(at: originalArmyButton.position)
@@ -38,13 +24,6 @@ extension UpgradeWorld {
         originalArmyNode.move(toParent: armyCurrentNode, preservePosition: true)
         armyCurrentNode.moveTo(CGPoint(x: -size.width / 2 + 90), duration: PurchaseAnimationDuration)
         uiLayer << armyCurrentNode
-
-        mainLayer.interactive = false
-        mainLayer.fadeTo(0, duration: PurchaseAnimationDuration / 2).onFaded {
-            self.upgradeArmyLayer.interactive = true
-            self.mainLayer.active = false
-            self.upgradeArmyLayer.fadeTo(1, duration: PurchaseAnimationDuration / 2)
-        }
 
         let backButton = generateBackButton()
         backButton.onTapped {
@@ -60,12 +39,12 @@ extension UpgradeWorld {
         upgradeArmyLayer << upgradeButtonsScroll
 
         for (index, (upgradeButton, info)) in armyUpgrades.enumerated() {
-            upgradeButton.position = positionForArmyUpgradeButton(index: index, state: .Inactive)
+            upgradeButton.position = positionForUpgradeButton(index: index, state: .Inactive)
             upgradeButton.alpha = 0
             upgradeButtonsScroll.content << upgradeButton
 
             timeline.after(time: PurchaseAnimationDuration / 2) {
-                upgradeButton.moveTo(self.positionForArmyUpgradeButton(index: index, state: .Active),
+                upgradeButton.moveTo(self.positionForUpgradeButton(index: index, state: .Active),
                                      duration: PurchaseAnimationDuration / 2)
                 upgradeButton.fadeTo(upgradeButton.enabled ? 1 : ButtonDisabledAlpha, duration: PurchaseAnimationDuration / 2)
             }
@@ -81,7 +60,7 @@ extension UpgradeWorld {
         for (index, button) in allButtons.enumerated() {
             button.enabled = false
             button.fadeTo(0, duration: ButtonAnimationDuration)
-            let dest = positionForArmyUpgradeButton(index: index, state: .Inactive)
+            let dest = positionForUpgradeButton(index: index, state: .Inactive)
             button.moveTo(dest, duration: ButtonAnimationDuration)
         }
 
@@ -90,7 +69,7 @@ extension UpgradeWorld {
         let upgradeIcon = originalArmyNode.clone()
         ArmyUpgradeButton.disableNode(upgradeIcon)
         (upgradeIcon as! UpgradeableNode).applyUpgrade(type: info.upgradeType)
-        upgradeIcon.position = positionForArmyUpgradeButton(index: 0, state: .Selecting)
+        upgradeIcon.position = positionForUpgradeButton(index: 0, state: .Selecting)
         upgradePromptLayer << upgradeIcon
 
         let anchor = CGPoint(y: -30)
@@ -132,7 +111,7 @@ extension UpgradeWorld {
             for (index, button) in allButtons.enumerated() {
                 button.enabled = true
                 button.fadeTo(button.enabled ? 1 : ButtonDisabledAlpha, duration: ButtonAnimationDuration)
-                let dest = self.positionForArmyUpgradeButton(index: index, state: .Active)
+                let dest = self.positionForUpgradeButton(index: index, state: .Active)
                 button.moveTo(dest, duration: ButtonAnimationDuration)
             }
             upgradePromptLayer.interactive = false
@@ -218,7 +197,8 @@ extension UpgradeWorld {
             originalArmyButton.alpha = 1
         }
 
-        mainLayer.active = true
+        self << mainLayer
+        self.willShowMain()
         defaultNode = nil
         upgradeArmyLayer.interactive = false
 

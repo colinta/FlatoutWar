@@ -4,33 +4,16 @@
 
 extension UpgradeWorld {
 
-    private enum PurchaseState {
-        case Inactive
-        case Active
-        case Selecting
-    }
-    private func positionForPurchaseablePowerupButton(
-        index: Int,
-        state: PurchaseState
-        ) -> CGPoint
-    {
-        let center = CGPoint(0, 80)
-        let dy: CGFloat = -80
-        let dx: CGFloat = 160
-
-        switch state {
-        case .Active:
-            return center + CGPoint(y: dy * CGFloat(index))
-        case .Inactive:
-            return center + CGPoint(dx, dy * CGFloat(index))
-        case .Selecting:
-            return CGPoint(y: 60)
-        }
-    }
-
     func showPowerupUpgrade(mainButton mainPowerupButton: PowerupUpgradeButton) {
-        let assignedPowerup = mainPowerupButton.powerup
+        title.text = "POWERUP"
         mainLayer.interactive = false
+        mainLayer.fadeTo(0, duration: PurchaseAnimationDuration / 2).onFaded {
+            self.powerupLayer.interactive = true
+            self.powerupLayer.fadeTo(1, duration: PurchaseAnimationDuration / 2)
+            self.mainLayer.removeFromParent(reset: false)
+        }
+
+        let assignedPowerup = mainPowerupButton.powerup
         let startPosition = mainPowerupButton.position
         let dest = CGPoint(x: -size.width / 2 + 90)
 
@@ -39,12 +22,6 @@ extension UpgradeWorld {
         tempPowerupButton.alpha = 1
         tempPowerupButton.moveTo(dest, start: startPosition, speed: 150)
         uiLayer << tempPowerupButton
-
-        mainLayer.fadeTo(0, duration: PurchaseAnimationDuration / 2).onFaded {
-            self.powerupLayer.interactive = true
-            self.powerupLayer.fadeTo(1, duration: PurchaseAnimationDuration / 2)
-            self.mainLayer.removeFromParent(reset: false)
-        }
 
         let backButton = generateBackButton()
         backButton.onTapped {
@@ -63,8 +40,8 @@ extension UpgradeWorld {
         let purchaseablePowerups = [assignedPowerup] + levelConfig.purchaseablePowerups
         for (index, purchaseablePowerup) in purchaseablePowerups.enumerated() {
             let purchaseablePowerupButton = generatePowerupButton(purchaseablePowerup, includeCount: true, includeCost: true)
-            let p0 = positionForPurchaseablePowerupButton(index: index, state: .Inactive)
-            let p1 = positionForPurchaseablePowerupButton(index: index, state: .Active)
+            let p0 = positionForUpgradeButton(index: index, state: .Inactive)
+            let p1 = positionForUpgradeButton(index: index, state: .Active)
             purchaseablePowerupButton.moveTo(p1, start: p0, duration: PurchaseAnimationDuration)
             purchaseablePowerupButton.enabled = purchaseablePowerup.nextResourceCost != nil
             if purchaseablePowerup.count > 0 {
@@ -96,7 +73,7 @@ extension UpgradeWorld {
             for (index, button) in allPowerupButtons.enumerated() {
                 button.enabled = true
                 button.fadeTo(1, duration: ButtonAnimationDuration)
-                button.moveTo(positionForPurchaseablePowerupButton(index: index, state: .Active), duration: ButtonAnimationDuration)
+                button.moveTo(positionForUpgradeButton(index: index, state: .Active), duration: ButtonAnimationDuration)
             }
         }
     }
@@ -125,14 +102,14 @@ extension UpgradeWorld {
             if button.powerup == mainPowerupButton.powerup {
                 myIndex = index
             }
-            let dest = positionForPurchaseablePowerupButton(index: index, state: .Inactive)
+            let dest = positionForUpgradeButton(index: index, state: .Inactive)
             button.moveTo(dest, duration: ButtonAnimationDuration)
             button.fadeTo(0, duration: ButtonAnimationDuration)
             button.enabled = false
         }
 
         let powerupIcon = powerup.icon()
-        powerupIcon.position = positionForPurchaseablePowerupButton(index: myIndex, state: .Selecting)
+        powerupIcon.position = positionForUpgradeButton(index: myIndex, state: .Selecting)
         tryPowerupLayer << powerupIcon
 
         let cancelButton = CancelButton(at: powerupIcon.position + CGPoint(x: 50))
@@ -296,6 +273,7 @@ extension UpgradeWorld {
         unselectPowerup()
 
         self << mainLayer
+        self.willShowMain()
         defaultNode = nil
         powerupLayer.interactive = false
 

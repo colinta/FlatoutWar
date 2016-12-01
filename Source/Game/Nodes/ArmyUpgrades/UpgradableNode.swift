@@ -3,6 +3,7 @@
 //
 
 protocol UpgradeableNode: class {
+    func upgradeTitle() -> String
     func applyUpgrade(type: UpgradeType)
     func availableUpgrades(world upgradeWorld: World) -> [(ArmyUpgradeButton, UpgradeInfo)]
 }
