@@ -20,7 +20,6 @@ class WorldController: UIViewController {
         self.worldView = view
         self.view = worldView
 
-        Defaults["colin"] = true
         if Defaults["colin"].bool == true {
             let world = UpgradeWorld()
             world.nextWorld = BaseLevel1()
