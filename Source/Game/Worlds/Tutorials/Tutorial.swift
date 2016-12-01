@@ -12,6 +12,7 @@ class Tutorial: World {
     let closeButton = CloseButton()
 
     func goToNextWorld() {
+        (nextWorld as? Level)?.config.seenTutorial = true
         self.director?.presentWorld(nextWorld ?? WorldSelectWorld(beginAt: .Tutorial))
     }
 

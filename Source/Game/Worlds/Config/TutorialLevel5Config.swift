@@ -3,7 +3,6 @@
 //
 
 class TutorialLevel5Config: TutorialConfig {
-    override var canUpgrade: Bool { return false }
     override var activatedPowerups: [Powerup] { return [
         GrenadePowerup(count: 2),
         LaserPowerup(count: 1),

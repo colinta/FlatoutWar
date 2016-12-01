@@ -3,7 +3,6 @@
 //
 
 class TutorialLevel1Config: TutorialConfig {
-    override var canUpgrade: Bool { return false }
     override var canPowerup: Bool { return false }
     override var trackResources: Bool { return false }
     override var availableTurrets: [Turret] { return [] }

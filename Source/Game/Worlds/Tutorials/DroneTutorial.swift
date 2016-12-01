@@ -9,7 +9,12 @@ class DroneTutorial: Tutorial {
         super.populateWorld()
 
         playerNode.rotateTo(TAU_2)
-        tutorialTextNode.text = "DRONE"
+        tutorialTextNode.text = "DODEC DRONE"
+
+        showWhy([
+            "I FOUND AN ALLY! THIS DRONE MOVES",
+            "AND SHOOTS IN ANY DIRECTION"
+            ])
 
         timeline.at(1, block: showDrone)
     }

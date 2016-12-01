@@ -3,29 +3,16 @@
 //
 
 class ResourceTutorial: Tutorial, ResourceWorld {
-    let experiencePercent = ExperiencePercent(goal: 30)
     let resourcePercent = ResourcePercent(max: 10)
 
     var firstResource = ResourceNode()
+    var secondResource = ResourceNode()
+    var targetResource: ResourceNode?
+
     var resourceFound: ((ResourceNode) -> Void)!
-    let dragIndicator: Node = {
-        let n = Node()
-        n << SKSpriteNode(id: .ColorCircle(size: CGSize(60), color: WhiteColor))
-        return n
-    }()
+    let dragIndicator: Node = createDragIndicator()
 
     var after2: Block!
-
-    override func didAdd(_ node: Node) {
-        super.didAdd(node)
-        if let enemyComponent = node.enemyComponent,
-            let healthComponent = node.healthComponent
-        {
-            healthComponent.onKilled {
-                self.experiencePercent.gain(enemyComponent.experience)
-            }
-        }
-    }
 
     override func populateWorld() {
         super.populateWorld()
@@ -33,10 +20,9 @@ class ResourceTutorial: Tutorial, ResourceWorld {
         after2 = after(2, self.done)
 
         ui << resourcePercent
-        ui << experiencePercent
 
         dragIndicator.alpha = 0
-        dragIndicator.position = playerNode.position
+        self << dragIndicator
         tutorialTextNode.text = "RESOURCES"
 
         timeline.at(1) {
@@ -56,6 +42,7 @@ class ResourceTutorial: Tutorial, ResourceWorld {
             speed: 50)
         arcTo.rotate = false
         self << firstResource
+        targetResource = firstResource
 
         let resourceButton = Button()
         resourceButton.size = CGSize(60)
@@ -68,44 +55,53 @@ class ResourceTutorial: Tutorial, ResourceWorld {
         resourceButton.touchableComponent?.on(.DragEnded) { location in
             self.playerNode.onDragResourceEnded(at: location)
         }
-        resourceFound = { resourceNode in
-            self.dragIndicator.fadeTo(0, rate: 3.333)
-            self.showSecondResource()
-        }
         self << resourceButton
 
         timeline.after(time: 1) {
             self.showFirstDrag()
         }
-
-        timeline.after(time: 3) {
-            var distOffset: CGFloat = 0
-            30.times { (i: Int) in
-                let soldier = EnemySoldierNode()
-                soldier.position = CGPoint(r: self.size.width / 2 + distOffset, a: 0)
-                self << soldier
-                distOffset += soldier.size.width + 4
-            }
-        }
     }
 
     func showFirstDrag() {
+        dragIndicator.position = playerNode.position
         dragIndicator.fadeTo(1, start: 0, duration: 0.3)
         dragIndicator.moveTo(firstResource.position, speed: 100, removeComponent: false).onArrived {
             self.dragIndicator.position = self.playerNode.position
         }
-        self << dragIndicator
+
+        resourceFound = { _ in
+            self.dragIndicator.moveToComponent?.removeFromNode()
+            self.dragIndicator.fadeTo(0, rate: 3.333).onFaded {
+                self.showSecondDrag()
+            }
+            self.showSecondResource()
+        }
     }
 
+    func showSecondDrag() {
+        dragIndicator.position = playerNode.position
+        dragIndicator.fadeTo(1, start: 0, duration: 0.3)
+        dragIndicator.moveTo(secondResource.position, speed: 100, removeComponent: false).onArrived {
+            self.dragIndicator.position = self.playerNode.position
+        }
+
+        resourceFound = { _ in
+            self.showWhy([
+                "THE FURTHER THE RESOURCE IS",
+                "THE LESS YOU WILL COLLECT",
+            ])
+
+            self.dragIndicator.fadeTo(0, rate: 3.333)
+        }
+    }
     func showSecondResource() {
         tutorialTextNode.text = "NICE!"
         closeButton.visible = true
 
-        let resourceNode = ResourceNode(at: CGPoint(x: -100, y: 100))
-        resourceNode.moveTo(CGPoint(x: -100, y: -100), duration: 5)
-        self << resourceNode
-
-        resourceFound = { _ in }
+        secondResource.position = CGPoint(x: -100, y: 100)
+        secondResource.moveTo(CGPoint(x: -100, y: -100), duration: 5)
+        self << secondResource
+        targetResource = secondResource
     }
 
     func playerFoundResource(node resourceNode: ResourceNode) {
@@ -135,7 +131,9 @@ class ResourceTutorial: Tutorial, ResourceWorld {
     }
 
     override func update(_ dt: CGFloat) {
-        dragIndicator.moveToComponent?.target = firstResource.position
+        if let target = targetResource?.position {
+            dragIndicator.moveToComponent?.target = target
+        }
     }
 
     func done() {
@@ -144,4 +142,14 @@ class ResourceTutorial: Tutorial, ResourceWorld {
         addContinueButton()
     }
 
+}
+
+private func createDragIndicator() -> Node {
+    let n = Node()
+    let label = TextNode()
+    label.text = "DRAG"
+    label.setScale(0.8)
+    n << label
+    n << SKSpriteNode(id: .ColorCircle(size: CGSize(60), color: WhiteColor))
+    return n
 }

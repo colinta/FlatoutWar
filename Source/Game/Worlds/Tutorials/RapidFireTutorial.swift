@@ -15,12 +15,16 @@ class RapidFireTutorial: Tutorial {
     }
 
     func showTurrets() {
-        let turret = RapidTurret()
-        let button = turret.button()
+        let defaultTurret = SimpleTurret()
+        let defaultButton = defaultTurret.button()
+        defaultButton.enabled = false
+
+        let rapidTurret = RapidTurret()
+        let rapidButton = rapidTurret.button()
 
         let label = TextNode()
         label.text = "↓"
-        label.fixedPosition = .Bottom(x: 0, y: 60)
+        label.fixedPosition = .Bottom(x: 22.5, y: 60)
         label.alpha = 0
         gameUI << label
         let cancel = timeline.cancellable.after(time: 2) {
@@ -28,25 +32,42 @@ class RapidFireTutorial: Tutorial {
             self.bounce(label)
         }
 
-        button.onTapped {
+        rapidButton.onTapped {
             label.removeFromParent()
             cancel()
-            button.fadeTo(0, duration: 0.3, removeNode: true)
-            self.playerNode.turret = turret
+            rapidButton.fadeTo(0, duration: 0.3, removeNode: true)
+            defaultButton.fadeTo(0, duration: 0.3, removeNode: true)
+            self.playerNode.turret = rapidTurret
             self.showFirstEnemy()
         }
 
-        let start: Position = .Bottom(
-            x: 0,
-            y: -22
-        )
-        let dest: Position = .Bottom(
-            x: start.x,
-            y: 22
-        )
-        button.fixedPosition = start
-        gameUI << button
-        button.moveTo(dest, duration: 0.5)
+        do {
+            let start: Position = .Bottom(
+                x: 22.5,
+                y: -22
+            )
+            let dest: Position = .Bottom(
+                x: start.x,
+                y: 22
+            )
+            rapidButton.fixedPosition = start
+            gameUI << rapidButton
+            rapidButton.moveTo(dest, duration: 0.5)
+        }
+
+        do {
+            let start: Position = .Bottom(
+                x: -22.5,
+                y: -22
+            )
+            let dest: Position = .Bottom(
+                x: start.x,
+                y: 22
+            )
+            defaultButton.fixedPosition = start
+            gameUI << defaultButton
+            defaultButton.moveTo(dest, duration: 0.5)
+        }
     }
 
     func bounce(_ node: Node, direction: Int = 1) {
@@ -139,6 +160,10 @@ class RapidFireTutorial: Tutorial {
     }
 
     func showSecondHoldButton() {
+        showWhy([
+            "YOU CANNOT RAPID FIRE FOREVER",
+            "YOUR GUN WILL OVERHEAT!"
+            ])
         let holdButton = Button(at: CGPoint(x: 200, y: -90))
         holdButton.text = "HOLD"
         holdButton.touchableComponent!.onDragged { prevLoc, loc in

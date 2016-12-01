@@ -115,7 +115,7 @@ class PowerupTutorial: Tutorial {
         var nextDelay: CGFloat = 4
         10.times {
             let wave: CGFloat = TAU_7_8 ± rand(TAU_8)
-            timeline.every(0.25, start: .Delayed(delay), times: 3, block: self.generateEnemy(wave)) ~~> nextStep()
+            timeline.every(0.25, start: .After(delay), times: 3, block: self.generateEnemy(wave)) ~~> nextStep()
             delay += nextDelay
             nextDelay -= 0.15
         }

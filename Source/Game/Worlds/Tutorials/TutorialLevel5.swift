@@ -6,9 +6,7 @@ class TutorialLevel5: TutorialLevel {
     override func loadConfig() -> LevelConfig { return TutorialLevel5Config() }
 
     override func populateLevel() {
-        timeline.after(time: 1) {
-            self.introduceDrone()
-        }
+        self.introduceDrone()
 
         var delay: CGFloat = 3
         9.times { (i: Int) in
@@ -16,7 +14,9 @@ class TutorialLevel5: TutorialLevel {
             delay += 10
         }
 
-        beginWave1()
+        timeline.after(time: 1) {
+            self.beginWave1()
+        }
     }
 
     func introduceDrone() {
