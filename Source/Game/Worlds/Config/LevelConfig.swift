@@ -3,8 +3,11 @@
 //
 
 class LevelConfig: Config {
+    var didUpgrade: Bool {
+        get { return Defaults["\(configKey)-didUpgrade"].bool ?? false }
+        set { Defaults["\(configKey)-didUpgrade"] = newValue }
+    }
     var canPowerup: Bool { return true }
-    var canUpgrade: Bool { return true }
     var trackExperience: Bool { return true }
     var trackResources: Bool { return true }
 
@@ -24,6 +27,7 @@ class LevelConfig: Config {
         set {
             if !newValue {
                 Defaults.remove("\(configKey)-gainedExperience")
+                Defaults.remove("\(configKey)-gainedResources")
             }
         }
     }

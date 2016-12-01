@@ -273,12 +273,19 @@ class WorldSelectWorld: UIWorld {
             let y: CGFloat = (yOffset - 1) * dy
             let position = center + CGPoint(x, y)
 
-            let upgrade = UpgradeWorld()
-            upgrade.nextWorld = level
+            let world: World
+            if level.config.didUpgrade {
+                world = level
+            }
+            else {
+                let upgradeWorld = UpgradeWorld()
+                upgradeWorld.nextWorld = level
+                world = upgradeWorld
+            }
             let button = generateButton(
                 at: position,
                 level: level, prevLevel: prevLevel,
-                presentWorld: upgrade)
+                presentWorld: world)
             button.text = "\(levelIndex + 1)"
             levelSelect << button
 

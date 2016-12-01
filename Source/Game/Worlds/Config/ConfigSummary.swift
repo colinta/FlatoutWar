@@ -23,7 +23,7 @@ class ConfigSummary: Config {
     var totalGainedResources: Int {
         return configs.map { $0.gainedResources }.reduce(0, +)
     }
-    
+
     var worldCompleted: Bool {
         return configs.all { $0.levelCompleted }
     }
@@ -37,6 +37,7 @@ class ConfigSummary: Config {
 
     func resetAll() {
         for c in configs {
+            c.seenTutorial = false
             c.levelCompleted = false
         }
     }

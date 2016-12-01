@@ -6,14 +6,11 @@ class TutorialSelectWorld: World {
 
     override func populateWorld() {
         let worlds: [(String, () -> World)] = [
-            ("AUTO AIM TUTORIAL", { return AutoFireTutorial() }),
-            ("POWERUP TUTORIAL", { return PowerupTutorial() }),
-            ("RAPID FIRE TUTORIAL", { return RapidFireTutorial() }),
-            ("DRONE TUTORIAL", { return DroneTutorial() }),
-            ("", { return TutorialSelectWorld() }),
-            ("CAMERA DEMO", { return CameraDemoWorld() }),
-            ("INTERSECTS TEST", { return IntersectsTestWorld() }),
-            ("PLAYGROUND", { return Playground() }),
+            ("AUTO AIMING", { return AutoFireTutorial() }),
+            ("RESOURCES", { return ResourceTutorial() }),
+            ("POWERUPS", { return PowerupTutorial() }),
+            ("RAPID FIRE", { return RapidFireTutorial() }),
+            ("DODEC DRONE", { return DroneTutorial() }),
         ]
 
         let textNode = TextNode(at: CGPoint(x: -165, y: -125))
