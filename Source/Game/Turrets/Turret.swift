@@ -31,7 +31,7 @@ class Turret {
     }
 
     func button() -> Button {
-        let body = SKSpriteNode(id: .Base(rotateUpgrade: .False, bulletUpgrade: .False, health: 100))
+        let body = SKSpriteNode(id: .Base(rotateUpgrade: .False, radarUpgrade: .False, bulletUpgrade: .False, health: 100))
         body.z = .Player
 
         let turret = SKSpriteNode(id: spriteId(bulletUpgrade: .False))
