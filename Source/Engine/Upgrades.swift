@@ -28,6 +28,12 @@ extension HasUpgrade {
     var boolValue: Bool { return self == .True }
 }
 
+extension HasUpgrade {
+    var targetsPreemptively: Bool {
+        return self.boolValue
+    }
+}
+
 enum UpgradeType {
     case RadarUpgrade
     case BulletUpgrade

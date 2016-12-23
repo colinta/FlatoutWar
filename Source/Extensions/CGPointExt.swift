@@ -93,6 +93,9 @@ extension CGPoint {
 
         let angle = atan2(target.y - self.y, target.x - self.x)
         var dist = speed * dt
+        if roughDistance < pow(dist, 2) {
+            return nil
+        }
 
         // if we are moving a decent amount, more than half a pixel, check to make
         // sure we don't overshoot the target

@@ -47,6 +47,12 @@ func easeInBack(time: CGFloat, initial: CGFloat = 0, final finalValue: CGFloat =
     return (finalValue - initial) * time * time * ((s + 1) * time - s) + initial
 }
 
+func easeReverseQuad(time: CGFloat, initial: CGFloat = 0, final finalValue: CGFloat = 1) -> CGFloat {
+    let a = 4 * (initial - finalValue)
+    let b = 4 * (finalValue - initial)
+    return a * pow(time, 2) + b * time + initial
+}
+
 enum Easing {
     case Linear
     case EaseInBack
@@ -54,6 +60,7 @@ enum Easing {
     case EaseOutCubic
     case EaseOutElastic
     case EaseOutExpo
+    case ReverseQuad
     case Custom(EasingEquation)
 
     func ease(time: CGFloat, initial: CGFloat, final: CGFloat) -> CGFloat {
@@ -64,6 +71,7 @@ enum Easing {
         case .EaseOutCubic: return easeOutCubic(time: time, initial: initial, final: final)
         case .EaseOutElastic: return easeOutElastic(time: time, initial: initial, final: final)
         case .EaseOutExpo: return easeOutExpo(time: time, initial: initial, final: final)
+        case .ReverseQuad: return easeReverseQuad(time: time, initial: initial, final: final)
         case let .Custom(eq): return eq(time, initial, final)
         }
     }

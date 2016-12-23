@@ -456,7 +456,7 @@ extension World {
     fileprivate func clearStragglers() {
         let maxDistance = outerRadius * 2
         for node in allChildNodes() {
-            if node.projectileComponent != nil && !convertPosition(node).lengthWithin(maxDistance) {
+            if node.isProjectile && !convertPosition(node).lengthWithin(maxDistance) {
                 node.removeFromParent()
             }
         }

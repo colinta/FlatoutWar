@@ -5,19 +5,26 @@
 private let startingHealth: Float = 40
 
 class DroneNode: Node, DraggableNode {
-    static let DefaultSpeed: CGFloat = 40
-
     var radarUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
     var bulletUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
     var speedUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
+
     fileprivate func updateUpgrades() {
+        sprite.textureId(.Drone(speedUpgrade: speedUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: healthComponent?.healthInt ?? 100))
+        placeholder.textureId(.Drone(speedUpgrade: speedUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: 100))
+        radar1.textureId(.DroneRadar(upgrade: radarUpgrade))
+        radar2.textureId(.DroneRadar(upgrade: radarUpgrade))
+
         targetingComponent?.radius = radarUpgrade.droneRadarRadius
         targetingComponent?.bulletSpeed = bulletUpgrade.droneBulletSpeed
+
         draggableComponent?.speed = speedUpgrade.droneMovementSpeed
+
         firingComponent?.cooldown = speedUpgrade.droneCooldown
-        firingComponent?.targetsPreemptively = radarUpgrade.droneTargetsPreemptively
+        firingComponent?.targetsPreemptively = radarUpgrade.targetsPreemptively
+        firingComponent?.damage = bulletUpgrade.droneBulletDamage
+
         wanderingComponent?.maxSpeed = speedUpgrade.droneMovementSpeed / 10
-        updateSprites()
     }
 
     var wanderingEnabled: Bool? {
@@ -33,13 +40,6 @@ class DroneNode: Node, DraggableNode {
                 touchableComponent!.enabled = touchableEnabled
             }
         }
-    }
-
-    fileprivate func updateSprites() {
-        sprite.textureId(.Drone(speedUpgrade: speedUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: healthComponent?.healthInt ?? 100))
-        placeholder.textureId(.Drone(speedUpgrade: speedUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: 100))
-        radar1.textureId(.DroneRadar(upgrade: radarUpgrade))
-        radar2.textureId(.DroneRadar(upgrade: radarUpgrade))
     }
 
     var cursor = CursorNode()
@@ -95,21 +95,15 @@ class DroneNode: Node, DraggableNode {
         let wanderingComponent = WanderingComponent()
         wanderingComponent.centeredAround = position
         wanderingComponent.wanderingRadius = 10
-        wanderingComponent.maxSpeed = speedUpgrade.droneMovementSpeed / 10
         addComponent(wanderingComponent)
 
         let targetingComponent = EnemyTargetingComponent()
         targetingComponent.reallySmart = true
         targetingComponent.sweepAngle = nil
-        targetingComponent.radius = radarUpgrade.droneRadarRadius
-        targetingComponent.bulletSpeed = bulletUpgrade.droneBulletSpeed
         addComponent(targetingComponent)
 
         let firingComponent = FiringComponent()
-        firingComponent.cooldown = speedUpgrade.droneCooldown
-        firingComponent.onFire { angle in
-            self.fireBullet(angle: angle)
-        }
+        firingComponent.onFire(self.fireBullet)
         addComponent(firingComponent)
 
         let healthComponent = HealthComponent(health: startingHealth)
@@ -133,7 +127,6 @@ class DroneNode: Node, DraggableNode {
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()
-        draggableComponent.speed = speedUpgrade.droneMovementSpeed
         draggableComponent.bindTo(touchableComponent: touchableComponent)
         draggableComponent.onDragging { (isDragging, location) in
             wanderingComponent.enabled = !isDragging
@@ -147,7 +140,7 @@ class DroneNode: Node, DraggableNode {
         }
         addComponent(draggableComponent)
 
-        updateSprites()
+        updateUpgrades()
     }
 
     required init?(coder: NSCoder) {
@@ -193,36 +186,32 @@ class DroneNode: Node, DraggableNode {
             scale2.alpha = 0
         }
     }
-
 }
 
 extension DroneNode {
-
     func droneEnabled(isMoving: Bool) {
         let died = healthComponent!.died
-        self.selectableComponent!.enabled = !died
-        self.draggableComponent!.enabled = !died
-        self.touchableComponent!.enabled = !died && (touchableEnabled ?? true)
-        self.phaseComponent!.loops = !died
+        selectableComponent?.enabled = !died
+        draggableComponent?.enabled = !died
+        touchableComponent?.enabled = !died && (touchableEnabled ?? true)
+        phaseComponent?.loops = !died
 
         let enabled = !isMoving && !died
-        self.alpha = died ? 0.5 : 0
-        self.alpha = enabled ? 1 : 0.5
-        if self.cursor.selected && !enabled {
-            self.cursor.selected = false
+        alpha = enabled ? 1 : 0.5
+        if cursor.selected && !enabled {
+            cursor.selected = false
         }
 
-        playerComponent!.intersectable = enabled
-        firingComponent!.enabled = enabled
-        selectableComponent!.enabled = enabled
-        wanderingComponent!.enabled = enabled && (wanderingEnabled ?? true)
+        playerComponent?.intersectable = enabled
+        firingComponent?.enabled = enabled
+        selectableComponent?.enabled = enabled
+        wanderingComponent?.enabled = enabled && (wanderingEnabled ?? true)
     }
 }
 
 // MARK: Fire Bullet
 
 extension DroneNode {
-
     fileprivate func fireBullet(angle: CGFloat) {
         guard let world = world else { return }
 
@@ -235,19 +224,16 @@ extension DroneNode {
         bullet.zRotation = angle
         bullet.z = Z.Below
         firingComponent?.damage = bullet.damage
-        ((parent as? Node) ?? world) << bullet
+        (parentNode ?? world) << bullet
 
         _ = world.channel?.play(Sound.PlayerShoot)
     }
-
 }
 
 // MARK: Touch events
 
 extension DroneNode {
-
     func onSelected(_ selected: Bool) {
         cursor.selected = selected
     }
-
 }

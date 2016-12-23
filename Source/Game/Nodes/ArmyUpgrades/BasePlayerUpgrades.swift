@@ -149,4 +149,11 @@ extension HasUpgrade {
         case .True: return 2
         }
     }
+
+    var baseRadarColor: Int {
+        switch self {
+            case .False: return 0xFCF10C
+            case .True: return 0xE59311
+        }
+    }
 }

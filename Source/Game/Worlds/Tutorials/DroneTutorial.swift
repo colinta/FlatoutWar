@@ -34,7 +34,7 @@ class DroneTutorial: Tutorial {
 
         let moveTo = MoveToComponent()
         moveTo.target = CGPoint(-30, -60)
-        moveTo.speed = DroneNode.DefaultSpeed
+        moveTo.speed = HasUpgrade.False.droneMovementSpeed
         moveTo.onArrived(showTapButton)
         moveTo.removeComponentOnArrived()
         drone.addComponent(moveTo)
@@ -114,7 +114,7 @@ class DroneTutorial: Tutorial {
 
         let moveTo = MoveToComponent()
         moveTo.target = CGPoint(x: 30, y: -60)
-        moveTo.speed = DroneNode.DefaultSpeed
+        moveTo.speed = HasUpgrade.False.droneMovementSpeed
         moveTo.removeComponentOnArrived()
         drone.addComponent(moveTo)
         playerNode.startRotatingTo(angle: 0)

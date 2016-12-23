@@ -41,13 +41,19 @@ class Node: SKNode {
 
     var components: [Component] = []
     var world: World? { return (scene as? WorldScene)?.world }
+    var parentNode: Node? { return parent as? Node }
     var isEnemy: Bool {
         return self.enemyComponent != nil
     }
     var isPlayer: Bool {
         return self.playerComponent != nil
     }
-    var isProjectile: Bool { return projectileComponent != nil }
+    var isProjectile: Bool {
+        if let projectileComponent = projectileComponent {
+            return projectileComponent.enabled
+        }
+        return false
+    }
 
     typealias OnDeath = Block
     private var _onDeath: [OnDeath] = []
@@ -275,37 +281,39 @@ extension Node {
         wanderingComponent?.enabled = false
     }
 
-    func addComponent(_ component: Component) {
+    func addComponent(_ component: Component, assign: Bool = true) {
         component.node = self
         components << component
 
-        if let component = component as? ArcToComponent { arcToComponent = component }
-        else if let component = component as? DraggableComponent { draggableComponent = component }
-        else if let component = component as? EnemyComponent { enemyComponent = component }
-        else if let component = component as? FadeToComponent { fadeToComponent = component }
-        else if let component = component as? FiringComponent { firingComponent = component }
-        else if let component = component as? FollowComponent { followComponent = component }
-        else if let component = component as? GrowToComponent { growToComponent = component }
-        else if let component = component as? JiggleComponent { jiggleComponent = component }
-        else if let component = component as? HealthComponent { healthComponent = component }
-        else if let component = component as? KeepMovingComponent { keepMovingComponent = component }
-        else if let component = component as? KeepRotatingComponent { keepRotatingComponent = component }
-        else if let component = component as? MoveToComponent { moveToComponent = component }
-        else if let component = component as? PhaseComponent { phaseComponent = component }
-        else if let component = component as? PlayerComponent { playerComponent = component }
-        else if let component = component as? PlayerTargetingComponent { playerTargetingComponent = component }
-        else if let component = component as? ProjectileComponent { projectileComponent = component }
-        else if let component = component as? RammingComponent {
-            rammingComponent = component
-            if let component = component as? FlyingComponent { flyingComponent = component }
+        if assign {
+            if let component = component as? ArcToComponent { arcToComponent = component }
+            else if let component = component as? DraggableComponent { draggableComponent = component }
+            else if let component = component as? EnemyComponent { enemyComponent = component }
+            else if let component = component as? FadeToComponent { fadeToComponent = component }
+            else if let component = component as? FiringComponent { firingComponent = component }
+            else if let component = component as? FollowComponent { followComponent = component }
+            else if let component = component as? GrowToComponent { growToComponent = component }
+            else if let component = component as? JiggleComponent { jiggleComponent = component }
+            else if let component = component as? HealthComponent { healthComponent = component }
+            else if let component = component as? KeepMovingComponent { keepMovingComponent = component }
+            else if let component = component as? KeepRotatingComponent { keepRotatingComponent = component }
+            else if let component = component as? MoveToComponent { moveToComponent = component }
+            else if let component = component as? PhaseComponent { phaseComponent = component }
+            else if let component = component as? PlayerComponent { playerComponent = component }
+            else if let component = component as? PlayerTargetingComponent { playerTargetingComponent = component }
+            else if let component = component as? ProjectileComponent { projectileComponent = component }
+            else if let component = component as? RammingComponent {
+                rammingComponent = component
+                if let component = component as? FlyingComponent { flyingComponent = component }
+            }
+            else if let component = component as? RotateToComponent { rotateToComponent = component }
+            else if let component = component as? ScaleToComponent { scaleToComponent = component }
+            else if let component = component as? SelectableComponent { selectableComponent = component }
+            else if let component = component as? EnemyTargetingComponent { targetingComponent = component }
+            else if let component = component as? TimelineComponent { timelineComponent = component }
+            else if let component = component as? TouchableComponent { touchableComponent = component }
+            else if let component = component as? WanderingComponent { wanderingComponent = component }
         }
-        else if let component = component as? RotateToComponent { rotateToComponent = component }
-        else if let component = component as? ScaleToComponent { scaleToComponent = component }
-        else if let component = component as? SelectableComponent { selectableComponent = component }
-        else if let component = component as? EnemyTargetingComponent { targetingComponent = component }
-        else if let component = component as? TimelineComponent { timelineComponent = component }
-        else if let component = component as? TouchableComponent { touchableComponent = component }
-        else if let component = component as? WanderingComponent { wanderingComponent = component }
 
         component.didAddToNode()
     }

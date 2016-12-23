@@ -6,9 +6,10 @@ class BombNode: Node {
     let sprite = SKSpriteNode()
     let rate: CGFloat = 1
     let maxRadius: Int
-    var attack: Block!
     var time: CGFloat = 0
-    var damage: CGFloat = 5
+    var damage: Float = 5
+
+    private var attack: Block!
 
     required convenience init() {
         self.init(maxRadius: 40)
@@ -51,7 +52,7 @@ class BombNode: Node {
             let enemyPosition = convertPosition(enemy)
             let distance: CGFloat = abs(enemyPosition.length - enemy.radius)
             if distance <= maxRadius {
-                let enemyDamage = Float(interpolate(distance / maxRadius, from: (0, 1), to: (damage, damage / 2)))
+                let enemyDamage = Float(interpolate(distance / maxRadius, from: (0, 1), to: (CGFloat(damage), CGFloat(damage) / 2)))
                 enemy.healthComponent?.inflict(damage: enemyDamage)
             }
         }

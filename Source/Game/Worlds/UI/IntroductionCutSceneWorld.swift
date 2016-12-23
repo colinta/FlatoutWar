@@ -181,9 +181,9 @@ class IntroductionCutSceneWorld: World {
                     drone1.radarUpgrade = .True
                     parent << drone1
 
-                    let turret = TurretNode(at: player.position + CGPoint(x: -150, y: -80))
-                    turret.rotateTo(150.degrees)
-                    parent << turret
+                    let cannon = CannonNode(at: player.position + CGPoint(x: -150, y: -80))
+                    cannon.rotateTo(150.degrees)
+                    parent << cannon
 
                     self.timeline.after(time: 0.5) {
                         let drone2 = DroneNode(at: player.position)

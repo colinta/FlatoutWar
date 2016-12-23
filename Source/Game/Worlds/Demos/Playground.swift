@@ -3,20 +3,28 @@
 //
 
 class Playground: World {
+    let cannon = CannonNode(at: CGPoint(y: -50))
 
     override func populateWorld() {
-        let drone = DroneNode()
-        let buttons = drone.availableUpgrades(world: self)
-        var x: CGFloat = -75
-        let dx: CGFloat = 75
-        for (button, _) in buttons {
-            button.position = CGPoint(x: x)
-            self << button
-            x += dx
-        }
+        let playerNode = BasePlayerNode()
+        playerNode.rotateTo(TAU_2)
+        self << playerNode
 
-        drone.position = CGPoint(y: -100)
-        self << drone
+        cannon.radarUpgrade = .False
+        cannon.bulletUpgrade = .False
+        cannon.rotateUpgrade = .False
+        cannon.draggableComponent?.maintainDistance(100, around: playerNode)
+        cannon.healthComponent?.inflict(damage: 20)
+        self << cannon
+
+        defaultNode = playerNode
+
+        timeline.every(1) {
+            let enemyNode = EnemySoldierNode()
+            enemyNode.name = "soldier"
+            enemyNode.position = CGPoint(r: self.outerRadius, a: 0)
+            self << enemyNode
+        }
     }
 
     override func worldShook() {

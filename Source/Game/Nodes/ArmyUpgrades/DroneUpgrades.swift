@@ -2,6 +2,7 @@
 ///  DroneUpgrades.swift
 //
 
+
 extension DroneNode: UpgradeableNode {
     func upgradeTitle() -> String {
         return "DODEC DRONE"
@@ -102,10 +103,6 @@ extension DroneNode: UpgradeableNode {
 }
 
 extension HasUpgrade {
-
-    var droneTargetsPreemptively: Bool {
-        return self.boolValue
-    }
 
     var droneRadarRadius: CGFloat {
         switch self {

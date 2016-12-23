@@ -3,7 +3,6 @@
 //
 
 class FadeToComponent: ApplyToNodeComponent {
-    var currentAlpha: CGFloat?
     var target: CGFloat? = 1 {
         didSet {
             if _duration != nil {
@@ -26,6 +25,7 @@ class FadeToComponent: ApplyToNodeComponent {
             _rate = nil
         }
     }
+    private var currentAlpha: CGFloat { return (applyTo ?? node).alpha }
 
     convenience init(fadeOut duration: CGFloat) {
         self.init()
@@ -47,11 +47,6 @@ class FadeToComponent: ApplyToNodeComponent {
         _onFaded << handler
     }
 
-    override func defaultApplyTo() {
-        super.defaultApplyTo()
-        currentAlpha = node.alpha
-    }
-
     override func reset() {
         super.reset()
         _onFaded = []
@@ -70,7 +65,6 @@ class FadeToComponent: ApplyToNodeComponent {
 
     override func update(_ dt: CGFloat) {
         guard let target = target else { return }
-        guard let currentAlpha = currentAlpha else { return }
 
         let rate: CGFloat
         if let _rate = _rate {
@@ -85,14 +79,11 @@ class FadeToComponent: ApplyToNodeComponent {
         }
 
         if let newAlpha = moveValue(currentAlpha, towards: target, by: rate * dt) {
-            self.currentAlpha = newAlpha
-
             apply { applyTo in
                 applyTo.alpha = newAlpha
             }
         }
         else {
-            self.currentAlpha = target
             self.target = nil
 
             for handler in _onFaded {
@@ -112,10 +103,6 @@ extension Node {
         let fade = fadeToComponent ?? FadeToComponent()
         if let start = start {
             self.alpha = start
-            fade.currentAlpha = start
-        }
-        else {
-            fade.currentAlpha = self.alpha
         }
         fade.target = alpha
         fade.duration = duration

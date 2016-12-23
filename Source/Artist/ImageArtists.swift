@@ -203,15 +203,32 @@ extension ImageIdentifier {
             artist.color = upgrade.droneRadarColor
             artist.lineWidth = upgrade.droneRadarWidth
             return artist
-        case let .Turret(upgrade, healthInt):
+        case let .Cannon(upgrade, healthInt):
             let health = CGFloat(healthInt) / 100
-            let artist = TurretArtist(upgrade: upgrade, health: health)
+            let artist = CannonArtist(upgrade: upgrade, health: health)
             return artist
-        case let .TurretRadar(upgrade):
-            let artist = RadarArtist(
-                radius: upgrade.turretRadarRadius,
-                sweepAngle: upgrade.turretSweepAngle / 2,
-                color: UIColor(hex: upgrade.baseRadarColor)
+        case let .CannonBox(upgrade):
+            let artist = CannonBoxArtist(
+                CGSize(width: upgrade.boolValue ? 12 : 10, height: 20),
+                UIColor(hex: CannonTurretFillColor)
+                )
+            artist.strokeColor = UIColor(hex: CannonTurretStrokeColor)
+            artist.shadowColor = UIColor(hex: CannonTurretFillColor)
+            artist.shadowed = .True
+            return artist
+        case let .CannonTurret(upgrade):
+            let artist = RectArtist(
+                CGSize(width: 12, height: upgrade.boolValue ? 4 : 3),
+                UIColor(hex: CannonTurretFillColor)
+                )
+            artist.strokeColor = UIColor(hex: CannonTurretStrokeColor)
+            return artist
+        case let .CannonRadar(upgrade):
+            let artist = AnnulusRadarArtist(
+                minRadius: upgrade.cannonMinRadarRadius,
+                maxRadius: upgrade.cannonMaxRadarRadius,
+                sweepAngle: upgrade.cannonSweepAngle,
+                color: UIColor(hex: upgrade.cannonRadarColor)
                 )
             return artist
         case let .Resource(amount, remaining):
@@ -230,9 +247,9 @@ extension ImageIdentifier {
             let artist = BaseArtist(rotateUpgrade: rotateUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: health)
             return artist
         case let .BaseRadar(upgrade):
-            let artist = RadarArtist(
+            let artist = SectorRadarArtist(
                 radius: upgrade.baseRadarRadius,
-                sweepAngle: upgrade.baseSweepAngle / 2,
+                sweepAngle: upgrade.baseSweepAngle,
                 color: UIColor(hex: upgrade.baseRadarColor)
                 )
             return artist

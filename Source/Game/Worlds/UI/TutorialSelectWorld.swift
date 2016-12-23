@@ -11,6 +11,7 @@ class TutorialSelectWorld: World {
             ("POWERUPS", { return PowerupTutorial() }),
             ("RAPID FIRE", { return RapidFireTutorial() }),
             ("DODEC DRONE", { return DroneTutorial() }),
+            ("PLAYGROUND", { return Playground() }),
         ]
 
         let textNode = TextNode(at: CGPoint(x: -165, y: -125))

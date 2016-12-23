@@ -3,6 +3,7 @@
 //
 
 class EnemyTargetingComponent: Component {
+    var minRadius: CGFloat?
     var radius: CGFloat?
     var sweepAngle: CGFloat?
     private var avoidTarget: Node?
@@ -73,7 +74,7 @@ class EnemyTargetingComponent: Component {
     }
 
     func isViableTarget(_ enemy: Node) -> Bool {
-        guard let radius = radius,
+        guard
             let world = node.world,
             world.enemies.contains(enemy),
             enemy.enemyComponent!.targetable
@@ -82,10 +83,18 @@ class EnemyTargetingComponent: Component {
         }
 
         let enemyPosition = node.convertPosition(enemy)
-        guard enemyPosition.lengthWithin(radius + enemy.radius) else
+        if let radius = radius,
+            !enemyPosition.lengthWithin(radius + enemy.radius)
         {
             return false
         }
+
+        if let minRadius = minRadius,
+            enemyPosition.lengthWithin(minRadius - enemy.radius)
+        {
+            return false
+        }
+
         // no sweepAngle means 360° targeting
         guard let sweepAngle = sweepAngle else { return true }
 
@@ -108,7 +117,7 @@ class EnemyTargetingComponent: Component {
         return abs(normalized) <= sweep / 2.0
     }
 
-    func angleToCurrentTarget() -> CGFloat? {
+    func firingPosition() -> CGPoint? {
         guard let currentTarget = currentTarget else {
             return nil
         }
@@ -121,12 +130,12 @@ class EnemyTargetingComponent: Component {
                 let time = node.distanceTo(currentTarget) / bulletSpeed
                 let predictedPosition = currentTarget.position + currentVector * time
                 let relativePosition = node.convert(predictedPosition, from: parent)
-                return relativePosition.angle
+                return relativePosition
             }
             return nil
         }
 
-        return node.angleTo(currentTarget)
+        return node.convertPosition(currentTarget)
     }
 
     func reacquireAvoidingCurrent() {
@@ -141,6 +150,10 @@ class EnemyTargetingComponent: Component {
             self.currentTarget = nil
         }
 
+        if currentTarget == avoidTarget {
+            currentTarget = nil
+        }
+
         var bestTarget: Node? = currentTarget
         var bestDistance: CGFloat = 0
         for enemy in world.enemies where isViableTarget(enemy) && enemy != avoidTarget {
@@ -150,15 +163,16 @@ class EnemyTargetingComponent: Component {
             if bestTarget == nil {
                 bestTarget = enemy
                 bestDistance = enemyDistance
+                avoidTarget = nil
             }
             else if enemyDistance < bestDistance {
                 bestTarget = enemy
                 bestDistance = enemyDistance
+                avoidTarget = nil
             }
         }
 
         currentTarget = bestTarget
-        avoidTarget = nil
     }
 
 }

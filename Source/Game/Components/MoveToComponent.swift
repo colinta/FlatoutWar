@@ -29,7 +29,7 @@ class MoveToComponent: ApplyToNodeComponent {
         }
     }
 
-    fileprivate var currentPosition: CGPoint { return node.position }
+    fileprivate var currentPosition: CGPoint { return (applyTo ?? node).position }
     fileprivate var savedPosition: CGPoint?
     fileprivate var savedVector: CGPoint?
 

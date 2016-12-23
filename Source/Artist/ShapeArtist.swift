@@ -5,10 +5,28 @@
 class ShapeArtist: Artist {
     var strokeColor: UIColor?
     var fillColor: UIColor?
+    var shadowColor: UIColor?
     var lineWidth: CGFloat?
-    var drawingMode: CGPathDrawingMode = .fill
+    private var _drawingMode: CGPathDrawingMode?
+    var drawingMode: CGPathDrawingMode {
+        set { _drawingMode = newValue }
+        get {
+            if let drawingMode = _drawingMode {
+                return drawingMode
+            }
+            else if strokeColor != nil && fillColor != nil {
+                return .fillStroke
+            }
+            else if strokeColor != nil {
+                return .stroke
+            }
+            else {
+                return .fill
+            }
+        }
+    }
 
-    override func draw(in context: CGContext) {
+    func setup(in context: CGContext) {
         if let fillColor = fillColor {
             context.setFillColor(fillColor.cgColor)
         }
@@ -17,6 +35,11 @@ class ShapeArtist: Artist {
         }
         if let strokeColor = strokeColor {
             context.setStrokeColor(strokeColor.cgColor)
+        }
+
+        if shadowed.boolValue, let shadowColor = self.shadowColor ?? fillColor
+        {
+            context.setShadow(offset: .zero, blur: shadowed.floatValue, color: shadowColor.cgColor)
         }
     }
 }
@@ -34,7 +57,7 @@ class RectArtist: ShapeArtist {
     }
 
     override func draw(in context: CGContext) {
-        super.draw(in: context)
+        self.setup(in: context)
 
         context.addRect(CGRect(size: size))
         context.drawPath(using: drawingMode)
@@ -54,7 +77,7 @@ class CircleArtist: ShapeArtist {
     }
 
     override func draw(in context: CGContext) {
-        super.draw(in: context)
+        self.setup(in: context)
 
         context.addEllipse(in: CGRect(size: size))
         context.drawPath(using: drawingMode)
@@ -83,7 +106,7 @@ class LineArtist: ShapeArtist {
     }
 
     override func draw(in context: CGContext) {
-        super.draw(in: context)
+        self.setup(in: context)
 
         context.translateBy(x: 0, y: middle.y)
         let p1 = CGPoint(x: 0)
@@ -117,7 +140,7 @@ class PathArtist: ShapeArtist {
     }
 
     override func draw(in context: CGContext) {
-        super.draw(in: context)
+        self.setup(in: context)
 
         let bounds = path.bounds
         context.translateBy(x: -bounds.minX, y: -bounds.minY)

@@ -3,13 +3,10 @@
 //
 
 class ScaleToComponent: ApplyToNodeComponent {
-    var easing: Easing?
     var currentScale: CGFloat?
     var target: CGFloat? = 1 {
         didSet {
-            if node != nil {
-                currentScale = node.xScale
-            }
+            currentScale = node?.xScale
 
             if _duration != nil && target != nil {
                 _rate = nil
@@ -36,6 +33,14 @@ class ScaleToComponent: ApplyToNodeComponent {
             }
         }
     }
+    private var time: CGFloat?
+    private var initialScale: CGFloat?
+    var easing: Easing? {
+        didSet {
+            time = 0
+            initialScale = node?.xScale
+        }
+    }
 
     convenience init(scaleOut duration: CGFloat) {
         self.init()
@@ -60,6 +65,7 @@ class ScaleToComponent: ApplyToNodeComponent {
     override func defaultApplyTo() {
         super.defaultApplyTo()
         currentScale = node.xScale
+        initialScale = node.xScale
     }
 
     override func reset() {
@@ -95,25 +101,30 @@ class ScaleToComponent: ApplyToNodeComponent {
             return
         }
 
-        if let newScale = moveValue(currentScale, towards: target, by: rate * dt) {
+        var newScale: CGFloat? = nil
+        if let easing = easing, let time = time, let duration = _duration {
+            let newTime = time + dt / duration
+            self.time = newTime
+            if newTime < 1 {
+                newScale = easing.ease(time: newTime, initial: initialScale!, final: target)
+            }
+        }
+        else if let linearScale = moveValue(currentScale, towards: target, by: rate * dt) {
+            newScale = linearScale
+        }
+
+        if let newScale = newScale {
             self.currentScale = newScale
-
             apply { applyTo in
-                let actualScale: CGFloat
-                if let easing = self.easing {
-                    actualScale = easing.ease(time: newScale, initial: 0, final: 1)
-                }
-                else {
-                    actualScale = newScale
-                }
-
-                applyTo.setScale(actualScale)
+                applyTo.setScale(newScale)
             }
         }
         else {
-            self.currentScale = target
             self.target = nil
-
+            self.currentScale = target
+            apply { applyTo in
+                applyTo.setScale(target)
+            }
             for handler in _onScaled {
                 handler()
             }

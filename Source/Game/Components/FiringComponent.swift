@@ -9,6 +9,7 @@ class FiringComponent: Component {
     private(set) var angle: CGFloat?
     var lastFiredCooldown: CGFloat = 0
     var targetsPreemptively = false
+    var shotsFired = 0
     var prevTarget: Node?
     var targetHealth: Float?
     var forceFire = false {
@@ -19,14 +20,18 @@ class FiringComponent: Component {
         }
     }
 
-    typealias OnFire = (_ angle: CGFloat) -> Void
+    typealias OnFire = (CGFloat) -> Void
+    typealias OnFireTarget = (CGPoint) -> Void
     var _onFire: [OnFire] = []
     func onFire(_ handler: @escaping OnFire) { _onFire << handler }
+    var _onFireTarget: [OnFireTarget] = []
+    func onFireTarget(_ handler: @escaping OnFireTarget) { _onFireTarget << handler }
 
     override func reset() {
         super.reset()
         prevTarget = nil
         _onFire = []
+        _onFireTarget = []
     }
 
     required override init() {
@@ -47,9 +52,10 @@ class FiringComponent: Component {
             return
         }
 
-        angle = nil
+        self.angle = nil
         if forceFire {
             let angle = (turret ?? node).zRotation
+            self.angle = angle
             for handler in _onFire {
                 handler(angle)
             }
@@ -58,8 +64,13 @@ class FiringComponent: Component {
         else if let targetingComponent = node.targetingComponent,
             targetingComponent.enabled,
             let target = targetingComponent.currentTarget,
-            let angle = targetingComponent.angleToCurrentTarget()
+            let position = targetingComponent.firingPosition()
         {
+            for handler in _onFireTarget {
+                handler(position)
+            }
+
+            let angle = position.angle
             self.angle = angle
             for handler in _onFire {
                 handler(angle)
@@ -70,6 +81,10 @@ class FiringComponent: Component {
                 let health = target.healthComponent?.health,
                 let damage = node.firingComponent?.damage
             {
+                guard damage > 0 else {
+                    fatalError("firingComponent.damage is not set on \(node)")
+                }
+
                 if target == prevTarget {
                     targetHealth = min(targetHealth ?? health, health) - damage
                 }

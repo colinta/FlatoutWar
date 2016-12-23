@@ -141,6 +141,7 @@ class DraggableComponent: Component {
     func draggingMoved(from prevLocation: CGPoint, to location: CGPoint) {
         guard
             !isIgnoring,
+            isDragging,
             let placeholder = placeholder,
             let startingLocation = startingLocation
         else {
@@ -219,7 +220,7 @@ class DraggableComponent: Component {
     }
 
     func draggingEnded(at location: CGPoint) {
-        guard !isIgnoring else {
+        guard !isIgnoring, isDragging else {
             isIgnoring = false
             return
         }

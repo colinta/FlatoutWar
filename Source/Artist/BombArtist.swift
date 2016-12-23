@@ -3,8 +3,8 @@
 //
 
 class BombArtist: Artist {
-    let colorStart = (r: 0xD9, g: 0x71, b: 0x2F)
-    let colorEnd = (r: 0xAF, g: 0x29, b: 0x34)
+    let colorStart = (r: 0xE3, g: 0x45, b: 0x27)
+    let colorEnd = (r: 0xBF, g: 0x09, b: 0x24)
     let time: CGFloat
     let radius: CGFloat
     private let maxRadius: CGFloat

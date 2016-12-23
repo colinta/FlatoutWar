@@ -21,7 +21,8 @@ class BasePlayerNode: Node {
         rotateToComponent?.maxAngularSpeed = rotateUpgrade.baseAngularSpeed
         rotateToComponent?.angularAccel = rotateUpgrade.baseAngularAccel
 
-        firingComponent?.targetsPreemptively = radarUpgrade.droneTargetsPreemptively
+        firingComponent?.targetsPreemptively = radarUpgrade.targetsPreemptively
+        firingComponent?.damage = calculateBulletDamage()
 
         targetingComponent?.sweepAngle = radarUpgrade.baseSweepAngle
         targetingComponent?.radius = radarUpgrade.baseRadarRadius
@@ -75,16 +76,13 @@ class BasePlayerNode: Node {
 
         // self << lightNode
 
-        radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
         radarNode.anchorPoint = CGPoint(0, 0.5)
         radarNode.z = .BelowPlayer
         self << radarNode
 
-        baseNode.textureId(.Base(rotateUpgrade: rotateUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: 100))
         baseNode.z = .Player
         self << baseNode
 
-        turretNode.textureId(turret.spriteId(bulletUpgrade: bulletUpgrade))
         turretNode.z = .AbovePlayer
         self << turretNode
 
@@ -122,23 +120,19 @@ class BasePlayerNode: Node {
         let rotateToComponent = RotateToComponent()
         rotateToComponent.currentAngle = 0
         rotateToComponent.applyTo = baseNode
-        rotateToComponent.maxAngularSpeed = rotateUpgrade.baseAngularSpeed
-        rotateToComponent.angularAccel = rotateUpgrade.baseAngularAccel
         addComponent(rotateToComponent)
 
         let targetingComponent = EnemyTargetingComponent()
-        targetingComponent.sweepAngle = radarUpgrade.baseSweepAngle
-        targetingComponent.radius = radarUpgrade.baseRadarRadius
         targetingComponent.turret = baseNode
         addComponent(targetingComponent)
 
         let firingComponent = FiringComponent()
         firingComponent.turret = baseNode
         firingComponent.cooldown = DefaultCooldown
-        firingComponent.onFire { angle in
-            self.fireBullet(angle: angle)
-        }
+        firingComponent.onFire(self.fireBullet)
         addComponent(firingComponent)
+
+        updateUpgrades()
     }
 
     required init?(coder: NSCoder) {
@@ -239,14 +233,13 @@ extension BasePlayerNode {
 
         let velocity: CGFloat = bulletUpgrade.baseBulletSpeed
         let style: BulletNode.Style
-        var damageFactor: Float = 1
         if firingComponent?.forceFire ?? false {
             style = .Fast
-            damageFactor = ForceFireDamageFactor
         }
         else {
             style = .Slow
         }
+
         let bullet = BulletNode(velocity: CGPoint(r: velocity, a: angle), style: style)
         bullet.position = self.position
         bullet.timeRate = self.timeRate
@@ -254,11 +247,19 @@ extension BasePlayerNode {
         bullet.size = BulletArtist.bulletSize(upgrade: .False)
         bullet.zRotation = angle
         bullet.z = Z.Below
-        bullet.damage = bulletUpgrade.baseBulletDamage * damageFactor
+        bullet.damage = calculateBulletDamage()
         firingComponent?.damage = bullet.damage
-        ((parent as? Node) ?? world) << bullet
+        (parentNode ?? world) << bullet
 
         _ = world.channel?.play(Sound.PlayerShoot)
+    }
+
+    fileprivate func calculateBulletDamage() -> Float {
+        var damageFactor: Float = 1
+        if firingComponent?.forceFire == true {
+            damageFactor = ForceFireDamageFactor
+        }
+        return bulletUpgrade.baseBulletDamage * damageFactor
     }
 
 }

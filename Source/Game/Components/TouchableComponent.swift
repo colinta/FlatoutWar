@@ -14,6 +14,8 @@ class TouchableComponent: Component {
         case PressedOutside
         // drag events
         case DragBegan
+        case DragBeganInside
+        case DragBeganOutside
         case DragMoved
         case DragEnded
         // generic down/up/move
@@ -197,8 +199,14 @@ extension TouchableComponent {
     func draggingBegan(at location: CGPoint) {
         guard !isIgnoring else { return }
 
-        trigger(.DragBegan, location: location)
         touchUpdateInOut(at: location)
+        trigger(.DragBegan, location: location)
+        if isTouchingInside {
+            trigger(.DragBeganInside, location: location)
+        }
+        else {
+            trigger(.DragBeganOutside, location: location)
+        }
 
         prevLocation = pointInWorld(location)
     }
