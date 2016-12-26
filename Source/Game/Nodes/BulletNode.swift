@@ -15,6 +15,7 @@ class BulletNode: Node {
         super.init()
 
         sprite.textureId(.Bullet(upgrade: .False, style: style))
+        sprite.z = .Below
         self << sprite
         size = BulletArtist.bulletSize(upgrade: .False)
 

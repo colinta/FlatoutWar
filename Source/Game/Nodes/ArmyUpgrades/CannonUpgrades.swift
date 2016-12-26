@@ -5,7 +5,6 @@
 
 extension CannonNode: UpgradeableNode {
     func upgradeTitle() -> String {
-        // return "CONCAVE HEXSILO"
         return "PENTA CANNON"
     }
 
@@ -75,10 +74,10 @@ extension HasUpgrade {
         }
     }
 
-    var cannonBulletRadius: Int {
+    var cannonSplashRadius: Int {
         switch self {
-        case .False: return 25
-        case .True:  return 32
+        case .False: return 18
+        case .True:  return 25
         }
     }
 

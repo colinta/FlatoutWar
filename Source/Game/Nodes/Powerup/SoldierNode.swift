@@ -6,8 +6,12 @@ private let StartingHealth: Float = 4
 private let Speed: CGFloat = 50
 
 class SoldierNode: Node {
-    var sprite = SKSpriteNode(id: .None)
+    private var sprite = SKSpriteNode(id: .None)
     var restingPosition: CGPoint?
+
+    func updateTexture() {
+        sprite.textureId(.Soldier(health: healthComponent?.healthInt ?? 100))
+    }
 
     required init() {
         super.init()
@@ -71,15 +75,11 @@ class SoldierNode: Node {
         super.encode(with: encoder)
     }
 
-    func updateTexture() {
-        sprite.textureId(.Soldier(health: healthComponent?.healthInt ?? 100))
-    }
-
     func generateKilledExplosion() {
-        if let world = self.world {
-            let explosion = EnemyExplosionNode(at: self.position)
-            world << explosion
-        }
+        guard let world = world else { return }
+
+        let explosion = EnemyExplosionNode(at: position)
+        world << explosion
     }
 
 }

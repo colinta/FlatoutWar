@@ -4,10 +4,13 @@
 
 class Playground: World {
     let cannon = CannonNode(at: CGPoint(y: -50))
+    let silo = MissleSiloNode(at: CGPoint(y: 50))
 
     override func populateWorld() {
         let playerNode = BasePlayerNode()
         playerNode.rotateTo(TAU_2)
+        playerNode.firingComponent?.enabled = false
+        playerNode.targetingComponent?.enabled = false
         self << playerNode
 
         cannon.radarUpgrade = .False
@@ -17,13 +20,25 @@ class Playground: World {
         cannon.healthComponent?.inflict(damage: 20)
         self << cannon
 
+        silo.radarUpgrade = .False
+        silo.bulletUpgrade = .False
+        silo.rotateUpgrade = .False
+        silo.draggableComponent?.maintainDistance(100, around: playerNode)
+        silo.healthComponent?.inflict(damage: 20)
+        self << silo
+
         defaultNode = playerNode
 
-        timeline.every(1) {
-            let enemyNode = EnemySoldierNode()
-            enemyNode.name = "soldier"
-            enemyNode.position = CGPoint(r: self.outerRadius, a: 0)
-            self << enemyNode
+        timeline.every(10) {
+            for time in [0,1,2] {
+                delay(TimeInterval(time)) {
+                    let enemyNode = EnemySoldierNode()
+                    enemyNode.name = "soldier"
+                    enemyNode.healthComponent!.startingHealth = 10
+                    enemyNode.position = CGPoint(r: self.outerRadius, a: 0)
+                    self << enemyNode
+                }
+            }
         }
     }
 

@@ -254,6 +254,11 @@
 		1D6AA1191DD79BF8004A0978 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1161DD79BF8004A0978 /* Currency.swift */; };
 		1D6AA11A1DD79BF8004A0978 /* NodeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1171DD79BF8004A0978 /* NodeStorage.swift */; };
 		1D6AA11B1DD79BF8004A0978 /* PowerupStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1181DD79BF8004A0978 /* PowerupStorage.swift */; };
+		1D7A42D81E118C13002F37FA /* MissleSiloNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42D71E118C13002F37FA /* MissleSiloNode.swift */; };
+		1D7A42DA1E118C1C002F37FA /* MissleSiloArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42D91E118C1C002F37FA /* MissleSiloArtist.swift */; };
+		1D7A42DC1E118FE4002F37FA /* PolygonArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42DB1E118FE4002F37FA /* PolygonArtist.swift */; };
+		1D7A42DE1E11927D002F37FA /* MissleSiloUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42DD1E11927D002F37FA /* MissleSiloUpgrades.swift */; };
+		1D7A42E21E11A83B002F37FA /* MissleNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42E11E11A83B002F37FA /* MissleNode.swift */; };
 		1DBFDA001DFFB8DD0058843D /* CannonUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */; };
 		1DBFDA021DFFC3240058843D /* CannonballNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBFDA011DFFC3240058843D /* CannonballNode.swift */; };
 		216146732396C15720CD939B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F03135BA42322EAF9BCCB836 /* Foundation.framework */; };
@@ -545,6 +550,11 @@
 		1D6AA1161DD79BF8004A0978 /* Currency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		1D6AA1171DD79BF8004A0978 /* NodeStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeStorage.swift; sourceTree = "<group>"; };
 		1D6AA1181DD79BF8004A0978 /* PowerupStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerupStorage.swift; sourceTree = "<group>"; };
+		1D7A42D71E118C13002F37FA /* MissleSiloNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleSiloNode.swift; sourceTree = "<group>"; };
+		1D7A42D91E118C1C002F37FA /* MissleSiloArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleSiloArtist.swift; sourceTree = "<group>"; };
+		1D7A42DB1E118FE4002F37FA /* PolygonArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonArtist.swift; sourceTree = "<group>"; };
+		1D7A42DD1E11927D002F37FA /* MissleSiloUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleSiloUpgrades.swift; sourceTree = "<group>"; };
+		1D7A42E11E11A83B002F37FA /* MissleNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleNode.swift; sourceTree = "<group>"; };
 		1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonUpgrades.swift; sourceTree = "<group>"; };
 		1DBFDA011DFFC3240058843D /* CannonballNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonballNode.swift; sourceTree = "<group>"; };
 		2425E3A61D6520C9C8191BBB /* OALTools.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OALTools.m; path = ObjectAL/Support/OALTools.m; sourceTree = "<group>"; };
@@ -670,7 +680,9 @@
 				1D6AA0D91DD79B62004A0978 /* ImageIdentifier.swift */,
 				1D6AA0DA1DD79B62004A0978 /* LetterAndFont.swift */,
 				1D6AA0DB1DD79B62004A0978 /* LightningArtist.swift */,
+				1D7A42D91E118C1C002F37FA /* MissleSiloArtist.swift */,
 				1D6AA0DC1DD79B62004A0978 /* PercentArtist.swift */,
+				1D7A42DB1E118FE4002F37FA /* PolygonArtist.swift */,
 				FD21AB3B988D70E9A019434D /* Powerups */,
 				1D6AA0DD1DD79B62004A0978 /* RadarArtist.swift */,
 				1D6AA0DE1DD79B62004A0978 /* ResourceArtist.swift */,
@@ -684,6 +696,7 @@
 		12B061BFBA090C11CC91703E /* Nodes */ = {
 			isa = PBXGroup;
 			children = (
+				1D7A42E01E11A830002F37FA /* Army */,
 				C706419EE6D473E3BA743A7C /* ArmyUpgrades */,
 				1D6AA1001DD79BE3004A0978 /* BackgroundAudioNode.swift */,
 				1D6AA1011DD79BE3004A0978 /* BasePlayerNode.swift */,
@@ -696,6 +709,7 @@
 				1D6AA1051DD79BE3004A0978 /* ExperiencePercent.swift */,
 				488EB326865153A0A23B1BB4 /* Explosions */,
 				1D6AA1061DD79BE3004A0978 /* LabelPercent.swift */,
+				1D7A42D71E118C13002F37FA /* MissleSiloNode.swift */,
 				31DF3A9E37ABC57615A25DBE /* Powerup */,
 				1D6AA1071DD79BE3004A0978 /* ResourceCollector.swift */,
 				1D6AA1081DD79BE3004A0978 /* ResourceNode.swift */,
@@ -763,6 +777,14 @@
 				1D6AA0FE1DD79BB4004A0978 /* Sound.swift */,
 			);
 			path = Sounds;
+			sourceTree = "<group>";
+		};
+		1D7A42E01E11A830002F37FA /* Army */ = {
+			isa = PBXGroup;
+			children = (
+				1D7A42E11E11A83B002F37FA /* MissleNode.swift */,
+			);
+			path = Army;
 			sourceTree = "<group>";
 		};
 		31DF3A9E37ABC57615A25DBE /* Powerup */ = {
@@ -1169,6 +1191,7 @@
 				1D5C44021DDAAF6F00FDBF7E /* BasePlayerUpgrades.swift */,
 				1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */,
 				1D6AA0241DD79B3B004A0978 /* DroneUpgrades.swift */,
+				1D7A42DD1E11927D002F37FA /* MissleSiloUpgrades.swift */,
 				1D6AA0251DD79B3B004A0978 /* UpgradableNode.swift */,
 			);
 			path = ArmyUpgrades;
@@ -1357,6 +1380,7 @@
 				1D6A9F431DD79B05004A0978 /* IntValue.swift in Sources */,
 				1D6A9FD01DD79B2A004A0978 /* CoffeePowerup.swift in Sources */,
 				1D6AA0211DD79B37004A0978 /* EnemyScoutNode.swift in Sources */,
+				1D7A42E21E11A83B002F37FA /* MissleNode.swift in Sources */,
 				1D6A9FFC1DD79B31004A0978 /* MineNode.swift in Sources */,
 				1D6AA05B1DD79B3E004A0978 /* SelectableComponent.swift in Sources */,
 				1D6AA06B1DD79B41004A0978 /* CGFloatExt.swift in Sources */,
@@ -1400,6 +1424,7 @@
 				C18E3DF53F600C1DE8882E0B /* OALUtilityActions.m in Sources */,
 				1D6A9F611DD79B0A004A0978 /* UpgradeWorld_Powerups.swift in Sources */,
 				1D6AA0191DD79B37004A0978 /* EnemyBigJetNode.swift in Sources */,
+				1D7A42D81E118C13002F37FA /* MissleSiloNode.swift in Sources */,
 				1D6AA0F21DD79B62004A0978 /* ImageIdentifier.swift in Sources */,
 				1D6AA10C1DD79BE3004A0978 /* BasePlayerNode.swift in Sources */,
 				1D6AA0901DD79B53004A0978 /* Component.swift in Sources */,
@@ -1469,6 +1494,7 @@
 				378015F45DBFDC462B01630C /* ALChannelSource.m in Sources */,
 				C6E81D476B4D156276F53F08 /* ALContext.m in Sources */,
 				4FD64B399EE3A3C7E6C6B9D8 /* ALDevice.m in Sources */,
+				1D7A42DE1E11927D002F37FA /* MissleSiloUpgrades.swift in Sources */,
 				1D6A9F441DD79B05004A0978 /* Math.swift in Sources */,
 				1D6AA00C1DD79B34004A0978 /* PlayerExplosionNode.swift in Sources */,
 				1D6AA0571DD79B3E004A0978 /* ProjectileComponent.swift in Sources */,
@@ -1481,6 +1507,7 @@
 				1D6A9FA71DD79B18004A0978 /* ConfigSummary.swift in Sources */,
 				1D6AA0C21DD79B5A004A0978 /* SoldierArtist.swift in Sources */,
 				1D6AA0C71DD79B5D004A0978 /* BigFont.swift in Sources */,
+				1D7A42DA1E118C1C002F37FA /* MissleSiloArtist.swift in Sources */,
 				1D6A9F421DD79B05004A0978 /* Easing.swift in Sources */,
 				1D6AA0EF1DD79B62004A0978 /* EnemySoldierArtist.swift in Sources */,
 				1D6AA0701DD79B42004A0978 /* ChevronExt.swift in Sources */,
@@ -1599,6 +1626,7 @@
 				1D6A9F491DD79B05004A0978 /* Timers.swift in Sources */,
 				1D6AA05F1DD79B3E004A0978 /* WanderingComponent.swift in Sources */,
 				1D6AA0F41DD79B62004A0978 /* LightningArtist.swift in Sources */,
+				1D7A42DC1E118FE4002F37FA /* PolygonArtist.swift in Sources */,
 				1D6A9F881DD79B13004A0978 /* DemoWorld.swift in Sources */,
 				1D6AA0451DD79B3E004A0978 /* DraggableComponent.swift in Sources */,
 				1D6A9FC11DD79B22004A0978 /* LevelGenerator.swift in Sources */,

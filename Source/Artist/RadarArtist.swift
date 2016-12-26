@@ -4,9 +4,9 @@
 
 
 class SectorRadarArtist: Artist {
-    var halfAngle: CGFloat
-    var radius: CGFloat
-    var color: UIColor
+    let halfAngle: CGFloat
+    let radius: CGFloat
+    let color: UIColor
 
     required init(radius: CGFloat, sweepAngle: CGFloat, color: UIColor) {
         self.radius = radius
@@ -66,10 +66,10 @@ class SectorRadarArtist: Artist {
 }
 
 class AnnulusRadarArtist: Artist {
-    var halfAngle: CGFloat
-    var minRadius: CGFloat
-    var maxRadius: CGFloat
-    var color: UIColor
+    let halfAngle: CGFloat
+    let minRadius: CGFloat
+    let maxRadius: CGFloat
+    let color: UIColor
 
     required init(minRadius: CGFloat, maxRadius: CGFloat, sweepAngle: CGFloat, color: UIColor) {
         self.minRadius = minRadius
@@ -114,6 +114,45 @@ class AnnulusRadarArtist: Artist {
         context.addLine(to: topRight)
         context.addArc(center: c0, radius: maxRadius, startAngle: halfAngle, endAngle: -halfAngle, clockwise: true)
         context.closePath()
+        context.drawPath(using: .stroke)
+    }
+}
+
+class CircularRadarArtist: Artist {
+    let radius: CGFloat
+    let color: UIColor
+
+    required init(radius: CGFloat, color: UIColor) {
+        self.radius = radius
+        self.color = color
+
+        super.init()
+
+        size = CGSize(r: radius)
+    }
+
+    required init() {
+        fatalError("init() has not been implemented")
+    }
+
+    override func draw(in context: CGContext) {
+        context.setLineWidth(1.pixels)
+        context.setFillColor(color.cgColor)
+        context.setStrokeColor(color.cgColor)
+
+        context.addEllipse(in: CGRect(size: size))
+        context.setAlpha(0.5)
+        context.drawPath(using: .fill)
+
+        context.setAlpha(1)
+        context.addEllipse(in: CGRect(size: size))
+        context.drawPath(using: .stroke)
+
+        context.translateBy(x: middle.x, y: middle.y)
+        context.move(to: CGPoint(0, -size.height / 9))
+        context.addLine(to: CGPoint(0, size.height / 9))
+        context.move(to: CGPoint(-size.width / 9, 0))
+        context.addLine(to: CGPoint(size.width / 9, 0))
         context.drawPath(using: .stroke)
     }
 }

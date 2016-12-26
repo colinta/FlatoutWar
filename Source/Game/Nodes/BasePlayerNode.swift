@@ -129,7 +129,7 @@ class BasePlayerNode: Node {
         let firingComponent = FiringComponent()
         firingComponent.turret = baseNode
         firingComponent.cooldown = DefaultCooldown
-        firingComponent.onFire(self.fireBullet)
+        firingComponent.onFireAngle(self.fireBullet)
         addComponent(firingComponent)
 
         updateUpgrades()
@@ -246,7 +246,6 @@ extension BasePlayerNode {
 
         bullet.size = BulletArtist.bulletSize(upgrade: .False)
         bullet.zRotation = angle
-        bullet.z = Z.Below
         bullet.damage = calculateBulletDamage()
         firingComponent?.damage = bullet.damage
         (parentNode ?? world) << bullet

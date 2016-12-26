@@ -9,7 +9,6 @@ class FiringComponent: Component {
     private(set) var angle: CGFloat?
     var lastFiredCooldown: CGFloat = 0
     var targetsPreemptively = false
-    var shotsFired = 0
     var prevTarget: Node?
     var targetHealth: Float?
     var forceFire = false {
@@ -20,18 +19,22 @@ class FiringComponent: Component {
         }
     }
 
-    typealias OnFire = (CGFloat) -> Void
-    typealias OnFireTarget = (CGPoint) -> Void
-    var _onFire: [OnFire] = []
-    func onFire(_ handler: @escaping OnFire) { _onFire << handler }
+    typealias OnFireAngle = (CGFloat) -> Void
+    typealias OnFireTarget = (Node) -> Void
+    typealias OnFirePosition = (CGPoint) -> Void
+    var _onFireAngle: [OnFireAngle] = []
+    func onFireAngle(_ handler: @escaping OnFireAngle) { _onFireAngle << handler }
     var _onFireTarget: [OnFireTarget] = []
     func onFireTarget(_ handler: @escaping OnFireTarget) { _onFireTarget << handler }
+    var _onFirePosition: [OnFirePosition] = []
+    func onFirePosition(_ handler: @escaping OnFirePosition) { _onFirePosition << handler }
 
     override func reset() {
         super.reset()
         prevTarget = nil
-        _onFire = []
+        _onFireAngle = []
         _onFireTarget = []
+        _onFirePosition = []
     }
 
     required override init() {
@@ -56,7 +59,7 @@ class FiringComponent: Component {
         if forceFire {
             let angle = (turret ?? node).zRotation
             self.angle = angle
-            for handler in _onFire {
+            for handler in _onFireAngle {
                 handler(angle)
             }
             lastFiredCooldown = cooldown
@@ -66,15 +69,19 @@ class FiringComponent: Component {
             let target = targetingComponent.currentTarget,
             let position = targetingComponent.firingPosition()
         {
-            for handler in _onFireTarget {
+            for handler in _onFirePosition {
                 handler(position)
+            }
+            for handler in _onFireTarget {
+                handler(target)
             }
 
             let angle = position.angle
             self.angle = angle
-            for handler in _onFire {
+            for handler in _onFireAngle {
                 handler(angle)
             }
+
             lastFiredCooldown = cooldown
 
             if targetsPreemptively,

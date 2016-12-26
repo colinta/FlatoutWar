@@ -193,6 +193,7 @@ extension ImageIdentifier {
             let artist = PercentArtist(style: style)
             artist.complete = CGFloat(percent) / 100
             return artist
+
         case let .Drone(speedUpgrade, radarUpgrade, bulletUpgrade, healthInt):
             let health = CGFloat(healthInt) / 100
             let artist = DroneArtist(speedUpgrade: speedUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: health)
@@ -203,9 +204,10 @@ extension ImageIdentifier {
             artist.color = upgrade.droneRadarColor
             artist.lineWidth = upgrade.droneRadarWidth
             return artist
+
         case let .Cannon(upgrade, healthInt):
             let health = CGFloat(healthInt) / 100
-            let artist = CannonArtist(upgrade: upgrade, health: health)
+            let artist = CannonArtist(hasUpgrade: upgrade.boolValue, health: health)
             return artist
         case let .CannonBox(upgrade):
             let artist = CannonBoxArtist(
@@ -231,6 +233,30 @@ extension ImageIdentifier {
                 color: UIColor(hex: upgrade.cannonRadarColor)
                 )
             return artist
+
+        case let .MissleSilo(upgrade, healthInt):
+            let health = CGFloat(healthInt) / 100
+            let artist = MissleSiloArtist(hasUpgrade: upgrade.boolValue, health: health)
+            return artist
+        case let .MissleSiloBox(upgrade):
+            let artist = MissleSiloBoxArtist(
+                CGSize(width: upgrade.boolValue ? 12 : 10, height: 20),
+                UIColor(hex: MissleSiloFillColor)
+                )
+            artist.strokeColor = UIColor(hex: MissleSiloStrokeColor)
+            artist.shadowColor = UIColor(hex: MissleSiloFillColor)
+            artist.shadowed = .True
+            return artist
+        case let .MissleSiloRadar(upgrade):
+            let artist = CircularRadarArtist(
+                radius: upgrade.missleSiloRadarRadius,
+                color: UIColor(hex: upgrade.missleSiloRadarColor)
+                )
+            return artist
+        case .Missle:
+            let artist = MissleArtist()
+            return artist
+
         case let .Resource(amount, remaining):
             let artist = ResourceArtist(amount: CGFloat(amount), remaining: CGFloat(remaining) / CGFloat(amount))
             return artist

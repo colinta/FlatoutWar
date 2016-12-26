@@ -20,7 +20,7 @@ class DroneRadarArtist: Artist {
         context.setStrokeColor(UIColor(hex: color).cgColor)
         context.setLineWidth(lineWidth)
 
-        context.addEllipse(in: CGRect(center: middle, size: size))
+        context.addEllipse(in: CGRect(size: size))
         context.drawPath(using: .stroke)
     }
 }

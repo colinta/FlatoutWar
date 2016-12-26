@@ -1,40 +1,65 @@
 ////
-///  CannonNode.swift
+///  MissleSiloNode.swift
 //
 
 private let startingHealth: Float = 50
 
-class CannonNode: Node, DraggableNode {
+class MissleSiloNode: Node, DraggableNode {
     var radarUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
     var bulletUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
     var rotateUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
 
-    let moveTurret = MoveToComponent()
     let fadeRadar = FadeToComponent()
 
-    fileprivate func updateUpgrades() {
-        radarSprite.textureId(.CannonRadar(upgrade: radarUpgrade))
-        baseSprite.textureId(.Cannon(upgrade: bulletUpgrade, health: healthComponent?.healthInt ?? 100))
-        placeholder.textureId(.Cannon(upgrade: bulletUpgrade, health: 100))
-        turretBox.textureId(.CannonBox(upgrade: bulletUpgrade))
-        for turretSprite in turretSprites {
-            turretSprite.textureId(.CannonTurret(upgrade: bulletUpgrade))
+    fileprivate func updateMissleSprites() {
+        var prevCount = missleSprites.count
+        guard prevCount != missleCount else { return }
+
+        for sprite in missleSprites {
+            sprite.removeFromParent()
         }
 
-        draggableComponent?.speed = rotateUpgrade.cannonMovementSpeed
+        let dy: CGFloat = CGFloat(20 - 2) / CGFloat(maxMissleCount)
+        var turretY: CGFloat = dy / 2 * CGFloat(maxMissleCount - 1)
+        missleSprites = []
+        for _ in 0..<missleCount {
+            let missleSprite = SKSpriteNode(id: .Missle)
+            missleSprite.z = .AbovePlayer
+            missleSprite.position = CGPoint(y: turretY)
+            turretNode << missleSprite
+            missleSprites << missleSprite
+            turretY -= dy
 
-        targetingComponent?.sweepAngle = radarUpgrade.cannonSweepAngle
-        targetingComponent?.minRadius = radarUpgrade.cannonMinRadarRadius
-        targetingComponent?.radius = radarUpgrade.cannonMaxRadarRadius
+            prevCount -= 1
+            if prevCount < 0 {
+                let destScale = missleSprite.xScale
+                missleSprite.setScale(0)
+                missleSprite.run(
+                    SKAction.scale(to: destScale, duration: 0.25)
+                )
+            }
+        }
+
+        firingComponent?.enabled = missleCount > 0
+    }
+
+    fileprivate func updateUpgrades() {
+        radarSprite.textureId(.MissleSiloRadar(upgrade: radarUpgrade))
+        baseSprite.textureId(.MissleSilo(upgrade: bulletUpgrade, health: healthComponent?.healthInt ?? 100))
+        placeholder.textureId(.MissleSilo(upgrade: bulletUpgrade, health: 100))
+        turretBox.textureId(.MissleSiloBox(upgrade: bulletUpgrade))
+
+        draggableComponent?.speed = rotateUpgrade.missleSiloMovementSpeed
+
+        targetingComponent?.radius = radarUpgrade.missleSiloRadarRadius
 
         firingComponent?.targetsPreemptively = true
-        firingComponent?.cooldown = bulletUpgrade.cannonCooldown
-        firingComponent?.damage = bulletUpgrade.cannonBulletDamage
+        firingComponent?.damage = bulletUpgrade.missleSiloBulletDamage
 
         rotateToComponent?.maxAngularSpeed = rotateUpgrade.baseAngularSpeed
         rotateToComponent?.angularAccel = rotateUpgrade.baseAngularAccel
 
-        targetingComponent?.bulletSpeed = bulletUpgrade.cannonBulletSpeed
+        targetingComponent?.bulletSpeed = bulletUpgrade.missleSiloBulletSpeed
         size = baseSprite.size
     }
 
@@ -44,23 +69,26 @@ class CannonNode: Node, DraggableNode {
     let baseSprite = SKSpriteNode()
     let turretNode = Node()
     let turretBox = SKSpriteNode()
-    let turretCenterSprite = SKNode()
-    let turretSprites = [
-        SKSpriteNode(), SKSpriteNode()
-    ]
+    var maxMissleCount: Int = 3
+    private var missleCreationTimer: CGFloat = 0
+    var missleCount: Int {
+        didSet {
+            updateMissleSprites()
+        }
+    }
+    fileprivate var missleSprites: [SKSpriteNode] = []
     let placeholder = SKSpriteNode()
 
     var isDragging = false
+    var dragStart: CGPoint?
 
     required init() {
+        missleCount = maxMissleCount
         super.init()
 
         self << placeholder
         placeholder.alpha = 0.5
         placeholder.isHidden = true
-
-        radarSprite.position = CGPoint(x: -5)
-        radarSprite.anchorPoint = CGPoint(0, 0.5)
 
         baseSprite.z = .Player
         radarSprite.z = .BelowPlayer
@@ -71,19 +99,8 @@ class CannonNode: Node, DraggableNode {
         self << radarSprite
         baseNode << baseSprite
         self << turretNode
-        turretNode << turretCenterSprite
         turretBox.anchorPoint = CGPoint(x: 0.75, y: 0.5)
         self << turretBox
-
-        let dy: CGFloat = CGFloat(20 - 2) / CGFloat(turretSprites.count)
-        var turretY: CGFloat = dy / 2 * CGFloat(turretSprites.count - 1)
-        for turretSprite in turretSprites {
-            turretSprite.anchorPoint = CGPoint(0.25, 0.5)
-            turretSprite.z = .AbovePlayer
-            turretSprite.position = CGPoint(y: turretY)
-            turretCenterSprite << turretSprite
-            turretY -= dy
-        }
 
         let playerComponent = PlayerComponent()
         playerComponent.targetable = false
@@ -91,17 +108,16 @@ class CannonNode: Node, DraggableNode {
         addComponent(playerComponent)
 
         let targetingComponent = EnemyTargetingComponent()
-        targetingComponent.reallySmart = true
-        targetingComponent.turret = baseNode
+        targetingComponent.turret = radarSprite
         addComponent(targetingComponent)
 
         let firingComponent = FiringComponent()
-        firingComponent.onFirePosition(self.fireBullet)
+        firingComponent.onFireTarget(self.fireBullet)
         addComponent(firingComponent)
 
         let healthComponent = HealthComponent(health: startingHealth)
         healthComponent.onHurt { damage in
-            self.baseSprite.textureId(.Cannon(upgrade: self.bulletUpgrade, health: healthComponent.healthInt))
+            self.baseSprite.textureId(.MissleSilo(upgrade: self.bulletUpgrade, health: healthComponent.healthInt))
         }
         healthComponent.onKilled {
             self.world?.unselectNode(self)
@@ -140,22 +156,29 @@ class CannonNode: Node, DraggableNode {
         rotateToComponent.applyTo = baseNode
         addComponent(rotateToComponent)
 
-        self.addComponent(moveTurret, assign: false)
         self.addComponent(fadeRadar)
 
         updateUpgrades()
+        updateMissleSprites()
+        updateMissleSprites()
+        missleCreationTimer = rotateUpgrade.missleSiloReloadTime
+
+        radarSprite.position = CGPoint(r: 100, a: rand(TAU))
+        rotateTo(radarSprite.position.angle)
     }
 
     required init?(coder: NSCoder) {
+        missleCount = coder.decodeInt(key: "missleCount") ?? 0
         super.init(coder: coder)
     }
 
     override func encode(with encoder: NSCoder) {
         super.encode(with: encoder)
+        encoder.encode(missleCount, forKey: "missleCount")
     }
 
     override func clone() -> Node {
-        let node = super.clone() as! CannonNode
+        let node = super.clone() as! MissleSiloNode
         node.rotateUpgrade = rotateUpgrade
         node.bulletUpgrade = bulletUpgrade
         node.radarUpgrade = radarUpgrade
@@ -170,11 +193,26 @@ class CannonNode: Node, DraggableNode {
         let angle = firingComponent?.angle ?? baseNode.zRotation
         turretNode.zRotation = angle
         turretBox.zRotation = angle
+
+        if missleCount < maxMissleCount {
+            missleCreationTimer -= dt
+
+            if missleCreationTimer <= 0 {
+                missleCreationTimer = rotateUpgrade.missleSiloReloadTime
+
+                if missleCount == 0 {
+                    firingComponent?.lastFiredCooldown = 0
+                }
+
+                missleCount += 1
+                firingComponent?.cooldown = bulletUpgrade.missleSiloCooldown
+            }
+        }
     }
 }
 
 // MARK: Enable/Disable during moving/death
-extension CannonNode {
+extension MissleSiloNode {
     func cannonEnabled(isMoving: Bool) {
         let died = healthComponent!.died
         selectableComponent?.enabled = !died
@@ -187,7 +225,7 @@ extension CannonNode {
         }
 
         playerComponent?.intersectable = enabled
-        firingComponent?.enabled = enabled
+        firingComponent?.enabled = enabled && missleCount > 0
         selectableComponent?.enabled = enabled
 
         fadeRadar.applyTo = radarSprite
@@ -197,48 +235,56 @@ extension CannonNode {
 }
 
 // MARK: Fire Bullet
-extension CannonNode {
-    fileprivate func fireBullet(enemyPosition: CGPoint) {
+extension MissleSiloNode {
+    fileprivate func fireBullet(target: Node) {
         guard let world = world else { return }
 
-        turretCenterSprite.position = CGPoint(x: -10)
-        moveTurret.applyTo = turretCenterSprite
-        moveTurret.target = .zero
-        moveTurret.duration = bulletUpgrade.cannonCooldown
-
-        for sprite in turretSprites {
-            let delta = CGPoint(r: sprite.position.y, a: baseNode.zRotation + TAU_4)
-            let start = position + delta
-            let myTarget = enemyPosition + delta
-            let speed: CGFloat = bulletUpgrade.cannonBulletSpeed ± rand(10)
-            let bullet = CannonballNode(
-                from: start,
-                to: self.position + myTarget,
-                speed: speed,
-                radius: bulletUpgrade.cannonSplashRadius)
-            bullet.damage = bulletUpgrade.cannonBulletDamage
-            bullet.size = BulletArtist.bulletSize(upgrade: .False)
-            bullet.zRotation = myTarget.angle
-            (parentNode ?? world) << bullet
+        let missleOffset: CGPoint
+        if let sprite = missleSprites.last {
+            missleOffset = convertPosition(sprite)
         }
+        else {
+            missleOffset = .zero
+        }
+        let missle = MissleNode(
+            damage: bulletUpgrade.missleSiloBulletDamage,
+            speed: bulletUpgrade.missleSiloBulletSpeed,
+            radius: bulletUpgrade.missleSiloSplashRadius,
+            target: target)
+        missle.position = position + missleOffset
+        missle.zRotation = zRotation
+        (parentNode ?? world) << missle
+
+        missleCount -= 1
     }
 }
 
 // MARK: Touch events
-extension CannonNode {
+extension MissleSiloNode {
     func onDraggingBegan(at location: CGPoint) {
         isDragging = true
+        dragStart = radarSprite.position
     }
     func onDraggingEnded(at location: CGPoint) {
         isDragging = false
+        dragStart = nil
     }
 
     func onDraggedAiming(from prevLocation: CGPoint, to location: CGPoint) {
-        guard isDragging else { return }
+        guard isDragging, let dragStart = dragStart else { return }
 
-        let angle = prevLocation.angleTo(location, around: position)
-        let destAngle = rotateToComponent?.destAngle ?? 0
-        startRotatingTo(angle: destAngle + angle)
+        let delta = location - prevLocation
+        let anyPosition = dragStart + delta
+        self.dragStart = anyPosition
+
+        let angle = anyPosition.angle
+        let minDist: CGFloat = radarUpgrade.missleSiloRadarMinDist
+        let maxDist: CGFloat = radarUpgrade.missleSiloRadarMaxDist
+        let newRadius = min(max(anyPosition.length, minDist), maxDist)
+        let newPosition = CGPoint(r: newRadius, a: angle)
+        radarSprite.position = newPosition
+
+        startRotatingTo(angle: angle)
     }
 
     func onSelected(_ selected: Bool) {
@@ -247,7 +293,7 @@ extension CannonNode {
 }
 
 // MARK: Rotation
-extension CannonNode {
+extension MissleSiloNode {
     func startRotatingTo(angle: CGFloat) {
         rotateToComponent?.target = angle
     }

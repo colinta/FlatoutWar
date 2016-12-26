@@ -103,7 +103,7 @@ class DroneNode: Node, DraggableNode {
         addComponent(targetingComponent)
 
         let firingComponent = FiringComponent()
-        firingComponent.onFire(self.fireBullet)
+        firingComponent.onFireAngle(self.fireBullet)
         addComponent(firingComponent)
 
         let healthComponent = HealthComponent(health: startingHealth)
@@ -222,7 +222,6 @@ extension DroneNode {
         bullet.damage = bulletUpgrade.droneBulletDamage
         bullet.size = BulletArtist.bulletSize(upgrade: .False)
         bullet.zRotation = angle
-        bullet.z = Z.Below
         firingComponent?.damage = bullet.damage
         (parentNode ?? world) << bullet
 
