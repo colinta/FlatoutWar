@@ -100,25 +100,24 @@ extension Node {
 
     @discardableResult
     func fadeTo(_ alpha: CGFloat, start: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, removeNode: Bool = false, removeComponent: Bool = true) -> FadeToComponent {
-        let fade = fadeToComponent ?? FadeToComponent()
+        let fadeTo = get(component: FadeToComponent.self) ?? FadeToComponent()
+
         if let start = start {
             self.alpha = start
         }
-        fade.target = alpha
-        fade.duration = duration
-        fade.rate = rate
+        fadeTo.target = alpha
+        fadeTo.duration = duration
+        fadeTo.rate = rate
 
         if removeNode {
-            fade.removeNodeOnFade()
+            fadeTo.removeNodeOnFade()
         }
         else if removeComponent {
-            fade.removeComponentOnFade()
+            fadeTo.removeComponentOnFade()
         }
 
-        if fadeToComponent == nil {
-            addComponent(fade)
-        }
+        addComponent(fadeTo)
 
-        return fade
+        return fadeTo
     }
 }

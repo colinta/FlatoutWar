@@ -9,7 +9,7 @@ class MissleSiloNode: Node, DraggableNode {
     var bulletUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
     var rotateUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
 
-    let fadeRadar = FadeToComponent()
+    let armyComponent = SelectableArmyComponent()
 
     fileprivate func updateMissleSprites() {
         var prevCount = missleSprites.count
@@ -63,7 +63,6 @@ class MissleSiloNode: Node, DraggableNode {
         size = baseSprite.size
     }
 
-    let cursor = CursorNode()
     let radarSprite = SKSpriteNode()
     let baseNode = Node()
     let baseSprite = SKSpriteNode()
@@ -95,7 +94,6 @@ class MissleSiloNode: Node, DraggableNode {
         turretBox.z = .Above
 
         self << baseNode
-        self << cursor
         self << radarSprite
         baseNode << baseSprite
         self << turretNode
@@ -134,7 +132,7 @@ class MissleSiloNode: Node, DraggableNode {
 
         let selectableComponent = SelectableComponent()
         selectableComponent.bindTo(touchableComponent: touchableComponent)
-        selectableComponent.onSelected(onSelected)
+        selectableComponent.onSelected { self.armyComponent.isSelected = $0 }
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()
@@ -156,12 +154,16 @@ class MissleSiloNode: Node, DraggableNode {
         rotateToComponent.applyTo = baseNode
         addComponent(rotateToComponent)
 
-        self.addComponent(fadeRadar)
+        let cursor = CursorNode()
+        armyComponent.cursorNode = cursor
+        self << cursor
 
+        armyComponent.radarNode = radarSprite
+        addComponent(armyComponent)
+
+        missleCreationTimer = rotateUpgrade.missleSiloReloadTime
         updateUpgrades()
         updateMissleSprites()
-        updateMissleSprites()
-        missleCreationTimer = rotateUpgrade.missleSiloReloadTime
 
         radarSprite.position = CGPoint(r: 100, a: rand(TAU))
         rotateTo(radarSprite.position.angle)
@@ -214,23 +216,8 @@ class MissleSiloNode: Node, DraggableNode {
 // MARK: Enable/Disable during moving/death
 extension MissleSiloNode {
     func cannonEnabled(isMoving: Bool) {
-        let died = healthComponent!.died
-        selectableComponent?.enabled = !died
-        touchableComponent?.enabled = !died
-
-        let enabled = !isMoving && !died
-        alpha = enabled ? 1 : 0.5
-        if cursor.selected && !enabled {
-            cursor.selected = false
-        }
-
-        playerComponent?.intersectable = enabled
-        firingComponent?.enabled = enabled && missleCount > 0
-        selectableComponent?.enabled = enabled
-
-        fadeRadar.applyTo = radarSprite
-        fadeRadar.target = isMoving ? 0 : 1
-        fadeRadar.rate = 3.333
+        armyComponent.isMoving = isMoving
+        firingComponent?.enabled = armyComponent.armyEnabled && missleCount > 0
     }
 }
 
@@ -285,10 +272,6 @@ extension MissleSiloNode {
         radarSprite.position = newPosition
 
         startRotatingTo(angle: angle)
-    }
-
-    func onSelected(_ selected: Bool) {
-        cursor.selected = selected
     }
 }
 

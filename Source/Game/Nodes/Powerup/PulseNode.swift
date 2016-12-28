@@ -93,7 +93,7 @@ class PulseNode: Node {
                     if self.distanceTo(enemy, within: outerR) && !self.distanceTo(enemy, within: innerR) {
                         enemy.healthComponent?.inflict(damage: Damage * Float(dt))
 
-                        if let jiggleComponent = enemy.jiggleComponent {
+                        if let jiggleComponent = enemy.get(component: JiggleComponent.self) {
                             jiggleComponent.resetTimeout()
                         }
                         else {

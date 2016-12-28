@@ -148,7 +148,7 @@ class EnemySoldierNode: Node {
 extension EnemySoldierNode {
 
     func runAway() {
-        self.followComponent?.removeFromNode()
+        self.get(component: FollowComponent.self)?.removeFromNode()
         let angle: CGFloat = zRotation + TAU_2 ± rand(TAU_4)
         let dist: CGFloat = rand(min: 15, max: 30)
         let dest = position + CGPoint(r: dist, a: angle)
@@ -157,7 +157,7 @@ extension EnemySoldierNode {
     }
 
     func dodge() {
-        self.followComponent?.removeFromNode()
+        self.get(component: FollowComponent.self)?.removeFromNode()
         let angle: CGFloat = zRotation ± (TAU_4 - 10.degrees)
         let dist: CGFloat = rand(min: 20, max: 40)
         let dest = position + CGPoint(r: dist, a: angle)
@@ -166,7 +166,7 @@ extension EnemySoldierNode {
     }
 
     func follow(leader: Node, scatter: Scatter = .RunAway, component: FollowComponent? = nil) {
-        let followComponent = component ?? self.followComponent ?? FollowNodeComponent()
+        let followComponent = component ?? self.get(component: FollowComponent.self) ?? FollowNodeComponent()
 
         playerTargetingComponent?.targetingEnabled = false
         rammingComponent?.currentTarget = nil
@@ -190,7 +190,7 @@ extension EnemySoldierNode {
                 wSelf.rammingComponent?.currentTarget = leader.rammingComponent?.currentTarget
                 wSelf.playerTargetingComponent?.currentTarget = leader.playerTargetingComponent?.currentTarget
                 wSelf.playerTargetingComponent?.targetingEnabled = true
-                wSelf.followComponent?.removeFromNode()
+                wSelf.get(component: FollowComponent.self)?.removeFromNode()
             }
         }
         addComponent(followComponent)

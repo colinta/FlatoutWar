@@ -10,7 +10,7 @@ class CannonNode: Node, DraggableNode {
     var rotateUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
 
     let moveTurret = MoveToComponent()
-    let fadeRadar = FadeToComponent()
+    let armyComponent = SelectableArmyComponent()
 
     fileprivate func updateUpgrades() {
         radarSprite.textureId(.CannonRadar(upgrade: radarUpgrade))
@@ -38,7 +38,6 @@ class CannonNode: Node, DraggableNode {
         size = baseSprite.size
     }
 
-    let cursor = CursorNode()
     let radarSprite = SKSpriteNode()
     let baseNode = Node()
     let baseSprite = SKSpriteNode()
@@ -67,7 +66,6 @@ class CannonNode: Node, DraggableNode {
         turretBox.z = .Above
 
         self << baseNode
-        self << cursor
         self << radarSprite
         baseNode << baseSprite
         self << turretNode
@@ -118,7 +116,7 @@ class CannonNode: Node, DraggableNode {
 
         let selectableComponent = SelectableComponent()
         selectableComponent.bindTo(touchableComponent: touchableComponent)
-        selectableComponent.onSelected(onSelected)
+        selectableComponent.onSelected { self.armyComponent.isSelected = $0 }
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()
@@ -140,8 +138,14 @@ class CannonNode: Node, DraggableNode {
         rotateToComponent.applyTo = baseNode
         addComponent(rotateToComponent)
 
-        self.addComponent(moveTurret, assign: false)
-        self.addComponent(fadeRadar)
+        let cursor = CursorNode()
+        armyComponent.cursorNode = cursor
+        self << cursor
+
+        armyComponent.radarNode = radarSprite
+        addComponent(armyComponent)
+
+        addComponent(moveTurret, assign: false)
 
         updateUpgrades()
     }
@@ -176,23 +180,7 @@ class CannonNode: Node, DraggableNode {
 // MARK: Enable/Disable during moving/death
 extension CannonNode {
     func cannonEnabled(isMoving: Bool) {
-        let died = healthComponent!.died
-        selectableComponent?.enabled = !died
-        touchableComponent?.enabled = !died
-
-        let enabled = !isMoving && !died
-        alpha = enabled ? 1 : 0.5
-        if cursor.selected && !enabled {
-            cursor.selected = false
-        }
-
-        playerComponent?.intersectable = enabled
-        firingComponent?.enabled = enabled
-        selectableComponent?.enabled = enabled
-
-        fadeRadar.applyTo = radarSprite
-        fadeRadar.target = isMoving ? 0 : 1
-        fadeRadar.rate = 3.333
+        armyComponent.isMoving = isMoving
     }
 }
 
@@ -239,10 +227,6 @@ extension CannonNode {
         let angle = prevLocation.angleTo(location, around: position)
         let destAngle = rotateToComponent?.destAngle ?? 0
         startRotatingTo(angle: destAngle + angle)
-    }
-
-    func onSelected(_ selected: Bool) {
-        cursor.selected = selected
     }
 }
 

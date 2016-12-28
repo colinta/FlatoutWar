@@ -60,14 +60,16 @@ class MainMenuWorld: World {
                 enemy.rotateTo(flyAngle)
                 self << enemy
 
-                enemy.flyingComponent!.maxSpeed = velocity.length
-                enemy.flyingComponent!.maxTurningSpeed = velocity.length
-                enemy.flyingComponent!.currentSpeed = velocity.length
-                enemy.flyingComponent!.flyingTargets = [
-                    center + CGVector(r: self.outerRadius / 2, a: flyAngle) + CGVector(r: ±rand(25), a: flyAngle + TAU_4),
-                    center + CGVector(r: self.outerRadius, a: flyAngle) + CGVector(r: ±rand(25), a: flyAngle + TAU_4),
-                    center + CGVector(r: self.outerRadius * 2, a: flyAngle) + CGVector(r: ±rand(25), a: flyAngle + TAU_4),
-                ]
+                if let flyingComponent = enemy.get(component: FlyingComponent.self) {
+                    flyingComponent.maxSpeed = velocity.length
+                    flyingComponent.maxTurningSpeed = velocity.length
+                    flyingComponent.currentSpeed = velocity.length
+                    flyingComponent.flyingTargets = [
+                        center + CGVector(r: self.outerRadius / 2, a: flyAngle) + CGVector(r: ±rand(25), a: flyAngle + TAU_4),
+                        center + CGVector(r: self.outerRadius, a: flyAngle) + CGVector(r: ±rand(25), a: flyAngle + TAU_4),
+                        center + CGVector(r: self.outerRadius * 2, a: flyAngle) + CGVector(r: ±rand(25), a: flyAngle + TAU_4),
+                    ]
+                }
 
                 self.timeline.after(time: 7) {
                     enemy.removeFromParent()

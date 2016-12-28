@@ -138,30 +138,28 @@ extension Node {
 
     @discardableResult
     func scaleTo(_ targetScale: CGFloat, start: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, removeNode: Bool = false, removeComponent: Bool = true, easing: Easing? = nil) -> ScaleToComponent {
-        let scale = scaleToComponent ?? ScaleToComponent()
+        let scaleTo = get(component: ScaleToComponent.self) ?? ScaleToComponent()
         if let start = start {
             self.setScale(start)
-            scale.currentScale = start
+            scaleTo.currentScale = start
         }
         else {
-            scale.currentScale = self.xScale
+            scaleTo.currentScale = self.xScale
         }
-        scale.target = targetScale
-        scale.duration = duration
-        scale.rate = rate
-        scale.easing = easing
+        scaleTo.target = targetScale
+        scaleTo.duration = duration
+        scaleTo.rate = rate
+        scaleTo.easing = easing
 
         if removeNode {
-            scale.removeNodeOnScale()
+            scaleTo.removeNodeOnScale()
         }
         else if removeComponent {
-            scale.removeComponentOnScale()
+            scaleTo.removeComponentOnScale()
         }
 
-        if scaleToComponent == nil {
-            addComponent(scale)
-        }
+        addComponent(scaleTo)
 
-        return scale
+        return scaleTo
     }
 }

@@ -9,6 +9,9 @@ class DroneNode: Node, DraggableNode {
     var bulletUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
     var speedUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
 
+    let armyComponent = SelectableArmyComponent()
+    let wanderingComponent = WanderingComponent()
+
     fileprivate func updateUpgrades() {
         sprite.textureId(.Drone(speedUpgrade: speedUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: healthComponent?.healthInt ?? 100))
         placeholder.textureId(.Drone(speedUpgrade: speedUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: 100))
@@ -24,13 +27,13 @@ class DroneNode: Node, DraggableNode {
         firingComponent?.targetsPreemptively = radarUpgrade.targetsPreemptively
         firingComponent?.damage = bulletUpgrade.droneBulletDamage
 
-        wanderingComponent?.maxSpeed = speedUpgrade.droneMovementSpeed / 10
+        wanderingComponent.maxSpeed = speedUpgrade.droneMovementSpeed / 10
     }
 
     var wanderingEnabled: Bool? {
         didSet {
             if let wanderingEnabled = wanderingEnabled {
-                wanderingComponent!.enabled = wanderingEnabled
+                wanderingComponent.enabled = wanderingEnabled
             }
         }
     }
@@ -42,7 +45,6 @@ class DroneNode: Node, DraggableNode {
         }
     }
 
-    var cursor = CursorNode()
     let scale1 = SKSpriteNode()
     let radar1 = SKSpriteNode()
     let scale2 = SKSpriteNode()
@@ -52,7 +54,7 @@ class DroneNode: Node, DraggableNode {
 
     override var position: CGPoint {
         didSet {
-            wanderingComponent?.centeredAround = position
+            wanderingComponent.centeredAround = position
         }
     }
 
@@ -70,7 +72,6 @@ class DroneNode: Node, DraggableNode {
         size = sprite.size
 
         self << sprite
-        self << cursor
         self << placeholder
 
         placeholder.alpha = 0.5
@@ -92,10 +93,15 @@ class DroneNode: Node, DraggableNode {
         scale2 << radar2
         self << scale2
 
-        let wanderingComponent = WanderingComponent()
         wanderingComponent.centeredAround = position
         wanderingComponent.wanderingRadius = 10
         addComponent(wanderingComponent)
+
+        let cursor = CursorNode()
+        armyComponent.cursorNode = cursor
+        self << cursor
+
+        addComponent(armyComponent)
 
         let targetingComponent = EnemyTargetingComponent()
         targetingComponent.reallySmart = true
@@ -123,13 +129,13 @@ class DroneNode: Node, DraggableNode {
 
         let selectableComponent = SelectableComponent()
         selectableComponent.bindTo(touchableComponent: touchableComponent)
-        selectableComponent.onSelected(onSelected)
+        selectableComponent.onSelected { self.armyComponent.isSelected = $0 }
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()
         draggableComponent.bindTo(touchableComponent: touchableComponent)
         draggableComponent.onDragging { (isDragging, location) in
-            wanderingComponent.enabled = !isDragging
+            self.wanderingComponent.enabled = !isDragging
         }
         draggableComponent.onDragChange { isMoving in
             self.droneEnabled(isMoving: isMoving)
@@ -142,18 +148,9 @@ class DroneNode: Node, DraggableNode {
 
         updateUpgrades()
     }
-
+    
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        touchableComponent?.containsTouchTest = TouchableComponent.defaultTouchTest(shape: .Square)
-        cursor = coder.decode(key: "cursor") ?? cursor
-        sprite = coder.decode(key: "sprite") ?? sprite
-    }
-
-    override func encode(with encoder: NSCoder) {
-        super.encode(with: encoder)
-        encoder.encode(cursor, forKey: "cursor")
-        encoder.encode(sprite, forKey: "sprite")
+        fatalError("init(coder:) has not been implemented")
     }
 
     override func update(_ dt: CGFloat) {
@@ -190,22 +187,9 @@ class DroneNode: Node, DraggableNode {
 
 extension DroneNode {
     func droneEnabled(isMoving: Bool) {
-        let died = healthComponent!.died
-        selectableComponent?.enabled = !died
-        draggableComponent?.enabled = !died
-        touchableComponent?.enabled = !died && (touchableEnabled ?? true)
-        phaseComponent?.loops = !died
-
-        let enabled = !isMoving && !died
-        alpha = enabled ? 1 : 0.5
-        if cursor.selected && !enabled {
-            cursor.selected = false
-        }
-
-        playerComponent?.intersectable = enabled
-        firingComponent?.enabled = enabled
-        selectableComponent?.enabled = enabled
-        wanderingComponent?.enabled = enabled && (wanderingEnabled ?? true)
+        armyComponent.isMoving = isMoving
+        phaseComponent?.loops = !healthComponent!.died
+        wanderingComponent.enabled = armyComponent.armyEnabled && (wanderingEnabled ?? true)
     }
 }
 
@@ -226,13 +210,5 @@ extension DroneNode {
         (parentNode ?? world) << bullet
 
         _ = world.channel?.play(Sound.PlayerShoot)
-    }
-}
-
-// MARK: Touch events
-
-extension DroneNode {
-    func onSelected(_ selected: Bool) {
-        cursor.selected = selected
     }
 }

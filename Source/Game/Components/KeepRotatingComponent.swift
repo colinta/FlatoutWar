@@ -16,13 +16,13 @@ class KeepRotatingComponent: ApplyToNodeComponent {
 extension Node {
     @discardableResult
     func keepRotating(_ rate: CGFloat? = nil) -> KeepRotatingComponent {
-        let keepRotating = keepRotatingComponent ?? KeepRotatingComponent()
+        let keepRotating = get(component: KeepRotatingComponent.self) ?? KeepRotatingComponent()
         if let rate = rate {
             keepRotating.rate = rate
         }
-        if keepRotatingComponent == nil {
-            self.addComponent(keepRotating)
-        }
+
+        addComponent(keepRotating)
+
         return keepRotating
     }
 }

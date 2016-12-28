@@ -198,19 +198,30 @@ class World: Node {
 
     var touchedNodes: [NSObject: (Node, TouchableComponent)] = [:]
     var currentNode: Node? { return selectedNode ?? defaultNode }
-    var defaultNode: Node?
+    var defaultNode: Node? {
+        willSet { currentNode(willChangeTo: selectedNode ?? newValue) }
+        didSet { currentNode(didChangeFrom: selectedNode ?? oldValue) }
+    }
     var selectedNode: Node? {
-        willSet {
-            if let selectedNode = selectedNode,
-                selectedNode != newValue
-            {
-                selectedNode.selectableComponent?.changeSelected(false)
-            }
+        willSet { currentNode(willChangeTo: newValue ?? defaultNode) }
+        didSet { currentNode(didChangeFrom: oldValue ?? defaultNode) }
+    }
+
+    private func currentNode(willChangeTo newCurrentNode: Node?) {
+        if let oldCurrentNode = currentNode,
+            let selectableComponent = oldCurrentNode.selectableComponent,
+            oldCurrentNode != newCurrentNode
+        {
+            selectableComponent.changeSelected(false)
         }
-        didSet {
-            if let selectedNode = selectedNode {
-                selectedNode.selectableComponent?.changeSelected(true)
-            }
+    }
+
+    private func currentNode(didChangeFrom oldCurrentNode: Node?) {
+        if let newCurrentNode = currentNode,
+            let selectableComponent = newCurrentNode.selectableComponent,
+            newCurrentNode != oldCurrentNode
+        {
+            selectableComponent.changeSelected(true)
         }
     }
 

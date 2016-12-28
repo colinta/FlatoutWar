@@ -117,6 +117,12 @@ class BasePlayerNode: Node {
         touchResourceComponent.onDragged(onDraggedResource)
         addComponent(touchResourceComponent)
 
+        let selectableComponent = SelectableComponent()
+        selectableComponent.onSelected { selected in
+            self.radarNode.alpha = selected ? 1 : 0.75
+        }
+        addComponent(selectableComponent)
+
         let rotateToComponent = RotateToComponent()
         rotateToComponent.currentAngle = 0
         rotateToComponent.applyTo = baseNode

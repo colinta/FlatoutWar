@@ -57,6 +57,7 @@ class EnemyJetTransportNode: Node {
     }
 
     func transportPayload(_ payload: [Node]) {
+        let arcToComponent = get(component: ArcToComponent.self)
         if let prevPayload = self.payload {
             for node in prevPayload {
                 node.removeFromParent()

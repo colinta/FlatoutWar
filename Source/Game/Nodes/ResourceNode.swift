@@ -46,7 +46,7 @@ class ResourceNode: Node {
     }
 
     func updateSprite() {
-        if remaining <= 0 && scaleToComponent == nil {
+        if remaining <= 0 && get(component: ScaleToComponent.self) == nil {
             scaleTo(0, duration: 1, removeNode: true)
             fadeTo(0, duration: 0.9)
         }
@@ -71,7 +71,7 @@ class ResourceNode: Node {
 
     override func disableMovingComponents() {
         super.disableMovingComponents()
-        keepRotatingComponent?.enabled = true
+        get(component: KeepRotatingComponent.self)?.enabled = true
     }
 
 }

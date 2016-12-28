@@ -8,9 +8,9 @@ private var dAlphaDown: CGFloat = 4
 private var dRotation: CGFloat = 0.7
 
 class CursorNode: Node {
-    var selected: Bool {
+    var isSelected: Bool = false {
         didSet {
-            if selected {
+            if isSelected {
                 destAlpha = 1
                 destScale = 1
                 destScalePhase = xScale
@@ -28,7 +28,6 @@ class CursorNode: Node {
     private var sprite = SKSpriteNode(id: .Cursor)
 
     required init() {
-        selected = false
         super.init()
         z = .Top
         alpha = 0
@@ -37,7 +36,7 @@ class CursorNode: Node {
     }
 
     required init?(coder: NSCoder) {
-        selected = coder.decode(key: "selected") ?? false
+        isSelected = coder.decode(key: "selected") ?? false
         super.init(coder: coder)
         sprite = coder.decode(key: "sprite") ?? sprite
         destAlpha = coder.decodeCGFloat(key: "destAlpha")
@@ -46,7 +45,7 @@ class CursorNode: Node {
 
     override func encode(with encoder: NSCoder) {
         super.encode(with: encoder)
-        encoder.encode(selected, forKey: "selected")
+        encoder.encode(isSelected, forKey: "selected")
         encoder.encode(sprite, forKey: "sprite")
         if let destAlpha = destAlpha {
             encoder.encode(destAlpha, forKey: "destAlpha")

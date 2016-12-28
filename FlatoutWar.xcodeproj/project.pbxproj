@@ -259,6 +259,7 @@
 		1D7A42DC1E118FE4002F37FA /* PolygonArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42DB1E118FE4002F37FA /* PolygonArtist.swift */; };
 		1D7A42DE1E11927D002F37FA /* MissleSiloUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42DD1E11927D002F37FA /* MissleSiloUpgrades.swift */; };
 		1D7A42E21E11A83B002F37FA /* MissleNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42E11E11A83B002F37FA /* MissleNode.swift */; };
+		1D971CC71E14670100A167A2 /* SelectableArmyComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CC61E14670100A167A2 /* SelectableArmyComponent.swift */; };
 		1DBFDA001DFFB8DD0058843D /* CannonUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */; };
 		1DBFDA021DFFC3240058843D /* CannonballNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBFDA011DFFC3240058843D /* CannonballNode.swift */; };
 		216146732396C15720CD939B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F03135BA42322EAF9BCCB836 /* Foundation.framework */; };
@@ -555,6 +556,7 @@
 		1D7A42DB1E118FE4002F37FA /* PolygonArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonArtist.swift; sourceTree = "<group>"; };
 		1D7A42DD1E11927D002F37FA /* MissleSiloUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleSiloUpgrades.swift; sourceTree = "<group>"; };
 		1D7A42E11E11A83B002F37FA /* MissleNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleNode.swift; sourceTree = "<group>"; };
+		1D971CC61E14670100A167A2 /* SelectableArmyComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableArmyComponent.swift; sourceTree = "<group>"; };
 		1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonUpgrades.swift; sourceTree = "<group>"; };
 		1DBFDA011DFFC3240058843D /* CannonballNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonballNode.swift; sourceTree = "<group>"; };
 		2425E3A61D6520C9C8191BBB /* OALTools.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OALTools.m; path = ObjectAL/Support/OALTools.m; sourceTree = "<group>"; };
@@ -1001,6 +1003,7 @@
 				1D6AA03C1DD79B3E004A0978 /* RammingComponent.swift */,
 				1D6AA03D1DD79B3E004A0978 /* RotateToComponent.swift */,
 				1D6AA03E1DD79B3E004A0978 /* ScaleToComponent.swift */,
+				1D971CC61E14670100A167A2 /* SelectableArmyComponent.swift */,
 				1D6AA03F1DD79B3E004A0978 /* SelectableComponent.swift */,
 				1D6AA0401DD79B3E004A0978 /* StoppedComponent.swift */,
 				1D6AA0411DD79B3E004A0978 /* TouchableComponent.swift */,
@@ -1489,6 +1492,7 @@
 				1D6AA09B1DD79B53004A0978 /* World.swift in Sources */,
 				1D6AA11B1DD79BF8004A0978 /* PowerupStorage.swift in Sources */,
 				1D6AA06E1DD79B41004A0978 /* CGSizeExt.swift in Sources */,
+				1D971CC71E14670100A167A2 /* SelectableArmyComponent.swift in Sources */,
 				1D6AA0461DD79B3E004A0978 /* EnemyComponent.swift in Sources */,
 				1D6A9F8C1DD79B13004A0978 /* OrbitalPlayground.swift in Sources */,
 				378015F45DBFDC462B01630C /* ALChannelSource.m in Sources */,

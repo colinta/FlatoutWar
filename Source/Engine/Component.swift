@@ -36,5 +36,3 @@ class Component: NSObject, NSCoding {
     }
 
 }
-
-class GrowToComponent: Component {}

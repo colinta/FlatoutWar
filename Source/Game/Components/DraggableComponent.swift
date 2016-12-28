@@ -43,7 +43,6 @@ class DraggableComponent: Component {
 
     override func didAddToNode() {
         super.didAddToNode()
-
         if let around = centeredAround,
             let dist = maxDistance,
             !node.distanceTo(around, within: dist)
