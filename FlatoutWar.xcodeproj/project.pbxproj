@@ -240,28 +240,28 @@
 		1D6AA0FB1DD79B62004A0978 /* WarningArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0E21DD79B62004A0978 /* WarningArtist.swift */; };
 		1D6AA0FD1DD79B68004A0978 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0FC1DD79B68004A0978 /* AppDelegate.swift */; };
 		1D6AA0FF1DD79BB4004A0978 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0FE1DD79BB4004A0978 /* Sound.swift */; };
-		1D6AA10B1DD79BE3004A0978 /* BackgroundAudioNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1001DD79BE3004A0978 /* BackgroundAudioNode.swift */; };
-		1D6AA10C1DD79BE3004A0978 /* BasePlayerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1011DD79BE3004A0978 /* BasePlayerNode.swift */; };
-		1D6AA10D1DD79BE3004A0978 /* BulletNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1021DD79BE3004A0978 /* BulletNode.swift */; };
-		1D6AA10E1DD79BE3004A0978 /* CursorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1031DD79BE3004A0978 /* CursorNode.swift */; };
-		1D6AA10F1DD79BE3004A0978 /* DroneNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1041DD79BE3004A0978 /* DroneNode.swift */; };
-		1D6AA1101DD79BE3004A0978 /* ExperiencePercent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1051DD79BE3004A0978 /* ExperiencePercent.swift */; };
-		1D6AA1111DD79BE3004A0978 /* LabelPercent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1061DD79BE3004A0978 /* LabelPercent.swift */; };
-		1D6AA1121DD79BE3004A0978 /* ResourceCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1071DD79BE3004A0978 /* ResourceCollector.swift */; };
-		1D6AA1131DD79BE3004A0978 /* ResourceNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1081DD79BE3004A0978 /* ResourceNode.swift */; };
-		1D6AA1141DD79BE3004A0978 /* ResourcePercent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1091DD79BE3004A0978 /* ResourcePercent.swift */; };
-		1D6AA1151DD79BE3004A0978 /* CannonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA10A1DD79BE3004A0978 /* CannonNode.swift */; };
 		1D6AA1191DD79BF8004A0978 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1161DD79BF8004A0978 /* Currency.swift */; };
 		1D6AA11A1DD79BF8004A0978 /* NodeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1171DD79BF8004A0978 /* NodeStorage.swift */; };
 		1D6AA11B1DD79BF8004A0978 /* PowerupStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1181DD79BF8004A0978 /* PowerupStorage.swift */; };
-		1D7A42D81E118C13002F37FA /* MissleSiloNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42D71E118C13002F37FA /* MissleSiloNode.swift */; };
 		1D7A42DA1E118C1C002F37FA /* MissleSiloArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42D91E118C1C002F37FA /* MissleSiloArtist.swift */; };
 		1D7A42DC1E118FE4002F37FA /* PolygonArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42DB1E118FE4002F37FA /* PolygonArtist.swift */; };
 		1D7A42DE1E11927D002F37FA /* MissleSiloUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42DD1E11927D002F37FA /* MissleSiloUpgrades.swift */; };
 		1D7A42E21E11A83B002F37FA /* MissleNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42E11E11A83B002F37FA /* MissleNode.swift */; };
 		1D971CC71E14670100A167A2 /* SelectableArmyComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CC61E14670100A167A2 /* SelectableArmyComponent.swift */; };
+		1D971CD11E1479D200A167A2 /* BasePlayerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CC81E1479D200A167A2 /* BasePlayerNode.swift */; };
+		1D971CD21E1479D200A167A2 /* BulletNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CC91E1479D200A167A2 /* BulletNode.swift */; };
+		1D971CD31E1479D200A167A2 /* CannonballNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CCA1E1479D200A167A2 /* CannonballNode.swift */; };
+		1D971CD41E1479D200A167A2 /* CannonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CCB1E1479D200A167A2 /* CannonNode.swift */; };
+		1D971CD51E1479D200A167A2 /* CursorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CCC1E1479D200A167A2 /* CursorNode.swift */; };
+		1D971CD61E1479D200A167A2 /* DroneNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CCD1E1479D200A167A2 /* DroneNode.swift */; };
+		1D971CD71E1479D200A167A2 /* MissleSiloNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CCE1E1479D200A167A2 /* MissleSiloNode.swift */; };
+		1D971CD81E1479D200A167A2 /* ResourceCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CCF1E1479D200A167A2 /* ResourceCollector.swift */; };
+		1D971CD91E1479D200A167A2 /* ResourceNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CD01E1479D200A167A2 /* ResourceNode.swift */; };
+		1D971CDE1E1479E700A167A2 /* BackgroundAudioNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CDA1E1479E700A167A2 /* BackgroundAudioNode.swift */; };
+		1D971CDF1E1479E700A167A2 /* ExperiencePercent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CDB1E1479E700A167A2 /* ExperiencePercent.swift */; };
+		1D971CE01E1479E700A167A2 /* LabelPercent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CDC1E1479E700A167A2 /* LabelPercent.swift */; };
+		1D971CE11E1479E700A167A2 /* ResourcePercent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CDD1E1479E700A167A2 /* ResourcePercent.swift */; };
 		1DBFDA001DFFB8DD0058843D /* CannonUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */; };
-		1DBFDA021DFFC3240058843D /* CannonballNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBFDA011DFFC3240058843D /* CannonballNode.swift */; };
 		216146732396C15720CD939B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F03135BA42322EAF9BCCB836 /* Foundation.framework */; };
 		275B0C2755BBFC08B0072403 /* NSMutableDictionary+WeakReferences.m in Sources */ = {isa = PBXBuildFile; fileRef = A2BBF808C8061FB024CDB563 /* NSMutableDictionary+WeakReferences.m */; };
 		3332E0EFC48439B66A847C28 /* OALAudioTrackNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 7875E7EB8B07D82513752390 /* OALAudioTrackNotifications.m */; };
@@ -537,28 +537,28 @@
 		1D6AA0E21DD79B62004A0978 /* WarningArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarningArtist.swift; sourceTree = "<group>"; };
 		1D6AA0FC1DD79B68004A0978 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1D6AA0FE1DD79BB4004A0978 /* Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
-		1D6AA1001DD79BE3004A0978 /* BackgroundAudioNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundAudioNode.swift; sourceTree = "<group>"; };
-		1D6AA1011DD79BE3004A0978 /* BasePlayerNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasePlayerNode.swift; sourceTree = "<group>"; };
-		1D6AA1021DD79BE3004A0978 /* BulletNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulletNode.swift; sourceTree = "<group>"; };
-		1D6AA1031DD79BE3004A0978 /* CursorNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CursorNode.swift; sourceTree = "<group>"; };
-		1D6AA1041DD79BE3004A0978 /* DroneNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DroneNode.swift; sourceTree = "<group>"; };
-		1D6AA1051DD79BE3004A0978 /* ExperiencePercent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExperiencePercent.swift; sourceTree = "<group>"; };
-		1D6AA1061DD79BE3004A0978 /* LabelPercent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelPercent.swift; sourceTree = "<group>"; };
-		1D6AA1071DD79BE3004A0978 /* ResourceCollector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceCollector.swift; sourceTree = "<group>"; };
-		1D6AA1081DD79BE3004A0978 /* ResourceNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceNode.swift; sourceTree = "<group>"; };
-		1D6AA1091DD79BE3004A0978 /* ResourcePercent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourcePercent.swift; sourceTree = "<group>"; };
-		1D6AA10A1DD79BE3004A0978 /* CannonNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonNode.swift; sourceTree = "<group>"; };
 		1D6AA1161DD79BF8004A0978 /* Currency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		1D6AA1171DD79BF8004A0978 /* NodeStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeStorage.swift; sourceTree = "<group>"; };
 		1D6AA1181DD79BF8004A0978 /* PowerupStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerupStorage.swift; sourceTree = "<group>"; };
-		1D7A42D71E118C13002F37FA /* MissleSiloNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleSiloNode.swift; sourceTree = "<group>"; };
 		1D7A42D91E118C1C002F37FA /* MissleSiloArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleSiloArtist.swift; sourceTree = "<group>"; };
 		1D7A42DB1E118FE4002F37FA /* PolygonArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonArtist.swift; sourceTree = "<group>"; };
 		1D7A42DD1E11927D002F37FA /* MissleSiloUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleSiloUpgrades.swift; sourceTree = "<group>"; };
 		1D7A42E11E11A83B002F37FA /* MissleNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleNode.swift; sourceTree = "<group>"; };
 		1D971CC61E14670100A167A2 /* SelectableArmyComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableArmyComponent.swift; sourceTree = "<group>"; };
+		1D971CC81E1479D200A167A2 /* BasePlayerNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasePlayerNode.swift; sourceTree = "<group>"; };
+		1D971CC91E1479D200A167A2 /* BulletNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulletNode.swift; sourceTree = "<group>"; };
+		1D971CCA1E1479D200A167A2 /* CannonballNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonballNode.swift; sourceTree = "<group>"; };
+		1D971CCB1E1479D200A167A2 /* CannonNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonNode.swift; sourceTree = "<group>"; };
+		1D971CCC1E1479D200A167A2 /* CursorNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CursorNode.swift; sourceTree = "<group>"; };
+		1D971CCD1E1479D200A167A2 /* DroneNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DroneNode.swift; sourceTree = "<group>"; };
+		1D971CCE1E1479D200A167A2 /* MissleSiloNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleSiloNode.swift; sourceTree = "<group>"; };
+		1D971CCF1E1479D200A167A2 /* ResourceCollector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceCollector.swift; sourceTree = "<group>"; };
+		1D971CD01E1479D200A167A2 /* ResourceNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourceNode.swift; sourceTree = "<group>"; };
+		1D971CDA1E1479E700A167A2 /* BackgroundAudioNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundAudioNode.swift; sourceTree = "<group>"; };
+		1D971CDB1E1479E700A167A2 /* ExperiencePercent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExperiencePercent.swift; sourceTree = "<group>"; };
+		1D971CDC1E1479E700A167A2 /* LabelPercent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelPercent.swift; sourceTree = "<group>"; };
+		1D971CDD1E1479E700A167A2 /* ResourcePercent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourcePercent.swift; sourceTree = "<group>"; };
 		1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonUpgrades.swift; sourceTree = "<group>"; };
-		1DBFDA011DFFC3240058843D /* CannonballNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonballNode.swift; sourceTree = "<group>"; };
 		2425E3A61D6520C9C8191BBB /* OALTools.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OALTools.m; path = ObjectAL/Support/OALTools.m; sourceTree = "<group>"; };
 		24FA3A3C3F172ED9299C52AE /* OALAudioTrackNotifications.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OALAudioTrackNotifications.h; path = ObjectAL/AudioTrack/OALAudioTrackNotifications.h; sourceTree = "<group>"; };
 		261FEC905EAA9AD745BD3ED3 /* OALAudioFile.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OALAudioFile.m; path = ObjectAL/Support/OALAudioFile.m; sourceTree = "<group>"; };
@@ -700,22 +700,9 @@
 			children = (
 				1D7A42E01E11A830002F37FA /* Army */,
 				C706419EE6D473E3BA743A7C /* ArmyUpgrades */,
-				1D6AA1001DD79BE3004A0978 /* BackgroundAudioNode.swift */,
-				1D6AA1011DD79BE3004A0978 /* BasePlayerNode.swift */,
-				1D6AA1021DD79BE3004A0978 /* BulletNode.swift */,
-				1DBFDA011DFFC3240058843D /* CannonballNode.swift */,
-				1D6AA10A1DD79BE3004A0978 /* CannonNode.swift */,
-				1D6AA1031DD79BE3004A0978 /* CursorNode.swift */,
-				1D6AA1041DD79BE3004A0978 /* DroneNode.swift */,
 				A8877D6611B138E9E47D10FF /* Enemies */,
-				1D6AA1051DD79BE3004A0978 /* ExperiencePercent.swift */,
 				488EB326865153A0A23B1BB4 /* Explosions */,
-				1D6AA1061DD79BE3004A0978 /* LabelPercent.swift */,
-				1D7A42D71E118C13002F37FA /* MissleSiloNode.swift */,
 				31DF3A9E37ABC57615A25DBE /* Powerup */,
-				1D6AA1071DD79BE3004A0978 /* ResourceCollector.swift */,
-				1D6AA1081DD79BE3004A0978 /* ResourceNode.swift */,
-				1D6AA1091DD79BE3004A0978 /* ResourcePercent.swift */,
 				B0E17CC3131DB17E04456E32 /* UI */,
 			);
 			path = Nodes;
@@ -784,7 +771,16 @@
 		1D7A42E01E11A830002F37FA /* Army */ = {
 			isa = PBXGroup;
 			children = (
+				1D971CC81E1479D200A167A2 /* BasePlayerNode.swift */,
+				1D971CC91E1479D200A167A2 /* BulletNode.swift */,
+				1D971CCA1E1479D200A167A2 /* CannonballNode.swift */,
+				1D971CCB1E1479D200A167A2 /* CannonNode.swift */,
+				1D971CCC1E1479D200A167A2 /* CursorNode.swift */,
+				1D971CCD1E1479D200A167A2 /* DroneNode.swift */,
 				1D7A42E11E11A83B002F37FA /* MissleNode.swift */,
+				1D971CCE1E1479D200A167A2 /* MissleSiloNode.swift */,
+				1D971CCF1E1479D200A167A2 /* ResourceCollector.swift */,
+				1D971CD01E1479D200A167A2 /* ResourceNode.swift */,
 			);
 			path = Army;
 			sourceTree = "<group>";
@@ -1109,14 +1105,18 @@
 		B0E17CC3131DB17E04456E32 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				1D971CDA1E1479E700A167A2 /* BackgroundAudioNode.swift */,
 				1D6A9FDA1DD79B2E004A0978 /* CancelButton.swift */,
 				1D6A9FDB1DD79B2E004A0978 /* CloseButton.swift */,
 				1D6A9FDC1DD79B2E004A0978 /* ExperienceCostText.swift */,
+				1D971CDB1E1479E700A167A2 /* ExperiencePercent.swift */,
+				1D971CDC1E1479E700A167A2 /* LabelPercent.swift */,
 				1D6A9FDD1DD79B2E004A0978 /* LevelCompleteBox.swift */,
 				1D6A9FDE1DD79B2E004A0978 /* PauseButton.swift */,
 				1D6A9FDF1DD79B2E004A0978 /* PercentBar.swift */,
 				1D6A9FE01DD79B2E004A0978 /* PurchasedTextNode.swift */,
 				1D6A9FE11DD79B2E004A0978 /* ResourceCostText.swift */,
+				1D971CDD1E1479E700A167A2 /* ResourcePercent.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1383,11 +1383,13 @@
 				1D6A9F431DD79B05004A0978 /* IntValue.swift in Sources */,
 				1D6A9FD01DD79B2A004A0978 /* CoffeePowerup.swift in Sources */,
 				1D6AA0211DD79B37004A0978 /* EnemyScoutNode.swift in Sources */,
+				1D971CD61E1479D200A167A2 /* DroneNode.swift in Sources */,
 				1D7A42E21E11A83B002F37FA /* MissleNode.swift in Sources */,
 				1D6A9FFC1DD79B31004A0978 /* MineNode.swift in Sources */,
 				1D6AA05B1DD79B3E004A0978 /* SelectableComponent.swift in Sources */,
 				1D6AA06B1DD79B41004A0978 /* CGFloatExt.swift in Sources */,
 				1D6AA0BB1DD79B5A004A0978 /* NoPowerupArtist.swift in Sources */,
+				1D971CD21E1479D200A167A2 /* BulletNode.swift in Sources */,
 				1D6A9FA41DD79B18004A0978 /* BaseLevel4Config.swift in Sources */,
 				1D6A9F8D1DD79B13004A0978 /* Playground.swift in Sources */,
 				1D6A9FD21DD79B2A004A0978 /* HourglassPowerup.swift in Sources */,
@@ -1403,7 +1405,6 @@
 				1D6AA07A1DD79B44004A0978 /* Line.swift in Sources */,
 				1D6AA05E1DD79B3E004A0978 /* TouchEmulationComponent.swift in Sources */,
 				1D6A9F5F1DD79B0A004A0978 /* UpgradeWorld_ArmyPurchase.swift in Sources */,
-				1D6AA1111DD79BE3004A0978 /* LabelPercent.swift in Sources */,
 				1D6AA0F91DD79B62004A0978 /* TextArtist.swift in Sources */,
 				1D6AA0F11DD79B62004A0978 /* ImageArtists.swift in Sources */,
 				1D6A9FBA1DD79B1C004A0978 /* BaseLevel2.swift in Sources */,
@@ -1427,14 +1428,11 @@
 				C18E3DF53F600C1DE8882E0B /* OALUtilityActions.m in Sources */,
 				1D6A9F611DD79B0A004A0978 /* UpgradeWorld_Powerups.swift in Sources */,
 				1D6AA0191DD79B37004A0978 /* EnemyBigJetNode.swift in Sources */,
-				1D7A42D81E118C13002F37FA /* MissleSiloNode.swift in Sources */,
 				1D6AA0F21DD79B62004A0978 /* ImageIdentifier.swift in Sources */,
-				1D6AA10C1DD79BE3004A0978 /* BasePlayerNode.swift in Sources */,
 				1D6AA0901DD79B53004A0978 /* Component.swift in Sources */,
 				1D6AA1191DD79BF8004A0978 /* Currency.swift in Sources */,
 				A4D310D45BFF7B75A53C29F8 /* OALAudioTrack.m in Sources */,
 				3332E0EFC48439B66A847C28 /* OALAudioTrackNotifications.m in Sources */,
-				1D6AA1151DD79BE3004A0978 /* CannonNode.swift in Sources */,
 				1D6AA0271DD79B3B004A0978 /* UpgradableNode.swift in Sources */,
 				1D6AA07D1DD79B4B004A0978 /* DebugPath.swift in Sources */,
 				1D6AA0721DD79B42004A0978 /* SpriteKit.swift in Sources */,
@@ -1443,10 +1441,10 @@
 				1D6A9FA11DD79B18004A0978 /* BaseLevel1Config.swift in Sources */,
 				1D6A9FAD1DD79B18004A0978 /* TutorialLevel3Config.swift in Sources */,
 				1D6AA0E61DD79B62004A0978 /* BombArtist.swift in Sources */,
+				1D971CE11E1479E700A167A2 /* ResourcePercent.swift in Sources */,
 				1D6A9F5A1DD79B0A004A0978 /* PowerupDemos.swift in Sources */,
 				1D6A9FD81DD79B2A004A0978 /* ShieldPowerup.swift in Sources */,
 				1D6A9F7D1DD79B10004A0978 /* TutorialLevel6.swift in Sources */,
-				1D6AA1141DD79BE3004A0978 /* ResourcePercent.swift in Sources */,
 				1D6AA0F51DD79B62004A0978 /* PercentArtist.swift in Sources */,
 				1D6AA04F1DD79B3E004A0978 /* HealthComponent.swift in Sources */,
 				1D6A9FFD1DD79B31004A0978 /* NetNode.swift in Sources */,
@@ -1464,7 +1462,6 @@
 				1D6AA01A1DD79B37004A0978 /* EnemyDiamondNode.swift in Sources */,
 				1D6AA05A1DD79B3E004A0978 /* ScaleToComponent.swift in Sources */,
 				1D6AA0221DD79B37004A0978 /* EnemySlowSoldierNode.swift in Sources */,
-				1D6AA10D1DD79BE3004A0978 /* BulletNode.swift in Sources */,
 				1D6A9FD11DD79B2A004A0978 /* GrenadePowerup.swift in Sources */,
 				1D6AA0541DD79B3E004A0978 /* PhaseComponent.swift in Sources */,
 				1D6AA00B1DD79B34004A0978 /* ExplosionNode.swift in Sources */,
@@ -1473,14 +1470,12 @@
 				1D6AA0791DD79B44004A0978 /* Dot.swift in Sources */,
 				0022C408A8306E2FFD4ADB75 /* ALCaptureDevice.m in Sources */,
 				1D6AA0B81DD79B5A004A0978 /* MineFragmentArtist.swift in Sources */,
-				1D6AA1101DD79BE3004A0978 /* ExperiencePercent.swift in Sources */,
 				1D6A9FE21DD79B2E004A0978 /* CancelButton.swift in Sources */,
 				1D6AA04B1DD79B3E004A0978 /* FollowComponent.swift in Sources */,
 				1D6A9F8B1DD79B13004A0978 /* IntersectsTestWorld.swift in Sources */,
 				1D6A9FA21DD79B18004A0978 /* BaseLevel2Config.swift in Sources */,
 				1D6A9FC31DD79B27004A0978 /* Turret.swift in Sources */,
 				1D6A9F791DD79B10004A0978 /* TutorialLevel2.swift in Sources */,
-				1D6AA1121DD79BE3004A0978 /* ResourceCollector.swift in Sources */,
 				1D6AA0EC1DD79B62004A0978 /* DroneRadarArtist.swift in Sources */,
 				1D6AA0941DD79B53004A0978 /* Position.swift in Sources */,
 				1D6A9FD71DD79B2A004A0978 /* PulsePowerup.swift in Sources */,
@@ -1499,6 +1494,7 @@
 				C6E81D476B4D156276F53F08 /* ALContext.m in Sources */,
 				4FD64B399EE3A3C7E6C6B9D8 /* ALDevice.m in Sources */,
 				1D7A42DE1E11927D002F37FA /* MissleSiloUpgrades.swift in Sources */,
+				1D971CD51E1479D200A167A2 /* CursorNode.swift in Sources */,
 				1D6A9F441DD79B05004A0978 /* Math.swift in Sources */,
 				1D6AA00C1DD79B34004A0978 /* PlayerExplosionNode.swift in Sources */,
 				1D6AA0571DD79B3E004A0978 /* ProjectileComponent.swift in Sources */,
@@ -1523,8 +1519,8 @@
 				1D6A9F861DD79B13004A0978 /* BezierPaths.swift in Sources */,
 				1D6A9F7C1DD79B10004A0978 /* TutorialLevel5.swift in Sources */,
 				1D6A9F451DD79B05004A0978 /* Rand.swift in Sources */,
+				1D971CD31E1479D200A167A2 /* CannonballNode.swift in Sources */,
 				1D6A9FD41DD79B2A004A0978 /* MinesPowerup.swift in Sources */,
-				1DBFDA021DFFC3240058843D /* CannonballNode.swift in Sources */,
 				1D6AA09A1DD79B53004A0978 /* Upgrades.swift in Sources */,
 				1D6AA0B21DD79B5A004A0978 /* BomberArtist.swift in Sources */,
 				1D6A9F751DD79B10004A0978 /* ResourceTutorial.swift in Sources */,
@@ -1533,20 +1529,20 @@
 				1D6AA0F71DD79B62004A0978 /* ResourceArtist.swift in Sources */,
 				735A1CE510017E6F8ED583D1 /* ALSource.m in Sources */,
 				1D6AA0EB1DD79B62004A0978 /* DroneArtist.swift in Sources */,
-				1D6AA1131DD79BE3004A0978 /* ResourceNode.swift in Sources */,
 				1D6AA0C81DD79B5D004A0978 /* SmallFont.swift in Sources */,
 				1D6A9F571DD79B0A004A0978 /* ArmyUpgradeButton.swift in Sources */,
+				1D971CDE1E1479E700A167A2 /* BackgroundAudioNode.swift in Sources */,
 				1D6AA0ED1DD79B62004A0978 /* EnemyDiamondArtist.swift in Sources */,
 				1D6AA0441DD79B3E004A0978 /* ArcToComponent.swift in Sources */,
 				1D6AA0FB1DD79B62004A0978 /* WarningArtist.swift in Sources */,
 				1D6AA0EE1DD79B62004A0978 /* EnemyJetArtist.swift in Sources */,
-				1D6AA10F1DD79BE3004A0978 /* DroneNode.swift in Sources */,
 				1D6AA0EA1DD79B62004A0978 /* DotArtist.swift in Sources */,
 				1D6A9FD31DD79B2A004A0978 /* LaserPowerup.swift in Sources */,
 				1D6AA01B1DD79B37004A0978 /* EnemyDozerNode.swift in Sources */,
 				1D6AA0BA1DD79B5A004A0978 /* NetPowerupArtist.swift in Sources */,
 				1D6A9FCF1DD79B2A004A0978 /* BomberPowerup.swift in Sources */,
 				1D6AA01C1DD79B37004A0978 /* EnemyFastSoldierNode.swift in Sources */,
+				1D971CD91E1479D200A167A2 /* ResourceNode.swift in Sources */,
 				1D6AA0231DD79B37004A0978 /* EnemySoldierNode.swift in Sources */,
 				1D6A9F5D1DD79B0A004A0978 /* TutorialSelectWorld.swift in Sources */,
 				1D6AA04E1DD79B3E004A0978 /* FollowTargetComponent.swift in Sources */,
@@ -1557,7 +1553,9 @@
 				1D6AA0951DD79B53004A0978 /* ScrollNode.swift in Sources */,
 				1D6A9F5E1DD79B0A004A0978 /* UIWorld.swift in Sources */,
 				5FE0B07CF1302A9CEECD2100 /* ALWrapper.m in Sources */,
+				1D971CE01E1479E700A167A2 /* LabelPercent.swift in Sources */,
 				1D6AA06D1DD79B41004A0978 /* CGRectExt.swift in Sources */,
+				1D971CD81E1479D200A167A2 /* ResourceCollector.swift in Sources */,
 				EAE6BF0191C6F74DD68CC34B /* OpenALManager.m in Sources */,
 				1D6A9FA81DD79B18004A0978 /* LevelConfig.swift in Sources */,
 				1D6AA01D1DD79B37004A0978 /* EnemyGiantNode.swift in Sources */,
@@ -1590,6 +1588,7 @@
 				1D6AA0C91DD79B5D004A0978 /* TinyFont.swift in Sources */,
 				1D6A9FD61DD79B2A004A0978 /* Powerup.swift in Sources */,
 				1D6AA04D1DD79B3E004A0978 /* FollowPathComponent.swift in Sources */,
+				1D971CD41E1479D200A167A2 /* CannonNode.swift in Sources */,
 				1D6A9F5B1DD79B0A004A0978 /* PowerupUpgradeButton.swift in Sources */,
 				1D6AA0C01DD79B5A004A0978 /* ShieldPowerupArtist.swift in Sources */,
 				1D6A9FFB1DD79B31004A0978 /* MineFragmentNode.swift in Sources */,
@@ -1598,9 +1597,9 @@
 				1D6A9FD91DD79B2A004A0978 /* SoldiersPowerup.swift in Sources */,
 				1D6A9F461DD79B05004A0978 /* Segment.swift in Sources */,
 				1D6A9FA61DD79B18004A0978 /* Config.swift in Sources */,
+				1D971CDF1E1479E700A167A2 /* ExperiencePercent.swift in Sources */,
 				1D6AA0931DD79B53004A0978 /* Node.swift in Sources */,
 				1D6A9FBD1DD79B1C004A0978 /* BaseLevel5.swift in Sources */,
-				1D6AA10E1DD79BE3004A0978 /* CursorNode.swift in Sources */,
 				1D6A9F761DD79B10004A0978 /* Tutorial.swift in Sources */,
 				078F5FE17274206D390670B4 /* NSMutableArray+WeakReferences.m in Sources */,
 				1D6AA09F1DD79B53004A0978 /* Z.swift in Sources */,
@@ -1610,6 +1609,7 @@
 				1D6AA0F01DD79B62004A0978 /* HourglassZoneArtist.swift in Sources */,
 				1D6A9FE71DD79B2E004A0978 /* PercentBar.swift in Sources */,
 				1D6AA0991DD79B53004A0978 /* UINode.swift in Sources */,
+				1D971CD11E1479D200A167A2 /* BasePlayerNode.swift in Sources */,
 				1D6AA0731DD79B42004A0978 /* UIColorExt.swift in Sources */,
 				1D6AA0711DD79B42004A0978 /* NSCoding.swift in Sources */,
 				1D6A9FA51DD79B18004A0978 /* BaseLevel5Config.swift in Sources */,
@@ -1632,6 +1632,7 @@
 				1D6AA0F41DD79B62004A0978 /* LightningArtist.swift in Sources */,
 				1D7A42DC1E118FE4002F37FA /* PolygonArtist.swift in Sources */,
 				1D6A9F881DD79B13004A0978 /* DemoWorld.swift in Sources */,
+				1D971CD71E1479D200A167A2 /* MissleSiloNode.swift in Sources */,
 				1D6AA0451DD79B3E004A0978 /* DraggableComponent.swift in Sources */,
 				1D6A9FC11DD79B22004A0978 /* LevelGenerator.swift in Sources */,
 				1D6AA0BC1DD79B5A004A0978 /* PowerupArtist.swift in Sources */,
@@ -1640,7 +1641,6 @@
 				1D6AA00A1DD79B34004A0978 /* EnemyExplosionNode.swift in Sources */,
 				1D6AA0B71DD79B5A004A0978 /* LaserPowerupArtist.swift in Sources */,
 				1D6AA01F1DD79B37004A0978 /* EnemyJetTransportNode.swift in Sources */,
-				1D6AA10B1DD79BE3004A0978 /* BackgroundAudioNode.swift in Sources */,
 				1D6A9F621DD79B0A004A0978 /* UpgradeWorld.swift in Sources */,
 				1D6A9FE51DD79B2E004A0978 /* LevelCompleteBox.swift in Sources */,
 				1D6A9FF71DD79B31004A0978 /* BombNode.swift in Sources */,
