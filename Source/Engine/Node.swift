@@ -74,8 +74,6 @@ class Node: SKNode {
             node.reset()
         }
         _onDeath = []
-        components = []
-        componentsMapper = [:]
     }
 
     var draggableComponent: DraggableComponent? { return get(component: DraggableComponent.self) }

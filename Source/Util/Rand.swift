@@ -19,6 +19,11 @@ func rand(weighted limit: CGFloat) -> CGFloat {
     return weight*weight*weight * limit
 }
 
+func rand(weighted limit: Float) -> Float {
+    let weight = Float(drand48())
+    return weight*weight*weight * limit
+}
+
 func rand(_ limit: Int) -> Int {
     return Int(arc4random_uniform(UInt32(limit)))
 }

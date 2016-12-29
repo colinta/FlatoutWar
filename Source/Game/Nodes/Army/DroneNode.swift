@@ -197,7 +197,7 @@ extension DroneNode {
         let bullet = BulletNode(velocity: CGPoint(r: speed, a: angle), style: .Slow)
         bullet.position = self.position
 
-        bullet.damage = bulletUpgrade.droneBulletDamage
+        bullet.damage = bulletUpgrade.droneBulletDamage + rand(weighted: 0.5)
         bullet.size = BulletArtist.bulletSize(upgrade: .False)
         bullet.zRotation = angle
         firingComponent?.damage = bullet.damage

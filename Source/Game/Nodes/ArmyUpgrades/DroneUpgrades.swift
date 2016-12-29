@@ -127,8 +127,8 @@ extension HasUpgrade {
 
     var droneBulletDamage: Float {
         switch self {
-        case .False: return rand(weights: (1, 3), (1.25, 2), (1.5, 1))
-        case .True: return rand(weights: (1.5, 3), (1.75, 2), (2, 1))
+        case .False: return 1
+        case .True: return 1.5
         }
     }
 
