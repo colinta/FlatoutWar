@@ -40,7 +40,7 @@ class MissleSiloNode: Node, DraggableNode {
             }
         }
 
-        firingComponent?.enabled = missleCount > 0
+        firingComponent?.enabled = armyComponent.armyEnabled && missleCount > 0
     }
 
     fileprivate func updateUpgrades() {
@@ -119,7 +119,7 @@ class MissleSiloNode: Node, DraggableNode {
         }
         healthComponent.onKilled {
             self.world?.unselectNode(self)
-            self.cannonEnabled(isMoving: false)
+            self.armyComponent.isMoving = false
         }
         addComponent(healthComponent)
 
@@ -141,7 +141,7 @@ class MissleSiloNode: Node, DraggableNode {
         touchableComponent.onDragged(draggableComponent.draggingMoved)
 
         draggableComponent.onDragChange { isMoving in
-            self.cannonEnabled(isMoving: isMoving)
+            self.armyComponent.isMoving = isMoving
             self.world?.unselectNode(self)
             if !isMoving {
                 self.world?.reacquirePlayerTargets()
@@ -155,9 +155,12 @@ class MissleSiloNode: Node, DraggableNode {
         addComponent(rotateToComponent)
 
         let cursor = CursorNode()
-        armyComponent.cursorNode = cursor
         self << cursor
 
+        armyComponent.cursorNode = cursor
+        armyComponent.onUpdated { armyEnabled in
+            self.firingComponent?.enabled = armyEnabled && self.missleCount > 0
+        }
         armyComponent.radarNode = radarSprite
         addComponent(armyComponent)
 
@@ -196,7 +199,7 @@ class MissleSiloNode: Node, DraggableNode {
         turretNode.zRotation = angle
         turretBox.zRotation = angle
 
-        if missleCount < maxMissleCount {
+        if missleCount < maxMissleCount && armyComponent.armyEnabled {
             missleCreationTimer -= dt
 
             if missleCreationTimer <= 0 {
@@ -210,14 +213,6 @@ class MissleSiloNode: Node, DraggableNode {
                 firingComponent?.cooldown = bulletUpgrade.missleSiloCooldown
             }
         }
-    }
-}
-
-// MARK: Enable/Disable during moving/death
-extension MissleSiloNode {
-    func cannonEnabled(isMoving: Bool) {
-        armyComponent.isMoving = isMoving
-        firingComponent?.enabled = armyComponent.armyEnabled && missleCount > 0
     }
 }
 

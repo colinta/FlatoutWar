@@ -95,6 +95,8 @@ class MissleNode: Node {
             let newVector = CGPoint(r: dist, a: newAngle)
             self.position += newVector
             self.zRotation = newAngle
+
+            rotateToComponent?.target = nil
             rotateToComponent?.currentAngle = newAngle
         }
         else {

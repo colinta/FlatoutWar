@@ -10,16 +10,13 @@ func rand(_ limit: Int) -> CGFloat {
     return CGFloat(drand48() * Double(limit))
 }
 
-func rand(_ limit: Float) -> CGFloat {
-    return CGFloat(drand48() * Double(limit))
-}
-
-func rand(_ limit: Double) -> CGFloat {
-    return CGFloat(drand48() * limit)
-}
-
 func rand(_ limit: CGFloat) -> CGFloat {
-    return CGFloat(drand48() * Double(limit))
+    return CGFloat(drand48()) * limit
+}
+
+func rand(weighted limit: CGFloat) -> CGFloat {
+    let weight = CGFloat(drand48())
+    return weight*weight*weight * limit
 }
 
 func rand(_ limit: Int) -> Int {

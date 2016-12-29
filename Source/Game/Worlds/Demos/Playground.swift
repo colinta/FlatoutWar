@@ -5,6 +5,7 @@
 class Playground: World {
     let cannon = CannonNode(at: CGPoint(y: -50))
     let silo = MissleSiloNode(at: CGPoint(y: 50))
+    let drone = DroneNode(at: CGPoint(x: -50))
 
     override func populateWorld() {
         let playerNode = BasePlayerNode()
@@ -26,6 +27,8 @@ class Playground: World {
         silo.draggableComponent?.maintainDistance(100, around: playerNode)
         silo.healthComponent?.inflict(damage: 20)
         self << silo
+
+        self << drone
 
         defaultNode = playerNode
 

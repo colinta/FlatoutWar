@@ -28,6 +28,7 @@ class DroneNode: Node, DraggableNode {
         firingComponent?.damage = bulletUpgrade.droneBulletDamage
 
         wanderingComponent.maxSpeed = speedUpgrade.droneMovementSpeed / 10
+        size = sprite.size
     }
 
     var wanderingEnabled: Bool? {
@@ -69,8 +70,6 @@ class DroneNode: Node, DraggableNode {
     required init() {
         super.init()
 
-        size = sprite.size
-
         self << sprite
         self << placeholder
 
@@ -98,9 +97,13 @@ class DroneNode: Node, DraggableNode {
         addComponent(wanderingComponent)
 
         let cursor = CursorNode()
-        armyComponent.cursorNode = cursor
         self << cursor
 
+        armyComponent.cursorNode = cursor
+        armyComponent.onUpdated { armyEnabled in
+            self.phaseComponent?.loops = !self.healthComponent!.died
+            self.wanderingComponent.enabled = armyEnabled && (self.wanderingEnabled ?? true)
+        }
         addComponent(armyComponent)
 
         let targetingComponent = EnemyTargetingComponent()
@@ -119,7 +122,7 @@ class DroneNode: Node, DraggableNode {
         }
         healthComponent.onKilled {
             self.world?.unselectNode(self)
-            self.droneEnabled(isMoving: false)
+            self.armyComponent.isMoving = false
         }
         addComponent(healthComponent)
 
@@ -138,8 +141,7 @@ class DroneNode: Node, DraggableNode {
             self.wanderingComponent.enabled = !isDragging
         }
         draggableComponent.onDragChange { isMoving in
-            self.droneEnabled(isMoving: isMoving)
-            self.world?.unselectNode(self)
+            self.armyComponent.isMoving = isMoving
             if !isMoving {
                 self.world?.reacquirePlayerTargets()
             }
@@ -148,7 +150,7 @@ class DroneNode: Node, DraggableNode {
 
         updateUpgrades()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -185,21 +187,13 @@ class DroneNode: Node, DraggableNode {
     }
 }
 
-extension DroneNode {
-    func droneEnabled(isMoving: Bool) {
-        armyComponent.isMoving = isMoving
-        phaseComponent?.loops = !healthComponent!.died
-        wanderingComponent.enabled = armyComponent.armyEnabled && (wanderingEnabled ?? true)
-    }
-}
-
 // MARK: Fire Bullet
 
 extension DroneNode {
     fileprivate func fireBullet(angle: CGFloat) {
         guard let world = world else { return }
 
-        let speed: CGFloat = bulletUpgrade.droneBulletSpeed
+        let speed: CGFloat = bulletUpgrade.droneBulletSpeed ± rand(weighted: 5)
         let bullet = BulletNode(velocity: CGPoint(r: speed, a: angle), style: .Slow)
         bullet.position = self.position
 

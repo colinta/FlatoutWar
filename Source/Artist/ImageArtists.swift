@@ -220,7 +220,7 @@ extension ImageIdentifier {
             return artist
         case let .CannonTurret(upgrade):
             let artist = RectArtist(
-                CGSize(width: 12, height: upgrade.boolValue ? 4 : 3),
+                CGSize(width: 10, height: upgrade.boolValue ? 5 : 4),
                 UIColor(hex: CannonTurretFillColor)
                 )
             artist.strokeColor = UIColor(hex: CannonTurretStrokeColor)

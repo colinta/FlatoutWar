@@ -103,7 +103,7 @@ class CannonNode: Node, DraggableNode {
         }
         healthComponent.onKilled {
             self.world?.unselectNode(self)
-            self.cannonEnabled(isMoving: false)
+            self.armyComponent.isMoving = false
         }
         addComponent(healthComponent)
 
@@ -125,8 +125,7 @@ class CannonNode: Node, DraggableNode {
         touchableComponent.onDragged(draggableComponent.draggingMoved)
 
         draggableComponent.onDragChange { isMoving in
-            self.cannonEnabled(isMoving: isMoving)
-            self.world?.unselectNode(self)
+            self.armyComponent.isMoving = isMoving
             if !isMoving {
                 self.world?.reacquirePlayerTargets()
             }
@@ -139,9 +138,9 @@ class CannonNode: Node, DraggableNode {
         addComponent(rotateToComponent)
 
         let cursor = CursorNode()
-        armyComponent.cursorNode = cursor
         self << cursor
 
+        armyComponent.cursorNode = cursor
         armyComponent.radarNode = radarSprite
         addComponent(armyComponent)
 
@@ -177,13 +176,6 @@ class CannonNode: Node, DraggableNode {
     }
 }
 
-// MARK: Enable/Disable during moving/death
-extension CannonNode {
-    func cannonEnabled(isMoving: Bool) {
-        armyComponent.isMoving = isMoving
-    }
-}
-
 // MARK: Fire Bullet
 extension CannonNode {
     fileprivate func fireBullet(enemyPosition: CGPoint) {
@@ -198,7 +190,7 @@ extension CannonNode {
             let delta = CGPoint(r: sprite.position.y, a: baseNode.zRotation + TAU_4)
             let start = position + delta
             let myTarget = enemyPosition + delta
-            let speed: CGFloat = bulletUpgrade.cannonBulletSpeed ± rand(10)
+            let speed: CGFloat = bulletUpgrade.cannonBulletSpeed ± rand(weighted: 10)
             let bullet = CannonballNode(
                 from: start,
                 to: self.position + myTarget,

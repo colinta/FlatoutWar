@@ -5,7 +5,7 @@
 
 extension MissleSiloNode: UpgradeableNode {
     func upgradeTitle() -> String {
-        return "HEXSILO"
+        return "HEXAPOD"
     }
 
     func applyUpgrade(type: UpgradeType) {

@@ -6,6 +6,11 @@ class SelectableArmyComponent: Component {
     var isSelected: Bool = false { didSet { updateComponents() }}
     var isMoving: Bool = false { didSet { updateComponents() }}
     private(set) var armyEnabled: Bool = true
+    private var isUpdatingComponents: Bool = false
+
+    typealias OnUpdated = (Bool) -> Void
+    private var _onUpdated: [OnUpdated] = []
+    func onUpdated(_ handler: @escaping OnUpdated) { _onUpdated.append(handler) }
 
     private let fadeRadar = FadeToComponent()
     var cursorNode: CursorNode?
@@ -26,24 +31,30 @@ class SelectableArmyComponent: Component {
     override func didAddToNode() {
         super.didAddToNode()
         node.addComponent(fadeRadar, assign: false)
-        updateComponents()
+        if fadeRadar.applyTo == node {
+            fadeRadar.applyTo = nil
+        }
     }
 
     override func reset() {
         super.reset()
         fadeRadar.reset()
+        _onUpdated = []
     }
 
     func updateComponents() {
+        guard !isUpdatingComponents else { return }
+        isUpdatingComponents = true
+
         let died = node.healthComponent?.died ?? false
-        self.armyEnabled = !isMoving && !died
+        let componentsEnabled = !isMoving && !died
 
-        node.alpha = enabled ? 1 : 0.5
-        node.touchableComponent?.enabled = enabled
-        node.playerComponent?.intersectable = enabled
-        node.firingComponent?.enabled = enabled
+        node.alpha = componentsEnabled ? 1 : 0.5
+        node.touchableComponent?.enabled = componentsEnabled
+        node.playerComponent?.intersectable = componentsEnabled
+        node.firingComponent?.enabled = componentsEnabled
 
-        if !enabled {
+        if !componentsEnabled {
             node.world?.unselectNode(node)
         }
 
@@ -60,6 +71,12 @@ class SelectableArmyComponent: Component {
                 fadeRadar.target = 0.75
             }
         }
+
+        armyEnabled = componentsEnabled
+        for handler in _onUpdated {
+            handler(armyEnabled)
+        }
+        isUpdatingComponents = false
     }
 
 }

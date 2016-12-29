@@ -5,7 +5,7 @@
 
 extension CannonNode: UpgradeableNode {
     func upgradeTitle() -> String {
-        return "PENTA CANNON"
+        return "PENTARCHY"
     }
 
     func applyUpgrade(type: UpgradeType) {

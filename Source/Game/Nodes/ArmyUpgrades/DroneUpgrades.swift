@@ -120,8 +120,8 @@ extension HasUpgrade {
 
     var droneBulletSpeed: CGFloat {
         switch self {
-        case .False: return rand(weights: (125, 3), (120, 2), (130, 1))
-        case .True: return rand(weights: (135, 3), (130, 2), (140, 1))
+        case .False: return 125
+        case .True: return 135
         }
     }
 
