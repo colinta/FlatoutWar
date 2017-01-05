@@ -11,7 +11,8 @@ class MissleSiloArtist: PolygonArtist {
     required init(hasUpgrade: Bool, health: CGFloat) {
         super.init(pointCount: 6, health: health)
 
-        baseColor = UIColor(hex: MissleSiloBaseColor)
+        fillColor = UIColor(hex: MissleSiloBaseColor)
+        strokeColor = UIColor(hex: MissleSiloBaseColor)
     }
 
     required init(pointCount: Int, health: CGFloat) {

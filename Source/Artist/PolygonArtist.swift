@@ -3,7 +3,8 @@
 //
 
 class PolygonArtist: Artist {
-    var baseColor: UIColor!
+    var strokeColor: UIColor!
+    var fillColor: UIColor!
 
     let health: CGFloat
     let pointCount: Int
@@ -99,9 +100,9 @@ class PolygonArtist: Artist {
     }
 
     override func draw(in context: CGContext) {
-        context.setShadow(offset: .zero, blur: 5, color: baseColor.cgColor)
-        context.setStrokeColor(baseColor.cgColor)
-        context.setFillColor(baseColor.withAlphaComponent(0.5).cgColor)
+        context.setShadow(offset: .zero, blur: 5, color: fillColor.cgColor)
+        context.setStrokeColor(strokeColor.cgColor)
+        context.setFillColor(fillColor.cgColor)
 
         context.saveGState()
         context.translateBy(x: middle.x, y: middle.y)

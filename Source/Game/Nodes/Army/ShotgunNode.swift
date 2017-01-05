@@ -48,6 +48,7 @@ class ShotgunNode: Node, DraggableNode {
 
     var isRotating = false
     var spinnerTimeout: CGFloat = 0
+    var targetSpinRate: CGFloat = 0
     var currentSpinRate: CGFloat = 0
 
     required init() {
@@ -164,18 +165,20 @@ class ShotgunNode: Node, DraggableNode {
             spinnerTimeout -= dt
         }
         currentSpinRate = calculateRotatingRate(dt)
+        firingComponent?.enabled = currentSpinRate == targetSpinRate
         get(component: KeepRotatingComponent.self)?.rate = currentSpinRate
     }
 
     fileprivate func calculateRotatingRate(_ dt: CGFloat) -> CGFloat {
-        let targetSpinRate: CGFloat
-        if spinnerTimeout > 0 {
-            targetSpinRate = 5 * movementUpgrade.shotgunTurretSpinRate
+        var accel: CGFloat = movementUpgrade.shotgunWarmupRate * dt
+        if targetingComponent?.currentTarget != nil {
+            targetSpinRate = movementUpgrade.shotgunTurretFastSpinRate
         }
         else {
-            targetSpinRate = movementUpgrade.shotgunTurretSpinRate
+            targetSpinRate = movementUpgrade.shotgunTurretSlowSpinRate
+            accel /= 3
         }
-        return moveValue(currentSpinRate, towards: targetSpinRate, by: 4 * dt) ?? targetSpinRate
+        return moveValue(currentSpinRate, towards: targetSpinRate, by: accel) ?? targetSpinRate
     }
 }
 
@@ -210,7 +213,7 @@ extension ShotgunNode {
     }
 
     func onDraggedAiming(from prevLocation: CGPoint, to location: CGPoint) {
-        guard isRotating else { return }
+        guard isRotating, let playerNode = playerNode else { return }
 
         let angle = prevLocation.angleTo(location, around: .zero)
         let destAngle = rotateToComponent?.destAngle ?? 0

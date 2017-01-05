@@ -211,3 +211,12 @@ extension DroneNode {
         _ = world.channel?.play(Sound.PlayerShoot)
     }
 }
+
+// MARK: Rotation
+extension DroneNode {
+    func startRotatingTo(angle: CGFloat) {
+    }
+
+    override func rotateTo(_ angle: CGFloat) {
+    }
+}

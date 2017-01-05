@@ -255,7 +255,7 @@ class ShotgunRadarArtist: Artist {
 
             let colorSpace = CGColorSpaceCreateDeviceRGB()
             let colors: [CGColor] = [
-                UIColor(hex: ShotgunRadarColor, alpha: 0.25).cgColor,
+                color.withAlphaComponent(0.25).cgColor,
                 UIColor(hex: BackgroundColor, alpha: 0.0).cgColor
             ]
             let locations: [CGFloat] = [0, 1]

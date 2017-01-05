@@ -3,12 +3,6 @@
 //
 
 class Playground: World {
-    let cannon = CannonNode(at: CGPoint(r: 50, a: TAU_3_4))
-    let silo = MissleSiloNode(at: CGPoint(r: 50, a: TAU_4))
-    let laser = LaserNode(at: CGPoint(r: 50, a: TAU_8))
-    let drone = DroneNode(at: CGPoint(r: 50, a: TAU_5_8))
-    let shotgun = ShotgunNode(at: CGPoint(r: 50, a: TAU_7_8))
-
     override func populateWorld() {
         channel?.gain = 0
 
@@ -16,43 +10,57 @@ class Playground: World {
         playerNode.rotateTo(TAU_2)
         playerNode.firingComponent?.enabled = false
         playerNode.targetingComponent?.enabled = false
+        playerNode.radarSprite.visible = false
         self << playerNode
 
-        shotgun.radarUpgrade = .True
-        shotgun.bulletUpgrade = .True
-        shotgun.movementUpgrade = .True
-
-        cannon.draggableComponent?.maintainDistance(100, around: playerNode)
-        silo.draggableComponent?.maintainDistance(100, around: playerNode)
-        laser.draggableComponent?.maintainDistance(100, around: playerNode)
-        drone.draggableComponent?.maintainDistance(100, around: playerNode)
-        shotgun.draggableComponent?.maintainDistance(100, around: playerNode)
+        moveCamera(zoom: 0.75, duration: 0.1)
+        let type = ShotgunNode.self
+        let radius: CGFloat = 150
+        var angle: CGFloat = 0
+        let demos: [(HasUpgrade, HasUpgrade, HasUpgrade)] = [
+            (.False, .False, .False),
+            (.True, .False, .False),
+            (.False, .True, .False),
+            (.False, .False, .True),
+            (.True, .True, .False),
+            (.False, .True, .True),
+            (.True, .False, .True),
+            (.True, .True, .True),
+        ]
+        let deltaAngle: CGFloat = TAU / CGFloat(demos.count)
+        for (radarUpgrade, bulletUpgrade, movementUpgrade) in demos {
+            let position = CGPoint(r: radius, a: angle)
+            let node = type.init()
+            node.position = position
+            node.rotateTo(angle)
+            node.radarUpgrade = radarUpgrade
+            node.bulletUpgrade = bulletUpgrade
+            node.movementUpgrade = movementUpgrade
+            node.draggableComponent?.maintainDistance(100, around: playerNode)
+            self << node
+            angle += deltaAngle
+        }
 
         defaultNode = playerNode
 
-        generateNext([shotgun], shotgun)
+       generateEnemies()
     }
 
-    private func generateNext(_ nodes: [Node], _ currentNode: Node) {
-        self << currentNode
-
+    private func generateEnemies() {
+        let angle: CGFloat = [
+            0, 1, 2, 3, 4, 5, 6, 7, 8
+        ].rand()! * TAU_8
         for time in [0,1,2] {
             delay(TimeInterval(time)) {
                 let enemyNode = EnemySoldierNode()
                 enemyNode.name = "soldier"
-                enemyNode.position = CGPoint(r: self.outerRadius, a: 0)
+                enemyNode.position = CGPoint(r: self.outerRadius, a: angle)
                 self << enemyNode
             }
         }
-
         delay(2) {
-            let nextNode = nodes[0]
-            let newNodes = Array(nodes[1..<nodes.count] + [currentNode])
             self.onNoMoreEnemies {
-                delay(2) {
-                    currentNode.removeFromParent(reset: false)
-                    self.generateNext(newNodes, nextNode)
-                }
+                self.generateEnemies()
             }
         }
     }

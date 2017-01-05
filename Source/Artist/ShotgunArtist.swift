@@ -3,7 +3,10 @@
 //
 
 var ShotgunBaseColor = 0x983C10
-var ShotgunRadarColor = 0x9F5926
+let ShotgunUpgradeColor = 0x85433A
+var ShotgunStrokeColor = 0x983C10
+var ShotgunRadar1Color = 0x7A401E
+var ShotgunRadar2Color = 0x756151
 var ShotgunTurretFillColor = 0x9F5926
 var ShotgunTurretStrokeColor = 0xB8AF8F
 
@@ -18,8 +21,11 @@ class ShotgunArtist: PolygonArtist {
         self.radarUpgrade = radarUpgrade
         super.init(pointCount: 7, health: health)
 
-        baseColor = UIColor(hex: ShotgunBaseColor)
-        size = CGSize(34)
+        strokeColor = UIColor(hex: ShotgunStrokeColor)
+        fillColor = UIColor(hex: radarUpgrade.shotgunBaseColor)
+        if movementUpgrade.boolValue {
+            size = CGSize(34)
+        }
     }
 
     required init(pointCount: Int, health: CGFloat) {
@@ -36,13 +42,13 @@ class ShotgunArtist: PolygonArtist {
             return points
         }
 
-        let tinyDelta = 4.degrees
+        let tinyDelta = 2.degrees
         let bigRadius: CGFloat = size.width / 2
         let smallRadius = bigRadius - 2
         return points.flatMap { angle, radius in
             return [
-                (angle, smallRadius),
-                (angle, bigRadius),
+                (angle - tinyDelta, smallRadius),
+                (angle - tinyDelta, bigRadius),
                 (angle + tinyDelta, bigRadius),
                 (angle + tinyDelta, smallRadius),
             ]
@@ -57,15 +63,16 @@ class ShotgunArtist: PolygonArtist {
         }
 
         if bulletUpgrade.boolValue {
-            let radius = size.width / 2
+            context.setStrokeColor(UIColor.gray.cgColor)
+            let radius = size.width / 2 - 2
             let side = 2 * radius * sin(TAU_2 / CGFloat(pointCount))
             let angleDelta = TAU / CGFloat(pointCount)
             for i in 0..<pointCount {
                 let angle = angleDelta * CGFloat(i)
-                let start = CGPoint(r: radius, a: angle - angleDelta)
-                let center = CGPoint(r: radius, a: angle)
                 let angle1 = angle + TAU_2 + angleDelta
                 let angle2 = angle + TAU_2 - angleDelta
+                let start = CGPoint(r: radius, a: angle - angleDelta/2)
+                let center = CGPoint(r: radius, a: angle)
                 context.move(to: middle + start)
                 context.addArc(
                     center: middle + center,

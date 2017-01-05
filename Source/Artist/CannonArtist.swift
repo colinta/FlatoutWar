@@ -12,7 +12,8 @@ class CannonArtist: PolygonArtist {
     required init(hasUpgrade: Bool, health: CGFloat) {
         super.init(pointCount: 5, health: health)
 
-        baseColor = UIColor(hex: CannonBaseColor)
+        fillColor = UIColor(hex: CannonBaseColor)
+        strokeColor = UIColor(hex: CannonBaseColor)
     }
 
     required init(pointCount: Int, health: CGFloat) {

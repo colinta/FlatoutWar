@@ -44,13 +44,6 @@ extension HasUpgrade {
         }
     }
 
-    var shotgunTurretSpinRate: CGFloat {
-        switch self {
-        case .False: return 1
-        case .True: return -1.5
-        }
-    }
-
     var shotgunAngularAccel: CGFloat? {
         switch self {
         case .False: return 6
@@ -79,10 +72,37 @@ extension HasUpgrade {
         }
     }
 
+    var shotgunTurretSlowSpinRate: CGFloat {
+        switch self {
+        case .False: return 1
+        case .True: return -1.5
+        }
+    }
+
+    var shotgunTurretFastSpinRate: CGFloat {
+        switch self {
+        case .False: return 8
+        case .True: return -11
+        }
+    }
+
+    var shotgunWarmupRate: CGFloat {
+        switch self {
+        case .False: return 6
+        case .True:  return 12
+        }
+    }
+
+    var shotgunBaseColor: Int {
+        switch self {
+            case .False: return ShotgunBaseColor
+            case .True: return ShotgunUpgradeColor
+        }
+    }
     var shotgunRadarColor: Int {
         switch self {
-            case .False: return 0xC59A14
-            case .True: return 0xB89912
+            case .False: return ShotgunRadar1Color
+            case .True: return ShotgunRadar2Color
         }
     }
 

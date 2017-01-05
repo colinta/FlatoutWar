@@ -11,7 +11,8 @@ class LaserNodeArtist: PolygonArtist {
     required init(hasUpgrade: Bool, health: CGFloat) {
         super.init(pointCount: 3, health: health)
 
-        baseColor = UIColor(hex: LaserBaseColor)
+        fillColor = UIColor(hex: LaserBaseColor)
+        strokeColor = UIColor(hex: LaserBaseColor)
     }
 
     required init(pointCount: Int, health: CGFloat) {
