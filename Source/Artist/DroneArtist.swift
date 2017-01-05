@@ -7,9 +7,9 @@ let DroneUpgradeColor = 0x6CFFF1
 
 class DroneArtist: Artist {
     var stroke: UIColor
-    var speedUpgrade: HasUpgrade
-    var radarUpgrade: HasUpgrade
+    var movementUpgrade: HasUpgrade
     var bulletUpgrade: HasUpgrade
+    var radarUpgrade: HasUpgrade
     var health: CGFloat
 
     private let strokeWidth: CGFloat = 2
@@ -17,12 +17,12 @@ class DroneArtist: Artist {
     private let ellipseDiameter: CGFloat = 1.5 * 8
     private var transitionHealth: CGFloat = 0.6
 
-    required init(speedUpgrade: HasUpgrade, radarUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, health: CGFloat) {
-        self.speedUpgrade = speedUpgrade
-        self.radarUpgrade = radarUpgrade
+    required init(_ movementUpgrade: HasUpgrade, _ bulletUpgrade: HasUpgrade, _ radarUpgrade: HasUpgrade, health: CGFloat) {
+        self.movementUpgrade = movementUpgrade
         self.bulletUpgrade = bulletUpgrade
+        self.radarUpgrade = radarUpgrade
         self.health = health
-        self.stroke = UIColor(hex: speedUpgrade.boolValue ? DroneUpgradeColor : DroneColor)
+        self.stroke = UIColor(hex: movementUpgrade.boolValue ? DroneUpgradeColor : DroneColor)
 
         super.init()
         shadowed = .True

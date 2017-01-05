@@ -3,15 +3,17 @@
 //
 
 
-class SectorRadarArtist: Artist {
+class BaseRadarArtist: Artist {
     let halfAngle: CGFloat
     let radius: CGFloat
     let color: UIColor
+    let isSelected: Bool
 
-    required init(radius: CGFloat, sweepAngle: CGFloat, color: UIColor) {
+    required init(radius: CGFloat, sweepAngle: CGFloat, color: UIColor, isSelected: Bool) {
         self.radius = radius
         self.halfAngle = sweepAngle / 2
         self.color = color
+        self.isSelected = isSelected
 
         super.init()
 
@@ -34,23 +36,26 @@ class SectorRadarArtist: Artist {
         let bottomRight = CGPoint(x: size.width, y: 0)
         let bottomInner = CGPoint(r: innerRadius, a: -halfAngle) + CGPoint(x: 0, y: size.height / 2)
 
-        context.saveGState()
-        context.move(to: bottomRight)
-        context.addLine(to: bottomInner)
-        context.addArc(center: c0, radius: innerRadius, startAngle: -halfAngle, endAngle: halfAngle, clockwise: false)
-        context.addLine(to: topRight)
-        context.closePath()
-        context.clip()
+        if isSelected {
+            context.saveGState()
+            context.move(to: bottomRight)
+            context.addLine(to: bottomInner)
+            context.addArc(center: c0, radius: innerRadius, startAngle: -halfAngle, endAngle: halfAngle, clockwise: false)
+            context.addLine(to: topRight)
+            context.closePath()
+            context.clip()
 
-        let colorSpace = CGColorSpaceCreateDeviceRGB()
-        let components: [CGFloat] = [0.9882, 0.9451, 0.0471, 0.25,
-                                  0.2471, 0.2471, 0.2471, 0.0]
-        let locations: [CGFloat] = [0, 1]
-        let gradient = CGGradient(colorSpace: colorSpace, colorComponents: components, locations: locations, count: 2)!
-        context.drawLinearGradient(gradient, start: c0, end: centerRight, options: [])
-        context.restoreGState()
+            let colorSpace = CGColorSpaceCreateDeviceRGB()
+            let colors: [CGColor] = [
+                UIColor(hex: BaseRadar1Color, alpha: 0.25).cgColor,
+                UIColor(hex: BackgroundColor, alpha: 0.0).cgColor
+            ]
+            let locations: [CGFloat] = [0, 1]
+            let gradient = CGGradient(colorsSpace: colorSpace, colors: colors as CFArray, locations: locations)!
+            context.drawLinearGradient(gradient, start: c0, end: centerRight, options: [])
+            context.restoreGState()
+        }
 
-        context.setAlpha(0.5)
         context.setStrokeColor(color.cgColor)
         context.move(to: bottomRight)
         context.addLine(to: bottomInner)
@@ -58,24 +63,26 @@ class SectorRadarArtist: Artist {
         context.addLine(to: topRight)
         context.drawPath(using: .stroke)
 
-        context.setAlpha(0.25)
+        context.setAlpha(0.5)
         context.move(to: centerInner)
         context.addLine(to: CGPoint(x: radius, y: middle.y))
         context.drawPath(using: .stroke)
     }
 }
 
-class AnnulusRadarArtist: Artist {
+class CannonRadarArtist: Artist {
     let halfAngle: CGFloat
     let minRadius: CGFloat
     let maxRadius: CGFloat
     let color: UIColor
+    let isSelected: Bool
 
-    required init(minRadius: CGFloat, maxRadius: CGFloat, sweepAngle: CGFloat, color: UIColor) {
+    required init(minRadius: CGFloat, maxRadius: CGFloat, sweepAngle: CGFloat, color: UIColor, isSelected: Bool) {
         self.minRadius = minRadius
         self.maxRadius = maxRadius
         self.halfAngle = sweepAngle / 2
         self.color = color
+        self.isSelected = isSelected
 
         super.init()
 
@@ -88,6 +95,8 @@ class AnnulusRadarArtist: Artist {
 
     override func draw(in context: CGContext) {
         context.setLineWidth(1.pixels)
+        context.setFillColor(color.cgColor)
+        context.setStrokeColor(color.cgColor)
 
         let c0 = CGPoint(x: 0, y: middle.y)
 
@@ -95,36 +104,32 @@ class AnnulusRadarArtist: Artist {
         let bottomRight = CGPoint(r: maxRadius, a: -halfAngle) + CGPoint(x: 0, y: size.height / 2)
         let topRight = CGPoint(r: maxRadius, a: halfAngle) + CGPoint(x: 0, y: size.height / 2)
 
-        context.setFillColor(color.cgColor)
-        context.setStrokeColor(color.cgColor)
-
-        context.setAlpha(0.25)
-        context.move(to: bottomRight)
-        context.addLine(to: bottomLeft)
-        context.addArc(center: c0, radius: minRadius, startAngle: -halfAngle, endAngle: halfAngle, clockwise: false)
-        context.addLine(to: topRight)
-        context.addArc(center: c0, radius: maxRadius, startAngle: halfAngle, endAngle: -halfAngle, clockwise: true)
-        context.closePath()
-        context.drawPath(using: .fill)
-
-        context.setAlpha(1)
-        context.move(to: bottomRight)
-        context.addLine(to: bottomLeft)
-        context.addArc(center: c0, radius: minRadius, startAngle: -halfAngle, endAngle: halfAngle, clockwise: false)
-        context.addLine(to: topRight)
-        context.addArc(center: c0, radius: maxRadius, startAngle: halfAngle, endAngle: -halfAngle, clockwise: true)
-        context.closePath()
-        context.drawPath(using: .stroke)
+        var values: [(CGFloat, CGPathDrawingMode)] = [(1, .stroke)]
+        if isSelected {
+            values << (0.25, .fill)
+        }
+        for (alpha, mode) in values {
+            context.setAlpha(alpha)
+            context.move(to: bottomRight)
+            context.addLine(to: bottomLeft)
+            context.addArc(center: c0, radius: minRadius, startAngle: -halfAngle, endAngle: halfAngle, clockwise: false)
+            context.addLine(to: topRight)
+            context.addArc(center: c0, radius: maxRadius, startAngle: halfAngle, endAngle: -halfAngle, clockwise: true)
+            context.closePath()
+            context.drawPath(using: mode)
+        }
     }
 }
 
-class CircularRadarArtist: Artist {
+class MissleRadarArtist: Artist {
     let radius: CGFloat
     let color: UIColor
+    let isSelected: Bool
 
-    required init(radius: CGFloat, color: UIColor) {
+    required init(radius: CGFloat, color: UIColor, isSelected: Bool) {
         self.radius = radius
         self.color = color
+        self.isSelected = isSelected
 
         super.init()
 
@@ -140,11 +145,13 @@ class CircularRadarArtist: Artist {
         context.setFillColor(color.cgColor)
         context.setStrokeColor(color.cgColor)
 
-        context.addEllipse(in: CGRect(size: size))
-        context.setAlpha(0.5)
-        context.drawPath(using: .fill)
+        if isSelected {
+            context.setAlpha(0.5)
+            context.addEllipse(in: CGRect(size: size))
+            context.drawPath(using: .fill)
+            context.setAlpha(1)
+        }
 
-        context.setAlpha(1)
         context.addEllipse(in: CGRect(size: size))
         context.drawPath(using: .stroke)
 
@@ -153,6 +160,121 @@ class CircularRadarArtist: Artist {
         context.addLine(to: CGPoint(0, size.height / 9))
         context.move(to: CGPoint(-size.width / 9, 0))
         context.addLine(to: CGPoint(size.width / 9, 0))
+        context.drawPath(using: .stroke)
+    }
+}
+
+class LaserRadarArtist: Artist {
+    let color: UIColor
+    let isSelected: Bool
+
+    required init(size: CGSize, color: UIColor, isSelected: Bool) {
+        self.color = color
+        self.isSelected = isSelected
+
+        super.init()
+
+        self.size = size
+    }
+
+    required init() {
+        fatalError("init() has not been implemented")
+    }
+
+    override func draw(in context: CGContext) {
+        context.setLineWidth(1.pixels)
+
+        let offset: CGFloat = 25
+
+        if isSelected {
+            context.saveGState()
+            context.addRect(CGRect(x: offset, y: 0, width: size.width - offset, height: size.height))
+            context.clip()
+
+            let gradientStart = CGPoint(x: offset, y: middle.y)
+            let gradientEnd = CGPoint(x: size.width, y: middle.y)
+            let colorSpace = CGColorSpaceCreateDeviceRGB()
+            let colors: [CGColor] = [
+                UIColor(hex: LaserRadarColor, alpha: 0.5).cgColor,
+                UIColor(hex: BackgroundColor, alpha: 0.0).cgColor
+            ]
+            let locations: [CGFloat] = [0, 1]
+            let gradient = CGGradient(colorsSpace: colorSpace, colors: colors as CFArray, locations: locations)!
+            context.drawLinearGradient(gradient, start: gradientStart, end: gradientEnd, options: [])
+            context.restoreGState()
+        }
+
+        let bottomRight = CGPoint(x: size.width, y: 0)
+        let topRight = CGPoint(x: size.width, y: size.height)
+        let bottomLeft = CGPoint(x: offset, y: 0)
+        let topLeft = CGPoint(x: offset, y: size.height)
+
+        context.setStrokeColor(color.cgColor)
+        context.move(to: bottomRight)
+        context.addLine(to: bottomLeft)
+        context.addLine(to: topLeft)
+        context.addLine(to: topRight)
+        context.drawPath(using: .stroke)
+    }
+}
+
+class ShotgunRadarArtist: Artist {
+    let radius: CGFloat
+    let halfAngle: CGFloat
+    let color: UIColor
+    let isSelected: Bool
+
+    required init(radius: CGFloat, sweepAngle: CGFloat, color: UIColor, isSelected: Bool) {
+        self.radius = radius
+        self.halfAngle = sweepAngle / 2
+        self.color = color
+        self.isSelected = isSelected
+
+        super.init()
+
+        size = CGSize(width: radius, height: 2 * radius * sin(halfAngle))
+    }
+
+    required init() {
+        fatalError("init() has not been implemented")
+    }
+
+    override func draw(in context: CGContext) {
+        context.setLineWidth(1.pixels)
+        context.translateBy(x: 0, y: size.height / 2)
+
+        let innerRadius: CGFloat = 20
+        let outerRadius: CGFloat = size.width
+
+        if isSelected {
+            context.saveGState()
+            context.move(to: .zero)
+            context.addArc(center: .zero, radius: outerRadius, startAngle: -halfAngle, endAngle: halfAngle, clockwise: false)
+            context.closePath()
+            context.clip()
+
+            let colorSpace = CGColorSpaceCreateDeviceRGB()
+            let colors: [CGColor] = [
+                UIColor(hex: ShotgunRadarColor, alpha: 0.25).cgColor,
+                UIColor(hex: BackgroundColor, alpha: 0.0).cgColor
+            ]
+            let locations: [CGFloat] = [0, 1]
+            let gradient = CGGradient(colorsSpace: colorSpace, colors: colors as CFArray, locations: locations)!
+            context.drawRadialGradient(gradient,
+                startCenter: .zero,
+                startRadius: innerRadius,
+                endCenter: .zero,
+                endRadius: outerRadius,
+                options: [])
+            context.restoreGState()
+        }
+
+        context.setStrokeColor(color.cgColor)
+        context.move(to: CGPoint(r: innerRadius, a: -halfAngle))
+        context.addArc(center: .zero, radius: outerRadius, startAngle: -halfAngle, endAngle: halfAngle, clockwise: false)
+        context.addLine(to: CGPoint(r: innerRadius, a: halfAngle))
+        context.addArc(center: .zero, radius: innerRadius, startAngle: halfAngle, endAngle: -halfAngle, clockwise: true)
+        context.closePath()
         context.drawPath(using: .stroke)
     }
 }

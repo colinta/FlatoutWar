@@ -37,7 +37,5 @@ extension HasUpgrade {
 enum UpgradeType {
     case RadarUpgrade
     case BulletUpgrade
-    case SpeedUpgrade
-    case RotateUpgrade
-    case TurretUpgrade
+    case MovementUpgrade
 }

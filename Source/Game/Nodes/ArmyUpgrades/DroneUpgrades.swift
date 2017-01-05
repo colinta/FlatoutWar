@@ -14,10 +14,8 @@ extension DroneNode: UpgradeableNode {
             radarUpgrade = true
         case .BulletUpgrade:
             bulletUpgrade = true
-        case .SpeedUpgrade:
-            speedUpgrade = true
-        default:
-            return
+        case .MovementUpgrade:
+            movementUpgrade = true
         }
     }
 
@@ -26,13 +24,13 @@ extension DroneNode: UpgradeableNode {
 
         var rate: CGFloat = 2
         if radarUpgrade.boolValue { rate -= 0.3 }
-        if speedUpgrade.boolValue { rate -= 0.3 }
+        if movementUpgrade.boolValue { rate -= 0.3 }
         if bulletUpgrade.boolValue { rate -= 0.3 }
 
         do {
             let info = UpgradeInfo(
                 title: "SPEED",
-                upgradeType: .SpeedUpgrade,
+                upgradeType: .MovementUpgrade,
                 description: ["INCREASED SPEED", "FASTER FIRING"],
                 cost: Currency(experience: 400, resources: 100),
                 rate: rate
@@ -42,12 +40,12 @@ extension DroneNode: UpgradeableNode {
             node.scale1.removeFromParent()
             node.scale2.removeFromParent()
             node.phaseComponent?.enabled = false
-            node.speedUpgrade = .True
+            node.movementUpgrade = .True
             node.radarUpgrade = radarUpgrade
             node.bulletUpgrade = bulletUpgrade
 
             let button = ArmyUpgradeButton(node: node, info: info)
-            button.upgradeEnabled = !speedUpgrade.boolValue
+            button.upgradeEnabled = !movementUpgrade.boolValue
 
             upgrades << (button, info)
         }
@@ -65,7 +63,7 @@ extension DroneNode: UpgradeableNode {
             node.scale1.removeFromParent()
             node.scale2.removeFromParent()
             node.phaseComponent?.enabled = false
-            node.speedUpgrade = speedUpgrade
+            node.movementUpgrade = movementUpgrade
             node.radarUpgrade = radarUpgrade
             node.bulletUpgrade = .True
 
@@ -88,7 +86,7 @@ extension DroneNode: UpgradeableNode {
             node.scale1.removeFromParent()
             node.scale2.removeFromParent()
             node.phaseComponent?.enabled = false
-            node.speedUpgrade = speedUpgrade
+            node.movementUpgrade = movementUpgrade
             node.radarUpgrade = .True
             node.bulletUpgrade = bulletUpgrade
 

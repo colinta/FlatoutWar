@@ -1,58 +1,55 @@
 ////
-///  CannonNode.swift
+///  LaserNode.swift
 //
 
-private let startingHealth: Float = 50
+private let startingHealth: Float = 60
 
-class CannonNode: Node, DraggableNode {
+class LaserNode: Node, DraggableNode {
     var radarUpgrade: HasUpgrade = .False { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
     var bulletUpgrade: HasUpgrade = .False { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
     var movementUpgrade: HasUpgrade = .False { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
 
-    let moveTurret = MoveToComponent()
     let armyComponent = SelectableArmyComponent()
 
+    fileprivate func updateTurretSprite() {
+        turretSprite.textureId(.LaserTurret(upgrade: bulletUpgrade, isFiring: isFiring))
+    }
     fileprivate func updateRadarSprite() {
-        radarSprite.textureId(.CannonRadar(upgrade: radarUpgrade, isSelected: armyComponent.isSelected))
+        radarSprite.textureId(.LaserRadar(upgrade: radarUpgrade, isSelected: armyComponent.isSelected))
     }
     fileprivate func updateUpgrades() {
-        turretBox.textureId(.CannonBox(upgrade: bulletUpgrade))
-        for turretSprite in turretSprites {
-            turretSprite.textureId(.CannonTurret(upgrade: bulletUpgrade))
-        }
-        baseSprite.textureId(.Cannon(upgrade: movementUpgrade, health: healthComponent?.healthInt ?? 100))
-        placeholder.textureId(.Cannon(upgrade: movementUpgrade, health: 100))
+        baseSprite.textureId(.LaserNode(upgrade: movementUpgrade, health: healthComponent?.healthInt ?? 100))
+        placeholder.textureId(.LaserNode(upgrade: movementUpgrade, health: 100))
         updateRadarSprite()
+        updateTurretSprite()
 
-        draggableComponent?.speed = movementUpgrade.cannonMovementSpeed
+        draggableComponent?.speed = movementUpgrade.laserMovementSpeed
 
-        targetingComponent?.sweepAngle = radarUpgrade.cannonSweepAngle
-        targetingComponent?.minRadius = radarUpgrade.cannonMinRadarRadius
-        targetingComponent?.radius = radarUpgrade.cannonMaxRadarRadius
+        targetingComponent?.sweepWidth = radarUpgrade.laserSweepWidth
+        targetingComponent?.radius = radarUpgrade.laserRadarRadius
 
-        firingComponent?.targetsPreemptively = true
-        firingComponent?.cooldown = bulletUpgrade.cannonCooldown
-        firingComponent?.damage = bulletUpgrade.cannonBulletDamage
-
-        rotateToComponent?.maxAngularSpeed = movementUpgrade.cannonAngularSpeed
-        rotateToComponent?.angularAccel = movementUpgrade.cannonAngularAccel
-
-        targetingComponent?.bulletSpeed = bulletUpgrade.cannonBulletSpeed
+        rotateToComponent?.maxAngularSpeed = movementUpgrade.laserAngularSpeed
+        rotateToComponent?.angularAccel = movementUpgrade.laserAngularAccel
 
         size = CGSize(30)
     }
 
     let radarSprite = SKSpriteNode()
     let baseSprite = SKSpriteNode()
-    let turretNode = Node()
-    let turretBox = SKSpriteNode()
-    let turretCenterSprite = SKNode()
-    let turretSprites = [
-        SKSpriteNode(), SKSpriteNode()
-    ]
+    let turretSprite = SKSpriteNode()
+    let beamSprite = SKSpriteNode()
     let placeholder = SKSpriteNode()
+    let forceFirePercent = PercentBar()
 
     var isRotating = false
+    var isFiring = false { didSet {
+        if isFiring != oldValue {
+            updateTurretSprite()
+        }
+    } }
+
+    var shootingDuration: CGFloat = 0
+    var cooldownDuration: CGFloat = 0
 
     required init() {
         super.init()
@@ -64,26 +61,23 @@ class CannonNode: Node, DraggableNode {
         radarSprite.position = CGPoint(x: -5)
         radarSprite.anchorPoint = CGPoint(0, 0.5)
 
+        beamSprite.position = CGPoint(x: 5)
+        beamSprite.anchorPoint = CGPoint(0, 0.5)
+
         baseSprite.z = .Player
         radarSprite.z = .BelowPlayer
-        turretBox.z = .Above
+        turretSprite.z = .AbovePlayer
+        beamSprite.z = Z.below(.AbovePlayer)
 
         self << baseSprite
         self << radarSprite
-        self << turretNode
-        turretNode << turretCenterSprite
-        turretBox.anchorPoint = CGPoint(x: 0.75, y: 0.5)
-        self << turretBox
+        self << turretSprite
+        self << beamSprite
 
-        let dy: CGFloat = CGFloat(20 - 2) / CGFloat(turretSprites.count)
-        var turretY: CGFloat = dy / 2 * CGFloat(turretSprites.count - 1)
-        for turretSprite in turretSprites {
-            turretSprite.anchorPoint = CGPoint(0.25, 0.5)
-            turretSprite.z = .AbovePlayer
-            turretSprite.position = CGPoint(y: turretY)
-            turretCenterSprite << turretSprite
-            turretY -= dy
-        }
+        forceFirePercent.style = .Heat
+        forceFirePercent.position = CGPoint(x: -20)
+        forceFirePercent.complete = 0
+        self << forceFirePercent
 
         let playerComponent = PlayerComponent()
         playerComponent.targetable = false
@@ -91,17 +85,12 @@ class CannonNode: Node, DraggableNode {
         addComponent(playerComponent)
 
         let targetingComponent = EnemyTargetingComponent()
-        targetingComponent.reallySmart = true
         targetingComponent.turret = baseSprite
         addComponent(targetingComponent)
 
-        let firingComponent = FiringComponent()
-        firingComponent.onFirePosition(self.fireBullet)
-        addComponent(firingComponent)
-
         let healthComponent = HealthComponent(health: startingHealth)
         healthComponent.onHurt { damage in
-            self.baseSprite.textureId(.Cannon(upgrade: self.bulletUpgrade, health: healthComponent.healthInt))
+            self.baseSprite.textureId(.LaserNode(upgrade: self.bulletUpgrade, health: healthComponent.healthInt))
         }
         healthComponent.onKilled {
             self.world?.unselectNode(self)
@@ -144,12 +133,8 @@ class CannonNode: Node, DraggableNode {
 
         armyComponent.cursorNode = cursor
         armyComponent.radarNode = radarSprite
-        armyComponent.onUpdated { _ in
-            self.updateRadarSprite()
-        }
+        armyComponent.onUpdated { _ in self.updateRadarSprite() }
         addComponent(armyComponent)
-
-        addComponent(moveTurret, assign: false)
 
         updateUpgrades()
     }
@@ -163,7 +148,7 @@ class CannonNode: Node, DraggableNode {
     }
 
     override func clone() -> Node {
-        let node = super.clone() as! CannonNode
+        let node = super.clone() as! LaserNode
         node.movementUpgrade = movementUpgrade
         node.bulletUpgrade = bulletUpgrade
         node.radarUpgrade = radarUpgrade
@@ -175,43 +160,69 @@ class CannonNode: Node, DraggableNode {
             radarSprite.zRotation = angle
         }
 
-        let angle = firingComponent?.angle ?? baseSprite.zRotation
-        turretNode.zRotation = angle
-        turretBox.zRotation = angle
-    }
-}
+        let angle: CGFloat
+        let percent: CGFloat
+        var firingInfo: (CGFloat, Node)?
+        if cooldownDuration > 0 {
+            angle = baseSprite.zRotation
 
-// MARK: Fire Bullet
-extension CannonNode {
-    fileprivate func fireBullet(enemyPosition: CGPoint) {
-        guard let world = world else { return }
-
-        turretCenterSprite.position = CGPoint(x: -10)
-        moveTurret.applyTo = turretCenterSprite
-        moveTurret.target = .zero
-        moveTurret.duration = bulletUpgrade.cannonCooldown
-
-        for sprite in turretSprites {
-            let delta = CGPoint(r: sprite.position.y, a: baseSprite.zRotation + TAU_4)
-            let start = position + delta
-            let myTarget = enemyPosition + delta
-            let speed: CGFloat = bulletUpgrade.cannonBulletSpeed ± rand(weighted: 10)
-            let bullet = CannonballNode(
-                from: start,
-                to: self.position + myTarget,
-                speed: speed,
-                radius: bulletUpgrade.cannonSplashRadius)
-            bullet.damage = bulletUpgrade.cannonBulletDamage
-            bullet.size = BulletArtist.bulletSize(upgrade: .False)
-            bullet.timeRate = self.timeRate
-            bullet.zRotation = myTarget.angle
-            (parentNode ?? world) << bullet
+            cooldownDuration -= dt
+            if cooldownDuration <= 0 {
+                cooldownDuration = 0
+                percent = 0
+            }
+            else {
+                percent = cooldownDuration / bulletUpgrade.laserBurnoutDown
+            }
         }
+        else {
+            if !armyComponent.isMoving,
+                let currentTarget = targetingComponent?.currentTarget,
+                let currentPosition = targetingComponent?.firingPosition()
+            {
+                angle = currentPosition.angle
+                firingInfo = (currentPosition.length, currentTarget)
+                beamSprite.zRotation = angle
+
+                let damage = bulletUpgrade.laserDamagePerSec * Float(dt)
+                currentTarget.healthComponent?.inflict(damage: damage)
+
+                shootingDuration += dt
+            }
+            else {
+                angle = radarSprite.zRotation
+                shootingDuration = max(shootingDuration - dt, 0)
+            }
+
+            if shootingDuration > bulletUpgrade.laserBurnoutUp {
+                cooldownDuration = bulletUpgrade.laserBurnoutDown
+                shootingDuration = 0
+                percent = 1
+            }
+            else {
+                percent = shootingDuration / bulletUpgrade.laserBurnoutUp
+            }
+        }
+        let isFiring = firingInfo != nil
+        self.isFiring = isFiring
+        beamSprite.visible = isFiring
+        if let (length, target) = firingInfo {
+            let color = interpolateHex(rand(1), colors: (0x88E2FF, 0x7D9BFF))
+            let node = ShrapnelNode(type: .FillColorBox(size: CGSize(1), color: color), size: .Actual)
+            node.setupAround(node: target)
+            parent! << node
+
+            let width = length - beamSprite.position.x - target.radius
+            beamSprite.textureId(.FillColorBox(size: CGSize(width, 1), color: color))
+        }
+        forceFirePercent.complete = percent
+
+        turretSprite.zRotation = angle
     }
 }
 
 // MARK: Touch events
-extension CannonNode {
+extension LaserNode {
     func onDraggingOutside(at location: CGPoint) {
         isRotating = true
     }
@@ -229,7 +240,7 @@ extension CannonNode {
 }
 
 // MARK: Rotation
-extension CannonNode {
+extension LaserNode {
     func startRotatingTo(angle: CGFloat) {
         rotateToComponent?.target = angle
     }
@@ -237,8 +248,7 @@ extension CannonNode {
     override func rotateTo(_ angle: CGFloat) {
         baseSprite.zRotation = angle
         radarSprite.zRotation = angle
-        turretNode.zRotation = angle
-        turretBox.zRotation = angle
+        turretSprite.zRotation = angle
         rotateToComponent?.currentAngle = angle
         rotateToComponent?.target = nil
     }

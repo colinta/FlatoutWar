@@ -10,22 +10,33 @@ private let ForceFireBurnoutUp: CGFloat = 6
 private let ForceFireBurnoutDown: CGFloat = 4
 
 class BasePlayerNode: Node {
-    var rotateUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
-    var bulletUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
-    var radarUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
-    fileprivate func updateUpgrades() {
-        baseNode.textureId(.Base(rotateUpgrade: rotateUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: healthComponent?.healthInt ?? 100))
-        radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
-        turretNode.textureId(turret.spriteId(bulletUpgrade: bulletUpgrade))
+    var movementUpgrade: HasUpgrade = .False { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
+    var bulletUpgrade: HasUpgrade = .False { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
+    var radarUpgrade: HasUpgrade = .False { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
 
-        rotateToComponent?.maxAngularSpeed = rotateUpgrade.baseAngularSpeed
-        rotateToComponent?.angularAccel = rotateUpgrade.baseAngularAccel
+    fileprivate func updateBaseSprite() {
+        baseSprite.textureId(.Base(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: healthComponent?.healthInt ?? 100))
+    }
+    fileprivate func updateRadarSprite() {
+        let isSelected = selectableComponent?.selected == true
+        radarSprite.alpha = isSelected ? 1 : 0.75
+        radarSprite.textureId(turret.radarId(upgrade: radarUpgrade, isSelected: isSelected))
+    }
+    fileprivate func updateUpgrades() {
+        turretSprite.textureId(turret.spriteId(bulletUpgrade: bulletUpgrade))
+        updateBaseSprite()
+        updateRadarSprite()
+
+        rotateToComponent?.maxAngularSpeed = movementUpgrade.baseAngularSpeed
+        rotateToComponent?.angularAccel = movementUpgrade.baseAngularAccel
 
         firingComponent?.targetsPreemptively = radarUpgrade.targetsPreemptively
         firingComponent?.damage = calculateBulletDamage()
 
         targetingComponent?.sweepAngle = radarUpgrade.baseSweepAngle
         targetingComponent?.radius = radarUpgrade.baseRadarRadius
+
+        size = CGSize(40)
     }
 
     var forceFireEnabled: Bool?
@@ -42,16 +53,16 @@ class BasePlayerNode: Node {
 
     var turret: Turret = SimpleTurret() {
         didSet {
-            radarNode.textureId(turret.radarId(upgrade: radarUpgrade))
-            turretNode.textureId(turret.spriteId(bulletUpgrade: bulletUpgrade))
+            updateRadarSprite()
+            turretSprite.textureId(turret.spriteId(bulletUpgrade: bulletUpgrade))
             targetingComponent?.enabled = turret.autoFireEnabled
             targetingComponent?.reallySmart = turret.reallySmart
         }
     }
 
-    let radarNode = SKSpriteNode()
-    let baseNode = SKSpriteNode()
-    let turretNode = SKSpriteNode()
+    let radarSprite = SKSpriteNode()
+    let baseSprite = SKSpriteNode()
+    let turretSprite = SKSpriteNode()
     let lightNode: SKLightNode
 
     let forceFirePercent = PercentBar()
@@ -61,7 +72,7 @@ class BasePlayerNode: Node {
 
     override func clone() -> Node {
         let node = super.clone() as! BasePlayerNode
-        node.rotateUpgrade = rotateUpgrade
+        node.movementUpgrade = movementUpgrade
         node.bulletUpgrade = bulletUpgrade
         node.radarUpgrade = radarUpgrade
         node.turret = turret.clone()
@@ -72,19 +83,17 @@ class BasePlayerNode: Node {
         lightNode = SKLightNode.defaultLight()
         super.init()
 
-        size = CGSize(40)
-
         // self << lightNode
 
-        radarNode.anchorPoint = CGPoint(0, 0.5)
-        radarNode.z = .BelowPlayer
-        self << radarNode
+        radarSprite.anchorPoint = CGPoint(0, 0.5)
+        radarSprite.z = .BelowPlayer
+        self << radarSprite
 
-        baseNode.z = .Player
-        self << baseNode
+        baseSprite.z = .Player
+        self << baseSprite
 
-        turretNode.z = .AbovePlayer
-        self << turretNode
+        turretSprite.z = .AbovePlayer
+        self << turretSprite
 
         forceFirePercent.style = .Heat
         forceFirePercent.position = CGPoint(x: 25)
@@ -98,7 +107,7 @@ class BasePlayerNode: Node {
         self << resourceLine
 
         let playerComponent = PlayerComponent()
-        playerComponent.intersectionNode = baseNode
+        playerComponent.intersectionNode = baseSprite
         addComponent(playerComponent)
 
         let healthComponent = HealthComponent(health: 100)
@@ -119,21 +128,21 @@ class BasePlayerNode: Node {
 
         let selectableComponent = SelectableComponent()
         selectableComponent.onSelected { selected in
-            self.radarNode.alpha = selected ? 1 : 0.75
+            self.updateRadarSprite()
         }
         addComponent(selectableComponent)
 
         let rotateToComponent = RotateToComponent()
         rotateToComponent.currentAngle = 0
-        rotateToComponent.applyTo = baseNode
+        rotateToComponent.applyTo = baseSprite
         addComponent(rotateToComponent)
 
         let targetingComponent = EnemyTargetingComponent()
-        targetingComponent.turret = baseNode
+        targetingComponent.turret = baseSprite
         addComponent(targetingComponent)
 
         let firingComponent = FiringComponent()
-        firingComponent.turret = baseNode
+        firingComponent.turret = baseSprite
         firingComponent.cooldown = DefaultCooldown
         firingComponent.onFireAngle(self.fireBullet)
         addComponent(firingComponent)
@@ -151,9 +160,8 @@ class BasePlayerNode: Node {
     }
 
     func onHurt() {
-        guard let healthComponent = healthComponent else { return }
         _ = world?.channel?.play(Sound.PlayerHurt)
-        baseNode.textureId(.Base(rotateUpgrade: rotateUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: healthComponent.healthInt))
+        updateBaseSprite()
     }
 
     func disableTouchForUI() {
@@ -196,14 +204,14 @@ class BasePlayerNode: Node {
         if let firingAngle = firingComponent?.angle,
             forceFireEnabled != true
         {
-            turretNode.zRotation = firingAngle
+            turretSprite.zRotation = firingAngle
         }
         else if let currentAngle = rotateToComponent?.currentAngle {
-            turretNode.zRotation = currentAngle
+            turretSprite.zRotation = currentAngle
         }
 
         if let angle = rotateToComponent?.destAngle {
-            radarNode.zRotation = angle
+            radarSprite.zRotation = angle
         }
     }
 
@@ -233,11 +241,9 @@ extension BasePlayerNode {
 extension BasePlayerNode {
 
     fileprivate func fireBullet(angle: CGFloat) {
-        guard let world = world else {
-            return
-        }
+        guard let world = world else { return }
 
-        let velocity: CGFloat = bulletUpgrade.baseBulletSpeed
+        let velocity: CGFloat = bulletUpgrade.baseBulletSpeed ± rand(5)
         let style: BulletNode.Style
         if firingComponent?.forceFire ?? false {
             style = .Fast
@@ -252,19 +258,20 @@ extension BasePlayerNode {
 
         bullet.size = BulletArtist.bulletSize(upgrade: .False)
         bullet.zRotation = angle
-        bullet.damage = calculateBulletDamage()
-        firingComponent?.damage = bullet.damage
+        bullet.damage = calculateBulletDamage(random: true)
+        firingComponent?.damage = calculateBulletDamage()
         (parentNode ?? world) << bullet
 
         _ = world.channel?.play(Sound.PlayerShoot)
     }
 
-    fileprivate func calculateBulletDamage() -> Float {
-        var damageFactor: Float = 1
+    fileprivate func calculateBulletDamage(random: Bool = false) -> Float {
         if firingComponent?.forceFire == true {
-            damageFactor = ForceFireDamageFactor
+            return bulletUpgrade.baseBulletDamage * ForceFireDamageFactor + (random ? 0 : rand(weighted: 0.25))
         }
-        return bulletUpgrade.baseBulletDamage * damageFactor
+        else {
+            return bulletUpgrade.baseBulletDamage + (random ? 0 : rand(weighted: 0.5))
+        }
     }
 
 }
@@ -287,7 +294,7 @@ extension BasePlayerNode {
 
     func onDraggedAiming(from prevLocation: CGPoint, to location: CGPoint) {
         let angle = prevLocation.angleTo(location, around: position)
-        let destAngle = rotateToComponent?.destAngle ?? 0
+        let destAngle = rotateToComponent?.destAngle ?? rotateToComponent?.currentAngle ?? baseSprite.zRotation
         startRotatingTo(angle: destAngle + angle)
     }
 
@@ -344,9 +351,9 @@ extension BasePlayerNode {
     }
 
     override func rotateTo(_ angle: CGFloat) {
-        baseNode.zRotation = angle
-        radarNode.zRotation = angle
-        turretNode.zRotation = angle
+        baseSprite.zRotation = angle
+        radarSprite.zRotation = angle
+        turretSprite.zRotation = angle
         rotateToComponent?.currentAngle = angle
         rotateToComponent?.target = nil
     }

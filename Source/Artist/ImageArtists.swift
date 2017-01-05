@@ -1,9 +1,5 @@
-//
-//  ImageArtists.swift
-//  PlayWithSprites
-//
-//  Created by Colin Gray on 12/19/15.
-//  Copyright © 2015 colinta. All rights reserved.
+////
+///  ImageArtists.swift
 //
 
 extension ImageIdentifier.EnemyType {
@@ -137,11 +133,11 @@ extension ImageIdentifier {
             let artist = imageId.artist
             switch size {
             case .Tiny:
-                artist.size = artist.size * 0.05
+                artist.size *= 0.05
             case .Small:
-                artist.size = artist.size * 0.1
+                artist.size *= 0.1
             case .Big:
-                artist.size = artist.size * 0.5
+                artist.size *= 0.5
             case .Actual:
                 break
             }
@@ -194,9 +190,9 @@ extension ImageIdentifier {
             artist.complete = CGFloat(percent) / 100
             return artist
 
-        case let .Drone(speedUpgrade, radarUpgrade, bulletUpgrade, healthInt):
+        case let .Drone(movementUpgrade, bulletUpgrade, radarUpgrade, healthInt):
             let health = CGFloat(healthInt) / 100
-            let artist = DroneArtist(speedUpgrade: speedUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: health)
+            let artist = DroneArtist(movementUpgrade, bulletUpgrade, radarUpgrade, health: health)
             return artist
         case let .DroneRadar(upgrade):
             let radius = upgrade.droneRadarRadius
@@ -204,6 +200,38 @@ extension ImageIdentifier {
             artist.color = upgrade.droneRadarColor
             artist.lineWidth = upgrade.droneRadarWidth
             return artist
+
+        case let .LaserNode(upgrade, healthInt):
+            let health = CGFloat(healthInt) / 100
+            let artist = LaserNodeArtist(hasUpgrade: upgrade.boolValue, health: health)
+            return artist
+        case let .LaserTurret(upgrade, isFiring):
+            let artist = LaserTurretArtist(hasUpgrade: upgrade.boolValue, isFiring: isFiring)
+            return artist
+        case let .LaserRadar(upgrade, isSelected):
+            let width = upgrade.laserRadarRadius
+            let height = upgrade.laserSweepWidth
+            let artist = LaserRadarArtist(
+                size: CGSize(width, height),
+                color: UIColor(hex: upgrade.laserRadarColor),
+                isSelected: isSelected
+                )
+            return artist
+
+        case let .ShotgunNode(movementUpgrade, bulletUpgrade, radarUpgrade, healthInt):
+            let health = CGFloat(healthInt) / 100
+            let artist = ShotgunArtist(movementUpgrade, bulletUpgrade, radarUpgrade, health: health)
+            return artist
+        case let .ShotgunTurret(upgrade):
+            return ShotgunTurretArtist(hasUpgrade: upgrade.boolValue)
+        case let .ShotgunRadar(upgrade, isSelected):
+           let artist = ShotgunRadarArtist(
+               radius: upgrade.shotgunRadarRadius,
+               sweepAngle: upgrade.shotgunSweepAngle,
+               color: UIColor(hex: upgrade.shotgunRadarColor),
+               isSelected: isSelected
+           )
+           return artist
 
         case let .Cannon(upgrade, healthInt):
             let health = CGFloat(healthInt) / 100
@@ -225,12 +253,13 @@ extension ImageIdentifier {
                 )
             artist.strokeColor = UIColor(hex: CannonTurretStrokeColor)
             return artist
-        case let .CannonRadar(upgrade):
-            let artist = AnnulusRadarArtist(
+        case let .CannonRadar(upgrade, isSelected):
+            let artist = CannonRadarArtist(
                 minRadius: upgrade.cannonMinRadarRadius,
                 maxRadius: upgrade.cannonMaxRadarRadius,
                 sweepAngle: upgrade.cannonSweepAngle,
-                color: UIColor(hex: upgrade.cannonRadarColor)
+                color: UIColor(hex: upgrade.cannonRadarColor),
+                isSelected: isSelected
                 )
             return artist
 
@@ -247,10 +276,11 @@ extension ImageIdentifier {
             artist.shadowColor = UIColor(hex: MissleSiloFillColor)
             artist.shadowed = .True
             return artist
-        case let .MissleSiloRadar(upgrade):
-            let artist = CircularRadarArtist(
+        case let .MissleSiloRadar(upgrade, isSelected):
+            let artist = MissleRadarArtist(
                 radius: upgrade.missleSiloRadarRadius,
-                color: UIColor(hex: upgrade.missleSiloRadarColor)
+                color: UIColor(hex: upgrade.missleSiloRadarColor),
+                isSelected: isSelected
                 )
             return artist
         case .Missle:
@@ -268,15 +298,16 @@ extension ImageIdentifier {
         case .Cursor:
             let artist = CursorArtist()
             return artist
-        case let .Base(rotateUpgrade, radarUpgrade, bulletUpgrade, healthInt):
+        case let .Base(movementUpgrade, bulletUpgrade, radarUpgrade, healthInt):
             let health = CGFloat(healthInt) / 100
-            let artist = BaseArtist(rotateUpgrade: rotateUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: health)
+            let artist = BaseArtist(movementUpgrade, bulletUpgrade, radarUpgrade, health: health)
             return artist
-        case let .BaseRadar(upgrade):
-            let artist = SectorRadarArtist(
+        case let .BaseRadar(upgrade, isSelected):
+            let artist = BaseRadarArtist(
                 radius: upgrade.baseRadarRadius,
                 sweepAngle: upgrade.baseSweepAngle,
-                color: UIColor(hex: upgrade.baseRadarColor)
+                color: UIColor(hex: upgrade.baseRadarColor),
+                isSelected: isSelected
                 )
             return artist
         case let .BaseExplosion(index, total):

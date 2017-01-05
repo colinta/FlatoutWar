@@ -30,12 +30,8 @@ class EnemySoldierNode: Node {
         let healthComponent = HealthComponent(health: StartingHealth)
         healthComponent.onHurt { _ in
             self.onHurt()
-            self.updateTexture()
         }
-        healthComponent.onKilled {
-            self.generateKilledExplosion()
-            self.scaleTo(0, duration: 0.1, removeNode: true)
-        }
+        healthComponent.onKilled(self.onKilled)
         addComponent(healthComponent)
         updateTexture()
 
@@ -94,6 +90,7 @@ class EnemySoldierNode: Node {
 
     func onHurt() {
         _ = world?.channel?.play(Sound.EnemyHurt)
+        updateTexture()
     }
 
     func generateRammingExplosion() {
@@ -105,12 +102,14 @@ class EnemySoldierNode: Node {
         generateBigShrapnel(distance: 60, angle: zRotation + TAU_2, spread: TAU_16)
     }
 
-    func generateKilledExplosion() {
-        guard let parent = parent else { return }
+    func onKilled() {
+        if let parent = parent {
+            let explosion = EnemyExplosionNode(at: self.position)
+            parent << explosion
+            self.generateBigShrapnel(distance: 10, angle: 0, spread: TAU)
+        }
 
-        let explosion = EnemyExplosionNode(at: self.position)
-        parent << explosion
-        self.generateBigShrapnel(distance: 10, angle: 0, spread: TAU)
+        self.scaleTo(0, duration: 0.1, removeNode: true)
     }
 
     func generateBigShrapnel(distance dist: CGFloat, angle: CGFloat, spread: CGFloat) {

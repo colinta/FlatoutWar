@@ -32,7 +32,7 @@ class ResourceCollector: Node {
         super.init()
         sprite.textureId(.ColorCircle(size: CGSize(10), color: ResourceBlue))
         self << sprite
-        size = sprite.size
+        size = CGSize(10)
 
         collect()
     }

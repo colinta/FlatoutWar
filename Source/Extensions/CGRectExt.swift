@@ -26,14 +26,13 @@ public extension CGRect {
     }
 
     init(center: CGPoint, size: CGSize) {
-        origin = center + CGPoint(-size.width / 2, -size.height / 2)
+        origin = CGPoint(center.x - size.width / 2, center.y - size.height / 2)
         self.size = size
     }
 
     init(center: CGPoint, radius: CGFloat) {
         let size = CGSize(r: radius)
-        origin = center + CGPoint(-size.width / 2, -size.height / 2)
-        self.size = size
+        self.init(center: center, size: size)
     }
 
     static func at(x: CGFloat, y: CGFloat) -> CGRect {

@@ -25,7 +25,7 @@ class ResourceNode: Node {
         super.init()
         self << sprite
         updateSprite()
-        size = sprite.size
+        size = CGSize(30)
         keepRotating()
     }
 

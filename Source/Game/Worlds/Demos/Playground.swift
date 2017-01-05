@@ -3,43 +3,55 @@
 //
 
 class Playground: World {
-    let cannon = CannonNode(at: CGPoint(y: -50))
-    let silo = MissleSiloNode(at: CGPoint(y: 50))
-    let drone = DroneNode(at: CGPoint(x: -50))
+    let cannon = CannonNode(at: CGPoint(r: 50, a: TAU_3_4))
+    let silo = MissleSiloNode(at: CGPoint(r: 50, a: TAU_4))
+    let laser = LaserNode(at: CGPoint(r: 50, a: TAU_8))
+    let drone = DroneNode(at: CGPoint(r: 50, a: TAU_5_8))
+    let shotgun = ShotgunNode(at: CGPoint(r: 50, a: TAU_7_8))
 
     override func populateWorld() {
+        channel?.gain = 0
+
         let playerNode = BasePlayerNode()
         playerNode.rotateTo(TAU_2)
         playerNode.firingComponent?.enabled = false
         playerNode.targetingComponent?.enabled = false
         self << playerNode
 
-        cannon.radarUpgrade = .False
-        cannon.bulletUpgrade = .False
-        cannon.rotateUpgrade = .False
+        shotgun.radarUpgrade = .True
+        shotgun.bulletUpgrade = .True
+        shotgun.movementUpgrade = .True
+
         cannon.draggableComponent?.maintainDistance(100, around: playerNode)
-        cannon.healthComponent?.inflict(damage: 20)
-        self << cannon
-
-        silo.radarUpgrade = .False
-        silo.bulletUpgrade = .False
-        silo.rotateUpgrade = .False
         silo.draggableComponent?.maintainDistance(100, around: playerNode)
-        silo.healthComponent?.inflict(damage: 20)
-        self << silo
-
-        self << drone
+        laser.draggableComponent?.maintainDistance(100, around: playerNode)
+        drone.draggableComponent?.maintainDistance(100, around: playerNode)
+        shotgun.draggableComponent?.maintainDistance(100, around: playerNode)
 
         defaultNode = playerNode
 
-        timeline.every(10) {
-            for time in [0,1,2] {
-                delay(TimeInterval(time)) {
-                    let enemyNode = EnemySoldierNode()
-                    enemyNode.name = "soldier"
-                    enemyNode.healthComponent!.startingHealth = 10
-                    enemyNode.position = CGPoint(r: self.outerRadius, a: 0)
-                    self << enemyNode
+        generateNext([shotgun], shotgun)
+    }
+
+    private func generateNext(_ nodes: [Node], _ currentNode: Node) {
+        self << currentNode
+
+        for time in [0,1,2] {
+            delay(TimeInterval(time)) {
+                let enemyNode = EnemySoldierNode()
+                enemyNode.name = "soldier"
+                enemyNode.position = CGPoint(r: self.outerRadius, a: 0)
+                self << enemyNode
+            }
+        }
+
+        delay(2) {
+            let nextNode = nodes[0]
+            let newNodes = Array(nodes[1..<nodes.count] + [currentNode])
+            self.onNoMoreEnemies {
+                delay(2) {
+                    currentNode.removeFromParent(reset: false)
+                    self.generateNext(newNodes, nextNode)
                 }
             }
         }

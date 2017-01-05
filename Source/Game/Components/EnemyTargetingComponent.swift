@@ -6,6 +6,7 @@ class EnemyTargetingComponent: Component {
     var minRadius: CGFloat?
     var radius: CGFloat?
     var sweepAngle: CGFloat?
+    var sweepWidth: CGFloat?
     private var avoidTarget: Node?
     var currentTarget: Node? {
         didSet {
@@ -42,6 +43,15 @@ class EnemyTargetingComponent: Component {
 
     override func encode(with encoder: NSCoder) {
         super.encode(with: encoder)
+    }
+
+    private func turretPosition(target: SKNode) -> CGPoint {
+        if let turret = turret {
+            return turret.convertPosition(target) * turret.xScale
+        }
+        else {
+            return node.convertPosition(target)
+        }
     }
 
     override func update(_ dt: CGFloat) {
@@ -82,7 +92,7 @@ class EnemyTargetingComponent: Component {
             return false
         }
 
-        let enemyPosition = node.convertPosition(enemy) - (turret?.position ?? .zero)
+        let enemyPosition = turretPosition(target: enemy)
         if let radius = radius,
             !enemyPosition.lengthWithin(radius + enemy.radius)
         {
@@ -96,15 +106,27 @@ class EnemyTargetingComponent: Component {
         }
 
         // no sweepAngle means 360° targeting
-        guard let sweepAngle = sweepAngle else { return true }
-
-        let angle: CGFloat
-        if let turret = turret {
-            angle = turret.convertPosition(enemy).angle
+        if let sweepAngle = sweepAngle {
+            return viableTarget(enemy, position: enemyPosition, inAngle: sweepAngle)
+        }
+        else if let sweepWidth = sweepWidth {
+            return viableTarget(enemy, position: enemyPosition, inWidth: sweepWidth)
         }
         else {
-            angle = enemyPosition.angle
+            return true
         }
+    }
+
+    func viableTarget(_ enemy: Node, position enemyPosition: CGPoint, inWidth sweepWidth: CGFloat) -> Bool {
+        let radius = enemyPosition.length
+        let angle = enemyPosition.angle - node.zRotation
+
+        let y: CGFloat = abs(radius * sin(angle))
+        return y <= sweepWidth
+    }
+
+    func viableTarget(_ enemy: Node, position enemyPosition: CGPoint, inAngle sweepAngle: CGFloat) -> Bool {
+        let angle = enemyPosition.angle
 
         let sweep: CGFloat
         let reallyCloseAdjustment: CGFloat = 40
@@ -157,7 +179,7 @@ class EnemyTargetingComponent: Component {
         var bestTarget: Node? = currentTarget
         var bestDistance: CGFloat = 0
         for enemy in world.enemies where isViableTarget(enemy) && enemy != avoidTarget {
-            let enemyPosition = (turret ?? node).convertPosition(enemy)
+            let enemyPosition = turretPosition(target: enemy)
             let enemyDistance = enemyPosition.roughLength
 
             if bestTarget == nil {

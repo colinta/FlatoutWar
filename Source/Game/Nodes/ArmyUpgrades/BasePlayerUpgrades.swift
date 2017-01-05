@@ -13,10 +13,8 @@ extension BasePlayerNode: UpgradeableNode {
             radarUpgrade = true
         case .BulletUpgrade:
             bulletUpgrade = true
-        case .RotateUpgrade:
-            rotateUpgrade = true
-        default:
-            return
+        case .MovementUpgrade:
+            movementUpgrade = true
         }
     }
 
@@ -25,26 +23,26 @@ extension BasePlayerNode: UpgradeableNode {
 
         var rate: CGFloat = 2.5
         if radarUpgrade.boolValue { rate -= 0.1 }
-        if rotateUpgrade.boolValue { rate -= 0.3 }
+        if movementUpgrade.boolValue { rate -= 0.3 }
         if bulletUpgrade.boolValue { rate -= 0.3 }
 
         do {
             let info = UpgradeInfo(
                 title: "SPEED",
-                upgradeType: .RotateUpgrade,
+                upgradeType: .MovementUpgrade,
                 description: ["INCREASED SPEED", "FASTER FIRING"],
                 cost: Currency(experience: 450, resources: 150),
                 rate: rate
             )
 
             let node = BasePlayerNode()
-            node.radarNode.removeFromParent()
-            node.rotateUpgrade = .True
+            node.radarSprite.removeFromParent()
+            node.movementUpgrade = .True
             node.radarUpgrade = radarUpgrade
             node.bulletUpgrade = bulletUpgrade
 
             let button = ArmyUpgradeButton(node: node, info: info)
-            button.upgradeEnabled = !rotateUpgrade.boolValue
+            button.upgradeEnabled = !movementUpgrade.boolValue
 
             upgrades << (button, info)
         }
@@ -59,8 +57,8 @@ extension BasePlayerNode: UpgradeableNode {
             )
 
             let node = BasePlayerNode()
-            node.radarNode.removeFromParent()
-            node.rotateUpgrade = rotateUpgrade
+            node.radarSprite.removeFromParent()
+            node.movementUpgrade = movementUpgrade
             node.radarUpgrade = radarUpgrade
             node.bulletUpgrade = .True
 
@@ -80,8 +78,8 @@ extension BasePlayerNode: UpgradeableNode {
             )
 
             let node = BasePlayerNode()
-            node.radarNode.removeFromParent()
-            node.rotateUpgrade = rotateUpgrade
+            node.radarSprite.removeFromParent()
+            node.movementUpgrade = movementUpgrade
             node.radarUpgrade = .True
             node.bulletUpgrade = bulletUpgrade
 
@@ -138,8 +136,8 @@ extension HasUpgrade {
 
     var baseBulletSpeed: CGFloat {
         switch self {
-        case .False: return rand(weights: (125, 3), (120, 2), (130, 1))
-        case .True: return rand(weights: (135, 3), (130, 2), (140, 1))
+        case .False: return 125
+        case .True: return 135
         }
     }
 
@@ -152,8 +150,8 @@ extension HasUpgrade {
 
     var baseRadarColor: Int {
         switch self {
-            case .False: return 0xFCF10C
-            case .True: return 0xE59311
+            case .False: return BaseRadar1Color
+            case .True: return BaseRadar2Color
         }
     }
 }

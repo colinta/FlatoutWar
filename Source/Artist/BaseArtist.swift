@@ -3,11 +3,16 @@
 //
 
 private var savedAngles: [CGFloat]?
+var BaseStrokeColor = 0xFAA564
+var BaseFillColor = 0xC6811D
+var BaseExplosionColor = 0xEC942B
+var BaseRadar1Color = 0xFCF10C
+var BaseRadar2Color = 0xE59311
 
 class BaseArtist: Artist {
-    var stroke = UIColor(hex: 0xFAA564)
-    var fill = UIColor(hex: 0xC6811D)
-    var rotateUpgrade: HasUpgrade
+    var stroke = UIColor(hex: BaseStrokeColor)
+    var fill = UIColor(hex: BaseFillColor)
+    var movementUpgrade: HasUpgrade
     var bulletUpgrade: HasUpgrade
     var radarUpgrade: HasUpgrade
     var health: CGFloat
@@ -15,9 +20,9 @@ class BaseArtist: Artist {
     private var path: CGPath
     private var smallPath: CGPath
 
-    required init(rotateUpgrade: HasUpgrade, radarUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, health: CGFloat) {
+    required init(_ movementUpgrade: HasUpgrade, _ bulletUpgrade: HasUpgrade, _ radarUpgrade: HasUpgrade, health: CGFloat) {
         self.health = health
-        self.rotateUpgrade = rotateUpgrade
+        self.movementUpgrade = movementUpgrade
         self.bulletUpgrade = bulletUpgrade
         self.radarUpgrade = radarUpgrade
 
@@ -105,12 +110,12 @@ class BaseArtist: Artist {
             context.drawPath(using: .fillStroke)
         }
 
-        if rotateUpgrade.boolValue || bulletUpgrade.boolValue || radarUpgrade.boolValue {
+        if movementUpgrade.boolValue || bulletUpgrade.boolValue || radarUpgrade.boolValue {
             context.setAlpha(1)
             context.addPath(path)
             context.clip()
 
-            if rotateUpgrade.boolValue {
+            if movementUpgrade.boolValue {
                 context.addEllipse(in: CGRect(center: middle, size: size * 0.8))
                 context.addEllipse(in: CGRect(center: middle, size: size * 0.4))
             }
@@ -137,8 +142,8 @@ class BaseArtist: Artist {
 }
 
 class BaseExplosionArtist: Artist {
-    var stroke = UIColor(hex: 0xFAA564)
-    var fill = UIColor(hex: 0xEC942B)
+    var stroke = UIColor(hex: BaseStrokeColor)
+    var fill = UIColor(hex: BaseExplosionColor)
     let angle: CGFloat
     let spread: CGFloat
 

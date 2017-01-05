@@ -22,7 +22,8 @@ extension SKTexture {
             }
         }
 
-        let texture = SKTexture(image: Artist.generate(id, scale: scale))
+        let image = Artist.generate(id, scale: scale)
+        let texture = SKTexture(image: image)
         if let cacheName = cacheName {
             generatedTextures[cacheName] = texture
         }
@@ -61,8 +62,8 @@ extension SKSpriteNode {
 
 extension SKNode {
     var z: Z {
-        set { zPosition = newValue.rawValue }
-        get { return Z(rawValue: zPosition) ?? Z.Default }
+        set { zPosition = newValue.value }
+        get { return .Custom(zPosition) }
     }
 
     var visible: Bool {

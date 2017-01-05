@@ -21,8 +21,8 @@ class Turret {
         return .None
     }
 
-    func radarId(upgrade: HasUpgrade) -> ImageIdentifier {
-        return .BaseRadar(upgrade: upgrade)
+    func radarId(upgrade: HasUpgrade, isSelected: Bool) -> ImageIdentifier {
+        return .BaseRadar(upgrade: upgrade, isSelected: isSelected)
     }
 
     func clone() -> Turret {
@@ -31,7 +31,7 @@ class Turret {
     }
 
     func button() -> Button {
-        let body = SKSpriteNode(id: .Base(rotateUpgrade: .False, radarUpgrade: .False, bulletUpgrade: .False, health: 100))
+        let body = SKSpriteNode(id: .Base(movementUpgrade: .False, bulletUpgrade: .False, radarUpgrade: .False, health: 100))
         body.z = .Player
 
         let turret = SKSpriteNode(id: spriteId(bulletUpgrade: .False))
@@ -80,7 +80,7 @@ class RapidTurret: Turret {
         return .BaseRapidTurret(bulletUpgrade: bulletUpgrade)
     }
 
-    override func radarId(upgrade: HasUpgrade) -> ImageIdentifier {
+    override func radarId(upgrade: HasUpgrade, isSelected: Bool) -> ImageIdentifier {
         return .ColorLine(length: upgrade.baseRadarRadius + 25, color: upgrade.baseRadarColor)
     }
 

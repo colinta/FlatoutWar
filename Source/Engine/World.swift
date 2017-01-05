@@ -300,13 +300,19 @@ extension World {
     }
 
     fileprivate func cachedNodes() -> [Node] {
-        let cached = _cachedNodes ?? allChildNodes()
+        if let nodes = _cachedNodes {
+            return nodes
+        }
+        let cached = allChildNodes()
         _cachedNodes = cached
         return cached
     }
 
     fileprivate func cachedEnemies() -> [Node] {
-        let cached = _cachedEnemies ?? nodes.filter { node in
+        if let nodes = _cachedEnemies {
+            return nodes
+        }
+        let cached = nodes.filter { node in
             return node.isEnemy
         }
         _cachedEnemies = cached
@@ -314,7 +320,10 @@ extension World {
     }
 
     fileprivate func cachedPlayers() -> [Node] {
-        let cached = _cachedPlayers ?? nodes.filter { node in
+        if let nodes = _cachedPlayers {
+            return nodes
+        }
+        let cached = nodes.filter { node in
             return node.isPlayer
         }
         _cachedPlayers = cached
@@ -342,11 +351,11 @@ extension World {
         var reacquire = false
         for child in newNodes {
             if child.isEnemy {
-                _cachedEnemies = (_cachedEnemies ?? []) + [child]
+                _cachedEnemies = cachedEnemies() + [child]
             }
 
             if child.isPlayer {
-                _cachedPlayers = (_cachedPlayers ?? []) + [child]
+                _cachedPlayers = cachedPlayers() + [child]
                 reacquire = true
             }
 

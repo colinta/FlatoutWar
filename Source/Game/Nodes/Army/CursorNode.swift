@@ -65,7 +65,7 @@ class CursorNode: Node {
             if let currentScale = moveValue(destScalePhase, towards: destScale, by: dScale * dt) {
                 let spriteScale = easeOutElastic(time: currentScale)
                 setScale(spriteScale)
-                size = sprite.size
+                size = CGSize(80) * spriteScale
                 self.destScalePhase = currentScale
             }
             else {

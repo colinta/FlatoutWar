@@ -261,6 +261,12 @@
 		1D971CDF1E1479E700A167A2 /* ExperiencePercent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CDB1E1479E700A167A2 /* ExperiencePercent.swift */; };
 		1D971CE01E1479E700A167A2 /* LabelPercent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CDC1E1479E700A167A2 /* LabelPercent.swift */; };
 		1D971CE11E1479E700A167A2 /* ResourcePercent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CDD1E1479E700A167A2 /* ResourcePercent.swift */; };
+		1D971CE41E16CD9400A167A2 /* LaserArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CE21E16CD9400A167A2 /* LaserArtist.swift */; };
+		1D971CE51E16CD9400A167A2 /* ShotgunArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CE31E16CD9400A167A2 /* ShotgunArtist.swift */; };
+		1D971CE71E18381300A167A2 /* LaserNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CE61E18381300A167A2 /* LaserNode.swift */; };
+		1D971CE91E18381B00A167A2 /* LaserUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CE81E18381B00A167A2 /* LaserUpgrades.swift */; };
+		1D971CEB1E1C894600A167A2 /* ShotgunNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CEA1E1C894500A167A2 /* ShotgunNode.swift */; };
+		1D971CED1E1CA1BB00A167A2 /* ShotgunUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CEC1E1CA1BB00A167A2 /* ShotgunUpgrades.swift */; };
 		1DBFDA001DFFB8DD0058843D /* CannonUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */; };
 		216146732396C15720CD939B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F03135BA42322EAF9BCCB836 /* Foundation.framework */; };
 		275B0C2755BBFC08B0072403 /* NSMutableDictionary+WeakReferences.m in Sources */ = {isa = PBXBuildFile; fileRef = A2BBF808C8061FB024CDB563 /* NSMutableDictionary+WeakReferences.m */; };
@@ -558,6 +564,12 @@
 		1D971CDB1E1479E700A167A2 /* ExperiencePercent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExperiencePercent.swift; sourceTree = "<group>"; };
 		1D971CDC1E1479E700A167A2 /* LabelPercent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelPercent.swift; sourceTree = "<group>"; };
 		1D971CDD1E1479E700A167A2 /* ResourcePercent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResourcePercent.swift; sourceTree = "<group>"; };
+		1D971CE21E16CD9400A167A2 /* LaserArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaserArtist.swift; sourceTree = "<group>"; };
+		1D971CE31E16CD9400A167A2 /* ShotgunArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShotgunArtist.swift; sourceTree = "<group>"; };
+		1D971CE61E18381300A167A2 /* LaserNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaserNode.swift; sourceTree = "<group>"; };
+		1D971CE81E18381B00A167A2 /* LaserUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaserUpgrades.swift; sourceTree = "<group>"; };
+		1D971CEA1E1C894500A167A2 /* ShotgunNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShotgunNode.swift; sourceTree = "<group>"; };
+		1D971CEC1E1CA1BB00A167A2 /* ShotgunUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShotgunUpgrades.swift; sourceTree = "<group>"; };
 		1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonUpgrades.swift; sourceTree = "<group>"; };
 		2425E3A61D6520C9C8191BBB /* OALTools.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OALTools.m; path = ObjectAL/Support/OALTools.m; sourceTree = "<group>"; };
 		24FA3A3C3F172ED9299C52AE /* OALAudioTrackNotifications.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OALAudioTrackNotifications.h; path = ObjectAL/AudioTrack/OALAudioTrackNotifications.h; sourceTree = "<group>"; };
@@ -680,6 +692,7 @@
 				1D6AA0D71DD79B62004A0978 /* HourglassZoneArtist.swift */,
 				1D6AA0D81DD79B62004A0978 /* ImageArtists.swift */,
 				1D6AA0D91DD79B62004A0978 /* ImageIdentifier.swift */,
+				1D971CE21E16CD9400A167A2 /* LaserArtist.swift */,
 				1D6AA0DA1DD79B62004A0978 /* LetterAndFont.swift */,
 				1D6AA0DB1DD79B62004A0978 /* LightningArtist.swift */,
 				1D7A42D91E118C1C002F37FA /* MissleSiloArtist.swift */,
@@ -689,6 +702,7 @@
 				1D6AA0DD1DD79B62004A0978 /* RadarArtist.swift */,
 				1D6AA0DE1DD79B62004A0978 /* ResourceArtist.swift */,
 				1D6AA0DF1DD79B62004A0978 /* ShapeArtist.swift */,
+				1D971CE31E16CD9400A167A2 /* ShotgunArtist.swift */,
 				1D6AA0E01DD79B62004A0978 /* TextArtist.swift */,
 				1D6AA0E21DD79B62004A0978 /* WarningArtist.swift */,
 			);
@@ -777,10 +791,12 @@
 				1D971CCB1E1479D200A167A2 /* CannonNode.swift */,
 				1D971CCC1E1479D200A167A2 /* CursorNode.swift */,
 				1D971CCD1E1479D200A167A2 /* DroneNode.swift */,
+				1D971CE61E18381300A167A2 /* LaserNode.swift */,
 				1D7A42E11E11A83B002F37FA /* MissleNode.swift */,
 				1D971CCE1E1479D200A167A2 /* MissleSiloNode.swift */,
 				1D971CCF1E1479D200A167A2 /* ResourceCollector.swift */,
 				1D971CD01E1479D200A167A2 /* ResourceNode.swift */,
+				1D971CEA1E1C894500A167A2 /* ShotgunNode.swift */,
 			);
 			path = Army;
 			sourceTree = "<group>";
@@ -1194,7 +1210,9 @@
 				1D5C44021DDAAF6F00FDBF7E /* BasePlayerUpgrades.swift */,
 				1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */,
 				1D6AA0241DD79B3B004A0978 /* DroneUpgrades.swift */,
+				1D971CE81E18381B00A167A2 /* LaserUpgrades.swift */,
 				1D7A42DD1E11927D002F37FA /* MissleSiloUpgrades.swift */,
+				1D971CEC1E1CA1BB00A167A2 /* ShotgunUpgrades.swift */,
 				1D6AA0251DD79B3B004A0978 /* UpgradableNode.swift */,
 			);
 			path = ArmyUpgrades;
@@ -1433,6 +1451,7 @@
 				1D6AA1191DD79BF8004A0978 /* Currency.swift in Sources */,
 				A4D310D45BFF7B75A53C29F8 /* OALAudioTrack.m in Sources */,
 				3332E0EFC48439B66A847C28 /* OALAudioTrackNotifications.m in Sources */,
+				1D971CE51E16CD9400A167A2 /* ShotgunArtist.swift in Sources */,
 				1D6AA0271DD79B3B004A0978 /* UpgradableNode.swift in Sources */,
 				1D6AA07D1DD79B4B004A0978 /* DebugPath.swift in Sources */,
 				1D6AA0721DD79B42004A0978 /* SpriteKit.swift in Sources */,
@@ -1481,6 +1500,7 @@
 				1D6A9FD71DD79B2A004A0978 /* PulsePowerup.swift in Sources */,
 				1D6A9FA31DD79B18004A0978 /* BaseLevel3Config.swift in Sources */,
 				1D6AA0E91DD79B62004A0978 /* CursorArtist.swift in Sources */,
+				1D971CEB1E1C894600A167A2 /* ShotgunNode.swift in Sources */,
 				1D6A9FF61DD79B31004A0978 /* BomberPowerupNode.swift in Sources */,
 				1D6AA0581DD79B3E004A0978 /* RammingComponent.swift in Sources */,
 				1D6AA0531DD79B3E004A0978 /* MoveToComponent.swift in Sources */,
@@ -1569,6 +1589,7 @@
 				1D6A9FD51DD79B2A004A0978 /* NetPowerup.swift in Sources */,
 				1D6AA0501DD79B3E004A0978 /* JiggleComponent.swift in Sources */,
 				1D6AA05D1DD79B3E004A0978 /* TouchableComponent.swift in Sources */,
+				1D971CE41E16CD9400A167A2 /* LaserArtist.swift in Sources */,
 				1D6A9F471DD79B05004A0978 /* Shape.swift in Sources */,
 				1D6AA07B1DD79B44004A0978 /* TextNode.swift in Sources */,
 				DB58E927772704BC90468B8B /* OALSuspendHandler.m in Sources */,
@@ -1576,6 +1597,7 @@
 				1D6AA08F1DD79B53004A0978 /* ApplyToNodeComponent.swift in Sources */,
 				1D6AA0B51DD79B5A004A0978 /* GrenadesPowerupArtist.swift in Sources */,
 				1D6AA0981DD79B53004A0978 /* TouchSession.swift in Sources */,
+				1D971CE71E18381300A167A2 /* LaserNode.swift in Sources */,
 				825317C867A6089490B43568 /* mach_timing.c in Sources */,
 				1D6A9FA01DD79B18004A0978 /* BaseConfigSummary.swift in Sources */,
 				1D6AA0081DD79B34004A0978 /* BulletRecoilExplosionNode.swift in Sources */,
@@ -1613,6 +1635,7 @@
 				1D6AA0731DD79B42004A0978 /* UIColorExt.swift in Sources */,
 				1D6AA0711DD79B42004A0978 /* NSCoding.swift in Sources */,
 				1D6A9FA51DD79B18004A0978 /* BaseLevel5Config.swift in Sources */,
+				1D971CE91E18381B00A167A2 /* LaserUpgrades.swift in Sources */,
 				1D6AA0961DD79B53004A0978 /* SpriteNode.swift in Sources */,
 				1D6A9F731DD79B10004A0978 /* PowerupTutorial.swift in Sources */,
 				1D6AA0491DD79B3E004A0978 /* FiringComponent.swift in Sources */,
@@ -1620,6 +1643,7 @@
 				1D6A9FAB1DD79B18004A0978 /* TutorialLevel1Config.swift in Sources */,
 				1D6AA0FD1DD79B68004A0978 /* AppDelegate.swift in Sources */,
 				1D6A9F741DD79B10004A0978 /* RapidFireTutorial.swift in Sources */,
+				1D971CED1E1CA1BB00A167A2 /* ShotgunUpgrades.swift in Sources */,
 				AAC3E3440755015CE2D47145 /* OALAudioFile.m in Sources */,
 				1D6AA0201DD79B37004A0978 /* EnemyLeaderNode.swift in Sources */,
 				1D6A9FBC1DD79B1C004A0978 /* BaseLevel4.swift in Sources */,

@@ -14,10 +14,8 @@ extension MissleSiloNode: UpgradeableNode {
             radarUpgrade = true
         case .BulletUpgrade:
             bulletUpgrade = true
-        case .RotateUpgrade:
-            rotateUpgrade = true
-        default:
-            return
+        case .MovementUpgrade:
+            movementUpgrade = true
         }
     }
 
@@ -41,6 +39,20 @@ extension HasUpgrade {
         switch self {
         case .False: return 150
         case .True:  return 200
+        }
+    }
+
+    var missleSiloAngularSpeed: CGFloat {
+        switch self {
+        case .False: return 2
+        case .True: return 5
+        }
+    }
+
+    var missleSiloAngularAccel: CGFloat? {
+        switch self {
+        case .False: return 2
+        case .True: return 6
         }
     }
 

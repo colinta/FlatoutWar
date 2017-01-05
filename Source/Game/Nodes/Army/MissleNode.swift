@@ -19,10 +19,10 @@ class MissleNode: Node {
         splashDamage = damage
         splashRadius = radius
 
-        targetingComponent!.currentTarget = initialTarget
-        rammingComponent!.currentTarget = initialTarget
-        rammingComponent!.maxSpeed = speed
-        rammingComponent!.maxTurningSpeed = speed
+        targetingComponent?.currentTarget = initialTarget
+        rammingComponent?.currentTarget = initialTarget
+        rammingComponent?.maxSpeed = speed
+        rammingComponent?.maxTurningSpeed = speed
     }
 
     required init?(coder: NSCoder) {
@@ -35,7 +35,7 @@ class MissleNode: Node {
         sprite.z = .AbovePlayer
         self << sprite
 
-        size = sprite.size
+        size = CGSize(10, 7)
 
         let playerComponent = PlayerComponent()
         playerComponent.targetable = false

@@ -3,12 +3,25 @@
 //
 
 class SpriteNode: Node {
-    let sprite = SKSpriteNode()
+    private let sprite = SKSpriteNode()
+    var anchorPoint: CGPoint {
+        get { return sprite.anchorPoint }
+        set { sprite.anchorPoint = newValue }
+    }
+    override var zPosition: CGFloat {
+        didSet { sprite.zPosition = zPosition }
+    }
 
     required init(id: ImageIdentifier) {
         super.init()
-        sprite.textureId(id)
-        size = sprite.size
+
+        textureId(id)
+        self << sprite
+    }
+
+    func textureId(_ spriteId: ImageIdentifier, scale: Artist.Scale = .Default) {
+        sprite.textureId(spriteId, scale: scale)
+        size = spriteId.artist.size
     }
 
     required convenience init() {

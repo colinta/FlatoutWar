@@ -114,12 +114,6 @@ class Node: SKNode {
         components = coder.decode(key: "components") ?? []
         active = coder.decodeBool(key: "active") ?? true
         size = coder.decodeSize(key: "size") ?? .zero
-        if let z = coder.decodeCGFloat(key: "z") {
-            self.z = Z(rawValue: z) ?? .Default
-        }
-        else {
-            self.z = Z.Default
-        }
         unarchiveComponents()
     }
 
@@ -127,7 +121,6 @@ class Node: SKNode {
         encoder.encode(components, forKey: "components")
         encoder.encode(active, forKey: "active")
         encoder.encode(size, forKey: "size")
-        encoder.encode(z.rawValue, forKey: "z")
         super.encode(with: encoder)
     }
 

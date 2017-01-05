@@ -13,7 +13,9 @@ class PercentBar: Node {
         if complete < 0 || complete > 1 {
             complete = min(max(complete, 0), 1)
         }
-        updateSprite()
+        else {
+            updateSprite()
+        }
     } }
     var minimum: CGFloat? { didSet {
         updateSprite()
@@ -40,7 +42,6 @@ class PercentBar: Node {
         minSprite.zRotation = TAU_4
 
         updateSprite()
-        self.size = sprite.size
     }
 
     required init?(coder: NSCoder) {

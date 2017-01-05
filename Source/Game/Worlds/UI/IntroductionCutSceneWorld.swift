@@ -109,7 +109,7 @@ class IntroductionCutSceneWorld: World {
                     3.times { (i: Int) in
                         let player = BasePlayerNode()
                         player.lightNode.removeFromParent()
-                        player.radarNode.removeFromParent()
+                        player.radarSprite.removeFromParent()
                         player.rotateTo(rand(TAU))
                         player.position = playerPositions[i]
                         parent << player
@@ -123,15 +123,15 @@ class IntroductionCutSceneWorld: World {
             Scene(
                 run: { parent in
                     let player = BasePlayerNode()
-                    player.radarNode.textureId(.BaseRadar(upgrade: .False), scale: .Zoomed)
-                    player.baseNode.textureId(.Base(rotateUpgrade: .False, radarUpgrade: .False, bulletUpgrade: .False, health: 100), scale: .Zoomed)
-                    player.turretNode.textureId(.BaseSingleTurret(bulletUpgrade: .False), scale: .Zoomed)
+                    player.radarSprite.textureId(.BaseRadar(upgrade: .False, isSelected: true), scale: .Zoomed)
+                    player.baseSprite.textureId(.Base(movementUpgrade: .False, bulletUpgrade: .False, radarUpgrade: .False, health: 100), scale: .Zoomed)
+                    player.turretSprite.textureId(.BaseSingleTurret(bulletUpgrade: .False), scale: .Zoomed)
                     player.position = CGPoint(x: -200)
                     player.scaleTo(1, start: 4, duration: 3)
                     player.fadeTo(1, start: 0, duration: 2).onFaded {
-                        player.radarNode.textureId(.BaseRadar(upgrade: .False))
-                        player.baseNode.textureId(.Base(rotateUpgrade: .False, radarUpgrade: .False, bulletUpgrade: .False, health: 100))
-                        player.turretNode.textureId(.BaseSingleTurret(bulletUpgrade: .False))
+                        player.radarSprite.textureId(.BaseRadar(upgrade: .False, isSelected: true))
+                        player.baseSprite.textureId(.Base(movementUpgrade: .False, bulletUpgrade: .False, radarUpgrade: .False, health: 100))
+                        player.turretSprite.textureId(.BaseSingleTurret(bulletUpgrade: .False))
                     }
                     parent << player
                 },
@@ -177,7 +177,7 @@ class IntroductionCutSceneWorld: World {
                     player.rotateToComponent?.target = TAU_2
 
                     let drone1 = DroneNode(at: player.position + CGPoint(r: 100, a: TAU_2 - TAU_16))
-                    drone1.speedUpgrade = .True
+                    drone1.movementUpgrade = .True
                     drone1.radarUpgrade = .True
                     parent << drone1
 

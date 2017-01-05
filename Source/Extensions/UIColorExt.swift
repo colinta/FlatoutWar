@@ -14,23 +14,16 @@ extension UIColor {
         assert(green >= 0 && green <= 255, "Invalid green component")
         assert(blue >= 0 && blue <= 255, "Invalid blue component")
 
-        self.init(red: CGFloat(red) / 255.0, green: CGFloat(green) / 255.0, blue: CGFloat(blue) / 255.0, alpha: CGFloat(alpha))
+        self.init(red: CGFloat(red) / 255, green: CGFloat(green) / 255, blue: CGFloat(blue) / 255, alpha: CGFloat(alpha))
     }
 
-    convenience init(hex: Int, alpha: Float = 1.0) {
-        self.init(red: hex >> 16 & 0xFF, green: hex >> 8 & 0xFF, blue: hex & 0xFF, a: alpha)
+    convenience init(hex: Int, alpha: Float = 1) {
+        let (r, g, b) = rgb(hex)
+        self.init(red: r, green: g, blue: b, a: alpha)
     }
 }
 
 extension Int {
-    static func rgb(hex: Int) -> (r: Int, g: Int, b: Int) {
-        return (
-            r: hex >> 16 & 0xFF,
-            g: hex >> 8 & 0xFF,
-            b: hex & 0xFF
-        )
-    }
-
     init(red: Int, green: Int, blue: Int) {
         assert(red >= 0 && red <= 255, "Invalid red component")
         assert(green >= 0 && green <= 255, "Invalid green component")

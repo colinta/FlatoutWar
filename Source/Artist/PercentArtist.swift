@@ -65,10 +65,12 @@ class PercentArtist: Artist {
             context.clip()
 
             let colorSpace = CGColorSpaceCreateDeviceRGB()
-            let components: [CGFloat] = [1.0, 1.0, 0, 1,
-                                      1.0, 0, 0, 1]
+            let colors: [CGColor] = [
+                UIColor(hex: 0xFFFF00, alpha: 1).cgColor,
+                UIColor(hex: 0xFF0000, alpha: 1).cgColor
+            ]
             let locations: [CGFloat] = [0, 1]
-            let gradient = CGGradient(colorSpace: colorSpace, colorComponents: components, locations: locations, count: 2)!
+            let gradient = CGGradient(colorsSpace: colorSpace, colors: colors as CFArray, locations: locations)!
             context.drawLinearGradient(gradient, start: CGPoint(y: 0), end: CGPoint(y: size.height), options: [])
         }
     }

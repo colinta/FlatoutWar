@@ -5,30 +5,34 @@
 private let startingHealth: Float = 40
 
 class DroneNode: Node, DraggableNode {
-    var radarUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
-    var bulletUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
-    var speedUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
+    var radarUpgrade: HasUpgrade = .False { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
+    var bulletUpgrade: HasUpgrade = .False { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
+    var movementUpgrade: HasUpgrade = .False { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
 
     let armyComponent = SelectableArmyComponent()
     let wanderingComponent = WanderingComponent()
 
+    fileprivate func updateBaseSprite() {
+        sprite.textureId(.Drone(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: healthComponent?.healthInt ?? 100))
+        placeholder.textureId(.Drone(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: 100))
+    }
     fileprivate func updateUpgrades() {
-        sprite.textureId(.Drone(speedUpgrade: speedUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: healthComponent?.healthInt ?? 100))
-        placeholder.textureId(.Drone(speedUpgrade: speedUpgrade, radarUpgrade: radarUpgrade, bulletUpgrade: bulletUpgrade, health: 100))
         radar1.textureId(.DroneRadar(upgrade: radarUpgrade))
         radar2.textureId(.DroneRadar(upgrade: radarUpgrade))
+        updateBaseSprite()
 
         targetingComponent?.radius = radarUpgrade.droneRadarRadius
         targetingComponent?.bulletSpeed = bulletUpgrade.droneBulletSpeed
 
-        draggableComponent?.speed = speedUpgrade.droneMovementSpeed
+        draggableComponent?.speed = movementUpgrade.droneMovementSpeed
 
-        firingComponent?.cooldown = speedUpgrade.droneCooldown
+        firingComponent?.cooldown = movementUpgrade.droneCooldown
         firingComponent?.targetsPreemptively = radarUpgrade.targetsPreemptively
         firingComponent?.damage = bulletUpgrade.droneBulletDamage
 
-        wanderingComponent.maxSpeed = speedUpgrade.droneMovementSpeed / 10
-        size = sprite.size
+        wanderingComponent.maxSpeed = movementUpgrade.droneMovementSpeed / 10
+
+        size = CGSize(20)
     }
 
     var wanderingEnabled: Bool? {
@@ -63,7 +67,7 @@ class DroneNode: Node, DraggableNode {
         let node = super.clone() as! DroneNode
         node.radarUpgrade = radarUpgrade
         node.bulletUpgrade = bulletUpgrade
-        node.speedUpgrade = speedUpgrade
+        node.movementUpgrade = movementUpgrade
         return node
     }
 
@@ -118,7 +122,7 @@ class DroneNode: Node, DraggableNode {
         let healthComponent = HealthComponent(health: startingHealth)
         healthComponent.onHurt { damage in
             _ = self.world?.channel?.play(Sound.PlayerHurt)
-            self.sprite.textureId(.Drone(speedUpgrade: self.speedUpgrade, radarUpgrade: self.radarUpgrade, bulletUpgrade: self.bulletUpgrade, health: healthComponent.healthInt))
+            self.updateBaseSprite()
         }
         healthComponent.onKilled {
             self.world?.unselectNode(self)
@@ -196,6 +200,7 @@ extension DroneNode {
         let speed: CGFloat = bulletUpgrade.droneBulletSpeed ± rand(weighted: 5)
         let bullet = BulletNode(velocity: CGPoint(r: speed, a: angle), style: .Slow)
         bullet.position = self.position
+        bullet.timeRate = self.timeRate
 
         bullet.damage = bulletUpgrade.droneBulletDamage + rand(weighted: 0.5)
         bullet.size = BulletArtist.bulletSize(upgrade: .False)

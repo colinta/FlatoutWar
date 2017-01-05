@@ -5,7 +5,7 @@
 
 extension CannonNode: UpgradeableNode {
     func upgradeTitle() -> String {
-        return "PENTARCHY"
+        return "PENTARCH"
     }
 
     func applyUpgrade(type: UpgradeType) {
@@ -14,10 +14,8 @@ extension CannonNode: UpgradeableNode {
             radarUpgrade = true
         case .BulletUpgrade:
             bulletUpgrade = true
-        case .RotateUpgrade:
-            rotateUpgrade = true
-        default:
-            return
+        case .MovementUpgrade:
+            movementUpgrade = true
         }
     }
 
@@ -46,24 +44,21 @@ extension HasUpgrade {
         }
     }
 
-    var cannonBulletDamage: Float {
-        switch self {
-        case .False: return 4
-        case .True:  return 6
-        }
-    }
-
     var cannonAngularSpeed: CGFloat {
         switch self {
         case .False: return 3
-        case .True:  return 6
+        case .True: return 7
         }
     }
 
     var cannonAngularAccel: CGFloat? {
+        return nil
+    }
+
+    var cannonBulletDamage: Float {
         switch self {
-        case .False: return 2
-        case .True:  return 8
+        case .False: return 4
+        case .True:  return 6
         }
     }
 
@@ -90,8 +85,8 @@ extension HasUpgrade {
 
     var cannonRadarColor: Int {
         switch self {
-            case .False: return 0xFCF10C
-            case .True: return 0xE59311
+            case .False: return CannonRadar1Color
+            case .True: return CannonRadar2Color
         }
     }
 

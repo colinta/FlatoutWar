@@ -11,7 +11,7 @@ class PowerupTutorial: Tutorial {
         super.populateWorld()
 
         playerNode.firingComponent?.enabled = false
-        playerNode.radarNode.removeFromParent()
+        playerNode.radarSprite.removeFromParent()
         playerNode.position += CGPoint(10, -10)
         tutorialTextNode.font = .Small
         tutorialTextNode.text = "POWERUPS"

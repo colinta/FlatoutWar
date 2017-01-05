@@ -5,11 +5,35 @@
 private let startingHealth: Float = 50
 
 class MissleSiloNode: Node, DraggableNode {
-    var radarUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
-    var bulletUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
-    var rotateUpgrade: HasUpgrade = .False { didSet { updateUpgrades() } }
+    var radarUpgrade: HasUpgrade = .False { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
+    var bulletUpgrade: HasUpgrade = .False { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
+    var movementUpgrade: HasUpgrade = .False { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
 
     let armyComponent = SelectableArmyComponent()
+
+    fileprivate func updateRadarSprite() {
+        radarSprite.textureId(.MissleSiloRadar(upgrade: radarUpgrade, isSelected: armyComponent.isSelected))
+    }
+    fileprivate func updateUpgrades() {
+        turretBox.textureId(.MissleSiloBox(upgrade: bulletUpgrade))
+        baseSprite.textureId(.MissleSilo(upgrade: movementUpgrade, health: healthComponent?.healthInt ?? 100))
+        placeholder.textureId(.MissleSilo(upgrade: movementUpgrade, health: 100))
+        updateRadarSprite()
+
+        draggableComponent?.speed = movementUpgrade.missleSiloMovementSpeed
+
+        targetingComponent?.radius = radarUpgrade.missleSiloRadarRadius
+
+        firingComponent?.targetsPreemptively = true
+        firingComponent?.damage = bulletUpgrade.missleSiloBulletDamage
+
+        rotateToComponent?.maxAngularSpeed = movementUpgrade.missleSiloAngularSpeed
+        rotateToComponent?.angularAccel = movementUpgrade.missleSiloAngularAccel
+
+        targetingComponent?.bulletSpeed = bulletUpgrade.missleSiloBulletSpeed
+
+        size = CGSize(30)
+    }
 
     fileprivate func updateMissleSprites() {
         var prevCount = missleSprites.count
@@ -43,31 +67,10 @@ class MissleSiloNode: Node, DraggableNode {
         firingComponent?.enabled = armyComponent.armyEnabled && missleCount > 0
     }
 
-    fileprivate func updateUpgrades() {
-        radarSprite.textureId(.MissleSiloRadar(upgrade: radarUpgrade))
-        baseSprite.textureId(.MissleSilo(upgrade: bulletUpgrade, health: healthComponent?.healthInt ?? 100))
-        placeholder.textureId(.MissleSilo(upgrade: bulletUpgrade, health: 100))
-        turretBox.textureId(.MissleSiloBox(upgrade: bulletUpgrade))
-
-        draggableComponent?.speed = rotateUpgrade.missleSiloMovementSpeed
-
-        targetingComponent?.radius = radarUpgrade.missleSiloRadarRadius
-
-        firingComponent?.targetsPreemptively = true
-        firingComponent?.damage = bulletUpgrade.missleSiloBulletDamage
-
-        rotateToComponent?.maxAngularSpeed = rotateUpgrade.baseAngularSpeed
-        rotateToComponent?.angularAccel = rotateUpgrade.baseAngularAccel
-
-        targetingComponent?.bulletSpeed = bulletUpgrade.missleSiloBulletSpeed
-        size = baseSprite.size
-    }
-
     let radarSprite = SKSpriteNode()
-    let baseNode = Node()
     let baseSprite = SKSpriteNode()
-    let turretNode = Node()
     let turretBox = SKSpriteNode()
+    let turretNode = SKNode()
     var maxMissleCount: Int = 3
     private var missleCreationTimer: CGFloat = 0
     var missleCount: Int {
@@ -93,16 +96,15 @@ class MissleSiloNode: Node, DraggableNode {
         radarSprite.z = .BelowPlayer
         turretBox.z = .Above
 
-        self << baseNode
+        self << baseSprite
         self << radarSprite
-        baseNode << baseSprite
-        self << turretNode
         turretBox.anchorPoint = CGPoint(x: 0.75, y: 0.5)
         self << turretBox
+        self << turretNode
 
         let playerComponent = PlayerComponent()
         playerComponent.targetable = false
-        playerComponent.intersectionNode = baseNode
+        playerComponent.intersectionNode = baseSprite
         addComponent(playerComponent)
 
         let targetingComponent = EnemyTargetingComponent()
@@ -151,7 +153,7 @@ class MissleSiloNode: Node, DraggableNode {
 
         let rotateToComponent = RotateToComponent()
         rotateToComponent.currentAngle = 0
-        rotateToComponent.applyTo = baseNode
+        rotateToComponent.applyTo = baseSprite
         addComponent(rotateToComponent)
 
         let cursor = CursorNode()
@@ -160,11 +162,12 @@ class MissleSiloNode: Node, DraggableNode {
         armyComponent.cursorNode = cursor
         armyComponent.onUpdated { armyEnabled in
             self.firingComponent?.enabled = armyEnabled && self.missleCount > 0
+            self.updateRadarSprite()
         }
         armyComponent.radarNode = radarSprite
         addComponent(armyComponent)
 
-        missleCreationTimer = rotateUpgrade.missleSiloReloadTime
+        missleCreationTimer = movementUpgrade.missleSiloReloadTime
         updateUpgrades()
         updateMissleSprites()
 
@@ -184,7 +187,7 @@ class MissleSiloNode: Node, DraggableNode {
 
     override func clone() -> Node {
         let node = super.clone() as! MissleSiloNode
-        node.rotateUpgrade = rotateUpgrade
+        node.movementUpgrade = movementUpgrade
         node.bulletUpgrade = bulletUpgrade
         node.radarUpgrade = radarUpgrade
         return node
@@ -195,15 +198,15 @@ class MissleSiloNode: Node, DraggableNode {
             radarSprite.zRotation = angle
         }
 
-        let angle = firingComponent?.angle ?? baseNode.zRotation
-        turretNode.zRotation = angle
+        let angle = baseSprite.zRotation
         turretBox.zRotation = angle
+        turretNode.zRotation = firingComponent?.angle ?? angle
 
         if missleCount < maxMissleCount && armyComponent.armyEnabled {
             missleCreationTimer -= dt
 
             if missleCreationTimer <= 0 {
-                missleCreationTimer = rotateUpgrade.missleSiloReloadTime
+                missleCreationTimer = movementUpgrade.missleSiloReloadTime
 
                 if missleCount == 0 {
                     firingComponent?.lastFiredCooldown = 0
@@ -228,14 +231,15 @@ extension MissleSiloNode {
         else {
             missleOffset = .zero
         }
-        let missle = MissleNode(
+        let bullet = MissleNode(
             damage: bulletUpgrade.missleSiloBulletDamage,
             speed: bulletUpgrade.missleSiloBulletSpeed,
             radius: bulletUpgrade.missleSiloSplashRadius,
             target: target)
-        missle.position = position + missleOffset
-        missle.zRotation = zRotation
-        (parentNode ?? world) << missle
+        bullet.position = position + missleOffset
+        bullet.zRotation = zRotation
+        bullet.timeRate = self.timeRate
+        (parentNode ?? world) << bullet
 
         missleCount -= 1
     }
@@ -277,8 +281,10 @@ extension MissleSiloNode {
     }
 
     override func rotateTo(_ angle: CGFloat) {
-        baseNode.zRotation = angle
+        baseSprite.zRotation = angle
         radarSprite.zRotation = angle
+        turretBox.zRotation = angle
+        turretNode.zRotation = angle
         rotateToComponent?.currentAngle = angle
         rotateToComponent?.target = nil
     }

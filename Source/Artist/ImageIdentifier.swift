@@ -73,25 +73,33 @@ indirect enum ImageIdentifier {
     case Soldier(health: Int)
     case PowerupTimer(percent: Int)
 
-    case Drone(speedUpgrade: HasUpgrade, radarUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, health: Int)
+    case Drone(movementUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, radarUpgrade: HasUpgrade, health: Int)
     case DroneRadar(upgrade: HasUpgrade)
+
+    case LaserNode(upgrade: HasUpgrade, health: Int)
+    case LaserTurret(upgrade: HasUpgrade, isFiring: Bool)
+    case LaserRadar(upgrade: HasUpgrade, isSelected: Bool)
+
+    case ShotgunNode(movementUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, radarUpgrade: HasUpgrade, health: Int)
+    case ShotgunTurret(upgrade: HasUpgrade)
+    case ShotgunRadar(upgrade: HasUpgrade, isSelected: Bool)
 
     case Cannon(upgrade: HasUpgrade, health: Int)
     case CannonBox(upgrade: HasUpgrade)
     case CannonTurret(upgrade: HasUpgrade)
-    case CannonRadar(upgrade: HasUpgrade)
+    case CannonRadar(upgrade: HasUpgrade, isSelected: Bool)
 
     case MissleSilo(upgrade: HasUpgrade, health: Int)
     case MissleSiloBox(upgrade: HasUpgrade)
-    case MissleSiloRadar(upgrade: HasUpgrade)
+    case MissleSiloRadar(upgrade: HasUpgrade, isSelected: Bool)
     case Missle
 
     case Resource(goal: Int, remaining: Int)
     case ResourceLine(length: CGFloat)
 
     case Cursor
-    case Base(rotateUpgrade: HasUpgrade, radarUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, health: Int)
-    case BaseRadar(upgrade: HasUpgrade)
+    case Base(movementUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, radarUpgrade: HasUpgrade, health: Int)
+    case BaseRadar(upgrade: HasUpgrade, isSelected: Bool)
     case BaseExplosion(index: Int, total: Int)
 
     case BaseSingleTurret(bulletUpgrade: HasUpgrade)
@@ -167,11 +175,14 @@ indirect enum ImageIdentifier {
         case let .Button(style, color):
             return "Button_style-\(style.name)_color-\(color)"
         case let .Enemy(type, health):
-            return "Enemy_type-\(type.name)_health-\(health)"
+            let typeName = type.name
+            return "Enemy_type-(\(typeName))_health-\(health)"
         case let .EnemyShrapnel(type, size):
-            return "EnemyShrapnel_type-\(type.name)_size-\(size.name)"
+            let typeName = type.name ?? ""
+            return "EnemyShrapnel_type-(\(typeName))_size-\(size.name)"
         case let .Powerup(type):
-            return "Powerup_type-\(type.name)"
+            let typeName = type.name
+            return "Powerup_type-(\(typeName))"
         case .NoPowerup:
             return "NoPowerup"
         case let .Bomber(numBombs):
@@ -194,10 +205,24 @@ indirect enum ImageIdentifier {
         case let .PowerupTimer(percent):
             return "PowerupTimer_percent-\(percent)"
 
-        case let .Drone(speedUpgrade, radarUpgrade, bulletUpgrade, health):
-            return "Drone_speedUpgrade-\(speedUpgrade.name)_radarUpgrade-\(radarUpgrade.name)_bulletUpgrade-\(bulletUpgrade.name)_health-\(health)"
+        case let .Drone(movementUpgrade, bulletUpgrade, radarUpgrade, health):
+            return "Drone_movementUpgrade-\(movementUpgrade.name)_bulletUpgrade-\(bulletUpgrade.name)_radarUpgrade-\(radarUpgrade.name)_health-\(health)"
         case let .DroneRadar(upgrade):
             return "DroneRadar_upgrade-\(upgrade.name)"
+
+        case let .LaserNode(upgrade, health):
+            return "LaserNode_upgrade-\(upgrade.name)_health-\(health)"
+        case let .LaserTurret(upgrade, isFiring):
+            return "LaserTurret_upgrade-\(upgrade.name)_isFiring-\(isFiring)"
+        case let .LaserRadar(upgrade, isSelected):
+            return "LaserRadar_upgrade-\(upgrade.name)_isSelected-\(isSelected)"
+
+        case let .ShotgunNode(movementUpgrade, bulletUpgrade, radarUpgrade, health):
+            return "ShotgunNode_movementUpgrade-\(movementUpgrade.name)_bulletUpgrade-\(bulletUpgrade.name)_radarUpgrade-\(radarUpgrade.name)_health-\(health)"
+        case let .ShotgunTurret(upgrade):
+            return "ShotgunTurret_upgrade-\(upgrade.name)"
+        case let .ShotgunRadar(upgrade, isSelected):
+            return "ShotgunRadar_upgrade-\(upgrade.name)_isSelected-\(isSelected)"
 
         case let .Cannon(upgrade, health):
             return "Cannon_upgrade-\(upgrade.name)_health-\(health)"
@@ -205,15 +230,15 @@ indirect enum ImageIdentifier {
             return "CannonBox_upgrade-\(upgrade.name)"
         case let .CannonTurret(upgrade):
             return "CannonTurret_upgrade-\(upgrade.name)"
-        case let .CannonRadar(upgrade):
-            return "CannonRadar_upgrade-\(upgrade.name)"
+        case let .CannonRadar(upgrade, isSelected):
+            return "CannonRadar_upgrade-\(upgrade.name)_isSelected-\(isSelected)"
 
         case let .MissleSilo(upgrade, health):
             return "MissleSilo_upgrade-\(upgrade.name)_health-\(health)"
         case let .MissleSiloBox(upgrade):
             return "MissleSiloBox_upgrade-\(upgrade.name)"
-        case let .MissleSiloRadar(upgrade):
-            return "MissleSiloRadar_upgrade-\(upgrade.name)"
+        case let .MissleSiloRadar(upgrade, isSelected):
+            return "MissleSiloRadar_upgrade-\(upgrade.name)_isSelected-\(isSelected)"
         case .Missle:
             return "Missle"
 
@@ -228,10 +253,10 @@ indirect enum ImageIdentifier {
             return "Shield_phase-\(phase)"
         case let .ShieldSegment(health):
             return "ShieldSegment_health-\(health)"
-        case let .Base(rotateUpgrade, radarUpgrade, bulletUpgrade, health):
-            return "Base_rotateUpgrade-\(rotateUpgrade.name)_radarUpgrade-\(radarUpgrade.name)_bulletUpgrade-\(bulletUpgrade.name)_health-\(health)"
-        case let .BaseRadar(upgrade):
-            return "BaseRadar_upgrade-\(upgrade.name)"
+        case let .Base(movementUpgrade, bulletUpgrade, radarUpgrade, health):
+            return "Base_movementUpgrade-\(movementUpgrade.name)_bulletUpgrade-\(bulletUpgrade.name)_radarUpgrade-\(radarUpgrade.name)_health-\(health)"
+        case let .BaseRadar(upgrade, isSelected):
+            return "BaseRadar_upgrade-\(upgrade.name)_isSelected-\(isSelected)"
         case let .BaseExplosion(index, total):
             return "BaseExplosion_index-\(index)_total-\(total)"
         case let .BaseSingleTurret(bulletUpgrade):

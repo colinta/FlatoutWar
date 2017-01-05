@@ -1,0 +1,122 @@
+////
+///  ShotgunArtist.swift
+//
+
+var ShotgunBaseColor = 0x983C10
+var ShotgunRadarColor = 0x9F5926
+var ShotgunTurretFillColor = 0x9F5926
+var ShotgunTurretStrokeColor = 0xB8AF8F
+
+class ShotgunArtist: PolygonArtist {
+    var movementUpgrade: HasUpgrade
+    var bulletUpgrade: HasUpgrade
+    var radarUpgrade: HasUpgrade
+
+    required init(_ movementUpgrade: HasUpgrade, _ bulletUpgrade: HasUpgrade, _ radarUpgrade: HasUpgrade, health: CGFloat) {
+        self.movementUpgrade = movementUpgrade
+        self.bulletUpgrade = bulletUpgrade
+        self.radarUpgrade = radarUpgrade
+        super.init(pointCount: 7, health: health)
+
+        baseColor = UIColor(hex: ShotgunBaseColor)
+        size = CGSize(34)
+    }
+
+    required init(pointCount: Int, health: CGFloat) {
+        fatalError("init(pointCount:hasUpgrade:health:) has not been implemented")
+    }
+
+    required init() {
+        fatalError("init() has not been implemented")
+    }
+
+    override func generatePoints() -> [(CGFloat, CGFloat)] {
+        let points = super.generatePoints()
+        if movementUpgrade == .False {
+            return points
+        }
+
+        let tinyDelta = 4.degrees
+        let bigRadius: CGFloat = size.width / 2
+        let smallRadius = bigRadius - 2
+        return points.flatMap { angle, radius in
+            return [
+                (angle, smallRadius),
+                (angle, bigRadius),
+                (angle + tinyDelta, bigRadius),
+                (angle + tinyDelta, smallRadius),
+            ]
+        }
+    }
+
+    override func draw(in context: CGContext) {
+        super.draw(in: context)
+
+        if radarUpgrade.boolValue {
+            drawRadar(in: context)
+        }
+
+        if bulletUpgrade.boolValue {
+            let radius = size.width / 2
+            let side = 2 * radius * sin(TAU_2 / CGFloat(pointCount))
+            let angleDelta = TAU / CGFloat(pointCount)
+            for i in 0..<pointCount {
+                let angle = angleDelta * CGFloat(i)
+                let start = CGPoint(r: radius, a: angle - angleDelta)
+                let center = CGPoint(r: radius, a: angle)
+                let angle1 = angle + TAU_2 + angleDelta
+                let angle2 = angle + TAU_2 - angleDelta
+                context.move(to: middle + start)
+                context.addArc(
+                    center: middle + center,
+                    radius: side / 2,
+                    startAngle: angle1, endAngle: angle2,
+                    clockwise: true)
+                context.drawPath(using: .stroke)
+            }
+        }
+    }
+
+    func drawRadar(in context: CGContext) {
+        context.addEllipse(in: CGRect(center: middle, size: size))
+        context.drawPath(using: .stroke)
+    }
+}
+
+class ShotgunTurretArtist: Artist {
+    let hasUpgrade: Bool
+    let fillColor = UIColor(hex: ShotgunTurretFillColor)
+    let strokeColor = UIColor(hex: ShotgunTurretStrokeColor)
+
+    required init(hasUpgrade: Bool) {
+        self.hasUpgrade = hasUpgrade
+        super.init()
+        size = CGSize(20)
+        shadowed = .True
+    }
+
+    required init() {
+        fatalError("init() has not been implemented")
+    }
+
+    override func draw(in context: CGContext) {
+        context.setFillColor(fillColor.cgColor)
+        context.setStrokeColor(strokeColor.cgColor)
+        context.setShadow(offset: .zero, blur: shadowed.floatValue, color: fillColor.cgColor)
+
+        // context.addEllipse(in: CGRect(size: size))
+        // context.drawPath(using: .stroke)
+
+        let circleCount = 3
+        let dTheta = TAU / CGFloat(circleCount)
+        let bigR = size.width / 4
+        let smallR = bigR * cos(TAU_12)
+        for index in 0..<circleCount {
+            let theta = dTheta * CGFloat(index)
+            let center = middle + CGPoint(r: bigR, a: theta)
+            let size = CGSize(r: smallR)
+            context.addEllipse(in: CGRect(center: center, size: size))
+        }
+        context.drawPath(using: .fillStroke)
+    }
+}

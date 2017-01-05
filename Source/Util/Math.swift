@@ -82,16 +82,6 @@ func moveAngle(_ current: CGFloat, towards target: CGFloat, by amt: CGFloat) -> 
     }
 }
 
-func interpolate(_ x: CGFloat, from f: (CGFloat, CGFloat), to: (CGFloat, CGFloat)) -> CGFloat {
-    let a1 = f.0,
-        a2 = f.1,
-        b1 = to.0,
-        b2 = to.1
-    guard a1 != a2 else { return b1 }
-
-    return (b2 - b1) / (a2 - a1) * (x - a1) + b1
-}
-
 func areaOf(_ a: CGPoint, _ b: CGPoint, _ c: CGPoint) -> CGFloat {
     let sum = a.x * (b.y - c.y) + b.x * (c.y - a.y) + c.x * (a.y - b.y)
     return CGFloat(abs(sum) / 2.0)
@@ -105,13 +95,30 @@ func hex(r: Int, g: Int, b: Int) -> Int {
     return r << 16 + g << 8 + b
 }
 
-func interpolateHex(_ x: CGFloat, from f: (CGFloat, CGFloat), to: (Int, Int)) -> Int {
-    let r0 = (to.0 & 0xFF0000) >> 16
-    let r1 = (to.1 & 0xFF0000) >> 16
-    let g0 = (to.0 & 0x00FF00) >> 8
-    let g1 = (to.1 & 0x00FF00) >> 8
-    let b0 = (to.0 & 0x0000FF)
-    let b1 = (to.1 & 0x0000FF)
+func rgb(_ color: Int) -> (Int, Int, Int) {
+    let r = (color & 0xFF0000) >> 16
+    let g = (color & 0x00FF00) >> 8
+    let b = (color & 0x0000FF)
+    return (r, g, b)
+}
+
+func interpolate(_ x: CGFloat, from f: (CGFloat, CGFloat), to: (CGFloat, CGFloat)) -> CGFloat {
+    let a1 = f.0,
+        a2 = f.1,
+        b1 = to.0,
+        b2 = to.1
+    guard a1 != a2 else { return b1 }
+
+    return (b2 - b1) / (a2 - a1) * (x - a1) + b1
+}
+
+func interpolateHex(_ t: CGFloat, colors: (Int, Int)) -> Int {
+    return interpolateHex(t, from: (0, 1), to: (colors.0, colors.1))
+}
+
+func interpolateHex(_ x: CGFloat, from f: (CGFloat, CGFloat), to colors: (Int, Int)) -> Int {
+    let (r0, g0, b0) = rgb(colors.0)
+    let (r1, g1, b1) = rgb(colors.1)
     let r: Int = Int(round(interpolate(x, from: f, to: (CGFloat(r0), CGFloat(r1)))))
     let g: Int = Int(round(interpolate(x, from: f, to: (CGFloat(g0), CGFloat(g1)))))
     let b: Int = Int(round(interpolate(x, from: f, to: (CGFloat(b0), CGFloat(b1)))))

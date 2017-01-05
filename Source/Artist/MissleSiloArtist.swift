@@ -5,15 +5,16 @@
 var MissleSiloBaseColor = 0xC82A04
 var MissleSiloFillColor = 0xA12403
 var MissleSiloStrokeColor = 0x937067
+var MissleSiloRadarColor = 0xA12403
 
 class MissleSiloArtist: PolygonArtist {
     required init(hasUpgrade: Bool, health: CGFloat) {
-        super.init(pointCount: 6, hasUpgrade: hasUpgrade, health: health)
+        super.init(pointCount: 6, health: health)
 
         baseColor = UIColor(hex: MissleSiloBaseColor)
     }
 
-    required init(pointCount: Int, hasUpgrade: Bool, health: CGFloat) {
+    required init(pointCount: Int, health: CGFloat) {
         fatalError("init(pointCount:hasUpgrade:health:) has not been implemented")
     }
 
