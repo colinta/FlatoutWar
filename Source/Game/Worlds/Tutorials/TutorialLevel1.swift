@@ -6,7 +6,6 @@ class TutorialLevel1: TutorialLevel {
     override func loadConfig() -> LevelConfig { return TutorialLevel1Config() }
 
     override func populateLevel() {
-        playerNode.forceResourceEnabled = false
         beginWave1()
     }
 

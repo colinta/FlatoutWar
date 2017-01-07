@@ -7,7 +7,6 @@ class TutorialSelectWorld: World {
     override func populateWorld() {
         let worlds: [(String, () -> World)] = [
             ("AUTO AIMING", { return AutoFireTutorial() }),
-            ("RESOURCES", { return ResourceTutorial() }),
             ("POWERUPS", { return PowerupTutorial() }),
             ("RAPID FIRE", { return RapidFireTutorial() }),
             ("DODEC DRONE", { return DroneTutorial() }),

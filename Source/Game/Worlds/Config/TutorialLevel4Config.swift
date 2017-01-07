@@ -10,8 +10,6 @@ class TutorialLevel4Config: TutorialConfig {
     ] }
 
     override var possibleExperience: Int { return 130 }
-    // override var requiredExperience: Int { return 115 }
-    override var expectedResources: Int { return 30 }
 
     override func tutorial() -> Tutorial? { return RapidFireTutorial() }
     override func nextLevel() -> Level {

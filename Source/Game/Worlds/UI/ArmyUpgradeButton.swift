@@ -6,7 +6,6 @@ class ArmyUpgradeButton: Button {
     let node: Node
     let label = TextNode()
     let costExperience = ExperienceCostText()
-    let costResources = ResourceCostText()
     var upgradeEnabled = true {
         didSet {
             if !upgradeEnabled {
@@ -48,16 +47,11 @@ class ArmyUpgradeButton: Button {
             label.alignment = .left
             self << label
 
-            var costX: CGFloat = textX + 10
+            let costX: CGFloat = textX + 10
 
             costExperience.cost = info.cost.experience
             self << costExperience
 
-            costResources.cost = info.cost.resources
-            self << costResources
-
-            costResources.position = CGPoint(costX, -textY)
-            costX += costResources.size.width + 10
             costExperience.position = CGPoint(costX, -textY)
         }
     }

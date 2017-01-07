@@ -12,13 +12,13 @@ class UIWorld: World {
     }
 
     @discardableResult
-    func populateCurrencies(config: UpgradeConfigSummary) -> (TextNode, TextNode) {
-        let resourceX = size.width / 2 - 10
-        let resourceY = -size.height / 2 + 20
-        let dy: CGFloat = 25
+    func populateCurrencies(config: UpgradeConfigSummary) -> TextNode {
+        let position = CGPoint(
+            size.width / 2 - 10,
+            -size.height / 2 + 20)
 
         let experienceInfo = SKNode()
-        experienceInfo.position = CGPoint(x: resourceX, y: resourceY)
+        experienceInfo.position = position
         uiLayer << experienceInfo
 
         let experienceSquare = SKSpriteNode(id: .ExperienceIcon)
@@ -30,19 +30,6 @@ class UIWorld: World {
         gainedExperience.alignment = .right
         experienceInfo << gainedExperience
 
-        let resourceInfo = SKNode()
-        resourceInfo.position = CGPoint(x: resourceX, y: resourceY + dy)
-        uiLayer << resourceInfo
-
-        let resourceSquare = SKSpriteNode(id: .ResourceIcon)
-        resourceInfo << resourceSquare
-
-        let gainedResources = TextNode()
-        gainedResources.text = "\(config.availableResources)"
-        gainedResources.position = CGPoint(x: -10)
-        gainedResources.alignment = .right
-        resourceInfo << gainedResources
-
-        return (gainedResources, gainedExperience)
+        return gainedExperience
     }
 }

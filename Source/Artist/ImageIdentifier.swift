@@ -47,7 +47,6 @@ indirect enum ImageIdentifier {
 
     case None
     case Dot(color: Int)
-    case ResourceIcon
     case ExperienceIcon
     case Box(color: Int)
     case Warning
@@ -94,9 +93,6 @@ indirect enum ImageIdentifier {
     case MissleSiloRadar(upgrade: HasUpgrade, isSelected: Bool)
     case Missle
 
-    case Resource(goal: Int, remaining: Int)
-    case ResourceLine(length: CGFloat)
-
     case Cursor
     case Base(movementUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, radarUpgrade: HasUpgrade, health: Int)
     case BaseRadar(upgrade: HasUpgrade, isSelected: Bool)
@@ -126,8 +122,6 @@ indirect enum ImageIdentifier {
             return "Warning"
         case let .Dot(color):
             return "Dot_color-\(color)"
-        case .ResourceIcon:
-            return "ResourceIcon"
         case .ExperienceIcon:
             return "ExperienceIcon"
         case let .Box(color):
@@ -244,11 +238,6 @@ indirect enum ImageIdentifier {
 
         case .Cursor:
             return "Cursor"
-        case let .Resource(amount, remaining):
-            return "Resource_amount-\(amount)_remaining-\(remaining)"
-        case let .ResourceLine(length):
-            let roundedLength = Int(round(length * 20))
-            return "ResourceLine_length-\(roundedLength)"
         case let .Shield(phase):
             return "Shield_phase-\(phase)"
         case let .ShieldSegment(health):

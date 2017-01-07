@@ -22,66 +22,6 @@ extension Level {
         }
     }
 
-    func generateResourceArc() -> Block {
-        return {
-            let resourceAngle: CGFloat = rand(TAU)
-            let resourceNode = ResourceNode(goal: 20)
-            let p1 = self.outsideWorld(extra: 20, angle: resourceAngle)
-            let p2 = self.outsideWorld(extra: 20, angle: resourceAngle + TAU_2)
-            let vector = (p2 - p1) / 3
-            let arcTo = resourceNode.arcTo(
-                p2,
-                start: p1,
-                speed: 100,
-                removeNode: true
-                )
-            let vectorAngle: CGFloat = ±TAU_4
-            arcTo.control = vector + CGPoint(r: vector.length, a: vector.angle + vectorAngle)
-            arcTo.control2 = 2 * vector + CGPoint(r: vector.length, a: vector.angle + vectorAngle)
-            self << resourceNode
-        }
-    }
-
-    func generateResourceDrop(_ side: Side? = nil) -> Block {
-        if let side = side {
-            return {
-                let resourceNode = ResourceNode(goal: 20)
-
-                let midPoint = CGPoint(self.size.width / 4, self.size.height / 4)
-                let maxPoint = CGPoint(self.size.width / 2 + resourceNode.size.width, self.size.height / 2 + resourceNode.size.height)
-
-                var startPosition: CGPoint, finalPosition: CGPoint
-                switch side {
-                    case .Left:
-                        startPosition = CGPoint(-midPoint.x, ±maxPoint.y)
-                        finalPosition = CGPoint(startPosition.x, -startPosition.y)
-                    case .Right:
-                        startPosition = CGPoint(midPoint.x, ±maxPoint.y)
-                        finalPosition = CGPoint(startPosition.x, -startPosition.y)
-                    case .Top:
-                        startPosition = CGPoint(±maxPoint.x, midPoint.y)
-                        finalPosition = CGPoint(-startPosition.x, startPosition.y)
-                    case .Bottom:
-                        startPosition = CGPoint(±maxPoint.x, -midPoint.y)
-                        finalPosition = CGPoint(-startPosition.x, startPosition.y)
-                }
-
-                startPosition += self.cameraNode.position
-                finalPosition += self.cameraNode.position
-                // startPosition /= min(self.xScale, 1)
-                // finalPosition /= min(self.xScale, 1)
-
-                resourceNode.position = startPosition
-                resourceNode.moveTo(finalPosition, speed: 100, removeNode: true)
-                self << resourceNode
-            }
-        }
-        else {
-            return generateResourceDrop(Side.rand())
-        }
-    }
-
-
     func generateEnemy(_ genScreenAngle: CGFloat, spread: CGFloat = 0.087266561, constRadius: Bool = false) -> Block {
         return {
             var screenAngle = genScreenAngle

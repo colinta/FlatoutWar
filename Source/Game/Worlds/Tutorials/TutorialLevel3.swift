@@ -7,12 +7,6 @@ class TutorialLevel3: TutorialLevel {
 
     override func populateLevel() {
         beginWave1()
-
-        var delay: CGFloat = 2
-        8.times { (i: Int) in
-            timeline.at(.Delayed(delay), block: generateResourceArc())
-            delay += 15
-        }
     }
 
     // two sources of weak enemies

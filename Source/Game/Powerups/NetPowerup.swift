@@ -5,7 +5,7 @@
 class NetPowerup: Powerup {
     override var name: String { return "NET" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Net }
-    override var nextResourceCosts: [Int: Int] { return [
+    override var nextExperienceCosts: [Int: Int] { return [
         0: 30,
         1: 60,
         2: 120,

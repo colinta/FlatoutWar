@@ -36,7 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let upgradeConfig = UpgradeConfigSummary()
         upgradeConfig.spentExperience = 0
-        upgradeConfig.spentResources = 0
         BaseLevel1Config().storedPowerups = [
             (GrenadePowerup(count: 2), 0),
             (LaserPowerup(count: 1), 1),

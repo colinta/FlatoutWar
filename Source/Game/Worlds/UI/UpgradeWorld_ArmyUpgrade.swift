@@ -94,14 +94,9 @@ extension UpgradeWorld {
         }
         upgradePromptLayer << purchaseButton
 
-        let costResources = ResourceCostText()
-        costResources.cost = info.cost.resources
-        costResources.position = CGPoint(x: 25)
-        purchaseButton << costResources
-
         let costExperience = ExperienceCostText()
         costExperience.cost = info.cost.experience
-        costExperience.position = CGPoint(x: costResources.size.width + 35)
+        costExperience.position = CGPoint(x: 35)
         purchaseButton << costExperience
 
         let cancelButton = CancelButton(at: upgradeIcon.position + CGPoint(x: 50))

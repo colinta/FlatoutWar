@@ -32,11 +32,8 @@ class Level: World {
     var playerDeadAudio: BackgroundAudioNode?
 
     var experiencePercent: ExperiencePercent?
-    var resourcePercent: ResourcePercent?
     var possibleExperience = 0
     var gainedExperience = 0
-    var expectedResources = 0
-    var gainedResources = 0
 
     fileprivate var shouldPopulatePlayer = true
     var playerNode = BasePlayerNode() {
@@ -176,8 +173,6 @@ class Level: World {
         print("timeRate: \(timeRate)")
         print("possibleExperience: \(possibleExperience)")
         print("gainedExperience: \(gainedExperience)")
-        print("expectedResources: \(expectedResources)")
-        print("gainedResources: \(gainedResources)")
     }
 
     override func didAdd(_ node: Node) {
@@ -191,10 +186,6 @@ class Level: World {
                 self.experiencePercent?.gain(enemyComponent.experience)
                 self.addToGainedExperience(exp)
             }
-        }
-
-        if let resourceNode = node as? ResourceNode {
-            expectedResources += resourceNode.goal
         }
     }
 
@@ -238,11 +229,6 @@ extension Level {
         if config.trackExperience && config.possibleExperience > 0 {
             experiencePercent = ExperiencePercent(goal: config.possibleExperience)
             ui << experiencePercent!
-        }
-
-        if config.trackResources && config.expectedResources > 0 {
-            resourcePercent = ResourcePercent(max: config.expectedResources)
-            ui << resourcePercent!
         }
 
         pauseButton.onTapped { _ in
@@ -461,7 +447,6 @@ extension Level {
             addComponent(finalTimeline)
 
             config.updateMaxGainedExperience(gainedExperience)
-            config.updateMaxGainedResources(gainedResources)
             config.nextLevel().config.storedPlayers = self.players
             config.nextLevel().config.storedPowerups = config.storedPowerups
 
@@ -473,8 +458,8 @@ extension Level {
             currentText.font = .Small
             self << currentText
 
-            let gained = CGFloat(gainedExperience + gainedResources)
-            let possible = CGFloat(config.possibleExperience + max(gainedResources, config.expectedResources))
+            let gained = CGFloat(gainedExperience)
+            let possible = CGFloat(config.possibleExperience)
 
             let earnedPercent: CGFloat = min(1, gained / possible)
             var countEmUp: CGFloat = 0
@@ -540,31 +525,5 @@ extension Level {
             node.fadeTo(1, start: 0, duration: 1.4)
             self << node
         }
-    }
-}
-
-extension Level: ResourceWorld {
-    func playerFoundResource(node resourceNode: ResourceNode) {
-        resourceNode.locked = true
-        resourceNode.disableMovingComponents()
-
-        let resourcePoint = playerNode.convertPosition(resourceNode)
-        let resourceLine = SKSpriteNode()
-        resourceLine.anchorPoint = CGPoint(0, 0.5)
-        resourceLine.z = .BelowPlayer
-        resourceLine.position = self.playerNode.position
-        resourceLine.textureId(.ResourceLine(length: resourcePoint.length))
-        resourceLine.zRotation = resourcePoint.angle
-        self << resourceLine
-
-        let resourceCollector = ResourceCollector(resource: resourceNode)
-        resourceCollector.resourceLine = resourceLine
-        resourceCollector.position = playerNode.position
-
-        resourceCollector.onHarvest { harvested in
-            self.gainedResources += harvested
-            self.resourcePercent?.gain(harvested)
-        }
-        self << resourceCollector
     }
 }

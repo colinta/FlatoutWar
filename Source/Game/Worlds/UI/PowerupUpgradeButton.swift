@@ -4,7 +4,7 @@
 
 class PowerupUpgradeButton: Button {
     var icon: SKSpriteNode?
-    var resourceCostNode: ResourceCostText?
+    var experienceCostNode: ExperienceCostText?
     var powerupCountNode: TextNode?
 
     var powerup: Powerup {
@@ -30,7 +30,7 @@ class PowerupUpgradeButton: Button {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func updateUI(includeCount initCounts: Bool? = nil, includeCost initResource: Bool? = nil) {
+    func updateUI(includeCount initCounts: Bool? = nil, includeCost initExperience: Bool? = nil) {
         if let prevIcon = self.icon {
             prevIcon.removeFromParent()
         }
@@ -56,17 +56,17 @@ class PowerupUpgradeButton: Button {
             nodes << powerupCountNode
         }
 
-        var includeCost = initResource ?? false
-        if let prevResourceCostNode = resourceCostNode {
-            prevResourceCostNode.removeFromParent()
+        var includeCost = initExperience ?? false
+        if let prevExperienceCostNode = experienceCostNode {
+            prevExperienceCostNode.removeFromParent()
             includeCost = true
         }
 
         if includeCost {
-            let resourceCostNode = powerup.resourceCostNode()
-            resourceCostNode.position = CGPoint(x: 50, y: -15)
-            self.resourceCostNode = resourceCostNode
-            nodes << resourceCostNode
+            let experienceCostNode = powerup.experienceCostNode()
+            experienceCostNode.position = CGPoint(x: 50, y: -15)
+            self.experienceCostNode = experienceCostNode
+            nodes << experienceCostNode
         }
 
         if includeCost {

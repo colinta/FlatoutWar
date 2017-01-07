@@ -14,12 +14,6 @@ class TutorialLevel6: TutorialLevel {
 
         moveCamera(to: CGPoint(150, 50), duration: 2)
         beginWave1(at: 4)
-
-        var delay: CGFloat = 3
-        9.times { (i: Int) in
-            timeline.at(.Delayed(delay), block: generateResourceArc())
-            delay += 10
-        }
     }
 
     func beginWave1(at delay: CGFloat) {

@@ -31,7 +31,7 @@ extension BasePlayerNode: UpgradeableNode {
                 title: "SPEED",
                 upgradeType: .MovementUpgrade,
                 description: ["INCREASED SPEED", "FASTER FIRING"],
-                cost: Currency(experience: 450, resources: 150),
+                cost: Currency(experience: 450),
                 rate: rate
             )
 
@@ -52,7 +52,7 @@ extension BasePlayerNode: UpgradeableNode {
                 title: "BULLET",
                 upgradeType: .BulletUpgrade,
                 description: ["INCREASED DAMAGE", "FASTER BULLET SPEED"],
-                cost: Currency(experience: 400, resources: 150),
+                cost: Currency(experience: 400),
                 rate: rate
             )
 
@@ -73,7 +73,7 @@ extension BasePlayerNode: UpgradeableNode {
                 title: "RADAR",
                 upgradeType: .RadarUpgrade,
                 description: ["LARGER RADAR", "PREEMPTIVE TARGETING"],
-                cost: Currency(experience: 1000, resources: 150),
+                cost: Currency(experience: 1000),
                 rate: rate
             )
 

@@ -344,18 +344,6 @@ extension WorldSelectWorld {
         experienceText.text = "\(level.config.gainedExperience)"
         info << experienceText
 
-        if level.config.expectedResources > 0 {
-            let resourceSquare = SKSpriteNode(id: .ResourceIcon)
-            resourceSquare.position = CGPoint(y: -8)
-            info << resourceSquare
-            let resourceText = TextNode()
-            resourceText.position = CGPoint(x: 8, y: -8)
-            resourceText.setScale(0.5)
-            resourceText.alignment = .left
-            resourceText.text = "\(level.config.gainedResources)"
-            info << resourceText
-        }
-
         return info
     }
 

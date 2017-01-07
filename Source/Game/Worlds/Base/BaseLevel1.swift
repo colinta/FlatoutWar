@@ -7,12 +7,6 @@ class BaseLevel1: BaseLevel {
 
     override func populateLevel() {
         beginWave1()
-
-        var delay: CGFloat = 3
-        9.times { (i: Int) in
-            timeline.at(.Delayed(delay), block: generateResourceArc())
-            delay += 10
-        }
     }
 
     // one sources of weak enemies in a wave

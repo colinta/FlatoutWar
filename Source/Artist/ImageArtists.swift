@@ -85,11 +85,6 @@ extension ImageIdentifier {
             let artist = DotArtist()
             artist.color = UIColor(hex: color)
             return artist
-        case .ResourceIcon:
-            let color = UIColor(hex: ResourceBlue)
-            let artist = CircleArtist(CGSize(10), color)
-            artist.drawingMode = .fill
-            return artist
         case .ExperienceIcon:
             let color = UIColor(hex: EnemySoldierGreen)
             let artist = RectArtist(CGSize(10), color)
@@ -291,14 +286,6 @@ extension ImageIdentifier {
             let artist = MissleArtist()
             return artist
 
-        case let .Resource(amount, remaining):
-            let artist = ResourceArtist(amount: CGFloat(amount), remaining: CGFloat(remaining) / CGFloat(amount))
-            return artist
-        case let .ResourceLine(length):
-            let color = UIColor(hex: ResourceBlue)
-            let artist = LineArtist(length, color)
-            artist.lineWidth = 2
-            return artist
         case .Cursor:
             let artist = CursorArtist()
             return artist

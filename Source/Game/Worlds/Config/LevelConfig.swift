@@ -9,25 +9,19 @@ class LevelConfig: Config {
     }
     var canPowerup: Bool { return true }
     var trackExperience: Bool { return true }
-    var trackResources: Bool { return true }
 
     var possibleExperience: Int { return 0 }
-    var expectedResources: Int { return 0 }
     var gainedExperience: Int {
         get { return Defaults["\(configKey)-gainedExperience"].int ?? 0 }
     }
-    var gainedResources: Int {
-        get { return Defaults["\(configKey)-gainedResources"].int ?? 0 }
-    }
     var percentCompleted: CGFloat {
-        return min(CGFloat(gainedExperience + min(gainedResources, expectedResources)) / CGFloat(possibleExperience + expectedResources), 1)
+        return min(CGFloat(gainedExperience) / CGFloat(possibleExperience), 1)
     }
     var levelCompleted: Bool {
         get { return Defaults.hasKey("\(configKey)-gainedExperience") }
         set {
             if !newValue {
                 Defaults.remove("\(configKey)-gainedExperience")
-                Defaults.remove("\(configKey)-gainedResources")
             }
         }
     }
@@ -130,10 +124,6 @@ class LevelConfig: Config {
 
     func updateMaxGainedExperience(_ exp: Int) {
         Defaults["\(configKey)-gainedExperience"] = min(max(exp, gainedExperience), possibleExperience)
-    }
-
-    func updateMaxGainedResources(_ exp: Int) {
-        Defaults["\(configKey)-gainedResources"] = max(exp, gainedResources)
     }
 
     func nextLevel() -> Level {

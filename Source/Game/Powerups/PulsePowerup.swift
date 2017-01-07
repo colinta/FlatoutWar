@@ -5,7 +5,7 @@
 class PulsePowerup: Powerup {
     override var name: String { return "PULSE" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Pulse }
-    override var nextResourceCosts: [Int: Int] { return [
+    override var nextExperienceCosts: [Int: Int] { return [
         0: 100,
     ] }
 

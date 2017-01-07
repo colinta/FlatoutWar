@@ -5,7 +5,7 @@
 class LaserPowerup: Powerup {
     override var name: String { return "LASER" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Laser }
-    override var nextResourceCosts: [Int: Int] { return [
+    override var nextExperienceCosts: [Int: Int] { return [
         0: 20,
         1: 40,
         2: 80,

@@ -7,7 +7,7 @@ let HourglassSize: CGFloat = 400
 class HourglassPowerup: Powerup {
     override var name: String { return "HOURGLASS" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Hourglass }
-    override var nextResourceCosts: [Int: Int] { return [
+    override var nextExperienceCosts: [Int: Int] { return [
         0: 10,
         1: 20,
         2: 40,

@@ -43,7 +43,7 @@ extension UpgradeWorld {
             let p0 = positionForUpgradeButton(index: index, state: .Inactive)
             let p1 = positionForUpgradeButton(index: index, state: .Active)
             purchaseablePowerupButton.moveTo(p1, start: p0, duration: PurchaseAnimationDuration)
-            purchaseablePowerupButton.enabled = purchaseablePowerup.nextResourceCost != nil
+            purchaseablePowerupButton.enabled = purchaseablePowerup.nextExperienceCost != nil
             if purchaseablePowerup.count > 0 {
                 purchaseablePowerupButton.powerupCountNode?.color = AllowedColor
             }
@@ -150,19 +150,19 @@ extension UpgradeWorld {
         tryPowerupLayer << purchaseButton
 
         let purchasedText = PurchasedTextNode(at: CGPoint(y: -90))
-        purchasedText.max = powerup.nextResourceCosts.count
+        purchasedText.max = powerup.nextExperienceCosts.count
         purchasedText.purchased = powerup.count
         tryPowerupLayer << purchasedText
 
-        let costResources = ResourceCostText()
-        costResources.position = CGPoint(x: 25)
-        purchaseButton << costResources
+        let costExperience = ExperienceCostText()
+        costExperience.position = CGPoint(x: 25)
+        purchaseButton << costExperience
 
-        if let cost = powerup.nextResourceCost {
-            costResources.cost = cost.resources
+        if let cost = powerup.nextExperienceCost {
+            costExperience.cost = cost.experience
         }
 
-        if let cost = powerup.nextResourceCost,
+        if let cost = powerup.nextExperienceCost,
             config.canAfford(cost)
         {
             purchaseButton.onTapped { self.purchasePowerupTapped(
@@ -172,7 +172,7 @@ extension UpgradeWorld {
                 mainPowerupButton,
                 purchaseablePowerupButton,
                 purchaseButton,
-                costResources,
+                costExperience,
                 purchasedText) }
         }
         else {
@@ -190,10 +190,10 @@ extension UpgradeWorld {
         _ mainPowerupButton: PowerupUpgradeButton,
         _ purchaseablePowerupButton: PowerupUpgradeButton,
         _ purchaseButton: Button,
-        _ costResources: ResourceCostText,
+        _ costExperience: ExperienceCostText,
         _ purchasedText: PurchasedTextNode
     ) {
-        guard let cost = powerup.nextResourceCost,
+        guard let cost = powerup.nextExperienceCost,
             config.canAfford(cost)
         else {
             return
@@ -215,14 +215,14 @@ extension UpgradeWorld {
             mainPowerupButton.powerup = powerup
         }
 
-        if let cost = powerup.nextResourceCost {
-            costResources.cost = cost.resources
+        if let cost = powerup.nextExperienceCost {
+            costExperience.cost = cost.experience
         }
         else {
             purchaseButton.background = NotAllowedColor
             purchaseButton.enabled = false
             purchaseButton.offTapped()
-            costResources.removeFromParent()
+            costExperience.removeFromParent()
         }
     }
 

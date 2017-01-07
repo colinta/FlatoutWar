@@ -8,12 +8,6 @@ class TutorialLevel5: TutorialLevel {
     override func populateLevel() {
         self.introduceDrone()
 
-        var delay: CGFloat = 3
-        9.times { (i: Int) in
-            timeline.at(.Delayed(delay), block: generateResourceDrop())
-            delay += 10
-        }
-
         timeline.after(time: 1) {
             self.beginWave1()
         }

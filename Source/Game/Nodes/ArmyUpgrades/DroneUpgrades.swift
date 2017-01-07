@@ -32,7 +32,7 @@ extension DroneNode: UpgradeableNode {
                 title: "SPEED",
                 upgradeType: .MovementUpgrade,
                 description: ["INCREASED SPEED", "FASTER FIRING"],
-                cost: Currency(experience: 400, resources: 100),
+                cost: Currency(experience: 400),
                 rate: rate
             )
 
@@ -54,7 +54,7 @@ extension DroneNode: UpgradeableNode {
                 title: "BULLET",
                 upgradeType: .BulletUpgrade,
                 description: ["INCREASED DAMAGE", "FASTER BULLET SPEED"],
-                cost: Currency(experience: 350, resources: 100),
+                cost: Currency(experience: 350),
                 rate: rate
             )
 
@@ -76,7 +76,7 @@ extension DroneNode: UpgradeableNode {
                 title: "RADAR",
                 upgradeType: .RadarUpgrade,
                 description: ["LARGER RADAR", "PREEMPTIVE TARGETING"],
-                cost: Currency(experience: 1000, resources: 100),
+                cost: Currency(experience: 1000),
                 rate: rate
             )
 

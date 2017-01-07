@@ -24,8 +24,6 @@ class UpgradeWorld: UIWorld {
     let upgradeArmyLayer = Node()
     let purchaseArmyLayer = Node()
 
-    var gainedResources: TextNode!
-    var printedResources: Int = 0
     var gainedExperience: TextNode!
     var printedExperience: Int = 0
 
@@ -40,11 +38,6 @@ class UpgradeWorld: UIWorld {
 
     override func update(_ dt: CGFloat) {
         super.update(dt)
-        if config.availableResources < printedResources {
-            let delta = Int(pow(10, max(1, floor(log(Float(printedResources - config.availableResources)) / log(10)) - 1)))
-            printedResources = max(config.availableResources, printedResources - delta)
-            gainedResources.text = "\(printedResources)"
-        }
         if config.availableExperience < printedExperience {
             let delta = Int(pow(10, max(1, floor(log(Float(printedExperience - config.availableExperience)) / log(10)) - 1)))
             printedExperience = max(config.availableExperience, printedExperience - delta)
@@ -114,9 +107,7 @@ class UpgradeWorld: UIWorld {
         title.position = CGPoint(y: size.height / 2 - 22)
         uiLayer << title
 
-        let (gainedResources, gainedExperience) = populateCurrencies(config: config)
-        self.printedResources = config.availableResources
-        self.gainedResources = gainedResources
+        let gainedExperience = populateCurrencies(config: config)
         self.printedExperience = config.availableExperience
         self.gainedExperience = gainedExperience
 

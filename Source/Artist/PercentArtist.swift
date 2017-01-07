@@ -5,20 +5,17 @@
 enum PercentStyle {
     static let Default: PercentStyle = .Experience
     case Experience
-    case Resource
     case Heat
 
     var color: Int {
         switch self {
         case .Experience: return EnemySoldierGreen
-        case .Resource: return WhiteColor
         default: return 0
         }
     }
     var completeColor: Int {
         switch self {
         case .Experience: return 0x5BBC1A
-        case .Resource: return ResourceBlue
         default: return 0
         }
     }
@@ -35,8 +32,6 @@ class PercentArtist: Artist {
         switch style {
         case .Experience:
             size = CGSize(width: 60, height: 5)
-        case .Resource:
-            size = CGSize(width: 60, height: 4)
         case .Heat:
             size = CGSize(width: 4, height: 35)
         }
@@ -48,7 +43,7 @@ class PercentArtist: Artist {
 
     override func draw(in context: CGContext) {
         switch style {
-        case .Experience, .Resource:
+        case .Experience:
             let smallWidth = size.width * complete
             context.setAlpha(0.5)
             context.setFillColor(UIColor(hex: style.color).cgColor)

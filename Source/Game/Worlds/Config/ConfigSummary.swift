@@ -20,9 +20,6 @@ class ConfigSummary: Config {
     var totalGainedExperience: Int {
         return configs.map { $0.gainedExperience }.reduce(0, +)
     }
-    var totalGainedResources: Int {
-        return configs.map { $0.gainedResources }.reduce(0, +)
-    }
 
     var worldCompleted: Bool {
         return configs.all { $0.levelCompleted }
@@ -31,7 +28,6 @@ class ConfigSummary: Config {
     func completeAll() {
         for c in configs {
             c.updateMaxGainedExperience(c.possibleExperience)
-            c.updateMaxGainedResources(c.expectedResources)
         }
     }
 
