@@ -212,6 +212,7 @@ extension ImageIdentifier {
             let width = upgrade.laserRadarRadius
             let height = upgrade.laserSweepWidth
             let artist = LaserRadarArtist(
+                hasUpgrade: upgrade.boolValue,
                 size: CGSize(width, height),
                 color: UIColor(hex: upgrade.laserRadarColor),
                 isSelected: isSelected
@@ -226,6 +227,7 @@ extension ImageIdentifier {
             return ShotgunTurretArtist(hasUpgrade: upgrade.boolValue)
         case let .ShotgunRadar(upgrade, isSelected):
            let artist = ShotgunRadarArtist(
+                hasUpgrade: upgrade.boolValue,
                radius: upgrade.shotgunRadarRadius,
                sweepAngle: upgrade.shotgunSweepAngle,
                color: UIColor(hex: upgrade.shotgunRadarColor),
@@ -255,6 +257,7 @@ extension ImageIdentifier {
             return artist
         case let .CannonRadar(upgrade, isSelected):
             let artist = CannonRadarArtist(
+                hasUpgrade: upgrade.boolValue,
                 minRadius: upgrade.cannonMinRadarRadius,
                 maxRadius: upgrade.cannonMaxRadarRadius,
                 sweepAngle: upgrade.cannonSweepAngle,
@@ -278,6 +281,7 @@ extension ImageIdentifier {
             return artist
         case let .MissleSiloRadar(upgrade, isSelected):
             let artist = MissleRadarArtist(
+                hasUpgrade: upgrade.boolValue,
                 radius: upgrade.missleSiloRadarRadius,
                 color: UIColor(hex: upgrade.missleSiloRadarColor),
                 isSelected: isSelected
@@ -304,6 +308,7 @@ extension ImageIdentifier {
             return artist
         case let .BaseRadar(upgrade, isSelected):
             let artist = BaseRadarArtist(
+                hasUpgrade: upgrade.boolValue,
                 radius: upgrade.baseRadarRadius,
                 sweepAngle: upgrade.baseSweepAngle,
                 color: UIColor(hex: upgrade.baseRadarColor),

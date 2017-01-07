@@ -37,8 +37,7 @@ extension DroneNode: UpgradeableNode {
             )
 
             let node = DroneNode()
-            node.scale1.removeFromParent()
-            node.scale2.removeFromParent()
+            node.scaleNode.removeFromParent()
             node.phaseComponent?.enabled = false
             node.movementUpgrade = .True
             node.radarUpgrade = radarUpgrade
@@ -60,8 +59,7 @@ extension DroneNode: UpgradeableNode {
             )
 
             let node = DroneNode()
-            node.scale1.removeFromParent()
-            node.scale2.removeFromParent()
+            node.scaleNode.removeFromParent()
             node.phaseComponent?.enabled = false
             node.movementUpgrade = movementUpgrade
             node.radarUpgrade = radarUpgrade
@@ -83,8 +81,7 @@ extension DroneNode: UpgradeableNode {
             )
 
             let node = DroneNode()
-            node.scale1.removeFromParent()
-            node.scale2.removeFromParent()
+            node.scaleNode.removeFromParent()
             node.phaseComponent?.enabled = false
             node.movementUpgrade = movementUpgrade
             node.radarUpgrade = .True
@@ -104,8 +101,8 @@ extension HasUpgrade {
 
     var droneRadarRadius: CGFloat {
         switch self {
-        case .False: return 75
-        case .True: return 100
+        case .False: return 50
+        case .True: return 75
         }
     }
 

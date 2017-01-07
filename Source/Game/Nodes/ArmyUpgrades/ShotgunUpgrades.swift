@@ -53,8 +53,8 @@ extension HasUpgrade {
 
     var shotgunBulletDamage: Float {
         switch self {
-        case .False: return 0.75
-        case .True:  return 1
+        case .False: return 0.25
+        case .True:  return 0.75
         }
     }
 
@@ -65,10 +65,23 @@ extension HasUpgrade {
         }
     }
 
-    var shotgunCooldown: CGFloat {
+    var shotgunSlowCooldown: CGFloat {
+        switch self {
+        case .False: return 1
+        case .True:  return 0.8
+        }
+    }
+    var shotgunFastCooldown: CGFloat {
         switch self {
         case .False: return 0.25
         case .True:  return 0.15
+        }
+    }
+
+    var shotgunScanSpinRate: CGFloat {
+        switch self {
+        case .False: return 0.2
+        case .True: return 0.4
         }
     }
 

@@ -6,19 +6,21 @@ class ApplyToNodeComponent: Component {
     private var didSetApplyTo = false
     weak var applyTo: SKNode? {
         didSet {
+            if let node = applyTo {
+                initApplyTo(node: node)
+            }
             didSetApplyTo = true
         }
     }
     override weak var node: Node! {
         didSet {
             if !didSetApplyTo {
-                defaultApplyTo()
+                applyTo = node
             }
         }
     }
 
-    func defaultApplyTo() {
-        applyTo = node
+    func initApplyTo(node: SKNode) {
     }
 
     func apply(_ block: (SKNode) -> Void) {

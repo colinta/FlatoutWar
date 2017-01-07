@@ -62,8 +62,7 @@ class ScaleToComponent: ApplyToNodeComponent {
         _onScaled << handler
     }
 
-    override func defaultApplyTo() {
-        super.defaultApplyTo()
+    override func initApplyTo(node: SKNode) {
         currentScale = node.xScale
         initialScale = node.xScale
     }

@@ -23,31 +23,32 @@ class ShotgunNode: Node, DraggableNode {
         updateBaseSprite()
         updateRadarSprite()
 
+        if currentSpinRate == 0 {
+            currentSpinRate = movementUpgrade.shotgunTurretSlowSpinRate
+        }
         draggableComponent?.speed = movementUpgrade.shotgunMovementSpeed
 
         targetingComponent?.sweepAngle = radarUpgrade.shotgunSweepAngle
         targetingComponent?.radius = radarUpgrade.shotgunRadarRadius
 
         firingComponent?.targetsPreemptively = true
-        firingComponent?.cooldown = bulletUpgrade.shotgunCooldown
+        firingComponent?.cooldown = calculateFiringCooldown()
         firingComponent?.damage = bulletUpgrade.shotgunBulletDamage
 
-        rotateToComponent?.maxAngularSpeed = movementUpgrade.shotgunAngularSpeed
-        rotateToComponent?.angularAccel = movementUpgrade.shotgunAngularAccel
-
         targetingComponent?.bulletSpeed = bulletUpgrade.shotgunBulletSpeed
+
+        get(component: RotateScanComponent.self)?.rate = movementUpgrade.shotgunScanSpinRate
 
         size = CGSize(30)
     }
 
     let radarSprite = SKSpriteNode()
     let baseSprite = SKSpriteNode()
-    let targetingSprite = SKNode()
     let turretSprite = SKSpriteNode()
     let placeholder = SKSpriteNode()
+    var playerNode: SKNode?
 
     var isRotating = false
-    var spinnerTimeout: CGFloat = 0
     var targetSpinRate: CGFloat = 0
     var currentSpinRate: CGFloat = 0
 
@@ -65,7 +66,6 @@ class ShotgunNode: Node, DraggableNode {
         radarSprite.z = .BelowPlayer
 
         self << baseSprite
-        self << targetingSprite
         self << radarSprite
         self << turretSprite
 
@@ -76,7 +76,7 @@ class ShotgunNode: Node, DraggableNode {
 
         let targetingComponent = EnemyTargetingComponent()
         targetingComponent.reallySmart = true
-        targetingComponent.turret = targetingSprite
+        targetingComponent.turret = radarSprite
         addComponent(targetingComponent)
 
         let firingComponent = FiringComponent()
@@ -95,9 +95,6 @@ class ShotgunNode: Node, DraggableNode {
 
         let touchableComponent = TouchableComponent()
         touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest(shape: .Circle)
-        touchableComponent.on(.DragBeganOutside, onDraggingOutside)
-        touchableComponent.on(.DragEnded, onDraggingEnded)
-        touchableComponent.onDragged(onDraggedAiming)
         addComponent(touchableComponent)
 
         let selectableComponent = SelectableComponent()
@@ -106,26 +103,30 @@ class ShotgunNode: Node, DraggableNode {
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()
-        touchableComponent.on(.DragBeganInside, draggableComponent.draggingBegan)
-        touchableComponent.on(.DragEnded, draggableComponent.draggingEnded)
-        touchableComponent.onDragged(draggableComponent.draggingMoved)
-
+        draggableComponent.bindTo(touchableComponent: touchableComponent)
         draggableComponent.onDragChange { isMoving in
             self.armyComponent.isMoving = isMoving
             if !isMoving {
+                let angle: CGFloat
+                if let playerNode = self.playerNode {
+                    angle = playerNode.convertPosition(self).angle
+                }
+                else {
+                    angle = self.position.angle
+                }
+                self.rotateTo(angle)
                 self.world?.reacquirePlayerTargets()
             }
         }
         addComponent(draggableComponent)
 
-        let rotateToComponent = RotateToComponent()
-        rotateToComponent.currentAngle = 0
-        rotateToComponent.applyTo = targetingSprite
-        addComponent(rotateToComponent)
-
         let keepRotatingComponent = KeepRotatingComponent()
         keepRotatingComponent.applyTo = turretSprite
         addComponent(keepRotatingComponent)
+
+        let rotateScanComponent = RotateScanComponent()
+        rotateScanComponent.applyTo = radarSprite
+        addComponent(rotateScanComponent)
 
         let cursor = CursorNode()
         self << cursor
@@ -157,28 +158,30 @@ class ShotgunNode: Node, DraggableNode {
     }
 
     override func update(_ dt: CGFloat) {
-        if let angle = rotateToComponent?.destAngle {
-            radarSprite.zRotation = angle
-        }
-
-        if spinnerTimeout > 0 {
-            spinnerTimeout -= dt
-        }
-        currentSpinRate = calculateRotatingRate(dt)
-        firingComponent?.enabled = currentSpinRate == targetSpinRate
+        updateRotatingRate(dt)
+        get(component: RotateScanComponent.self)?.enabled = currentSpinRate == movementUpgrade.shotgunTurretSlowSpinRate
         get(component: KeepRotatingComponent.self)?.rate = currentSpinRate
+        firingComponent?.cooldown = calculateFiringCooldown()
     }
 
-    fileprivate func calculateRotatingRate(_ dt: CGFloat) -> CGFloat {
+    fileprivate func calculateFiringCooldown() -> CGFloat {
+        return interpolate(currentSpinRate,
+            from: (movementUpgrade.shotgunTurretSlowSpinRate, movementUpgrade.shotgunTurretFastSpinRate),
+            to: (movementUpgrade.shotgunSlowCooldown, movementUpgrade.shotgunFastCooldown)
+            )
+    }
+
+    fileprivate func updateRotatingRate(_ dt: CGFloat) {
         var accel: CGFloat = movementUpgrade.shotgunWarmupRate * dt
-        if targetingComponent?.currentTarget != nil {
+        let hasTarget = targetingComponent?.currentTarget != nil
+        if hasTarget {
             targetSpinRate = movementUpgrade.shotgunTurretFastSpinRate
         }
         else {
             targetSpinRate = movementUpgrade.shotgunTurretSlowSpinRate
             accel /= 3
         }
-        return moveValue(currentSpinRate, towards: targetSpinRate, by: accel) ?? targetSpinRate
+        currentSpinRate = moveValue(currentSpinRate, towards: targetSpinRate, by: accel) ?? targetSpinRate
     }
 }
 
@@ -197,40 +200,14 @@ extension ShotgunNode {
         bullet.damage = bulletUpgrade.shotgunBulletDamage + rand(weighted: 0.25)
         (parentNode ?? world) << bullet
 
-        spinnerTimeout = bulletUpgrade.shotgunCooldown * 5
-
         _ = world.channel?.play(Sound.PlayerShoot)
-    }
-}
-
-// MARK: Touch events
-extension ShotgunNode {
-    func onDraggingOutside(at location: CGPoint) {
-        isRotating = true
-    }
-    func onDraggingEnded(at location: CGPoint) {
-        isRotating = false
-    }
-
-    func onDraggedAiming(from prevLocation: CGPoint, to location: CGPoint) {
-        guard isRotating, let playerNode = playerNode else { return }
-
-        let angle = prevLocation.angleTo(location, around: .zero)
-        let destAngle = rotateToComponent?.destAngle ?? 0
-        startRotatingTo(angle: destAngle + angle)
     }
 }
 
 // MARK: Rotation
 extension ShotgunNode {
-    func startRotatingTo(angle: CGFloat) {
-        rotateToComponent?.target = angle
-    }
-
     override func rotateTo(_ angle: CGFloat) {
-        targetingSprite.zRotation = angle
         radarSprite.zRotation = angle
-        rotateToComponent?.currentAngle = angle
-        rotateToComponent?.target = nil
+        get(component: RotateScanComponent.self)?.reorient()
     }
 }

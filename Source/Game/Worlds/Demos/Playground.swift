@@ -14,7 +14,7 @@ class Playground: World {
         self << playerNode
 
         moveCamera(zoom: 0.75, duration: 0.1)
-        let type = ShotgunNode.self
+        let type = DroneNode.self
         let radius: CGFloat = 150
         var angle: CGFloat = 0
         let demos: [(HasUpgrade, HasUpgrade, HasUpgrade)] = [

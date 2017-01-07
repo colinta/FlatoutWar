@@ -267,6 +267,7 @@
 		1D971CE91E18381B00A167A2 /* LaserUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CE81E18381B00A167A2 /* LaserUpgrades.swift */; };
 		1D971CEB1E1C894600A167A2 /* ShotgunNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CEA1E1C894500A167A2 /* ShotgunNode.swift */; };
 		1D971CED1E1CA1BB00A167A2 /* ShotgunUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CEC1E1CA1BB00A167A2 /* ShotgunUpgrades.swift */; };
+		1D971CEF1E1EC28B00A167A2 /* RotateScanComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CEE1E1EC28B00A167A2 /* RotateScanComponent.swift */; };
 		1DBFDA001DFFB8DD0058843D /* CannonUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */; };
 		216146732396C15720CD939B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F03135BA42322EAF9BCCB836 /* Foundation.framework */; };
 		275B0C2755BBFC08B0072403 /* NSMutableDictionary+WeakReferences.m in Sources */ = {isa = PBXBuildFile; fileRef = A2BBF808C8061FB024CDB563 /* NSMutableDictionary+WeakReferences.m */; };
@@ -570,6 +571,7 @@
 		1D971CE81E18381B00A167A2 /* LaserUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaserUpgrades.swift; sourceTree = "<group>"; };
 		1D971CEA1E1C894500A167A2 /* ShotgunNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShotgunNode.swift; sourceTree = "<group>"; };
 		1D971CEC1E1CA1BB00A167A2 /* ShotgunUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShotgunUpgrades.swift; sourceTree = "<group>"; };
+		1D971CEE1E1EC28B00A167A2 /* RotateScanComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotateScanComponent.swift; sourceTree = "<group>"; };
 		1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonUpgrades.swift; sourceTree = "<group>"; };
 		2425E3A61D6520C9C8191BBB /* OALTools.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OALTools.m; path = ObjectAL/Support/OALTools.m; sourceTree = "<group>"; };
 		24FA3A3C3F172ED9299C52AE /* OALAudioTrackNotifications.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OALAudioTrackNotifications.h; path = ObjectAL/AudioTrack/OALAudioTrackNotifications.h; sourceTree = "<group>"; };
@@ -1013,6 +1015,7 @@
 				1D6AA03A1DD79B3E004A0978 /* PlayerTargetingComponent.swift */,
 				1D6AA03B1DD79B3E004A0978 /* ProjectileComponent.swift */,
 				1D6AA03C1DD79B3E004A0978 /* RammingComponent.swift */,
+				1D971CEE1E1EC28B00A167A2 /* RotateScanComponent.swift */,
 				1D6AA03D1DD79B3E004A0978 /* RotateToComponent.swift */,
 				1D6AA03E1DD79B3E004A0978 /* ScaleToComponent.swift */,
 				1D971CC61E14670100A167A2 /* SelectableArmyComponent.swift */,
@@ -1421,6 +1424,7 @@
 				1D6AA0E71DD79B62004A0978 /* BulletArtist.swift in Sources */,
 				1D6A9FB11DD79B18004A0978 /* UpgradeConfigSummary.swift in Sources */,
 				1D6AA07A1DD79B44004A0978 /* Line.swift in Sources */,
+				1D971CEF1E1EC28B00A167A2 /* RotateScanComponent.swift in Sources */,
 				1D6AA05E1DD79B3E004A0978 /* TouchEmulationComponent.swift in Sources */,
 				1D6A9F5F1DD79B0A004A0978 /* UpgradeWorld_ArmyPurchase.swift in Sources */,
 				1D6AA0F91DD79B62004A0978 /* TextArtist.swift in Sources */,

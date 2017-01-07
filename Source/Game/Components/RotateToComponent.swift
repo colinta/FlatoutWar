@@ -39,8 +39,7 @@ class RotateToComponent: ApplyToNodeComponent {
         _onRotated = []
     }
 
-    override func defaultApplyTo() {
-        super.defaultApplyTo()
+    override func initApplyTo(node: SKNode) {
         currentAngle = node.zRotation
     }
 

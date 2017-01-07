@@ -5,6 +5,7 @@
 class SelectableArmyComponent: Component {
     var isSelected: Bool = false { didSet { updateComponents() }}
     var isMoving: Bool = false { didSet { updateComponents() }}
+    var shootsWhileMoving: Bool = false { didSet { updateComponents() }}
     private(set) var armyEnabled: Bool = true
     private var isUpdatingComponents: Bool = false
 
@@ -43,16 +44,17 @@ class SelectableArmyComponent: Component {
     }
 
     func updateComponents() {
-        guard !isUpdatingComponents else { return }
+        guard let node = node, !isUpdatingComponents else { return }
         isUpdatingComponents = true
 
         let died = node.healthComponent?.died ?? false
+        let firingEnabled = (shootsWhileMoving || !isMoving) && !died
         let componentsEnabled = !isMoving && !died
 
-        node.alpha = componentsEnabled ? 1 : 0.5
+        node.alpha = (firingEnabled || componentsEnabled) ? 1 : 0.5
         node.touchableComponent?.enabled = componentsEnabled
-        node.playerComponent?.intersectable = componentsEnabled
-        node.firingComponent?.enabled = componentsEnabled
+        node.playerComponent?.intersectable = firingEnabled
+        node.firingComponent?.enabled = firingEnabled
 
         if !componentsEnabled {
             node.world?.unselectNode(node)

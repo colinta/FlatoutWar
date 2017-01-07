@@ -4,12 +4,14 @@
 
 
 class BaseRadarArtist: Artist {
+    let hasUpgrade: Bool
     let halfAngle: CGFloat
     let radius: CGFloat
     let color: UIColor
     let isSelected: Bool
 
-    required init(radius: CGFloat, sweepAngle: CGFloat, color: UIColor, isSelected: Bool) {
+    required init(hasUpgrade: Bool, radius: CGFloat, sweepAngle: CGFloat, color: UIColor, isSelected: Bool) {
+        self.hasUpgrade = hasUpgrade
         self.radius = radius
         self.halfAngle = sweepAngle / 2
         self.color = color
@@ -25,7 +27,7 @@ class BaseRadarArtist: Artist {
     }
 
     override func draw(in context: CGContext) {
-        context.setLineWidth(1.pixels)
+        context.setLineWidth(hasUpgrade ? 2 : 1)
 
         let innerRadius: CGFloat = 25
         let c0 = CGPoint(x: 0, y: middle.y)
@@ -71,13 +73,15 @@ class BaseRadarArtist: Artist {
 }
 
 class CannonRadarArtist: Artist {
+    let hasUpgrade: Bool
     let halfAngle: CGFloat
     let minRadius: CGFloat
     let maxRadius: CGFloat
     let color: UIColor
     let isSelected: Bool
 
-    required init(minRadius: CGFloat, maxRadius: CGFloat, sweepAngle: CGFloat, color: UIColor, isSelected: Bool) {
+    required init(hasUpgrade: Bool, minRadius: CGFloat, maxRadius: CGFloat, sweepAngle: CGFloat, color: UIColor, isSelected: Bool) {
+        self.hasUpgrade = hasUpgrade
         self.minRadius = minRadius
         self.maxRadius = maxRadius
         self.halfAngle = sweepAngle / 2
@@ -94,7 +98,7 @@ class CannonRadarArtist: Artist {
     }
 
     override func draw(in context: CGContext) {
-        context.setLineWidth(1.pixels)
+        context.setLineWidth(hasUpgrade ? 2 : 1)
         context.setFillColor(color.cgColor)
         context.setStrokeColor(color.cgColor)
 
@@ -122,11 +126,13 @@ class CannonRadarArtist: Artist {
 }
 
 class MissleRadarArtist: Artist {
+    let hasUpgrade: Bool
     let radius: CGFloat
     let color: UIColor
     let isSelected: Bool
 
-    required init(radius: CGFloat, color: UIColor, isSelected: Bool) {
+    required init(hasUpgrade: Bool, radius: CGFloat, color: UIColor, isSelected: Bool) {
+        self.hasUpgrade = hasUpgrade
         self.radius = radius
         self.color = color
         self.isSelected = isSelected
@@ -141,7 +147,7 @@ class MissleRadarArtist: Artist {
     }
 
     override func draw(in context: CGContext) {
-        context.setLineWidth(1.pixels)
+        context.setLineWidth(hasUpgrade ? 2 : 1)
         context.setFillColor(color.cgColor)
         context.setStrokeColor(color.cgColor)
 
@@ -165,10 +171,12 @@ class MissleRadarArtist: Artist {
 }
 
 class LaserRadarArtist: Artist {
+    let hasUpgrade: Bool
     let color: UIColor
     let isSelected: Bool
 
-    required init(size: CGSize, color: UIColor, isSelected: Bool) {
+    required init(hasUpgrade: Bool, size: CGSize, color: UIColor, isSelected: Bool) {
+        self.hasUpgrade = hasUpgrade
         self.color = color
         self.isSelected = isSelected
 
@@ -182,7 +190,7 @@ class LaserRadarArtist: Artist {
     }
 
     override func draw(in context: CGContext) {
-        context.setLineWidth(1.pixels)
+        context.setLineWidth(hasUpgrade ? 2 : 1)
 
         let offset: CGFloat = 25
 
@@ -219,12 +227,14 @@ class LaserRadarArtist: Artist {
 }
 
 class ShotgunRadarArtist: Artist {
+    let hasUpgrade: Bool
     let radius: CGFloat
     let halfAngle: CGFloat
     let color: UIColor
     let isSelected: Bool
 
-    required init(radius: CGFloat, sweepAngle: CGFloat, color: UIColor, isSelected: Bool) {
+    required init(hasUpgrade: Bool, radius: CGFloat, sweepAngle: CGFloat, color: UIColor, isSelected: Bool) {
+        self.hasUpgrade = hasUpgrade
         self.radius = radius
         self.halfAngle = sweepAngle / 2
         self.color = color
@@ -240,7 +250,7 @@ class ShotgunRadarArtist: Artist {
     }
 
     override func draw(in context: CGContext) {
-        context.setLineWidth(1.pixels)
+        context.setLineWidth(hasUpgrade ? 2 : 1)
         context.translateBy(x: 0, y: size.height / 2)
 
         let innerRadius: CGFloat = 20
