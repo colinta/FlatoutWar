@@ -26,20 +26,6 @@ class LevelConfig: Config {
         }
     }
 
-    var storedPlayers: [Node] {
-        get {
-            let configs: [NSDictionary]? = Defaults["\(configKey)-storedPlayers"].array as? [NSDictionary]
-            let nodes: [Node]? = configs?.flatMap {
-                return NodeStorage.fromDefaults($0)
-            }
-            return nodes ?? []
-        }
-        set {
-            let storage: [NSDictionary] = newValue.map { NodeStorage.toDefaults(node: $0) }.flatMap { $0 }
-            Defaults["\(configKey)-storedPlayers"] = storage
-        }
-    }
-
     var storedPowerups: [(powerup: Powerup, order: Int?)] {
         get {
             if let configs: [NSDictionary] = Defaults["\(configKey)-storedPowerups"].array as? [NSDictionary] {

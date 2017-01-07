@@ -28,10 +28,6 @@ class UpgradeWorld: UIWorld {
     var printedExperience: Int = 0
 
     func saveAndExit() {
-        levelConfig.storedPlayers = [playerNode] + armyNodes.map { node in
-            node.position = convertPosition(node)
-            return node
-        }
         levelConfig.didUpgrade = true
         director?.presentWorld(nextWorld)
     }
@@ -75,14 +71,14 @@ class UpgradeWorld: UIWorld {
     override func populateWorld() {
         super.populateWorld()
 
-        for node in levelConfig.storedPlayers {
-            if let node = node as? BasePlayerNode {
-                playerNode = node
-            }
-            else {
-                armyNodes << node
-            }
-        }
+        // for node in levelConfig.storedPlayers {
+        //     if let node = node as? BasePlayerNode {
+        //         playerNode = node
+        //     }
+        //     else {
+        //         armyNodes << node
+        //     }
+        // }
 
         mainLayer << generateDoneButton()
         self << mainLayer

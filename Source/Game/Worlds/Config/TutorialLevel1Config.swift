@@ -13,9 +13,4 @@ class TutorialLevel1Config: TutorialConfig {
         return TutorialLevel2()
     }
 
-    override var storedPlayers: [Node] {
-        get { return [BasePlayerNode()] }
-        set { }
-    }
-
 }

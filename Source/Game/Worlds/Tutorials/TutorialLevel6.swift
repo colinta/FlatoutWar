@@ -12,6 +12,7 @@ class TutorialLevel6: TutorialLevel {
     override func populateLevel() {
         shouldReturnToLevelSelect = true
 
+        self.introduceDrone()
         moveCamera(to: CGPoint(150, 50), duration: 2)
         beginWave1(at: 4)
     }

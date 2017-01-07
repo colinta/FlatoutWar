@@ -13,4 +13,7 @@ class BaseLevel: Level {
         fatalError("init(coder:) has not been implemented")
     }
 
+    fileprivate func populatePlayerNodes() {
+    }
+
 }

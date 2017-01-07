@@ -289,18 +289,6 @@ extension Level {
     }
 
     fileprivate func populatePlayerNodes() {
-        for node in config.storedPlayers {
-            if let playerNode = node as? BasePlayerNode {
-                self.playerNode = playerNode
-            }
-            else {
-                addArmyNode(node)
-            }
-        }
-
-        if shouldPopulatePlayer {
-            updatePlayer(playerNode)
-        }
     }
 
     fileprivate func populateTurrets() {
@@ -447,7 +435,6 @@ extension Level {
             addComponent(finalTimeline)
 
             config.updateMaxGainedExperience(gainedExperience)
-            config.nextLevel().config.storedPlayers = self.players
             config.nextLevel().config.storedPowerups = config.storedPowerups
 
             let percentNode = PercentBar(at: CGPoint(x: 60, y: 0))
@@ -518,8 +505,8 @@ extension Level {
             fatalError("player node should not be added in this way")
         }
         else {
-            if let node = node as? DroneNode {
-                node.draggableComponent?.maintainDistance(100, around: playerNode)
+            if let draggableComponent = node.draggableComponent {
+                draggableComponent.maintainDistance(100, around: playerNode)
             }
 
             node.fadeTo(1, start: 0, duration: 1.4)
