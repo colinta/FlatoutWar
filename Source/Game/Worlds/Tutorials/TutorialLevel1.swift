@@ -11,9 +11,7 @@ class TutorialLevel1: TutorialLevel {
 
     // two sources of weak enemies
     func beginWave1() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave2() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave2)
 
         let wave1: CGFloat = rand(TAU)
         let wave2 = wave1 + TAU_2 ± rand(min: TAU_8, max: TAU_4)
@@ -24,9 +22,7 @@ class TutorialLevel1: TutorialLevel {
 
     // one source of weak, one source of strong
     func beginWave2() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave3() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave3)
 
         let wave2_leader = size.angle
         let wave2_soldier: CGFloat = -size.angle ± rand(TAU_16)
@@ -37,9 +33,7 @@ class TutorialLevel1: TutorialLevel {
 
     // random
     func beginWave3() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave4() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave4)
 
         10.times { (i: Int) in
             generateWarning(TAU * CGFloat(i) / 10)
@@ -51,9 +45,7 @@ class TutorialLevel1: TutorialLevel {
 
     // four sources of weak enemies
     func beginWave4() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave5() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave5)
 
         let wave1 = randSideAngle()
         let wave2 = wave1 ± rand(min: 10.degrees, max: 20.degrees)

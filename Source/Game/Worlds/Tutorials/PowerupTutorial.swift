@@ -107,9 +107,7 @@ class PowerupTutorial: Tutorial {
     }
 
     func releaseEnemies() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.done() }
-        }
+        let nextStep = afterAllWaves(nextWave: done)
 
         var delay: CGFloat = 0
         var nextDelay: CGFloat = 4

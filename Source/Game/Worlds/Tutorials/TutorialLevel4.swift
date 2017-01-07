@@ -11,9 +11,7 @@ class TutorialLevel4: TutorialLevel {
     }
 
     func beginWave1() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave2() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave2)
 
         let wave1 = randSideAngle(.Right)
         let wave2 = wave1 ± (TAU_16 + rand(TAU_16))
@@ -24,9 +22,7 @@ class TutorialLevel4: TutorialLevel {
     }
 
     func beginWave2() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave3() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave3)
 
         let wave1 = randSideAngle(.Right)
         let wave2 = wave1 ± (TAU_8 + rand(TAU_16))
@@ -36,9 +32,7 @@ class TutorialLevel4: TutorialLevel {
     }
 
     func beginWave3() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave4() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave4)
 
         timeline.every(2...4, times: 5) {
             let wave = self.randSideAngle(.Right)

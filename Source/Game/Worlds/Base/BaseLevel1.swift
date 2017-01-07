@@ -11,9 +11,7 @@ class BaseLevel1: BaseLevel {
 
     // one sources of weak enemies in a wave
     func beginWave1() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave2() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave2)
 
         let wave1 = TAU_2 ± rand(size.angle)
         generateWarning(
@@ -34,9 +32,7 @@ class BaseLevel1: BaseLevel {
 
     // Dozers
     func beginWave2() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave3() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave3)
 
         let wave1 = self.randSideAngle()
         generateWarning(wave1 - TAU_16)
@@ -46,9 +42,7 @@ class BaseLevel1: BaseLevel {
 
     // wide waves
     func beginWave3() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave4() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave4)
 
         timeline.every(6, times: 8) {
             let angle: CGFloat = self.randSideAngle()
@@ -65,9 +59,7 @@ class BaseLevel1: BaseLevel {
 
     // fast enemies waves
     func beginWave4() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave5() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave5)
 
         let angles: [CGFloat] = [
             -size.angle * 7 / 8,
@@ -89,9 +81,7 @@ class BaseLevel1: BaseLevel {
 
     // fast enemies waves
     func beginWave5() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave6() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave6)
 
         let wave1 = self.randSideAngle()
         let spread = TAU_8

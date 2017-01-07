@@ -11,9 +11,7 @@ class BaseLevel4: BaseLevel {
     }
 
     func beginWave1() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave2() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave2)
 
         timeline.every(12, times: 8) {
             let xs: CGFloat = ±1

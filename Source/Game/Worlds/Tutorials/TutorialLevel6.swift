@@ -17,9 +17,8 @@ class TutorialLevel6: TutorialLevel {
     }
 
     func beginWave1(at delay: CGFloat) {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave2() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave2)
+
         let randAngle: () -> CGFloat = { return rand(min: -self.size.angle, max: TAU_4) }
 
         let delays: [CGFloat] = [
@@ -40,9 +39,7 @@ class TutorialLevel6: TutorialLevel {
     }
 
     func beginWave2() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave3() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave3)
 
         self.generateWarning(0, TAU_16, -TAU_16)
         timeline.every(7...9, start: .Delayed(), times: 4) {

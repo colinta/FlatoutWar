@@ -20,9 +20,7 @@ class TutorialLevel5: TutorialLevel {
     }
 
     func beginWave1() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave2() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave2)
 
         let wave1: CGFloat = TAU / 32
         let wave2: CGFloat = -TAU / 32
@@ -38,9 +36,7 @@ class TutorialLevel5: TutorialLevel {
     }
 
     func beginWave2() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave3() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave3)
 
         timeline.at(.Delayed()) {
             self.moveCamera(to: CGPoint(x: -120, y: 0), duration: 3)

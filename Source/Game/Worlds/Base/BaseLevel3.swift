@@ -12,9 +12,7 @@ class BaseLevel3: BaseLevel {
 
     // exp 11 * 5 = 55
     func beginWave1() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave2() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave2)
 
         let angle = self.randSideAngle()
         generateWarning(angle + TAU_12)
@@ -24,9 +22,7 @@ class BaseLevel3: BaseLevel {
 
     // exp 20 * 3 = 60
     func beginWave2() {
-        let nextStep = afterN {
-            self.onNoMoreEnemies { self.beginWave3() }
-        }
+        let nextStep = afterAllWaves(nextWave: beginWave3)
 
         10.times { (i: Int) in
             generateWarning(TAU * CGFloat(i) / 10)

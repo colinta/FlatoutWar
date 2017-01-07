@@ -712,3 +712,11 @@ extension World {
     }
 
 }
+
+extension World {
+    func afterAllWaves(nextWave: @escaping () -> Void) -> (() -> Block) {
+        return afterN {
+            self.onNoMoreEnemies { nextWave() }
+        }
+    }
+}
