@@ -45,7 +45,7 @@ class WorldSelectWorld: UIWorld {
             to: CGPoint(x: -200, y: 75)
         )
 
-        let summaryConfig = UpgradeConfigSummary()
+        let summaryConfig = GameConfigSummary()
         let tutorialConfig = TutorialConfigSummary()
         let baseConfig = BaseConfigSummary()
 
@@ -273,19 +273,9 @@ class WorldSelectWorld: UIWorld {
             let y: CGFloat = (yOffset - 1) * dy
             let position = center + CGPoint(x, y)
 
-            let world: World
-            if level.config.didUpgrade {
-                world = level
-            }
-            else {
-                let upgradeWorld = UpgradeWorld()
-                upgradeWorld.nextWorld = level
-                world = upgradeWorld
-            }
             let button = generateButton(
                 at: position,
-                level: level, prevLevel: prevLevel,
-                presentWorld: world)
+                level: level, prevLevel: prevLevel)
             button.text = "\(levelIndex + 1)"
             levelSelect << button
 
@@ -304,7 +294,7 @@ class WorldSelectWorld: UIWorld {
 }
 
 extension WorldSelectWorld {
-    func generateButton(at center: CGPoint, level: Level, prevLevel: Level?, presentWorld: World? = nil) -> Button {
+    func generateButton(at center: CGPoint, level: Level, prevLevel: Level?) -> Button {
         let button = Button(at: center)
         let completed = prevLevel?.config.levelCompleted ?? true
         button.background = BackgroundColor
@@ -316,7 +306,7 @@ extension WorldSelectWorld {
             self.interactionEnabled = false
             self.fadeTo(0, duration: 0.5).onFaded {
                 level.shouldReturnToLevelSelect = true
-                self.director?.presentWorld(presentWorld ?? level.tutorialOrLevel())
+                self.director?.presentWorld(level.tutorialOrLevel())
             }
         }
 

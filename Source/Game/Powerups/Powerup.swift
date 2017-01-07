@@ -13,13 +13,6 @@ class Powerup {
     var powerupType: ImageIdentifier.PowerupType? { return .none }
 
     var count: Int = 0
-    var nextExperienceCost: Currency? {
-        if let cost = nextExperienceCosts[count] {
-            return Currency(experience: cost)
-        }
-        return nil
-    }
-    var nextExperienceCosts: [Int: Int] { return [:] }
     var powerupButton: Button?
     var powerupCancelButton: Button?
     var powerupCount: TextNode?
@@ -68,14 +61,6 @@ class Powerup {
         powerupCount.text = "\(count)"
         powerupCount.alignment = .left
         return powerupCount
-    }
-
-    func experienceCostNode() -> ExperienceCostText {
-        let experienceCost = ExperienceCostText()
-        if let nextExperienceCost = nextExperienceCost {
-            experienceCost.cost = nextExperienceCost.experience
-        }
-        return experienceCost
     }
 
     func addToLevel(_ level: World, playerNode: Node, start: CGPoint, dest: Position) {

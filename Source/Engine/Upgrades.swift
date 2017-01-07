@@ -33,9 +33,3 @@ extension HasUpgrade {
         return self.boolValue
     }
 }
-
-enum UpgradeType {
-    case RadarUpgrade
-    case BulletUpgrade
-    case MovementUpgrade
-}

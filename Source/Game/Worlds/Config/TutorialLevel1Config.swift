@@ -3,7 +3,6 @@
 //
 
 class TutorialLevel1Config: TutorialConfig {
-    override var canPowerup: Bool { return false }
     override var availableTurrets: [Turret] { return [] }
 
     override var possibleExperience: Int { return 100 }

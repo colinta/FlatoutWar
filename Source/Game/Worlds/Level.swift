@@ -107,9 +107,7 @@ class Level: World {
         populateUI()
         populatePlayerNodes()
         populateTurrets()
-        if config.canPowerup {
-            populatePowerups()
-        }
+        populatePowerups()
 
         timeline.when({ self.possibleExperience >= self.config.possibleExperience }) {
             self.onNoMoreEnemies {
@@ -289,6 +287,18 @@ extension Level {
     }
 
     fileprivate func populatePlayerNodes() {
+        for node in config.availablePlayers {
+            if let playerNode = node as? BasePlayerNode {
+                self.playerNode = playerNode
+            }
+            else {
+                addArmyNode(node)
+            }
+        }
+
+        if shouldPopulatePlayer {
+            updatePlayer(playerNode)
+        }
     }
 
     fileprivate func populateTurrets() {
@@ -326,7 +336,7 @@ extension Level {
     }
 
     fileprivate func populatePowerups() {
-        let powerups = config.activatedPowerups
+        let powerups = config.availablePowerups
         self.powerups = powerups
         for (index, powerup) in powerups.enumerated() {
             let start: Position = .Left(
@@ -435,7 +445,6 @@ extension Level {
             addComponent(finalTimeline)
 
             config.updateMaxGainedExperience(gainedExperience)
-            config.nextLevel().config.storedPowerups = config.storedPowerups
 
             let percentNode = PercentBar(at: CGPoint(x: 60, y: 0))
             self << percentNode

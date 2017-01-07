@@ -17,32 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         justOnce("2016-07-07") {
             TutorialConfigSummary().completeAll()
         }
-        justOnce("2016-07-13") {
-            BaseLevel1Config().storedPowerups = [
-                (GrenadePowerup(count: 2), 0),
-                (LaserPowerup(count: 1), 1),
-                (MinesPowerup(count: 2), 2),
-                (HourglassPowerup(count: 0), nil),
-            ]
-        }
-        justOnce("2016-08-17") {
-            if BaseLevel1Config().storedPlayers.isEmpty {
-                BaseLevel1Config().storedPlayers = [BasePlayerNode(), DroneNode(at: CGPoint(x: 80))]
-            }
-            if TutorialLevel6Config().storedPlayers.isEmpty {
-                TutorialLevel6Config().storedPlayers = [BasePlayerNode(), DroneNode(at: CGPoint(x: 80))]
-            }
-        }
 
-        let upgradeConfig = UpgradeConfigSummary()
+        let upgradeConfig = GameConfigSummary()
         upgradeConfig.spentExperience = 0
-        BaseLevel1Config().storedPowerups = [
-            (GrenadePowerup(count: 2), 0),
-            (LaserPowerup(count: 1), 1),
-            (MinesPowerup(count: 2), 2),
-            (HourglassPowerup(count: 0), nil),
-        ]
-        BaseLevel1Config().storedPlayers = [BasePlayerNode(), DroneNode(at: CGPoint(x: 80))]
 
         device = ALDevice(deviceSpecifier: nil)
         context = ALContext(on: device, attributes: nil)

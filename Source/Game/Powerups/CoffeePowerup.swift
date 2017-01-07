@@ -5,11 +5,6 @@
 class CoffeePowerup: Powerup {
     override var name: String { return "COFFEE" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Coffee }
-    override var nextExperienceCosts: [Int: Int] { return [
-        0: 20,
-        1: 40,
-        2: 80,
-    ] }
 
     static let CoffeeTimeout: CGFloat = 10
 

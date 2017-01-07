@@ -21,18 +21,12 @@
 		1D6A9F471DD79B05004A0978 /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F3F1DD79B05004A0978 /* Shape.swift */; };
 		1D6A9F481DD79B05004A0978 /* SwiftUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F401DD79B05004A0978 /* SwiftUserDefaults.swift */; };
 		1D6A9F491DD79B05004A0978 /* Timers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F411DD79B05004A0978 /* Timers.swift */; };
-		1D6A9F571DD79B0A004A0978 /* ArmyUpgradeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F4A1DD79B0A004A0978 /* ArmyUpgradeButton.swift */; };
 		1D6A9F581DD79B0A004A0978 /* IntroductionCutSceneWorld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F4B1DD79B0A004A0978 /* IntroductionCutSceneWorld.swift */; };
 		1D6A9F591DD79B0A004A0978 /* MainMenuWorld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F4C1DD79B0A004A0978 /* MainMenuWorld.swift */; };
 		1D6A9F5A1DD79B0A004A0978 /* PowerupDemos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F4D1DD79B0A004A0978 /* PowerupDemos.swift */; };
-		1D6A9F5B1DD79B0A004A0978 /* PowerupUpgradeButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F4E1DD79B0A004A0978 /* PowerupUpgradeButton.swift */; };
 		1D6A9F5C1DD79B0A004A0978 /* StartupWorld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F4F1DD79B0A004A0978 /* StartupWorld.swift */; };
 		1D6A9F5D1DD79B0A004A0978 /* TutorialSelectWorld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F501DD79B0A004A0978 /* TutorialSelectWorld.swift */; };
 		1D6A9F5E1DD79B0A004A0978 /* UIWorld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F511DD79B0A004A0978 /* UIWorld.swift */; };
-		1D6A9F5F1DD79B0A004A0978 /* UpgradeWorld_ArmyPurchase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F521DD79B0A004A0978 /* UpgradeWorld_ArmyPurchase.swift */; };
-		1D6A9F601DD79B0A004A0978 /* UpgradeWorld_ArmyUpgrade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F531DD79B0A004A0978 /* UpgradeWorld_ArmyUpgrade.swift */; };
-		1D6A9F611DD79B0A004A0978 /* UpgradeWorld_Powerups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F541DD79B0A004A0978 /* UpgradeWorld_Powerups.swift */; };
-		1D6A9F621DD79B0A004A0978 /* UpgradeWorld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F551DD79B0A004A0978 /* UpgradeWorld.swift */; };
 		1D6A9F631DD79B0A004A0978 /* WorldSelectWorld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F561DD79B0A004A0978 /* WorldSelectWorld.swift */; };
 		1D6A9F711DD79B10004A0978 /* AutoFireTutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F641DD79B10004A0978 /* AutoFireTutorial.swift */; };
 		1D6A9F721DD79B10004A0978 /* DroneTutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F651DD79B10004A0978 /* DroneTutorial.swift */; };
@@ -71,7 +65,7 @@
 		1D6A9FAE1DD79B18004A0978 /* TutorialLevel4Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F9C1DD79B18004A0978 /* TutorialLevel4Config.swift */; };
 		1D6A9FAF1DD79B18004A0978 /* TutorialLevel5Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F9D1DD79B18004A0978 /* TutorialLevel5Config.swift */; };
 		1D6A9FB01DD79B18004A0978 /* TutorialLevel6Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F9E1DD79B18004A0978 /* TutorialLevel6Config.swift */; };
-		1D6A9FB11DD79B18004A0978 /* UpgradeConfigSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F9F1DD79B18004A0978 /* UpgradeConfigSummary.swift */; };
+		1D6A9FB11DD79B18004A0978 /* GameConfigSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F9F1DD79B18004A0978 /* GameConfigSummary.swift */; };
 		1D6A9FB81DD79B1C004A0978 /* BaseLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9FB21DD79B1C004A0978 /* BaseLevel.swift */; };
 		1D6A9FB91DD79B1C004A0978 /* BaseLevel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9FB31DD79B1C004A0978 /* BaseLevel1.swift */; };
 		1D6A9FBA1DD79B1C004A0978 /* BaseLevel2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9FB41DD79B1C004A0978 /* BaseLevel2.swift */; };
@@ -263,6 +257,7 @@
 		1D971CED1E1CA1BB00A167A2 /* ShotgunUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CEC1E1CA1BB00A167A2 /* ShotgunUpgrades.swift */; };
 		1D971CEF1E1EC28B00A167A2 /* RotateScanComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CEE1E1EC28B00A167A2 /* RotateScanComponent.swift */; };
 		1DBFDA001DFFB8DD0058843D /* CannonUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */; };
+		1DC7EBB81E215B3D0069AA8A /* BaseLevelConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC7EBB71E215B3D0069AA8A /* BaseLevelConfig.swift */; };
 		216146732396C15720CD939B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F03135BA42322EAF9BCCB836 /* Foundation.framework */; };
 		275B0C2755BBFC08B0072403 /* NSMutableDictionary+WeakReferences.m in Sources */ = {isa = PBXBuildFile; fileRef = A2BBF808C8061FB024CDB563 /* NSMutableDictionary+WeakReferences.m */; };
 		3332E0EFC48439B66A847C28 /* OALAudioTrackNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = 7875E7EB8B07D82513752390 /* OALAudioTrackNotifications.m */; };
@@ -319,18 +314,12 @@
 		1D6A9F3F1DD79B05004A0978 /* Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
 		1D6A9F401DD79B05004A0978 /* SwiftUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftUserDefaults.swift; sourceTree = "<group>"; };
 		1D6A9F411DD79B05004A0978 /* Timers.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timers.swift; sourceTree = "<group>"; };
-		1D6A9F4A1DD79B0A004A0978 /* ArmyUpgradeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArmyUpgradeButton.swift; sourceTree = "<group>"; };
 		1D6A9F4B1DD79B0A004A0978 /* IntroductionCutSceneWorld.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntroductionCutSceneWorld.swift; sourceTree = "<group>"; };
 		1D6A9F4C1DD79B0A004A0978 /* MainMenuWorld.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainMenuWorld.swift; sourceTree = "<group>"; };
 		1D6A9F4D1DD79B0A004A0978 /* PowerupDemos.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerupDemos.swift; sourceTree = "<group>"; };
-		1D6A9F4E1DD79B0A004A0978 /* PowerupUpgradeButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerupUpgradeButton.swift; sourceTree = "<group>"; };
 		1D6A9F4F1DD79B0A004A0978 /* StartupWorld.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartupWorld.swift; sourceTree = "<group>"; };
 		1D6A9F501DD79B0A004A0978 /* TutorialSelectWorld.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialSelectWorld.swift; sourceTree = "<group>"; };
 		1D6A9F511DD79B0A004A0978 /* UIWorld.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIWorld.swift; sourceTree = "<group>"; };
-		1D6A9F521DD79B0A004A0978 /* UpgradeWorld_ArmyPurchase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeWorld_ArmyPurchase.swift; sourceTree = "<group>"; };
-		1D6A9F531DD79B0A004A0978 /* UpgradeWorld_ArmyUpgrade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeWorld_ArmyUpgrade.swift; sourceTree = "<group>"; };
-		1D6A9F541DD79B0A004A0978 /* UpgradeWorld_Powerups.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeWorld_Powerups.swift; sourceTree = "<group>"; };
-		1D6A9F551DD79B0A004A0978 /* UpgradeWorld.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeWorld.swift; sourceTree = "<group>"; };
 		1D6A9F561DD79B0A004A0978 /* WorldSelectWorld.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WorldSelectWorld.swift; sourceTree = "<group>"; };
 		1D6A9F641DD79B10004A0978 /* AutoFireTutorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AutoFireTutorial.swift; sourceTree = "<group>"; };
 		1D6A9F651DD79B10004A0978 /* DroneTutorial.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DroneTutorial.swift; sourceTree = "<group>"; };
@@ -369,7 +358,7 @@
 		1D6A9F9C1DD79B18004A0978 /* TutorialLevel4Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel4Config.swift; sourceTree = "<group>"; };
 		1D6A9F9D1DD79B18004A0978 /* TutorialLevel5Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel5Config.swift; sourceTree = "<group>"; };
 		1D6A9F9E1DD79B18004A0978 /* TutorialLevel6Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel6Config.swift; sourceTree = "<group>"; };
-		1D6A9F9F1DD79B18004A0978 /* UpgradeConfigSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradeConfigSummary.swift; sourceTree = "<group>"; };
+		1D6A9F9F1DD79B18004A0978 /* GameConfigSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameConfigSummary.swift; sourceTree = "<group>"; };
 		1D6A9FB21DD79B1C004A0978 /* BaseLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel.swift; sourceTree = "<group>"; };
 		1D6A9FB31DD79B1C004A0978 /* BaseLevel1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel1.swift; sourceTree = "<group>"; };
 		1D6A9FB41DD79B1C004A0978 /* BaseLevel2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel2.swift; sourceTree = "<group>"; };
@@ -561,6 +550,7 @@
 		1D971CEC1E1CA1BB00A167A2 /* ShotgunUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShotgunUpgrades.swift; sourceTree = "<group>"; };
 		1D971CEE1E1EC28B00A167A2 /* RotateScanComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotateScanComponent.swift; sourceTree = "<group>"; };
 		1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonUpgrades.swift; sourceTree = "<group>"; };
+		1DC7EBB71E215B3D0069AA8A /* BaseLevelConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevelConfig.swift; sourceTree = "<group>"; };
 		2425E3A61D6520C9C8191BBB /* OALTools.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OALTools.m; path = ObjectAL/Support/OALTools.m; sourceTree = "<group>"; };
 		24FA3A3C3F172ED9299C52AE /* OALAudioTrackNotifications.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OALAudioTrackNotifications.h; path = ObjectAL/AudioTrack/OALAudioTrackNotifications.h; sourceTree = "<group>"; };
 		261FEC905EAA9AD745BD3ED3 /* OALAudioFile.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OALAudioFile.m; path = ObjectAL/Support/OALAudioFile.m; sourceTree = "<group>"; };
@@ -732,18 +722,12 @@
 		15AF5EA5819A364D67DA0582 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				1D6A9F4A1DD79B0A004A0978 /* ArmyUpgradeButton.swift */,
 				1D6A9F4B1DD79B0A004A0978 /* IntroductionCutSceneWorld.swift */,
 				1D6A9F4C1DD79B0A004A0978 /* MainMenuWorld.swift */,
 				1D6A9F4D1DD79B0A004A0978 /* PowerupDemos.swift */,
-				1D6A9F4E1DD79B0A004A0978 /* PowerupUpgradeButton.swift */,
 				1D6A9F4F1DD79B0A004A0978 /* StartupWorld.swift */,
 				1D6A9F501DD79B0A004A0978 /* TutorialSelectWorld.swift */,
 				1D6A9F511DD79B0A004A0978 /* UIWorld.swift */,
-				1D6A9F521DD79B0A004A0978 /* UpgradeWorld_ArmyPurchase.swift */,
-				1D6A9F531DD79B0A004A0978 /* UpgradeWorld_ArmyUpgrade.swift */,
-				1D6A9F541DD79B0A004A0978 /* UpgradeWorld_Powerups.swift */,
-				1D6A9F551DD79B0A004A0978 /* UpgradeWorld.swift */,
 				1D6A9F561DD79B0A004A0978 /* WorldSelectWorld.swift */,
 			);
 			path = UI;
@@ -1090,8 +1074,10 @@
 				1D6A9F911DD79B18004A0978 /* BaseLevel3Config.swift */,
 				1D6A9F921DD79B18004A0978 /* BaseLevel4Config.swift */,
 				1D6A9F931DD79B18004A0978 /* BaseLevel5Config.swift */,
+				1DC7EBB71E215B3D0069AA8A /* BaseLevelConfig.swift */,
 				1D6A9F941DD79B18004A0978 /* Config.swift */,
 				1D6A9F951DD79B18004A0978 /* ConfigSummary.swift */,
+				1D6A9F9F1DD79B18004A0978 /* GameConfigSummary.swift */,
 				1D6A9F961DD79B18004A0978 /* LevelConfig.swift */,
 				1D6A9F971DD79B18004A0978 /* TutorialConfig.swift */,
 				1D6A9F981DD79B18004A0978 /* TutorialConfigSummary.swift */,
@@ -1101,7 +1087,6 @@
 				1D6A9F9C1DD79B18004A0978 /* TutorialLevel4Config.swift */,
 				1D6A9F9D1DD79B18004A0978 /* TutorialLevel5Config.swift */,
 				1D6A9F9E1DD79B18004A0978 /* TutorialLevel6Config.swift */,
-				1D6A9F9F1DD79B18004A0978 /* UpgradeConfigSummary.swift */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -1404,15 +1389,15 @@
 				1D6A9FFF1DD79B31004A0978 /* PulseNode.swift in Sources */,
 				1D6AA0B41DD79B5A004A0978 /* CoffeePowerupArtist.swift in Sources */,
 				1D6AA0E71DD79B62004A0978 /* BulletArtist.swift in Sources */,
-				1D6A9FB11DD79B18004A0978 /* UpgradeConfigSummary.swift in Sources */,
+				1D6A9FB11DD79B18004A0978 /* GameConfigSummary.swift in Sources */,
 				1D6AA07A1DD79B44004A0978 /* Line.swift in Sources */,
 				1D971CEF1E1EC28B00A167A2 /* RotateScanComponent.swift in Sources */,
 				1D6AA05E1DD79B3E004A0978 /* TouchEmulationComponent.swift in Sources */,
-				1D6A9F5F1DD79B0A004A0978 /* UpgradeWorld_ArmyPurchase.swift in Sources */,
 				1D6AA0F91DD79B62004A0978 /* TextArtist.swift in Sources */,
 				1D6AA0F11DD79B62004A0978 /* ImageArtists.swift in Sources */,
 				1D6A9FBA1DD79B1C004A0978 /* BaseLevel2.swift in Sources */,
 				1D6A9FB81DD79B1C004A0978 /* BaseLevel.swift in Sources */,
+				1DC7EBB81E215B3D0069AA8A /* BaseLevelConfig.swift in Sources */,
 				1D6AA05C1DD79B3E004A0978 /* StoppedComponent.swift in Sources */,
 				1D6AA0521DD79B3E004A0978 /* KeepRotatingComponent.swift in Sources */,
 				1D6AA0C11DD79B5A004A0978 /* ShieldSegmentArtist.swift in Sources */,
@@ -1429,7 +1414,6 @@
 				1D6AA0F61DD79B62004A0978 /* RadarArtist.swift in Sources */,
 				1D6A9FAC1DD79B18004A0978 /* TutorialLevel2Config.swift in Sources */,
 				C18E3DF53F600C1DE8882E0B /* OALUtilityActions.m in Sources */,
-				1D6A9F611DD79B0A004A0978 /* UpgradeWorld_Powerups.swift in Sources */,
 				1D6AA0191DD79B37004A0978 /* EnemyBigJetNode.swift in Sources */,
 				1D6AA0F21DD79B62004A0978 /* ImageIdentifier.swift in Sources */,
 				1D6AA0901DD79B53004A0978 /* Component.swift in Sources */,
@@ -1504,7 +1488,6 @@
 				1D6AA0571DD79B3E004A0978 /* ProjectileComponent.swift in Sources */,
 				1D6AA0591DD79B3E004A0978 /* RotateToComponent.swift in Sources */,
 				B95F74E9E1E4D5D759B4684F /* ALListener.m in Sources */,
-				1D6A9F601DD79B0A004A0978 /* UpgradeWorld_ArmyUpgrade.swift in Sources */,
 				1D6AA0BD1DD79B5A004A0978 /* PowerupTimerArtist.swift in Sources */,
 				1D6AA0C31DD79B5A004A0978 /* SoldiersPowerupArtist.swift in Sources */,
 				1D6AA0B91DD79B5A004A0978 /* MinesPowerupArtist.swift in Sources */,
@@ -1532,7 +1515,6 @@
 				735A1CE510017E6F8ED583D1 /* ALSource.m in Sources */,
 				1D6AA0EB1DD79B62004A0978 /* DroneArtist.swift in Sources */,
 				1D6AA0C81DD79B5D004A0978 /* SmallFont.swift in Sources */,
-				1D6A9F571DD79B0A004A0978 /* ArmyUpgradeButton.swift in Sources */,
 				1D971CDE1E1479E700A167A2 /* BackgroundAudioNode.swift in Sources */,
 				1D6AA0ED1DD79B62004A0978 /* EnemyDiamondArtist.swift in Sources */,
 				1D6AA0441DD79B3E004A0978 /* ArcToComponent.swift in Sources */,
@@ -1591,7 +1573,6 @@
 				1D6A9FD61DD79B2A004A0978 /* Powerup.swift in Sources */,
 				1D6AA04D1DD79B3E004A0978 /* FollowPathComponent.swift in Sources */,
 				1D971CD41E1479D200A167A2 /* CannonNode.swift in Sources */,
-				1D6A9F5B1DD79B0A004A0978 /* PowerupUpgradeButton.swift in Sources */,
 				1D6AA0C01DD79B5A004A0978 /* ShieldPowerupArtist.swift in Sources */,
 				1D6A9FFB1DD79B31004A0978 /* MineFragmentNode.swift in Sources */,
 				1D5C44031DDAAF6F00FDBF7E /* BasePlayerUpgrades.swift in Sources */,
@@ -1645,7 +1626,6 @@
 				1D6AA00A1DD79B34004A0978 /* EnemyExplosionNode.swift in Sources */,
 				1D6AA0B71DD79B5A004A0978 /* LaserPowerupArtist.swift in Sources */,
 				1D6AA01F1DD79B37004A0978 /* EnemyJetTransportNode.swift in Sources */,
-				1D6A9F621DD79B0A004A0978 /* UpgradeWorld.swift in Sources */,
 				1D6A9FE51DD79B2E004A0978 /* LevelCompleteBox.swift in Sources */,
 				1D6A9FF71DD79B31004A0978 /* BombNode.swift in Sources */,
 			);

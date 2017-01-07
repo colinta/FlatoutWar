@@ -18,10 +18,6 @@ extension MissleSiloNode: UpgradeableNode {
             movementUpgrade = true
         }
     }
-
-    func availableUpgrades(world upgradeWorld: World) -> [(ArmyUpgradeButton, UpgradeInfo)] {
-        return []
-    }
 }
 
 

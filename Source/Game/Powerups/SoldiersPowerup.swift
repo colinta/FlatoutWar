@@ -5,10 +5,6 @@
 class SoldiersPowerup: Powerup {
     override var name: String { return "SOLDIERS" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Soldiers }
-    override var nextExperienceCosts: [Int: Int] { return [
-        0: 40,
-        1: 80,
-    ] }
 
     required init(count: Int) {
         super.init(count: count)

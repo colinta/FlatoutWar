@@ -12,7 +12,7 @@ class UIWorld: World {
     }
 
     @discardableResult
-    func populateCurrencies(config: UpgradeConfigSummary) -> TextNode {
+    func populateCurrencies(config: GameConfigSummary) -> TextNode {
         let position = CGPoint(
             size.width / 2 - 10,
             -size.height / 2 + 20)

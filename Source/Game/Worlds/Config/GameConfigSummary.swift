@@ -1,8 +1,8 @@
 ////
-///  UpgradeConfigSummary.swift
+///  GameConfigSummary.swift
 //
 
-class UpgradeConfigSummary: Config {
+class GameConfigSummary: Config {
     var configs: [ConfigSummary] = [
         TutorialConfigSummary(),
         BaseConfigSummary(),
@@ -28,5 +28,4 @@ class UpgradeConfigSummary: Config {
             spentExperience += amount.experience
         }
     }
-
 }

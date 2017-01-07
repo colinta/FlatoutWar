@@ -3,7 +3,7 @@
 //
 
 class TutorialLevel6Config: TutorialConfig {
-    override var activatedPowerups: [Powerup] { return [
+    override var availablePowerups: [Powerup] { return [
         GrenadePowerup(count: 2),
         LaserPowerup(count: 1),
         MinesPowerup(count: 1),

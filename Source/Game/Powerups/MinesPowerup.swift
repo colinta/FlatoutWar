@@ -5,11 +5,6 @@
 class MinesPowerup: Powerup {
     override var name: String { return "MINES" }
     override var powerupType: ImageIdentifier.PowerupType? { return .Mines }
-    override var nextExperienceCosts: [Int: Int] { return [
-        0: 20,
-        1: 40,
-        2: 80,
-    ] }
 
     required init(count: Int) {
         super.init(count: count)
