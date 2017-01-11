@@ -35,8 +35,8 @@ class BasePlayerNode: Node {
         firingComponent?.targetsPreemptively = radarUpgrade.targetsPreemptively
         firingComponent?.damage = calculateBulletDamage()
 
-        targetingComponent?.sweepAngle = radarUpgrade.baseSweepAngle
-        targetingComponent?.radius = radarUpgrade.baseRadarRadius
+        enemyTargetingComponent?.sweepAngle = radarUpgrade.baseSweepAngle
+        enemyTargetingComponent?.radius = radarUpgrade.baseRadarRadius
 
         size = CGSize(40)
     }
@@ -48,8 +48,8 @@ class BasePlayerNode: Node {
         didSet {
             updateRadarSprite()
             turretSprite.textureId(turret.spriteId(bulletUpgrade: bulletUpgrade))
-            targetingComponent?.enabled = turret.autoFireEnabled
-            targetingComponent?.reallySmart = turret.reallySmart
+            enemyTargetingComponent?.enabled = turret.autoFireEnabled
+            enemyTargetingComponent?.reallySmart = turret.reallySmart
         }
     }
 
@@ -257,7 +257,7 @@ extension BasePlayerNode {
 extension BasePlayerNode {
 
     func onTouchAimingTapped(at location: CGPoint) {
-        targetingComponent?.currentTarget = nil
+        enemyTargetingComponent?.currentTarget = nil
         startRotatingTo(angle: location.angle)
     }
 

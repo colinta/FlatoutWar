@@ -184,12 +184,12 @@ extension EnemySoldierNode {
         case .None: break
         }
         leader.onDeath { [weak self] in
-            if let wSelf = self {
-                wSelf.rammingComponent?.currentSpeed = leader.rammingComponent?.currentSpeed ?? 0
-                wSelf.rammingComponent?.currentTarget = leader.rammingComponent?.currentTarget
-                wSelf.playerTargetingComponent?.currentTarget = leader.playerTargetingComponent?.currentTarget
-                wSelf.playerTargetingComponent?.targetingEnabled = true
-                wSelf.get(component: FollowComponent.self)?.removeFromNode()
+            if let `self` = self {
+                self.rammingComponent?.currentSpeed = leader.rammingComponent?.currentSpeed ?? 0
+                self.rammingComponent?.currentTarget = leader.rammingComponent?.currentTarget
+                self.playerTargetingComponent?.currentTarget = leader.playerTargetingComponent?.currentTarget
+                self.playerTargetingComponent?.targetingEnabled = true
+                self.get(component: FollowComponent.self)?.removeFromNode()
             }
         }
         addComponent(followComponent)

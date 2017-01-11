@@ -26,9 +26,10 @@ class CannonNode: Node, DraggableNode {
 
         draggableComponent?.speed = movementUpgrade.cannonMovementSpeed
 
-        targetingComponent?.sweepAngle = radarUpgrade.cannonSweepAngle
-        targetingComponent?.minRadius = radarUpgrade.cannonMinRadarRadius
-        targetingComponent?.radius = radarUpgrade.cannonMaxRadarRadius
+        enemyTargetingComponent?.sweepAngle = radarUpgrade.cannonSweepAngle
+        enemyTargetingComponent?.minRadius = radarUpgrade.cannonMinRadarRadius
+        enemyTargetingComponent?.radius = radarUpgrade.cannonMaxRadarRadius
+        enemyTargetingComponent?.bulletSpeed = bulletUpgrade.cannonBulletSpeed
 
         firingComponent?.targetsPreemptively = true
         firingComponent?.cooldown = bulletUpgrade.cannonCooldown
@@ -36,8 +37,6 @@ class CannonNode: Node, DraggableNode {
 
         rotateToComponent?.maxAngularSpeed = movementUpgrade.cannonAngularSpeed
         rotateToComponent?.angularAccel = movementUpgrade.cannonAngularAccel
-
-        targetingComponent?.bulletSpeed = bulletUpgrade.cannonBulletSpeed
 
         size = CGSize(30)
     }

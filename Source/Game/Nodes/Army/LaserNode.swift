@@ -25,8 +25,8 @@ class LaserNode: Node, DraggableNode {
 
         draggableComponent?.speed = movementUpgrade.laserMovementSpeed
 
-        targetingComponent?.sweepWidth = radarUpgrade.laserSweepWidth
-        targetingComponent?.radius = radarUpgrade.laserRadarRadius
+        enemyTargetingComponent?.sweepWidth = radarUpgrade.laserSweepWidth
+        enemyTargetingComponent?.radius = radarUpgrade.laserRadarRadius
 
         rotateToComponent?.maxAngularSpeed = movementUpgrade.laserAngularSpeed
         rotateToComponent?.angularAccel = movementUpgrade.laserAngularAccel
@@ -177,8 +177,8 @@ class LaserNode: Node, DraggableNode {
         }
         else {
             if !armyComponent.isMoving,
-                let currentTarget = targetingComponent?.currentTarget,
-                let currentPosition = targetingComponent?.firingPosition()
+                let currentTarget = enemyTargetingComponent?.currentTarget,
+                let currentPosition = enemyTargetingComponent?.firingPosition()
             {
                 angle = currentPosition.angle
                 firingInfo = (currentPosition.length, currentTarget)

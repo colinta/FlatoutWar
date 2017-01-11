@@ -224,16 +224,13 @@ class World: Node {
     fileprivate var _cachedNodes: [Node]?
     fileprivate var _cachedEnemies: [Node]?
     fileprivate var _cachedPlayers: [Node]?
-    var nodes: [Node] { return cachedNodes() }
+    var nodesRecursive: [Node] { return cachedNodes() }
     var enemies: [Node] { return cachedEnemies() }
     var players: [Node] { return cachedPlayers() }
 
     typealias OnNoMoreEnemies = Block
     fileprivate var _onNoMoreEnemies = [OnNoMoreEnemies]()
     func onNoMoreEnemies(_ handler: @escaping OnNoMoreEnemies) {
-        if enemies.count == 0 {
-            handler()
-        }
         _onNoMoreEnemies.append(handler)
     }
 
@@ -303,7 +300,7 @@ extension World {
         if let nodes = _cachedNodes {
             return nodes
         }
-        let cached = allChildNodes()
+        let cached = allChildNodes(recursive: true)
         _cachedNodes = cached
         return cached
     }
@@ -312,7 +309,7 @@ extension World {
         if let nodes = _cachedEnemies {
             return nodes
         }
-        let cached = nodes.filter { node in
+        let cached = nodesRecursive.filter { node in
             return node.isEnemy
         }
         _cachedEnemies = cached
@@ -323,7 +320,7 @@ extension World {
         if let nodes = _cachedPlayers {
             return nodes
         }
-        let cached = nodes.filter { node in
+        let cached = nodesRecursive.filter { node in
             return node.isPlayer
         }
         _cachedPlayers = cached
@@ -342,20 +339,36 @@ extension World {
     }
 
     func processNewNode(_ node: Node) {
-        let newNodes = [node] + node.allChildNodes()
+        let newNodes = [node] + node.allChildNodes(recursive: true)
         for node in newNodes {
             didAdd(node)
         }
 
-        _cachedNodes = nodes + newNodes
+        if let cachedNodes = _cachedNodes {
+            _cachedNodes = cachedNodes + newNodes
+        }
+        else {
+            _cachedNodes = cachedNodes()
+        }
+
         var reacquire = false
         for child in newNodes {
             if child.isEnemy {
-                _cachedEnemies = cachedEnemies() + [child]
+                if let cachedEnemies = _cachedEnemies {
+                    _cachedEnemies = cachedEnemies + [child]
+                }
+                else {
+                    _cachedEnemies = cachedEnemies()
+                }
             }
 
             if child.isPlayer {
-                _cachedPlayers = cachedPlayers() + [child]
+                if let cachedPlayers = _cachedPlayers {
+                    _cachedPlayers = cachedPlayers + [child]
+                }
+                else {
+                    _cachedPlayers = cachedPlayers()
+                }
                 reacquire = true
             }
 
@@ -378,7 +391,7 @@ extension World {
 
     func reacquireEnemyTargets() {
         for player in players {
-            player.targetingComponent?.currentTarget = nil
+            player.enemyTargetingComponent?.currentTarget = nil
         }
     }
 
@@ -471,7 +484,7 @@ extension World {
 
     fileprivate func clearStragglers() {
         let maxDistance = outerRadius * 2
-        for node in allChildNodes() {
+        for node in allChildNodes(recursive: true) {
             if node.isProjectile && !convertPosition(node).lengthWithin(maxDistance) {
                 node.removeFromParent()
             }
@@ -600,12 +613,12 @@ extension World {
         }
 
         for uiNode in uiNodes {
-            if let foundUi = touchableNode(at: worldLocation, inChildren: uiNode.allChildNodes(interactive: true)) {
+            if let foundUi = touchableNode(at: worldLocation, inChildren: uiNode.allChildNodes(recursive: true, interactive: true)) {
                 return foundUi
             }
         }
         if !worldPaused {
-            return touchableNode(at: worldLocation, inChildren: self.allChildNodes(interactive: true))
+            return touchableNode(at: worldLocation, inChildren: self.allChildNodes(recursive: true, interactive: true))
         }
         return nil
     }

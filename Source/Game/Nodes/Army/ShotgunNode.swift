@@ -28,14 +28,13 @@ class ShotgunNode: Node, DraggableNode {
         }
         draggableComponent?.speed = movementUpgrade.shotgunMovementSpeed
 
-        targetingComponent?.sweepAngle = radarUpgrade.shotgunSweepAngle
-        targetingComponent?.radius = radarUpgrade.shotgunRadarRadius
+        enemyTargetingComponent?.sweepAngle = radarUpgrade.shotgunSweepAngle
+        enemyTargetingComponent?.radius = radarUpgrade.shotgunRadarRadius
+        enemyTargetingComponent?.bulletSpeed = bulletUpgrade.shotgunBulletSpeed
 
         firingComponent?.targetsPreemptively = true
         firingComponent?.cooldown = calculateFiringCooldown()
         firingComponent?.damage = bulletUpgrade.shotgunBulletDamage
-
-        targetingComponent?.bulletSpeed = bulletUpgrade.shotgunBulletSpeed
 
         get(component: RotateScanComponent.self)?.rate = movementUpgrade.shotgunScanSpinRate
 
@@ -173,7 +172,7 @@ class ShotgunNode: Node, DraggableNode {
 
     fileprivate func updateRotatingRate(_ dt: CGFloat) {
         var accel: CGFloat = movementUpgrade.shotgunWarmupRate * dt
-        let hasTarget = targetingComponent?.currentTarget != nil
+        let hasTarget = enemyTargetingComponent?.currentTarget != nil
         if hasTarget {
             targetSpinRate = movementUpgrade.shotgunTurretFastSpinRate
         }

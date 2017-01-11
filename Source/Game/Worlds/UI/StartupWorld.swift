@@ -62,7 +62,7 @@ class StartupWorld: World {
         }
 
         timeline.at(30) {
-            for node in self.nodes {
+            for node in self.nodesRecursive {
                 node.addComponent(FadeToComponent(fadeOut: 8))
             }
         }

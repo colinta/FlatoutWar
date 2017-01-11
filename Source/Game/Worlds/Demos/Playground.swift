@@ -9,7 +9,7 @@ class Playground: World {
         let playerNode = BasePlayerNode()
         playerNode.rotateTo(TAU_2)
         playerNode.firingComponent?.enabled = false
-        playerNode.targetingComponent?.enabled = false
+        playerNode.enemyTargetingComponent?.enabled = false
         playerNode.radarSprite.visible = false
         self << playerNode
 

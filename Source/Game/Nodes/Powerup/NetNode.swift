@@ -5,16 +5,16 @@
 class NetNode: Node {
     let sprite = SKSpriteNode(id: .Net(phase: 0))
     var netted: [Node] = []
+    let phaseComponent = PhaseComponent()
 
     required init() {
         super.init()
         size = sprite.size
         self << sprite
 
-        let phase = PhaseComponent()
-        phase.loops = true
-        phase.duration = 1.667
-        addComponent(phase)
+        phaseComponent.loops = true
+        phaseComponent.duration = 1.667
+        addComponent(phaseComponent)
     }
 
     required init?(coder: NSCoder) {
@@ -26,7 +26,7 @@ class NetNode: Node {
     }
 
     override func update(_ dt: CGFloat) {
-        sprite.textureId(.Net(phase: Int(phaseComponent!.phase * 100)))
+        sprite.textureId(.Net(phase: Int(phaseComponent.phase * 100)))
 
         if let world = world {
             let scaledRadius = radius * self.xScale

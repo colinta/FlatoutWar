@@ -64,7 +64,7 @@ class FiringComponent: Component {
             }
             lastFiredCooldown = cooldown
         }
-        else if let targetingComponent = node.targetingComponent,
+        else if let targetingComponent = node.enemyTargetingComponent,
             targetingComponent.enabled,
             let target = targetingComponent.currentTarget,
             let position = targetingComponent.firingPosition()

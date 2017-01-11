@@ -11,6 +11,7 @@ public func inForeground(_ block: @escaping Block) {
 }
 
 public typealias Block = () -> Void
+public typealias NextStepBlock = () -> Block
 public typealias ConditionBlock = () -> Bool
 public typealias ThrottledBlock = (CGFloat, Block) -> Void
 public typealias CancellableBlock = (Bool) -> Void
@@ -70,7 +71,7 @@ extension Int {
     }
 }
 
-public func afterN(_ block: @escaping Block) -> (() -> Block) {
+public func afterN(_ block: @escaping Block) -> NextStepBlock {
     var remaining = 0
     return {
         remaining += 1

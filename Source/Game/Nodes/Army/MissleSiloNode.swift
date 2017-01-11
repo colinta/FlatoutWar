@@ -22,15 +22,14 @@ class MissleSiloNode: Node, DraggableNode {
 
         draggableComponent?.speed = movementUpgrade.missleSiloMovementSpeed
 
-        targetingComponent?.radius = radarUpgrade.missleSiloRadarRadius
+        enemyTargetingComponent?.radius = radarUpgrade.missleSiloRadarRadius
+        enemyTargetingComponent?.bulletSpeed = bulletUpgrade.missleSiloBulletSpeed
 
         firingComponent?.targetsPreemptively = true
         firingComponent?.damage = bulletUpgrade.missleSiloBulletDamage
 
         rotateToComponent?.maxAngularSpeed = movementUpgrade.missleSiloAngularSpeed
         rotateToComponent?.angularAccel = movementUpgrade.missleSiloAngularAccel
-
-        targetingComponent?.bulletSpeed = bulletUpgrade.missleSiloBulletSpeed
 
         size = CGSize(30)
     }

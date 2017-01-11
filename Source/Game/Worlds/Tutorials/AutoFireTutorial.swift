@@ -53,7 +53,7 @@ class AutoFireTutorial: Tutorial {
         }
 
         onNoMoreEnemies {
-            self.playerNode.targetingComponent?.currentTarget = nil
+            self.playerNode.enemyTargetingComponent?.currentTarget = nil
             tapButton.removeFromParent()
             self.showSecondEnemies()
         }

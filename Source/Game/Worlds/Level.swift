@@ -109,6 +109,11 @@ class Level: World {
         populateTurrets()
         populatePowerups()
 
+//        timeline.when({ self.possibleExperience >= self.config.possibleExperience }) {
+//            self.onNoMoreEnemies {
+//                self.completeLevel()
+//            }
+//        }
     }
 
     override func update(_ dt: CGFloat) {
@@ -416,7 +421,7 @@ extension Level {
         selectedNode = nil
         timeRate = 1
 
-        for node in allChildNodes() {
+        for node in allChildNodes(recursive: true) {
             node.levelCompleted()
         }
         self.levelCompleted()

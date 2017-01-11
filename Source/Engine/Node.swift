@@ -40,13 +40,7 @@ class Node: SKNode {
     var shape: Shape = .Circle
 
     var components: [Component] = []
-    struct WeakComponent {
-        weak var value: Component?
-        init(_ value: Component) {
-            self.value = value
-        }
-    }
-    fileprivate var componentsMapper: [String: WeakComponent] = [:]
+    fileprivate var assignedComponents: [Component] = []
     var world: World? { return (scene as? WorldScene)?.world }
     var parentNode: Node? { return parent as? Node }
     var isEnemy: Bool {
@@ -76,20 +70,20 @@ class Node: SKNode {
         _onDeath = []
     }
 
-    var draggableComponent: DraggableComponent? { return get(component: DraggableComponent.self) }
-    var enemyComponent: EnemyComponent? { return get(component: EnemyComponent.self) }
-    var firingComponent: FiringComponent? { return get(component: FiringComponent.self) }
-    var healthComponent: HealthComponent? { return get(component: HealthComponent.self) }
-    var moveToComponent: MoveToComponent? { return get(component: MoveToComponent.self) }
-    var phaseComponent: PhaseComponent? { return get(component: PhaseComponent.self) }
-    var playerComponent: PlayerComponent? { return get(component: PlayerComponent.self) }
-    var playerTargetingComponent: PlayerTargetingComponent? { return get(component: PlayerTargetingComponent.self) }
-    var projectileComponent: ProjectileComponent? { return get(component: ProjectileComponent.self) }
-    var rammingComponent: RammingComponent? { return get(component: RammingComponent.self) }
-    var rotateToComponent: RotateToComponent? { return get(component: RotateToComponent.self) }
-    var selectableComponent: SelectableComponent? { return get(component: SelectableComponent.self) }
-    var targetingComponent: EnemyTargetingComponent? { return get(component: EnemyTargetingComponent.self) }
-    var touchableComponent: TouchableComponent? { return get(component: TouchableComponent.self) }
+    weak var draggableComponent: DraggableComponent?
+    weak var enemyComponent: EnemyComponent?
+    weak var enemyTargetingComponent: EnemyTargetingComponent?
+    weak var followComponent: FollowComponent?
+    weak var firingComponent: FiringComponent?
+    weak var healthComponent: HealthComponent?
+    weak var moveToComponent: MoveToComponent?
+    weak var playerComponent: PlayerComponent?
+    weak var playerTargetingComponent: PlayerTargetingComponent?
+    weak var projectileComponent: ProjectileComponent?
+    weak var rammingComponent: RammingComponent?
+    weak var rotateToComponent: RotateToComponent?
+    weak var selectableComponent: SelectableComponent?
+    weak var touchableComponent: TouchableComponent?
 
     convenience init(at point: CGPoint) {
         self.init()
@@ -162,7 +156,7 @@ class Node: SKNode {
 
     override func removeFromParent() {
         if let world = world {
-            world.willRemove([self] + allChildNodes())
+            world.willRemove([self] + allChildNodes(recursive: true))
         }
         if autoReset {
             for handler in _onDeath {
@@ -173,7 +167,7 @@ class Node: SKNode {
         super.removeFromParent()
     }
 
-    func allChildNodes(recursive: Bool = true, interactive: Bool? = nil) -> [Node] {
+    func allChildNodes(recursive: Bool, interactive: Bool? = nil) -> [Node] {
         if let interactive = interactive, interactive != self.interactive {
             return []
         }
@@ -186,7 +180,7 @@ class Node: SKNode {
             return nil
         }
         return nodes + (recursive ? nodes.flatMap { childNode in
-            childNode.allChildNodes(interactive: interactive)
+            childNode.allChildNodes(recursive: true, interactive: interactive)
         } : [])
     }
 
@@ -264,7 +258,6 @@ extension Node {
 
     func disableMovingComponents() {
         get(component: ArcToComponent.self)?.enabled = false
-        get(component: FlyingComponent.self)?.enabled = false
         get(component: JiggleComponent.self)?.enabled = false
         get(component: KeepMovingComponent.self)?.enabled = false
         get(component: KeepRotatingComponent.self)?.enabled = false
@@ -275,12 +268,8 @@ extension Node {
     }
 
     func get<T: Component>(component type: T.Type) -> T? {
-        if let component = componentsMapper["\(type)"]?.value as? T {
-            return component
-        }
-        for component in components {
+        for component in assignedComponents {
             if let component = component as? T {
-                componentsMapper["\(type)"] = WeakComponent(component)
                 return component
             }
         }
@@ -301,7 +290,21 @@ extension Node {
         components << component
 
         if assign {
-            componentsMapper["\(type(of: component))"] = WeakComponent(component)
+            assignedComponents << component
+            if let component = component as? DraggableComponent { draggableComponent = component }
+            else if let component = component as? EnemyTargetingComponent { enemyTargetingComponent = component }
+            else if let component = component as? EnemyComponent { enemyComponent = component }
+            else if let component = component as? FiringComponent { firingComponent = component }
+            else if let component = component as? FollowComponent { followComponent = component }
+            else if let component = component as? HealthComponent { healthComponent = component }
+            else if let component = component as? MoveToComponent { moveToComponent = component }
+            else if let component = component as? PlayerComponent { playerComponent = component }
+            else if let component = component as? PlayerTargetingComponent { playerTargetingComponent = component }
+            else if let component = component as? ProjectileComponent { projectileComponent = component }
+            else if let component = component as? RammingComponent { rammingComponent = component }
+            else if let component = component as? RotateToComponent { rotateToComponent = component }
+            else if let component = component as? SelectableComponent { selectableComponent = component }
+            else if let component = component as? TouchableComponent { touchableComponent = component }
         }
 
         component.didAddToNode()
@@ -309,12 +312,26 @@ extension Node {
 
     func removeComponent(_ component: Component) {
         if let index = components.index(of: component) {
-            let type = "\(type(of: component))"
-            if componentsMapper[type]?.value == component {
-                componentsMapper[type] = nil
-            }
-
             components.remove(at: index)
+
+            if component == draggableComponent { draggableComponent = nil }
+            else if component == enemyComponent { enemyComponent = nil }
+            else if component == enemyTargetingComponent { enemyTargetingComponent = nil }
+            else if component == firingComponent { firingComponent = nil }
+            else if component == followComponent { followComponent = nil }
+            else if component == healthComponent { healthComponent = nil }
+            else if component == moveToComponent { moveToComponent = nil }
+            else if component == playerComponent { playerComponent = nil }
+            else if component == playerTargetingComponent { playerTargetingComponent = nil }
+            else if component == projectileComponent { projectileComponent = nil }
+            else if component == rammingComponent { rammingComponent = nil }
+            else if component == rotateToComponent { rotateToComponent = nil }
+            else if component == selectableComponent { selectableComponent = nil }
+            else if component == touchableComponent { touchableComponent = nil }
+        }
+
+        if let index = assignedComponents.index(of: component) {
+            assignedComponents.remove(at: index)
         }
     }
 

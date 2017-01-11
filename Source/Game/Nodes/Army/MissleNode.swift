@@ -19,7 +19,7 @@ class MissleNode: Node {
         splashDamage = damage
         splashRadius = radius
 
-        targetingComponent?.currentTarget = initialTarget
+        enemyTargetingComponent?.currentTarget = initialTarget
         rammingComponent?.currentTarget = initialTarget
         rammingComponent?.maxSpeed = speed
         rammingComponent?.maxTurningSpeed = speed
@@ -71,7 +71,7 @@ class MissleNode: Node {
             return
         }
 
-        if targetingComponent?.currentTarget == nil {
+        if enemyTargetingComponent?.currentTarget == nil {
             let speed = rammingComponent!.maxSpeed
             let radius = speed / RotationRate
             let direction: CGFloat

@@ -11,6 +11,7 @@ class DroneNode: Node, DraggableNode {
 
     let armyComponent = SelectableArmyComponent()
     let wanderingComponent = WanderingComponent()
+    let phaseComponent = PhaseComponent()
 
     fileprivate func updateBaseSprite() {
         sprite.textureId(.Drone(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: healthComponent?.healthInt ?? 100))
@@ -21,8 +22,8 @@ class DroneNode: Node, DraggableNode {
         growingRadar.textureId(.DroneRadar(upgrade: radarUpgrade))
         updateBaseSprite()
 
-        targetingComponent?.radius = radarUpgrade.droneRadarRadius
-        targetingComponent?.bulletSpeed = bulletUpgrade.droneBulletSpeed
+        enemyTargetingComponent?.radius = radarUpgrade.droneRadarRadius
+        enemyTargetingComponent?.bulletSpeed = bulletUpgrade.droneBulletSpeed
 
         draggableComponent?.speed = movementUpgrade.droneMovementSpeed
 
@@ -84,7 +85,6 @@ class DroneNode: Node, DraggableNode {
         playerComponent.intersectionNode = sprite
         addComponent(playerComponent)
 
-        let phaseComponent = PhaseComponent()
         phaseComponent.loops = true
         phaseComponent.phase = rand(1)
         phaseComponent.duration = 3.333
@@ -105,7 +105,7 @@ class DroneNode: Node, DraggableNode {
         armyComponent.cursorNode = cursor
         armyComponent.shootsWhileMoving = true
         armyComponent.onUpdated { armyEnabled in
-            self.phaseComponent?.loops = !self.healthComponent!.died
+            self.phaseComponent.loops = !self.healthComponent!.died
             self.wanderingComponent.enabled = armyEnabled && (self.wanderingEnabled ?? true)
         }
         addComponent(armyComponent)
@@ -163,10 +163,10 @@ class DroneNode: Node, DraggableNode {
         let phase: CGFloat
         if selectableComponent!.selected {
             phase = 0.9
-            phaseComponent!.phase = phase
+            phaseComponent.phase = phase
         }
         else {
-            phase = phaseComponent!.phase
+            phase = phaseComponent.phase
         }
 
         if phase > 0.6 {
