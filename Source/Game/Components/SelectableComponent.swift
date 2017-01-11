@@ -3,11 +3,11 @@
 //
 
 class SelectableComponent: Component {
-    var selected = false
+    var isCurrent = false
+    var isSelected = false
     private var selecting = false
 
-    typealias OnSelected = (Bool) -> Void
-    typealias SimpleOnSelected = (Bool) -> Void
+    typealias OnSelected = (Bool, Bool) -> Void
     var _onSelected: [OnSelected] = []
 
     override func reset() {
@@ -21,15 +21,18 @@ class SelectableComponent: Component {
         touchableComponent.on(.Up, onTouchEnded)
     }
 
-    func changeSelected(_ selected: Bool) {
-        self.selected = selected
+    func changeSelected(isCurrent: Bool, isSelected: Bool) {
+        guard isCurrent != self.isCurrent || isSelected != self.isSelected else { return }
+
+        self.isCurrent = isCurrent
+        self.isSelected = isSelected
         for handler in _onSelected {
-            handler(selected)
+            handler(isCurrent, isSelected)
         }
     }
 
-    func onSelected(_ handler: @escaping SimpleOnSelected) {
-        _onSelected << { selected in handler(selected) }
+    func onSelected(_ handler: @escaping OnSelected) {
+        _onSelected << handler
     }
 
     func onTouchIn(_ location: CGPoint) {

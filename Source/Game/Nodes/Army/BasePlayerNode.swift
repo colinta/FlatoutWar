@@ -19,7 +19,7 @@ class BasePlayerNode: Node {
         baseSprite.textureId(.Base(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: healthComponent?.healthInt ?? 100))
     }
     fileprivate func updateRadarSprite() {
-        let isSelected = selectableComponent?.selected == true
+        let isSelected = selectableComponent?.isCurrent == true
         radarSprite.alpha = isSelected ? 1 : 0.75
         if forceFireActive {
             radarSprite.textureId(.ColorLine(length: radarUpgrade.baseRadarRadius + 25, color: radarUpgrade.baseRadarColor))
@@ -98,7 +98,7 @@ class BasePlayerNode: Node {
         addComponent(touchAimingComponent)
 
         let selectableComponent = SelectableComponent()
-        selectableComponent.onSelected { selected in
+        selectableComponent.onSelected { _ in
             self.updateRadarSprite()
         }
         addComponent(selectableComponent)

@@ -15,7 +15,7 @@ class LaserNode: Node, DraggableNode {
         turretSprite.textureId(.LaserTurret(upgrade: bulletUpgrade, isFiring: isFiring))
     }
     fileprivate func updateRadarSprite() {
-        radarSprite.textureId(.LaserRadar(upgrade: radarUpgrade, isSelected: armyComponent.isSelected))
+        radarSprite.textureId(.LaserRadar(upgrade: radarUpgrade, isSelected: armyComponent.isCurrent))
     }
     fileprivate func updateUpgrades() {
         baseSprite.textureId(.LaserNode(upgrade: movementUpgrade, health: healthComponent?.healthInt ?? 100))
@@ -107,7 +107,7 @@ class LaserNode: Node, DraggableNode {
 
         let selectableComponent = SelectableComponent()
         selectableComponent.bindTo(touchableComponent: touchableComponent)
-        selectableComponent.onSelected { self.armyComponent.isSelected = $0 }
+        selectableComponent.onSelected { self.armyComponent.isCurrentSelected = $0 }
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()

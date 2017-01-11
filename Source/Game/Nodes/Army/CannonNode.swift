@@ -13,7 +13,7 @@ class CannonNode: Node, DraggableNode {
     let armyComponent = SelectableArmyComponent()
 
     fileprivate func updateRadarSprite() {
-        radarSprite.textureId(.CannonRadar(upgrade: radarUpgrade, isSelected: armyComponent.isSelected))
+        radarSprite.textureId(.CannonRadar(upgrade: radarUpgrade, isSelected: armyComponent.isCurrent))
     }
     fileprivate func updateUpgrades() {
         turretBox.textureId(.CannonBox(upgrade: bulletUpgrade))
@@ -117,7 +117,7 @@ class CannonNode: Node, DraggableNode {
 
         let selectableComponent = SelectableComponent()
         selectableComponent.bindTo(touchableComponent: touchableComponent)
-        selectableComponent.onSelected { self.armyComponent.isSelected = $0 }
+        selectableComponent.onSelected { self.armyComponent.isCurrentSelected = $0 }
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()

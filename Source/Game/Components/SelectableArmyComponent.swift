@@ -3,7 +3,9 @@
 //
 
 class SelectableArmyComponent: Component {
-    var isSelected: Bool = false { didSet { updateComponents() }}
+    var isCurrentSelected: (Bool, Bool) = (false, false) { didSet { updateComponents() }}
+    var isCurrent: Bool { return isCurrentSelected.0 }
+    var isSelected: Bool { return isCurrentSelected.1 }
     var isMoving: Bool = false { didSet { updateComponents() }}
     var shootsWhileMoving: Bool = false { didSet { updateComponents() }}
     private(set) var armyEnabled: Bool = true
@@ -62,7 +64,7 @@ class SelectableArmyComponent: Component {
             if isMoving || died {
                 fadeRadar.target = 0
             }
-            else if isSelected {
+            else if isCurrent {
                 fadeRadar.target = 1
             }
             else {
@@ -70,9 +72,11 @@ class SelectableArmyComponent: Component {
             }
         }
 
-        armyEnabled = componentsEnabled
-        for handler in _onUpdated {
-            handler(armyEnabled)
+        if armyEnabled != componentsEnabled {
+            armyEnabled = componentsEnabled
+            for handler in _onUpdated {
+                handler(armyEnabled)
+            }
         }
         isUpdatingComponents = false
     }

@@ -136,7 +136,7 @@ class DroneNode: Node, DraggableNode {
 
         let selectableComponent = SelectableComponent()
         selectableComponent.bindTo(touchableComponent: touchableComponent)
-        selectableComponent.onSelected { self.armyComponent.isSelected = $0 }
+        selectableComponent.onSelected { self.armyComponent.isCurrentSelected = $0 }
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()
@@ -159,7 +159,7 @@ class DroneNode: Node, DraggableNode {
 
     override func update(_ dt: CGFloat) {
         let phase: CGFloat
-        if selectableComponent!.selected {
+        if selectableComponent?.isSelected == true {
             phase = 0.9
             phaseComponent.phase = phase
         }

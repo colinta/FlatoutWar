@@ -12,7 +12,7 @@ class MissleSiloNode: Node, DraggableNode {
     let armyComponent = SelectableArmyComponent()
 
     fileprivate func updateRadarSprite() {
-        radarSprite.textureId(.MissleSiloRadar(upgrade: radarUpgrade, isSelected: armyComponent.isSelected))
+        radarSprite.textureId(.MissleSiloRadar(upgrade: radarUpgrade, isSelected: armyComponent.isCurrent))
     }
     fileprivate func updateUpgrades() {
         turretBox.textureId(.MissleSiloBox(upgrade: bulletUpgrade))
@@ -133,7 +133,7 @@ class MissleSiloNode: Node, DraggableNode {
 
         let selectableComponent = SelectableComponent()
         selectableComponent.bindTo(touchableComponent: touchableComponent)
-        selectableComponent.onSelected { self.armyComponent.isSelected = $0 }
+        selectableComponent.onSelected { self.armyComponent.isCurrentSelected = $0 }
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()

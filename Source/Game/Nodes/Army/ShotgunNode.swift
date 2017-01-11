@@ -16,7 +16,7 @@ class ShotgunNode: Node, DraggableNode {
         placeholder.textureId(.ShotgunNode(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: 100))
     }
     fileprivate func updateRadarSprite() {
-        radarSprite.textureId(.ShotgunRadar(upgrade: radarUpgrade, isSelected: armyComponent.isSelected))
+        radarSprite.textureId(.ShotgunRadar(upgrade: radarUpgrade, isSelected: armyComponent.isCurrent))
     }
     fileprivate func updateUpgrades() {
         turretSprite.textureId(.ShotgunTurret(upgrade: bulletUpgrade))
@@ -98,7 +98,7 @@ class ShotgunNode: Node, DraggableNode {
 
         let selectableComponent = SelectableComponent()
         selectableComponent.bindTo(touchableComponent: touchableComponent)
-        selectableComponent.onSelected { self.armyComponent.isSelected = $0 }
+        selectableComponent.onSelected { self.armyComponent.isCurrentSelected = $0 }
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()

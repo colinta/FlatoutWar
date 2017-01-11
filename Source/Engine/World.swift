@@ -210,14 +210,14 @@ class World: Node {
             let selectableComponent = oldCurrentNode.selectableComponent,
             oldCurrentNode != currentNode
         {
-            selectableComponent.changeSelected(false)
+            selectableComponent.changeSelected(isCurrent: false, isSelected: false)
         }
 
         if let newCurrentNode = currentNode,
             let selectableComponent = newCurrentNode.selectableComponent,
             newCurrentNode != oldCurrentNode
         {
-            selectableComponent.changeSelected(true)
+            selectableComponent.changeSelected(isCurrent: true, isSelected: newCurrentNode == selectedNode)
         }
     }
 
