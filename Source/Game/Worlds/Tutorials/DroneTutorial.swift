@@ -8,6 +8,7 @@ class DroneTutorial: Tutorial {
     override func populateWorld() {
         super.populateWorld()
 
+        playerNode.firingComponent?.enabled = false
         playerNode.rotateTo(TAU_2)
         tutorialTextNode.text = "DODEC DRONE"
 
@@ -20,32 +21,32 @@ class DroneTutorial: Tutorial {
     }
 
     func showDrone() {
-        drone.position = playerNode.position
+        drone.position = CGPoint(r: 50, a: -TAU_12)
         drone.alpha = 0
         drone.touchableEnabled = false
         drone.wanderingEnabled = false
+        drone.draggableComponent?.maintainDistance(100, around: playerNode)
         self << drone
 
         let fadeIn = FadeToComponent()
         fadeIn.target = 1
         fadeIn.duration = 1.4
         fadeIn.removeComponentOnFade()
+        fadeIn.onFaded(showTapButton)
         drone.addComponent(fadeIn)
-
-        let moveTo = MoveToComponent()
-        moveTo.target = CGPoint(-30, -60)
-        moveTo.speed = HasUpgrade.False.droneMovementSpeed
-        moveTo.onArrived(showTapButton)
-        moveTo.removeComponentOnArrived()
-        drone.addComponent(moveTo)
     }
 
     func showTapButton() {
-        let tapButton = Button(at: drone.position + CGPoint(y: -10))
+        let textNode = TextNode()
+        textNode.text = "TAP TO SELECT"
+        self << textNode
+
+        let tapButton = Button(at: drone.position)
+        textNode.position = tapButton.position + CGPoint(y: -85)
         tapButton.style = .Circle
-        tapButton.text = "TAP"
         tapButton.textSprite.position = CGPoint(y: -10)
         tapButton.onTapped {
+            textNode.removeFromParent()
             tapButton.removeFromParent()
             self.showFirstDemo()
         }
@@ -54,69 +55,29 @@ class DroneTutorial: Tutorial {
 
     func showFirstDemo() {
         self.selectNode(self.drone)
+
+        showWhy([
+            "DRAG ANYWHERE TO MOVE"
+            ])
+        drone.touchableEnabled = nil
+        defaultNode = drone
+
         let enemies = showEnemies(at: [(start: CGPoint(r: 250, a: 0.degrees), end: CGPoint(r: 60, a: 0.degrees))])
         let enemyNode = enemies.first!
-
-        let holdStart = drone.position + CGPoint(x: 80, y: -10)
-        let holdEnd = holdStart + CGPoint(x: 60)
-        let holdButton = Button(at: holdStart)
-        holdButton.style = .CircleSized(70)
-        holdButton.text = "HOLD"
-        self << holdButton
-
-        holdButton.touchableComponent!.onDragged { (prev_, location_) in
-            var prev = self.convert(prev_, from: holdButton)
-            var location = self.convert(location_, from: holdButton)
-            prev.y = 0
-            location.y = 0
-            self.drone.draggableComponent?.draggingMoved(from: prev, to: location)
-
-            if self.drone.placeholder.position.x > 60 {
-                self.drone.draggableComponent!.draggingEnded(at: location)
-                holdButton.removeFromParent()
-            }
-        }
-        holdButton.touchableComponent!.on(.Down) { location_ in
-            var location = self.convert(location_, from: holdButton)
-            location.y = 0
-            self.drone.draggableComponent?.draggingBegan(at: location)
-            holdButton.text = "DRAG"
-
-            let moveTo = MoveToComponent()
-            moveTo.target = holdEnd
-            moveTo.speed = 80
-            moveTo.onArrived() {
-                if let isDragMoving = holdButton.draggableComponent?.isDragMoving,
-                    !isDragMoving
-                {
-                    holdButton.removeFromParent()
-                }
-            }
-            holdButton.addComponent(moveTo)
-        }
-        holdButton.touchableComponent!.on(.Up) { location_ in
-            var location = self.convert(location_, from: holdButton)
-            location.y = 0
-            self.drone.draggableComponent?.draggingEnded(at: location)
-            holdButton.text = "HOLD"
-            holdButton.moveToComponent?.removeFromNode()
-        }
-
         enemyNode.onDeath {
-            holdButton.removeFromParent()
             self.showSecondDemo()
         }
     }
 
     func showSecondDemo() {
+        self.unselectNode(drone)
+
         tutorialTextNode.text = "NICE!"
         closeButton.visible = true
 
-        let moveTo = MoveToComponent()
-        moveTo.target = CGPoint(x: 30, y: -60)
-        moveTo.speed = HasUpgrade.False.droneMovementSpeed
-        moveTo.removeComponentOnArrived()
-        drone.addComponent(moveTo)
+        showWhy([
+            "MOVE THE DRONE INTO POSITION"
+            ])
         playerNode.startRotatingTo(angle: 0)
 
         let enemies = [
@@ -129,7 +90,9 @@ class DroneTutorial: Tutorial {
         ]
         showEnemies(at: enemies)
 
-        moveCamera(to: CGPoint(x: -40, y: 0), handler: showSecondButton)
+        onNoMoreEnemies(done)
+
+        moveCamera(to: CGPoint(x: -40, y: 0))
     }
 
     func showSecondButton() {
@@ -169,11 +132,6 @@ class DroneTutorial: Tutorial {
             self.drone.draggableComponent?.draggingEnded(at: location)
             holdButton.text = "HOLD"
             holdButton.moveToComponent?.removeFromNode()
-        }
-
-        onNoMoreEnemies {
-            holdButton.removeFromParent()
-            self.done()
         }
     }
 
