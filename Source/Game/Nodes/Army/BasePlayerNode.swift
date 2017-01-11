@@ -5,6 +5,7 @@
 private let ForceFireDamageFactor: Float = 0.667
 private let DefaultCooldown: CGFloat = 0.35
 private let ForceFireCooldown: CGFloat = 0.12
+private let ForceFireWarmup: CGFloat = 0.4
 
 
 class BasePlayerNode: Node {
@@ -45,7 +46,13 @@ class BasePlayerNode: Node {
     }
 
     var forceFireEnabled: Bool?
-    var forceFireActive: Bool = false
+    var forceFireActive: Bool = false {
+        didSet {
+            if forceFireActive != oldValue {
+                updateRadarSprite()
+            }
+        }
+    }
 
     let radarSprite = SKSpriteNode()
     let baseSprite = SKSpriteNode()
@@ -137,7 +144,7 @@ class BasePlayerNode: Node {
             forceFireActive = forceFireEnabled
         }
         else {
-            forceFireActive = touchAimingComponent.touchedFor > 0
+            forceFireActive = touchAimingComponent.touchedFor > ForceFireWarmup
         }
 
         firingComponent?.forceFire = forceFireActive

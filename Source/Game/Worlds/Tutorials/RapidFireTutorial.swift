@@ -104,10 +104,6 @@ class RapidFireTutorial: Tutorial {
     }
 
     func showSecondHoldButton() {
-        showWhy([
-            "YOU CANNOT RAPID FIRE FOREVER",
-            "YOUR GUN WILL OVERHEAT!"
-            ])
         let holdButton = Button(at: CGPoint(x: 200, y: -90))
         holdButton.text = "HOLD"
         holdButton.touchableComponent!.onDragged { prevLoc, loc in
