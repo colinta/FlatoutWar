@@ -73,11 +73,13 @@ extension Int {
 
 public func afterN(_ block: @escaping Block) -> NextStepBlock {
     var remaining = 0
+    var done = false
     return {
         remaining += 1
         return {
             remaining -= 1
-            if remaining == 0 {
+            if remaining == 0 && !done {
+                done = true
                 block()
             }
         }
