@@ -2,7 +2,7 @@
 ///  BasePlayerNode.swift
 //
 
-private let ForceFireDamageFactor: Float = 0.667
+private let ForceFireDamageFactor: Float = 0.4
 private let DefaultCooldown: CGFloat = 0.35
 private let ForceFireCooldown: CGFloat = 0.12
 private let ForceFireWarmup: CGFloat = 0.4
@@ -142,13 +142,16 @@ class BasePlayerNode: Node {
         firingComponent?.forceFire = forceFireActive
         firingComponent?.cooldown = (forceFireActive ? ForceFireCooldown : DefaultCooldown)
 
-        if rotateToComponent?.target != nil, let currentAngle = rotateToComponent?.currentAngle {
+        if forceFireActive, let currentAngle = rotateToComponent?.currentAngle {
             turretSprite.zRotation = currentAngle
         }
         else if let firingAngle = firingComponent?.angle,
             forceFireEnabled != true
         {
             turretSprite.zRotation = firingAngle
+        }
+        else if rotateToComponent?.target != nil, let currentAngle = rotateToComponent?.currentAngle {
+            turretSprite.zRotation = currentAngle
         }
 
         if let angle = rotateToComponent?.destAngle {

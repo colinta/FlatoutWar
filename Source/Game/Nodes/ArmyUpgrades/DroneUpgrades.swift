@@ -24,8 +24,8 @@ extension HasUpgrade {
 
     var droneRadarRadius: CGFloat {
         switch self {
-        case .False: return 50
-        case .True: return 75
+        case .False: return 70
+        case .True: return 100
         }
     }
 

@@ -45,9 +45,7 @@ class DroneNode: Node, DraggableNode {
     }
     var touchableEnabled: Bool? {
         didSet {
-            if let touchableEnabled = touchableEnabled {
-                touchableComponent!.enabled = touchableEnabled
-            }
+            touchableComponent?.enabled = armyComponent.armyEnabled && (touchableEnabled != false)
         }
     }
 
@@ -106,7 +104,8 @@ class DroneNode: Node, DraggableNode {
         armyComponent.shootsWhileMoving = true
         armyComponent.onUpdated { armyEnabled in
             self.phaseComponent.loops = !self.healthComponent!.died
-            self.wanderingComponent.enabled = armyEnabled && (self.wanderingEnabled ?? true)
+            self.touchableComponent?.enabled = armyEnabled && (self.touchableEnabled != false)
+            self.wanderingComponent.enabled = armyEnabled && (self.wanderingEnabled != false)
         }
         addComponent(armyComponent)
 
