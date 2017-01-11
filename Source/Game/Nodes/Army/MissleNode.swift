@@ -91,7 +91,6 @@ class MissleNode: Node {
             self.zRotation = newAngle
 
             rotateToComponent?.target = nil
-            rotateToComponent?.currentAngle = newAngle
         }
         else {
             circlingDirection = nil

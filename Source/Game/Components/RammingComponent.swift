@@ -91,7 +91,7 @@ class RammingComponent: Component {
             if rotateToComponent.isRotating {
                 maxSpeed = maxTurningSpeed
             }
-            destAngle = rotateToComponent.currentAngle ?? node.zRotation
+            destAngle = rotateToComponent.currentAngle
         }
         else {
             destAngle = node.position.angleTo(targetLocation)

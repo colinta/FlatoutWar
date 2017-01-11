@@ -104,7 +104,6 @@ class BasePlayerNode: Node {
         addComponent(selectableComponent)
 
         let rotateToComponent = RotateToComponent()
-        rotateToComponent.currentAngle = 0
         rotateToComponent.applyTo = baseSprite
         addComponent(rotateToComponent)
 
@@ -241,7 +240,6 @@ extension BasePlayerNode {
         baseSprite.zRotation = angle
         radarSprite.zRotation = angle
         turretSprite.zRotation = angle
-        rotateToComponent?.currentAngle = angle
         rotateToComponent?.target = nil
     }
 

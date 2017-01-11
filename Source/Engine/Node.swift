@@ -212,7 +212,6 @@ extension Node {
 
     override func rotateTo(_ angle: CGFloat) {
         super.rotateTo(angle)
-        rotateToComponent?.currentAngle = angle
         rotateToComponent?.target = nil
     }
 

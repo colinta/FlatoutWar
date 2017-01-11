@@ -151,7 +151,6 @@ class MissleSiloNode: Node, DraggableNode {
         addComponent(draggableComponent)
 
         let rotateToComponent = RotateToComponent()
-        rotateToComponent.currentAngle = 0
         rotateToComponent.applyTo = baseSprite
         addComponent(rotateToComponent)
 
@@ -276,7 +275,6 @@ extension MissleSiloNode {
         radarSprite.zRotation = angle
         turretBox.zRotation = angle
         turretNode.zRotation = angle
-        rotateToComponent?.currentAngle = angle
         rotateToComponent?.target = nil
     }
 }

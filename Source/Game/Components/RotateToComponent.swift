@@ -3,7 +3,7 @@
 //
 
 class RotateToComponent: ApplyToNodeComponent {
-    var currentAngle: CGFloat?
+    var currentAngle: CGFloat { return (applyTo ?? node).zRotation }
     var target: CGFloat? {
         didSet {
             if target != nil {
@@ -19,7 +19,7 @@ class RotateToComponent: ApplyToNodeComponent {
     var angularAccel: CGFloat? = 3
 
     var isRotating: Bool {
-        guard let currentAngle = currentAngle, let target = target else {
+        guard let target = target else {
             return false
         }
         return (0.25).degrees < abs(deltaAngle(target, target: currentAngle))
@@ -39,12 +39,8 @@ class RotateToComponent: ApplyToNodeComponent {
         _onRotated = []
     }
 
-    override func initApplyTo(node: SKNode) {
-        currentAngle = node.zRotation
-    }
-
     override func update(_ dt: CGFloat) {
-        guard let currentAngle = currentAngle, let target = target else {
+        guard let target = target else {
             return
         }
 
@@ -56,8 +52,6 @@ class RotateToComponent: ApplyToNodeComponent {
         }
 
         if let newAngle = moveAngle(currentAngle, towards: target, by: angularSpeed * dt) {
-            self.currentAngle = newAngle
-
             apply { applyTo in
                 applyTo.zRotation = newAngle
             }
@@ -66,11 +60,8 @@ class RotateToComponent: ApplyToNodeComponent {
             apply { applyTo in
                 applyTo.zRotation = target
             }
-
-            self.currentAngle = target
         }
         else {
-            self.currentAngle = target
             angularSpeed = 0
             self.target = nil
 

@@ -124,7 +124,6 @@ class LaserNode: Node, DraggableNode {
         addComponent(draggableComponent)
 
         let rotateToComponent = RotateToComponent()
-        rotateToComponent.currentAngle = 0
         rotateToComponent.applyTo = baseSprite
         addComponent(rotateToComponent)
 
@@ -243,7 +242,6 @@ extension LaserNode {
         baseSprite.zRotation = angle
         radarSprite.zRotation = angle
         turretSprite.zRotation = angle
-        rotateToComponent?.currentAngle = angle
         rotateToComponent?.target = nil
     }
 }
