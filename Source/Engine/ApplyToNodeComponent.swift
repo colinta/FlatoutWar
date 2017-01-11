@@ -20,6 +20,13 @@ class ApplyToNodeComponent: Component {
         }
     }
 
+    override func didAddToNode() {
+        super.didAddToNode()
+        if !didSetApplyTo {
+            applyTo = node
+        }
+    }
+
     func initApplyTo(node: SKNode) {
     }
 
