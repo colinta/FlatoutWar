@@ -23,13 +23,7 @@ class BombNode: Node {
         self << sprite
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override func encode(with encoder: NSCoder) {
-        super.encode(with: encoder)
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func update(_ dt: CGFloat) {
         attack()

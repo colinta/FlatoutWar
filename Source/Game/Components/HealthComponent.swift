@@ -38,18 +38,6 @@ class HealthComponent: Component {
         fatalError("init() has not been implemented")
     }
 
-    required init?(coder: NSCoder) {
-        startingHealth = coder.decodeFloat(key: "startingHealth") ?? 0
-        health = coder.decodeFloat(key: "health") ?? 0
-        super.init(coder: coder)
-    }
-
-    override func encode(with encoder: NSCoder) {
-        super.encode(with: encoder)
-        encoder.encode(startingHealth, forKey: "startingHealth")
-        encoder.encode(health, forKey: "health")
-    }
-
     func restore(health damage: Float) {
         inflict(damage: -damage)
     }

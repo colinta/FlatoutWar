@@ -174,15 +174,7 @@ class MissleSiloNode: Node, DraggableNode {
         rotateTo(radarSprite.position.angle)
     }
 
-    required init?(coder: NSCoder) {
-        missleCount = coder.decodeInt(key: "missleCount") ?? 0
-        super.init(coder: coder)
-    }
-
-    override func encode(with encoder: NSCoder) {
-        super.encode(with: encoder)
-        encoder.encode(missleCount, forKey: "missleCount")
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func clone() -> Node {
         let node = super.clone() as! MissleSiloNode

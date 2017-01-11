@@ -79,13 +79,7 @@ class WorldScene: SKScene {
         effectNode.removeAllChildren()
     }
 
-    required init?(coder: NSCoder) {
-        world = coder.decode(key: "world")
-        uiNode = coder.decode(key: "ui")
-        gameUINode = coder.decode(key: "gameUINode")
-        prevTime = TimeInterval(coder.decodeFloat(key: "prevTime") ?? 0)
-        super.init(coder: coder)
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func update(_ currentTime: TimeInterval) {
         if let prevTime = prevTime {

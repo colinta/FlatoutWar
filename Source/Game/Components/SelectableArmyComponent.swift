@@ -25,10 +25,6 @@ class SelectableArmyComponent: Component {
         fadeRadar.rate = 3.333
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
     override func didAddToNode() {
         super.didAddToNode()
         node.addComponent(fadeRadar, assign: false)

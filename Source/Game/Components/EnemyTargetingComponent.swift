@@ -37,14 +37,6 @@ class EnemyTargetingComponent: Component {
         super.init()
     }
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
-    override func encode(with encoder: NSCoder) {
-        super.encode(with: encoder)
-    }
-
     private func turretPosition(target: SKNode) -> CGPoint {
         if let turret = turret {
             return turret.convertPosition(target) * turret.xScale

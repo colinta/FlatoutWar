@@ -30,14 +30,6 @@ class EnemyComponent: Component {
         super.init()
     }
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
-    override func encode(with encoder: NSCoder) {
-        super.encode(with: encoder)
-    }
-
     override func didAddToNode() {
         super.didAddToNode()
         if intersectionNode == nil {

@@ -37,9 +37,7 @@ class LaserBeamNode: Node {
         self.init(angle: 0)
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func update(_ dt: CGFloat) {
         if let enemy = damaging {

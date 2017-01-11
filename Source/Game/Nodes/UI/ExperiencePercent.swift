@@ -19,8 +19,6 @@ class ExperiencePercent: LabelPercent {
         fixedPosition = .BottomRight(x: -size.width / 2, y: 30)
     }
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
 }

@@ -10,7 +10,5 @@ class Dot: Node {
         self << sprite
     }
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 }

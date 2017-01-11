@@ -80,17 +80,6 @@ class LabelPercent: Node {
         }
     }
 
-    required init?(coder: NSCoder) {
-        self.goal = coder.decodeInt(key: "goal")
-        self.max = coder.decodeInt(key: "max")
-        self.collected = coder.decodeInt(key: "collected") ?? 0
-        super.init(coder: coder)
-    }
-
-    override func encode(with encoder: NSCoder) {
-        super.encode(with: encoder)
-        encoder.encode(goal, forKey: "goal")
-        encoder.encode(collected, forKey: "collected")
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
 }

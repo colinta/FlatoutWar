@@ -25,9 +25,7 @@ class MissleNode: Node {
         rammingComponent?.maxTurningSpeed = speed
     }
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     required init() {
         super.init()
@@ -58,10 +56,6 @@ class MissleNode: Node {
         rotateComponent.angularAccel = nil
         rotateComponent.maxAngularSpeed = RotationRate
         addComponent(rotateComponent)
-    }
-
-    override func encode(with encoder: NSCoder) {
-        super.encode(with: encoder)
     }
 
     override func update(_ dt: CGFloat) {

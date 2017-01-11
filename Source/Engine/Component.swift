@@ -3,7 +3,7 @@
 //
 
 @objc
-class Component: NSObject, NSCoding {
+class Component: NSObject {
     var enabled = true
     weak var node: Node!
 
@@ -24,15 +24,6 @@ class Component: NSObject, NSCoding {
             node.removeComponent(self)
         }
         reset()
-    }
-
-    required init?(coder: NSCoder) {
-        super.init()
-        enabled = coder.decodeBool(key: "enabled") ?? true
-    }
-
-    func encode(with encoder: NSCoder) {
-        encoder.encode(enabled, forKey: "enabled")
     }
 
 }

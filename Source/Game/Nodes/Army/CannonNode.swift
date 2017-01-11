@@ -153,13 +153,7 @@ class CannonNode: Node, DraggableNode {
         updateUpgrades()
     }
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
-    override func encode(with encoder: NSCoder) {
-        super.encode(with: encoder)
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func clone() -> Node {
         let node = super.clone() as! CannonNode

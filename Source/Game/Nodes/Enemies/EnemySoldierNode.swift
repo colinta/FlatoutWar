@@ -64,13 +64,7 @@ class EnemySoldierNode: Node {
         addComponent(RotateToComponent())
     }
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
-    override func encode(with encoder: NSCoder) {
-        super.encode(with: encoder)
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     func onRammed(player: Node) {
         player.healthComponent?.inflict(damage: rammingDamage)

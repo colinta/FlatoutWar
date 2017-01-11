@@ -38,29 +38,11 @@ class ExplosionNode: Node {
         }
     }
 
-    required init?(coder: NSCoder) {
-        let lineLength = coder.decodeCGFloat(key: "lineLength")
-        self.lineLength = lineLength ?? 0
-        duration = coder.decodeCGFloat(key: "duration") ?? DefaultDuration
-        super.init(coder: coder)
-        if lineLength == nil {
-            self.lineLength = radiusToLength(self.radius)
-        }
-        phase = coder.decodeCGFloat(key: "phase") ?? 0
-        sprites = coder.decode(key: "sprites") ?? []
-    }
-
     convenience required init() {
         self.init(radius: DefaultDistance)
     }
 
-    override func encode(with encoder: NSCoder) {
-        super.encode(with: encoder)
-        encoder.encode(lineLength, forKey: "lineLength")
-        encoder.encode(duration, forKey: "duration")
-        encoder.encode(phase, forKey: "phase")
-        encoder.encode(sprites, forKey: "sprites")
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func update(_ dt: CGFloat) {
         phase += dt / duration

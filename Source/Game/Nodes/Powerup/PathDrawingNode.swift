@@ -142,9 +142,7 @@ class PathDrawingNode: Node {
         addComponent(touchComponent)
     }
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     private func reducePointsToLength(_ points: [CGPoint], max maxLength: CGFloat) -> [CGPoint] {
         var retVal: [CGPoint] = []
@@ -174,10 +172,6 @@ class PathDrawingNode: Node {
         }
 
         return retVal
-    }
-
-    override func encode(with encoder: NSCoder) {
-        super.encode(with: encoder)
     }
 
 }

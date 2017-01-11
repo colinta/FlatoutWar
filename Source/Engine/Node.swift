@@ -99,24 +99,12 @@ class Node: SKNode {
         super.init()
     }
 
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
+
     func clone() -> Node {
         return type(of: self).init()
     }
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        components = coder.decode(key: "components") ?? []
-        active = coder.decodeBool(key: "active") ?? true
-        size = coder.decodeSize(key: "size") ?? .zero
-        unarchiveComponents()
-    }
-
-    override func encode(with encoder: NSCoder) {
-        encoder.encode(components, forKey: "components")
-        encoder.encode(active, forKey: "active")
-        encoder.encode(size, forKey: "size")
-        super.encode(with: encoder)
-    }
 
     var autoReset = true
     override func move(toParent node: SKNode) {

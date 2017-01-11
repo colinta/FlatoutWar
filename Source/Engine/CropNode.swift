@@ -15,9 +15,7 @@ class CropNode: Node {
         self << skMaskNode
     }
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func insertChild(_ node: SKNode, at index: Int) {
         if let node = node as? Node {

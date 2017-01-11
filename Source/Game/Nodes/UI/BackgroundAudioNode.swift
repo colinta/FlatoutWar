@@ -40,9 +40,7 @@ class BackgroundAudioNode: Node {
         fatalError("init() has not been implemented")
     }
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func update(_ dt: CGFloat) {
         guard let audioPlayer = audioPlayer else { return }

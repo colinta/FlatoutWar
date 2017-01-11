@@ -251,19 +251,7 @@ class World: Node {
         addComponent(timeline)
     }
 
-    required init?(coder: NSCoder) {
-        self.cameraNode = Node(at: CGPoint(x: 0, y: 0))
-
-        super.init(coder: coder)
-        timeline = coder.decode(key: "timeline") ?? timeline
-        defaultNode = coder.decode(key: "defaultNode")
-    }
-
-    override func encode(with encoder: NSCoder) {
-        encoder.encode(timeline, forKey: "timeline")
-        encoder.encode(defaultNode, forKey: "defaultNode")
-        super.encode(with: encoder)
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func reset() {
         super.reset()

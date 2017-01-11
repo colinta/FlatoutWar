@@ -22,17 +22,7 @@ class EnemyExplosionNode: Node {
         }
     }
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        phase = coder.decodeCGFloat(key: "phase") ?? 0
-        sprites = coder.decode(key: "sprites") ?? []
-    }
-
-    override func encode(with encoder: NSCoder) {
-        super.encode(with: encoder)
-        encoder.encode(phase, forKey: "phase")
-        encoder.encode(sprites, forKey: "sprites")
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func update(_ dt: CGFloat) {
         phase += dt / Duration

@@ -36,14 +36,6 @@ class FlyingComponent: PlayerRammingComponent {
         super.init()
     }
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
-    override func encode(with encoder: NSCoder) {
-        super.encode(with: encoder)
-    }
-
     override func removeTempTarget() {
         if let flyingTarget = currentFlyingTarget,
             flyingTarget == tempTarget

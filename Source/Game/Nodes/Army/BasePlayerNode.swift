@@ -121,14 +121,7 @@ class BasePlayerNode: Node {
         updateUpgrades()
     }
 
-    required init?(coder: NSCoder) {
-        lightNode = SKLightNode.defaultLight()
-        super.init(coder: coder)
-    }
-
-    override func encode(with encoder: NSCoder) {
-        super.encode(with: encoder)
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     func onHurt() {
         _ = world?.channel?.play(Sound.PlayerHurt)

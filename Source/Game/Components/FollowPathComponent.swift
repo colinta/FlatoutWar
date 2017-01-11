@@ -57,15 +57,6 @@ class FollowPathComponent: Component {
         super.init()
     }
 
-    required init?(coder: NSCoder) {
-        pathFn = { _ in return .zero }
-        super.init(coder: coder)
-    }
-
-    override func encode(with encoder: NSCoder) {
-        super.encode(with: encoder)
-    }
-
     override func didAddToNode() {
         let (p, a) = calcPA()
         node.position = p

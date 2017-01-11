@@ -15,16 +15,10 @@ class Line: Node {
         self << sprite
     }
 
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
+    required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     required init() {
         fatalError("init() has not been implemented")
-    }
-
-    override func encode(with encoder: NSCoder) {
-        super.encode(with: encoder)
     }
 
 }

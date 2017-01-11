@@ -76,14 +76,6 @@ class TouchableComponent: Component {
         super.init()
     }
 
-    required init?(coder: NSCoder) {
-        super.init()
-    }
-
-    override func encode(with encoder: NSCoder) {
-        super.encode(with: encoder)
-    }
-
     override func reset() {
         super.reset()
         containsTouchTest = nil
