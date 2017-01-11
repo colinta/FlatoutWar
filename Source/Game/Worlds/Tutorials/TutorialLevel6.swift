@@ -14,12 +14,10 @@ class TutorialLevel6: TutorialLevel {
 
         self.introduceDrone()
         moveCamera(to: CGPoint(150, 50), duration: 2)
-        beginWave1(at: 4)
+        linkWaves(beginWave1, beginWave2, beginWave3)
     }
 
-    func beginWave1(at delay: CGFloat) {
-        let nextStep = afterAllWaves(nextWave: beginWave2)
-
+    func beginWave1(nextStep: NextStepBlock) {
         let randAngle: () -> CGFloat = { return rand(min: -self.size.angle, max: TAU_4) }
 
         let delays: [CGFloat] = [
@@ -39,9 +37,7 @@ class TutorialLevel6: TutorialLevel {
         timeline.at(.Delayed(delays.last!), block: nextStep())
     }
 
-    func beginWave2() {
-        let nextStep = afterAllWaves(nextWave: beginWave3)
-
+    func beginWave2(nextStep: NextStepBlock) {
         self.generateWarning(0, TAU_16, -TAU_16)
         timeline.every(7...9, start: .Delayed(), times: 4) {
             let angle: CGFloat = self.randSideAngle(.Right)
@@ -53,7 +49,7 @@ class TutorialLevel6: TutorialLevel {
         } ~~> nextStep()
     }
 
-    func beginWave3() {
+    func beginWave3(nextStep: NextStepBlock) {
         timeline.at(.Delayed()) {
             self.moveCamera(to: CGPoint(200, 75), zoom: 0.75, duration: 3)
         }
@@ -64,8 +60,8 @@ class TutorialLevel6: TutorialLevel {
         let wave1 = randSideAngle(.Right)
         let wave2 = rand(min: -TAU_4, max: -size.angle)
         self.generateWarning(wave1, wave2)
-        timeline.every(1.5...2.5, start: .Delayed(), times: 10, block: generateEnemy(wave1))
-        timeline.every(1.5...2.5, start: .Delayed(), times: 8, block: generateEnemy(wave2))
+        timeline.every(1.5...2.5, start: .Delayed(), times: 10, block: generateEnemy(wave1)) ~~> nextStep()
+        timeline.every(1.5...2.5, start: .Delayed(), times: 8, block: generateEnemy(wave2)) ~~> nextStep()
     }
 
     func generateEnemyColumn(_ screenAngle: CGFloat) -> Block {

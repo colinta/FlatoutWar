@@ -10,19 +10,9 @@ class BaseLevel5: BaseLevel {
     }
 
     override func populateLevel() {
-        beginWave1()
     }
 
-    func beginWave1() {
-        let nextStep = afterAllWaves(nextWave: beginWave2)
-
-        timeline.every(2, times: 2) {
-            self.generateEnemy(0)()
-        } ~~> nextStep()
-    }
-
-    func beginWave2() {
-        // moveCamera(to: CGPoint(x: 180, y: 0), duration: 2)
+    func beginWave1(nextStep: NextStepBlock) {
     }
 
 }

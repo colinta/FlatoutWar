@@ -6,13 +6,11 @@ class TutorialLevel1: TutorialLevel {
     override func loadConfig() -> LevelConfig { return TutorialLevel1Config() }
 
     override func populateLevel() {
-        beginWave1()
+        linkWaves(beginWave1, beginWave2, beginWave3, beginWave4, beginWave5)
     }
 
     // two sources of weak enemies
-    func beginWave1() {
-        let nextStep = afterAllWaves(nextWave: beginWave2)
-
+    func beginWave1(nextStep: NextStepBlock) {
         let wave1: CGFloat = rand(TAU)
         let wave2 = wave1 + TAU_2 ± rand(min: TAU_8, max: TAU_4)
         generateWarning(wave1, wave2)
@@ -21,9 +19,7 @@ class TutorialLevel1: TutorialLevel {
     }
 
     // one source of weak, one source of strong
-    func beginWave2() {
-        let nextStep = afterAllWaves(nextWave: beginWave3)
-
+    func beginWave2(nextStep: NextStepBlock) {
         let wave2_leader = size.angle
         let wave2_soldier: CGFloat = -size.angle ± rand(TAU_16)
         generateWarning(wave2_leader, wave2_soldier)
@@ -32,21 +28,16 @@ class TutorialLevel1: TutorialLevel {
     }
 
     // random
-    func beginWave3() {
-        let nextStep = afterAllWaves(nextWave: beginWave4)
+    func beginWave3(nextStep: NextStepBlock) {
+        generateAllSidesWarnings()
 
-        10.times { (i: Int) in
-            generateWarning(TAU * CGFloat(i) / 10)
-        }
         timeline.every(1...2.5, start: .Delayed(), times: 10) {
             self.generateEnemy(rand(TAU), constRadius: true)()
         } ~~> nextStep()
     }
 
     // four sources of weak enemies
-    func beginWave4() {
-        let nextStep = afterAllWaves(nextWave: beginWave5)
-
+    func beginWave4(nextStep: NextStepBlock) {
         let wave1 = randSideAngle()
         let wave2 = wave1 ± rand(min: 10.degrees, max: 20.degrees)
         let wave3 = wave1 ± (TAU_4 - rand(TAU_16))
@@ -59,16 +50,16 @@ class TutorialLevel1: TutorialLevel {
     }
 
     // four sources of weak enemies
-    func beginWave5() {
+    func beginWave5(nextStep: NextStepBlock) {
         let wave1: CGFloat = rand(TAU)
         let wave2 = wave1 + TAU_4 - rand(TAU_8)
         let wave3 = wave1 - TAU_4 + rand(TAU_8)
         let wave4 = wave1 ± rand(TAU_8)
         generateWarning(wave1, wave2, wave3, wave4)
-        timeline.every(3...4, start: .Delayed(), times: 4, block: self.generateEnemy(wave1))
-        timeline.every(2...3, start: .Delayed(5), times: 4, block: self.generateEnemy(wave2))
-        timeline.every(2, start: .Delayed(10), times: 4, block: self.generateEnemy(wave3))
-        timeline.every(1, start: .Delayed(15), times: 6, block: self.generateEnemy(wave4))
+        timeline.every(3...4, start: .Delayed(), times: 4, block: self.generateEnemy(wave1)) ~~> nextStep()
+        timeline.every(2...3, start: .Delayed(5), times: 4, block: self.generateEnemy(wave2)) ~~> nextStep()
+        timeline.every(2, start: .Delayed(10), times: 4, block: self.generateEnemy(wave3)) ~~> nextStep()
+        timeline.every(1, start: .Delayed(15), times: 6, block: self.generateEnemy(wave4)) ~~> nextStep()
     }
 
 }

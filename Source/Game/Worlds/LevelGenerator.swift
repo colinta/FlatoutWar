@@ -225,3 +225,24 @@ extension Level {
         return enemyGhost
     }
 }
+
+extension Level {
+    func generateAllSidesWarnings() {
+        10.times { (i: Int) in
+            generateWarning(TAU * CGFloat(i) / 10)
+        }
+    }
+
+    func generateBothSidesWarnings() {
+        let angles: [CGFloat] = [
+            -size.angle * 7 / 8,
+            -size.angle / 2,
+            0,
+            size.angle / 2,
+            size.angle * 7 / 8,
+        ]
+        for angle in angles {
+            generateWarning(angle, TAU_2 + angle)
+        }
+    }
+}

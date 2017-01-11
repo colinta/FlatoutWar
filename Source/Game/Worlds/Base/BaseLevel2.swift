@@ -2,17 +2,20 @@
 ///  BaseLevel2.swift
 //
 
+// This level starts with leaders and scouts in a formation where the scouts
+// protect the leader.  waves 2 & 3 are "all out" waves. wave 2 is scouts,
+// normal, and slow soldiers, and wave 3 swaps slow soldiers for leaders.
+
 class BaseLevel2: BaseLevel {
 
     override func loadConfig() -> LevelConfig { return BaseLevel2Config() }
 
     override func populateLevel() {
-        beginWave1()
+        linkWaves(beginWave1, beginWave2, beginWave3)
     }
 
-    func beginWave1() {
-        let nextStep = afterAllWaves(nextWave: beginWave2)
-
+    // 84 exp
+    func beginWave1(nextStep: NextStepBlock) {
         let da: CGFloat = 5.degrees
         timeline.every(4.5...7, times: 8) {
             let angle = self.randSideAngle()
@@ -26,20 +29,35 @@ class BaseLevel2: BaseLevel {
         } ~~> nextStep()
     }
 
-    func beginWave2() {
-        10.times { (i: Int) in
-            generateWarning(TAU * CGFloat(i) / 10)
-        }
+    // 66 exp (150 total)
+    func beginWave2(nextStep: NextStepBlock) {
+        generateAllSidesWarnings()
 
         timeline.every(4.5, start: .Delayed(), times: 11) {
             self.generateScouts(rand(TAU))()
-        }
+        } ~~> nextStep()
         timeline.every(3.5, start: .Delayed(1), times: 14) {
             self.generateEnemy(rand(TAU))()
-        }
+        } ~~> nextStep()
         timeline.every(7, start: .Delayed(3), times: 7) {
             self.generateSlowEnemy(rand(TAU))()
-        }
+        } ~~> nextStep()
+    }
+
+    // 80 exp (230 total)
+    func beginWave3(nextStep: NextStepBlock) {
+        generateBothSidesWarnings()
+
+        // 50s / times = every
+        timeline.every(3.85, start: .Delayed(), times: 13) {
+            self.generateScouts(self.randSideAngle())()
+        } ~~> nextStep()
+        timeline.every(3.5, start: .Delayed(1), times: 14) {
+            self.generateEnemy(self.randSideAngle())()
+        } ~~> nextStep()
+        timeline.every(5.5, start: .Delayed(3), times: 9) {
+            self.generateLeaderEnemy(self.randSideAngle())()
+        } ~~> nextStep()
     }
 
 }

@@ -7,13 +7,11 @@ class BaseLevel3: BaseLevel {
     override func loadConfig() -> LevelConfig { return BaseLevel3Config() }
 
     override func populateLevel() {
-        beginWave1()
+        linkWaves(beginWave1, beginWave2, beginWave3)
     }
 
     // exp 11 * 5 = 55
-    func beginWave1() {
-        let nextStep = afterAllWaves(nextWave: beginWave2)
-
+    func beginWave1(nextStep: NextStepBlock) {
         let angle = self.randSideAngle()
         generateWarning(angle + TAU_12)
         generateWarning(angle - TAU_12)
@@ -21,12 +19,8 @@ class BaseLevel3: BaseLevel {
     }
 
     // exp 20 * 3 = 60
-    func beginWave2() {
-        let nextStep = afterAllWaves(nextWave: beginWave3)
-
-        10.times { (i: Int) in
-            generateWarning(TAU * CGFloat(i) / 10)
-        }
+    func beginWave2(nextStep: NextStepBlock) {
+        generateAllSidesWarnings()
 
         moveCamera(zoom: 0.75, duration: 2)
         let t1: CGFloat = 4
@@ -39,7 +33,7 @@ class BaseLevel3: BaseLevel {
     }
 
     // exp 10 * 4 = 40
-    func beginWave3() {
+    func beginWave3(nextStep: NextStepBlock) {
         let num = 10
         let delta = 2.5.degrees
         timeline.every(8, times: 4) {
@@ -55,7 +49,7 @@ class BaseLevel3: BaseLevel {
                     self.timeline.after(time: CGFloat(i) * 0.1, block: self.generateEnemy(myAngle, spread: 0, constRadius: true))
                 }
             }
-        }
+        } ~~> nextStep()
     }
 
     func generateDozer(_ genScreenAngle: CGFloat, spread: CGFloat) -> Block {

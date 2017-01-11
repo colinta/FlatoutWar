@@ -713,8 +713,25 @@ extension World {
 
 }
 
+extension Level {
+    func linkWaves(_ waves: ((NextStepBlock) -> Void)...) {
+        guard let beginWave1 = waves.first else { return }
+
+        var nextWave: Block = { self.completeLevel() }
+        var nextStep = afterAllWaves(nextWave: nextWave)
+        if waves.count > 1 {
+            for wave in waves[1..<waves.count].reversed() {
+                let prevStep = nextStep
+                nextWave = { wave(prevStep) }
+                nextStep = afterAllWaves(nextWave: nextWave)
+            }
+        }
+        beginWave1(nextStep)
+    }
+}
 extension World {
-    func afterAllWaves(nextWave: @escaping () -> Void) -> (() -> Block) {
+
+    func afterAllWaves(nextWave: @escaping Block) -> NextStepBlock {
         return afterN {
             self.onNoMoreEnemies { nextWave() }
         }

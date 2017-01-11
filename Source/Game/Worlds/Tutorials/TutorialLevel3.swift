@@ -6,13 +6,11 @@ class TutorialLevel3: TutorialLevel {
     override func loadConfig() -> LevelConfig { return TutorialLevel3Config() }
 
     override func populateLevel() {
-        beginWave1()
+        linkWaves(beginWave1, beginWave2, beginWave3, beginWave4)
     }
 
     // two sources of weak enemies
-    func beginWave1() {
-        let nextStep = afterAllWaves(nextWave: beginWave2)
-
+    func beginWave1(nextStep: NextStepBlock) {
         let wave1: CGFloat = rand(TAU)
         let wave2: CGFloat = wave1 ± rand(TAU_12)
         let wave3 = wave1 + TAU_2 ± rand(min: TAU_8, max: TAU_4)
@@ -24,9 +22,7 @@ class TutorialLevel3: TutorialLevel {
         timeline.every(3.5...6.5, start: .Delayed(4.5), times: 5, block: self.generateEnemy(wave4)) ~~> nextStep()
     }
 
-    func beginWave2() {
-        let nextStep = afterAllWaves(nextWave: beginWave3)
-
+    func beginWave2(nextStep: NextStepBlock) {
         let wave1: CGFloat = rand(TAU)
         let wave2: CGFloat = wave1 ± rand(TAU_12)
         let wave3 = wave1 + TAU_2 ± rand(min: TAU_8, max: TAU_4)
@@ -38,9 +34,7 @@ class TutorialLevel3: TutorialLevel {
         timeline.every(1.5...3.5, start: .Delayed(), times: 2, block: self.generateScouts(wave4)) ~~> nextStep()
     }
 
-    func beginWave3() {
-        let nextStep = afterAllWaves(nextWave: beginWave4)
-
+    func beginWave3(nextStep: NextStepBlock) {
         let wave1: CGFloat = rand(TAU)
         let wave2 = randSideAngle()
         let wave3 = randSideAngle()
@@ -54,7 +48,7 @@ class TutorialLevel3: TutorialLevel {
         timeline.at(.Delayed(25), block: self.generateEnemyFormation(wave3) ++ nextStep())
     }
 
-    func beginWave4() {
+    func beginWave4(nextStep: NextStepBlock) {
         let wave1 = randSideAngle()
         let wave2 = randSideAngle()
         let wave3 = randSideAngle()
@@ -77,8 +71,12 @@ class TutorialLevel3: TutorialLevel {
             self.generateEnemy(wave4, spread: TAU_8)()
         }
 
+        let done = nextStep()
         timeline.at(.Delayed(55)) { self.generateWarning(wave5) }
-        timeline.at(.Delayed(58), block: self.generateEnemyFormation(wave5))
+        timeline.at(.Delayed(58)) {
+            self.generateEnemyFormation(wave5)()
+            done()
+        }
     }
 
     func generateEnemyFormation(_ screenAngle: CGFloat) -> Block {

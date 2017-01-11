@@ -9,13 +9,11 @@ class TutorialLevel5: TutorialLevel {
         self.introduceDrone()
 
         timeline.after(time: 1) {
-            self.beginWave1()
+            self.linkWaves(self.beginWave1, self.beginWave2, self.beginWave3)
         }
     }
 
-    func beginWave1() {
-        let nextStep = afterAllWaves(nextWave: beginWave2)
-
+    func beginWave1(nextStep: NextStepBlock) {
         let wave1: CGFloat = TAU / 32
         let wave2: CGFloat = -TAU / 32
         let wave3 = TAU_2 ± rand(TAU_16)
@@ -29,9 +27,7 @@ class TutorialLevel5: TutorialLevel {
         timeline.every(1.5...2.5, start: .Delayed(), times: 14, block: generateEnemy(wave3, spread: TAU_8)) ~~> nextStep()
     }
 
-    func beginWave2() {
-        let nextStep = afterAllWaves(nextWave: beginWave3)
-
+    func beginWave2(nextStep: NextStepBlock) {
         timeline.at(.Delayed()) {
             self.moveCamera(to: CGPoint(x: -120, y: 0), duration: 3)
         }
@@ -52,18 +48,18 @@ class TutorialLevel5: TutorialLevel {
         } ~~> nextStep()
     }
 
-    func beginWave3() {
+    func beginWave3(nextStep: NextStepBlock) {
         let wave1 = TAU_2
         let wave2 = ±TAU_4
         let wave3 = TAU_2
         generateWarning(wave1)
 
-        timeline.every(0.5, start: .Delayed(), times: 20, block: generateJet(wave1, spread: 20))
+        timeline.every(0.5, start: .Delayed(), times: 20, block: generateJet(wave1, spread: 20)) ~~> nextStep()
         timeline.at(.Delayed(9)) {
             self.generateWarning(wave2, wave3)
         }
-        timeline.every(0.5, start: .Delayed(12), times: 20, block: generateJet(wave2, spread: 20))
-        timeline.every(0.4, start: .Delayed(12), times: 20, block: generateJet(wave3, spread: 20))
+        timeline.every(0.5, start: .Delayed(12), times: 20, block: generateJet(wave2, spread: 20)) ~~> nextStep()
+        timeline.every(0.4, start: .Delayed(12), times: 20, block: generateJet(wave3, spread: 20)) ~~> nextStep()
     }
 
 }

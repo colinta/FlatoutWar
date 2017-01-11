@@ -6,13 +6,11 @@ class TutorialLevel2: TutorialLevel {
     override func loadConfig() -> LevelConfig { return TutorialLevel2Config() }
 
     override func populateLevel() {
-        beginWave1()
+        linkWaves(beginWave1, beginWave2, beginWave3, beginWave4)
     }
 
     // two sources of weak enemies (40)
-    func beginWave1() {
-        let nextStep = afterAllWaves(nextWave: beginWave2)
-
+    func beginWave1(nextStep: NextStepBlock) {
         var delay: CGFloat = 0
         5.times { (i: Int) in
             let after = nextStep()
@@ -26,21 +24,16 @@ class TutorialLevel2: TutorialLevel {
     }
 
     // random (10)
-    func beginWave2() {
-        let nextStep = afterAllWaves(nextWave: beginWave3)
+    func beginWave2(nextStep: NextStepBlock) {
+        generateAllSidesWarnings()
 
-        10.times { (i: Int) in
-            generateWarning(TAU * CGFloat(i) / 10)
-        }
         timeline.every(1...2.5, start: .Delayed(), times: 12) {
             self.generateEnemy(rand(TAU), constRadius: true)()
         } ~~> nextStep()
     }
 
     // three sources of weak enemies (20)
-    func beginWave3() {
-        let nextStep = afterAllWaves(nextWave: beginWave4)
-
+    func beginWave3(nextStep: NextStepBlock) {
         let wave1 = randSideAngle(.Right)
         let wave2 = wave1 + rand(min: 10.degrees, max: 20.degrees)
         let wave3 = randSideAngle(.Left)
@@ -54,12 +47,12 @@ class TutorialLevel2: TutorialLevel {
     }
 
     // 5 bursts of enemies (10)
-    func beginWave4() {
+    func beginWave4(nextStep: NextStepBlock) {
         timeline.every(7, times: 5) {
             let wave: CGFloat = rand(TAU)
             self.generateWarning(wave)
             self.timeline.at(.Delayed(), block: self.generateScouts(wave))
-        }
+        } ~~> nextStep()
         timeline.every(6...8, times: 5) {
             let wave: CGFloat = rand(TAU)
             self.generateWarning(wave)
@@ -75,7 +68,7 @@ class TutorialLevel2: TutorialLevel {
                     radius += 2 * enemyNode.radius
                 }
             }
-        }
+        } ~~> nextStep()
     }
 
     func generateEnemyFormation(_ screenAngle: CGFloat) -> Block {

@@ -2,17 +2,27 @@
 ///  BaseLevel1.swift
 //
 
+// starts with the "sin wave" of enemies, wave 2 is dozers from one angle,
+// wave 3 is 8 wide enemy waves, wave 4 is a bunch of scouts, wave 5 is even
+// MORE scouts, but from only one side, and wave 6 is all out scouts, slow
+// enemies, and dozers
+
 class BaseLevel1: BaseLevel {
     override func loadConfig() -> LevelConfig { return BaseLevel1Config() }
 
     override func populateLevel() {
-        beginWave1()
+        linkWaves(
+            beginWave1,
+            beginWave2,
+            beginWave3,
+            beginWave4,
+            beginWave5,
+            beginWave6
+            )
     }
 
     // one sources of weak enemies in a wave
-    func beginWave1() {
-        let nextStep = afterAllWaves(nextWave: beginWave2)
-
+    func beginWave1(nextStep: NextStepBlock) {
         let wave1 = TAU_2 ± rand(size.angle)
         generateWarning(
             wave1 - 15.degrees,
@@ -31,9 +41,7 @@ class BaseLevel1: BaseLevel {
     }
 
     // Dozers
-    func beginWave2() {
-        let nextStep = afterAllWaves(nextWave: beginWave3)
-
+    func beginWave2(nextStep: NextStepBlock) {
         let wave1 = self.randSideAngle()
         generateWarning(wave1 - TAU_16)
         generateWarning(wave1 + TAU_16)
@@ -41,9 +49,7 @@ class BaseLevel1: BaseLevel {
     }
 
     // wide waves
-    func beginWave3() {
-        let nextStep = afterAllWaves(nextWave: beginWave4)
-
+    func beginWave3(nextStep: NextStepBlock) {
         timeline.every(6, times: 8) {
             let angle: CGFloat = self.randSideAngle()
             let delta = 5.degrees
@@ -58,19 +64,9 @@ class BaseLevel1: BaseLevel {
     }
 
     // fast enemies waves
-    func beginWave4() {
-        let nextStep = afterAllWaves(nextWave: beginWave5)
+    func beginWave4(nextStep: NextStepBlock) {
+        generateBothSidesWarnings()
 
-        let angles: [CGFloat] = [
-            -size.angle * 7 / 8,
-            -size.angle / 2,
-            0,
-            size.angle / 2,
-            size.angle * 7 / 8,
-        ]
-        for angle in angles {
-            generateWarning(angle, TAU_2 + angle)
-        }
         timeline.every(4, start: .Delayed(), times: 5) {
             self.generateScouts(self.randSideAngle())()
         } ~~> nextStep()
@@ -80,9 +76,7 @@ class BaseLevel1: BaseLevel {
     }
 
     // fast enemies waves
-    func beginWave5() {
-        let nextStep = afterAllWaves(nextWave: beginWave6)
-
+    func beginWave5(nextStep: NextStepBlock) {
         let wave1 = self.randSideAngle()
         let spread = TAU_8
         self.generateWarning(wave1, wave1 - spread, wave1 + spread)
@@ -91,10 +85,10 @@ class BaseLevel1: BaseLevel {
     }
 
     // onslaught
-    func beginWave6() {
-        timeline.every(4...6, start: .Delayed(), times: 7, block: { self.generateScouts(rand(TAU))() })
-        timeline.every(6...8, start: .Delayed(), times: 5, block: { self.generateSlowEnemy(rand(TAU))() })
-        timeline.every(8...10, start: .Delayed(), times: 4, block: { self.generateDozer(rand(TAU))() })
+    func beginWave6(nextStep: NextStepBlock) {
+        timeline.every(4...6, start: .Delayed(), times: 7, block: { self.generateScouts(rand(TAU))() }) ~~> nextStep()
+        timeline.every(6...8, start: .Delayed(), times: 5, block: { self.generateSlowEnemy(rand(TAU))() }) ~~> nextStep()
+        timeline.every(8...10, start: .Delayed(), times: 4, block: { self.generateDozer(rand(TAU))() }) ~~> nextStep()
     }
 
     func generateDozer(_ genScreenAngle: CGFloat, spread: CGFloat = 0) -> Block {

@@ -7,12 +7,12 @@ class TutorialLevel4: TutorialLevel {
 
     override func populateLevel() {
         moveCamera(to: CGPoint(x: 180, y: 0), duration: 2)
-        timeline.after(time: 1, block: beginWave1)
+        timeline.after(time: 1) {
+            self.linkWaves(self.beginWave1, self.beginWave2, self.beginWave3, self.beginWave4)
+        }
     }
 
-    func beginWave1() {
-        let nextStep = afterAllWaves(nextWave: beginWave2)
-
+    func beginWave1(nextStep: NextStepBlock) {
         let wave1 = randSideAngle(.Right)
         let wave2 = wave1 ± (TAU_16 + rand(TAU_16))
 
@@ -21,9 +21,7 @@ class TutorialLevel4: TutorialLevel {
         timeline.every(0.5...2.5, start: .Delayed(3), times: 4, block: generateEnemyPair(wave2)) ~~> nextStep()
     }
 
-    func beginWave2() {
-        let nextStep = afterAllWaves(nextWave: beginWave3)
-
+    func beginWave2(nextStep: NextStepBlock) {
         let wave1 = randSideAngle(.Right)
         let wave2 = wave1 ± (TAU_8 + rand(TAU_16))
         generateWarning(wave1, wave2)
@@ -31,9 +29,7 @@ class TutorialLevel4: TutorialLevel {
         timeline.every(0.5...3, start: .Delayed(4), times: 4, block: generateEnemyTrio(wave2)) ~~> nextStep()
     }
 
-    func beginWave3() {
-        let nextStep = afterAllWaves(nextWave: beginWave4)
-
+    func beginWave3(nextStep: NextStepBlock) {
         timeline.every(2...4, times: 5) {
             let wave = self.randSideAngle(.Right)
             self.generateWarning(wave)
@@ -41,7 +37,7 @@ class TutorialLevel4: TutorialLevel {
         } ~~> nextStep()
     }
 
-    func beginWave4() {
+    func beginWave4(nextStep: NextStepBlock) {
         var trios = 7
         var quads = 6
         let angles = [
@@ -70,7 +66,7 @@ class TutorialLevel4: TutorialLevel {
             }
 
             generate()
-        }
+        } ~~> nextStep()
     }
 
     func generateEnemyPair(_ screenAngle: CGFloat) -> Block {

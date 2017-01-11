@@ -109,11 +109,6 @@ class Level: World {
         populateTurrets()
         populatePowerups()
 
-        timeline.when({ self.possibleExperience >= self.config.possibleExperience }) {
-            self.onNoMoreEnemies {
-                self.completeLevel()
-            }
-        }
     }
 
     override func update(_ dt: CGFloat) {
@@ -391,12 +386,18 @@ extension Level {
     }
 
     func completeLevel(success successArg: Bool? = nil) {
+        guard levelSuccess == nil else {
+            return
+        }
+
+        printStatus()
         for powerup in powerups {
             powerup.levelCompleted()
         }
 
         let success: Bool
-        // sanity check against a kamikaze triggering a "successful" completion
+        // sanity check against a kamikaze killing the player *and* triggering a
+        // "successful" completion
         if let died = playerNode.healthComponent?.died, died {
             success = false
         }
@@ -405,11 +406,6 @@ extension Level {
         }
         else {
             success = true
-        }
-
-        printStatus()
-        guard levelSuccess == nil else {
-            return
         }
 
         pauseable = false
