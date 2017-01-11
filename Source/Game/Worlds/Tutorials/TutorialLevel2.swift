@@ -11,11 +11,10 @@ class TutorialLevel2: TutorialLevel {
     }
 
     override func populateLevel() {
-        (playerNode as! BasePlayerNode).forceFireEnabled = false
         linkWaves(beginWave1, beginWave2, beginWave3, beginWave4)
     }
 
-    // two sources of weak enemies (40)
+    // three sources of weak enemies (20)
     func beginWave1(nextStep: NextStepBlock) {
         let wave1 = randSideAngle(.Right)
         let wave2 = wave1 ± rand(min: 10.degrees, max: 15.degrees)
