@@ -344,7 +344,7 @@ extension Level {
     }
 
     func tutorialOrLevel() -> World {
-        if let tutorial = config.tutorial(), !config.seenTutorial {
+        if !config.seenTutorial, let tutorial = config.tutorial() {
             tutorial.nextWorld = self
             return tutorial
         }
