@@ -21,12 +21,8 @@ class LevelConfig: Config {
         }
     }
 
-    var availablePlayers: [Node] { return [] }
+    var availableArmyNodes: [Node] { return [] }
     var availablePowerups: [Powerup] { return [] }
-    var availableTurrets: [Turret] { return [
-        SimpleTurret(),
-        RapidTurret(),
-    ] }
 
     func updateMaxGainedExperience(_ exp: Int) {
         Defaults["\(configKey)-gainedExperience"] = min(max(exp, gainedExperience), possibleExperience)

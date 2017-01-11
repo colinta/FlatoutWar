@@ -10,63 +10,7 @@ class RapidFireTutorial: Tutorial {
         tutorialTextNode.text = "RAPID FIRE"
 
         timeline.at(1) {
-            self.showTurrets()
-        }
-    }
-
-    func showTurrets() {
-        let defaultTurret = SimpleTurret()
-        let defaultButton = defaultTurret.button()
-        defaultButton.enabled = false
-
-        let rapidTurret = RapidTurret()
-        let rapidButton = rapidTurret.button()
-
-        let label = TextNode()
-        label.text = "↓"
-        label.fixedPosition = .Bottom(x: 22.5, y: 60)
-        label.alpha = 0
-        gameUI << label
-        let cancel = timeline.cancellable.after(time: 2) {
-            label.fadeTo(1, duration: 0.5)
-            self.bounce(label)
-        }
-
-        rapidButton.onTapped {
-            label.removeFromParent()
-            cancel()
-            rapidButton.fadeTo(0, duration: 0.3, removeNode: true)
-            defaultButton.fadeTo(0, duration: 0.3, removeNode: true)
-            self.playerNode.turret = rapidTurret
             self.showFirstEnemy()
-        }
-
-        do {
-            let start: Position = .Bottom(
-                x: 22.5,
-                y: -22
-            )
-            let dest: Position = .Bottom(
-                x: start.x,
-                y: 22
-            )
-            rapidButton.fixedPosition = start
-            gameUI << rapidButton
-            rapidButton.moveTo(dest, duration: 0.5)
-        }
-
-        do {
-            let start: Position = .Bottom(
-                x: -22.5,
-                y: -22
-            )
-            let dest: Position = .Bottom(
-                x: start.x,
-                y: 22
-            )
-            defaultButton.fixedPosition = start
-            gameUI << defaultButton
-            defaultButton.moveTo(dest, duration: 0.5)
         }
     }
 

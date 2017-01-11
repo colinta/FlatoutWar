@@ -99,7 +99,6 @@ indirect enum ImageIdentifier {
     case BaseExplosion(index: Int, total: Int)
 
     case BaseSingleTurret(bulletUpgrade: HasUpgrade)
-    case BaseRapidTurret(bulletUpgrade: HasUpgrade)
     case BaseDoubleTurret(bulletUpgrade: HasUpgrade)
     case BaseBigTurret(bulletUpgrade: HasUpgrade)
     case Bullet(upgrade: HasUpgrade, style: BulletNode.Style)
@@ -250,8 +249,6 @@ indirect enum ImageIdentifier {
             return "BaseExplosion_index-\(index)_total-\(total)"
         case let .BaseSingleTurret(bulletUpgrade):
             return "BaseSingleTurret_bulletUpgrade-\(bulletUpgrade.name)"
-        case let .BaseRapidTurret(bulletUpgrade):
-            return "BaseRapidTurret_bulletUpgrade-\(bulletUpgrade.name)"
         case let .BaseDoubleTurret(bulletUpgrade):
             return "BaseDoubleTurret_bulletUpgrade-\(bulletUpgrade.name)"
         case let .BaseBigTurret(bulletUpgrade):

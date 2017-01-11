@@ -36,7 +36,7 @@ class Level: World {
     var gainedExperience = 0
 
     fileprivate var shouldPopulatePlayer = true
-    var playerNode = BasePlayerNode() {
+    var playerNode: Node = BasePlayerNode() {
         willSet {
             if playerNode != newValue {
                 playerNode.removeFromParent()
@@ -95,6 +95,9 @@ class Level: World {
         }
 
         setScale(2)
+        cameraZoom.duration = nil
+        cameraZoom.rate = nil
+
         fadeTo(1, start: 0, duration: 0.5)
         timeline.after(time: 1.75, block: {
             self.cameraAdjustmentEnabled = true
@@ -106,7 +109,6 @@ class Level: World {
 
         populateUI()
         populatePlayerNodes()
-        populateTurrets()
         populatePowerups()
 
 //        timeline.when({ self.possibleExperience >= self.config.possibleExperience }) {
@@ -287,51 +289,12 @@ extension Level {
     }
 
     fileprivate func populatePlayerNodes() {
-        for node in config.availablePlayers {
-            if let playerNode = node as? BasePlayerNode {
-                self.playerNode = playerNode
-            }
-            else {
-                addArmyNode(node)
-            }
+        for node in config.availableArmyNodes {
+            addArmyNode(node)
         }
 
         if shouldPopulatePlayer {
             updatePlayer(playerNode)
-        }
-    }
-
-    fileprivate func populateTurrets() {
-        let turrets = config.availableTurrets
-        let buttonWidth: CGFloat = 45
-        let x0: CGFloat = -CGFloat(turrets.count - 1) * buttonWidth / 2
-        var buttons: [Node] = []
-        for (index, turret) in turrets.enumerated() {
-            let button = turret.button()
-            buttons << button
-            if index == 0 {
-                button.setScale(1.1)
-            }
-
-            button.onTapped {
-                self.playerNode.turret = turret
-                for b in buttons {
-                    b.setScale(1)
-                }
-                button.setScale(1.1)
-            }
-
-            let start: Position = .Bottom(
-                x: x0 + CGFloat(index) * buttonWidth,
-                y: -22
-            )
-            let dest: Position = .Bottom(
-                x: start.x,
-                y: 24
-            )
-            button.fixedPosition = start
-            gameUI << button
-            button.moveTo(dest, duration: 0.5)
         }
     }
 

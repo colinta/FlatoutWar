@@ -23,7 +23,7 @@ class WorldController: UIViewController {
         Defaults["colin"] = true
         if Defaults["colin"].bool == true {
             // let world = Playground()
-            let world = StartupWorld()
+            let world = TutorialLevel1()
             view.presentWorld(world)
         }
         else if Defaults["hasSeenStartup"].bool == true {

@@ -3,7 +3,6 @@
 //
 
 class TutorialLevel3Config: TutorialConfig {
-    override var availableTurrets: [Turret] { return [] }
     override var availablePowerups: [Powerup] { return [
         GrenadePowerup(count: 2),
         LaserPowerup(count: 1),

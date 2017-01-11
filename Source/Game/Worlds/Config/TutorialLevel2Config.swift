@@ -3,7 +3,6 @@
 //
 
 class TutorialLevel2Config: TutorialConfig {
-    override var availableTurrets: [Turret] { return [] }
     override var possibleExperience: Int { return 110 }
 
     override func tutorial() -> Tutorial? { return nil }

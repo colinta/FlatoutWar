@@ -9,7 +9,7 @@ class BaseLevelConfig: LevelConfig {
         MinesPowerup(count: 1),
     ] }
 
-    override var availablePlayers: [Node] {
-        return [DroneNode()]
+    override var availableArmyNodes: [Node] {
+        return [DroneNode(at: CGPoint(r: 80, a: rand(TAU)))]
     }
 }

@@ -2,12 +2,10 @@
 ///  BasePlayerNode.swift
 //
 
-private let ForceFireDuration: CGFloat = 0.3
 private let ForceFireDamageFactor: Float = 0.667
 private let DefaultCooldown: CGFloat = 0.35
 private let ForceFireCooldown: CGFloat = 0.12
-private let ForceFireBurnoutUp: CGFloat = 6
-private let ForceFireBurnoutDown: CGFloat = 4
+
 
 class BasePlayerNode: Node {
     var movementUpgrade: HasUpgrade = .False { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
@@ -22,10 +20,15 @@ class BasePlayerNode: Node {
     fileprivate func updateRadarSprite() {
         let isSelected = selectableComponent?.selected == true
         radarSprite.alpha = isSelected ? 1 : 0.75
-        radarSprite.textureId(turret.radarId(upgrade: radarUpgrade, isSelected: isSelected))
+        if forceFireActive {
+            radarSprite.textureId(.ColorLine(length: radarUpgrade.baseRadarRadius + 25, color: radarUpgrade.baseRadarColor))
+        }
+        else {
+            radarSprite.textureId(.BaseRadar(upgrade: radarUpgrade, isSelected: isSelected))
+        }
     }
     fileprivate func updateUpgrades() {
-        turretSprite.textureId(turret.spriteId(bulletUpgrade: bulletUpgrade))
+        turretSprite.textureId(.BaseSingleTurret(bulletUpgrade: bulletUpgrade))
         updateBaseSprite()
         updateRadarSprite()
 
@@ -42,33 +45,18 @@ class BasePlayerNode: Node {
     }
 
     var forceFireEnabled: Bool?
-    var forceFireBurnout = false
-
-    var turret: Turret = SimpleTurret() {
-        didSet {
-            updateRadarSprite()
-            turretSprite.textureId(turret.spriteId(bulletUpgrade: bulletUpgrade))
-            enemyTargetingComponent?.enabled = turret.autoFireEnabled
-            enemyTargetingComponent?.reallySmart = turret.reallySmart
-        }
-    }
+    var forceFireActive: Bool = false
 
     let radarSprite = SKSpriteNode()
     let baseSprite = SKSpriteNode()
     let turretSprite = SKSpriteNode()
     let lightNode: SKLightNode
 
-    let forceFirePercent = PercentBar()
-    fileprivate var forceFireCooldown: CGFloat {
-        return forceFireBurnout ? DefaultCooldown : ForceFireCooldown
-    }
-
     override func clone() -> Node {
         let node = super.clone() as! BasePlayerNode
         node.movementUpgrade = movementUpgrade
         node.bulletUpgrade = bulletUpgrade
         node.radarUpgrade = radarUpgrade
-        node.turret = turret.clone()
         return node
     }
 
@@ -87,11 +75,6 @@ class BasePlayerNode: Node {
 
         turretSprite.z = .AbovePlayer
         self << turretSprite
-
-        forceFirePercent.style = .Heat
-        forceFirePercent.position = CGPoint(x: 25)
-        forceFirePercent.complete = 0
-        self << forceFirePercent
 
         let playerComponent = PlayerComponent()
         playerComponent.intersectionNode = baseSprite
@@ -150,40 +133,23 @@ class BasePlayerNode: Node {
     }
 
     override func update(_ dt: CGFloat) {
-        let forceFire: Bool
         if let forceFireEnabled = self.forceFireEnabled {
-            forceFire = forceFireEnabled
-        }
-        else if touchAimingComponent.touchedFor > 0 && turret.rapidFireEnabled {
-            forceFire = true
+            forceFireActive = forceFireEnabled
         }
         else {
-            forceFire = false
+            forceFireActive = touchAimingComponent.touchedFor > 0
         }
 
-        if forceFire && !forceFireBurnout {
-            forceFirePercent.complete += dt / ForceFireBurnoutUp
-            if forceFirePercent.isComplete {
-                forceFireBurnout = true
-            }
-        }
-        else if forceFirePercent.complete > 0 {
-            forceFirePercent.complete -= dt / ForceFireBurnoutDown
-            if forceFirePercent.isZero {
-                forceFireBurnout = false
-            }
-        }
+        firingComponent?.forceFire = forceFireActive
+        firingComponent?.cooldown = (forceFireActive ? ForceFireCooldown : DefaultCooldown)
 
-        firingComponent?.forceFire = forceFire
-        firingComponent?.cooldown = (forceFire ? forceFireCooldown : DefaultCooldown)
-
-        if let firingAngle = firingComponent?.angle,
+        if rotateToComponent?.target != nil, let currentAngle = rotateToComponent?.currentAngle {
+            turretSprite.zRotation = currentAngle
+        }
+        else if let firingAngle = firingComponent?.angle,
             forceFireEnabled != true
         {
             turretSprite.zRotation = firingAngle
-        }
-        else if let currentAngle = rotateToComponent?.currentAngle {
-            turretSprite.zRotation = currentAngle
         }
 
         if let angle = rotateToComponent?.destAngle {
@@ -221,7 +187,7 @@ extension BasePlayerNode {
 
         let velocity: CGFloat = bulletUpgrade.baseBulletSpeed ± rand(5)
         let style: BulletNode.Style
-        if firingComponent?.forceFire ?? false {
+        if firingComponent?.forceFire == true {
             style = .Fast
         }
         else {

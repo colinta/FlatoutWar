@@ -45,35 +45,6 @@ class BaseTurretArtist: Artist {
     }
 }
 
-class BaseRapidTurretArtist: BaseTurretArtist {
-    static let biggerR: CGFloat = 6
-    static let smallerR: CGFloat = 2.5
-
-    required init(bulletUpgrade: HasUpgrade) {
-        super.init(bulletUpgrade: bulletUpgrade)
-        size = CGSize(48)
-        stroke = UIColor(hex: 0xFD9916)
-        fill = UIColor(hex: 0xD1391A)
-    }
-
-    required init() {
-        fatalError("init() has not been implemented")
-    }
-
-    override func initialTurretPath() {
-        turretPath.move(to: CGPoint(x: -BaseRapidTurretArtist.biggerR, y: -BaseRapidTurretArtist.tinyR))
-        turretPath.addLine(to: CGPoint(x: 0, y: -BaseRapidTurretArtist.biggerR))
-        turretPath.addLine(to: CGPoint(x: BaseRapidTurretArtist.smallerR, y: -BaseRapidTurretArtist.smallerR))
-        turretPath.addLine(to: CGPoint(x: BaseRapidTurretArtist.width, y: -BaseRapidTurretArtist.smallerR))
-        turretPath.addLine(to: CGPoint(x: BaseRapidTurretArtist.width, y: BaseRapidTurretArtist.smallerR))
-        turretPath.addLine(to: CGPoint(x: BaseRapidTurretArtist.smallerR, y: BaseRapidTurretArtist.smallerR))
-        turretPath.addLine(to: CGPoint(x: 0, y: BaseRapidTurretArtist.biggerR))
-        turretPath.addLine(to: CGPoint(x: -BaseRapidTurretArtist.biggerR, y: BaseRapidTurretArtist.tinyR))
-        turretPath.closeSubpath()
-    }
-
-}
-
 class BaseDoubleTurretArtist: BaseTurretArtist {
     static let doubleDist: CGFloat = 6
 

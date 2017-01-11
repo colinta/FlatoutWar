@@ -3,11 +3,9 @@
 //
 
 class ScaleToComponent: ApplyToNodeComponent {
-    var currentScale: CGFloat?
+    private var currentScale: CGFloat { return (applyTo ?? node).xScale }
     var target: CGFloat? = 1 {
         didSet {
-            currentScale = node?.xScale
-
             if _duration != nil && target != nil {
                 _rate = nil
             }
@@ -63,7 +61,6 @@ class ScaleToComponent: ApplyToNodeComponent {
     }
 
     override func initApplyTo(node: SKNode) {
-        currentScale = node.xScale
         initialScale = node.xScale
     }
 
@@ -84,7 +81,7 @@ class ScaleToComponent: ApplyToNodeComponent {
     }
 
     override func update(_ dt: CGFloat) {
-        guard let target = target, let currentScale = currentScale else { return }
+        guard let target = target else { return }
 
         let rate: CGFloat
         if let _rate = _rate {
@@ -113,14 +110,12 @@ class ScaleToComponent: ApplyToNodeComponent {
         }
 
         if let newScale = newScale {
-            self.currentScale = newScale
             apply { applyTo in
                 applyTo.setScale(newScale)
             }
         }
         else {
             self.target = nil
-            self.currentScale = target
             apply { applyTo in
                 applyTo.setScale(target)
             }
@@ -140,10 +135,6 @@ extension Node {
         let scaleTo = get(component: ScaleToComponent.self) ?? ScaleToComponent()
         if let start = start {
             self.setScale(start)
-            scaleTo.currentScale = start
-        }
-        else {
-            scaleTo.currentScale = self.xScale
         }
         scaleTo.target = targetScale
         scaleTo.duration = duration

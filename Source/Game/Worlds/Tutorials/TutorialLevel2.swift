@@ -5,7 +5,13 @@
 class TutorialLevel2: TutorialLevel {
     override func loadConfig() -> LevelConfig { return TutorialLevel2Config() }
 
+    override func populateWorld() {
+        super.populateWorld()
+        (playerNode as! BasePlayerNode).forceFireEnabled = false
+    }
+
     override func populateLevel() {
+        (playerNode as! BasePlayerNode).forceFireEnabled = false
         linkWaves(beginWave1, beginWave2, beginWave3, beginWave4)
     }
 

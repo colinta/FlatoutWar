@@ -310,9 +310,6 @@ extension ImageIdentifier {
         case let .BaseSingleTurret(bulletUpgrade):
             let artist = BaseTurretArtist(bulletUpgrade: bulletUpgrade)
             return artist
-        case let .BaseRapidTurret(bulletUpgrade):
-            let artist = BaseRapidTurretArtist(bulletUpgrade: bulletUpgrade)
-            return artist
         case let .BaseDoubleTurret(bulletUpgrade):
             let artist = BaseDoubleTurretArtist(bulletUpgrade: bulletUpgrade)
             return artist

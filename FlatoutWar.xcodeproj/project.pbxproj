@@ -74,7 +74,6 @@
 		1D6A9FBD1DD79B1C004A0978 /* BaseLevel5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9FB71DD79B1C004A0978 /* BaseLevel5.swift */; };
 		1D6A9FC01DD79B22004A0978 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9FBE1DD79B22004A0978 /* Level.swift */; };
 		1D6A9FC11DD79B22004A0978 /* LevelGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9FBF1DD79B22004A0978 /* LevelGenerator.swift */; };
-		1D6A9FC31DD79B27004A0978 /* Turret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9FC21DD79B27004A0978 /* Turret.swift */; };
 		1D6A9FCF1DD79B2A004A0978 /* BomberPowerup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9FC41DD79B2A004A0978 /* BomberPowerup.swift */; };
 		1D6A9FD01DD79B2A004A0978 /* CoffeePowerup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9FC51DD79B2A004A0978 /* CoffeePowerup.swift */; };
 		1D6A9FD11DD79B2A004A0978 /* GrenadePowerup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9FC61DD79B2A004A0978 /* GrenadePowerup.swift */; };
@@ -367,7 +366,6 @@
 		1D6A9FB71DD79B1C004A0978 /* BaseLevel5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel5.swift; sourceTree = "<group>"; };
 		1D6A9FBE1DD79B22004A0978 /* Level.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = "<group>"; };
 		1D6A9FBF1DD79B22004A0978 /* LevelGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelGenerator.swift; sourceTree = "<group>"; };
-		1D6A9FC21DD79B27004A0978 /* Turret.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Turret.swift; sourceTree = "<group>"; };
 		1D6A9FC41DD79B2A004A0978 /* BomberPowerup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BomberPowerup.swift; sourceTree = "<group>"; };
 		1D6A9FC51DD79B2A004A0978 /* CoffeePowerup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoffeePowerup.swift; sourceTree = "<group>"; };
 		1D6A9FC61DD79B2A004A0978 /* GrenadePowerup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GrenadePowerup.swift; sourceTree = "<group>"; };
@@ -892,14 +890,6 @@
 			path = Util;
 			sourceTree = "<group>";
 		};
-		730ADAD629B9630BCCE55CFE /* Turrets */ = {
-			isa = PBXGroup;
-			children = (
-				1D6A9FC21DD79B27004A0978 /* Turret.swift */,
-			);
-			path = Turrets;
-			sourceTree = "<group>";
-		};
 		7BACBCC7F9CF6500A9C7C9D8 /* Font */ = {
 			isa = PBXGroup;
 			children = (
@@ -1139,7 +1129,6 @@
 				14B7B3AEEEB767E2FB196B10 /* Powerups */,
 				1D6AA1181DD79BF8004A0978 /* PowerupStorage.swift */,
 				1D6A9F391DD79AF7004A0978 /* Sounds */,
-				730ADAD629B9630BCCE55CFE /* Turrets */,
 				BEC11DB661CE6A2F69FFED28 /* Worlds */,
 			);
 			path = Game;
@@ -1461,7 +1450,6 @@
 				1D6AA04B1DD79B3E004A0978 /* FollowComponent.swift in Sources */,
 				1D6A9F8B1DD79B13004A0978 /* IntersectsTestWorld.swift in Sources */,
 				1D6A9FA21DD79B18004A0978 /* BaseLevel2Config.swift in Sources */,
-				1D6A9FC31DD79B27004A0978 /* Turret.swift in Sources */,
 				1D6A9F791DD79B10004A0978 /* TutorialLevel2.swift in Sources */,
 				1D6AA0EC1DD79B62004A0978 /* DroneRadarArtist.swift in Sources */,
 				1D6AA0941DD79B53004A0978 /* Position.swift in Sources */,
