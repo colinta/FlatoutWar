@@ -2,7 +2,7 @@
 ///  TimelineComponent.swift
 //
 
-private let DefaultDelay: CGFloat = 3
+let DefaultDelay: CGFloat = 3
 
 class TimelineComponent: Component {
     struct CancellableWrapper {
@@ -62,7 +62,7 @@ class TimelineComponent: Component {
         }
     }
 
-    class RecurringEvent {
+    class RecurringEvent: FinishableEvent {
         let uuid = NSUUID()
         var countdown: CGFloat
         let generator: () -> CGFloat
@@ -85,16 +85,28 @@ class TimelineComponent: Component {
         }
     }
 
-    struct Event {
+    class Event: FinishableEvent {
         let uuid = NSUUID()
         let scheduledTime: CGFloat
         let block: Block
+        var finallyBlock: Block = {}
+
+        init(scheduledTime: CGFloat, block: @escaping Block) {
+            self.scheduledTime = scheduledTime
+            self.block = block
+        }
     }
 
-    struct ConditionEvent {
+    class ConditionEvent: FinishableEvent {
         let uuid = NSUUID()
         let condition: ConditionBlock
         let block: Block
+        var finallyBlock: Block = {}
+
+        init(condition: @escaping ConditionBlock, block: @escaping Block) {
+            self.condition = condition
+            self.block = block
+        }
     }
 
     var time: CGFloat = 0
@@ -159,16 +171,25 @@ class TimelineComponent: Component {
         }
     }
 
-    func at(_ scheduledTime: TimeDescriptor, block: @escaping Block) {
-        addEvent(Event(scheduledTime: scheduledTime.toTime(time), block: block))
+    @discardableResult
+    func at(_ scheduledTime: TimeDescriptor, block: @escaping Block) -> Event {
+        let event = Event(scheduledTime: scheduledTime.toTime(time), block: block)
+        addEvent(event)
+        return event
     }
 
-    func after(time scheduledTime: CGFloat, block: @escaping Block) {
-        addEvent(Event(scheduledTime: time + scheduledTime, block: block))
+    @discardableResult
+    func after(time scheduledTime: CGFloat, block: @escaping Block) -> Event {
+        let event = Event(scheduledTime: time + scheduledTime, block: block)
+        addEvent(event)
+        return event
     }
 
-    func when(_ condition: @escaping ConditionBlock, block: @escaping Block) {
-        addEvent(ConditionEvent(condition: condition, block: block))
+    @discardableResult
+    func when(_ condition: @escaping ConditionBlock, block: @escaping Block) -> ConditionEvent {
+        let event = ConditionEvent(condition: condition, block: block)
+        addEvent(event)
+        return event
     }
 
     @discardableResult
@@ -237,6 +258,7 @@ class TimelineComponent: Component {
         for event in self.events {
             if time >= event.scheduledTime {
                 event.block()
+                event.finallyBlock()
             }
             else {
                 newEvents << event
@@ -273,6 +295,7 @@ class TimelineComponent: Component {
         for event in self.conditionEvents {
             if event.condition() {
                 event.block()
+                event.finallyBlock()
             }
             else {
                 newConditionEvents << event
@@ -283,10 +306,15 @@ class TimelineComponent: Component {
 
         running = false
     }
+
+}
+
+protocol FinishableEvent: class {
+    var finallyBlock: Block { get set }
 }
 
 infix operator ~~> : AdditionPrecedence
 
-func ~~>(event: TimelineComponent.RecurringEvent, finallyBlock: @escaping Block) {
+func ~~>(event: FinishableEvent, finallyBlock: @escaping Block) {
     event.finallyBlock = finallyBlock
 }

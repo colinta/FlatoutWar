@@ -17,31 +17,8 @@ class TutorialLevel2: TutorialLevel {
 
     // two sources of weak enemies (40)
     func beginWave1(nextStep: NextStepBlock) {
-        var delay: CGFloat = 0
-        5.times { (i: Int) in
-            let after = nextStep()
-            timeline.at(.Delayed(delay)) {
-                let wave: CGFloat = rand(TAU)
-                self.generateWarning(wave)
-                self.timeline.at(.Delayed(), block: self.generateEnemyFormation(wave) ++ after)
-            }
-            delay += 10
-        }
-    }
-
-    // random (10)
-    func beginWave2(nextStep: NextStepBlock) {
-        generateAllSidesWarnings()
-
-        timeline.every(1...2.5, start: .Delayed(), times: 12) {
-            self.generateEnemy(rand(TAU), constRadius: true)()
-        } ~~> nextStep()
-    }
-
-    // three sources of weak enemies (20)
-    func beginWave3(nextStep: NextStepBlock) {
         let wave1 = randSideAngle(.Right)
-        let wave2 = wave1 + rand(min: 10.degrees, max: 20.degrees)
+        let wave2 = wave1 ± rand(min: 10.degrees, max: 15.degrees)
         let wave3 = randSideAngle(.Left)
         generateWarning(wave1, wave2, wave3)
         timeline.every(1...5, start: .Delayed(), times: 8,
@@ -52,14 +29,47 @@ class TutorialLevel2: TutorialLevel {
             block: generateEnemy(wave3)) ~~> nextStep()
     }
 
+    // two sources of weak enemies (40)
+    func beginWave2(nextStep: NextStepBlock) {
+        var delay: CGFloat = 0
+        5.times { (i: Int) in
+            let done = nextStep()
+            timeline.at(.Delayed(delay)) {
+                let wave: CGFloat = rand(TAU)
+                self.generateWarning(wave)
+                self.timeline.at(.Delayed(), block: self.generateEnemyFormation(wave)) ~~> done
+            }
+            delay += 10
+        }
+    }
+
+    // random (10)
+    func beginWave3(nextStep: NextStepBlock) {
+        generateAllSidesWarnings()
+
+        timeline.every(2...4, start: .Delayed(), times: 13) {
+            self.generateEnemy(rand(TAU), constRadius: true)()
+        } ~~> nextStep()
+        timeline.every(12...14, start: .Delayed(), times: 3) {
+            self.generateLeaderEnemy(rand(TAU), constRadius: true)()
+        } ~~> nextStep()
+    }
+
     // 5 bursts of enemies (10)
     func beginWave4(nextStep: NextStepBlock) {
+        let done = nextStep()
+        let afterWave = afterN {
+            done()
+        }
         timeline.every(7, times: 5) {
+            let done = afterWave()
             let wave: CGFloat = rand(TAU)
             self.generateWarning(wave)
-            self.timeline.at(.Delayed(), block: self.generateScouts(wave))
-        } ~~> nextStep()
+            self.timeline.at(.Delayed(), block: self.generateScouts(wave)) ~~> done
+        } ~~> afterWave()
+
         timeline.every(6...8, times: 5) {
+            let done = afterWave()
             let wave: CGFloat = rand(TAU)
             self.generateWarning(wave)
             self.timeline.at(.Delayed()) {
@@ -73,8 +83,8 @@ class TutorialLevel2: TutorialLevel {
                     self << enemyNode
                     radius += 2 * enemyNode.radius
                 }
-            }
-        } ~~> nextStep()
+            } ~~> done
+        } ~~> afterWave()
     }
 
     func generateEnemyFormation(_ screenAngle: CGFloat) -> Block {
@@ -96,7 +106,6 @@ class TutorialLevel2: TutorialLevel {
                 center + left,
                 center + right,
                 back + left,
-                back,
                 back + right,
             ]
             for origin in origins {

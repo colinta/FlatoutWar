@@ -17,16 +17,16 @@ class TutorialLevel4: TutorialLevel {
         let wave2 = wave1 ± (TAU_16 + rand(TAU_16))
 
         self.generateWarning(wave1, wave2)
-        timeline.every(0.5...1.5, start: .Delayed(), times: 5, block: generateEnemyPair(wave1)) ~~> nextStep()
-        timeline.every(0.5...2.5, start: .Delayed(3), times: 4, block: generateEnemyPair(wave2)) ~~> nextStep()
+        timeline.every(0.8...1.8, start: .Delayed(), times: 5, block: generateEnemyPair(wave1)) ~~> nextStep()
+        timeline.every(0.8...2.8, start: .Delayed(3), times: 4, block: generateEnemyPair(wave2)) ~~> nextStep()
     }
 
     func beginWave2(nextStep: NextStepBlock) {
         let wave1 = randSideAngle(.Right)
         let wave2 = wave1 ± (TAU_8 + rand(TAU_16))
         generateWarning(wave1, wave2)
-        timeline.every(0.5...2, start: .Delayed(), times: 5, block: generateEnemyTrio(wave1)) ~~> nextStep()
-        timeline.every(0.5...3, start: .Delayed(4), times: 4, block: generateEnemyTrio(wave2)) ~~> nextStep()
+        timeline.every(0.8...2.5, start: .Delayed(), times: 5, block: generateEnemyTrio(wave1)) ~~> nextStep()
+        timeline.every(0.8...3.5, start: .Delayed(4), times: 4, block: generateEnemyTrio(wave2)) ~~> nextStep()
     }
 
     func beginWave3(nextStep: NextStepBlock) {
