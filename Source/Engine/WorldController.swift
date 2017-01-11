@@ -22,12 +22,13 @@ class WorldController: UIViewController {
 
         Defaults["colin"] = true
         if Defaults["colin"].bool == true {
-            // let world = Playground()
-            let world = TutorialLevel1()
-            view.presentWorld(world)
+            let config = TutorialLevel3Config()
+            config.seenTutorial = false
+            let level = TutorialLevel3()
+            view.presentWorld(level.tutorialOrLevel())
         }
         else if Defaults["hasSeenStartup"].bool == true {
-            view.presentWorld(WorldSelectWorld(beginAt: .Select))
+            view.presentWorld(MainMenuWorld())
         }
         else {
             view.presentWorld(StartupWorld())

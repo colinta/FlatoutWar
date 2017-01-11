@@ -4,8 +4,6 @@
 
 class Playground: World {
     override func populateWorld() {
-        channel?.gain = 0
-
         let playerNode = BasePlayerNode()
         playerNode.rotateTo(TAU_2)
         playerNode.firingComponent?.enabled = false

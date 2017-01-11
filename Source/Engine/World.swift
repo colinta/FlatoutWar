@@ -259,6 +259,10 @@ class World: Node {
     }
 
     fileprivate func _populateWorld() {
+        if Defaults["colin"].bool == true {
+            channel?.gain = 0
+        }
+
         addComponent(cameraZoom)
         cameraNode.addComponent(cameraMove)
     }
