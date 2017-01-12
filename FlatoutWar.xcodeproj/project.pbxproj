@@ -237,6 +237,10 @@
 		1D7A42DC1E118FE4002F37FA /* PolygonArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42DB1E118FE4002F37FA /* PolygonArtist.swift */; };
 		1D7A42DE1E11927D002F37FA /* MissleSiloUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42DD1E11927D002F37FA /* MissleSiloUpgrades.swift */; };
 		1D7A42E21E11A83B002F37FA /* MissleNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42E11E11A83B002F37FA /* MissleNode.swift */; };
+		1D943BF71E26FA0E0053FAF5 /* TutorialLevel7Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D943BF51E26FA0E0053FAF5 /* TutorialLevel7Config.swift */; };
+		1D943BF81E26FA0E0053FAF5 /* TutorialLevel8Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D943BF61E26FA0E0053FAF5 /* TutorialLevel8Config.swift */; };
+		1D943BFB1E26FA160053FAF5 /* TutorialLevel7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D943BF91E26FA160053FAF5 /* TutorialLevel7.swift */; };
+		1D943BFC1E26FA160053FAF5 /* TutorialLevel8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D943BFA1E26FA160053FAF5 /* TutorialLevel8.swift */; };
 		1D971CC71E14670100A167A2 /* SelectableArmyComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CC61E14670100A167A2 /* SelectableArmyComponent.swift */; };
 		1D971CD11E1479D200A167A2 /* BasePlayerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CC81E1479D200A167A2 /* BasePlayerNode.swift */; };
 		1D971CD21E1479D200A167A2 /* BulletNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CC91E1479D200A167A2 /* BulletNode.swift */; };
@@ -529,6 +533,10 @@
 		1D7A42DB1E118FE4002F37FA /* PolygonArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonArtist.swift; sourceTree = "<group>"; };
 		1D7A42DD1E11927D002F37FA /* MissleSiloUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleSiloUpgrades.swift; sourceTree = "<group>"; };
 		1D7A42E11E11A83B002F37FA /* MissleNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleNode.swift; sourceTree = "<group>"; };
+		1D943BF51E26FA0E0053FAF5 /* TutorialLevel7Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel7Config.swift; sourceTree = "<group>"; };
+		1D943BF61E26FA0E0053FAF5 /* TutorialLevel8Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel8Config.swift; sourceTree = "<group>"; };
+		1D943BF91E26FA160053FAF5 /* TutorialLevel7.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel7.swift; sourceTree = "<group>"; };
+		1D943BFA1E26FA160053FAF5 /* TutorialLevel8.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel8.swift; sourceTree = "<group>"; };
 		1D971CC61E14670100A167A2 /* SelectableArmyComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableArmyComponent.swift; sourceTree = "<group>"; };
 		1D971CC81E1479D200A167A2 /* BasePlayerNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasePlayerNode.swift; sourceTree = "<group>"; };
 		1D971CC91E1479D200A167A2 /* BulletNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulletNode.swift; sourceTree = "<group>"; };
@@ -1077,6 +1085,8 @@
 				1D6A9F9C1DD79B18004A0978 /* TutorialLevel4Config.swift */,
 				1D6A9F9D1DD79B18004A0978 /* TutorialLevel5Config.swift */,
 				1D6A9F9E1DD79B18004A0978 /* TutorialLevel6Config.swift */,
+				1D943BF51E26FA0E0053FAF5 /* TutorialLevel7Config.swift */,
+				1D943BF61E26FA0E0053FAF5 /* TutorialLevel8Config.swift */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -1193,6 +1203,8 @@
 				1D6A9F6E1DD79B10004A0978 /* TutorialLevel4.swift */,
 				1D6A9F6F1DD79B10004A0978 /* TutorialLevel5.swift */,
 				1D6A9F701DD79B10004A0978 /* TutorialLevel6.swift */,
+				1D943BF91E26FA160053FAF5 /* TutorialLevel7.swift */,
+				1D943BFA1E26FA160053FAF5 /* TutorialLevel8.swift */,
 			);
 			path = Tutorials;
 			sourceTree = "<group>";
@@ -1359,6 +1371,7 @@
 				1D6AA0F31DD79B62004A0978 /* LetterAndFont.swift in Sources */,
 				1D6A9F431DD79B05004A0978 /* IntValue.swift in Sources */,
 				1D6A9FD01DD79B2A004A0978 /* CoffeePowerup.swift in Sources */,
+				1D943BF71E26FA0E0053FAF5 /* TutorialLevel7Config.swift in Sources */,
 				1D6AA0211DD79B37004A0978 /* EnemyScoutNode.swift in Sources */,
 				1D971CD61E1479D200A167A2 /* DroneNode.swift in Sources */,
 				1D7A42E21E11A83B002F37FA /* MissleNode.swift in Sources */,
@@ -1450,6 +1463,7 @@
 				1D6AA04B1DD79B3E004A0978 /* FollowComponent.swift in Sources */,
 				1D6A9F8B1DD79B13004A0978 /* IntersectsTestWorld.swift in Sources */,
 				1D6A9FA21DD79B18004A0978 /* BaseLevel2Config.swift in Sources */,
+				1D943BFC1E26FA160053FAF5 /* TutorialLevel8.swift in Sources */,
 				1D6A9F791DD79B10004A0978 /* TutorialLevel2.swift in Sources */,
 				1D6AA0EC1DD79B62004A0978 /* DroneRadarArtist.swift in Sources */,
 				1D6AA0941DD79B53004A0978 /* Position.swift in Sources */,
@@ -1522,6 +1536,7 @@
 				1D6AA06C1DD79B41004A0978 /* CGPointExt.swift in Sources */,
 				1D6A9FC01DD79B22004A0978 /* Level.swift in Sources */,
 				1D6AA0951DD79B53004A0978 /* ScrollNode.swift in Sources */,
+				1D943BFB1E26FA160053FAF5 /* TutorialLevel7.swift in Sources */,
 				1D6A9F5E1DD79B0A004A0978 /* UIWorld.swift in Sources */,
 				5FE0B07CF1302A9CEECD2100 /* ALWrapper.m in Sources */,
 				1D971CE01E1479E700A167A2 /* LabelPercent.swift in Sources */,
@@ -1598,6 +1613,7 @@
 				1D6A9FBC1DD79B1C004A0978 /* BaseLevel4.swift in Sources */,
 				53C663A96EE4911CBE3DE53D /* OALTools.m in Sources */,
 				1D6A9FBB1DD79B1C004A0978 /* BaseLevel3.swift in Sources */,
+				1D943BF81E26FA0E0053FAF5 /* TutorialLevel8Config.swift in Sources */,
 				1D6A9F581DD79B0A004A0978 /* IntroductionCutSceneWorld.swift in Sources */,
 				1D6A9FE81DD79B2E004A0978 /* PurchasedTextNode.swift in Sources */,
 				1D6A9F491DD79B05004A0978 /* Timers.swift in Sources */,

@@ -147,7 +147,7 @@ class WorldSelectWorld: UIWorld {
 
         let tutorialTitle = TextNode(at: CGPoint(y: 130))
         tutorialTitle.font = .Big
-        tutorialTitle.text = "TRAINING"
+        tutorialTitle.text = "IN EXILE"
         levelSelect << tutorialTitle
 
         let tutorialButton = Button(at: CGPoint(x: -200, y: 20))
@@ -190,10 +190,12 @@ class WorldSelectWorld: UIWorld {
         let levels: [(CGFloat, CGFloat, Level)] = [
             (0, 0, TutorialLevel1()),
             (1, 0, TutorialLevel2()),
-            (1, 1, TutorialLevel3()),
-            (1, 2, TutorialLevel4()),
-            (2, 2, TutorialLevel5()),
-            (2, 1, TutorialLevel6()),
+            (0, 1, TutorialLevel3()),
+            (1, 1, TutorialLevel4()),
+            (1, 2, TutorialLevel5()),
+            (2, 2, TutorialLevel6()),
+            (2, 1, TutorialLevel7()),
+            (2, 0, TutorialLevel8()),
         ]
         let center = CGPoint(y: -20)
         let dx: CGFloat = 65

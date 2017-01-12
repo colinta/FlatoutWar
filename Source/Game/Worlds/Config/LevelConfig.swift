@@ -8,8 +8,10 @@ class LevelConfig: Config {
     var possibleExperience: Int { return 0 }
     var gainedExperience: Int {
         get { return Defaults["\(configKey)-gainedExperience"].int ?? 0 }
+        set { return Defaults["\(configKey)-gainedExperience"] = newValue }
     }
     var percentCompleted: CGFloat {
+        guard possibleExperience > 0 else { return 0 }
         return min(CGFloat(gainedExperience) / CGFloat(possibleExperience), 1)
     }
     var levelCompleted: Bool {
@@ -25,7 +27,7 @@ class LevelConfig: Config {
     var availablePowerups: [Powerup] { return [] }
 
     func updateMaxGainedExperience(_ exp: Int) {
-        Defaults["\(configKey)-gainedExperience"] = min(max(exp, gainedExperience), possibleExperience)
+        gainedExperience = min(max(exp, gainedExperience), possibleExperience)
     }
 
     func nextLevel() -> Level {

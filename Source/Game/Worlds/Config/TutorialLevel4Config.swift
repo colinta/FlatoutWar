@@ -9,9 +9,8 @@ class TutorialLevel4Config: TutorialConfig {
         MinesPowerup(count: 1),
     ] }
 
-    override var possibleExperience: Int { return 130 }
+    override var possibleExperience: Int { return 0 }
 
-    override func tutorial() -> Tutorial? { return RapidFireTutorial() }
     override func nextLevel() -> Level {
         return TutorialLevel5()
     }

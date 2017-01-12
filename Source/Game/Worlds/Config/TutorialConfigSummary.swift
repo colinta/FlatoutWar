@@ -13,6 +13,8 @@ class TutorialConfigSummary: ConfigSummary {
             TutorialLevel4Config(),
             TutorialLevel5Config(),
             TutorialLevel6Config(),
+            TutorialLevel7Config(),
+            TutorialLevel8Config(),
         ]
     }
 

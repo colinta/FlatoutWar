@@ -17,6 +17,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         justOnce("2016-07-07") {
             TutorialConfigSummary().completeAll()
         }
+        justOnce("2017-01-12") {
+            let tl4Experience = TutorialLevel4Config().gainedExperience
+            let tl5Experience = TutorialLevel5Config().gainedExperience
+            let tl6Experience = TutorialLevel6Config().gainedExperience
+            TutorialLevel4Config().gainedExperience = 0
+            TutorialLevel5Config().gainedExperience = tl4Experience
+            TutorialLevel6Config().gainedExperience = 0
+            TutorialLevel7Config().gainedExperience = tl5Experience
+            TutorialLevel8Config().gainedExperience = tl6Experience
+        }
 
         let upgradeConfig = GameConfigSummary()
         upgradeConfig.spentExperience = 0
