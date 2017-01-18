@@ -10,6 +10,7 @@ class EnemySoldierNode: Node {
     static let DefaultSoldierSpeed: CGFloat = 25
     var sprite = SKSpriteNode()
     var rammingDamage: Float = Damage
+    var initialAimTowardsTarget = true
 
     enum Scatter {
         case RunAway
@@ -48,7 +49,8 @@ class EnemySoldierNode: Node {
 
         let targetingComponent = PlayerTargetingComponent()
         targetingComponent.onTargetAcquired { target in
-            if let target = target {
+            if let target = target, self.initialAimTowardsTarget {
+                self.initialAimTowardsTarget = false
                 self.rotateTowards(target)
             }
         }
