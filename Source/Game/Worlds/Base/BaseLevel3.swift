@@ -11,29 +11,29 @@ class BaseLevel3: BaseLevel {
     }
 
     // exp 11 * 5 = 55
-    func beginWave1(nextStep: NextStepBlock) {
+    func beginWave1(nextStep: @escaping NextStepBlock) {
         let angle = self.randSideAngle()
         generateWarning(angle + TAU_12)
         generateWarning(angle - TAU_12)
-        timeline.every(8...10, start: .Delayed(), times: 5, block: self.generateDozer(angle, spread: TAU_8)) ~~> nextStep()
+        timeline.every(8...10, start: .Delayed(), times: 5,
+            block: generateDozer(angle, spread: TAU_8)) ~~> nextStep()
     }
 
     // exp 20 * 3 = 60
-    func beginWave2(nextStep: NextStepBlock) {
+    func beginWave2(nextStep: @escaping NextStepBlock) {
         generateAllSidesWarnings()
 
         moveCamera(zoom: 0.75, duration: 2)
         let t1: CGFloat = 4
         let t2 = t1 + 8
         let t3 = t2 + 6.5
-        timeline.after(time: t1, block: self.generateArmyWave)
-        timeline.after(time: t2, block: self.generateArmyWave)
-        timeline.after(time: t3, block: self.generateArmyWave)
-        timeline.after(time: t3 + 1, block: nextStep())
+        timeline.after(time: t1, block: generateArmyWave) ~~> nextStep()
+        timeline.after(time: t2, block: generateArmyWave) ~~> nextStep()
+        timeline.after(time: t3, block: generateArmyWave) ~~> nextStep()
     }
 
     // exp 10 * 4 = 40
-    func beginWave3(nextStep: NextStepBlock) {
+    func beginWave3(nextStep: @escaping NextStepBlock) {
         let num = 10
         let delta = 2.5.degrees
         timeline.every(8, times: 4) {
@@ -46,9 +46,10 @@ class BaseLevel3: BaseLevel {
             self.timeline.at(.Delayed()) {
                 for i in 0..<num {
                     let myAngle = angle + CGFloat(i - num / 2) * delta
-                    self.timeline.after(time: CGFloat(i) * 0.1, block: self.generateEnemy(myAngle, spread: 0, constRadius: true))
+                    self.timeline.after(time: CGFloat(i) * 0.1,
+                        block: self.generateEnemy(myAngle, spread: 0, constRadius: true)) ~~> nextStep()
                 }
-            }
+            } ~~> nextStep()
         } ~~> nextStep()
     }
 

@@ -187,8 +187,8 @@ class Level: World {
         }
     }
 
-    override func outsideWorld(extra dist: CGFloat, angle _angle: CGFloat, ui: Bool = false) -> CGPoint {
-        let pt = super.outsideWorld(extra: dist, angle: _angle, ui: ui)
+    override func outsideWorld(extra dist: CGFloat, angle: CGFloat, ui: Bool = false) -> CGPoint {
+        let pt = super.outsideWorld(extra: dist, angle: angle, ui: ui)
         if ui { return pt }
 
         let minDist = dist + min(size.height, size.width) / 2

@@ -17,4 +17,8 @@ class TutorialLevel: Level {
         addArmyNode(drone)
     }
 
+    func disableRapidFire() {
+        (playerNode as! BasePlayerNode).forceFireEnabled = false
+    }
+
 }

@@ -5,6 +5,10 @@
 class Line: Node {
     let sprite = SKSpriteNode()
 
+    convenience init(segment: Segment, color: Int = WhiteColor) {
+        self.init(from: segment.p1, to: segment.p2, color: color)
+    }
+
     required init(from p1: CGPoint, to p2: CGPoint, color: Int = WhiteColor) {
         super.init()
         position = p1

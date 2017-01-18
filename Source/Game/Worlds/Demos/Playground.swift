@@ -4,44 +4,49 @@
 
 class Playground: World {
     override func populateWorld() {
-        let playerNode = BasePlayerNode()
-        playerNode.rotateTo(TAU_2)
-        playerNode.firingComponent?.enabled = false
-        playerNode.enemyTargetingComponent?.enabled = false
-        playerNode.radarSprite.visible = false
-        self << playerNode
+        timeline.every(1, block: doit)
+    }
 
-        moveCamera(zoom: 0.75, duration: 0.1)
-        let type = DroneNode.self
-        let radius: CGFloat = 150
-        var angle: CGFloat = 0
-        let demos: [(HasUpgrade, HasUpgrade, HasUpgrade)] = [
-            (.False, .False, .False),
-            (.True, .False, .False),
-            (.False, .True, .False),
-            (.False, .False, .True),
-            (.True, .True, .False),
-            (.False, .True, .True),
-            (.True, .False, .True),
-            (.True, .True, .True),
-        ]
-        let deltaAngle: CGFloat = TAU / CGFloat(demos.count)
-        for (radarUpgrade, bulletUpgrade, movementUpgrade) in demos {
-            let position = CGPoint(r: radius, a: angle)
-            let node = type.init()
-            node.position = position
-            node.rotateTo(angle)
-            node.radarUpgrade = radarUpgrade
-            node.bulletUpgrade = bulletUpgrade
-            node.movementUpgrade = movementUpgrade
-            node.draggableComponent?.maintainDistance(100, around: playerNode)
-            self << node
-            angle += deltaAngle
+    func doit() {
+        removeAllChildren()
+
+        let radius: CGFloat = 135 // = min(320, 568) / 2 - 25
+        for i in 0..<360 {
+            self << Dot(at: CGPoint(r: radius, a: CGFloat(i) * TAU / 360))
         }
 
-        defaultNode = playerNode
+        let maxStart: CGFloat = max(size.width, size.height)
+        let worldSegments = CGRect(centerSize: size + CGSize(20)).segments
+        let targetAngle: CGFloat = rand(TAU)
+        let targetPosition = CGPoint(r: radius, a: targetAngle)
+        self << Dot(at: targetPosition)
 
-       generateEnemies()
+        let raycast = Segment(
+            p1: targetPosition,
+            p2: targetPosition + CGPoint(r: maxStart, a: targetAngle ± TAU_4)
+            )
+        self << Line(segment: raycast)
+        var colors: [Int] = [
+            0xFF0000,
+            0x00FF00,
+            0x00FFFF,
+            0xFF00FF,
+            0xFFFF00,
+        ]
+        var startPosition: CGPoint?
+        for segment in worldSegments {
+            self << Line(segment: segment, color: colors.removeLast())
+            if raycast.intersects(segment), let intersection = raycast.intersection(segment) {
+                startPosition = intersection
+                self << Line(from: .zero, to: intersection, color: colors.removeLast())
+                break
+            }
+        }
+        if let position = startPosition {
+            let sprite = SKSpriteNode(id: .ColorCircle(size: CGSize(15), color: 0xFFFFFF))
+            sprite.position = position
+            self << sprite
+        }
     }
 
     private func generateEnemies() {

@@ -719,7 +719,7 @@ extension World {
 }
 
 extension Level {
-    func linkWaves(_ waves: ((NextStepBlock) -> Void)...) {
+    func linkWaves(_ waves: ((@escaping NextStepBlock) -> Void)...) {
         guard let beginWave1 = waves.first else { return }
 
         var nextWave: Block = { self.completeLevel() }

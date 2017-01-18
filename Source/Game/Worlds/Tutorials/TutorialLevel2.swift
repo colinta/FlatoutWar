@@ -7,7 +7,7 @@ class TutorialLevel2: TutorialLevel {
 
     override func populateWorld() {
         super.populateWorld()
-        (playerNode as! BasePlayerNode).forceFireEnabled = false
+        disableRapidFire()
     }
 
     override func populateLevel() {
@@ -15,7 +15,7 @@ class TutorialLevel2: TutorialLevel {
     }
 
     // three sources of weak enemies (20)
-    func beginWave1(nextStep: NextStepBlock) {
+    func beginWave1(nextStep: @escaping NextStepBlock) {
         let wave1 = randSideAngle(.Right)
         let wave2 = wave1 ± rand(min: 10.degrees, max: 15.degrees)
         let wave3 = randSideAngle(.Left)
@@ -29,46 +29,37 @@ class TutorialLevel2: TutorialLevel {
     }
 
     // two sources of weak enemies (40)
-    func beginWave2(nextStep: NextStepBlock) {
+    func beginWave2(nextStep: @escaping NextStepBlock) {
         var delay: CGFloat = 0
         5.times { (i: Int) in
-            let done = nextStep()
             timeline.at(.Delayed(delay)) {
                 let wave: CGFloat = rand(TAU)
                 self.generateWarning(wave)
-                self.timeline.at(.Delayed(), block: self.generateEnemyFormation(wave)) ~~> done
+                self.timeline.at(.Delayed(), block: self.generateEnemyFormation(wave)) ~~> nextStep()
             }
             delay += 10
         }
     }
 
     // random (10)
-    func beginWave3(nextStep: NextStepBlock) {
+    func beginWave3(nextStep: @escaping NextStepBlock) {
         generateAllSidesWarnings()
 
-        timeline.every(2...4, start: .Delayed(), times: 13) {
-            self.generateEnemy(rand(TAU), constRadius: true)()
-        } ~~> nextStep()
-        timeline.every(12...14, start: .Delayed(), times: 3) {
-            self.generateLeaderEnemy(rand(TAU), constRadius: true)()
-        } ~~> nextStep()
+        timeline.every(2...4, start: .Delayed(), times: 13,
+            block: generateEnemy(rand(TAU), constRadius: true)) ~~> nextStep()
+        timeline.every(12...14, start: .Delayed(), times: 3,
+            block: generateLeaderEnemy(rand(TAU), constRadius: true)) ~~> nextStep()
     }
 
     // 5 bursts of enemies (10)
-    func beginWave4(nextStep: NextStepBlock) {
-        let done = nextStep()
-        let afterWave = afterN {
-            done()
-        }
+    func beginWave4(nextStep: @escaping NextStepBlock) {
         timeline.every(7, times: 5) {
-            let done = afterWave()
             let wave: CGFloat = rand(TAU)
             self.generateWarning(wave)
-            self.timeline.at(.Delayed(), block: self.generateScouts(wave)) ~~> done
-        } ~~> afterWave()
+            self.timeline.at(.Delayed(), block: self.generateScouts(wave)) ~~> nextStep()
+        } ~~> nextStep()
 
         timeline.every(6...8, times: 5) {
-            let done = afterWave()
             let wave: CGFloat = rand(TAU)
             self.generateWarning(wave)
             self.timeline.at(.Delayed()) {
@@ -82,12 +73,13 @@ class TutorialLevel2: TutorialLevel {
                     self << enemyNode
                     radius += 2 * enemyNode.radius
                 }
-            } ~~> done
-        } ~~> afterWave()
+            } ~~> nextStep()
+        } ~~> nextStep()
     }
 
-    func generateEnemyFormation(_ screenAngle: CGFloat) -> Block {
+    func generateEnemyFormation(_ genScreenAngle: @escaping @autoclosure () -> CGFloat) -> Block {
         return {
+            let screenAngle = genScreenAngle()
             let dist: CGFloat = 25
             let enemyLeader = EnemyLeaderNode()
             enemyLeader.name = "formation leader"

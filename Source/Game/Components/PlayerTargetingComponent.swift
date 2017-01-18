@@ -57,22 +57,20 @@ class PlayerTargetingComponent: Component {
     }
 
     override func update(_ dt: CGFloat) {
-        guard let world = node.world else { return }
+        guard targetingEnabled, let world = node.world else { return }
 
-        if targetingEnabled {
-            let newTarget = acquireTarget(world: world)
-            if let newTarget = newTarget, newTarget != currentTarget {
-                for handler in _onTargetAcquired {
-                    handler(newTarget)
-                }
+        let newTarget = acquireTarget(world: world)
+        if let newTarget = newTarget, newTarget != currentTarget {
+            for handler in _onTargetAcquired {
+                handler(newTarget)
             }
-            else if newTarget == nil && currentTarget != nil {
-                for handler in _onTargetAcquired {
-                    handler(newTarget)
-                }
-            }
-            currentTarget = newTarget
         }
+        else if newTarget == nil && currentTarget != nil {
+            for handler in _onTargetAcquired {
+                handler(newTarget)
+            }
+        }
+        currentTarget = newTarget
     }
 
 }

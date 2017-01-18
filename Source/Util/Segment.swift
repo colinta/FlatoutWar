@@ -6,6 +6,7 @@ struct Segment {
     var p1: CGPoint
     var p2: CGPoint
 
+    var angle: CGFloat { return p1.angleTo(p2) }
     var length: CGFloat { return p1.distanceTo(p2) }
 
     func intersection(_ segment: Segment) -> CGPoint? {
@@ -94,5 +95,16 @@ struct Segment {
         }
 
         return (val > 0) ? .Clockwise : .CounterClockwise // clock or counterclock wise
+    }
+}
+
+extension CGRect {
+    var segments: [Segment] {
+        return [
+            Segment(p1: CGPoint(minX, minY), p2: CGPoint(minX, maxY)),
+            Segment(p1: CGPoint(minX, maxY), p2: CGPoint(maxX, maxY)),
+            Segment(p1: CGPoint(maxX, maxY), p2: CGPoint(maxX, minY)),
+            Segment(p1: CGPoint(maxX, minY), p2: CGPoint(minX, minY)),
+        ]
     }
 }

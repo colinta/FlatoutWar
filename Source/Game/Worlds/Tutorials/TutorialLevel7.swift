@@ -13,7 +13,7 @@ class TutorialLevel7: TutorialLevel {
         }
     }
 
-    func beginWave1(nextStep: NextStepBlock) {
+    func beginWave1(nextStep: @escaping NextStepBlock) {
         let wave1: CGFloat = TAU / 32
         let wave2: CGFloat = -TAU / 32
         let wave3 = TAU_2 ± rand(TAU_16)
@@ -27,7 +27,7 @@ class TutorialLevel7: TutorialLevel {
         timeline.every(1.5...2.5, start: .Delayed(), times: 14, block: generateEnemy(wave3, spread: TAU_8)) ~~> nextStep()
     }
 
-    func beginWave2(nextStep: NextStepBlock) {
+    func beginWave2(nextStep: @escaping NextStepBlock) {
         timeline.at(.Delayed()) {
             self.moveCamera(to: CGPoint(x: -120, y: 0), duration: 3)
         }
@@ -40,15 +40,13 @@ class TutorialLevel7: TutorialLevel {
         timeline.at(.Delayed(7)) {
             self.generateWarning(wave2, wave2 - TAU_16, wave2 + TAU_16)
         }
-        timeline.every(0.5, start: .Delayed(4), times: 20) {
-            self.generateEnemy(wave1, spread: TAU_16)()
-        } ~~> nextStep()
-        timeline.every(0.5, start: .Delayed(10), times: 20) {
-            self.generateEnemy(wave2, spread: TAU_16)()
-        } ~~> nextStep()
+        timeline.every(0.5, start: .Delayed(4), times: 20,
+            block: generateEnemy(wave1, spread: TAU_16)) ~~> nextStep()
+        timeline.every(0.5, start: .Delayed(10), times: 20,
+            block: generateEnemy(wave2, spread: TAU_16)) ~~> nextStep()
     }
 
-    func beginWave3(nextStep: NextStepBlock) {
+    func beginWave3(nextStep: @escaping NextStepBlock) {
         let wave1 = TAU_2
         let wave2 = ±TAU_4
         let wave3 = TAU_2

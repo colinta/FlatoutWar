@@ -15,7 +15,7 @@ class BaseLevel2: BaseLevel {
     }
 
     // 84 exp
-    func beginWave1(nextStep: NextStepBlock) {
+    func beginWave1(nextStep: @escaping NextStepBlock) {
         let da: CGFloat = 5.degrees
         timeline.every(4.5...7, times: 8) {
             let angle = self.randSideAngle()
@@ -25,39 +25,33 @@ class BaseLevel2: BaseLevel {
                 3.times { (i: Int) in
                     self.generateScouts(angle + da * CGFloat(i - 1), spread: 0, constRadius: true)()
                 }
-            }
+            } ~~> nextStep()
         } ~~> nextStep()
     }
 
     // 66 exp (150 total)
-    func beginWave2(nextStep: NextStepBlock) {
+    func beginWave2(nextStep: @escaping NextStepBlock) {
         generateAllSidesWarnings()
 
-        timeline.every(4.5, start: .Delayed(), times: 11) {
-            self.generateScouts(rand(TAU))()
-        } ~~> nextStep()
-        timeline.every(3.5, start: .Delayed(1), times: 14) {
-            self.generateEnemy(rand(TAU))()
-        } ~~> nextStep()
-        timeline.every(7, start: .Delayed(3), times: 7) {
-            self.generateSlowEnemy(rand(TAU))()
-        } ~~> nextStep()
+        timeline.every(4.5, start: .Delayed(), times: 11,
+            block: generateScouts(rand(TAU))) ~~> nextStep()
+        timeline.every(3.5, start: .Delayed(1), times: 14,
+            block: generateEnemy(rand(TAU))) ~~> nextStep()
+        timeline.every(7, start: .Delayed(3), times: 7,
+            block: generateSlowEnemy(rand(TAU))) ~~> nextStep()
     }
 
     // 80 exp (230 total)
-    func beginWave3(nextStep: NextStepBlock) {
+    func beginWave3(nextStep: @escaping NextStepBlock) {
         generateBothSidesWarnings()
 
         // 50s / times = every
-        timeline.every(3.85, start: .Delayed(), times: 13) {
-            self.generateScouts(self.randSideAngle())()
-        } ~~> nextStep()
-        timeline.every(3.5, start: .Delayed(1), times: 14) {
-            self.generateEnemy(self.randSideAngle())()
-        } ~~> nextStep()
-        timeline.every(5.5, start: .Delayed(3), times: 9) {
-            self.generateLeaderEnemy(self.randSideAngle())()
-        } ~~> nextStep()
+        timeline.every(3.85, start: .Delayed(), times: 13,
+            block: generateScouts(self.randSideAngle())) ~~> nextStep()
+        timeline.every(3.5, start: .Delayed(1), times: 14,
+            block: generateEnemy(self.randSideAngle())) ~~> nextStep()
+        timeline.every(5.5, start: .Delayed(3), times: 9,
+            block: generateLeaderEnemy(self.randSideAngle())) ~~> nextStep()
     }
 
 }

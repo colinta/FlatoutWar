@@ -22,10 +22,8 @@ class WorldController: UIViewController {
 
         Defaults["colin"] = true
         if Defaults["colin"].bool == true {
-            let config = TutorialLevel3Config()
-            config.seenTutorial = false
-            let level = TutorialLevel3()
-            view.presentWorld(level.tutorialOrLevel())
+            let world = TutorialLevel6()
+            view.presentWorld(world)
         }
         else if Defaults["hasSeenStartup"].bool == true {
             view.presentWorld(MainMenuWorld())

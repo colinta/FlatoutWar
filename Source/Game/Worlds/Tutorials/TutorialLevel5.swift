@@ -12,16 +12,16 @@ class TutorialLevel5: TutorialLevel {
         }
     }
 
-    func beginWave1(nextStep: NextStepBlock) {
+    func beginWave1(nextStep: @escaping NextStepBlock) {
         let wave1 = randSideAngle(.Right)
         let wave2 = wave1 ± (TAU_16 + rand(TAU_16))
 
-        self.generateWarning(wave1, wave2)
+        generateWarning(wave1, wave2)
         timeline.every(0.8...1.8, start: .Delayed(), times: 5, block: generateEnemyPair(wave1)) ~~> nextStep()
         timeline.every(0.8...2.8, start: .Delayed(3), times: 4, block: generateEnemyPair(wave2)) ~~> nextStep()
     }
 
-    func beginWave2(nextStep: NextStepBlock) {
+    func beginWave2(nextStep: @escaping NextStepBlock) {
         let wave1 = randSideAngle(.Right)
         let wave2 = wave1 ± (TAU_8 + rand(TAU_16))
         generateWarning(wave1, wave2)
@@ -29,7 +29,7 @@ class TutorialLevel5: TutorialLevel {
         timeline.every(0.8...3.5, start: .Delayed(4), times: 4, block: generateEnemyTrio(wave2)) ~~> nextStep()
     }
 
-    func beginWave3(nextStep: NextStepBlock) {
+    func beginWave3(nextStep: @escaping NextStepBlock) {
         timeline.every(2...4, times: 5) {
             let wave = self.randSideAngle(.Right)
             self.generateWarning(wave)
@@ -37,7 +37,7 @@ class TutorialLevel5: TutorialLevel {
         } ~~> nextStep()
     }
 
-    func beginWave4(nextStep: NextStepBlock) {
+    func beginWave4(nextStep: @escaping NextStepBlock) {
         var trios = 7
         var quads = 6
         let angles = [
@@ -69,8 +69,9 @@ class TutorialLevel5: TutorialLevel {
         } ~~> nextStep()
     }
 
-    func generateEnemyPair(_ screenAngle: CGFloat) -> Block {
+    func generateEnemyPair(_ genScreenAngle: @escaping @autoclosure () -> CGFloat) -> Block {
         return {
+            let screenAngle = genScreenAngle()
             let dist: CGFloat = 5.5
             let ghost = self.generateEnemyGhost(mimic: EnemyFastSoldierNode(), angle: screenAngle, extra: 10)
             ghost.name = "pair ghost"
@@ -94,8 +95,9 @@ class TutorialLevel5: TutorialLevel {
         }
     }
 
-    func generateEnemyTrio(_ screenAngle: CGFloat) -> Block {
+    func generateEnemyTrio(_ genScreenAngle: @escaping @autoclosure () -> CGFloat) -> Block {
         return {
+            let screenAngle = genScreenAngle()
             let dist: CGFloat = 5.5
             let ghost = self.generateEnemyGhost(mimic: EnemyFastSoldierNode(), angle: screenAngle, extra: 10)
             ghost.name = "pair ghost"
@@ -121,8 +123,9 @@ class TutorialLevel5: TutorialLevel {
         }
     }
 
-    func generateEnemyQuad(_ screenAngle: CGFloat) -> Block {
+    func generateEnemyQuad(_ genScreenAngle: @escaping @autoclosure () -> CGFloat) -> Block {
         return {
+            let screenAngle = genScreenAngle()
             let dist: CGFloat = 5.5
             let ghost = self.generateEnemyGhost(mimic: EnemyFastSoldierNode(), angle: screenAngle, extra: 10)
             ghost.name = "pair ghost"

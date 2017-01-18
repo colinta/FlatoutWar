@@ -12,7 +12,7 @@ class BaseLevel5: BaseLevel {
     override func populateLevel() {
     }
 
-    func beginWave1(nextStep: NextStepBlock) {
+    func beginWave1(nextStep: @escaping NextStepBlock) {
     }
 
 }

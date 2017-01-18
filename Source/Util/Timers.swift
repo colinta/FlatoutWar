@@ -78,7 +78,10 @@ public func afterN(_ block: @escaping Block) -> NextStepBlock {
         remaining += 1
         return {
             remaining -= 1
-            if remaining == 0 && !done {
+            if remaining == 0 {
+                if done {
+                    fatalError("afterN done block called too many times")
+                }
                 done = true
                 block()
             }

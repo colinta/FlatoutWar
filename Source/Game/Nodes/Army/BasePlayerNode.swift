@@ -2,7 +2,7 @@
 ///  BasePlayerNode.swift
 //
 
-private let ForceFireDamageFactor: Float = 0.4
+private let ForceFireDamageFactor: Float = 0.45
 private let DefaultCooldown: CGFloat = 0.35
 private let ForceFireCooldown: CGFloat = 0.12
 private let ForceFireWarmup: CGFloat = 0.4
