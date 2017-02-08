@@ -230,7 +230,7 @@ class WorldSelectWorld: UIWorld {
 
         let tutorialTitle = TextNode(at: CGPoint(y: 130))
         tutorialTitle.font = .Big
-        tutorialTitle.text = "BASE"
+        tutorialTitle.text = "THE WOODS"
         levelSelect << tutorialTitle
 
         // wandering enemies
@@ -307,12 +307,13 @@ extension WorldSelectWorld {
         button.onTapped {
             self.interactionEnabled = false
             self.fadeTo(0, duration: 0.5).onFaded {
-                level.shouldReturnToLevelSelect = true
                 self.director?.presentWorld(level.tutorialOrLevel())
             }
         }
 
         if completed {
+            level.shouldReturnToLevelSelect = true
+
             let box = LevelCompleteBox()
             box.size = button.size
             box.complete = level.config.percentCompleted

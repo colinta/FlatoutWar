@@ -5,8 +5,27 @@
 class TutorialLevel8: TutorialLevel {
     override func loadConfig() -> LevelConfig { return TutorialLevel8Config() }
 
+    override func showFinalButtons() {
+        if Defaults["TutorialCutScene-seen"].bool == true {
+            super.showFinalButtons()
+        }
+        else {
+            quitButton.visible = false
+            restartButton.visible = false
+            nextButton.fixedPosition = .Center(x: 0, y: -60)
+            nextButton.visible = true
+        }
+    }
+
     override func goToNextWorld() {
-        director?.presentWorld(WorldSelectWorld())
+        if Defaults["TutorialCutScene-seen"].bool == true {
+            super.goToNextWorld()
+            director?.presentWorld(WorldSelectWorld(beginAt: .Tutorial))
+        }
+        else {
+            Defaults["TutorialCutScene-seen"] = true
+            director?.presentWorld(TutorialCutScene())
+        }
     }
 
     override func populateLevel() {

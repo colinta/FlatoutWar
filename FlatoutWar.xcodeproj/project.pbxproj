@@ -12,6 +12,7 @@
 		1104ABC2B1CD7A94967503F1 /* OALAudioActions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E827DF3F4200044750FA7AF /* OALAudioActions.m */; };
 		16AEFEC3B1FAF35E79913725 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B887B287659BE8E9BBE74898 /* AVFoundation.framework */; };
 		195C943B7A4309BBE875B57D /* ALSoundSourcePool.m in Sources */ = {isa = PBXBuildFile; fileRef = DAD19087F3C4620D1BCB7120 /* ALSoundSourcePool.m */; };
+		1D06D6BE1E3AC383004FA878 /* TutorialCutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D06D6BD1E3AC383004FA878 /* TutorialCutScene.swift */; };
 		1D5C44031DDAAF6F00FDBF7E /* BasePlayerUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C44021DDAAF6F00FDBF7E /* BasePlayerUpgrades.swift */; };
 		1D6A9F421DD79B05004A0978 /* Easing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F3A1DD79B05004A0978 /* Easing.swift */; };
 		1D6A9F431DD79B05004A0978 /* IntValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F3B1DD79B05004A0978 /* IntValue.swift */; };
@@ -307,6 +308,7 @@
 		1837E2BDD9368BB65CF3F661 /* ARCSafe_MemMgmt.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ARCSafe_MemMgmt.h; path = ObjectAL/Support/ARCSafe_MemMgmt.h; sourceTree = "<group>"; };
 		18CA05195EFFDD31A333498D /* bang.caf */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file; name = bang.caf; path = Resources/bang.caf; sourceTree = "<group>"; };
 		1A6394E9A5080B9A97D9C215 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/AudioToolbox.framework; sourceTree = DEVELOPER_DIR; };
+		1D06D6BD1E3AC383004FA878 /* TutorialCutScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialCutScene.swift; sourceTree = "<group>"; };
 		1D4DDB5AAED0E76492AA9C81 /* ALWrapper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ALWrapper.h; path = ObjectAL/OpenAL/ALWrapper.h; sourceTree = "<group>"; };
 		1D5C44021DDAAF6F00FDBF7E /* BasePlayerUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasePlayerUpgrades.swift; sourceTree = "<group>"; };
 		1D6A9F3A1DD79B05004A0978 /* Easing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Easing.swift; sourceTree = "<group>"; };
@@ -1196,6 +1198,7 @@
 				1D6A9F661DD79B10004A0978 /* PowerupTutorial.swift */,
 				1D6A9F671DD79B10004A0978 /* RapidFireTutorial.swift */,
 				1D6A9F691DD79B10004A0978 /* Tutorial.swift */,
+				1D06D6BD1E3AC383004FA878 /* TutorialCutScene.swift */,
 				1D6A9F6A1DD79B10004A0978 /* TutorialLevel.swift */,
 				1D6A9F6B1DD79B10004A0978 /* TutorialLevel1.swift */,
 				1D6A9F6C1DD79B10004A0978 /* TutorialLevel2.swift */,
@@ -1632,6 +1635,7 @@
 				1D6AA01F1DD79B37004A0978 /* EnemyJetTransportNode.swift in Sources */,
 				1D6A9FE51DD79B2E004A0978 /* LevelCompleteBox.swift in Sources */,
 				1D6A9FF71DD79B31004A0978 /* BombNode.swift in Sources */,
+				1D06D6BE1E3AC383004FA878 /* TutorialCutScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

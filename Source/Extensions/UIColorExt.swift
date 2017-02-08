@@ -4,6 +4,7 @@
 
 let WhiteColor = 0xFFFFFF
 let BlackColor = 0x0
+let GreenTreeColor = 0x4C9F16
 let NotAllowedColor = 0xCC0A10
 let AllowedColor = 0x1EC70B
 let BackgroundColor = 0x3F3F3F

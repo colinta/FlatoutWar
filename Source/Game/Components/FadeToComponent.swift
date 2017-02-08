@@ -27,20 +27,6 @@ class FadeToComponent: ApplyToNodeComponent {
     }
     private var currentAlpha: CGFloat { return (applyTo ?? node).alpha }
 
-    convenience init(fadeOut duration: CGFloat) {
-        self.init()
-        target = 0
-        self.duration = duration
-        removeNodeOnFade()
-    }
-
-    convenience init(fadeIn duration: CGFloat) {
-        self.init()
-        target = 1
-        self.duration = duration
-        removeNodeOnFade()
-    }
-
     typealias OnFaded = Block
     private var _onFaded: [OnFaded] = []
     func onFaded(_ handler: @escaping OnFaded) {

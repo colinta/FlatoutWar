@@ -38,11 +38,12 @@ class TouchableComponent: Component {
         case Circle
 
         var touchTest: TouchTest {
+            let minSize: CGFloat = 50
             switch self {
             case .Square:
                 return { (node, location) in
-                    let width = max(44, node.size.width)
-                    let height = max(44, node.size.height)
+                    let width = max(minSize, node.size.width)
+                    let height = max(minSize, node.size.height)
                     if abs(location.x) <= width / 2 && abs(location.y) <= height / 2 {
                         return true
                     }
@@ -50,8 +51,8 @@ class TouchableComponent: Component {
                 }
             case .Circle:
                 return { (node, location) in
-                    let width = max(44, node.size.width) / 2
-                    let height = max(44, node.size.height) / 2
+                    let width = max(minSize, node.size.width) / 2
+                    let height = max(minSize, node.size.height) / 2
                     return location.lengthWithin(min(width, height))
                 }
             }

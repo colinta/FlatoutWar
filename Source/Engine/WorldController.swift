@@ -7,6 +7,7 @@ class WorldController: UIViewController {
     override var shouldAutorotate: Bool {
         return true
     }
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .landscape
     }
@@ -20,9 +21,8 @@ class WorldController: UIViewController {
         self.worldView = view
         self.view = worldView
 
-        Defaults["colin"] = true
         if Defaults["colin"].bool == true {
-            let world = TutorialLevel6()
+            let world = BaseLevel3()
             view.presentWorld(world)
         }
         else if Defaults["hasSeenStartup"].bool == true {

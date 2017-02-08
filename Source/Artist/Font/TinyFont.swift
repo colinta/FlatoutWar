@@ -7,6 +7,7 @@ let TinyFont = Font(
     stroke: 0.5,
     scale: 2,
     space: 0.75,
+    verticalSpace: 2,
     size: defaultSize,
     art: [
     ".": Letter(style: .Line, size: defaultSize, points: [[

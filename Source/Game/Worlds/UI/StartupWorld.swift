@@ -63,7 +63,7 @@ class StartupWorld: World {
 
         timeline.at(30) {
             for node in self.nodesRecursive {
-                node.addComponent(FadeToComponent(fadeOut: 8))
+                node.fadeTo(0, duration: 8, removeNode: true)
             }
         }
 

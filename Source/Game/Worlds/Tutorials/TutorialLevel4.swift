@@ -64,12 +64,12 @@ class TutorialLevel4: TutorialLevel {
     func generateEnemyPair(_ genScreenAngle: @escaping @autoclosure () -> CGFloat) -> Block {
         return {
             let screenAngle = genScreenAngle()
-            let dist: CGFloat = 5.5
             let ghost = self.generateEnemyGhost(mimic: EnemySoldierNode(), angle: screenAngle, extra: 10)
             ghost.name = "pair ghost"
             ghost.rotateTowards(self.playerNode)
 
             let angle = ghost.position.angle
+            let dist: CGFloat = 5.5
             let left = CGVector(r: dist, a: angle + TAU_4)
             let right = CGVector(r: dist, a: angle - TAU_4)
 

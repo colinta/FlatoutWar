@@ -7,6 +7,7 @@ let SmallFont = Font(
     stroke: 0.5,
     scale: 3,
     space: 2,
+    verticalSpace: 4,
     size: defaultSize,
     art: [
     " ": Letter(style: .Line, size: CGSize(3, defaultSize.height), points: [[CGPoint]]()),
@@ -18,12 +19,28 @@ let SmallFont = Font(
         CGPoint(-0.25, 6),
         CGPoint(0.25, 6),
     ]]),
+    ",": Letter(style: .Line, size: CGSize(0.5, defaultSize.height), points: [[
+        CGPoint(0.25, 6),
+        CGPoint(-0.25, 7),
+    ]]),
     "!": Letter(style: .Line, size: CGSize(0.5, defaultSize.height), points: [[
         CGPoint(0, 0),
         CGPoint(0, 5),
     ], [
         CGPoint(-0.25, 6),
         CGPoint(0.25, 6),
+    ]]),
+    "?": Letter(style: .Line, size: defaultSize, points: [[
+        CGPoint(1, 1),
+        CGPoint(2, 0),
+        CGPoint(3, 0),
+        CGPoint(4, 1),
+        CGPoint(4, 2),
+        CGPoint(2.5, 3.5),
+        CGPoint(2.5, 5),
+    ], [
+        CGPoint(2.25, 6.5),
+        CGPoint(2.75, 6.5),
     ]]),
     "$": Letter(style: .Line, size: defaultSize + CGSize(height: 2), points: [[
         CGPoint(3.5, 2),

@@ -2,7 +2,7 @@
 ///  EnemyDozerNode.swift
 //
 
-private let startingHealth: Float = 8
+private let startingHealth: Float = 10
 
 class EnemyDozerNode: EnemySoldierNode {
 
@@ -20,6 +20,17 @@ class EnemyDozerNode: EnemySoldierNode {
 
     override func enemyType() -> ImageIdentifier.EnemyType {
         return .Dozer
+    }
+
+    override func update(_ dt: CGFloat) {
+        super.update(dt)
+        if
+            let rammingComponent = rammingComponent,
+            let target = rammingComponent.currentTarget,
+            distanceTo(target, within: 125)
+        {
+            rammingComponent.removeFromNode()
+        }
     }
 
 }

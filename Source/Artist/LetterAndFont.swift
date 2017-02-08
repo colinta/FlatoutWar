@@ -43,6 +43,7 @@ struct Font {
     var stroke: CGFloat
     var scale: CGFloat
     var space: CGFloat
+    var verticalSpace: CGFloat
     var size: CGSize
     var art: [String: Letter]
     var height: CGFloat {

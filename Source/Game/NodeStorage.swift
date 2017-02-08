@@ -3,14 +3,14 @@
 //
 
 class NodeStorage {
-    enum PowerupType: Int {
+    enum NodeType: Int {
         case Drone
         case BasePlayer
     }
 
     static func fromDefaults(_ defaults: NSDictionary) -> Node? {
         guard let typeint = defaults["type"] as? Int else { return nil }
-        guard let type: PowerupType = PowerupType(rawValue: typeint) else { return nil }
+        guard let type: NodeType = NodeType(rawValue: typeint) else { return nil }
 
         let node: Node
         switch type {
@@ -38,7 +38,7 @@ class NodeStorage {
 
     static func toDefaults(node: Node) -> NSDictionary? {
         let defaults = NSMutableDictionary()
-        let type: PowerupType?
+        let type: NodeType?
         if let node = node as? BasePlayerNode {
             type = .BasePlayer
             defaults["movementUpgrade"] = node.movementUpgrade.boolValue

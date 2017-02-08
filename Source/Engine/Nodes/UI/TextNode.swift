@@ -52,44 +52,67 @@ class TextNode: Node {
     func updateTextNodes() {
         textSprite.removeAllChildren()
 
+        let lines: [String] = text.characters.split { $0 == "\n" }.map { String($0) }
+        let verticalSpace: CGFloat = font.font.verticalSpace
         let letterSpace = font.font.space
         let heightOffset = 2 * font.font.scale
 
-        let sprites = text.characters.map { (char: Character) -> SKSpriteNode in
-            if color == WhiteColor {
-                return SKSpriteNode(id: .WhiteLetter(String(char), size: font))
+        let spriteCollection = lines.map { line in
+            return line.characters.map { (char: Character) -> SKSpriteNode in
+                if color == WhiteColor {
+                    return SKSpriteNode(id: .WhiteLetter(String(char), size: font))
+                }
+                else {
+                    return SKSpriteNode(id: .Letter(String(char), size: font, color: color))
+                }
             }
-            else {
-                return SKSpriteNode(id: .Letter(String(char), size: font, color: color))
-            }
-        }
-        var first = true
-        let size = sprites.reduce(CGSize.zero) { size, sprite in
-            let width = size.width + sprite.size.width + (first ? 0 : letterSpace)
-            let height = max(size.height, sprite.size.height - heightOffset)
-            first = false
-            return CGSize(width, height)
         }
 
-        var x: CGFloat
-        let margins = calculateMargins()
-        switch alignment {
-            case .left:
-                x = margins.left
-            case .right:
-                x = -size.width - margins.right
-            default:
-                x = -size.width / 2
-        }
-        for sprite in sprites {
-            x += sprite.size.width / 2
-            sprite.position.x = x
-            sprite.position.y = -heightOffset / 2 //- margins.top
-            sprite.zPosition = zPosition
-            textSprite << sprite
-            x += sprite.size.width / 2 + letterSpace
+        let sizeCollection: [CGSize] = spriteCollection.map { sprites -> CGSize in
+            var first = true
+            return sprites.reduce(CGSize.zero) { size, sprite in
+                let width = size.width + sprite.size.width + (first ? 0 : letterSpace)
+                let height = max(size.height, sprite.size.height - heightOffset)
+                first = false
+                return CGSize(width, height)
+            }
         }
 
+        let size = sizeCollection.reduce(CGSize(height: verticalSpace * CGFloat(lines.count - 1))) { maxSize, size in
+            return CGSize(
+                width: max(maxSize.width, size.width),
+                height: maxSize.height + size.height
+                )
+        }
+
+        var y = size.height / 2
+        for (index, sprites) in spriteCollection.enumerated() {
+            let size = sizeCollection[index]
+            y -= size.height / 2
+
+            var x: CGFloat
+            let margins = calculateMargins()
+            switch alignment {
+                case .left:
+                    x = margins.left
+                case .right:
+                    x = -size.width - margins.right
+                default:
+                    x = -size.width / 2
+            }
+            for sprite in sprites {
+                x += sprite.size.width / 2
+                sprite.position.x = x
+                sprite.position.y = y - heightOffset / 2
+                sprite.zPosition = zPosition
+                textSprite << sprite
+                x += sprite.size.width / 2 + letterSpace
+            }
+
+            y -= verticalSpace
+            y -= size.height / 2
+        }
+        
         self.textSize = size * textScale
         let marginsSize = CGSize(margins.left + margins.right, margins.top + margins.bottom)
         self.size = marginsSize + size

@@ -98,7 +98,7 @@ class Level: World {
 
         fadeTo(1, start: 0, duration: 0.5)
         timeline.after(time: 1.75, block: {
-            self.cameraAdjustmentEnabled = true
+            // self.cameraAdjustmentEnabled = true
             self.cameraZoom.target = 1.0
             self.cameraZoom.rate = 0.5
 
@@ -268,7 +268,7 @@ extension Level {
         backButton.visible = false
         backButton.font = .Big
         backButton.onTapped {
-            self.goToLevelSelect()
+            self.goBackToLevelSelect()
         }
 
         nextButton.fixedPosition = .Top(x: 60, y: -60)
@@ -329,6 +329,10 @@ extension Level {
 }
 
 extension Level {
+    func goBackToLevelSelect() {
+        goToLevelSelect()
+    }
+
     func goToLevelSelect() {
         director?.presentWorld(WorldSelectWorld(beginAt: levelSelect))
     }
@@ -443,16 +447,10 @@ extension Level {
                 }
 
                 self.restartButton.fixedPosition = .Bottom(x: 0, y: 80)
-                self.restartButton.visible = true
-                self.backButton.visible = true
-
                 if self.shouldReturnToLevelSelect {
-                    self.backButton.text = "NEXT"
                     self.backButton.fixedPosition = .Top(x: 0, y: -60)
                 }
-                else {
-                    self.nextButton.visible = true
-                }
+                self.showFinalButtons()
             }
         }
         else {
@@ -466,6 +464,18 @@ extension Level {
 
             quitButton.visible = true
             restartButton.visible = true
+        }
+    }
+
+    func showFinalButtons() {
+        restartButton.visible = true
+        backButton.visible = true
+
+        if shouldReturnToLevelSelect {
+            backButton.text = "NEXT"
+        }
+        else {
+            nextButton.visible = true
         }
     }
 }
@@ -483,5 +493,22 @@ extension Level {
             node.fadeTo(1, start: 0, duration: 1.4)
             self << node
         }
+    }
+}
+
+extension Level {
+    func linkWaves(_ waves: ((@escaping NextStepBlock) -> Void)...) {
+        guard let beginWave1 = waves.first else { return }
+
+        var nextWave: Block = { self.completeLevel() }
+        var nextStep = afterAllWaves(nextWave: nextWave)
+        if waves.count > 1 {
+            for wave in waves[1..<waves.count].reversed() {
+                let prevStep = nextStep
+                nextWave = { wave(prevStep) }
+                nextStep = afterAllWaves(nextWave: nextWave)
+            }
+        }
+        beginWave1(nextStep)
     }
 }

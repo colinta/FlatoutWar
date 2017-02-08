@@ -12,7 +12,7 @@ class BaseLevel1: BaseLevel {
 
     override func populateLevel() {
         linkWaves(
-            beginWave1,
+            // beginWave1,
             beginWave2,
             beginWave3,
             beginWave4,
@@ -23,14 +23,14 @@ class BaseLevel1: BaseLevel {
 
     // one sources of weak enemies in a wave
     func beginWave1(nextStep: @escaping NextStepBlock) {
-        let wave1 = TAU_2 ± rand(size.angle)
+        let wave1 = randSideAngle(.Right)
         generateWarning(
             wave1 - 15.degrees,
             wave1,
             wave1 + 15.degrees
         )
         var spread = CGFloat(2.5)
-        timeline.every(0.45, start: .Delayed(), times: 40) {
+        timeline.every(0.41, start: .Delayed(), times: 40) {
             let angle = wave1 + rand(spread.degrees)
 
             let enemyNode = EnemySoldierNode()
@@ -100,23 +100,31 @@ class BaseLevel1: BaseLevel {
             if spread > 0 {
                 screenAngle = screenAngle ± rand(spread)
             }
-            let enemyCount = 4
-            let height: CGFloat = CGFloat(enemyCount * 12) + 2
+
             let dozer = EnemyDozerNode()
             dozer.name = "dozer"
             dozer.position = self.outsideWorld(node: dozer, angle: screenAngle)
-            dozer.rotateTowards(point: .zero)
+            dozer.rotateTowards(self.playerNode)
             self << dozer
 
-            let min = -height / 2 + 5
-            let max = height / 2 - 5
+            let enemyCount = 4
+            let enemyWidth: CGFloat = 10
+            let enemySpacing: CGFloat = 2
+            let totalWidth: CGFloat = CGFloat(enemyCount) * (enemyWidth + enemySpacing) - enemySpacing
+
+            let ghost = self.generateEnemyGhost(mimic: dozer, angle: screenAngle, extra: 10)
+            ghost.name = "dozer ghost"
+            ghost.rotateTowards(self.playerNode)
+
+            let max = (totalWidth - enemyWidth) / 2
+            let min = -max
             for i in 0..<enemyCount {
                 let r = interpolate(CGFloat(i), from: (0, 3), to: (min, max))
-                let location = dozer.position + CGPoint(r: 10, a: screenAngle) + CGPoint(r: r, a: screenAngle + 90.degrees)
+                let location = ghost.position + CGPoint(r: 10, a: screenAngle) + CGPoint(r: r, a: screenAngle + 90.degrees)
                 let enemy = EnemySoldierNode(at: location)
                 enemy.name = "dozer soldier"
-                enemy.rotateTo(dozer.zRotation)
-                enemy.follow(leader: dozer, scatter: .None)
+                enemy.rotateTo(ghost.zRotation)
+                enemy.follow(leader: ghost)
                 self << enemy
             }
         }
