@@ -2,9 +2,10 @@
 ///  EnemyDozerNode.swift
 //
 
-private let startingHealth: Float = 10
+private let startingHealth: Float = 12
 
 class EnemyDozerNode: EnemySoldierNode {
+    var minTargetDist: CGFloat = 125
 
     required init() {
         super.init()
@@ -12,6 +13,7 @@ class EnemyDozerNode: EnemySoldierNode {
         shape = .Rect
         rammingDamage = 16
         healthComponent!.startingHealth = startingHealth
+        enemyComponent!.blocksNextWave = false
         enemyComponent!.experience = 2
         rammingComponent!.maxSpeed = 20
     }
@@ -27,7 +29,7 @@ class EnemyDozerNode: EnemySoldierNode {
         if
             let rammingComponent = rammingComponent,
             let target = rammingComponent.currentTarget,
-            distanceTo(target, within: 125)
+            distanceTo(target, within: minTargetDist)
         {
             rammingComponent.removeFromNode()
         }

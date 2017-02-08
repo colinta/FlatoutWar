@@ -22,7 +22,7 @@ class WorldController: UIViewController {
         self.view = worldView
 
         if Defaults["colin"].bool == true {
-            let world = BaseLevel3()
+            let world = WorldSelectWorld(beginAt: .Base)
             view.presentWorld(world)
         }
         else if Defaults["hasSeenStartup"].bool == true {

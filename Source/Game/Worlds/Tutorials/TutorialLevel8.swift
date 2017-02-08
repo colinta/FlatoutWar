@@ -6,24 +6,20 @@ class TutorialLevel8: TutorialLevel {
     override func loadConfig() -> LevelConfig { return TutorialLevel8Config() }
 
     override func showFinalButtons() {
-        if Defaults["TutorialCutScene-seen"].bool == true {
+        if config.didSeeCutScene {
             super.showFinalButtons()
         }
         else {
-            quitButton.visible = false
-            restartButton.visible = false
-            nextButton.fixedPosition = .Center(x: 0, y: -60)
-            nextButton.visible = true
+            showCutSceneButtons()
         }
     }
 
     override func goToNextWorld() {
-        if Defaults["TutorialCutScene-seen"].bool == true {
+        if config.didSeeCutScene {
             super.goToNextWorld()
-            director?.presentWorld(WorldSelectWorld(beginAt: .Tutorial))
         }
         else {
-            Defaults["TutorialCutScene-seen"] = true
+            config.didSeeCutScene = true
             director?.presentWorld(TutorialCutScene())
         }
     }
@@ -47,8 +43,8 @@ class TutorialLevel8: TutorialLevel {
                 self.generateWarning(wave1, wave2)
             } ~~> nextStep()
             timeline.at(.Delayed(delay)) {
-                self.generateEnemyColumn(wave1)()
-                self.generateEnemyColumn(wave2)()
+                self.generateEnemyColumn(wave1, enemy: EnemySoldierNode())()
+                self.generateEnemyColumn(wave2, enemy: EnemySoldierNode())()
             } ~~> nextStep()
         }
     }
@@ -74,37 +70,6 @@ class TutorialLevel8: TutorialLevel {
         self.generateWarning(wave1, wave2)
         timeline.every(1.5...2.5, start: .Delayed(), times: 10, block: generateEnemy(wave1)) ~~> nextStep()
         timeline.every(1.5...2.5, start: .Delayed(), times: 8, block: generateEnemy(wave2)) ~~> nextStep()
-    }
-
-    func generateEnemyColumn(_ genScreenAngle: @escaping @autoclosure () -> CGFloat) -> Block {
-        return {
-            let screenAngle = genScreenAngle()
-            let ghost = self.generateEnemyGhost(mimic: EnemySoldierNode(), angle: screenAngle, extra: 10)
-            ghost.name = "pair ghost"
-            ghost.rotateTowards(point: .zero)
-
-            let numPairs = 5
-            var r: CGFloat = 0
-            let dist: CGFloat = 5
-            numPairs.times {
-                let angle = ghost.position.angle
-                let left = CGVector(r: dist, a: angle + TAU_4) + CGVector(r: r, a: angle)
-                let right = CGVector(r: dist, a: angle - TAU_4) + CGVector(r: r, a: angle)
-                r += 2 * dist
-
-                let origins = [
-                    ghost.position + left,
-                    ghost.position + right,
-                ]
-                for origin in origins {
-                    let enemy = EnemySoldierNode(at: origin)
-                    enemy.name = "soldier"
-                    enemy.rotateTo(ghost.zRotation)
-                    enemy.follow(leader: ghost)
-                    self << enemy
-                }
-            }
-        }
     }
 
     func generateGiant(_ genScreenAngle: @escaping @autoclosure () -> CGFloat) -> Block {

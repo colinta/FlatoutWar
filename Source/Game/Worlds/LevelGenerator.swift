@@ -117,6 +117,132 @@ extension Level {
         }
     }
 
+    func generateEnemyPair(_ genScreenAngle: @escaping @autoclosure () -> CGFloat,
+        enemy enemyGenerator: @escaping @autoclosure () -> EnemySoldierNode) -> Block
+    {
+        return {
+            let screenAngle = genScreenAngle()
+            let ghost = self.generateEnemyGhost(mimic: enemyGenerator(), angle: screenAngle, extra: 10)
+            ghost.name = "pair ghost"
+            ghost.rotateTowards(self.playerNode)
+
+            let angle = ghost.position.angle
+            let dist: CGFloat = 5.5
+            let left = CGVector(r: dist, a: angle + TAU_4)
+            let right = CGVector(r: dist, a: angle - TAU_4)
+
+            let origins = [
+                ghost.position + left,
+                ghost.position + right,
+            ]
+            for origin in origins {
+                let enemy = enemyGenerator()
+                enemy.position = origin
+                enemy.name = "pair soldier"
+                enemy.rotateTo(ghost.zRotation)
+                enemy.follow(leader: ghost)
+                self << enemy
+            }
+        }
+    }
+
+    func generateEnemyTrio(_ genScreenAngle: @escaping @autoclosure () -> CGFloat,
+        enemy enemyGenerator: @escaping @autoclosure () -> EnemySoldierNode) -> Block
+    {
+        return {
+            let screenAngle = genScreenAngle()
+            let ghost = self.generateEnemyGhost(mimic: enemyGenerator(), angle: screenAngle, extra: 10)
+            ghost.name = "pair ghost"
+            ghost.rotateTowards(self.playerNode)
+
+            let angle = ghost.position.angle
+            let dist: CGFloat = 5.5
+            let left = CGVector(r: dist, a: angle + TAU_4)
+            let right = CGVector(r: dist, a: angle - TAU_4)
+            let back = CGVector(r: dist * 2, a: angle)
+
+            let origins = [
+                ghost.position + left,
+                ghost.position + right,
+                ghost.position + back,
+            ]
+            for origin in origins {
+                let enemy = enemyGenerator()
+                enemy.position = origin
+                enemy.name = "trio soldier"
+                enemy.rotateTo(ghost.zRotation)
+                enemy.follow(leader: ghost)
+                self << enemy
+            }
+        }
+    }
+
+    func generateEnemyQuad(_ genScreenAngle: @escaping @autoclosure () -> CGFloat,
+        enemy enemyGenerator: @escaping @autoclosure () -> EnemySoldierNode) -> Block
+    {
+        return {
+            let screenAngle = genScreenAngle()
+            let ghost = self.generateEnemyGhost(mimic: enemyGenerator(), angle: screenAngle, extra: 10)
+            ghost.name = "pair ghost"
+            ghost.rotateTowards(self.playerNode)
+
+            let dist: CGFloat = 5.5
+            let angle = ghost.position.angle
+            let left = CGVector(r: dist, a: angle + TAU_4)
+            let right = CGVector(r: dist, a: angle - TAU_4)
+            let back = CGVector(r: dist * 2, a: angle)
+
+            let origins = [
+                ghost.position + left,
+                ghost.position + right,
+                ghost.position + left + back,
+                ghost.position + right + back,
+            ]
+            for origin in origins {
+                let enemy = enemyGenerator()
+                enemy.position = origin
+                enemy.name = "quad soldier"
+                enemy.rotateTo(ghost.zRotation)
+                enemy.follow(leader: ghost)
+                self << enemy
+            }
+        }
+    }
+
+    func generateEnemyColumn(_ genScreenAngle: @escaping @autoclosure () -> CGFloat,
+        enemy enemyGenerator: @escaping @autoclosure () -> EnemySoldierNode) -> Block
+    {
+        return {
+            let screenAngle = genScreenAngle()
+            let ghost = self.generateEnemyGhost(mimic: enemyGenerator(), angle: screenAngle, extra: 10)
+            ghost.name = "pair ghost"
+            ghost.rotateTowards(point: .zero)
+
+            let numPairs = 5
+            var r: CGFloat = 0
+            let dist: CGFloat = 5
+            numPairs.times {
+                let angle = ghost.position.angle
+                let left = CGVector(r: dist, a: angle + TAU_4) + CGVector(r: r, a: angle)
+                let right = CGVector(r: dist, a: angle - TAU_4) + CGVector(r: r, a: angle)
+                r += 2 * dist
+
+                let origins = [
+                    ghost.position + left,
+                    ghost.position + right,
+                ]
+                for origin in origins {
+                    let enemy = enemyGenerator()
+                    enemy.position = origin
+                    enemy.name = "soldier"
+                    enemy.rotateTo(ghost.zRotation)
+                    enemy.follow(leader: ghost)
+                    self << enemy
+                }
+            }
+        }
+    }
+
     func generateJet(_ genScreenAngle: @escaping @autoclosure () -> CGFloat, spread: CGFloat = 0) -> Block {
         return {
             let jet = EnemyJetNode()

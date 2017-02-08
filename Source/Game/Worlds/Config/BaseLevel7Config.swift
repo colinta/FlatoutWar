@@ -1,11 +1,11 @@
 ////
-///  BaseLevel5Config.swift
+///  BaseLevel7Config.swift
 //
 
-class BaseLevel5Config: BaseLevelPart2Config {
+class BaseLevel7Config: BaseLevelPart2Config {
     override var possibleExperience: Int { return 2 }
 
     override func nextLevel() -> Level {
-        return BaseLevel6()
+        return BaseLevel8()
     }
 }

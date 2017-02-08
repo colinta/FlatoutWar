@@ -8,6 +8,7 @@ class EnemyComponent: Component {
         get { return _targetable && enabled }
         set { _targetable = newValue }
     }
+    var blocksNextWave = true
     var experience: Int = 0
     weak var intersectionNode: SKNode! {
         didSet {

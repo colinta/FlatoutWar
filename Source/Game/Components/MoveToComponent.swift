@@ -30,8 +30,6 @@ class MoveToComponent: ApplyToNodeComponent {
     }
 
     fileprivate var currentPosition: CGPoint { return (applyTo ?? node).position }
-    fileprivate var savedPosition: CGPoint?
-    fileprivate var savedVector: CGPoint?
 
     typealias OnArrived = () -> Void
     fileprivate var _onArrived: [OnArrived] = []
@@ -90,25 +88,13 @@ class MoveToComponent: ApplyToNodeComponent {
                 handler()
             }
 
-            savedVector = nil
-            savedPosition = nil
             if resetTarget {
                 self.target = nil
             }
         }
         else {
-            let vector: CGPoint
-            if let savedVector = savedVector, let savedPosition = savedPosition,
-                savedPosition == target
-            {
-                vector = savedVector
-            }
-            else {
-                let destAngle = currentPosition.angleTo(target)
-                vector = CGPoint(r: speed, a: destAngle)
-                savedVector = vector
-                savedPosition = target
-            }
+            let destAngle = currentPosition.angleTo(target)
+            let vector = CGPoint(r: speed, a: destAngle)
 
             let newPosition = currentPosition + dt * vector
             apply { applyTo in

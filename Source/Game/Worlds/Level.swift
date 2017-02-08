@@ -108,12 +108,6 @@ class Level: World {
         populateUI()
         populatePlayerNodes()
         populatePowerups()
-
-//        timeline.when({ self.possibleExperience >= self.config.possibleExperience }) {
-//            self.onNoMoreEnemies {
-//                self.completeLevel()
-//            }
-//        }
     }
 
     override func update(_ dt: CGFloat) {
@@ -467,6 +461,13 @@ extension Level {
         }
     }
 
+    func showCutSceneButtons() {
+        quitButton.visible = false
+        restartButton.visible = false
+        nextButton.fixedPosition = .Center(x: 0, y: -60)
+        nextButton.visible = true
+    }
+
     func showFinalButtons() {
         restartButton.visible = true
         backButton.visible = true
@@ -500,13 +501,18 @@ extension Level {
     func linkWaves(_ waves: ((@escaping NextStepBlock) -> Void)...) {
         guard let beginWave1 = waves.first else { return }
 
-        var nextWave: Block = { self.completeLevel() }
+        var nextWave: Block = {
+            self.completeLevel()
+        }
         var nextStep = afterAllWaves(nextWave: nextWave)
         if waves.count > 1 {
             for wave in waves[1..<waves.count].reversed() {
                 let prevStep = nextStep
-                nextWave = { wave(prevStep) }
-                nextStep = afterAllWaves(nextWave: nextWave)
+                nextWave = {
+                    self.printStatus()
+                    wave(prevStep)
+                }
+                nextStep = afterAllWaves(ignoreBlocking: true, nextWave: nextWave)
             }
         }
         beginWave1(nextStep)

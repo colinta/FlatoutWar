@@ -94,9 +94,9 @@ class BaseLevel1: BaseLevel {
             block: generateDozer(rand(TAU))) ~~> nextStep()
     }
 
-    func generateDozer(_ genScreenAngle: CGFloat, spread: CGFloat = 0) -> Block {
+    func generateDozer(_ genScreenAngle: @escaping @autoclosure () -> CGFloat, spread: CGFloat = 0) -> Block {
         return {
-            var screenAngle = genScreenAngle
+            var screenAngle = genScreenAngle()
             if spread > 0 {
                 screenAngle = screenAngle ± rand(spread)
             }

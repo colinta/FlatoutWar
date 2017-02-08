@@ -2,9 +2,35 @@
 ///  BaseLevel3.swift
 //
 
-class BaseLevel3: BaseLevel {
+// Starts with dozers with 8 scouts behind them, and some slow soldiers
+// to throw at the drone.  The second wave is a series of large scale attacks
+// from slow soldiers, normal soldiers, and scouts, using the 'flying' ramming
+// behavior (they move towards arbitrary midpoints before seeking the target).
+// The level ends with normal soldiers attacking in wide waves.
+//
+// The level goes to a cut scene that introduces the upgraded dodec drone.
 
+class BaseLevel3: BaseLevel {
     override func loadConfig() -> LevelConfig { return BaseLevel3Config() }
+
+    override func showFinalButtons() {
+        if config.didSeeCutScene {
+            super.showFinalButtons()
+        }
+        else {
+            showCutSceneButtons()
+        }
+    }
+
+    override func goToNextWorld() {
+        if config.didSeeCutScene {
+            super.goToNextWorld()
+        }
+        else {
+            config.didSeeCutScene = true
+            director?.presentWorld(BaseLevel3CutScene())
+        }
+    }
 
     override func populateLevel() {
         linkWaves(beginWave1, beginWave2, beginWave3)
@@ -53,9 +79,9 @@ class BaseLevel3: BaseLevel {
         } ~~> nextStep()
     }
 
-    func generateDozer(_ genScreenAngle: CGFloat, spread: CGFloat) -> Block {
+    func generateDozer(_ genScreenAngle: @escaping @autoclosure () -> CGFloat, spread: CGFloat = 0) -> Block {
         return {
-            var screenAngle = genScreenAngle
+            var screenAngle = genScreenAngle()
             if spread > 0 {
                 screenAngle = screenAngle ± rand(spread)
             }
@@ -66,12 +92,18 @@ class BaseLevel3: BaseLevel {
             dozer.rotateTowards(self.playerNode)
             self << dozer
 
+            let dozerRadius = dozer.position.length
+            let dozerAngle = dozer.position.angle
+
             let enemyCount = 4
             let enemyWidth: CGFloat = 10
             let enemySpacing: CGFloat = 2
             let totalWidth: CGFloat = CGFloat(enemyCount) * (enemyWidth + enemySpacing) - enemySpacing
 
             let ghost = self.generateEnemyGhost(mimic: dozer, angle: screenAngle, extra: 10)
+            let soldierDelta = 2 * dozer.size.width
+            let soldierRadius = dozerRadius + soldierDelta
+            ghost.position = CGPoint(r: soldierRadius, a: dozerAngle)
             ghost.name = "dozer ghost"
             ghost.rotateTowards(self.playerNode)
 
@@ -92,11 +124,10 @@ class BaseLevel3: BaseLevel {
         }
     }
 
-    let side: Side = rand() ? .Left : .Right
     private func randPoint() -> CGPoint {
         let minRadius = self.outerRadius
         let maxRadius = minRadius + 300
-        return CGPoint(r: rand(min: minRadius, max: maxRadius), a: self.randSideAngle(side))
+        return CGPoint(r: rand(min: minRadius, max: maxRadius), a: self.randSideAngle(.Right))
     }
 
     func generateArmyWave() {

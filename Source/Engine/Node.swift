@@ -15,10 +15,7 @@ class Node: SKNode {
     }
     var size: CGSize = .zero
     var radius: CGFloat {
-        if size.width == size.height {
-            return size.width / 2
-        }
-        return (size.width + size.height) / 4
+        return max(size.width, size.height) / 2
     }
     var innerRadius: CGFloat {
         if size.width == size.height {

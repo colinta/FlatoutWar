@@ -7,7 +7,6 @@
 // normal, and slow soldiers, and wave 3 swaps slow soldiers for leaders.
 
 class BaseLevel2: BaseLevel {
-
     override func loadConfig() -> LevelConfig { return BaseLevel2Config() }
 
     override func populateLevel() {

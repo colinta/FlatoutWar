@@ -4,28 +4,6 @@
 
 typealias TreeInfo = BaseLevel.TreeInfo
 
-let key = "Config-BaseLevelConfig"
-let storage = Storage<[TreeInfo]>(
-    get: { defaults in
-        guard
-            let values = defaults.array(forKey: "\(key)-points"),
-            let points: [CGPoint] = (values as? [NSValue])?.map({ $0.cgPointValue }),
-            let radii: [CGFloat] = (defaults.array(forKey: "\(key)-radii") as? [Float])?.map({ CGFloat($0) }),
-            let alphas: [CGFloat] = (defaults.array(forKey: "\(key)-alphas") as? [Float])?.map({ CGFloat($0) }),
-            points.count == radii.count, radii.count == alphas.count
-        else { return nil }
-
-        return points.enumerated().map { (index, point) in return TreeInfo(center: point, radius: radii[index], alpha: alphas[index]) }
-    },
-    set: { (defaults, values) in
-        let points: [NSValue] = values.map { info in return NSValue(cgPoint: info.center) }
-        let radii: [Float] = values.map { info in return Float(info.radius) }
-        let alphas: [Float] = values.map { info in return Float(info.alpha) }
-        defaults.set(points, forKey: "\(key)-points")
-        defaults.set(radii, forKey: "\(key)-radii")
-        defaults.set(alphas, forKey: "\(key)-alphas")
-    })
-
 class BaseLevelConfig: LevelConfig {
 
     override var availablePowerups: [Powerup] { return [
@@ -34,16 +12,8 @@ class BaseLevelConfig: LevelConfig {
         MinesPowerup(count: 1),
     ] }
 
-    override var availableArmyNodes: [Node] {
-        return [DroneNode(at: CGPoint(r: 80, a: rand(TAU)))]
-    }
-
     var treeCenters: [TreeInfo] {
         get {
-            if let info = storage.get() {
-                return info
-            }
-
             var info: [TreeInfo] = []
 
             do {
@@ -78,28 +48,28 @@ class BaseLevelConfig: LevelConfig {
                 }
             }
 
-            // storage.set(info)
             return info
         }
     }
 }
 
-struct Storage<T> {
-    typealias Getter = (UserDefaults) -> T?
-    typealias Setter = (UserDefaults, T) -> Void
-    let getter: Getter
-    let setter: Setter
-
-    init(get getter: @escaping Getter, set setter: @escaping Setter) {
-        self.getter = getter
-        self.setter = setter
+class BaseLevelPart1Config: BaseLevelConfig {
+    override var availableArmyNodes: [Node] {
+        return [DroneNode(at: CGPoint(r: 80, a: rand(TAU)))]
     }
+}
 
-    func get() -> T? {
-        return getter(UserDefaults.standard)
-    }
-
-    func set(_ value: T) {
-        setter(UserDefaults.standard, value)
+class BaseLevelPart2Config: BaseLevelConfig {
+    override var availableArmyNodes: [Node] {
+        let a1: CGFloat = rand(TAU)
+        let a2: CGFloat = a1 + TAU_2 ± rand(TAU_12)
+        let upgraded = DroneNode(at: CGPoint(r: 80, a: a1))
+        upgraded.radarUpgrade = true
+        upgraded.bulletUpgrade = true
+        upgraded.movementUpgrade = true
+        return [
+            DroneNode(at: CGPoint(r: 80, a: a2)),
+            upgraded
+        ]
     }
 }

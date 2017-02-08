@@ -117,32 +117,31 @@ class World: Node {
     }
 
     func randSideAngle(_ side: Side? = nil) -> CGFloat {
-        if let side = side {
-            let spread: CGFloat
-            switch side {
-            case .Left, .Right:
-                spread = atan2(size.height, size.width)
-            case .Top, .Bottom:
-                spread = atan2(size.width, size.height)
-            }
-
-            let angle: CGFloat
-            switch side {
-            case .Right:
-                angle = 0
-            case .Top:
-                angle = TAU_4
-            case .Left:
-                angle = TAU_2
-            case .Bottom:
-                angle = TAU_3_4
-            }
-
-            return angle ± rand(spread)
-        }
-        else {
+        guard let side = side else {
             return randSideAngle(rand() ? .Left : .Right)
         }
+
+        let spread: CGFloat
+        switch side {
+        case .Left, .Right:
+            spread = atan2(size.height, size.width)
+        case .Top, .Bottom:
+            spread = atan2(size.width, size.height)
+        }
+
+        let angle: CGFloat
+        switch side {
+        case .Right:
+            angle = 0
+        case .Top:
+            angle = TAU_4
+        case .Left:
+            angle = TAU_2
+        case .Bottom:
+            angle = TAU_3_4
+        }
+
+        return angle ± rand(spread)
     }
 
     func outsideWorld(angle: CGFloat) -> CGPoint {
@@ -230,8 +229,12 @@ class World: Node {
 
     typealias OnNoMoreEnemies = Block
     fileprivate var _onNoMoreEnemies = [OnNoMoreEnemies]()
+    fileprivate var _onNoMoreBlockingEnemies = [OnNoMoreEnemies]()
     func onNoMoreEnemies(_ handler: @escaping OnNoMoreEnemies) {
         _onNoMoreEnemies.append(handler)
+    }
+    func onNoMoreBlockingEnemies(_ handler: @escaping OnNoMoreEnemies) {
+        _onNoMoreBlockingEnemies.append(handler)
     }
 
     func disablePlayers() { setPlayersEnabled(false) }
@@ -256,6 +259,7 @@ class World: Node {
     override func reset() {
         super.reset()
         _onNoMoreEnemies = []
+        _onNoMoreBlockingEnemies = []
     }
 
     fileprivate func _populateWorld() {
@@ -450,11 +454,21 @@ extension World {
 
             throttleStragglers(dt, clearStragglers)
 
-            if enemies.count == 0 && hadEnemies {
-                for handler in _onNoMoreEnemies {
-                    handler()
+            if hadEnemies {
+                if enemies.count == 0 {
+                    for handler in _onNoMoreEnemies {
+                        handler()
+                    }
+                    _onNoMoreEnemies = []
                 }
-                _onNoMoreEnemies = []
+
+                let noMoreBlockingEnemies = enemies.none { $0.enemyComponent!.blocksNextWave }
+                if noMoreBlockingEnemies {
+                    for handler in _onNoMoreBlockingEnemies {
+                        handler()
+                    }
+                    _onNoMoreBlockingEnemies = []
+                }
             }
         }
 
@@ -720,9 +734,15 @@ extension World {
 
 extension World {
 
-    func afterAllWaves(nextWave: @escaping Block) -> NextStepBlock {
+    func afterAllWaves(ignoreBlocking: Bool = false, nextWave: @escaping Block) -> NextStepBlock {
         return afterN {
-            self.onNoMoreEnemies { nextWave() }
+            if ignoreBlocking {
+                self.onNoMoreBlockingEnemies { nextWave() }
+            }
+            else {
+                self.onNoMoreEnemies { nextWave() }
+            }
         }
     }
+
 }

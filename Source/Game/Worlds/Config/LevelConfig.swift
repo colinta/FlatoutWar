@@ -22,6 +22,10 @@ class LevelConfig: Config {
             }
         }
     }
+    var didSeeCutScene: Bool {
+        get { return Defaults["\(configKey)-didSeeCutScene"].bool == true }
+        set { Defaults["\(configKey)-didSeeCutScene"] = newValue }
+    }
 
     var availableArmyNodes: [Node] { return [] }
     var availablePowerups: [Powerup] { return [] }

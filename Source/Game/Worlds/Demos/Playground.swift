@@ -3,49 +3,49 @@
 //
 
 class Playground: World {
+
     override func populateWorld() {
-        timeline.every(1, block: doit)
+        generateTransport()
     }
 
-    func doit() {
-        removeAllChildren()
+    func generateTransport() {
+        timeline.every(12, times: 8) {
+            let xs: CGFloat = ±1
+            let start = CGPoint(
+                x: xs * self.size.width * rand(min: 0.3, max: 0.4),
+                y: self.size.height / 2 + 40
+                )
+            let dest = CGPoint(
+                x: xs * self.size.width * rand(min: 0.3, max: 0.4),
+                y: -start.y
+                )
+            self.timeline.after(time: 3) {
+                let transport = EnemyJetTransportNode()
+                var control = (start + dest) / 2
+                if start.x > 0 {
+                    control += CGPoint(x: self.size.height / 4)
+                }
+                else {
+                    control -= CGPoint(x: self.size.height / 4)
+                }
 
-        let radius: CGFloat = 135 // = min(320, 568) / 2 - 25
-        for i in 0..<360 {
-            self << Dot(at: CGPoint(r: radius, a: CGFloat(i) * TAU / 360))
-        }
+                let arcTo = transport.arcTo(dest, start: start, speed: 50)
+                arcTo.control = control
+                arcTo.onArrived {
+                    transport.removeFromParent()
+                }
 
-        let maxStart: CGFloat = max(size.width, size.height)
-        let worldSegments = CGRect(centerSize: size + CGSize(20)).segments
-        let targetAngle: CGFloat = rand(TAU)
-        let targetPosition = CGPoint(r: radius, a: targetAngle)
-        self << Dot(at: targetPosition)
+                transport.transportPayload([
+                    EnemySoldierNode(),
+                    EnemySoldierNode(),
+                    EnemySoldierNode(),
+                    EnemySoldierNode(),
+                    EnemySoldierNode(),
+                    EnemyLeaderNode(),
+                ])
 
-        let raycast = Segment(
-            p1: targetPosition,
-            p2: targetPosition + CGPoint(r: maxStart, a: targetAngle ± TAU_4)
-            )
-        self << Line(segment: raycast)
-        var colors: [Int] = [
-            0xFF0000,
-            0x00FF00,
-            0x00FFFF,
-            0xFF00FF,
-            0xFFFF00,
-        ]
-        var startPosition: CGPoint?
-        for segment in worldSegments {
-            self << Line(segment: segment, color: colors.removeLast())
-            if raycast.intersects(segment), let intersection = raycast.intersection(segment) {
-                startPosition = intersection
-                self << Line(from: .zero, to: intersection, color: colors.removeLast())
-                break
+                self << transport
             }
-        }
-        if let position = startPosition {
-            let sprite = SKSpriteNode(id: .ColorCircle(size: CGSize(15), color: 0xFFFFFF))
-            sprite.position = position
-            self << sprite
         }
     }
 

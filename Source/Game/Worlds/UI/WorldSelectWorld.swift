@@ -249,7 +249,7 @@ class WorldSelectWorld: UIWorld {
                 center + CGPoint(x: delta, y: delta),
             ]
             for pos in enemyPositions {
-                let enemyNode = EnemySoldierNode(at: pos)
+                let enemyNode = EnemyFastSoldierNode(at: pos)
                 let wanderingComponent = WanderingComponent()
                 wanderingComponent.centeredAround = pos
                 enemyNode.addComponent(wanderingComponent)
@@ -266,6 +266,9 @@ class WorldSelectWorld: UIWorld {
             (2, 1, BaseLevel3()),
             (2, 2, BaseLevel4()),
             (1, 2, BaseLevel5()),
+            (1, 1, BaseLevel6()),
+            (0, 1, BaseLevel7()),
+            (0, 2, BaseLevel8()),
         ]
         let center = CGPoint(y: -20)
         let dx: CGFloat = 65

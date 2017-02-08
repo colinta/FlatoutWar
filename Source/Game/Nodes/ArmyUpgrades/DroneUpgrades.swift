@@ -25,7 +25,7 @@ extension HasUpgrade {
     var droneRadarRadius: CGFloat {
         switch self {
         case .False: return 70
-        case .True: return 100
+        case .True: return 80
         }
     }
 
@@ -46,7 +46,7 @@ extension HasUpgrade {
     var droneBulletDamage: Float {
         switch self {
         case .False: return 1
-        case .True: return 1.5
+        case .True: return 1.25
         }
     }
 
