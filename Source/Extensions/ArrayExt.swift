@@ -78,6 +78,12 @@ extension Array {
         return self[i]
     }
 
+    mutating func randomPop() -> Element? {
+        guard count > 0 else { return nil }
+        let i: Int = Int(arc4random_uniform(UInt32(count)))
+        return self.remove(at: i)
+    }
+
     func randWeighted(_ weightFn: (Element) -> Float) -> Element? {
         guard count > 0 else { return nil }
         let weights = self.map { weightFn($0) }
