@@ -9,7 +9,7 @@ class WoodsLevel5: WoodsLevel {
         linkWaves(beginWave1, beginWave2)
     }
 
-    // exp: 8*2 + 10 + 6*5 = 56
+    // exp: 8*2 + 9 + 7*5 = 60
     func beginWave1(nextStep: @escaping NextStepBlock) {
         let wave1: CGFloat = rand(TAU)
         let wave2: CGFloat = rand(TAU)
@@ -21,11 +21,11 @@ class WoodsLevel5: WoodsLevel {
             let angle: CGFloat = angles.randomPop() ?? rand(TAU)
             self.generateDozer(angle)()
         } ~~> nextStep()
-        timeline.every(1...3, start: .Delayed(2), times: 10, block: generateJet(wave1)) ~~> nextStep()
-        timeline.every(2...4, start: .Delayed(4), times: 6, block: generateBigJet(wave2)) ~~> nextStep()
+        timeline.every(2...4, start: .Delayed(2), times: 9, block: generateJet(wave1)) ~~> nextStep()
+        timeline.every(3...5, start: .Delayed(4), times: 7, block: generateBigJet(wave2)) ~~> nextStep()
     }
 
-    // 84, total 140
+    // 85, total 145
     func beginWave2(nextStep: @escaping NextStepBlock) {
         let angles: [CGFloat] = (0..<8).map { CGFloat($0) * TAU_8 }
         timeline.every(5, start: .Delayed(), times: 6, block: generateEnemyTransport(self.randSideAngle())) ~~> nextStep()
