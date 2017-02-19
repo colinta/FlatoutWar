@@ -3,7 +3,8 @@
 //
 
 private let StartingHealth: Float = 5
-private let Experience: Int = 5
+private let Damage: Float = 10
+private let Experience = 5
 
 class EnemyBigJetNode: EnemyJetNode {
 
@@ -12,7 +13,7 @@ class EnemyBigJetNode: EnemyJetNode {
         size = CGSize(16)
         healthComponent!.startingHealth = StartingHealth
         enemyComponent!.experience = Experience
-        rammingDamage = 10
+        rammingDamage = Damage
     }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }

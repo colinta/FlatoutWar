@@ -2,7 +2,7 @@
 ///  ShotgunNode.swift
 //
 
-private let startingHealth: Float = 35
+private let StartingHealth: Float = 35
 
 class ShotgunNode: Node, DraggableNode {
     var movementUpgrade: HasUpgrade = .False { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
@@ -82,7 +82,7 @@ class ShotgunNode: Node, DraggableNode {
         firingComponent.onFireAngle(self.fireBullet)
         addComponent(firingComponent)
 
-        let healthComponent = HealthComponent(health: startingHealth)
+        let healthComponent = HealthComponent(health: StartingHealth)
         healthComponent.onHurt { damage in
             self.updateBaseSprite()
         }

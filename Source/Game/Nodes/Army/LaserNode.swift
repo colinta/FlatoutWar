@@ -2,7 +2,7 @@
 ///  LaserNode.swift
 //
 
-private let startingHealth: Float = 60
+private let StartingHealth: Float = 60
 
 class LaserNode: Node, DraggableNode {
     var radarUpgrade: HasUpgrade = .False { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
@@ -88,7 +88,7 @@ class LaserNode: Node, DraggableNode {
         targetingComponent.turret = baseSprite
         addComponent(targetingComponent)
 
-        let healthComponent = HealthComponent(health: startingHealth)
+        let healthComponent = HealthComponent(health: StartingHealth)
         healthComponent.onHurt { damage in
             self.baseSprite.textureId(.LaserNode(upgrade: self.bulletUpgrade, health: healthComponent.healthInt))
         }

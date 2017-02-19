@@ -36,36 +36,12 @@ class BaseLevel4: BaseLevel {
         moveCamera(zoom: 0.8, duration: 1)
 
         let count = 9
-        var angles: [CGFloat] = (0..<count).map { CGFloat($0) * TAU / CGFloat(count) }
+        var angles: [CGFloat] = (0..<count).map { CGFloat($0) * TAU / CGFloat(count) ± rand(1.degrees) }
         timeline.every(0.1...0.3, start: .Delayed(), times: count) {
             let angle: CGFloat = angles.randomPop() ?? rand(TAU)
-            self.generateDozer(angle)()
+            self.generateDoubleDozer(angle)()
         } ~~> nextStep()
         timeline.every(6...8, start: .Delayed(1), times: 6, block: generateEnemyColumn(rand(TAU), enemy: EnemySoldierNode()))
-    }
-
-    func generateDozer(_ genScreenAngle: @escaping @autoclosure () -> CGFloat) -> Block {
-        return {
-            let screenAngle = genScreenAngle()
-
-            let dozer1 = EnemyDozerNode()
-            dozer1.name = "dozer1"
-            dozer1.position = self.outsideWorld(node: dozer1, angle: screenAngle)
-            dozer1.rotateTowards(self.playerNode)
-            self << dozer1
-
-            let dozer1Radius = dozer1.position.length
-            let dozer1Angle = dozer1.position.angle
-
-            let dozer2 = EnemyDozerNode()
-            dozer2.name = "dozer2"
-            let dozer2Delta = 2 * dozer2.size.width
-            let dozer2Radius = dozer1Radius + dozer2Delta
-            dozer2.position = CGPoint(r: dozer2Radius, a: dozer1Angle)
-            dozer2.minTargetDist = dozer1.minTargetDist + dozer2Delta
-            dozer2.rotateTowards(self.playerNode)
-            self << dozer2
-        }
     }
 
 }

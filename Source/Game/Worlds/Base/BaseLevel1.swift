@@ -46,7 +46,7 @@ class BaseLevel1: BaseLevel {
         generateWarning(wave1 - TAU_16)
         generateWarning(wave1 + TAU_16)
         timeline.every(4...6, start: .Delayed(), times: 5,
-            block: generateDozer(wave1, spread: TAU_8)) ~~> nextStep()
+            block: generateDozerWithSoldiers(wave1, spread: TAU_8)) ~~> nextStep()
     }
 
     // wide waves
@@ -91,10 +91,10 @@ class BaseLevel1: BaseLevel {
         timeline.every(6...8, start: .Delayed(), times: 5,
             block: generateSlowEnemy(rand(TAU))) ~~> nextStep()
         timeline.every(8...10, start: .Delayed(), times: 4,
-            block: generateDozer(rand(TAU))) ~~> nextStep()
+            block: generateDozerWithSoldiers(rand(TAU))) ~~> nextStep()
     }
 
-    func generateDozer(_ genScreenAngle: @escaping @autoclosure () -> CGFloat, spread: CGFloat = 0) -> Block {
+    func generateDozerWithSoldiers(_ genScreenAngle: @escaping @autoclosure () -> CGFloat, spread: CGFloat = 0) -> Block {
         return {
             var screenAngle = genScreenAngle()
             if spread > 0 {

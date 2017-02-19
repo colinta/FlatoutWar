@@ -2,7 +2,7 @@
 ///  EnemyGiantNode.swift
 //
 
-private let Health: Float = 45
+private let StartingHealth: Float = 45
 private let Speed: CGFloat = 15
 private let Experience = 10
 private let Damage: Float = 50
@@ -12,7 +12,7 @@ class EnemyGiantNode: EnemySoldierNode {
     required init() {
         super.init()
         size = CGSize(100)
-        healthComponent!.startingHealth = Health
+        healthComponent!.startingHealth = StartingHealth
         enemyComponent!.experience = Experience
         rammingComponent!.maxSpeed = Speed
         rammingDamage = Damage

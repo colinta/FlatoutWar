@@ -2,7 +2,9 @@
 ///  EnemyDozerNode.swift
 //
 
-private let startingHealth: Float = 12
+private let StartingHealth: Float = 12
+private let Damage: Float = 16
+private let Experience = 2
 
 class EnemyDozerNode: EnemySoldierNode {
     var minTargetDist: CGFloat = 125
@@ -11,10 +13,10 @@ class EnemyDozerNode: EnemySoldierNode {
         super.init()
         size = CGSize(width: 5, height: 50)
         shape = .Rect
-        rammingDamage = 16
-        healthComponent!.startingHealth = startingHealth
+        rammingDamage = Damage
+        healthComponent!.startingHealth = StartingHealth
         enemyComponent!.blocksNextWave = false
-        enemyComponent!.experience = 2
+        enemyComponent!.experience = Experience
         rammingComponent!.maxSpeed = 20
     }
 

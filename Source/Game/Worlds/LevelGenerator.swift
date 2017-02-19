@@ -243,6 +243,42 @@ extension Level {
         }
     }
 
+    func generateDozer(_ genScreenAngle: @escaping @autoclosure () -> CGFloat) -> Block {
+        return {
+            let screenAngle = genScreenAngle()
+
+            let dozer = EnemyDozerNode()
+            dozer.name = "dozer"
+            dozer.position = self.outsideWorld(node: dozer, angle: screenAngle)
+            dozer.rotateTowards(self.playerNode)
+            self << dozer
+        }
+    }
+
+    func generateDoubleDozer(_ genScreenAngle: @escaping @autoclosure () -> CGFloat) -> Block {
+        return {
+            let screenAngle = genScreenAngle()
+
+            let dozer1 = EnemyDozerNode()
+            dozer1.name = "dozer1"
+            dozer1.position = self.outsideWorld(node: dozer1, angle: screenAngle)
+            dozer1.rotateTowards(self.playerNode)
+            self << dozer1
+
+            let dozer1Radius = dozer1.position.length
+            let dozer1Angle = dozer1.position.angle
+
+            let dozer2 = EnemyDozerNode()
+            dozer2.name = "dozer2"
+            let dozer2Delta = 2 * dozer2.size.width
+            let dozer2Radius = dozer1Radius + dozer2Delta
+            dozer2.position = CGPoint(r: dozer2Radius, a: dozer1Angle)
+            dozer2.minTargetDist = dozer1.minTargetDist + dozer2Delta
+            dozer2.rotateTowards(self.playerNode)
+            self << dozer2
+        }
+    }
+
     func generateJet(_ genScreenAngle: @escaping @autoclosure () -> CGFloat, spread: CGFloat = 0) -> Block {
         return {
             let jet = EnemyJetNode()
@@ -367,6 +403,65 @@ extension Level {
             }
         }
     }
+
+    func generateEnemyTransport(
+        _ genScreenAngle: @escaping @autoclosure () -> CGFloat,
+        payload _payload: [EnemySoldierNode]? = nil
+        ) -> Block
+    {
+        let size = self.size
+        return {
+            let routes: [ (start: CGPoint, control1: CGPoint, control2: CGPoint, dest: CGPoint) ] = [
+                (
+                    start:    CGPoint(20 + size.width / 2, size.height / 2),
+                    control1: CGPoint(-size.width / 2, size.height / 2),
+                    control2: CGPoint(-size.width / 2, -size.height / 2),
+                    dest:     CGPoint(20 + size.width / 2, -size.height / 2)
+                ),
+                (
+                    start:    CGPoint(size.width / 2, 20 + size.height / 2),
+                    control1: CGPoint(size.width / 2, -size.height / 2),
+                    control2: CGPoint(-size.width / 2, -size.height / 2),
+                    dest:     CGPoint(-size.width / 2, 20 + size.height / 2)
+                ),
+            ]
+            var (start, control1, control2, dest) = routes.rand()!
+            if rand() {
+                (start, control1, control2, dest) = (dest, control2, control1, start)
+            }
+            if rand() {
+                start.x = -start.x
+                start.y = -start.y
+                control1.x = -control1.x
+                control1.y = -control1.y
+                control2.x = -control2.x
+                control2.y = -control2.y
+                dest.x = -dest.x
+                dest.y = -dest.y
+            }
+
+            let payload = _payload ?? [
+                EnemySoldierNode(),
+                EnemySoldierNode(),
+                EnemySoldierNode(),
+                EnemySoldierNode(),
+            ]
+
+            let transport = EnemyJetTransportNode()
+
+            let arcTo = transport.arcTo(dest, start: start, speed: 50)
+            arcTo.control = control1
+            arcTo.control2 = control2
+            arcTo.onArrived {
+                transport.fadeTo(0, rate: 1, removeNode: true)
+            }
+
+            transport.transportPayload(payload)
+
+            self << transport
+        }
+    }
+
     func generateEnemyGhost(mimic: Node, angle screenAngle: CGFloat, extra: CGFloat = 0) -> Node {
         let position = outsideWorld(extra: extra, angle: screenAngle)
         let enemyGhost = Node(at: position)

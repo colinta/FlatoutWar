@@ -2,7 +2,7 @@
 ///  CannonNode.swift
 //
 
-private let startingHealth: Float = 50
+private let StartingHealth: Float = 50
 
 class CannonNode: Node, DraggableNode {
     var radarUpgrade: HasUpgrade = .False { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
@@ -98,7 +98,7 @@ class CannonNode: Node, DraggableNode {
         firingComponent.onFirePosition(self.fireBullet)
         addComponent(firingComponent)
 
-        let healthComponent = HealthComponent(health: startingHealth)
+        let healthComponent = HealthComponent(health: StartingHealth)
         healthComponent.onHurt { damage in
             self.baseSprite.textureId(.Cannon(upgrade: self.bulletUpgrade, health: healthComponent.healthInt))
         }

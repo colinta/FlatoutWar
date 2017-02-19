@@ -2,16 +2,18 @@
 ///  EnemyScoutNode.swift
 //
 
-private let startingHealth: Float = 1
+private let StartingHealth: Float = 1
+private let Damage: Float = 2
+private let Experience = 1
 
 class EnemyScoutNode: EnemySoldierNode {
 
     required init() {
         super.init()
         size = CGSize(8)
-        rammingDamage = 2
-        healthComponent!.startingHealth = startingHealth
-        enemyComponent!.experience = 1
+        rammingDamage = Damage
+        healthComponent!.startingHealth = StartingHealth
+        enemyComponent!.experience = Experience
         rammingComponent!.maxSpeed = 35
         rotateToComponent!.angularAccel = 5
     }

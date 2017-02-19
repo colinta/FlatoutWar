@@ -3,7 +3,7 @@
 //
 
 private var CalculatedWorldScale: CGFloat?
-private var DesiredSize = CGSize(width: 568, height: 320)
+private var DesiredSize = CGSize(width: 667, height: 375)
 
 class WorldScene: SKScene {
     var world: World

@@ -2,7 +2,7 @@
 ///  DroneNode.swift
 //
 
-private let startingHealth: Float = 40
+private let StartingHealth: Float = 40
 
 class DroneNode: Node, DraggableNode {
     var radarUpgrade: HasUpgrade = .False { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
@@ -118,7 +118,7 @@ class DroneNode: Node, DraggableNode {
         firingComponent.onFireAngle(self.fireBullet)
         addComponent(firingComponent)
 
-        let healthComponent = HealthComponent(health: startingHealth)
+        let healthComponent = HealthComponent(health: StartingHealth)
         healthComponent.onHurt { damage in
             _ = self.world?.channel?.play(Sound.PlayerHurt)
             self.updateBaseSprite()

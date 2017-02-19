@@ -25,6 +25,7 @@ class BaseLevel8: BaseLevel {
     }
 
     override func populateLevel() {
+        linkWaves(beginWave1)
     }
 
     func beginWave1(nextStep: @escaping NextStepBlock) {

@@ -2,7 +2,7 @@
 ///  EnemyDiamondNode.swift
 //
 
-private let startingHealth: Float = 2
+private let StartingHealth: Float = 2
 
 class EnemyDiamondNode: EnemySoldierNode {
     static let DefaultJetSpeed: CGFloat = 30
@@ -10,7 +10,7 @@ class EnemyDiamondNode: EnemySoldierNode {
     required init() {
         super.init()
         size = CGSize(20, 11.547005383792516)
-        healthComponent!.startingHealth = startingHealth
+        healthComponent!.startingHealth = StartingHealth
     }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }

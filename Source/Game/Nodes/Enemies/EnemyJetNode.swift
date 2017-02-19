@@ -2,8 +2,9 @@
 ///  EnemyJetNode.swift
 //
 
-private let Health: Float = 1
+private let StartingHealth: Float = 1
 private let Experience = 1
+private let Damage: Float = 2
 
 class EnemyJetNode: EnemySoldierNode {
     static let DefaultJetSpeed: CGFloat = 40
@@ -11,7 +12,7 @@ class EnemyJetNode: EnemySoldierNode {
     required init() {
         super.init()
         size = CGSize(8)
-        rammingDamage = 2
+        rammingDamage = Damage
 
         playerTargetingComponent!.onTargetAcquired { target in
             if let target = target {
@@ -28,7 +29,7 @@ class EnemyJetNode: EnemySoldierNode {
         rammingComponent!.removeFromNode()
         addComponent(flyingComponent)
 
-        healthComponent!.startingHealth = Health
+        healthComponent!.startingHealth = StartingHealth
         enemyComponent!.experience = Experience
     }
 

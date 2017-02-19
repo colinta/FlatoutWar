@@ -42,7 +42,7 @@ class BaseLevel3: BaseLevel {
         let angle = self.randSideAngle()
         generateWarning(angle + TAU_12, angle - TAU_12, TAU_2)
         timeline.every(4...7, start: .Delayed(), times: 5,
-            block: generateDozer(angle, spread: TAU_8)) ~~> nextStep()
+            block: generateDozerWithSoldiers(angle, spread: TAU_8)) ~~> nextStep()
         timeline.every(5...6, start: .Delayed(), times: 5, block: generateSlowEnemy(TAU_2, spread: TAU_16))
     }
 
@@ -79,7 +79,7 @@ class BaseLevel3: BaseLevel {
         } ~~> nextStep()
     }
 
-    func generateDozer(_ genScreenAngle: @escaping @autoclosure () -> CGFloat, spread: CGFloat = 0) -> Block {
+    func generateDozerWithSoldiers(_ genScreenAngle: @escaping @autoclosure () -> CGFloat, spread: CGFloat = 0) -> Block {
         return {
             var screenAngle = genScreenAngle()
             if spread > 0 {
