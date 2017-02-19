@@ -1,5 +1,5 @@
 ////
-///  BaseLevel4.swift
+///  WoodsLevel4.swift
 //
 
 // The first wave is three sources of enemies: pairs of fast soldiers, trios of
@@ -10,8 +10,8 @@
 // The second wave is a double-wall of dozers guarding columns of normal
 // soldiers.
 
-class BaseLevel4: BaseLevel {
-    override func loadConfig() -> LevelConfig { return BaseLevel4Config() }
+class WoodsLevel4: WoodsLevel {
+    override func loadConfig() -> LevelConfig { return WoodsLevel4Config() }
 
     override func populateLevel() {
         linkWaves(beginWave1, beginWave2)

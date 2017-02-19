@@ -1,8 +1,8 @@
 ////
-///  BaseLevel3CutScene.swift
+///  WoodsLevel3CutScene.swift
 //
 
-class BaseLevel3CutScene: World {
+class WoodsLevel3CutScene: World {
     let basePlayerNode = BasePlayerNode()
     let droneNode = DroneNode()
     let upgradedDroneNode = DroneNode()
@@ -135,7 +135,7 @@ class BaseLevel3CutScene: World {
         upgradedDroneNode.fadeTo(0, duration: 1)
 
         timeline.after(time: 1) {
-            self.director?.presentWorld(WorldSelectWorld(beginAt: .Base))
+            self.director?.presentWorld(WorldSelectWorld(beginAt: .Woods))
         }
     }
 }

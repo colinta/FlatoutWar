@@ -1,13 +1,13 @@
 ////
-///  BaseLevel2.swift
+///  WoodsLevel2.swift
 //
 
 // This level starts with leaders and scouts in a formation where the scouts
 // protect the leader.  waves 2 & 3 are "all out" waves. wave 2 is scouts,
 // normal, and slow soldiers, and wave 3 swaps slow soldiers for leaders.
 
-class BaseLevel2: BaseLevel {
-    override func loadConfig() -> LevelConfig { return BaseLevel2Config() }
+class WoodsLevel2: WoodsLevel {
+    override func loadConfig() -> LevelConfig { return WoodsLevel2Config() }
 
     override func populateLevel() {
         linkWaves(beginWave1, beginWave2, beginWave3)

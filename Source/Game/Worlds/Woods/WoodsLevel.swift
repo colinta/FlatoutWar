@@ -1,8 +1,8 @@
 ////
-///  BaseLevel.swift
+///  WoodsLevel.swift
 //
 
-class BaseLevel: Level {
+class WoodsLevel: Level {
     struct TreeInfo {
         let center: CGPoint
         let radius: CGFloat
@@ -30,7 +30,7 @@ class BaseLevel: Level {
 
     required init() {
         super.init()
-        levelSelect = .Base
+        levelSelect = .Woods
     }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
@@ -41,7 +41,7 @@ class BaseLevel: Level {
     }
 
     func generateTrees() {
-        guard let trees = (config as? BaseLevelConfig)?.treeCenters else { return }
+        guard let trees = (config as? WoodsLevelConfig)?.treeCenters else { return }
 
         for info in trees {
             let p = info.center * size / 2

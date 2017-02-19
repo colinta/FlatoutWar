@@ -1,5 +1,5 @@
 ////
-///  BaseLevel3.swift
+///  WoodsLevel3.swift
 //
 
 // Starts with dozers with 8 scouts behind them, and some slow soldiers
@@ -10,8 +10,8 @@
 //
 // The level goes to a cut scene that introduces the upgraded dodec drone.
 
-class BaseLevel3: BaseLevel {
-    override func loadConfig() -> LevelConfig { return BaseLevel3Config() }
+class WoodsLevel3: WoodsLevel {
+    override func loadConfig() -> LevelConfig { return WoodsLevel3Config() }
 
     override func showFinalButtons() {
         if config.didSeeCutScene {
@@ -28,7 +28,7 @@ class BaseLevel3: BaseLevel {
         }
         else {
             config.didSeeCutScene = true
-            director?.presentWorld(BaseLevel3CutScene())
+            director?.presentWorld(WoodsLevel3CutScene())
         }
     }
 

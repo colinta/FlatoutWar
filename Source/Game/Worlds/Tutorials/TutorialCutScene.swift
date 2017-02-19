@@ -97,6 +97,6 @@ class TutorialCutScene: World {
     }
 
     func nextWorld() {
-        director?.presentWorld(WorldSelectWorld(beginAt: .Base))
+        director?.presentWorld(WorldSelectWorld(beginAt: .Woods))
     }
 }

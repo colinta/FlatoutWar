@@ -12,7 +12,7 @@ class WorldSelectWorld: UIWorld {
         case PanIn
         case Select
         case Tutorial
-        case Base
+        case Woods
     }
 
     convenience init(beginAt: LevelId) {
@@ -23,7 +23,7 @@ class WorldSelectWorld: UIWorld {
     override func populateWorld() {
         worldLocations = [
             .Tutorial: CGPoint(-200, 0),
-            .Base: CGPoint(-200, 100),
+            .Woods: CGPoint(-200, 100),
         ]
 
         if beginAt == .PanIn {
@@ -47,7 +47,7 @@ class WorldSelectWorld: UIWorld {
 
         let summaryConfig = GameConfigSummary()
         let tutorialConfig = TutorialConfigSummary()
-        let baseConfig = BaseConfigSummary()
+        let baseConfig = WoodsConfigSummary()
 
         populateCurrencies(config: summaryConfig)
 
@@ -70,14 +70,14 @@ class WorldSelectWorld: UIWorld {
         }
 
         do {
-            let button = Button(at: worldLocations[.Base]!)
+            let button = Button(at: worldLocations[.Woods]!)
             button.background = BackgroundColor
             button.style = .SquareSized(50)
             button.font = .Big
             button.enabled = tutorialConfig.worldCompleted
             button.onTapped {
                 self.interactionEnabled = false
-                self.transitionToBase()
+                self.transitionToWoods()
             }
             button.text = "1"
             worldSelect << button
@@ -93,8 +93,8 @@ class WorldSelectWorld: UIWorld {
         switch beginAt {
         case .Tutorial:
             transitionToTutorial(animate: false)
-        case .Base:
-            transitionToBase(animate: false)
+        case .Woods:
+            transitionToWoods(animate: false)
         default: break
         }
     }
@@ -225,8 +225,8 @@ class WorldSelectWorld: UIWorld {
     }
 
 // MARK: BASE
-    func transitionToBase(animate: Bool = true) {
-        let levelSelect = transitionToLevel(at: worldLocations[.Base]!, animate: animate)
+    func transitionToWoods(animate: Bool = true) {
+        let levelSelect = transitionToLevel(at: worldLocations[.Woods]!, animate: animate)
 
         let tutorialTitle = TextNode(at: CGPoint(y: 130))
         tutorialTitle.font = .Big
@@ -261,14 +261,14 @@ class WorldSelectWorld: UIWorld {
         var prevPosition: CGPoint?
         var levelIndex = 0
         let levels: [(CGFloat, CGFloat, Level)] = [
-            (0, 0, BaseLevel1()),
-            (1, 0, BaseLevel2()),
-            (2, 1, BaseLevel3()),
-            (2, 2, BaseLevel4()),
-            (1, 2, BaseLevel5()),
-            (1, 1, BaseLevel6()),
-            (0, 1, BaseLevel7()),
-            (0, 2, BaseLevel8()),
+            (0, 0, WoodsLevel1()),
+            (1, 0, WoodsLevel2()),
+            (2, 1, WoodsLevel3()),
+            (2, 2, WoodsLevel4()),
+            (1, 2, WoodsLevel5()),
+            (1, 1, WoodsLevel6()),
+            (0, 1, WoodsLevel7()),
+            (0, 2, WoodsLevel8()),
         ]
         let center = CGPoint(y: -20)
         let dx: CGFloat = 65

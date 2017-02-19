@@ -5,7 +5,7 @@
 class GameConfigSummary: Config {
     var configs: [ConfigSummary] = [
         TutorialConfigSummary(),
-        BaseConfigSummary(),
+        WoodsConfigSummary(),
     ]
 
     private var totalGainedExperience: Int {

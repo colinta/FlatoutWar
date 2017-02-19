@@ -1,9 +1,9 @@
 ////
-///  BaseLevel5.swift
+///  WoodsLevel5.swift
 //
 
-class BaseLevel5: BaseLevel {
-    override func loadConfig() -> LevelConfig { return BaseLevel5Config() }
+class WoodsLevel5: WoodsLevel {
+    override func loadConfig() -> LevelConfig { return WoodsLevel5Config() }
 
     override func populateLevel() {
         linkWaves(beginWave1, beginWave2)

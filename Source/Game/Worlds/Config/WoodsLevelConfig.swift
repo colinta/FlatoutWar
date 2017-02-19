@@ -1,10 +1,10 @@
 ////
-///  BaseLevelConfig.swift
+///  WoodsLevelConfig.swift
 //
 
-typealias TreeInfo = BaseLevel.TreeInfo
+typealias TreeInfo = WoodsLevel.TreeInfo
 
-class BaseLevelConfig: LevelConfig {
+class WoodsLevelConfig: LevelConfig {
 
     override var availablePowerups: [Powerup] { return [
         GrenadePowerup(count: 2),
@@ -53,13 +53,13 @@ class BaseLevelConfig: LevelConfig {
     }
 }
 
-class BaseLevelPart1Config: BaseLevelConfig {
+class WoodsLevelPart1Config: WoodsLevelConfig {
     override var availableArmyNodes: [Node] {
         return [DroneNode(at: CGPoint(r: 80, a: rand(TAU)))]
     }
 }
 
-class BaseLevelPart2Config: BaseLevelConfig {
+class WoodsLevelPart2Config: WoodsLevelConfig {
     override var availableArmyNodes: [Node] {
         let a1: CGFloat = rand(TAU)
         let a2: CGFloat = a1 + TAU_2 ± rand(TAU_12)

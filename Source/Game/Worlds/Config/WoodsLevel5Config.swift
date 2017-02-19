@@ -1,11 +1,11 @@
 ////
-///  BaseLevel5Config.swift
+///  WoodsLevel5Config.swift
 //
 
-class BaseLevel5Config: BaseLevelPart2Config {
+class WoodsLevel5Config: WoodsLevelPart2Config {
     override var possibleExperience: Int { return 2 }
 
     override func nextLevel() -> Level {
-        return BaseLevel6()
+        return WoodsLevel6()
     }
 }

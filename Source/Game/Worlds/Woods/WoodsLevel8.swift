@@ -1,9 +1,9 @@
 ////
-///  BaseLevel8.swift
+///  WoodsLevel8.swift
 //
 
-class BaseLevel8: BaseLevel {
-    override func loadConfig() -> LevelConfig { return BaseLevel8Config() }
+class WoodsLevel8: WoodsLevel {
+    override func loadConfig() -> LevelConfig { return WoodsLevel8Config() }
 
     override func showFinalButtons() {
         if config.didSeeCutScene {

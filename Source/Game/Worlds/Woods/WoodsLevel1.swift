@@ -1,5 +1,5 @@
 ////
-///  BaseLevel1.swift
+///  WoodsLevel1.swift
 //
 
 // starts with the "sin wave" of enemies, wave 2 is dozers from one angle,
@@ -7,8 +7,8 @@
 // MORE scouts, but from only one side, and wave 6 is all out scouts, slow
 // enemies, and dozers
 
-class BaseLevel1: BaseLevel {
-    override func loadConfig() -> LevelConfig { return BaseLevel1Config() }
+class WoodsLevel1: WoodsLevel {
+    override func loadConfig() -> LevelConfig { return WoodsLevel1Config() }
 
     override func populateLevel() {
         linkWaves(
