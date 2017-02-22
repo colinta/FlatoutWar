@@ -25,11 +25,11 @@ class WoodsLevel5: WoodsLevel {
         timeline.every(3...5, start: .Delayed(4), times: 7, block: generateBigJet(wave2)) ~~> nextStep()
     }
 
-    // 85, total 145
+    // 4*6 + 16 = 40, total 100
     func beginWave2(nextStep: @escaping NextStepBlock) {
         let angles: [CGFloat] = (0..<8).map { CGFloat($0) * TAU_8 }
-        timeline.every(5, start: .Delayed(), times: 6, block: generateEnemyTransport(self.randSideAngle())) ~~> nextStep()
-        timeline.every(2, start: .Delayed(), times: 15, block: generateEnemy(angles.rand()!)) ~~> nextStep()
+        timeline.every(5, start: .Delayed(), times: 6, block: generateEnemyTransport()) ~~> nextStep()
+        timeline.every(2, start: .Delayed(), times: 16, block: generateEnemy(angles.rand()!)) ~~> nextStep()
     }
 
 }

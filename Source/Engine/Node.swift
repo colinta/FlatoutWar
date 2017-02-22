@@ -4,6 +4,7 @@
 
 class Node: SKNode {
     var active = true
+    var processed = false
     var interactive = true
     var timeRate: CGFloat = 1
     fileprivate var mods: [Mod] = []

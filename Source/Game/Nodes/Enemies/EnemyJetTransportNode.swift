@@ -6,7 +6,7 @@ private let StartingHealth: Float = 15
 
 class EnemyJetTransportNode: Node {
     var sprite = SKSpriteNode()
-    var payload: [Node]?
+    var payload: [(Node, Int)]?
 
     required init() {
         super.init()
@@ -51,15 +51,17 @@ class EnemyJetTransportNode: Node {
     }
 
     func transportPayload(_ payload: [Node]) {
-        let arcToComponent = get(component: ArcToComponent.self)
+        guard
+            let first = payload.first,
+            let arcToComponent = get(component: ArcToComponent.self)
+        else { return }
+
         if let prevPayload = self.payload {
-            for node in prevPayload {
+            for (node, _) in prevPayload {
                 node.removeFromParent()
             }
-            arcToComponent?.clearOnMoved()
+            arcToComponent.clearOnMoved()
         }
-
-        guard let first = payload.first else { return }
 
         for node in payload {
             node.active = false
@@ -67,10 +69,6 @@ class EnemyJetTransportNode: Node {
         }
 
         let experience: Int = payload.reduce(0) { $0 + ($1.enemyComponent?.experience ?? 0) }
-        if let level = self.world as? Level {
-            let prevExperience = enemyComponent!.experience
-            level.possibleExperience += (experience - prevExperience)
-        }
         enemyComponent!.experience = experience
 
         let numRows = Int(ceil(Float(payload.count) / 2))
@@ -92,24 +90,25 @@ class EnemyJetTransportNode: Node {
             even = !even
         }
 
-        self.payload = payload
+        self.payload = payload.map { node in
+            let exp = node.enemyComponent?.experience ?? 0
+            node.enemyComponent?.experience = 0
+            return (node, exp)
+        }
         let dt: CGFloat = 1 / CGFloat(payload.count + 2)
         var timeout: CGFloat = 2 * dt
-        arcToComponent?.onMoved { t in
+        arcToComponent.onMoved { t in
             guard payload.count > 0 else { return }
 
-            while timeout - t < 0 {
-                if let node = self.payload?.first,
-                    let world = self.world
-                {
-                    self.enemyComponent?.experience -= node.enemyComponent?.experience ?? 0
-                    node.active = true
-                    node.move(toParent: world)
-                    self.payload?.remove(at: 0)
-                }
-                else {
-                    break
-                }
+            if timeout - t < 0,
+                let (node, exp) = self.payload?.first,
+                let world = self.world
+            {
+                self.enemyComponent?.experience -= exp
+                node.active = true
+                node.move(toParent: world)
+                node.enemyComponent?.experience = exp
+                self.payload?.remove(at: 0)
                 timeout += dt
             }
         }

@@ -32,8 +32,8 @@ class Level: World {
     var playerDeadAudio: BackgroundAudioNode?
 
     var experiencePercent: ExperiencePercent?
-    var possibleExperience = 0
-    var gainedExperience = 0
+    fileprivate var possibleExperience = 0
+    fileprivate var gainedExperience = 0
 
     fileprivate var shouldPopulatePlayer = true
     var playerNode: Node = BasePlayerNode() {

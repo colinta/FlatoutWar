@@ -404,41 +404,19 @@ extension Level {
         }
     }
 
+    enum TransportSource {
+        case All
+        case Right
+    }
+
     func generateEnemyTransport(
-        _ genScreenAngle: @escaping @autoclosure () -> CGFloat,
+        _ source: TransportSource = .All,
         payload _payload: [EnemySoldierNode]? = nil
         ) -> Block
     {
-        let size = self.size
+        let size = self.size / xScale
         return {
-            let routes: [ (start: CGPoint, control1: CGPoint, control2: CGPoint, dest: CGPoint) ] = [
-                (
-                    start:    CGPoint(20 + size.width / 2, size.height / 2),
-                    control1: CGPoint(-size.width / 2, size.height / 2),
-                    control2: CGPoint(-size.width / 2, -size.height / 2),
-                    dest:     CGPoint(20 + size.width / 2, -size.height / 2)
-                ),
-                (
-                    start:    CGPoint(size.width / 2, 20 + size.height / 2),
-                    control1: CGPoint(size.width / 2, -size.height / 2),
-                    control2: CGPoint(-size.width / 2, -size.height / 2),
-                    dest:     CGPoint(-size.width / 2, 20 + size.height / 2)
-                ),
-            ]
-            var (start, control1, control2, dest) = routes.rand()!
-            if rand() {
-                (start, control1, control2, dest) = (dest, control2, control1, start)
-            }
-            if rand() {
-                start.x = -start.x
-                start.y = -start.y
-                control1.x = -control1.x
-                control1.y = -control1.y
-                control2.x = -control2.x
-                control2.y = -control2.y
-                dest.x = -dest.x
-                dest.y = -dest.y
-            }
+            let transport = EnemyJetTransportNode()
 
             let payload = _payload ?? [
                 EnemySoldierNode(),
@@ -447,7 +425,44 @@ extension Level {
                 EnemySoldierNode(),
             ]
 
-            let transport = EnemyJetTransportNode()
+            var start: CGPoint, control1: CGPoint, control2: CGPoint, dest: CGPoint
+
+            switch source {
+                case .All:
+                    let routes: [ (start: CGPoint, control1: CGPoint, control2: CGPoint, dest: CGPoint) ] = [
+                        (
+                            start:    CGPoint(size.width / 2 + transport.size.width, size.height / 2),
+                            control1: CGPoint(-size.width / 2, size.height / 2),
+                            control2: CGPoint(-size.width / 2, -size.height / 2),
+                            dest:     CGPoint(size.width / 2 + transport.size.width, -size.height / 2)
+                        ),
+                        (
+                            start:    CGPoint(size.width / 2, size.height / 2 + transport.size.height),
+                            control1: CGPoint(size.width / 2, -size.height / 2),
+                            control2: CGPoint(-size.width / 2, -size.height / 2),
+                            dest:     CGPoint(-size.width / 2, size.height / 2 + transport.size.height)
+                        ),
+                    ]
+                    (start, control1, control2, dest) = routes.rand()!
+                    if rand() {
+                        (start, control1, control2, dest) = (dest, control2, control1, start)
+                    }
+                    if rand() {
+                        start.x = -start.x
+                        start.y = -start.y
+                        control1.x = -control1.x
+                        control1.y = -control1.y
+                        control2.x = -control2.x
+                        control2.y = -control2.y
+                        dest.x = -dest.x
+                        dest.y = -dest.y
+                    }
+                case .Right:
+                    start = CGPoint(rand(min: size.width / 4 + 20, max: size.width / 2 - 20), ±(size.height / 2 + 2 * transport.size.height))
+                    dest = CGPoint(start.x, -start.y)
+                    control1 = (start + dest) / 2 + CGPoint(x: ±rand(50))
+                    control2 = control1
+            }
 
             let arcTo = transport.arcTo(dest, start: start, speed: 50)
             arcTo.control = control1
@@ -501,15 +516,39 @@ extension Level {
     }
 
     func generateBothSidesWarnings() {
-        let angles: [CGFloat] = [
-            -size.angle * 7 / 8,
-            -size.angle / 2,
+        generateSideWarnings(side: .Left)
+        generateSideWarnings(side: .Right)
+    }
+
+    func generateSideWarnings(side: World.Side) {
+        let sideAngle: CGFloat
+        let angle: CGFloat
+        switch side {
+        case .Left:
+            angle = TAU_2
+            sideAngle = size.angle
+        case .Right:
+            angle = 0
+            sideAngle = size.angle
+        case .Top:
+            angle = TAU_4
+            sideAngle = TAU_4 - size.angle
+        case .Bottom:
+            angle = TAU_3_4
+            sideAngle = TAU_4 - size.angle
+        }
+
+        let angleDeltas: [CGFloat] = [
+            -sideAngle * 7 / 8,
+            -sideAngle / 2,
             0,
-            size.angle / 2,
-            size.angle * 7 / 8,
+            sideAngle / 2,
+            sideAngle * 7 / 8,
         ]
-        for angle in angles {
-            generateWarning(angle, TAU_2 + angle)
+
+        for delta in angleDeltas {
+            generateWarning(angle + delta)
         }
     }
+
 }

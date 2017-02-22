@@ -336,8 +336,11 @@ extension World {
 
     func processNewNode(_ node: Node) {
         let newNodes = [node] + node.allChildNodes(recursive: true)
-        for node in newNodes {
-            didAdd(node)
+        for childNode in newNodes {
+            if !childNode.processed {
+                didAdd(childNode)
+                childNode.processed = true
+            }
         }
 
         if let cachedNodes = _cachedNodes {
