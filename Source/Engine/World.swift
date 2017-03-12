@@ -737,14 +737,11 @@ extension World {
 
 extension World {
 
-    func afterAllWaves(ignoreBlocking: Bool = false, nextWave: @escaping Block) -> NextStepBlock {
+    func afterAllWaves(nextWave: @escaping Block) -> NextStepBlock {
         return afterN {
-            if ignoreBlocking {
-                self.onNoMoreBlockingEnemies { nextWave() }
-            }
-            else {
-                self.onNoMoreEnemies { nextWave() }
-            }
+            // "dozers" do not block - you have to destroy them before the level
+            // ends
+            self.onNoMoreBlockingEnemies { nextWave() }
         }
     }
 

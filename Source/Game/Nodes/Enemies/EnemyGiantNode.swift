@@ -11,6 +11,7 @@ class EnemyGiantNode: EnemySoldierNode {
 
     required init() {
         super.init()
+        name = "giant"
         size = CGSize(100)
         healthComponent!.startingHealth = StartingHealth
         enemyComponent!.experience = Experience

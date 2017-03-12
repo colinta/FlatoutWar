@@ -31,7 +31,6 @@ extension Level {
             }
 
             let enemyNode = EnemySoldierNode()
-            enemyNode.name = "soldier"
             if constRadius {
                 enemyNode.position = CGPoint(r: self.outerRadius, a: screenAngle)
             }
@@ -50,7 +49,6 @@ extension Level {
             }
 
             let enemyNode = EnemyFastSoldierNode()
-            enemyNode.name = "fast"
             if constRadius {
                 enemyNode.position = CGPoint(r: self.outerRadius, a: screenAngle)
             }
@@ -68,7 +66,6 @@ extension Level {
                 screenAngle = screenAngle ± rand(spread)
             }
             let enemyNode = EnemySlowSoldierNode()
-            enemyNode.name = "slow"
             enemyNode.position = self.outsideWorld(node: enemyNode, angle: screenAngle)
             self << enemyNode
         }
@@ -81,7 +78,6 @@ extension Level {
                 screenAngle = screenAngle ± rand(spread)
             }
             let enemyNode = EnemyLeaderNode()
-            enemyNode.name = "leader"
 
             if constRadius {
                 enemyNode.position = CGPoint(r: self.outerRadius, a: screenAngle)
@@ -104,7 +100,6 @@ extension Level {
             let count = 3
             for i in 0..<count {
                 let enemyNode = EnemyScoutNode()
-                enemyNode.name = "scout"
                 let dp = CGPoint(r: CGFloat(i) * d, a: screenAngle)
                 if constRadius {
                     enemyNode.position = CGPoint(r: self.outerRadius, a: screenAngle) + dp
@@ -138,7 +133,7 @@ extension Level {
             for origin in origins {
                 let enemy = enemyGenerator()
                 enemy.position = origin
-                enemy.name = "pair soldier"
+                enemy.name = "pair of \(enemy.name)"
                 enemy.rotateTo(ghost.zRotation)
                 enemy.follow(leader: ghost)
                 self << enemy
@@ -169,7 +164,7 @@ extension Level {
             for origin in origins {
                 let enemy = enemyGenerator()
                 enemy.position = origin
-                enemy.name = "trio soldier"
+                enemy.name = "trio of \(enemy.name)"
                 enemy.rotateTo(ghost.zRotation)
                 enemy.follow(leader: ghost)
                 self << enemy
@@ -201,7 +196,7 @@ extension Level {
             for origin in origins {
                 let enemy = enemyGenerator()
                 enemy.position = origin
-                enemy.name = "quad soldier"
+                enemy.name = "quad of \(enemy.name)"
                 enemy.rotateTo(ghost.zRotation)
                 enemy.follow(leader: ghost)
                 self << enemy
@@ -234,7 +229,7 @@ extension Level {
                 for origin in origins {
                     let enemy = enemyGenerator()
                     enemy.position = origin
-                    enemy.name = "soldier"
+                    enemy.name = "column of \(enemy.name)"
                     enemy.rotateTo(ghost.zRotation)
                     enemy.follow(leader: ghost)
                     self << enemy
@@ -248,7 +243,6 @@ extension Level {
             let screenAngle = genScreenAngle()
 
             let dozer = EnemyDozerNode()
-            dozer.name = "dozer"
             dozer.position = self.outsideWorld(node: dozer, angle: screenAngle)
             dozer.rotateTowards(self.playerNode)
             self << dozer
@@ -260,7 +254,7 @@ extension Level {
             let screenAngle = genScreenAngle()
 
             let dozer1 = EnemyDozerNode()
-            dozer1.name = "dozer1"
+            dozer1.name = "\(dozer1.name) 1"
             dozer1.position = self.outsideWorld(node: dozer1, angle: screenAngle)
             dozer1.rotateTowards(self.playerNode)
             self << dozer1
@@ -269,7 +263,7 @@ extension Level {
             let dozer1Angle = dozer1.position.angle
 
             let dozer2 = EnemyDozerNode()
-            dozer2.name = "dozer2"
+            dozer2.name = "\(dozer2.name) 2"
             let dozer2Delta = 2 * dozer2.size.width
             let dozer2Radius = dozer1Radius + dozer2Delta
             dozer2.position = CGPoint(r: dozer2Radius, a: dozer1Angle)
@@ -282,7 +276,6 @@ extension Level {
     func generateJet(_ genScreenAngle: @escaping @autoclosure () -> CGFloat, spread: CGFloat = 0) -> Block {
         return {
             let jet = EnemyJetNode()
-            jet.name = "jet"
             jet.position = self.outsideWorld(node: jet, angle: genScreenAngle())
 
             let angle = normalizeAngle(jet.position.angle)
@@ -307,7 +300,6 @@ extension Level {
     func generateBigJet(_ genScreenAngle: @escaping @autoclosure () -> CGFloat, spread: CGFloat = 0) -> Block {
         return {
             let jet = EnemyBigJetNode()
-            jet.name = "bigjet"
             jet.position = self.outsideWorld(node: jet, angle: genScreenAngle())
 
             let angle = normalizeAngle(jet.position.angle)
@@ -332,7 +324,7 @@ extension Level {
     func generateBigJetWithFollowers(_ genScreenAngle: @escaping @autoclosure () -> CGFloat, spread: CGFloat = 0.087266561) -> Block {
         return {
             let jet = EnemyBigJetNode()
-            jet.name = "bigjet leader"
+            jet.name = "\(jet.name) leader"
             jet.position = self.outsideWorld(node: jet, angle: genScreenAngle()) + CGPoint(y: ±rand(spread))
             jet.rotateTowards(point: .zero)
             self << jet
@@ -343,7 +335,7 @@ extension Level {
             count.times { (i: Int) in
                 let location = jet.position + CGVector(r: dist * CGFloat(i), a: genScreenAngle())
                 let enemy = EnemyJetNode(at: location)
-                enemy.name = "bigjet follower"
+                enemy.name = "\(enemy.name) follower"
                 enemy.rotateTo(prevNode.zRotation)
                 enemy.follow(leader: prevNode, scatter: .None, component: FollowTargetComponent())
                 self << enemy
@@ -363,13 +355,13 @@ extension Level {
             let leaderPosition = self.outsideWorld(node: enemyLeader, angle: screenAngle)
             enemyLeader.position = leaderPosition
             enemyLeader.rotateTowards(point: .zero)
-            enemyLeader.name = "linear leader"
+            enemyLeader.name = "linear \(enemyLeader.name)"
             self << enemyLeader
 
             for i in 1...5 {
                 let location = leaderPosition + CGVector(r: dist * CGFloat(i), a: screenAngle)
                 let enemy = EnemySoldierNode(at: location)
-                enemy.name = "linear soldier"
+                enemy.name = "linear \(enemy.name)"
                 enemy.rotateTo(enemyLeader.zRotation)
                 enemy.follow(leader: enemyLeader)
                 self << enemy
@@ -386,7 +378,7 @@ extension Level {
 
             let dist: CGFloat = 30
             let enemyLeader = EnemyLeaderNode()
-            enemyLeader.name = "circular leader"
+            enemyLeader.name = "circular \(enemyLeader.name)"
             let leaderPosition = self.outsideWorld(extra: dist + enemyLeader.radius + 10, angle: screenAngle)
             enemyLeader.position = leaderPosition
             self << enemyLeader
@@ -397,7 +389,7 @@ extension Level {
                 let enemyAngle = CGFloat(i) * angleDelta ± rand(angleDelta / 4)
                 let vector = CGVector(r: dist, a: enemyAngle)
                 let enemy = EnemyScoutNode(at: leaderPosition + vector)
-                enemy.name = "circular scout"
+                enemy.name = "circular \(enemy.name)"
                 enemy.follow(leader: enemyLeader)
                 self << enemy
             }

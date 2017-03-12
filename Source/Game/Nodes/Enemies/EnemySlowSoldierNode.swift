@@ -11,6 +11,7 @@ class EnemySlowSoldierNode: EnemySoldierNode {
 
     required init() {
         super.init()
+        name = "slow"
         healthComponent!.startingHealth = StartingHealth
         enemyComponent!.experience = Experience
         rammingDamage = Damage

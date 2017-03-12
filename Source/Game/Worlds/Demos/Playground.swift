@@ -56,7 +56,6 @@ class Playground: World {
         for time in [0,1,2] {
             delay(TimeInterval(time)) {
                 let enemyNode = EnemySoldierNode()
-                enemyNode.name = "soldier"
                 enemyNode.position = CGPoint(r: self.outerRadius, a: angle)
                 self << enemyNode
             }

@@ -76,7 +76,6 @@ class TutorialLevel8: TutorialLevel {
         return {
             let screenAngle = genScreenAngle()
             let enemyNode = EnemyGiantNode()
-            enemyNode.name = "giant"
             enemyNode.position = self.outsideWorld(node: enemyNode, angle: screenAngle)
             self << enemyNode
         }

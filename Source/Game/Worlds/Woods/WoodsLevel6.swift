@@ -9,7 +9,7 @@ class WoodsLevel6: WoodsLevel {
         linkWaves(beginWave1, beginWave2)
     }
 
-    // exp: 80
+    // exp: 10 * 8 = 80
     func beginWave1(nextStep: @escaping NextStepBlock) {
         generateSideWarnings(side: .Right)
         moveCamera(to: CGPoint(x: 140), zoom: 1, duration: 1)

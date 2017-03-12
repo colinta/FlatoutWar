@@ -71,7 +71,6 @@ class TutorialLevel6: TutorialLevel {
             10.times {
                 let origin = position + CGPoint(r: rand(min: dist/2, max: dist), a: rand(TAU))
                 let enemy = EnemySoldierNode(at: origin)
-                enemy.name = "soldier"
                 self << enemy
             }
         }

@@ -172,11 +172,10 @@ class Level: World {
         if let enemyComponent = node.enemyComponent,
             let healthComponent = node.healthComponent
         {
-            let exp = enemyComponent.experience
-            addToPossibleExperience(exp)
+            addToPossibleExperience(enemyComponent.experience)
             healthComponent.onKilled {
                 self.experiencePercent?.gain(enemyComponent.experience)
-                self.addToGainedExperience(exp)
+                self.addToGainedExperience(enemyComponent.experience)
             }
         }
     }
@@ -512,7 +511,7 @@ extension Level {
                     self.printStatus()
                     wave(prevStep)
                 }
-                nextStep = afterAllWaves(ignoreBlocking: true, nextWave: nextWave)
+                nextStep = afterAllWaves(nextWave: nextWave)
             }
         }
         beginWave1(nextStep)

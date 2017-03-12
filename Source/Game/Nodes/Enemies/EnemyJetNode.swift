@@ -11,6 +11,7 @@ class EnemyJetNode: EnemySoldierNode {
 
     required init() {
         super.init()
+        name = "jet"
         size = CGSize(8)
         rammingDamage = Damage
 

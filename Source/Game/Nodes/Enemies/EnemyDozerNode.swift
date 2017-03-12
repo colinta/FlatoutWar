@@ -11,6 +11,7 @@ class EnemyDozerNode: EnemySoldierNode {
 
     required init() {
         super.init()
+        name = "dozer"
         size = CGSize(width: 5, height: 50)
         shape = .Rect
         rammingDamage = Damage

@@ -140,7 +140,6 @@ class PowerupTutorial: Tutorial {
                     self.nice()
                 }
             }
-            enemyNode.name = "soldier"
             enemyNode.position = self.outsideWorld(node: enemyNode, angle: screenAngle)
             self << enemyNode
         }

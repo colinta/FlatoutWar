@@ -56,7 +56,6 @@ class MainMenuWorld: World {
             ]
             for origin in origins {
                 let enemy = EnemyJetNode(at: origin)
-                enemy.name = "jet"
                 enemy.rotateTo(flyAngle)
                 self << enemy
 

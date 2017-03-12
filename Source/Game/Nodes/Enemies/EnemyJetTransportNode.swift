@@ -10,6 +10,7 @@ class EnemyJetTransportNode: Node {
 
     required init() {
         super.init()
+        name = "transport"
         size = CGSize(40)
 
         sprite.z = .Top

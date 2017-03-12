@@ -22,6 +22,7 @@ class EnemySoldierNode: Node {
     required init() {
         super.init()
 
+        name = "soldier"
         size = CGSize(10)
 
         self << sprite

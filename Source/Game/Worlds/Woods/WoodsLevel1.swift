@@ -102,7 +102,6 @@ class WoodsLevel1: WoodsLevel {
             }
 
             let dozer = EnemyDozerNode()
-            dozer.name = "dozer"
             dozer.position = self.outsideWorld(node: dozer, angle: screenAngle)
             dozer.rotateTowards(self.playerNode)
             self << dozer
@@ -113,7 +112,7 @@ class WoodsLevel1: WoodsLevel {
             let totalWidth: CGFloat = CGFloat(enemyCount) * (enemyWidth + enemySpacing) - enemySpacing
 
             let ghost = self.generateEnemyGhost(mimic: dozer, angle: screenAngle, extra: 10)
-            ghost.name = "dozer ghost"
+            ghost.name = "\(dozer.name) ghost"
             ghost.rotateTowards(self.playerNode)
 
             let max = (totalWidth - enemyWidth) / 2
@@ -122,7 +121,7 @@ class WoodsLevel1: WoodsLevel {
                 let r = interpolate(CGFloat(i), from: (0, 3), to: (min, max))
                 let location = ghost.position + CGPoint(r: 10, a: screenAngle) + CGPoint(r: r, a: screenAngle + 90.degrees)
                 let enemy = EnemySoldierNode(at: location)
-                enemy.name = "dozer soldier"
+                enemy.name = "\(dozer.name) \(enemy.name)"
                 enemy.rotateTo(ghost.zRotation)
                 enemy.follow(leader: ghost)
                 self << enemy
