@@ -399,6 +399,7 @@ extension Level {
     enum TransportSource {
         case All
         case Right
+        case LeftEdges
     }
 
     func generateEnemyTransport(
@@ -420,40 +421,69 @@ extension Level {
             var start: CGPoint, control1: CGPoint, control2: CGPoint, dest: CGPoint
 
             switch source {
-                case .All:
-                    let routes: [ (start: CGPoint, control1: CGPoint, control2: CGPoint, dest: CGPoint) ] = [
-                        (
-                            start:    CGPoint(size.width / 2 + transport.size.width, size.height / 2),
-                            control1: CGPoint(-size.width / 2, size.height / 2),
-                            control2: CGPoint(-size.width / 2, -size.height / 2),
-                            dest:     CGPoint(size.width / 2 + transport.size.width, -size.height / 2)
-                        ),
-                        (
-                            start:    CGPoint(size.width / 2, size.height / 2 + transport.size.height),
-                            control1: CGPoint(size.width / 2, -size.height / 2),
-                            control2: CGPoint(-size.width / 2, -size.height / 2),
-                            dest:     CGPoint(-size.width / 2, size.height / 2 + transport.size.height)
-                        ),
-                    ]
-                    (start, control1, control2, dest) = routes.rand()!
-                    if rand() {
-                        (start, control1, control2, dest) = (dest, control2, control1, start)
-                    }
-                    if rand() {
-                        start.x = -start.x
-                        start.y = -start.y
-                        control1.x = -control1.x
-                        control1.y = -control1.y
-                        control2.x = -control2.x
-                        control2.y = -control2.y
-                        dest.x = -dest.x
-                        dest.y = -dest.y
-                    }
-                case .Right:
-                    start = CGPoint(rand(min: size.width / 4 + 20, max: size.width / 2 - 20), ±(size.height / 2 + 2 * transport.size.height))
-                    dest = CGPoint(start.x, -start.y)
-                    control1 = (start + dest) / 2 + CGPoint(x: ±rand(50))
-                    control2 = control1
+            case .All:
+                let routes: [ (start: CGPoint, control1: CGPoint, control2: CGPoint, dest: CGPoint) ] = [
+                    (
+                        start:    CGPoint(size.width / 2 + transport.size.width, size.height / 2),
+                        control1: CGPoint(-size.width / 2, size.height / 2),
+                        control2: CGPoint(-size.width / 2, -size.height / 2),
+                        dest:     CGPoint(size.width / 2 + transport.size.width, -size.height / 2)
+                    ),
+                    (
+                        start:    CGPoint(size.width / 2, size.height / 2 + transport.size.height),
+                        control1: CGPoint(size.width / 2, -size.height / 2),
+                        control2: CGPoint(-size.width / 2, -size.height / 2),
+                        dest:     CGPoint(-size.width / 2, size.height / 2 + transport.size.height)
+                    ),
+                ]
+                (start, control1, control2, dest) = routes.rand()!
+                if rand() {
+                    (start, control1, control2, dest) = (dest, control2, control1, start)
+                }
+                if rand() {
+                    start.x = -start.x
+                    start.y = -start.y
+                    control1.x = -control1.x
+                    control1.y = -control1.y
+                    control2.x = -control2.x
+                    control2.y = -control2.y
+                    dest.x = -dest.x
+                    dest.y = -dest.y
+                }
+            case .Right:
+                start = CGPoint(rand(min: size.width / 4 + 20, max: size.width / 2 - 20), ±(size.height / 2 + 2 * transport.size.height))
+                dest = CGPoint(start.x, -start.y)
+                control1 = (start + dest) / 2 + CGPoint(x: ±rand(50))
+                control2 = control1
+            case .LeftEdges:
+                switch rand(3) as Int {
+                case 0: // top-left
+                    start = CGPoint(
+                        x: -size.width / 4 ± rand(size.width / 8),
+                        y: size.height / 2 + 25
+                        )
+                    dest = start + CGPoint(x: -rand(min: 50, max: 100))
+                    control1 = start + CGPoint(y: -size.height / 2)
+                    control2 = dest + CGPoint(y: -size.height / 2)
+                case 1: // left
+                    start = CGPoint(
+                        x: -(size.width / 2 + 25),
+                        y: ±(size.height * 2/3 ± rand(size.height / 8))
+                        )
+                    dest = CGPoint(x: start.x, y: -start.y)
+                    control1 = start + CGPoint(x: size.width * 3/8)
+                    control2 = dest + CGPoint(x: size.width * 3/8)
+                case 2: // bottom-left
+                    start = CGPoint(
+                        x: -size.width / 4 ± rand(size.width / 8),
+                        y: -(size.height / 2 + 25)
+                        )
+                    dest = start + CGPoint(x: -rand(min: 50, max: 100))
+                    control1 = start + CGPoint(y: size.height / 2)
+                    control2 = dest + CGPoint(y: size.height / 2)
+                default:
+                    return
+                }
             }
 
             let arcTo = transport.arcTo(dest, start: start, speed: 50)
