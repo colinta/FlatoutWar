@@ -87,7 +87,7 @@ class BasePlayerNode: Node {
         playerComponent.intersectionNode = baseSprite
         addComponent(playerComponent)
 
-        let healthComponent = HealthComponent(health: 100)
+        let healthComponent = HealthComponent(health: 50)
         healthComponent.onHurt { _ in
             self.onHurt()
         }

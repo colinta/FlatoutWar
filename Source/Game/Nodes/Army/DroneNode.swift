@@ -2,7 +2,7 @@
 ///  DroneNode.swift
 //
 
-private let StartingHealth: Float = 40
+private let StartingHealth: Float = 20
 
 class DroneNode: Node, DraggableNode {
     var radarUpgrade: HasUpgrade = .False { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
