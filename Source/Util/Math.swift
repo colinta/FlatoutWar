@@ -5,25 +5,25 @@
 
 let M_EPSILON: CGFloat = 0.00872664153575897
 
-let TAU = CGFloat(2 * M_PI)
+let TAU = 2 * CGFloat.pi
 let τ = TAU
-let TAU_2 = CGFloat(M_PI)
-let TAU_3 = CGFloat(2 * M_PI / 3)
-let TAU_2_3 = CGFloat(4 * M_PI / 3)
+let TAU_2 = CGFloat.pi
+let TAU_3 = 2 * CGFloat.pi / 3
+let TAU_2_3 = 4 * CGFloat.pi / 3
 
-let TAU_6 = CGFloat(M_PI / 3)
-let TAU_12 = CGFloat(M_PI / 6)
-let TAU_5_6 = CGFloat(5 * M_PI / 3)
+let TAU_6 = CGFloat.pi / 3
+let TAU_12 = CGFloat.pi / 6
+let TAU_5_6 = 5 * CGFloat.pi / 3
 
-let TAU_3_4 = CGFloat(1.5 * M_PI)
-let TAU_4 = CGFloat(0.5 * M_PI)
+let TAU_3_4 = 1.5 * CGFloat.pi
+let TAU_4 = 0.5 * CGFloat.pi
 
-let TAU_8 = CGFloat(0.25 * M_PI)
-let TAU_3_8 = CGFloat(0.75 * M_PI)
-let TAU_5_8 = CGFloat(1.25 * M_PI)
-let TAU_7_8 = CGFloat(1.75 * M_PI)
+let TAU_8 = 0.25 * CGFloat.pi
+let TAU_3_8 = 0.75 * CGFloat.pi
+let TAU_5_8 = 1.25 * CGFloat.pi
+let TAU_7_8 = 1.75 * CGFloat.pi
 
-let TAU_16 = CGFloat(0.125 * M_PI)
+let TAU_16 = 0.125 * CGFloat.pi
 
 func normalizeAngle(_ input: CGFloat) -> CGFloat {
     return (TAU + input.truncatingRemainder(dividingBy: TAU)).truncatingRemainder(dividingBy: TAU)

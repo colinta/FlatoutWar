@@ -4,7 +4,7 @@
 
 class HealthComponent: Component {
     typealias OnKilled = Block
-    typealias OnHurt = ((damage: Float)) -> Void
+    typealias OnHurt = (Float) -> Void
     private var _onKilled: [OnKilled] = []
     func onKilled(_ handler: @escaping OnKilled) { _onKilled << handler }
 

@@ -12,7 +12,7 @@ class PhaseComponent: Component {
     }
     var duration: CGFloat = 0
 
-    typealias OnPhase = ((phase: CGFloat)) -> Void
+    typealias OnPhase = (CGFloat) -> Void
     private var _onPhase: [OnPhase] = []
     func onPhase(_ handler: @escaping OnPhase) {
         _onPhase << handler

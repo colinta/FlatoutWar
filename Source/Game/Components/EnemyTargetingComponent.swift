@@ -22,7 +22,7 @@ class EnemyTargetingComponent: Component {
     var currentTargetVector: CGPoint?
     var currentTargetPrevLocation: CGPoint?
 
-    typealias OnTargetAcquired = ((target: Node?)) -> Void
+    typealias OnTargetAcquired = (Node?) -> Void
     var _onTargetAcquired: [OnTargetAcquired] = []
     func onTargetAcquired(_ handler: @escaping OnTargetAcquired) { _onTargetAcquired.append(handler) }
 

@@ -6,7 +6,7 @@ class PlayerTargetingComponent: Component {
     var targetingEnabled: Bool = true
     var currentTarget: Node?
 
-    typealias OnTargetAcquired = ((target: Node?)) -> Void
+    typealias OnTargetAcquired = (Node?) -> Void
     var _onTargetAcquired: [OnTargetAcquired] = []
     func onTargetAcquired(_ handler: @escaping OnTargetAcquired) { _onTargetAcquired << handler }
 

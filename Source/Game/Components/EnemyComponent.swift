@@ -18,7 +18,7 @@ class EnemyComponent: Component {
         }
     }
 
-    typealias OnAttacked = ((projectile: Node)) -> Void
+    typealias OnAttacked = (Node) -> Void
     var _onAttacked: [OnAttacked] = []
     func onAttacked(_ handler: @escaping OnAttacked) { _onAttacked.append(handler) }
 
