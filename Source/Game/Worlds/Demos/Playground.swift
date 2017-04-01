@@ -5,7 +5,6 @@
 class Playground: World {
 
     override func populateWorld() {
-        generateTransport()
     }
 
     func generateTransport() {
