@@ -10,9 +10,11 @@ class EnemyComponent: Component {
     }
     var blocksNextWave = true
     var experience: Int = 0
-    weak var intersectionNode: SKNode! {
+    weak var intersectionNode: SKNode? {
         didSet {
-            if intersectionNode.frame.size == .zero {
+            if let intersectionNode = intersectionNode,
+                intersectionNode.frame.size == .zero
+            {
                 fatalError("intersectionNodes should not have zero size")
             }
         }
@@ -29,13 +31,6 @@ class EnemyComponent: Component {
 
     required override init() {
         super.init()
-    }
-
-    override func didAddToNode() {
-        super.didAddToNode()
-        if intersectionNode == nil {
-            fatalError("intersectionNode is required")
-        }
     }
 
     func attacked(by node: Node) {

@@ -122,6 +122,14 @@ extension ImageIdentifier {
                 break
             }
             return artist
+        case let .WoodsBossFoot(healthInt):
+            let health = CGFloat(healthInt) / 100
+            let artist = WoodsBossFootArtist(health: health)
+            return artist
+        case let .WoodsBossBody(healthInt):
+            let health = CGFloat(healthInt) / 100
+            let artist = WoodsBossBodyArtist(health: health)
+            return artist
         case let .Enemy(enemyType, health):
             return enemyType.artist(health: health)
         case let .EnemyShrapnel(imageId, size):

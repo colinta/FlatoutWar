@@ -5,6 +5,13 @@
 class Playground: World {
 
     override func populateWorld() {
+        let boss = WoodsBossNode(at: CGPoint(x: -200))
+        boss.zRotation = TAU_4
+        self << boss
+
+        let player = BasePlayerNode(at: CGPoint(x: 200))
+        defaultNode = player
+        self << player
     }
 
     func generateTransport() {

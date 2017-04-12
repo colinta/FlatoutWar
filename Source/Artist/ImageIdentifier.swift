@@ -58,6 +58,9 @@ indirect enum ImageIdentifier {
     case Enemy(EnemyType, health: Int)
     case EnemyShrapnel(ImageIdentifier, size: Size)
 
+    case WoodsBossFoot(health: Int)
+    case WoodsBossBody(health: Int)
+
     case Powerup(type: PowerupType)
     case NoPowerup
     case Bomber(numBombs: Int)
@@ -167,12 +170,18 @@ indirect enum ImageIdentifier {
             return "Letter_\(nameLetter)_size-\(size.name)_color-\(color)"
         case let .Button(style, color):
             return "Button_style-\(style.name)_color-\(color)"
+
         case let .Enemy(type, health):
             let typeName = type.name
             return "Enemy_type-(\(typeName))_health-\(health)"
         case let .EnemyShrapnel(type, size):
             let typeName = type.name ?? ""
             return "EnemyShrapnel_type-(\(typeName))_size-\(size.name)"
+        case let .WoodsBossFoot(health):
+            return "WoodsBossFoot_health-\(health)"
+        case let .WoodsBossBody(health):
+            return "WoodsBossBody_health-\(health)"
+
         case let .Powerup(type):
             let typeName = type.name
             return "Powerup_type-(\(typeName))"

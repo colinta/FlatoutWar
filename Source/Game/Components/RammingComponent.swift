@@ -19,9 +19,11 @@ class RammingComponent: Component {
     var currentTargetLocation: CGPoint? {
         return tempTarget ?? currentTarget?.position
     }
-    weak var intersectionNode: SKNode! {
+    weak var intersectionNode: SKNode? {
         didSet {
-            if intersectionNode.frame.size == .zero {
+            if let intersectionNode = intersectionNode,
+                intersectionNode.frame.size == .zero
+            {
                 fatalError("intersectionNodes should not have zero size")
             }
         }
@@ -33,13 +35,6 @@ class RammingComponent: Component {
 
     required override init() {
         super.init()
-    }
-
-    override func didAddToNode() {
-        super.didAddToNode()
-        if intersectionNode == nil {
-            fatalError("intersectionNode is required")
-        }
     }
 
     override func reset() {
@@ -141,9 +136,12 @@ class PlayerRammingComponent: RammingComponent {
     }
 
     private func struckTarget() -> Node? {
+        guard let intersectionNode = intersectionNode else { return nil }
+
         if let players = (node.world?.players ?? currentTarget.map { [$0] }) {
             return players.firstMatch { player in
-                return player.playerComponent!.intersectable && intersectionNode!.intersects(player.playerComponent!.intersectionNode!) && node.touches(player)
+                guard let playerIntersectionNode = player.playerComponent?.intersectionNode else { return false }
+                return player.playerComponent!.intersectable && intersectionNode.intersects(playerIntersectionNode) && node.touches(player)
             }
         }
         return nil
@@ -171,9 +169,12 @@ class EnemyRammingComponent: RammingComponent {
     }
 
     private func struckTarget() -> Node? {
+        guard let intersectionNode = intersectionNode else { return nil }
+
         if let enemies = (node.world?.enemies ?? currentTarget.map { [$0] }) {
             return enemies.firstMatch { enemy in
-                return enemy.enemyComponent!.targetable && intersectionNode!.intersects(enemy.enemyComponent!.intersectionNode!) && node.touches(enemy)
+                guard let enemyIntersectionNode = enemy.enemyComponent?.intersectionNode else { return false }
+                return enemy.enemyComponent!.targetable && intersectionNode.intersects(enemyIntersectionNode) && node.touches(enemy)
             }
         }
         return nil

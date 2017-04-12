@@ -36,6 +36,7 @@ class Node: SKNode {
     }
 
     var shape: Shape = .Circle
+    var nodeName: String { return name ?? "" }
 
     var components: [Component] = []
     fileprivate var assignedComponents: [Component] = []

@@ -3,5 +3,5 @@
 //
 
 class WoodsLevel8Config: WoodsLevelPart2Config {
-    override var possibleExperience: Int { return 2 }
+    override var possibleExperience: Int { return 160 }
 }

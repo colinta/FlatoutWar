@@ -38,8 +38,9 @@ class ProjectileComponent: Component {
 
         for enemy in world.enemies where enemy.enemyComponent!.targetable {
             if let died = enemy.healthComponent?.died, died { continue }
+            guard let enemyIntersectionNode = enemy.enemyComponent?.intersectionNode else { continue }
 
-            if intersectionNode!.intersects(enemy.enemyComponent!.intersectionNode!)
+            if intersectionNode!.intersects(enemyIntersectionNode)
             {
                 if let location = node.touchingLocation(enemy) {
                     for handler in _onCollision {

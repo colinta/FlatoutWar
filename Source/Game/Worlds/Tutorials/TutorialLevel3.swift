@@ -91,7 +91,7 @@ class TutorialLevel3: TutorialLevel {
             let screenAngle = genScreenAngle()
             let dist: CGFloat = 25
             let enemyLeader = EnemyLeaderNode()
-            enemyLeader.name = "formation \(enemyLeader.name)"
+            enemyLeader.name = "formation \(enemyLeader.nodeName)"
             let center = self.outsideWorld(extra: enemyLeader.radius + dist * 1.5, angle: screenAngle)
             enemyLeader.position = center
             enemyLeader.rotateTowards(point: .zero)
@@ -115,7 +115,7 @@ class TutorialLevel3: TutorialLevel {
             ]
             for origin in origins {
                 let enemy = EnemySoldierNode(at: origin)
-                enemy.name = "formation \(enemy.name)"
+                enemy.name = "formation \(enemy.nodeName)"
                 enemy.rotateTo(enemyLeader.zRotation)
                 enemy.follow(leader: enemyLeader)
                 self << enemy

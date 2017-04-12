@@ -15,7 +15,7 @@ class PlayerComponent: Component {
         set { _targetable = newValue }
     }
     var rammedBehavior: Rammed = .Damaged
-    weak var intersectionNode: SKNode!
+    weak var intersectionNode: SKNode?
 
     required override init() {
         super.init()
@@ -23,13 +23,6 @@ class PlayerComponent: Component {
 
     override func reset() {
         super.reset()
-    }
-
-    override func didAddToNode() {
-        super.didAddToNode()
-        if intersectionNode == nil {
-            fatalError("intersectionNode is required")
-        }
     }
 
     override func update(_ dt: CGFloat) {

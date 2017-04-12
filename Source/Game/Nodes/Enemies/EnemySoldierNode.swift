@@ -8,7 +8,7 @@ private let Experience = 1
 
 class EnemySoldierNode: Node {
     static let DefaultSoldierSpeed: CGFloat = 25
-    var sprite = SKSpriteNode()
+    let sprite = SKSpriteNode()
     var rammingDamage: Float = Damage
     var initialAimTowardsTarget = true
 

@@ -72,13 +72,4 @@ class TutorialLevel8: TutorialLevel {
         timeline.every(1.5...2.5, start: .Delayed(), times: 8, block: generateEnemy(wave2)) ~~> nextStep()
     }
 
-    func generateGiant(_ genScreenAngle: @escaping @autoclosure () -> CGFloat) -> Block {
-        return {
-            let screenAngle = genScreenAngle()
-            let enemyNode = EnemyGiantNode()
-            enemyNode.position = self.outsideWorld(node: enemyNode, angle: screenAngle)
-            self << enemyNode
-        }
-    }
-
 }
