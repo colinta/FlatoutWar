@@ -14,22 +14,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var soundBuffer: [ALBuffer] = []
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        justOnce("2016-07-07") {
-            TutorialConfigSummary().completeAll()
-        }
         justOnce("2017-01-12") {
-            let tl4Experience = TutorialLevel4Config().gainedExperience
-            let tl5Experience = TutorialLevel5Config().gainedExperience
-            let tl6Experience = TutorialLevel6Config().gainedExperience
+            TutorialLevel1Config().gainedExperience = 0
+            TutorialLevel2Config().gainedExperience = 0
+            TutorialLevel3Config().gainedExperience = 0
             TutorialLevel4Config().gainedExperience = 0
-            TutorialLevel5Config().gainedExperience = tl4Experience
+            TutorialLevel5Config().gainedExperience = 0
             TutorialLevel6Config().gainedExperience = 0
-            TutorialLevel7Config().gainedExperience = tl5Experience
-            TutorialLevel8Config().gainedExperience = tl6Experience
+            TutorialLevel7Config().gainedExperience = 0
+            TutorialLevel8Config().gainedExperience = 0
         }
-
-        let upgradeConfig = GameConfigSummary()
-        upgradeConfig.spentExperience = 0
 
         device = ALDevice(deviceSpecifier: nil)
         context = ALContext(on: device, attributes: nil)
