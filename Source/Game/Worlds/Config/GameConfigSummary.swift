@@ -6,6 +6,7 @@ class GameConfigSummary: Config {
     var configs: [ConfigSummary] = [
         TutorialConfigSummary(),
         WoodsConfigSummary(),
+        OceanConfigSummary(),
         BaseConfigSummary(),
     ]
 

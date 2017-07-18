@@ -288,6 +288,27 @@
 		1D971CEF1E1EC28B00A167A2 /* RotateScanComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CEE1E1EC28B00A167A2 /* RotateScanComponent.swift */; };
 		1DBFDA001DFFB8DD0058843D /* CannonUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */; };
 		1DC78A221F1E78B800BE2413 /* BaseConfigSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A211F1E78B800BE2413 /* BaseConfigSummary.swift */; };
+		1DC78A391F1EA3BA00BE2413 /* OceanConfigSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A241F1EA3BA00BE2413 /* OceanConfigSummary.swift */; };
+		1DC78A3A1F1EA3BA00BE2413 /* OceanLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A251F1EA3BA00BE2413 /* OceanLevel.swift */; };
+		1DC78A3B1F1EA3BA00BE2413 /* OceanLevel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A261F1EA3BA00BE2413 /* OceanLevel1.swift */; };
+		1DC78A3C1F1EA3BA00BE2413 /* OceanLevel1Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A271F1EA3BA00BE2413 /* OceanLevel1Config.swift */; };
+		1DC78A3D1F1EA3BA00BE2413 /* OceanLevel2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A281F1EA3BA00BE2413 /* OceanLevel2.swift */; };
+		1DC78A3E1F1EA3BA00BE2413 /* OceanLevel2Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A291F1EA3BA00BE2413 /* OceanLevel2Config.swift */; };
+		1DC78A3F1F1EA3BA00BE2413 /* OceanLevel3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A2A1F1EA3BA00BE2413 /* OceanLevel3.swift */; };
+		1DC78A401F1EA3BA00BE2413 /* OceanLevel3Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A2B1F1EA3BA00BE2413 /* OceanLevel3Config.swift */; };
+		1DC78A411F1EA3BA00BE2413 /* OceanLevel3CutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A2C1F1EA3BA00BE2413 /* OceanLevel3CutScene.swift */; };
+		1DC78A421F1EA3BA00BE2413 /* OceanLevel4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A2D1F1EA3BA00BE2413 /* OceanLevel4.swift */; };
+		1DC78A431F1EA3BA00BE2413 /* OceanLevel4Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A2E1F1EA3BA00BE2413 /* OceanLevel4Config.swift */; };
+		1DC78A441F1EA3BA00BE2413 /* OceanLevel5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A2F1F1EA3BA00BE2413 /* OceanLevel5.swift */; };
+		1DC78A451F1EA3BA00BE2413 /* OceanLevel5Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A301F1EA3BA00BE2413 /* OceanLevel5Config.swift */; };
+		1DC78A461F1EA3BA00BE2413 /* OceanLevel6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A311F1EA3BA00BE2413 /* OceanLevel6.swift */; };
+		1DC78A471F1EA3BA00BE2413 /* OceanLevel6Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A321F1EA3BA00BE2413 /* OceanLevel6Config.swift */; };
+		1DC78A481F1EA3BA00BE2413 /* OceanLevel7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A331F1EA3BA00BE2413 /* OceanLevel7.swift */; };
+		1DC78A491F1EA3BA00BE2413 /* OceanLevel7Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A341F1EA3BA00BE2413 /* OceanLevel7Config.swift */; };
+		1DC78A4A1F1EA3BA00BE2413 /* OceanLevel8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A351F1EA3BA00BE2413 /* OceanLevel8.swift */; };
+		1DC78A4B1F1EA3BA00BE2413 /* OceanLevel8Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A361F1EA3BA00BE2413 /* OceanLevel8Config.swift */; };
+		1DC78A4C1F1EA3BA00BE2413 /* OceanLevel8CutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A371F1EA3BA00BE2413 /* OceanLevel8CutScene.swift */; };
+		1DC78A4D1F1EA3BA00BE2413 /* OceanLevelConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A381F1EA3BA00BE2413 /* OceanLevelConfig.swift */; };
 		1DF0B2E01E8F3BE0001B9F97 /* WoodsLevel8CutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2DF1E8F3BE0001B9F97 /* WoodsLevel8CutScene.swift */; };
 		1DF0B2E21E8F4792001B9F97 /* WoodsBossArtists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2E11E8F4792001B9F97 /* WoodsBossArtists.swift */; };
 		1DF0B2E41E8F4A9B001B9F97 /* WoodsBossNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2E31E8F4A9B001B9F97 /* WoodsBossNode.swift */; };
@@ -614,6 +635,27 @@
 		1D971CEE1E1EC28B00A167A2 /* RotateScanComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotateScanComponent.swift; sourceTree = "<group>"; };
 		1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonUpgrades.swift; sourceTree = "<group>"; };
 		1DC78A211F1E78B800BE2413 /* BaseConfigSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseConfigSummary.swift; sourceTree = "<group>"; };
+		1DC78A241F1EA3BA00BE2413 /* OceanConfigSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanConfigSummary.swift; sourceTree = "<group>"; };
+		1DC78A251F1EA3BA00BE2413 /* OceanLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel.swift; sourceTree = "<group>"; };
+		1DC78A261F1EA3BA00BE2413 /* OceanLevel1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel1.swift; sourceTree = "<group>"; };
+		1DC78A271F1EA3BA00BE2413 /* OceanLevel1Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel1Config.swift; sourceTree = "<group>"; };
+		1DC78A281F1EA3BA00BE2413 /* OceanLevel2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel2.swift; sourceTree = "<group>"; };
+		1DC78A291F1EA3BA00BE2413 /* OceanLevel2Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel2Config.swift; sourceTree = "<group>"; };
+		1DC78A2A1F1EA3BA00BE2413 /* OceanLevel3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel3.swift; sourceTree = "<group>"; };
+		1DC78A2B1F1EA3BA00BE2413 /* OceanLevel3Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel3Config.swift; sourceTree = "<group>"; };
+		1DC78A2C1F1EA3BA00BE2413 /* OceanLevel3CutScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel3CutScene.swift; sourceTree = "<group>"; };
+		1DC78A2D1F1EA3BA00BE2413 /* OceanLevel4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel4.swift; sourceTree = "<group>"; };
+		1DC78A2E1F1EA3BA00BE2413 /* OceanLevel4Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel4Config.swift; sourceTree = "<group>"; };
+		1DC78A2F1F1EA3BA00BE2413 /* OceanLevel5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel5.swift; sourceTree = "<group>"; };
+		1DC78A301F1EA3BA00BE2413 /* OceanLevel5Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel5Config.swift; sourceTree = "<group>"; };
+		1DC78A311F1EA3BA00BE2413 /* OceanLevel6.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel6.swift; sourceTree = "<group>"; };
+		1DC78A321F1EA3BA00BE2413 /* OceanLevel6Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel6Config.swift; sourceTree = "<group>"; };
+		1DC78A331F1EA3BA00BE2413 /* OceanLevel7.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel7.swift; sourceTree = "<group>"; };
+		1DC78A341F1EA3BA00BE2413 /* OceanLevel7Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel7Config.swift; sourceTree = "<group>"; };
+		1DC78A351F1EA3BA00BE2413 /* OceanLevel8.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel8.swift; sourceTree = "<group>"; };
+		1DC78A361F1EA3BA00BE2413 /* OceanLevel8Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel8Config.swift; sourceTree = "<group>"; };
+		1DC78A371F1EA3BA00BE2413 /* OceanLevel8CutScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel8CutScene.swift; sourceTree = "<group>"; };
+		1DC78A381F1EA3BA00BE2413 /* OceanLevelConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevelConfig.swift; sourceTree = "<group>"; };
 		1DF0B2DF1E8F3BE0001B9F97 /* WoodsLevel8CutScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel8CutScene.swift; sourceTree = "<group>"; };
 		1DF0B2E11E8F4792001B9F97 /* WoodsBossArtists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsBossArtists.swift; sourceTree = "<group>"; };
 		1DF0B2E31E8F4A9B001B9F97 /* WoodsBossNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsBossNode.swift; sourceTree = "<group>"; };
@@ -878,6 +920,34 @@
 				1D971CEA1E1C894500A167A2 /* ShotgunNode.swift */,
 			);
 			path = Army;
+			sourceTree = "<group>";
+		};
+		1DC78A231F1EA3A900BE2413 /* 03-Ocean */ = {
+			isa = PBXGroup;
+			children = (
+				1DC78A241F1EA3BA00BE2413 /* OceanConfigSummary.swift */,
+				1DC78A251F1EA3BA00BE2413 /* OceanLevel.swift */,
+				1DC78A261F1EA3BA00BE2413 /* OceanLevel1.swift */,
+				1DC78A271F1EA3BA00BE2413 /* OceanLevel1Config.swift */,
+				1DC78A281F1EA3BA00BE2413 /* OceanLevel2.swift */,
+				1DC78A291F1EA3BA00BE2413 /* OceanLevel2Config.swift */,
+				1DC78A2A1F1EA3BA00BE2413 /* OceanLevel3.swift */,
+				1DC78A2B1F1EA3BA00BE2413 /* OceanLevel3Config.swift */,
+				1DC78A2C1F1EA3BA00BE2413 /* OceanLevel3CutScene.swift */,
+				1DC78A2D1F1EA3BA00BE2413 /* OceanLevel4.swift */,
+				1DC78A2E1F1EA3BA00BE2413 /* OceanLevel4Config.swift */,
+				1DC78A2F1F1EA3BA00BE2413 /* OceanLevel5.swift */,
+				1DC78A301F1EA3BA00BE2413 /* OceanLevel5Config.swift */,
+				1DC78A311F1EA3BA00BE2413 /* OceanLevel6.swift */,
+				1DC78A321F1EA3BA00BE2413 /* OceanLevel6Config.swift */,
+				1DC78A331F1EA3BA00BE2413 /* OceanLevel7.swift */,
+				1DC78A341F1EA3BA00BE2413 /* OceanLevel7Config.swift */,
+				1DC78A351F1EA3BA00BE2413 /* OceanLevel8.swift */,
+				1DC78A361F1EA3BA00BE2413 /* OceanLevel8Config.swift */,
+				1DC78A371F1EA3BA00BE2413 /* OceanLevel8CutScene.swift */,
+				1DC78A381F1EA3BA00BE2413 /* OceanLevelConfig.swift */,
+			);
+			path = "03-Ocean";
 			sourceTree = "<group>";
 		};
 		31DF3A9E37ABC57615A25DBE /* Powerup */ = {
@@ -1235,6 +1305,7 @@
 			children = (
 				E1BD095309AB70038DAD6202 /* 01-Tutorials */,
 				09AD8D2536FADEB416B4AFAA /* 02-Woods */,
+				1DC78A231F1EA3A900BE2413 /* 03-Ocean */,
 				1D66EE581EA1C3FB009CE669 /* 04-Base */,
 				AFE9D240644CDDED7776691E /* Config */,
 				6EB4AEB0E5D1E6E346AC9C07 /* Demos */,
@@ -1460,6 +1531,7 @@
 				1D6AA0E31DD79B62004A0978 /* Artist.swift in Sources */,
 				1D6A9F5C1DD79B0A004A0978 /* StartupWorld.swift in Sources */,
 				1D6AA0261DD79B3B004A0978 /* DroneUpgrades.swift in Sources */,
+				1DC78A411F1EA3BA00BE2413 /* OceanLevel3CutScene.swift in Sources */,
 				1D6AA0481DD79B3E004A0978 /* FadeToComponent.swift in Sources */,
 				A5F6EE78D853D88D195E85BB /* OALAction.m in Sources */,
 				1D6AA04A1DD79B3E004A0978 /* FlyingComponent.swift in Sources */,
@@ -1478,6 +1550,7 @@
 				1D6AA0BB1DD79B5A004A0978 /* NoPowerupArtist.swift in Sources */,
 				1D971CD21E1479D200A167A2 /* BulletNode.swift in Sources */,
 				1D6A9F8D1DD79B13004A0978 /* Playground.swift in Sources */,
+				1DC78A3C1F1EA3BA00BE2413 /* OceanLevel1Config.swift in Sources */,
 				1D6A9FD21DD79B2A004A0978 /* HourglassPowerup.swift in Sources */,
 				1D6A9F711DD79B10004A0978 /* AutoFireTutorial.swift in Sources */,
 				1D66EE781EA1C40D009CE669 /* BaseLevel7.swift in Sources */,
@@ -1516,6 +1589,7 @@
 				1D6AA0091DD79B34004A0978 /* EnemyAttackExplosionNode.swift in Sources */,
 				1D6AA06F1DD79B42004A0978 /* CGVectorExt.swift in Sources */,
 				1D6AA0F61DD79B62004A0978 /* RadarArtist.swift in Sources */,
+				1DC78A3A1F1EA3BA00BE2413 /* OceanLevel.swift in Sources */,
 				C18E3DF53F600C1DE8882E0B /* OALUtilityActions.m in Sources */,
 				1D6AA0191DD79B37004A0978 /* EnemyBigJetNode.swift in Sources */,
 				1D6AA0F21DD79B62004A0978 /* ImageIdentifier.swift in Sources */,
@@ -1536,6 +1610,7 @@
 				1D6AA0E61DD79B62004A0978 /* BombArtist.swift in Sources */,
 				1D6A9F5A1DD79B0A004A0978 /* PowerupDemos.swift in Sources */,
 				1D6A9FD81DD79B2A004A0978 /* ShieldPowerup.swift in Sources */,
+				1DC78A401F1EA3BA00BE2413 /* OceanLevel3Config.swift in Sources */,
 				1D6A9F7D1DD79B10004A0978 /* TutorialLevel6.swift in Sources */,
 				1D6AA0F51DD79B62004A0978 /* PercentArtist.swift in Sources */,
 				1D6AA04F1DD79B3E004A0978 /* HealthComponent.swift in Sources */,
@@ -1573,6 +1648,7 @@
 				1D6A9F8B1DD79B13004A0978 /* IntersectsTestWorld.swift in Sources */,
 				1D943BFC1E26FA160053FAF5 /* TutorialLevel8.swift in Sources */,
 				1D6A9F791DD79B10004A0978 /* TutorialLevel2.swift in Sources */,
+				1DC78A431F1EA3BA00BE2413 /* OceanLevel4Config.swift in Sources */,
 				1D66EE4E1EA1C320009CE669 /* TutorialConfigSummary.swift in Sources */,
 				1D66EE411EA1C317009CE669 /* WoodsLevel8Config.swift in Sources */,
 				1D6AA0EC1DD79B62004A0978 /* DroneRadarArtist.swift in Sources */,
@@ -1587,6 +1663,7 @@
 				1D6AA11B1DD79BF8004A0978 /* PowerupStorage.swift in Sources */,
 				1D6AA06E1DD79B41004A0978 /* CGSizeExt.swift in Sources */,
 				1D971CC71E14670100A167A2 /* SelectableArmyComponent.swift in Sources */,
+				1DC78A4D1F1EA3BA00BE2413 /* OceanLevelConfig.swift in Sources */,
 				1D66EE3D1EA1C317009CE669 /* WoodsLevel4Config.swift in Sources */,
 				1D6AA0461DD79B3E004A0978 /* EnemyComponent.swift in Sources */,
 				1D6A9F8C1DD79B13004A0978 /* OrbitalPlayground.swift in Sources */,
@@ -1601,10 +1678,12 @@
 				1D66EE541EA1C320009CE669 /* TutorialLevel6Config.swift in Sources */,
 				1D6AA0571DD79B3E004A0978 /* ProjectileComponent.swift in Sources */,
 				1DF0B2E21E8F4792001B9F97 /* WoodsBossArtists.swift in Sources */,
+				1DC78A451F1EA3BA00BE2413 /* OceanLevel5Config.swift in Sources */,
 				1D6AA0591DD79B3E004A0978 /* RotateToComponent.swift in Sources */,
 				B95F74E9E1E4D5D759B4684F /* ALListener.m in Sources */,
 				1D6AA0BD1DD79B5A004A0978 /* PowerupTimerArtist.swift in Sources */,
 				1D6AA0C31DD79B5A004A0978 /* SoldiersPowerupArtist.swift in Sources */,
+				1DC78A471F1EA3BA00BE2413 /* OceanLevel6Config.swift in Sources */,
 				1D66EE421EA1C317009CE669 /* WoodsLevelConfig.swift in Sources */,
 				1D6AA0B91DD79B5A004A0978 /* MinesPowerupArtist.swift in Sources */,
 				1D6A9FA71DD79B18004A0978 /* ConfigSummary.swift in Sources */,
@@ -1619,6 +1698,7 @@
 				195C943B7A4309BBE875B57D /* ALSoundSourcePool.m in Sources */,
 				1D6AA11A1DD79BF8004A0978 /* NodeStorage.swift in Sources */,
 				1D6AA0F81DD79B62004A0978 /* ShapeArtist.swift in Sources */,
+				1DC78A3E1F1EA3BA00BE2413 /* OceanLevel2Config.swift in Sources */,
 				1D6A9F861DD79B13004A0978 /* BezierPaths.swift in Sources */,
 				1D6A9F7C1DD79B10004A0978 /* TutorialLevel5.swift in Sources */,
 				1D66EE6D1EA1C40D009CE669 /* BaseLevel1Config.swift in Sources */,
@@ -1637,11 +1717,14 @@
 				1D971CDE1E1479E700A167A2 /* BackgroundAudioNode.swift in Sources */,
 				1D66EE4F1EA1C320009CE669 /* TutorialLevel1Config.swift in Sources */,
 				1D66EE6E1EA1C40D009CE669 /* BaseLevel2.swift in Sources */,
+				1DC78A461F1EA3BA00BE2413 /* OceanLevel6.swift in Sources */,
 				1D6AA0ED1DD79B62004A0978 /* EnemyDiamondArtist.swift in Sources */,
 				1D6AA0441DD79B3E004A0978 /* ArcToComponent.swift in Sources */,
 				1D6AA0FB1DD79B62004A0978 /* WarningArtist.swift in Sources */,
+				1DC78A4B1F1EA3BA00BE2413 /* OceanLevel8Config.swift in Sources */,
 				1D6AA0EE1DD79B62004A0978 /* EnemyJetArtist.swift in Sources */,
 				1D6AA0EA1DD79B62004A0978 /* DotArtist.swift in Sources */,
+				1DC78A391F1EA3BA00BE2413 /* OceanConfigSummary.swift in Sources */,
 				1D6A9FD31DD79B2A004A0978 /* LaserPowerup.swift in Sources */,
 				1D66EE6C1EA1C40D009CE669 /* BaseLevel1.swift in Sources */,
 				1D6AA01B1DD79B37004A0978 /* EnemyDozerNode.swift in Sources */,
@@ -1656,6 +1739,7 @@
 				1D6A9F8A1DD79B13004A0978 /* IconPlayground.swift in Sources */,
 				1D6A9F891DD79B13004A0978 /* EasingFns.swift in Sources */,
 				1D6AA06C1DD79B41004A0978 /* CGPointExt.swift in Sources */,
+				1DC78A3F1F1EA3BA00BE2413 /* OceanLevel3.swift in Sources */,
 				1D6A9FC01DD79B22004A0978 /* Level.swift in Sources */,
 				1D66EE511EA1C320009CE669 /* TutorialLevel3Config.swift in Sources */,
 				1D6AA0951DD79B53004A0978 /* ScrollNode.swift in Sources */,
@@ -1701,6 +1785,7 @@
 				1D66EE711EA1C40D009CE669 /* BaseLevel3Config.swift in Sources */,
 				1D6AA0C01DD79B5A004A0978 /* ShieldPowerupArtist.swift in Sources */,
 				1D6A9FFB1DD79B31004A0978 /* MineFragmentNode.swift in Sources */,
+				1DC78A491F1EA3BA00BE2413 /* OceanLevel7Config.swift in Sources */,
 				1D5C44031DDAAF6F00FDBF7E /* BasePlayerUpgrades.swift in Sources */,
 				1D6A9F781DD79B10004A0978 /* TutorialLevel1.swift in Sources */,
 				1D6A9FD91DD79B2A004A0978 /* SoldiersPowerup.swift in Sources */,
@@ -1720,7 +1805,9 @@
 				1D66EE751EA1C40D009CE669 /* BaseLevel5Config.swift in Sources */,
 				1DF0B2E41E8F4A9B001B9F97 /* WoodsBossNode.swift in Sources */,
 				1D6AA0991DD79B53004A0978 /* UINode.swift in Sources */,
+				1DC78A3D1F1EA3BA00BE2413 /* OceanLevel2.swift in Sources */,
 				1D971CD11E1479D200A167A2 /* BasePlayerNode.swift in Sources */,
+				1DC78A441F1EA3BA00BE2413 /* OceanLevel5.swift in Sources */,
 				1D6AA0731DD79B42004A0978 /* UIColorExt.swift in Sources */,
 				1D6AA0711DD79B42004A0978 /* NSCoding.swift in Sources */,
 				1D971CE91E18381B00A167A2 /* LaserUpgrades.swift in Sources */,
@@ -1732,6 +1819,7 @@
 				1D6A9F741DD79B10004A0978 /* RapidFireTutorial.swift in Sources */,
 				1D971CED1E1CA1BB00A167A2 /* ShotgunUpgrades.swift in Sources */,
 				AAC3E3440755015CE2D47145 /* OALAudioFile.m in Sources */,
+				1DC78A3B1F1EA3BA00BE2413 /* OceanLevel1.swift in Sources */,
 				1D6AA0201DD79B37004A0978 /* EnemyLeaderNode.swift in Sources */,
 				1D66EE4D1EA1C320009CE669 /* TutorialConfig.swift in Sources */,
 				1D6A9FBC1DD79B1C004A0978 /* WoodsLevel4.swift in Sources */,
@@ -1741,6 +1829,7 @@
 				1D6A9F581DD79B0A004A0978 /* IntroductionCutSceneWorld.swift in Sources */,
 				1D6A9FE81DD79B2E004A0978 /* PurchasedTextNode.swift in Sources */,
 				1D6A9F491DD79B05004A0978 /* Timers.swift in Sources */,
+				1DC78A4C1F1EA3BA00BE2413 /* OceanLevel8CutScene.swift in Sources */,
 				1D6AA05F1DD79B3E004A0978 /* WanderingComponent.swift in Sources */,
 				1D6AA0F41DD79B62004A0978 /* LightningArtist.swift in Sources */,
 				1D7A42DC1E118FE4002F37FA /* PolygonArtist.swift in Sources */,
@@ -1754,11 +1843,14 @@
 				1D6AA0471DD79B3E004A0978 /* EnemyTargetingComponent.swift in Sources */,
 				1D6A9FFA1DD79B31004A0978 /* LaserBeamNode.swift in Sources */,
 				1D6AA00A1DD79B34004A0978 /* EnemyExplosionNode.swift in Sources */,
+				1DC78A4A1F1EA3BA00BE2413 /* OceanLevel8.swift in Sources */,
 				1D6AA0B71DD79B5A004A0978 /* LaserPowerupArtist.swift in Sources */,
 				1D6AA01F1DD79B37004A0978 /* EnemyJetTransportNode.swift in Sources */,
 				1D66EE7B1EA1C40D009CE669 /* BaseLevel8Config.swift in Sources */,
+				1DC78A481F1EA3BA00BE2413 /* OceanLevel7.swift in Sources */,
 				1D6A9FE51DD79B2E004A0978 /* LevelCompleteBox.swift in Sources */,
 				1D6A9FF71DD79B31004A0978 /* BombNode.swift in Sources */,
+				1DC78A421F1EA3BA00BE2413 /* OceanLevel4.swift in Sources */,
 				1D06D6BE1E3AC383004FA878 /* TutorialCutScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
