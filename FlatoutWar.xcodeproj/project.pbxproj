@@ -702,7 +702,7 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		09AD8D2536FADEB416B4AFAA /* Woods */ = {
+		09AD8D2536FADEB416B4AFAA /* 02-Woods */ = {
 			isa = PBXGroup;
 			children = (
 				1D66EE2F1EA1C317009CE669 /* WoodsConfigSummary.swift */,
@@ -727,7 +727,7 @@
 				1DF0B2DF1E8F3BE0001B9F97 /* WoodsLevel8CutScene.swift */,
 				1D66EE381EA1C317009CE669 /* WoodsLevelConfig.swift */,
 			);
-			path = Woods;
+			path = "02-Woods";
 			sourceTree = "<group>";
 		};
 		106EB35B379AD3F8713F2650 /* Artist */ = {
@@ -827,7 +827,7 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		1D66EE581EA1C3FB009CE669 /* Base */ = {
+		1D66EE581EA1C3FB009CE669 /* 04-Base */ = {
 			isa = PBXGroup;
 			children = (
 				1D66EE591EA1C40D009CE669 /* BaseLevel.swift */,
@@ -849,7 +849,7 @@
 				1D66EE691EA1C40D009CE669 /* BaseLevel8Config.swift */,
 				1D66EE6A1EA1C40D009CE669 /* BaseLevelConfig.swift */,
 			);
-			path = Base;
+			path = "04-Base";
 			sourceTree = "<group>";
 		};
 		1D6A9F391DD79AF7004A0978 /* Sounds */ = {
@@ -1230,13 +1230,13 @@
 		BEC11DB661CE6A2F69FFED28 /* Worlds */ = {
 			isa = PBXGroup;
 			children = (
-				1D66EE581EA1C3FB009CE669 /* Base */,
-				09AD8D2536FADEB416B4AFAA /* Woods */,
+				E1BD095309AB70038DAD6202 /* 01-Tutorials */,
+				09AD8D2536FADEB416B4AFAA /* 02-Woods */,
+				1D66EE581EA1C3FB009CE669 /* 04-Base */,
 				AFE9D240644CDDED7776691E /* Config */,
 				6EB4AEB0E5D1E6E346AC9C07 /* Demos */,
 				1D6A9FBE1DD79B22004A0978 /* Level.swift */,
 				1D6A9FBF1DD79B22004A0978 /* LevelGenerator.swift */,
-				E1BD095309AB70038DAD6202 /* Tutorials */,
 				15AF5EA5819A364D67DA0582 /* UI */,
 			);
 			path = Worlds;
@@ -1272,7 +1272,7 @@
 			path = ArmyUpgrades;
 			sourceTree = "<group>";
 		};
-		E1BD095309AB70038DAD6202 /* Tutorials */ = {
+		E1BD095309AB70038DAD6202 /* 01-Tutorials */ = {
 			isa = PBXGroup;
 			children = (
 				1D6A9F641DD79B10004A0978 /* AutoFireTutorial.swift */,
@@ -1301,7 +1301,7 @@
 				1D943BFA1E26FA160053FAF5 /* TutorialLevel8.swift */,
 				1D66EE4C1EA1C320009CE669 /* TutorialLevel8Config.swift */,
 			);
-			path = Tutorials;
+			path = "01-Tutorials";
 			sourceTree = "<group>";
 		};
 		E4808FF7B43E7A187F06A5AE = {
