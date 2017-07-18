@@ -180,7 +180,6 @@ class Powerup {
             }
 
             let tapNode = Node()
-            tapNode.name = "tapNode"
             level << tapNode
             powerupEnabled = false
 

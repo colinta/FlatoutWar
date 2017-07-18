@@ -14,7 +14,6 @@ class WoodsBossNode: Node {
     required init() {
         super.init()
 
-        name = "woods boss"
         size = CGSize(width: 123, height: 70)
 
         let enemyComponent = EnemyComponent()
@@ -90,7 +89,6 @@ class WoodsBossBodyNode: Node {
     required init() {
         super.init()
 
-        name = "woods boss body"
         size = CGSize(30)
 
         let dy: CGFloat = 40
@@ -173,7 +171,6 @@ class WoodsBossFootNode: Node {
     required init() {
         super.init()
 
-        name = "woods boss foot"
         size = CGSize(20)
 
         self << sprite

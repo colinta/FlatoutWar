@@ -6,6 +6,7 @@ private let StartingHealth: Float = 2
 private let Damage: Float = 4
 private let Experience = 1
 
+
 class EnemySoldierNode: Node {
     static let DefaultSoldierSpeed: CGFloat = 25
     let sprite = SKSpriteNode()
@@ -22,7 +23,6 @@ class EnemySoldierNode: Node {
     required init() {
         super.init()
 
-        name = "soldier"
         size = CGSize(10)
 
         self << sprite

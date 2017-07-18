@@ -103,7 +103,6 @@ class WoodsLevel3: WoodsLevel {
             let soldierDelta = 2 * dozer.size.width
             let soldierRadius = dozerRadius + soldierDelta
             ghost.position = CGPoint(r: soldierRadius, a: dozerAngle)
-            ghost.name = "\(dozer.nodeName) ghost"
             ghost.rotateTowards(self.playerNode)
 
             let max = (totalWidth - enemyWidth) / 2
@@ -114,7 +113,6 @@ class WoodsLevel3: WoodsLevel {
                 let location2 = location1 + CGPoint(r: 16, a: screenAngle)
                 for location in [location1, location2] {
                     let enemy = EnemyScoutNode(at: location)
-                    enemy.name = "\(dozer.nodeName) \(enemy.nodeName)"
                     enemy.setRotation(ghost.zRotation)
                     enemy.follow(leader: ghost)
                     self << enemy

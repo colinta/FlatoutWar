@@ -10,7 +10,6 @@ class EnemyBigJetNode: EnemyJetNode {
 
     required init() {
         super.init()
-        name = "big-jet"
         size = CGSize(16)
         healthComponent!.startingHealth = StartingHealth
         enemyComponent!.experience = Experience

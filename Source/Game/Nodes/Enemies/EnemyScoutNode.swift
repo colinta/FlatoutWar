@@ -10,7 +10,6 @@ class EnemyScoutNode: EnemySoldierNode {
 
     required init() {
         super.init()
-        name = "scout"
         size = CGSize(8)
         rammingDamage = Damage
         healthComponent!.startingHealth = StartingHealth
