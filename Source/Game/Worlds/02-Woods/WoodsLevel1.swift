@@ -12,7 +12,7 @@ class WoodsLevel1: WoodsLevel {
 
     override func populateLevel() {
         linkWaves(
-            // beginWave1,
+            beginWave1,
             beginWave2,
             beginWave3,
             beginWave4,
@@ -111,7 +111,7 @@ class WoodsLevel1: WoodsLevel {
             let enemySpacing: CGFloat = 2
             let totalWidth: CGFloat = CGFloat(enemyCount) * (enemyWidth + enemySpacing) - enemySpacing
 
-            let ghost = self.generateEnemyGhost(mimic: dozer, angle: screenAngle, extra: 10)
+            let ghost = self.generateEnemyGhost(mimic: dozer, angle: screenAngle, extra: dozer.radius)
             ghost.rotateTowards(self.playerNode)
 
             let max = (totalWidth - enemyWidth) / 2
