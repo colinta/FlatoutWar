@@ -25,7 +25,7 @@ class DroneArtist: Artist {
         self.stroke = UIColor(hex: movementUpgrade.boolValue ? DroneUpgradeColor : DroneColor)
 
         super.init()
-        shadowed = .True
+        shadowed = .true
         size = CGSize(20)
     }
 

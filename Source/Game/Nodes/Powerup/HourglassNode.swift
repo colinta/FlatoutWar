@@ -8,10 +8,10 @@ private let SlowdownRate: CGFloat = 0.25
 class HourglassNode: Node {
     var slowNodes: [Node] = []
     private var timeout: CGFloat = HourglassTimeout
-    private let slowdownMod = Mod(attr: .TimeRate(SlowdownRate))
+    private let slowdownMod = Mod(attr: .timeRate(SlowdownRate))
 
-    private let sprite = SKSpriteNode(id: .HourglassZone)
-    private let slowdownSprite = SKSpriteNode(id: .HourglassZone)
+    private let sprite = SKSpriteNode(id: .hourglassZone)
+    private let slowdownSprite = SKSpriteNode(id: .hourglassZone)
 
     private let growOutComponent = PhaseComponent()
     private let growInComponent = PhaseComponent()
@@ -25,12 +25,12 @@ class HourglassNode: Node {
         self << slowdownSprite
 
         growOutComponent.duration = 1
-        growOutComponent.easing = .EaseOutCubic
+        growOutComponent.easing = .outCubic
         addComponent(growOutComponent)
 
         growInComponent.loops = true
         growInComponent.duration = 2
-        growInComponent.easing = .EaseOutExpo
+        growInComponent.easing = .outExpo
         growInComponent.startValue = slowdownSprite.xScale
         growInComponent.finalValue = 0
         addComponent(growInComponent)

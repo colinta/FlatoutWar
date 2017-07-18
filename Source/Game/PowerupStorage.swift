@@ -4,16 +4,16 @@
 
 class PowerupStorage {
     enum PowerupType: Int {
-        case Grenade
-        case Laser
-        case Mines
-        case Hourglass
-        case Soldiers
-        case Net
-        case Shield
-        case Coffee
-        case Pulse
-        case Bomber
+        case grenade
+        case laser
+        case mines
+        case hourglass
+        case soldiers
+        case net
+        case shield
+        case coffee
+        case pulse
+        case bomber
     }
 
     static func fromDefaults(defaults: NSDictionary) -> (powerup: Powerup, order: Int?)? {
@@ -26,25 +26,25 @@ class PowerupStorage {
 
         let powerup: Powerup
         switch type {
-        case .Bomber:
+        case .bomber:
             powerup = BomberPowerup(count: count)
-        case .Coffee:
+        case .coffee:
             powerup = CoffeePowerup(count: count)
-        case .Grenade:
+        case .grenade:
             powerup = GrenadePowerup(count: count)
-        case .Hourglass:
+        case .hourglass:
             powerup = HourglassPowerup(count: count)
-        case .Laser:
+        case .laser:
             powerup = LaserPowerup(count: count)
-        case .Mines:
+        case .mines:
             powerup = MinesPowerup(count: count)
-        case .Net:
+        case .net:
             powerup = NetPowerup(count: count)
-        case .Pulse:
+        case .pulse:
             powerup = PulsePowerup(count: count)
-        case .Shield:
+        case .shield:
             powerup = ShieldPowerup(count: count)
-        case .Soldiers:
+        case .soldiers:
             powerup = SoldiersPowerup(count: count)
         }
 
@@ -55,34 +55,34 @@ class PowerupStorage {
     static func toDefaults(powerup: Powerup, order: Int?) -> NSDictionary? {
         let type: PowerupType?
         if powerup is BomberPowerup {
-            type = .Bomber
+            type = .bomber
         }
         else if powerup is CoffeePowerup {
-            type = .Coffee
+            type = .coffee
         }
         else if powerup is GrenadePowerup {
-            type = .Grenade
+            type = .grenade
         }
         else if powerup is HourglassPowerup {
-            type = .Hourglass
+            type = .hourglass
         }
         else if powerup is LaserPowerup {
-            type = .Laser
+            type = .laser
         }
         else if powerup is MinesPowerup {
-            type = .Mines
+            type = .mines
         }
         else if powerup is NetPowerup {
-            type = .Net
+            type = .net
         }
         else if powerup is PulsePowerup {
-            type = .Pulse
+            type = .pulse
         }
         else if powerup is ShieldPowerup {
-            type = .Shield
+            type = .shield
         }
         else if powerup is SoldiersPowerup {
-            type = .Soldiers
+            type = .soldiers
         }
         else {
             type = nil

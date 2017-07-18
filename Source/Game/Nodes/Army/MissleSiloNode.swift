@@ -5,19 +5,19 @@
 private let StartingHealth: Float = 50
 
 class MissleSiloNode: Node, DraggableNode {
-    var radarUpgrade: HasUpgrade = .False { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
-    var bulletUpgrade: HasUpgrade = .False { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
-    var movementUpgrade: HasUpgrade = .False { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
+    var radarUpgrade: HasUpgrade = .false { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
+    var bulletUpgrade: HasUpgrade = .false { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
+    var movementUpgrade: HasUpgrade = .false { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
 
     let armyComponent = SelectableArmyComponent()
 
     fileprivate func updateRadarSprite() {
-        radarSprite.textureId(.MissleSiloRadar(upgrade: radarUpgrade, isSelected: armyComponent.isCurrent))
+        radarSprite.textureId(.missleSiloRadar(upgrade: radarUpgrade, isSelected: armyComponent.isCurrent))
     }
     fileprivate func updateUpgrades() {
-        turretBox.textureId(.MissleSiloBox(upgrade: bulletUpgrade))
-        baseSprite.textureId(.MissleSilo(upgrade: movementUpgrade, health: healthComponent?.healthInt ?? 100))
-        placeholder.textureId(.MissleSilo(upgrade: movementUpgrade, health: 100))
+        turretBox.textureId(.missleSiloBox(upgrade: bulletUpgrade))
+        baseSprite.textureId(.missleSilo(upgrade: movementUpgrade, health: healthComponent?.healthInt ?? 100))
+        placeholder.textureId(.missleSilo(upgrade: movementUpgrade, health: 100))
         updateRadarSprite()
 
         draggableComponent?.speed = movementUpgrade.missleSiloMovementSpeed
@@ -46,8 +46,8 @@ class MissleSiloNode: Node, DraggableNode {
         var turretY: CGFloat = dy / 2 * CGFloat(maxMissleCount - 1)
         missleSprites = []
         for _ in 0..<missleCount {
-            let missleSprite = SKSpriteNode(id: .Missle)
-            missleSprite.z = .AbovePlayer
+            let missleSprite = SKSpriteNode(id: .missle)
+            missleSprite.z = .abovePlayer
             missleSprite.position = CGPoint(y: turretY)
             turretNode << missleSprite
             missleSprites << missleSprite
@@ -91,9 +91,9 @@ class MissleSiloNode: Node, DraggableNode {
         placeholder.alpha = 0.5
         placeholder.isHidden = true
 
-        baseSprite.z = .Player
-        radarSprite.z = .BelowPlayer
-        turretBox.z = .Above
+        baseSprite.z = .player
+        radarSprite.z = .belowPlayer
+        turretBox.z = .above
 
         self << baseSprite
         self << radarSprite
@@ -116,7 +116,7 @@ class MissleSiloNode: Node, DraggableNode {
 
         let healthComponent = HealthComponent(health: StartingHealth)
         healthComponent.onHurt { damage in
-            self.baseSprite.textureId(.MissleSilo(upgrade: self.bulletUpgrade, health: healthComponent.healthInt))
+            self.baseSprite.textureId(.missleSilo(upgrade: self.bulletUpgrade, health: healthComponent.healthInt))
         }
         healthComponent.onKilled {
             self.world?.unselectNode(self)
@@ -125,9 +125,9 @@ class MissleSiloNode: Node, DraggableNode {
         addComponent(healthComponent)
 
         let touchableComponent = TouchableComponent()
-        touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest(shape: .Circle)
-        touchableComponent.on(.DragBeganOutside, onDraggingBegan)
-        touchableComponent.on(.DragEnded, onDraggingEnded)
+        touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest(shape: .circle)
+        touchableComponent.on(.dragBeganOutside, onDraggingBegan)
+        touchableComponent.on(.dragEnded, onDraggingEnded)
         touchableComponent.onDragged(onDraggedAiming)
         addComponent(touchableComponent)
 
@@ -137,8 +137,8 @@ class MissleSiloNode: Node, DraggableNode {
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()
-        touchableComponent.on(.DragBeganInside, draggableComponent.draggingBegan)
-        touchableComponent.on(.DragEnded, draggableComponent.draggingEnded)
+        touchableComponent.on(.dragBeganInside, draggableComponent.draggingBegan)
+        touchableComponent.on(.dragEnded, draggableComponent.draggingEnded)
         touchableComponent.onDragged(draggableComponent.draggingMoved)
 
         draggableComponent.onDragChange { isMoving in

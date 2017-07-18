@@ -39,7 +39,7 @@ class TutorialLevel8: TutorialLevel {
         for delay in delays {
             let wave1 = randAngle()
             let wave2 = randAngle()
-            timeline.at(.After(delay)) {
+            timeline.at(.after(delay)) {
                 self.generateWarning(wave1, wave2)
             } ~~> nextStep()
             timeline.at(.Delayed(delay)) {
@@ -52,7 +52,7 @@ class TutorialLevel8: TutorialLevel {
     func beginWave2(nextStep: @escaping NextStepBlock) {
         self.generateWarning(0, TAU_16, -TAU_16)
         timeline.every(7...9, start: .Delayed(), times: 4,
-            block: generateBigJetWithFollowers(self.randSideAngle(.Right), spread: 0)) ~~> nextStep()
+            block: generateBigJetWithFollowers(self.randSideAngle(.right), spread: 0)) ~~> nextStep()
         timeline.every(7...9, start: .Delayed(), times: 4,
             block: generateBigJet(rand(min: -TAU_16, max: TAU_16), spread: 0)) ~~> nextStep()
     }
@@ -65,7 +65,7 @@ class TutorialLevel8: TutorialLevel {
         timeline.at(.Delayed(6), block: generateGiant(self.size.angle - TAU_16))
         timeline.at(.Delayed(10), block: generateGiant(self.size.angle + TAU_16))
 
-        let wave1 = randSideAngle(.Right)
+        let wave1 = randSideAngle(.right)
         let wave2 = rand(min: -TAU_4, max: -size.angle)
         self.generateWarning(wave1, wave2)
         timeline.every(1.5...2.5, start: .Delayed(), times: 10, block: generateEnemy(wave1)) ~~> nextStep()

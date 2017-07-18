@@ -3,7 +3,7 @@
 //
 
 class ExperienceCostText: Node {
-    let icon = SKSpriteNode(id: .ExperienceIcon)
+    let icon = SKSpriteNode(id: .experienceIcon)
     let costNode = TextNode()
     var cost: Int = 0 {
         didSet {

@@ -19,7 +19,7 @@ class AutoFireTutorial: Tutorial {
     override func populateWorld() {
         super.populateWorld()
 
-        experiencePercent.fixedPosition = .BottomRight(x: -35, y: 30)
+        experiencePercent.fixedPosition = .bottomRight(x: -35, y: 30)
         ui << experiencePercent
         tutorialTextNode.text = "AUTO AIM"
 
@@ -45,9 +45,9 @@ class AutoFireTutorial: Tutorial {
 
     func showFirstButton() {
         let tapButton = Button(at: CGPoint(x: 0, y: -50))
-        tapButton.style = .Circle
+        tapButton.style = .circle
         tapButton.text = "TAP"
-        tapButton.touchableComponent?.on(.Tapped) { tapLocation in
+        tapButton.touchableComponent?.on(.tapped) { tapLocation in
             let location = self.playerNode.convertPosition(tapButton) + tapLocation
             self.playerNode.rotateToComponent?.target = location.angle
         }
@@ -89,10 +89,10 @@ class AutoFireTutorial: Tutorial {
 
     func showSecondButton() {
         let tapButton = Button(at: CGPoint(x: 150, y: 0))
-        tapButton.style = .Circle
+        tapButton.style = .circle
         tapButton.text = "TAP"
 
-        tapButton.touchableComponent?.on(.Tapped) { tapLocation in
+        tapButton.touchableComponent?.on(.tapped) { tapLocation in
             self.playerNode.aimAt(node: tapButton, location: tapLocation)
         }
 

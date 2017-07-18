@@ -13,7 +13,7 @@ class EnemyJetTransportNode: Node {
         name = "transport"
         size = CGSize(40)
 
-        sprite.z = .Top
+        sprite.z = .top
         self << sprite
 
         let healthComponent = HealthComponent(health: StartingHealth)
@@ -44,11 +44,11 @@ class EnemyJetTransportNode: Node {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     func enemyType() -> ImageIdentifier.EnemyType {
-        return .JetTransport
+        return .jetTransport
     }
 
     func updateTexture() {
-        sprite.textureId(.Enemy(enemyType(), health: healthComponent?.healthInt ?? 100))
+        sprite.textureId(.enemy(enemyType(), health: healthComponent?.healthInt ?? 100))
     }
 
     func transportPayload(_ payload: [Node]) {
@@ -126,7 +126,7 @@ class EnemyJetTransportNode: Node {
     func generateBigShrapnel(distance dist: CGFloat, angle: CGFloat, spread: CGFloat) {
         guard let parent = parent else { return }
 
-        let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Actual)
+        let node = ShrapnelNode(type: .enemy(enemyType(), health: 100), size: .actual)
         node.setupAround(node: self, at: self.position,
             rotateSpeed: rand(min: 5, max: 8),
             distance: rand(10)
@@ -138,7 +138,7 @@ class EnemyJetTransportNode: Node {
         guard let parent = parent else { return }
 
         Int(damage * 10).times {
-            let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Small)
+            let node = ShrapnelNode(type: .enemy(enemyType(), health: 100), size: .small)
             node.setupAround(node: self)
             parent << node
         }

@@ -10,11 +10,11 @@ extension MissleSiloNode: UpgradeableNode {
 
     func applyUpgrade(type: UpgradeType) {
         switch type {
-        case .RadarUpgrade:
+        case .radarUpgrade:
             radarUpgrade = true
-        case .BulletUpgrade:
+        case .bulletUpgrade:
             bulletUpgrade = true
-        case .MovementUpgrade:
+        case .movementUpgrade:
             movementUpgrade = true
         }
     }
@@ -24,8 +24,8 @@ extension MissleSiloNode: UpgradeableNode {
 extension HasUpgrade {
     var missleSiloRadarRadius: CGFloat {
         switch self {
-        case .False: return 40
-        case .True:  return 50
+        case .false: return 40
+        case .true:  return 50
         }
     }
     var missleSiloRadarMinDist: CGFloat {
@@ -33,71 +33,71 @@ extension HasUpgrade {
     }
     var missleSiloRadarMaxDist: CGFloat {
         switch self {
-        case .False: return 150
-        case .True:  return 200
+        case .false: return 150
+        case .true:  return 200
         }
     }
 
     var missleSiloAngularSpeed: CGFloat {
         switch self {
-        case .False: return 2
-        case .True: return 5
+        case .false: return 2
+        case .true: return 5
         }
     }
 
     var missleSiloAngularAccel: CGFloat? {
         switch self {
-        case .False: return 2
-        case .True: return 6
+        case .false: return 2
+        case .true: return 6
         }
     }
 
     var missleSiloBulletDamage: Float {
         switch self {
-        case .False: return 5
-        case .True:  return 7.5
+        case .false: return 5
+        case .true:  return 7.5
         }
     }
 
     var missleSiloBulletSpeed: CGFloat {
         switch self {
-        case .False: return 130
-        case .True:  return 150
+        case .false: return 130
+        case .true:  return 150
         }
     }
 
     var missleSiloSplashRadius: Int {
         switch self {
-        case .False: return 30
-        case .True:  return 40
+        case .false: return 30
+        case .true:  return 40
         }
     }
 
     var missleSiloCooldown: CGFloat {
         switch self {
-        case .False: return 0.25
-        case .True:  return 0.15
+        case .false: return 0.25
+        case .true:  return 0.15
         }
     }
 
     var missleSiloRadarColor: Int {
         switch self {
-            case .False: return 0xAC1907
-            case .True: return 0xDF2E05
+            case .false: return 0xAC1907
+            case .true: return 0xDF2E05
         }
     }
 
     var missleSiloMovementSpeed: CGFloat {
         switch self {
-        case .False: return 15
-        case .True: return 25
+        case .false: return 15
+        case .true: return 25
         }
     }
 
     var missleSiloReloadTime: CGFloat {
         switch self {
-        case .False: return 6
-        case .True: return 4.5
+        case .false: return 6
+        case .true: return 4.5
         }
     }
 }

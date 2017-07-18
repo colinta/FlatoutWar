@@ -4,20 +4,20 @@
 
 struct Letter: Equatable {
     enum Style {
-        case Loop
-        case Line
-        case Fill
+        case loop
+        case line
+        case fill
 
         var closesPath: Bool {
             switch self {
-            case .Line: return false
-            case .Loop, .Fill: return true
+            case .line: return false
+            case .loop, .fill: return true
             }
         }
         var drawPath: CGPathDrawingMode {
             switch self {
-            case .Line, .Loop: return .stroke
-            case .Fill: return .fill
+            case .line, .loop: return .stroke
+            case .fill: return .fill
             }
         }
     }

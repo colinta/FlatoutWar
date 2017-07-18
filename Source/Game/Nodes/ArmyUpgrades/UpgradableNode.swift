@@ -8,9 +8,9 @@ protocol UpgradeableNode: class {
 }
 
 enum UpgradeType {
-    case RadarUpgrade
-    case BulletUpgrade
-    case MovementUpgrade
+    case radarUpgrade
+    case bulletUpgrade
+    case movementUpgrade
 }
 
 struct UpgradeInfo {

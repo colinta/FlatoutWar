@@ -20,7 +20,7 @@ class EnemyLeaderNode: EnemySoldierNode {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func enemyType() -> ImageIdentifier.EnemyType {
-        return .Leader
+        return .leader
     }
 
 }

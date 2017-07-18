@@ -40,10 +40,10 @@ class TextNode: Node {
 
     required init() {
         text = ""
-        font = .Small
+        font = .small
         textSprite = SKNode()
         super.init()
-        z = .UI
+        z = .ui
         self << textSprite
     }
 
@@ -60,10 +60,10 @@ class TextNode: Node {
         let spriteCollection = lines.map { line in
             return line.characters.map { (char: Character) -> SKSpriteNode in
                 if color == WhiteColor {
-                    return SKSpriteNode(id: .WhiteLetter(String(char), size: font))
+                    return SKSpriteNode(id: .whiteLetter(String(char), size: font))
                 }
                 else {
-                    return SKSpriteNode(id: .Letter(String(char), size: font, color: color))
+                    return SKSpriteNode(id: .letter(String(char), size: font, color: color))
                 }
             }
         }
@@ -112,7 +112,7 @@ class TextNode: Node {
             y -= verticalSpace
             y -= size.height / 2
         }
-        
+
         self.textSize = size * textScale
         let marginsSize = CGSize(margins.left + margins.right, margins.top + margins.bottom)
         self.size = marginsSize + size

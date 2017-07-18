@@ -5,42 +5,42 @@
 class TouchableComponent: Component {
     enum TouchEvent {
         // a quick tap, no dragging
-        case Tapped
-        case TappedInside
-        case TappedOutside
+        case tapped
+        case tappedInside
+        case tappedOutside
         // any length press, no dragging
-        case Pressed
-        case PressedInside
-        case PressedOutside
+        case pressed
+        case pressedInside
+        case pressedOutside
         // drag events
-        case DragBegan
-        case DragBeganInside
-        case DragBeganOutside
-        case DragMoved
-        case DragEnded
+        case dragBegan
+        case dragBeganInside
+        case dragBeganOutside
+        case dragMoved
+        case dragEnded
         // generic down/up/move
-        case Down
-        case DownInside
-        case DownOutside
-        case Up
-        case UpInside
-        case UpOutside
-        case Moved
-        case MovedInside
-        case MovedOutside
+        case down
+        case downInside
+        case downOutside
+        case up
+        case upInside
+        case upOutside
+        case moved
+        case movedInside
+        case movedOutside
         // useful for highlight effects
-        case Enter
-        case Exit
+        case enter
+        case exit
     }
 
     enum TouchTestShape {
-        case Square
-        case Circle
+        case square
+        case circle
 
         var touchTest: TouchTest {
             let minSize: CGFloat = 50
             switch self {
-            case .Square:
+            case .square:
                 return { (node, location) in
                     let width = max(minSize, node.size.width)
                     let height = max(minSize, node.size.height)
@@ -49,7 +49,7 @@ class TouchableComponent: Component {
                     }
                     return false
                 }
-            case .Circle:
+            case .circle:
                 return { (node, location) in
                     let width = max(minSize, node.size.width) / 2
                     let height = max(minSize, node.size.height) / 2
@@ -97,24 +97,24 @@ extension TouchableComponent {
     func tapped(at location: CGPoint) {
         guard !isIgnoring else { return }
 
-        trigger(.Tapped, location: location)
+        trigger(.tapped, location: location)
         if isTouchingInside {
-            trigger(.TappedInside, location: location)
+            trigger(.tappedInside, location: location)
         }
         else {
-            trigger(.TappedOutside, location: location)
+            trigger(.tappedOutside, location: location)
         }
     }
 
     func pressed(at location: CGPoint) {
         guard !isIgnoring else { return }
 
-        trigger(.Pressed, location: location)
+        trigger(.pressed, location: location)
         if isTouchingInside {
-            trigger(.PressedInside, location: location)
+            trigger(.pressedInside, location: location)
         }
         else {
-            trigger(.PressedOutside, location: location)
+            trigger(.pressedOutside, location: location)
         }
     }
 
@@ -126,17 +126,17 @@ extension TouchableComponent {
         isTouching = true
         touchedFor = 0
 
-        trigger(.Down, location: location)
-        trigger(.Moved, location: location)
+        trigger(.down, location: location)
+        trigger(.moved, location: location)
 
         touchUpdateInOut(at: location)
         if isTouchingInside {
-            trigger(.DownInside, location: location)
-            trigger(.MovedInside, location: location)
+            trigger(.downInside, location: location)
+            trigger(.movedInside, location: location)
         }
         else {
-            trigger(.DownOutside, location: location)
-            trigger(.MovedOutside, location: location)
+            trigger(.downOutside, location: location)
+            trigger(.movedOutside, location: location)
         }
 
         prevLocation = pointInWorld(location)
@@ -161,13 +161,13 @@ extension TouchableComponent {
     func touchEnded(at location: CGPoint) {
         if !isIgnoring {
             if isTouchingInside {
-                trigger(.Exit, location: location)
-                trigger(.UpInside, location: location)
+                trigger(.exit, location: location)
+                trigger(.upInside, location: location)
             }
             else {
-                trigger(.UpOutside, location: location)
+                trigger(.upOutside, location: location)
             }
-            trigger(.Up, location: location)
+            trigger(.up, location: location)
         }
 
         touchedFor = 0
@@ -181,11 +181,11 @@ extension TouchableComponent {
         let isInsideNow = containsTouch(at: location)
         if !isTouchingInside && isInsideNow {
             isTouchingInside = true
-            trigger(.Enter, location: location)
+            trigger(.enter, location: location)
         }
         else if isTouchingInside && !isInsideNow {
             isTouchingInside = false
-            trigger(.Exit, location: location)
+            trigger(.exit, location: location)
         }
     }
 
@@ -193,12 +193,12 @@ extension TouchableComponent {
         guard !isIgnoring else { return }
 
         touchUpdateInOut(at: location)
-        trigger(.DragBegan, location: location)
+        trigger(.dragBegan, location: location)
         if isTouchingInside {
-            trigger(.DragBeganInside, location: location)
+            trigger(.dragBeganInside, location: location)
         }
         else {
-            trigger(.DragBeganOutside, location: location)
+            trigger(.dragBeganOutside, location: location)
         }
 
         prevLocation = pointInWorld(location)
@@ -207,8 +207,8 @@ extension TouchableComponent {
     func draggingMoved(at location: CGPoint) {
         guard !isIgnoring else { return }
 
-        trigger(.Moved, location: location)
-        trigger(.DragMoved, location: location)
+        trigger(.moved, location: location)
+        trigger(.dragMoved, location: location)
 
         if let prevLocation = prevLocation,
             let localPoint = pointInNode(prevLocation)
@@ -220,10 +220,10 @@ extension TouchableComponent {
 
         touchUpdateInOut(at: location)
         if isTouchingInside {
-            trigger(.MovedInside, location: location)
+            trigger(.movedInside, location: location)
         }
         else {
-            trigger(.MovedOutside, location: location)
+            trigger(.movedOutside, location: location)
         }
 
         prevLocation = pointInWorld(location)
@@ -231,7 +231,7 @@ extension TouchableComponent {
 
     func draggingEnded(at location: CGPoint) {
         guard !isIgnoring else { return }
-        trigger(.DragEnded, location: location)
+        trigger(.dragEnded, location: location)
     }
 
 }
@@ -270,7 +270,7 @@ extension TouchableComponent {
 
 extension TouchableComponent {
 
-    class func defaultTouchTest(shape: TouchTestShape = .Square) -> TouchTest {
+    class func defaultTouchTest(shape: TouchTestShape = .square) -> TouchTest {
         return shape.touchTest
     }
 

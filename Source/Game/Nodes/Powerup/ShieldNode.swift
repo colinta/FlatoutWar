@@ -5,7 +5,7 @@
 private let Damage: Float = 10
 
 class ShieldNode: Node {
-    private let sprite = SKSpriteNode(id: .Shield(phase: 0))
+    private let sprite = SKSpriteNode(id: .shield(phase: 0))
     let segments: [ShieldSegmentNode] = [
         ShieldSegmentNode(),
         ShieldSegmentNode(),
@@ -39,7 +39,7 @@ class ShieldNode: Node {
             angle += arc
             self << segment
         }
-        sprite.z = .Below
+        sprite.z = .below
         self << sprite
     }
 
@@ -47,7 +47,7 @@ class ShieldNode: Node {
 
     override func update(_ dt: CGFloat) {
         phase = (phase + 1) % 100
-        sprite.textureId(.Shield(phase: phase))
+        sprite.textureId(.shield(phase: phase))
 
         var damage: Float = 0
         var totalDamage: Float = 0
@@ -99,7 +99,7 @@ class ShieldNode: Node {
 
 
 class ShieldSegmentNode: Node {
-    private let sprite = SKSpriteNode(id: .ShieldSegment(health: 100))
+    private let sprite = SKSpriteNode(id: .shieldSegment(health: 100))
     var initialDamage: Float = 6
     var damage: Float
 
@@ -107,8 +107,8 @@ class ShieldSegmentNode: Node {
         self.damage = initialDamage
         super.init()
         size = sprite.size
-        sprite.z = .Below
-        shape = .Rect
+        sprite.z = .below
+        shape = .rect
         self << sprite
     }
 

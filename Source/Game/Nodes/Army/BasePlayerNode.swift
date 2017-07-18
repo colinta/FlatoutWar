@@ -9,27 +9,27 @@ private let ForceFireWarmup: CGFloat = 0.4
 
 
 class BasePlayerNode: Node {
-    var movementUpgrade: HasUpgrade = .False { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
-    var bulletUpgrade: HasUpgrade = .False { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
-    var radarUpgrade: HasUpgrade = .False { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
+    var movementUpgrade: HasUpgrade = .false { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
+    var bulletUpgrade: HasUpgrade = .false { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
+    var radarUpgrade: HasUpgrade = .false { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
 
     fileprivate let touchAimingComponent = TouchableComponent()
 
     fileprivate func updateBaseSprite() {
-        baseSprite.textureId(.Base(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: healthComponent?.healthInt ?? 100))
+        baseSprite.textureId(.base(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: healthComponent?.healthInt ?? 100))
     }
     fileprivate func updateRadarSprite() {
         let isSelected = selectableComponent?.isCurrent == true
         radarSprite.alpha = isSelected ? 1 : 0.75
         if forceFireActive {
-            radarSprite.textureId(.ColorLine(length: radarUpgrade.baseRadarRadius + 25, color: radarUpgrade.baseRadarColor))
+            radarSprite.textureId(.colorLine(length: radarUpgrade.baseRadarRadius + 25, color: radarUpgrade.baseRadarColor))
         }
         else {
-            radarSprite.textureId(.BaseRadar(upgrade: radarUpgrade, isSelected: isSelected))
+            radarSprite.textureId(.baseRadar(upgrade: radarUpgrade, isSelected: isSelected))
         }
     }
     fileprivate func updateUpgrades() {
-        turretSprite.textureId(.BaseSingleTurret(bulletUpgrade: bulletUpgrade))
+        turretSprite.textureId(.baseSingleTurret(bulletUpgrade: bulletUpgrade))
         updateBaseSprite()
         updateRadarSprite()
 
@@ -74,13 +74,13 @@ class BasePlayerNode: Node {
         // self << lightNode
 
         radarSprite.anchorPoint = CGPoint(0, 0.5)
-        radarSprite.z = .BelowPlayer
+        radarSprite.z = .belowPlayer
         self << radarSprite
 
-        baseSprite.z = .Player
+        baseSprite.z = .player
         self << baseSprite
 
-        turretSprite.z = .AbovePlayer
+        turretSprite.z = .abovePlayer
         self << turretSprite
 
         let playerComponent = PlayerComponent()
@@ -93,7 +93,7 @@ class BasePlayerNode: Node {
         }
         addComponent(healthComponent)
 
-        touchAimingComponent.on(.Tapped, onTouchAimingTapped)
+        touchAimingComponent.on(.tapped, onTouchAimingTapped)
         touchAimingComponent.onDragged(onDraggedAiming)
         addComponent(touchAimingComponent)
 
@@ -190,17 +190,17 @@ extension BasePlayerNode {
         let velocity: CGFloat = bulletUpgrade.baseBulletSpeed ± rand(5)
         let style: BulletNode.Style
         if firingComponent?.forceFire == true {
-            style = .Fast
+            style = .fast
         }
         else {
-            style = .Slow
+            style = .slow
         }
 
         let bullet = BulletNode(velocity: CGPoint(r: velocity, a: angle), style: style)
         bullet.position = self.position
         bullet.timeRate = self.timeRate
 
-        bullet.size = BulletArtist.bulletSize(upgrade: .False)
+        bullet.size = BulletArtist.bulletSize(upgrade: .false)
         bullet.zRotation = angle
         bullet.damage = calculateBulletDamage(random: true)
         firingComponent?.damage = calculateBulletDamage()

@@ -4,7 +4,7 @@
 
 class LaserPowerup: Powerup {
     override var name: String { return "LASER" }
-    override var powerupType: ImageIdentifier.PowerupType? { return .Laser }
+    override var powerupType: ImageIdentifier.PowerupType? { return .laser }
 
     required init(count: Int) {
         super.init(count: count)

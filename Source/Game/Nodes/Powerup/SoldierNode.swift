@@ -6,17 +6,17 @@ private let StartingHealth: Float = 4
 private let Speed: CGFloat = 50
 
 class SoldierNode: Node {
-    private var sprite = SKSpriteNode(id: .None)
+    private var sprite = SKSpriteNode(id: .none)
     var restingPosition: CGPoint?
 
     func updateTexture() {
-        sprite.textureId(.Soldier(health: healthComponent?.healthInt ?? 100))
+        sprite.textureId(.soldier(health: healthComponent?.healthInt ?? 100))
     }
 
     required init() {
         super.init()
 
-        sprite.z = .Below
+        sprite.z = .below
         self << sprite
 
         let healthComponent = HealthComponent(health: StartingHealth)

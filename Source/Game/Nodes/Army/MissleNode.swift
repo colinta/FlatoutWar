@@ -5,7 +5,7 @@
 private let RotationRate: CGFloat = 5
 
 class MissleNode: Node {
-    private var sprite = SKSpriteNode(id: .Missle)
+    private var sprite = SKSpriteNode(id: .missle)
     private var circlingDirection: CGFloat?
     private var circlingAngle: CGFloat = 0
     private var timeout: CGFloat = 8
@@ -30,7 +30,7 @@ class MissleNode: Node {
     required init() {
         super.init()
 
-        sprite.z = .AbovePlayer
+        sprite.z = .abovePlayer
         self << sprite
 
         size = CGSize(10, 7)

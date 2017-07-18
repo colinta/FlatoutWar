@@ -13,10 +13,10 @@ class EnemyExplosionNode: Node {
 
     required init() {
         super.init()
-        z = .Bottom
+        z = .bottom
 
         for _ in 0..<NumSprites {
-            let sprite = SKSpriteNode(id: .None)
+            let sprite = SKSpriteNode(id: .none)
             sprites << sprite
             self << sprite
         }
@@ -38,7 +38,7 @@ class EnemyExplosionNode: Node {
 
         for (i, sprite) in sprites.enumerated() {
             let angle = CGFloat(i) / CGFloat(sprites.count) * TAU
-            sprite.textureId(.HueLine(length: length, hue: hue))
+            sprite.textureId(.hueLine(length: length, hue: hue))
             sprite.position = CGPoint(r: distance, a: angle)
             sprite.zRotation = angle
             sprite.alpha = alpha

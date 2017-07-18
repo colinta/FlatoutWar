@@ -8,7 +8,7 @@ private let Duration: CGFloat = 0.5
 class MineFragmentNode: Node {
     private var angle: CGFloat
     private var phase: CGFloat = 0
-    let sprite = SKSpriteNode(id: .MineExplosion)
+    let sprite = SKSpriteNode(id: .mineExplosion)
 
     convenience required init() {
         self.init(angle: 0)

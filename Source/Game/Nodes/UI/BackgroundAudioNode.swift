@@ -7,13 +7,13 @@ import AVFoundation
 
 class BackgroundAudioNode: Node {
     indirect enum AudioState {
-        case Playing
-        case Paused(resume: AudioState)
-        case Stopped
+        case playing
+        case paused(resume: AudioState)
+        case stopped
     }
 
     let audioPlayer: AVAudioPlayer?
-    var state: AudioState = .Stopped
+    var state: AudioState = .stopped
     var volume: CGFloat = 0
     var deltaVolume: CGFloat = 3.333
 
@@ -52,35 +52,35 @@ class BackgroundAudioNode: Node {
 
     override func reset() {
         super.reset()
-        state = .Stopped
+        state = .stopped
         audioPlayer?.stop()
     }
 
     func play() {
         volume = 1
-        state = .Playing
+        state = .playing
         audioPlayer?.play()
     }
 
     func pause() {
         switch state {
-        case .Playing:
+        case .playing:
             audioPlayer?.pause()
         default: break
         }
 
-        state = .Paused(resume: state)
+        state = .paused(resume: state)
     }
 
     func resume() {
         switch state {
-        case let .Paused(nextState):
+        case let .paused(nextState):
             state = nextState
         default: break
         }
 
         switch state {
-        case .Playing:
+        case .playing:
             audioPlayer?.play()
         default: break
         }

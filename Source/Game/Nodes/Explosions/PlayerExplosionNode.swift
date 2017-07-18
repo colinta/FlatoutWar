@@ -13,10 +13,10 @@ class PlayerExplosionNode: Node {
 
     required init() {
         super.init()
-        z = .Bottom
+        z = .bottom
 
         for index in 0..<numSprites {
-            let sprite = SKSpriteNode(id: .BaseExplosion(index: index, total: numSprites))
+            let sprite = SKSpriteNode(id: .baseExplosion(index: index, total: numSprites))
             sprite.zPosition = zPosition
             sprites << (sprite, (±rand(30...90)).degrees, maxDistance * rand(min: 0.1, max: 1))
             self << sprite
@@ -31,8 +31,8 @@ class PlayerExplosionNode: Node {
             return
         }
 
-        let distance = easeOutCubic(time: phase)
-        let alpha = easeOutCubic(time: phase, initial: 1, final: 0.25)
+        let distance = Easing.outCubic.ease(time: phase)
+        let alpha = Easing.outCubic.ease(time: phase, initial: 1, final: 0.25)
 
         for (i, (sprite, rotation, maxDistance)) in sprites.enumerated() {
             let angle = TAU / CGFloat(sprites.count) * CGFloat(i)

@@ -3,19 +3,19 @@
 //
 
 enum PercentStyle {
-    static let Default: PercentStyle = .Experience
-    case Experience
-    case Heat
+    static let `default`: PercentStyle = .experience
+    case experience
+    case heat
 
     var color: Int {
         switch self {
-        case .Experience: return EnemySoldierGreen
+        case .experience: return EnemySoldierGreen
         default: return 0
         }
     }
     var completeColor: Int {
         switch self {
-        case .Experience: return 0x5BBC1A
+        case .experience: return 0x5BBC1A
         default: return 0
         }
     }
@@ -30,20 +30,20 @@ class PercentArtist: Artist {
         self.style = style
         super.init()
         switch style {
-        case .Experience:
+        case .experience:
             size = CGSize(width: 60, height: 5)
-        case .Heat:
+        case .heat:
             size = CGSize(width: 4, height: 35)
         }
     }
 
     required convenience init() {
-        self.init(style: .Default)
+        self.init(style: .default)
     }
 
     override func draw(in context: CGContext) {
         switch style {
-        case .Experience:
+        case .experience:
             let smallWidth = size.width * complete
             context.setAlpha(0.5)
             context.setFillColor(UIColor(hex: style.color).cgColor)
@@ -54,7 +54,7 @@ class PercentArtist: Artist {
             context.setFillColor(UIColor(hex: style.completeColor).cgColor)
             context.addRect(CGRect(size: CGSize(smallWidth, size.height)))
             context.drawPath(using: .fill)
-        case .Heat:
+        case .heat:
             let smallHeight = size.height * complete
             context.addRect(CGRect(x: 0, y: size.height - smallHeight, width: size.width, height: smallHeight))
             context.clip()

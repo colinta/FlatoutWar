@@ -49,14 +49,14 @@ class Powerup {
 
     func icon() -> SKSpriteNode {
         if let powerupType = powerupType {
-            return SKSpriteNode(id: .Powerup(type: powerupType))
+            return SKSpriteNode(id: .powerup(type: powerupType))
         }
-        return SKSpriteNode(id: .None)
+        return SKSpriteNode(id: .none)
     }
 
     func powerupCountNode() -> TextNode {
         let powerupCount = TextNode()
-        powerupCount.font = .Tiny
+        powerupCount.font = .tiny
         powerupCount.position = CGPoint(14, -10)
         powerupCount.text = "\(count)"
         powerupCount.alignment = .left
@@ -70,10 +70,10 @@ class Powerup {
         let powerupCount = powerupCountNode()
         self.powerupCount = powerupCount
 
-        let powerupCountdown = SKSpriteNode(id: .PowerupTimer(percent: 100))
+        let powerupCountdown = SKSpriteNode(id: .powerupTimer(percent: 100))
         self.powerupCountdown = powerupCountdown
         powerupCountdown.alpha = 0
-        powerupCountdown.z = .Bottom
+        powerupCountdown.z = .bottom
 
         let button = Button(at: start)
         button << powerupCountdown
@@ -86,7 +86,7 @@ class Powerup {
 
         let cancelButton = Button()
         cancelButton.visible = false
-        cancelButton << SKSpriteNode(id: .NoPowerup)
+        cancelButton << SKSpriteNode(id: .noPowerup)
         cancelButton.onTapped {
             self.cancelIfRunning()
         }
@@ -148,7 +148,7 @@ class Powerup {
         if cooldown > 0 {
             cooldown -= dt
             powerupCountdown?.alpha = 1
-            powerupCountdown?.textureId(.PowerupTimer(percent: Int(100 * cooldown / timeout)))
+            powerupCountdown?.textureId(.powerupTimer(percent: Int(100 * cooldown / timeout)))
 
             if cooldown <= 0 {
                 powerupCountdown?.alpha = 0
@@ -211,13 +211,13 @@ class Powerup {
             }
 
             let touchComponent = TouchableComponent()
-            touchComponent.on(.Down) { location in
+            touchComponent.on(.down) { location in
                 self.powerupCancel = nil
                 cancelTimeout()
 
                 let node = Node()
                 node.position = location
-                node << SKSpriteNode(id: .ColorCircle(size: CGSize(60), color: WhiteColor))
+                node << SKSpriteNode(id: .colorCircle(size: CGSize(60), color: WhiteColor))
                 node.scaleTo(0, duration: 0.3, removeNode: true)
                 level.addChild(node)
 

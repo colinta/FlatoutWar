@@ -13,7 +13,7 @@ class TutorialLevel5: TutorialLevel {
     }
 
     func beginWave1(nextStep: @escaping NextStepBlock) {
-        let wave1 = randSideAngle(.Right)
+        let wave1 = randSideAngle(.right)
         let wave2 = wave1 ± (TAU_16 + rand(TAU_16))
 
         generateWarning(wave1, wave2)
@@ -22,7 +22,7 @@ class TutorialLevel5: TutorialLevel {
     }
 
     func beginWave2(nextStep: @escaping NextStepBlock) {
-        let wave1 = randSideAngle(.Right)
+        let wave1 = randSideAngle(.right)
         let wave2 = wave1 ± (TAU_8 + rand(TAU_16))
         generateWarning(wave1, wave2)
         timeline.every(0.8...2.5, start: .Delayed(), times: 5, block: generateEnemyTrio(wave1, enemy: EnemyFastSoldierNode())) ~~> nextStep()
@@ -31,7 +31,7 @@ class TutorialLevel5: TutorialLevel {
 
     func beginWave3(nextStep: @escaping NextStepBlock) {
         timeline.every(2...4, times: 5) {
-            let wave = self.randSideAngle(.Right)
+            let wave = self.randSideAngle(.right)
             self.generateWarning(wave)
             self.timeline.at(.Delayed(), block: self.generateLeaderWithLinearFollowers(wave))
         } ~~> nextStep()
@@ -54,7 +54,7 @@ class TutorialLevel5: TutorialLevel {
         }
         timeline.every(1...4, start: .Delayed(), until: { return trios == 0 && quads == 0 }) {
             let pickTrio = [true, false].randWeighted { $0 ? Float(trios) : Float(quads) }
-            let wave = self.randSideAngle(.Right)
+            let wave = self.randSideAngle(.right)
             let generate: Block
             if pickTrio == true {
                 trios -= 1

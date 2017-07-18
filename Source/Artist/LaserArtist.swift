@@ -35,7 +35,7 @@ class LaserTurretArtist: Artist {
         self.isFiring = isFiring
         super.init()
         size = CGSize(20)
-        shadowed = .True
+        shadowed = .true
     }
 
     required init() {

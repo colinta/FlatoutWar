@@ -5,15 +5,15 @@
 class MainMenuWorld: World {
 
     override func populateWorld() {
-        let twoDim = TextNode(fixed: .Top(x: 0, y: -20))
+        let twoDim = TextNode(fixed: .top(x: 0, y: -20))
         twoDim.setScale(0.75)
         twoDim.text = "2DIM"
         self.ui << twoDim
 
-        let flatoutWar = TextNode(fixed: .Top(x: 0, y: -70))
+        let flatoutWar = TextNode(fixed: .top(x: 0, y: -70))
         flatoutWar.setScale(1.1)
         flatoutWar.text = "FLATOUT WAR"
-        flatoutWar.font = .Big
+        flatoutWar.font = .big
         self.ui << flatoutWar
 
         let howMany: Int = rand(8...15)
@@ -32,7 +32,7 @@ class MainMenuWorld: World {
             self << enemyNode
         }
 
-        timeline.every(5...7, start: .At(1)) {
+        timeline.every(5...7, start: .at(1)) {
             let startAngle: CGFloat = rand(TAU)
             let flyAngle: CGFloat = startAngle + TAU_2 ± rand(TAU_16)
             let velocity = CGPoint(r: 100, a: flyAngle)
@@ -78,7 +78,7 @@ class MainMenuWorld: World {
 
         let startButtonNode = Button(at: CGPoint(x: 0, y: 0))
         startButtonNode.text = "START"
-        startButtonNode.font = .Big
+        startButtonNode.font = .big
         startButtonNode.onTapped {
             self.director?.presentWorld(IntroductionCutSceneWorld())
         }
@@ -86,7 +86,7 @@ class MainMenuWorld: World {
 
         let continueButtonNode = Button(at: CGPoint(x: 0, y: -60))
         continueButtonNode.text = "CONTINUE"
-        continueButtonNode.font = .Big
+        continueButtonNode.font = .big
         continueButtonNode.onTapped {
             self.director?.presentWorld(WorldSelectWorld())
         }
@@ -94,7 +94,7 @@ class MainMenuWorld: World {
 
         let setupButtonNode = Button(at: CGPoint(x: 0, y: -120))
         setupButtonNode.text = "SETUP"
-        setupButtonNode.font = .Big
+        setupButtonNode.font = .big
         setupButtonNode.onTapped {
             self.director?.presentWorld(StartupWorld())
         }

@@ -30,7 +30,7 @@ class OceanLevel8: OceanLevel {
 
     func beginWave1(nextStep: @escaping NextStepBlock) {
         moveCamera(to: CGPoint(x: -50), zoom: 0.7, duration: 1)
-        generateSideWarnings(side: .Right)
+        generateSideWarnings(side: .right)
         let angle1 = rand(10.degrees) as CGFloat
         let angle2 = angle1 ± rand(min: 10.degrees, max: 20.degrees)
         let angle3 = angle2 ± rand(min: 10.degrees, max: 20.degrees)

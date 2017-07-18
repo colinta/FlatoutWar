@@ -4,7 +4,7 @@
 
 class NetPowerup: Powerup {
     override var name: String { return "NET" }
-    override var powerupType: ImageIdentifier.PowerupType? { return .Net }
+    override var powerupType: ImageIdentifier.PowerupType? { return .net }
 
     required init(count: Int) {
         super.init(count: count)
@@ -15,7 +15,7 @@ class NetPowerup: Powerup {
 
         self.onNextTap(slowmo: true) { position in
             let node = NetNode(at: position)
-            node.scaleTo(1, start: 0, duration: 0.8, easing: .EaseOutElastic)
+            node.scaleTo(1, start: 0, duration: 0.8, easing: .outElastic)
             layer << node
 
             level.timeline.after(time: 1) {

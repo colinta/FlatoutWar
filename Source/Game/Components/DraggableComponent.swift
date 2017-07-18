@@ -105,8 +105,8 @@ class DraggableComponent: Component {
     }
 
     func bindTo(touchableComponent: TouchableComponent) {
-        touchableComponent.on(.DragBegan, draggingBegan)
-        touchableComponent.on(.DragEnded, draggingEnded)
+        touchableComponent.on(.dragBegan, draggingBegan)
+        touchableComponent.on(.dragEnded, draggingEnded)
         touchableComponent.onDragged(draggingMoved)
     }
 

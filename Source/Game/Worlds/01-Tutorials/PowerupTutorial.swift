@@ -13,7 +13,7 @@ class PowerupTutorial: Tutorial {
         playerNode.firingComponent?.enabled = false
         playerNode.radarSprite.removeFromParent()
         playerNode.position += CGPoint(10, -10)
-        tutorialTextNode.font = .Small
+        tutorialTextNode.font = .small
         tutorialTextNode.text = "POWERUPS"
 
         timeline.at(1) {
@@ -51,11 +51,11 @@ class PowerupTutorial: Tutorial {
         let duration: CGFloat = 1
         for (index, button) in powerupButtons.enumerated() {
             ui << button
-            let start: Position = .Left(
+            let start: Position = .left(
                 x: -150,
                 y: 80 - CGFloat(index) * 80
             )
-            let dest: Position = .Left(
+            let dest: Position = .left(
                 x: 40,
                 y: 50 - CGFloat(index) * 50
             )
@@ -72,7 +72,7 @@ class PowerupTutorial: Tutorial {
     }
 
     func showTapLabel() -> TextNode {
-        let position: Position = .Left(
+        let position: Position = .left(
             x: 60,
             y: 100
         )
@@ -113,7 +113,7 @@ class PowerupTutorial: Tutorial {
         var nextDelay: CGFloat = 4
         10.times {
             let wave: CGFloat = TAU_7_8 ± rand(TAU_8)
-            timeline.every(0.25, start: .After(delay), times: 3, block: self.generateEnemy(wave)) ~~> nextStep()
+            timeline.every(0.25, start: .after(delay), times: 3, block: self.generateEnemy(wave)) ~~> nextStep()
             delay += nextDelay
             nextDelay -= 0.15
         }

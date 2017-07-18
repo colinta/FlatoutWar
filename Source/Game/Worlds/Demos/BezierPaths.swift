@@ -4,7 +4,7 @@
 
 class BezierPaths: World {
     var pts: [CGPoint] = []
-    var sprite = SKSpriteNode(id: .None)
+    var sprite = SKSpriteNode(id: .none)
     var dots: [Node] = []
     var touchDots: [Node] = []
     var time: CGFloat = 0
@@ -70,7 +70,7 @@ class BezierPaths: World {
             self << dot
         }
 
-        sprite.textureId(.ColorPath(path: path, color: PowerupRed))
+        sprite.textureId(.colorPath(path: path, color: PowerupRed))
         sprite.position = path.bounds.origin
     }
 

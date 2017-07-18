@@ -6,9 +6,9 @@ class CloseButton: Button {
 
     required init() {
         super.init()
-        fixedPosition = .TopRight(x: -15, y: -15)
+        fixedPosition = .topRight(x: -15, y: -15)
         setScale(0.5)
-        font = .Big
+        font = .big
         text = "×"
         size = CGSize(60)
     }

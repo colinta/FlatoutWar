@@ -6,28 +6,28 @@ let ButtonScale: CGFloat = 1.1
 let ButtonDisabledAlpha: CGFloat = 0.25
 
 enum ButtonStyle {
-    case Square
-    case SquareSized(Int)
-    case RectSized(Int, Int)
-    case RectToFit
-    case Circle
-    case CircleSized(Int)
-    case None
+    case square
+    case squareSized(Int)
+    case rectSized(Int, Int)
+    case rectToFit
+    case circle
+    case circleSized(Int)
+    case none
 
     var size: CGSize {
         switch self {
-        case .Square: return CGSize(50)
-        case .Circle: return CGSize(60)
-        case let .SquareSized(size): return CGSize(CGFloat(size))
-        case let .RectSized(width, height): return CGSize(CGFloat(width), CGFloat(height))
-        case let .CircleSized(size): return CGSize(CGFloat(size))
+        case .square: return CGSize(50)
+        case .circle: return CGSize(60)
+        case let .squareSized(size): return CGSize(CGFloat(size))
+        case let .rectSized(width, height): return CGSize(CGFloat(width), CGFloat(height))
+        case let .circleSized(size): return CGSize(CGFloat(size))
         default: return .zero
         }
     }
 
     var margins: UIEdgeInsets {
         switch self {
-        case .RectToFit: return UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+        case .rectToFit: return UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
         default: return .zero
         }
     }
@@ -36,10 +36,10 @@ enum ButtonStyle {
 
 class Button: TextNode {
     enum ButtonBehavior {
-        case Disable
+        case disable
     }
 
-    var style: ButtonStyle = .None {
+    var style: ButtonStyle = .none {
         didSet { updateButtonStyle() }
     }
     var preferredScale: CGFloat = 1
@@ -73,7 +73,7 @@ class Button: TextNode {
     func onTapped(_ behavior: ButtonBehavior) -> Self {
         onTapped {
             switch behavior {
-            case .Disable:
+            case .disable:
                 self.touchableComponent?.enabled = false
             }
         }
@@ -112,28 +112,28 @@ class Button: TextNode {
     }
 
     required init() {
-        buttonStyleNode = SKSpriteNode(id: .None)
-        buttonBackgroundNode = SKSpriteNode(id: .None)
+        buttonStyleNode = SKSpriteNode(id: .none)
+        buttonBackgroundNode = SKSpriteNode(id: .none)
 
         super.init()
 
-        buttonStyleNode.z = .Bottom
+        buttonStyleNode.z = .bottom
         self << buttonStyleNode
 
-        buttonBackgroundNode.z = .Bottom
+        buttonBackgroundNode.z = .bottom
         self << buttonBackgroundNode
 
         let touchableComponent = TouchableComponent()
         touchableComponent.containsTouchTest = { [unowned self] (_, location) in
             return self.containsTouchTest(at: location)
         }
-        touchableComponent.on(.Enter) { _ in
+        touchableComponent.on(.enter) { _ in
             self.highlight()
         }
-        touchableComponent.on(.Exit) { _ in
+        touchableComponent.on(.exit) { _ in
             self.unhighlight()
         }
-        touchableComponent.on(.UpInside) { _ in self.triggerTapped() }
+        touchableComponent.on(.upInside) { _ in self.triggerTapped() }
         addComponent(touchableComponent)
     }
 
@@ -177,28 +177,28 @@ class Button: TextNode {
         var textureStyle = style
 
         switch style {
-        case .None:
+        case .none:
             break
-        case .RectToFit:
+        case .rectToFit:
             let rectMargin: CGFloat = 10
             size = CGSize(CGFloat(ceil(textSize.width)) + rectMargin, CGFloat(ceil(textSize.height)) + rectMargin)
             let margins = calculateMargins()
             size.width += margins.left + margins.right
             size.height += margins.top + margins.bottom
-            textureStyle = .RectSized(Int(size.width), Int(size.height))
+            textureStyle = .rectSized(Int(size.width), Int(size.height))
         default:
             size = style.size
         }
-        buttonStyleNode.textureId(.Button(style: textureStyle, color: border ?? color))
+        buttonStyleNode.textureId(.button(style: textureStyle, color: border ?? color))
 
-        var backgroundId: ImageIdentifier = .None
+        var backgroundId: ImageIdentifier = .none
         if let background = background {
             switch style {
-            case .None: break
-            case .Circle, .CircleSized:
-                backgroundId = .FillColorCircle(size: size, color: background)
+            case .none: break
+            case .circle, .circleSized:
+                backgroundId = .fillColorCircle(size: size, color: background)
             default:
-                backgroundId = .FillColorBox(size: size, color: background)
+                backgroundId = .fillColorBox(size: size, color: background)
             }
         }
         buttonBackgroundNode.textureId(backgroundId)
@@ -218,7 +218,7 @@ class Button: TextNode {
 
     func highlight() {
         prevZ = zPosition
-        z = .Top
+        z = .top
         super.setScale(preferredScale * ButtonScale)
     }
 

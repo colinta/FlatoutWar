@@ -33,7 +33,7 @@ class EnemyGiantNode: EnemySoldierNode {
             count.times { (j: Int) in
                 let y: CGPoint = (0.5 + CGFloat(count) / 2 - CGFloat(j)) * vy
 
-                let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Small)
+                let node = ShrapnelNode(type: .enemy(enemyType(), health: 100), size: .small)
                 node.setupAround(node: self, at: position + x + y)
 
                 let dest = CGPoint(r: rand(min: dist, max: dist * 1.5), a: angle ± rand(spread))
@@ -46,7 +46,7 @@ class EnemyGiantNode: EnemySoldierNode {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func enemyType() -> ImageIdentifier.EnemyType {
-        return .GiantSoldier
+        return .giantSoldier
     }
 
 }

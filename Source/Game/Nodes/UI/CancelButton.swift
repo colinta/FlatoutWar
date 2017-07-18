@@ -6,9 +6,9 @@ class CancelButton: Button {
 
     required init() {
         super.init()
-        style = .CircleSized(50)
+        style = .circleSized(50)
         setScale(0.5)
-        font = .Big
+        font = .big
         text = "×"
         size = CGSize(50)
     }

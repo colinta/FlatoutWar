@@ -4,7 +4,7 @@
 
 class MinesPowerup: Powerup {
     override var name: String { return "MINES" }
-    override var powerupType: ImageIdentifier.PowerupType? { return .Mines }
+    override var powerupType: ImageIdentifier.PowerupType? { return .mines }
 
     required init(count: Int) {
         super.init(count: count)

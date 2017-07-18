@@ -13,10 +13,10 @@ class EnemySoldierNode: Node {
     var initialAimTowardsTarget = true
 
     enum Scatter {
-        case RunAway
-        case Dodge
-        case Custom((Node) -> Void)
-        case None
+        case runAway
+        case dodge
+        case custom((Node) -> Void)
+        case none
     }
 
     required init() {
@@ -78,11 +78,11 @@ class EnemySoldierNode: Node {
     }
 
     func enemyType() -> ImageIdentifier.EnemyType {
-        return .Soldier
+        return .soldier
     }
 
     func updateTexture() {
-        sprite.textureId(.Enemy(enemyType(), health: healthComponent?.healthInt ?? 100))
+        sprite.textureId(.enemy(enemyType(), health: healthComponent?.healthInt ?? 100))
     }
 
     func onHurt() {
@@ -121,7 +121,7 @@ class EnemySoldierNode: Node {
             parent.convert(CGPoint(x:-radius / 2, y:-radius / 2), from: self),
         ]
         4.times { (i: Int) in
-            let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Big)
+            let node = ShrapnelNode(type: .enemy(enemyType(), health: 100), size: .big)
             node.setupAround(node: self, at: locations[i])
             let dest = CGPoint(r: rand(min: dist, max: dist * 1.5), a: angle ± rand(spread))
             node.moveToComponent?.target = node.position + dest
@@ -133,7 +133,7 @@ class EnemySoldierNode: Node {
         guard let parent = parent else { return }
 
         Int(damage * 10).times {
-            let node = ShrapnelNode(type: .Enemy(enemyType(), health: 100), size: .Small)
+            let node = ShrapnelNode(type: .enemy(enemyType(), health: 100), size: .small)
             node.setupAround(node: self)
             parent << node
         }
@@ -161,7 +161,7 @@ extension EnemySoldierNode {
         self.rammingComponent?.tempTarget = dest
     }
 
-    func follow(leader: Node, scatter: Scatter = .RunAway, component: FollowComponent? = nil) {
+    func follow(leader: Node, scatter: Scatter = .runAway, component: FollowComponent? = nil) {
         let followComponent = component ?? self.get(component: FollowComponent.self) ?? FollowNodeComponent()
 
         playerTargetingComponent?.targetingEnabled = false
@@ -170,15 +170,15 @@ extension EnemySoldierNode {
         followComponent.follow = leader
 
         switch scatter {
-        case .RunAway:
+        case .runAway:
             leader.healthComponent?.onKilled(self.runAway)
-        case .Dodge:
+        case .dodge:
             leader.healthComponent?.onKilled(self.dodge)
-        case let .Custom(handler):
+        case let .custom(handler):
             leader.healthComponent?.onKilled {
                 handler(self)
             }
-        case .None: break
+        case .none: break
         }
         leader.onDeath { [weak self] in
             if let `self` = self {

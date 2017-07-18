@@ -8,7 +8,7 @@ class TimelineComponent: Component {
     struct CancellableWrapper {
         let timeline: TimelineComponent
 
-        func every(_ interval: ClosedRange<CGFloat>, start: TimeDescriptor = .After(0), block: @escaping Block) -> Block {
+        func every(_ interval: ClosedRange<CGFloat>, start: TimeDescriptor = .after(0), block: @escaping Block) -> Block {
             let event = timeline.every(interval, start: start, block: block)
             return { self.timeline.removeEvent(event)}
         }
@@ -37,26 +37,26 @@ class TimelineComponent: Component {
 
     enum TimeDescriptor: ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral {
         init(integerLiteral time: Int) {
-            self = .At(CGFloat(time))
+            self = .at(CGFloat(time))
         }
         init(floatLiteral time: Float) {
-            self = .At(CGFloat(time))
+            self = .at(CGFloat(time))
         }
         static func Delayed(_ dt: CGFloat = 0) -> TimeDescriptor {
-            return After(dt + DefaultDelay)
+            return .after(dt + DefaultDelay)
         }
 
-        case At(CGFloat)
-        case After(CGFloat)
-        case Now
+        case at(CGFloat)
+        case after(CGFloat)
+        case now
 
         func toTime(_ now: CGFloat) -> CGFloat {
             switch self {
-            case let .At(t):
+            case let .at(t):
                 return t
-            case let .After(dt):
+            case let .after(dt):
                 return now + dt
-            case .Now:
+            case .now:
                 return now
             }
         }
@@ -193,12 +193,12 @@ class TimelineComponent: Component {
     }
 
     @discardableResult
-    func every(_ interval: CGFloat, start: TimeDescriptor = .After(0), block: @escaping Block) -> RecurringEvent {
+    func every(_ interval: CGFloat, start: TimeDescriptor = .after(0), block: @escaping Block) -> RecurringEvent {
         return _every({ return interval }, start: start, until: { return false }, block: block)
     }
 
     @discardableResult
-    func every(_ interval: CGFloat, start: TimeDescriptor = .After(0), times: Int, block: @escaping Block) -> RecurringEvent {
+    func every(_ interval: CGFloat, start: TimeDescriptor = .after(0), times: Int, block: @escaping Block) -> RecurringEvent {
         var c = times
         let wrappedBlock: Block = {
             block()
@@ -209,17 +209,17 @@ class TimelineComponent: Component {
     }
 
     @discardableResult
-    func every(_ interval: CGFloat, start: TimeDescriptor = .After(0), until untilBlock: @escaping ConditionBlock, block: @escaping Block) -> RecurringEvent {
+    func every(_ interval: CGFloat, start: TimeDescriptor = .after(0), until untilBlock: @escaping ConditionBlock, block: @escaping Block) -> RecurringEvent {
         return _every({ return interval }, start: start, until: untilBlock, block: block)
     }
 
     @discardableResult
-    func every(_ interval: ClosedRange<CGFloat>, start: TimeDescriptor = .After(0), block: @escaping Block) -> RecurringEvent {
+    func every(_ interval: ClosedRange<CGFloat>, start: TimeDescriptor = .after(0), block: @escaping Block) -> RecurringEvent {
         return every(interval, start: start, until: { return false}, block: block)
     }
 
     @discardableResult
-    func every(_ interval: ClosedRange<CGFloat>, start: TimeDescriptor = .After(0), times: Int, block: @escaping Block) -> RecurringEvent {
+    func every(_ interval: ClosedRange<CGFloat>, start: TimeDescriptor = .after(0), times: Int, block: @escaping Block) -> RecurringEvent {
         guard times > 0 else { return RecurringEvent() }
 
         let min = interval.lowerBound
@@ -234,13 +234,13 @@ class TimelineComponent: Component {
     }
 
     @discardableResult
-    func every(_ interval: ClosedRange<CGFloat>, start: TimeDescriptor = .After(0), until untilBlock: @escaping ConditionBlock, block: @escaping Block) -> RecurringEvent {
+    func every(_ interval: ClosedRange<CGFloat>, start: TimeDescriptor = .after(0), until untilBlock: @escaping ConditionBlock, block: @escaping Block) -> RecurringEvent {
         let min = interval.lowerBound
         let max = interval.upperBound
         return _every({ return rand(min: min, max: max) }, start: start, until: untilBlock, block: block)
     }
 
-    private func _every(_ generator: @escaping () -> CGFloat, start: TimeDescriptor = .After(0), until untilBlock: @escaping ConditionBlock, block: @escaping Block) -> RecurringEvent {
+    private func _every(_ generator: @escaping () -> CGFloat, start: TimeDescriptor = .after(0), until untilBlock: @escaping ConditionBlock, block: @escaping Block) -> RecurringEvent {
         let entry: RecurringEvent = RecurringEvent(countdown: 0, generator: generator, startAt: start.toTime(time), until: untilBlock, block: block)
         addEvent(entry)
 

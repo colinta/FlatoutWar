@@ -14,7 +14,7 @@ class PolygonArtist: Artist {
         self.pointCount = pointCount
 
         super.init()
-        shadowed = .True
+        shadowed = .true
         size = CGSize(30)
     }
 

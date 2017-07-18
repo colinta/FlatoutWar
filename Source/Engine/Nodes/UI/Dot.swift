@@ -3,7 +3,7 @@
 //
 
 class Dot: Node {
-    let sprite = SKSpriteNode(id: .Dot(color: 0x808080))
+    let sprite = SKSpriteNode(id: .dot(color: 0x808080))
 
     required init() {
         super.init()

@@ -13,7 +13,7 @@ class EnemyDozerNode: EnemySoldierNode {
         super.init()
         name = "dozer"
         size = CGSize(width: 5, height: 50)
-        shape = .Rect
+        shape = .rect
         rammingDamage = Damage
         healthComponent!.startingHealth = StartingHealth
         enemyComponent!.blocksNextWave = false
@@ -24,7 +24,7 @@ class EnemyDozerNode: EnemySoldierNode {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func enemyType() -> ImageIdentifier.EnemyType {
-        return .Dozer
+        return .dozer
     }
 
     override func update(_ dt: CGFloat) {

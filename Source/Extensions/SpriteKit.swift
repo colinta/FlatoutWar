@@ -9,7 +9,7 @@ extension SKTexture {
         generatedTextures = [:]
     }
 
-    static func id(_ id: ImageIdentifier, scale: Artist.Scale = .Default) -> SKTexture {
+    static func id(_ id: ImageIdentifier, scale: Artist.Scale = .default) -> SKTexture {
         let cacheName = id.name
         if let cacheName = cacheName {
             if let cached = generatedTextures[cacheName] {
@@ -42,7 +42,7 @@ extension SKLightNode {
 }
 
 extension SKSpriteNode {
-    convenience init(id: ImageIdentifier, at position: CGPoint = .zero, scale: Artist.Scale = .Default) {
+    convenience init(id: ImageIdentifier, at position: CGPoint = .zero, scale: Artist.Scale = .default) {
         let texture = SKTexture.id(id, scale: scale)
         self.init(texture: texture)
         setScale(1 / scale.drawScale)
@@ -50,7 +50,7 @@ extension SKSpriteNode {
         self.shadowedBitMask = 0xFFFFFFFF
     }
 
-    func textureId(_ id: ImageIdentifier, scale: Artist.Scale = .Default) {
+    func textureId(_ id: ImageIdentifier, scale: Artist.Scale = .default) {
         if self.texture == nil {
             setScale(1 / scale.drawScale)
         }
@@ -63,7 +63,7 @@ extension SKSpriteNode {
 extension SKNode {
     var z: Z {
         set { zPosition = newValue.value }
-        get { return .Custom(zPosition) }
+        get { return .custom(zPosition) }
     }
 
     var visible: Bool {

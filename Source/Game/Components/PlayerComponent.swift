@@ -4,8 +4,8 @@
 
 class PlayerComponent: Component {
     enum Rammed {
-        case Damaged
-        case Attacks
+        case damaged
+        case attacks
     }
 
     var intersectable: Bool = true
@@ -14,7 +14,7 @@ class PlayerComponent: Component {
         get { return node.active && _targetable }
         set { _targetable = newValue }
     }
-    var rammedBehavior: Rammed = .Damaged
+    var rammedBehavior: Rammed = .damaged
     weak var intersectionNode: SKNode?
 
     required override init() {

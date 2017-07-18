@@ -28,11 +28,11 @@ class ExplosionNode: Node {
         super.init()
 
         self.size = CGSize(r: radius)
-        z = .Bottom
+        z = .bottom
 
         let numSprites = Int(ceil(radius / 4))
         for _ in 0..<numSprites {
-            let sprite = SKSpriteNode(id: .None)
+            let sprite = SKSpriteNode(id: .none)
             sprites << sprite
             self << sprite
         }
@@ -58,7 +58,7 @@ class ExplosionNode: Node {
 
         for (i, sprite) in sprites.enumerated() {
             let angle = CGFloat(i) / CGFloat(sprites.count) * TAU
-            sprite.textureId(.HueLine(length: length, hue: hue))
+            sprite.textureId(.hueLine(length: length, hue: hue))
             sprite.position = CGPoint(r: distance, a: angle)
             sprite.zRotation = angle
             sprite.alpha = alpha

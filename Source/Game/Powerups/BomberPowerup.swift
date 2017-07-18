@@ -4,7 +4,7 @@
 
 class BomberPowerup: Powerup {
     override var name: String { return "BOMBER" }
-    override var powerupType: ImageIdentifier.PowerupType? { return .Bomber }
+    override var powerupType: ImageIdentifier.PowerupType? { return .bomber }
 
     required init(count: Int) {
         super.init(count: count)
@@ -36,7 +36,7 @@ class BomberPowerup: Powerup {
         self.powerupCancel = restore ++ cancel
 
         let touchComponent = pathNode.touchableComponent!
-        touchComponent.on(.Up) { location in
+        touchComponent.on(.up) { location in
             let bomber = BomberPowerupNode()
             bomber.timeRate = 1 / slowmo
             bomber.scaleTo(1, start: 1.5, duration: 1)

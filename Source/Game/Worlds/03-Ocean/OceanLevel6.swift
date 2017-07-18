@@ -12,8 +12,8 @@ class OceanLevel6: OceanLevel {
     // exp: 10 * 8 = 80
     func beginWave1(nextStep: @escaping NextStepBlock) {
         moveCamera(to: CGPoint(x: 140), zoom: 1, duration: 1)
-        generateSideWarnings(side: .Right)
-        timeline.every(1.5, start: .Delayed(2), times: 16, block: generateEnemy(self.randSideAngle(.Right))) ~~> nextStep()
+        generateSideWarnings(side: .right)
+        timeline.every(1.5, start: .Delayed(2), times: 16, block: generateEnemy(self.randSideAngle(.right))) ~~> nextStep()
         timeline.every(2.5, start: .Delayed(), times: 8) {
             let payload = [
                 EnemyScoutNode(),
@@ -25,14 +25,14 @@ class OceanLevel6: OceanLevel {
                 EnemyScoutNode(),
                 EnemyScoutNode(),
             ]
-            self.generateEnemyTransport(.Right, payload: payload)()
+            self.generateEnemyTransport(.right, payload: payload)()
         } ~~> nextStep()
     }
 
     // exp: (2+2)*6 + 6*8 = 72, total 152
     func beginWave2(nextStep: @escaping NextStepBlock) {
         moveCamera(to: CGPoint(x: 50), zoom: 0.8, duration: 1)
-        generateSideWarnings(side: .Right)
+        generateSideWarnings(side: .right)
         timeline.every(1, times: 6, block: generateDoubleDozer(±rand(self.size.angle)))
         timeline.every(2.5, start: .Delayed(), times: 8) {
             let payload = [
@@ -41,7 +41,7 @@ class OceanLevel6: OceanLevel {
                 EnemySlowSoldierNode(),
                 EnemyFastSoldierNode(),
             ]
-            self.generateEnemyTransport(.Right, payload: payload)()
+            self.generateEnemyTransport(.right, payload: payload)()
         } ~~> nextStep()
     }
 

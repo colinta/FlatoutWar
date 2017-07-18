@@ -4,8 +4,8 @@
 
 class NodeStorage {
     enum NodeType: Int {
-        case Drone
-        case BasePlayer
+        case drone
+        case basePlayer
     }
 
     static func fromDefaults(_ defaults: NSDictionary) -> Node? {
@@ -14,13 +14,13 @@ class NodeStorage {
 
         let node: Node
         switch type {
-        case .BasePlayer:
+        case .basePlayer:
             let player = BasePlayerNode()
             player.movementUpgrade = HasUpgrade(safe: defaults["movementUpgrade"] as? Bool)
             player.bulletUpgrade = HasUpgrade(safe: defaults["bulletUpgrade"] as? Bool)
             player.radarUpgrade = HasUpgrade(safe: defaults["radarUpgrade"] as? Bool)
             node = player
-        case .Drone:
+        case .drone:
             let drone = DroneNode()
             drone.movementUpgrade = HasUpgrade(safe: defaults["movementUpgrade"] as? Bool)
             drone.bulletUpgrade = HasUpgrade(safe: defaults["bulletUpgrade"] as? Bool)
@@ -40,13 +40,13 @@ class NodeStorage {
         let defaults = NSMutableDictionary()
         let type: NodeType?
         if let node = node as? BasePlayerNode {
-            type = .BasePlayer
+            type = .basePlayer
             defaults["movementUpgrade"] = node.movementUpgrade.boolValue
             defaults["bulletUpgrade"] = node.bulletUpgrade.boolValue
             defaults["radarUpgrade"] = node.radarUpgrade.boolValue
         }
         else if let node = node as? DroneNode {
-            type = .Drone
+            type = .drone
             defaults["movementUpgrade"] = node.movementUpgrade.boolValue
             defaults["bulletUpgrade"] = node.bulletUpgrade.boolValue
             defaults["radarUpgrade"] = node.radarUpgrade.boolValue

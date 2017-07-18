@@ -21,7 +21,7 @@ class UIWorld: World {
         experienceInfo.position = position
         uiLayer << experienceInfo
 
-        let experienceSquare = SKSpriteNode(id: .ExperienceIcon)
+        let experienceSquare = SKSpriteNode(id: .experienceIcon)
         experienceInfo << experienceSquare
 
         let gainedExperience = TextNode()

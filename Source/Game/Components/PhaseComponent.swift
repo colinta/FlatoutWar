@@ -4,7 +4,7 @@
 
 class PhaseComponent: Component {
     var loops = false
-    var easing = Easing.Linear
+    var easing = Easing.linear
     private var _phase: CGFloat = 0
     var phase: CGFloat {
         get { return easing.ease(time: _phase, initial: 0, final: 1) }

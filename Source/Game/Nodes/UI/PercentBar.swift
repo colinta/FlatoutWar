@@ -6,7 +6,7 @@ class PercentBar: Node {
     let sprite = SKSpriteNode()
     let minSprite = SKSpriteNode()
 
-    var style: PercentStyle = .Default { didSet { updateSprite() } }
+    var style: PercentStyle = .default { didSet { updateSprite() } }
     var isComplete: Bool { return complete == 1 }
     var isZero: Bool { return complete == 0 }
     var complete: CGFloat = 0 { didSet {
@@ -22,16 +22,16 @@ class PercentBar: Node {
     } }
 
     private func updateSprite() {
-        sprite.textureId(.Percent(Int(round(min(max(complete, 0), 1) * 100)), style: style))
+        sprite.textureId(.percent(Int(round(min(max(complete, 0), 1) * 100)), style: style))
         size = sprite.size
 
         if let minimum = minimum {
             let x = size.width * (min(max(minimum, 0), 1) - 0.5)
             minSprite.position.x = x
-            minSprite.textureId(.ColorLine(length: size.height * 2, color: style.color))
+            minSprite.textureId(.colorLine(length: size.height * 2, color: style.color))
         }
         else {
-            minSprite.textureId(.None)
+            minSprite.textureId(.none)
         }
     }
 

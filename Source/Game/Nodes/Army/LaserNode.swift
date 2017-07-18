@@ -5,21 +5,21 @@
 private let StartingHealth: Float = 60
 
 class LaserNode: Node, DraggableNode {
-    var radarUpgrade: HasUpgrade = .False { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
-    var bulletUpgrade: HasUpgrade = .False { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
-    var movementUpgrade: HasUpgrade = .False { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
+    var radarUpgrade: HasUpgrade = .false { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
+    var bulletUpgrade: HasUpgrade = .false { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
+    var movementUpgrade: HasUpgrade = .false { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
 
     let armyComponent = SelectableArmyComponent()
 
     fileprivate func updateTurretSprite() {
-        turretSprite.textureId(.LaserTurret(upgrade: bulletUpgrade, isFiring: isFiring))
+        turretSprite.textureId(.laserTurret(upgrade: bulletUpgrade, isFiring: isFiring))
     }
     fileprivate func updateRadarSprite() {
-        radarSprite.textureId(.LaserRadar(upgrade: radarUpgrade, isSelected: armyComponent.isCurrent))
+        radarSprite.textureId(.laserRadar(upgrade: radarUpgrade, isSelected: armyComponent.isCurrent))
     }
     fileprivate func updateUpgrades() {
-        baseSprite.textureId(.LaserNode(upgrade: movementUpgrade, health: healthComponent?.healthInt ?? 100))
-        placeholder.textureId(.LaserNode(upgrade: movementUpgrade, health: 100))
+        baseSprite.textureId(.laserNode(upgrade: movementUpgrade, health: healthComponent?.healthInt ?? 100))
+        placeholder.textureId(.laserNode(upgrade: movementUpgrade, health: 100))
         updateRadarSprite()
         updateTurretSprite()
 
@@ -64,17 +64,17 @@ class LaserNode: Node, DraggableNode {
         beamSprite.position = CGPoint(x: 5)
         beamSprite.anchorPoint = CGPoint(0, 0.5)
 
-        baseSprite.z = .Player
-        radarSprite.z = .BelowPlayer
-        turretSprite.z = .AbovePlayer
-        beamSprite.z = Z.below(.AbovePlayer)
+        baseSprite.z = .player
+        radarSprite.z = .belowPlayer
+        turretSprite.z = .abovePlayer
+        beamSprite.z = Z.zBelow(.abovePlayer)
 
         self << baseSprite
         self << radarSprite
         self << turretSprite
         self << beamSprite
 
-        forceFirePercent.style = .Heat
+        forceFirePercent.style = .heat
         forceFirePercent.position = CGPoint(x: -20)
         forceFirePercent.complete = 0
         self << forceFirePercent
@@ -90,7 +90,7 @@ class LaserNode: Node, DraggableNode {
 
         let healthComponent = HealthComponent(health: StartingHealth)
         healthComponent.onHurt { damage in
-            self.baseSprite.textureId(.LaserNode(upgrade: self.bulletUpgrade, health: healthComponent.healthInt))
+            self.baseSprite.textureId(.laserNode(upgrade: self.bulletUpgrade, health: healthComponent.healthInt))
         }
         healthComponent.onKilled {
             self.world?.unselectNode(self)
@@ -99,9 +99,9 @@ class LaserNode: Node, DraggableNode {
         addComponent(healthComponent)
 
         let touchableComponent = TouchableComponent()
-        touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest(shape: .Circle)
-        touchableComponent.on(.DragBeganOutside, onDraggingOutside)
-        touchableComponent.on(.DragEnded, onDraggingEnded)
+        touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest(shape: .circle)
+        touchableComponent.on(.dragBeganOutside, onDraggingOutside)
+        touchableComponent.on(.dragEnded, onDraggingEnded)
         touchableComponent.onDragged(onDraggedAiming)
         addComponent(touchableComponent)
 
@@ -111,8 +111,8 @@ class LaserNode: Node, DraggableNode {
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()
-        touchableComponent.on(.DragBeganInside, draggableComponent.draggingBegan)
-        touchableComponent.on(.DragEnded, draggableComponent.draggingEnded)
+        touchableComponent.on(.dragBeganInside, draggableComponent.draggingBegan)
+        touchableComponent.on(.dragEnded, draggableComponent.draggingEnded)
         touchableComponent.onDragged(draggableComponent.draggingMoved)
 
         draggableComponent.onDragChange { isMoving in
@@ -201,12 +201,12 @@ class LaserNode: Node, DraggableNode {
         beamSprite.visible = isFiring
         if let (length, target) = firingInfo {
             let color = interpolateHex(rand(1), colors: (0x88E2FF, 0x7D9BFF))
-            let node = ShrapnelNode(type: .FillColorBox(size: CGSize(1), color: color), size: .Actual)
+            let node = ShrapnelNode(type: .fillColorBox(size: CGSize(1), color: color), size: .actual)
             node.setupAround(node: target)
             parent! << node
 
             let width = length - beamSprite.position.x - target.radius
-            beamSprite.textureId(.FillColorBox(size: CGSize(width, 1), color: color))
+            beamSprite.textureId(.fillColorBox(size: CGSize(width, 1), color: color))
         }
         forceFirePercent.complete = percent
 

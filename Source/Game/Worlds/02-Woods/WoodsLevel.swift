@@ -30,7 +30,7 @@ class WoodsLevel: Level {
 
     required init() {
         super.init()
-        levelSelect = .Woods
+        levelSelect = .woods
     }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
@@ -45,9 +45,9 @@ class WoodsLevel: Level {
         let r = info.radius * size.width
         let node = Node(at: p)
 
-        let sprite = SKSpriteNode(id: .FillColorCircle(size: CGSize(r: r), color: GreenTreeColor))
+        let sprite = SKSpriteNode(id: .fillColorCircle(size: CGSize(r: r), color: GreenTreeColor))
         sprite.alpha = info.alpha
-        sprite.z = .Above
+        sprite.z = .above
         node << sprite
 
         let wanderingComponent = WanderingComponent()

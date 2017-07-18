@@ -13,10 +13,10 @@ class EnemyAttackExplosionNode: Node {
 
     required init() {
         super.init()
-        z = .Bottom
+        z = .bottom
 
         for _ in 0..<numSprites {
-            let sprite = SKSpriteNode(id: .None)
+            let sprite = SKSpriteNode(id: .none)
             sprite.anchorPoint = CGPoint(0, 0.5)
             sprites << sprite
             self << sprite
@@ -40,7 +40,7 @@ class EnemyAttackExplosionNode: Node {
 
         for (i, sprite) in sprites.enumerated() {
             let angle = 175.degrees + 10.degrees * CGFloat(i) / CGFloat(sprites.count - 1)
-            sprite.textureId(.ColorLine(length: length, color: color))
+            sprite.textureId(.colorLine(length: length, color: color))
             sprite.position = CGPoint(r: distance, a: angle)
             sprite.zRotation = angle
             sprite.alpha = alpha

@@ -13,7 +13,7 @@ class Tutorial: World {
 
     func goToNextWorld() {
         (nextWorld as? Level)?.config.seenTutorial = true
-        self.director?.presentWorld(nextWorld ?? WorldSelectWorld(beginAt: .Tutorial))
+        self.director?.presentWorld(nextWorld ?? WorldSelectWorld(beginAt: .tutorial))
     }
 
     func showWhy(_ lines: [String]) {
@@ -42,7 +42,7 @@ class Tutorial: World {
     }
 
     func addContinueButton() {
-        let continueButton = Button(fixed: .Right(x: -75, y: 0))
+        let continueButton = Button(fixed: .right(x: -75, y: 0))
         continueButton.setScale(1.5)
         continueButton.text = "NEXT >"
         continueButton.onTapped {
@@ -56,7 +56,7 @@ class Tutorial: World {
         setScale(1.5)
         moveCamera(to: CGPoint(x: 80, y: -80), duration: 0)
 
-        tutorialTextNode.fixedPosition = .Top(x: 0, y: -20)
+        tutorialTextNode.fixedPosition = .top(x: 0, y: -20)
         tutorialTextNode.setScale(1.5)
         ui << tutorialTextNode
 

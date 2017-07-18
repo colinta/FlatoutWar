@@ -5,7 +5,7 @@
 private let NumFragments = 5
 
 class MineNode: Node {
-    let sprite = SKSpriteNode(id: .Mine)
+    let sprite = SKSpriteNode(id: .mine)
 
     required init() {
         super.init()

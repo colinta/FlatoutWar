@@ -25,11 +25,11 @@ class CursorNode: Node {
     private var destAlpha: CGFloat?
     private var destScale: CGFloat?
     private var destScalePhase: CGFloat?
-    private var sprite = SKSpriteNode(id: .Cursor)
+    private var sprite = SKSpriteNode(id: .cursor)
 
     required init() {
         super.init()
-        z = .Top
+        z = .top
         alpha = 0
         setScale(0)
         self << sprite
@@ -45,7 +45,7 @@ class CursorNode: Node {
 
         if let destScale = destScale, let destScalePhase = destScalePhase {
             if let currentScale = moveValue(destScalePhase, towards: destScale, by: dScale * dt) {
-                let spriteScale = easeOutElastic(time: currentScale)
+                let spriteScale = Easing.outElastic.ease(time: currentScale)
                 setScale(spriteScale)
                 size = CGSize(80) * spriteScale
                 self.destScalePhase = currentScale

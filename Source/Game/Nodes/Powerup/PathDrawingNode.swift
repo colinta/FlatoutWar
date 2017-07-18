@@ -3,16 +3,16 @@
 //
 
 private enum PathSegment {
-    case Start(CGPoint)
-    case Line(CGPoint, CGPoint)
-    case Quad(CGPoint, CGPoint, control: CGPoint)
+    case start(CGPoint)
+    case line(CGPoint, CGPoint)
+    case quad(CGPoint, CGPoint, control: CGPoint)
 
     func pointAt(time t: CGFloat) -> CGPoint {
         switch self {
-        case let .Start(pt): return pt
-        case let .Line(pt1, pt2):
+        case let .start(pt): return pt
+        case let .line(pt1, pt2):
             return pt1 + (pt2 - pt1) * t
-        case let .Quad(pt1, pt2, control):
+        case let .quad(pt1, pt2, control):
             let m1 = pt1 + (control - pt1) * t
             let m2 = control + (pt2 - control) * t
             return m1 + (m2 - m1) * t
@@ -25,11 +25,11 @@ private func pointsToBezierPath(_ points: [CGPoint]) -> UIBezierPath {
     let segments = pointsToSegments(points)
     for segment in segments {
         switch segment {
-        case let .Start(point):
+        case let .start(point):
             bezierPath.move(to: point)
-        case let .Line(_, point):
+        case let .line(_, point):
             bezierPath.addLine(to: point)
-        case let .Quad(_, point, control):
+        case let .quad(_, point, control):
             bezierPath.addQuadCurve(to: point, controlPoint: control)
         }
     }
@@ -49,21 +49,21 @@ private func pointsToSegments(_ points: [CGPoint]) -> [PathSegment] {
             )
 
             if let prevDest = prevDest {
-                retVal << .Quad(prevDest, midPoint, control: prevPoint)
+                retVal << .quad(prevDest, midPoint, control: prevPoint)
             }
             else {
-                retVal << .Line(prevPoint, midPoint)
+                retVal << .line(prevPoint, midPoint)
             }
             prevDest = midPoint
         }
         else {
-            retVal << .Start(point)
+            retVal << .start(point)
         }
         prevPoint = point
     }
 
     if let lastPoint = prevPoint, let prevDest = prevDest {
-        retVal << .Line(prevDest, lastPoint)
+        retVal << .line(prevDest, lastPoint)
     }
     return retVal
 }
@@ -73,11 +73,11 @@ private func segmentsToLengths(_ segments: [PathSegment]) -> [(PathSegment, CGFl
     for segment in segments {
         let length: CGFloat
         switch segment {
-        case .Start:
+        case .start:
             length = 0
-        case let .Line(start, dest):
+        case let .line(start, dest):
             length = start.distanceTo(dest)
-        case let .Quad(start, dest, control):
+        case let .quad(start, dest, control):
             length = start.distanceTo(control) + control.distanceTo(dest)
         }
         lengths << (segment, length)
@@ -96,10 +96,10 @@ class PathDrawingNode: Node {
         var points: [CGPoint] = []
         let maxLength: CGFloat = 1000
 
-        let sprite = SKSpriteNode(id: .None)
+        let sprite = SKSpriteNode(id: .none)
         sprite.anchorPoint = CGPoint.zero
         self << sprite
-        touchComponent.on(.Down) { position in
+        touchComponent.on(.down) { position in
             points << position
         }
         touchComponent.onDragged { prevPosition, position in
@@ -107,10 +107,10 @@ class PathDrawingNode: Node {
             points = self.reducePointsToLength(points, max: maxLength)
 
             let path = pointsToBezierPath(points)
-            sprite.textureId(.ColorPath(path: path, color: PowerupRed))
+            sprite.textureId(.colorPath(path: path, color: PowerupRed))
             sprite.position = path.bounds.origin
         }
-        touchComponent.on(.Up) { position in
+        touchComponent.on(.up) { position in
             let segments = pointsToSegments(points)
             let lengths = segmentsToLengths(segments)
             var adjustedLengths: [(segment: PathSegment, length: CGFloat, cummulative: CGFloat)] = []

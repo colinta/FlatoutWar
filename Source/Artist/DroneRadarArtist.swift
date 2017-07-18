@@ -29,14 +29,14 @@ extension HasUpgrade {
 
     var droneRadarWidth: CGFloat {
         switch self {
-        case .False: return 1
-        case .True: return 2
+        case .false: return 1
+        case .true: return 2
         }
     }
     var droneRadarColor: Int {
         switch self {
-        case .False: return DroneColor
-        case .True: return DroneUpgradeColor
+        case .false: return DroneColor
+        case .true: return DroneUpgradeColor
         }
     }
 

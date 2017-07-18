@@ -16,7 +16,7 @@ class DemoWorld: World {
         ui << closeButton
 
         let restartButton = Button()
-        restartButton.fixedPosition = .TopLeft(x: 15, y: -15)
+        restartButton.fixedPosition = .topLeft(x: 15, y: -15)
         restartButton.setScale(0.5)
         restartButton.size = CGSize(60)
         restartButton.text = "O"

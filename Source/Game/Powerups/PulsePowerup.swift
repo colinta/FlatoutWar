@@ -4,7 +4,7 @@
 
 class PulsePowerup: Powerup {
     override var name: String { return "PULSE" }
-    override var powerupType: ImageIdentifier.PowerupType? { return .Pulse }
+    override var powerupType: ImageIdentifier.PowerupType? { return .pulse }
 
     required init(count: Int) {
         super.init(count: count)

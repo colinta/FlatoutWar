@@ -3,11 +3,11 @@
 //
 
 enum Shape {
-    case Circle
-    case Rect
+    case circle
+    case rect
 
     func touchTest(_ node: Node, and other: Node) -> Bool {
-        if node.shape == .Rect || other.shape == .Rect {
+        if node.shape == .rect || other.shape == .rect {
             return squareTouchTest(node, and: other)
         }
         else {

@@ -19,7 +19,7 @@ class BombNode: Node {
         self.maxRadius = maxRadius
         super.init()
         attack = once(damageTargets)
-        sprite.textureId(.Bomb(radius: maxRadius, time: 0))
+        sprite.textureId(.bomb(radius: maxRadius, time: 0))
         self << sprite
     }
 
@@ -30,12 +30,12 @@ class BombNode: Node {
 
         time += dt * rate
         guard time < 1 else {
-            sprite.textureId(.None)
+            sprite.textureId(.none)
             removeFromParent()
             return
         }
 
-        sprite.textureId(.Bomb(radius: maxRadius, time: Int(time * 250)))
+        sprite.textureId(.bomb(radius: maxRadius, time: Int(time * 250)))
     }
 
     private func damageTargets() {

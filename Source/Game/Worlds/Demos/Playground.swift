@@ -92,7 +92,7 @@ class Playground: World {
         var y: CGFloat = y0
         for letter in letters {
             let n = TextNode(at: CGPoint(x, y))
-            n.font = .Big
+            n.font = .big
             n.text = letter
             n.zRotation = TAU_4
             self << n

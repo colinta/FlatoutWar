@@ -5,23 +5,23 @@
 private let StartingHealth: Float = 50
 
 class CannonNode: Node, DraggableNode {
-    var radarUpgrade: HasUpgrade = .False { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
-    var bulletUpgrade: HasUpgrade = .False { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
-    var movementUpgrade: HasUpgrade = .False { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
+    var radarUpgrade: HasUpgrade = .false { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
+    var bulletUpgrade: HasUpgrade = .false { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
+    var movementUpgrade: HasUpgrade = .false { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
 
     let moveTurret = MoveToComponent()
     let armyComponent = SelectableArmyComponent()
 
     fileprivate func updateRadarSprite() {
-        radarSprite.textureId(.CannonRadar(upgrade: radarUpgrade, isSelected: armyComponent.isCurrent))
+        radarSprite.textureId(.cannonRadar(upgrade: radarUpgrade, isSelected: armyComponent.isCurrent))
     }
     fileprivate func updateUpgrades() {
-        turretBox.textureId(.CannonBox(upgrade: bulletUpgrade))
+        turretBox.textureId(.cannonBox(upgrade: bulletUpgrade))
         for turretSprite in turretSprites {
-            turretSprite.textureId(.CannonTurret(upgrade: bulletUpgrade))
+            turretSprite.textureId(.cannonTurret(upgrade: bulletUpgrade))
         }
-        baseSprite.textureId(.Cannon(upgrade: movementUpgrade, health: healthComponent?.healthInt ?? 100))
-        placeholder.textureId(.Cannon(upgrade: movementUpgrade, health: 100))
+        baseSprite.textureId(.cannon(upgrade: movementUpgrade, health: healthComponent?.healthInt ?? 100))
+        placeholder.textureId(.cannon(upgrade: movementUpgrade, health: 100))
         updateRadarSprite()
 
         draggableComponent?.speed = movementUpgrade.cannonMovementSpeed
@@ -63,9 +63,9 @@ class CannonNode: Node, DraggableNode {
         radarSprite.position = CGPoint(x: -5)
         radarSprite.anchorPoint = CGPoint(0, 0.5)
 
-        baseSprite.z = .Player
-        radarSprite.z = .BelowPlayer
-        turretBox.z = .Above
+        baseSprite.z = .player
+        radarSprite.z = .belowPlayer
+        turretBox.z = .above
 
         self << baseSprite
         self << radarSprite
@@ -78,7 +78,7 @@ class CannonNode: Node, DraggableNode {
         var turretY: CGFloat = dy / 2 * CGFloat(turretSprites.count - 1)
         for turretSprite in turretSprites {
             turretSprite.anchorPoint = CGPoint(0.25, 0.5)
-            turretSprite.z = .AbovePlayer
+            turretSprite.z = .abovePlayer
             turretSprite.position = CGPoint(y: turretY)
             turretCenterSprite << turretSprite
             turretY -= dy
@@ -100,7 +100,7 @@ class CannonNode: Node, DraggableNode {
 
         let healthComponent = HealthComponent(health: StartingHealth)
         healthComponent.onHurt { damage in
-            self.baseSprite.textureId(.Cannon(upgrade: self.bulletUpgrade, health: healthComponent.healthInt))
+            self.baseSprite.textureId(.cannon(upgrade: self.bulletUpgrade, health: healthComponent.healthInt))
         }
         healthComponent.onKilled {
             self.world?.unselectNode(self)
@@ -109,9 +109,9 @@ class CannonNode: Node, DraggableNode {
         addComponent(healthComponent)
 
         let touchableComponent = TouchableComponent()
-        touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest(shape: .Circle)
-        touchableComponent.on(.DragBeganOutside, onDraggingOutside)
-        touchableComponent.on(.DragEnded, onDraggingEnded)
+        touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest(shape: .circle)
+        touchableComponent.on(.dragBeganOutside, onDraggingOutside)
+        touchableComponent.on(.dragEnded, onDraggingEnded)
         touchableComponent.onDragged(onDraggedAiming)
         addComponent(touchableComponent)
 
@@ -121,8 +121,8 @@ class CannonNode: Node, DraggableNode {
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()
-        touchableComponent.on(.DragBeganInside, draggableComponent.draggingBegan)
-        touchableComponent.on(.DragEnded, draggableComponent.draggingEnded)
+        touchableComponent.on(.dragBeganInside, draggableComponent.draggingBegan)
+        touchableComponent.on(.dragEnded, draggableComponent.draggingEnded)
         touchableComponent.onDragged(draggableComponent.draggingMoved)
 
         draggableComponent.onDragChange { isMoving in
@@ -194,7 +194,7 @@ extension CannonNode {
                 speed: speed,
                 radius: bulletUpgrade.cannonSplashRadius)
             bullet.damage = bulletUpgrade.cannonBulletDamage
-            bullet.size = BulletArtist.bulletSize(upgrade: .False)
+            bullet.size = BulletArtist.bulletSize(upgrade: .false)
             bullet.timeRate = self.timeRate
             bullet.zRotation = myTarget.angle
             (parentNode ?? world) << bullet

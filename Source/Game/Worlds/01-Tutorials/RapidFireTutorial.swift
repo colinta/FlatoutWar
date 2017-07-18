@@ -54,12 +54,12 @@ class RapidFireTutorial: Tutorial {
             let playerLoc = self.convert(worldLoc, to: self.playerNode)
             self.playerNode.onDraggedAiming(from: prevPlayerLoc, to: playerLoc)
         }
-        holdButton.touchableComponent!.on(.Down) { _ in
+        holdButton.touchableComponent!.on(.down) { _ in
             self.playerNode.forceFireEnabled = true
             self.playerNode.firingComponent?.enabled = true
             holdButton.text = "DRAG"
         }
-        holdButton.touchableComponent!.on(.Up) { _ in
+        holdButton.touchableComponent!.on(.up) { _ in
             self.playerNode.forceFireEnabled = false
             self.playerNode.firingComponent?.enabled = false
             holdButton.text = "HOLD"
@@ -80,7 +80,7 @@ class RapidFireTutorial: Tutorial {
         let angle = -67.75.degrees
         let minDelta = 4.degrees
         let tapButton = Button(at: CGPoint(r: 75, a: angle))
-        tapButton.style = .Circle
+        tapButton.style = .circle
         tapButton.text = "TAP"
         self << tapButton
 
@@ -88,7 +88,7 @@ class RapidFireTutorial: Tutorial {
         toAim.text = "TO AIM"
         self << toAim
 
-        tapButton.touchableComponent?.on(.Tapped) { tapLocation in
+        tapButton.touchableComponent?.on(.tapped) { tapLocation in
             let location = self.playerNode.convertPosition(tapButton) + tapLocation
             self.playerNode.rotateToComponent?.target = location.angle
 
@@ -117,12 +117,12 @@ class RapidFireTutorial: Tutorial {
             self.playerNode.forceFireEnabled = true
             self.playerNode.firingComponent?.enabled = true
         }
-        holdButton.touchableComponent!.on(.Up) { _ in
+        holdButton.touchableComponent!.on(.up) { _ in
             self.playerNode.forceFireEnabled = false
             self.playerNode.firingComponent?.enabled = false
             holdButton.text = "HOLD"
         }
-        holdButton.touchableComponent!.on(.Down) { _ in
+        holdButton.touchableComponent!.on(.down) { _ in
             self.playerNode.forceFireEnabled = true
             self.playerNode.firingComponent?.enabled = true
             holdButton.text = "DRAG"

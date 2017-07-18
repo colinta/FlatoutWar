@@ -37,7 +37,7 @@ class EnemyJetNode: EnemySoldierNode {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func enemyType() -> ImageIdentifier.EnemyType {
-        return .Jet
+        return .jet
     }
 
 }

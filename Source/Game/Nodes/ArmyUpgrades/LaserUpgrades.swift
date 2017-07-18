@@ -10,11 +10,11 @@ extension LaserNode: UpgradeableNode {
 
     func applyUpgrade(type: UpgradeType) {
         switch type {
-        case .RadarUpgrade:
+        case .radarUpgrade:
             radarUpgrade = true
-        case .BulletUpgrade:
+        case .bulletUpgrade:
             bulletUpgrade = true
-        case .MovementUpgrade:
+        case .movementUpgrade:
             movementUpgrade = true
         }
     }
@@ -24,63 +24,63 @@ extension LaserNode: UpgradeableNode {
 extension HasUpgrade {
     var laserRadarRadius: CGFloat {
         switch self {
-        case .False: return 275
-        case .True:  return 325
+        case .false: return 275
+        case .true:  return 325
         }
     }
     var laserSweepWidth: CGFloat {
         switch self {
-        case .False: return 10
-        case .True:  return 18
+        case .false: return 10
+        case .true:  return 18
         }
     }
 
     var laserAngularSpeed: CGFloat {
         switch self {
-        case .False: return 5
-        case .True: return 10
+        case .false: return 5
+        case .true: return 10
         }
     }
 
     var laserAngularAccel: CGFloat? {
         switch self {
-        case .False: return 5
-        case .True: return 12
+        case .false: return 5
+        case .true: return 12
         }
     }
 
     var laserDamagePerSec: Float {
         switch self {
-        case .False: return 4
-        case .True:  return 9
+        case .false: return 4
+        case .true:  return 9
         }
     }
 
     var laserBurnoutUp: CGFloat {
         switch self {
-        case .False: return 5.5
-        case .True:  return 7.5
+        case .false: return 5.5
+        case .true:  return 7.5
         }
     }
 
     var laserBurnoutDown: CGFloat {
         switch self {
-        case .False: return 3
-        case .True:  return 3
+        case .false: return 3
+        case .true:  return 3
         }
     }
 
     var laserRadarColor: Int {
         switch self {
-            case .False: return LaserTurretFillColor
-            case .True: return LaserTurretFillColor
+            case .false: return LaserTurretFillColor
+            case .true: return LaserTurretFillColor
         }
     }
 
     var laserMovementSpeed: CGFloat {
         switch self {
-        case .False: return 30
-        case .True: return 45
+        case .false: return 30
+        case .true: return 45
         }
     }
 }

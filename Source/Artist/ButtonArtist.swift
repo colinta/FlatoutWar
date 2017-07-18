@@ -6,11 +6,11 @@ extension ButtonStyle {
 
     var name: String {
         switch self {
-        case let .CircleSized(size):
+        case let .circleSized(size):
             return "\(self)-size_\(size)"
-        case let .SquareSized(size):
+        case let .squareSized(size):
             return "\(self)-size_\(size)"
-        case let .RectSized(width, height):
+        case let .rectSized(width, height):
             return "\(self)-width_\(width)-height_\(height)"
         default: return "\(self)"
         }
@@ -18,7 +18,7 @@ extension ButtonStyle {
 }
 
 class ButtonArtist: Artist {
-    var style: ButtonStyle = .None
+    var style: ButtonStyle = .none
     var color = UIColor(hex: WhiteColor)
 
     override func draw(in context: CGContext) {
@@ -28,13 +28,13 @@ class ButtonArtist: Artist {
         context.setStrokeColor(color.cgColor)
 
         switch style {
-        case .Square, .SquareSized, .RectSized:
+        case .square, .squareSized, .rectSized:
             context.addRect(CGRect(size: size))
             context.drawPath(using: .stroke)
-        case .Circle, .CircleSized:
+        case .circle, .circleSized:
             context.addEllipse(in: CGRect(size: size))
             context.drawPath(using: .stroke)
-        case .None, .RectToFit:
+        case .none, .rectToFit:
             break
         }
     }

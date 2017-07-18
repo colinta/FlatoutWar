@@ -10,11 +10,11 @@ extension ShotgunNode: UpgradeableNode {
 
     func applyUpgrade(type: UpgradeType) {
         switch type {
-        case .RadarUpgrade:
+        case .radarUpgrade:
             radarUpgrade = true
-        case .BulletUpgrade:
+        case .bulletUpgrade:
             bulletUpgrade = true
-        case .MovementUpgrade:
+        case .movementUpgrade:
             movementUpgrade = true
         }
     }
@@ -24,8 +24,8 @@ extension ShotgunNode: UpgradeableNode {
 extension HasUpgrade {
     var shotgunRadarRadius: CGFloat {
         switch self {
-        case .False: return 75
-        case .True:  return 90
+        case .false: return 75
+        case .true:  return 90
         }
     }
 
@@ -35,90 +35,90 @@ extension HasUpgrade {
 
     var shotgunAngularSpeed: CGFloat {
         switch self {
-        case .False: return 8
-        case .True: return 14
+        case .false: return 8
+        case .true: return 14
         }
     }
 
     var shotgunAngularAccel: CGFloat? {
         switch self {
-        case .False: return 6
-        case .True: return nil
+        case .false: return 6
+        case .true: return nil
         }
     }
 
     var shotgunBulletDamage: Float {
         switch self {
-        case .False: return 0.25
-        case .True:  return 0.75
+        case .false: return 0.25
+        case .true:  return 0.75
         }
     }
 
     var shotgunBulletSpeed: CGFloat {
         switch self {
-        case .False: return 140
-        case .True: return 155
+        case .false: return 140
+        case .true: return 155
         }
     }
 
     var shotgunSlowCooldown: CGFloat {
         switch self {
-        case .False: return 1
-        case .True:  return 0.8
+        case .false: return 1
+        case .true:  return 0.8
         }
     }
     var shotgunFastCooldown: CGFloat {
         switch self {
-        case .False: return 0.25
-        case .True:  return 0.15
+        case .false: return 0.25
+        case .true:  return 0.15
         }
     }
 
     var shotgunScanSpinRate: CGFloat {
         switch self {
-        case .False: return 0.2
-        case .True: return 0.4
+        case .false: return 0.2
+        case .true: return 0.4
         }
     }
 
     var shotgunTurretSlowSpinRate: CGFloat {
         switch self {
-        case .False: return 1
-        case .True: return -1.5
+        case .false: return 1
+        case .true: return -1.5
         }
     }
 
     var shotgunTurretFastSpinRate: CGFloat {
         switch self {
-        case .False: return 8
-        case .True: return -11
+        case .false: return 8
+        case .true: return -11
         }
     }
 
     var shotgunWarmupRate: CGFloat {
         switch self {
-        case .False: return 6
-        case .True:  return 12
+        case .false: return 6
+        case .true:  return 12
         }
     }
 
     var shotgunBaseColor: Int {
         switch self {
-            case .False: return ShotgunBaseColor
-            case .True: return ShotgunUpgradeColor
+            case .false: return ShotgunBaseColor
+            case .true: return ShotgunUpgradeColor
         }
     }
     var shotgunRadarColor: Int {
         switch self {
-            case .False: return ShotgunRadar1Color
-            case .True: return ShotgunRadar2Color
+            case .false: return ShotgunRadar1Color
+            case .true: return ShotgunRadar2Color
         }
     }
 
     var shotgunMovementSpeed: CGFloat {
         switch self {
-        case .False: return 50
-        case .True: return 75
+        case .false: return 50
+        case .true: return 75
         }
     }
 }

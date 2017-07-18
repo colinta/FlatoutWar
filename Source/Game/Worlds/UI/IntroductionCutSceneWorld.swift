@@ -65,9 +65,9 @@ class IntroductionCutSceneWorld: World {
                     }
                     10.times {
                         let player = Node()
-                        let sprite = SKSpriteNode(id: .Warning)
+                        let sprite = SKSpriteNode(id: .warning)
                         player << sprite
-                        player.position = CGPoint(y: -100) + self.outsideWorld(node: player, angle: self.randSideAngle(.Bottom))
+                        player.position = CGPoint(y: -100) + self.outsideWorld(node: player, angle: self.randSideAngle(.bottom))
                         let component = PlayerComponent()
                         component.intersectionNode = sprite
                         player.addComponent(component)
@@ -123,15 +123,15 @@ class IntroductionCutSceneWorld: World {
             Scene(
                 run: { parent in
                     let player = BasePlayerNode()
-                    player.radarSprite.textureId(.BaseRadar(upgrade: .False, isSelected: true), scale: .Zoomed)
-                    player.baseSprite.textureId(.Base(movementUpgrade: .False, bulletUpgrade: .False, radarUpgrade: .False, health: 100), scale: .Zoomed)
-                    player.turretSprite.textureId(.BaseSingleTurret(bulletUpgrade: .False), scale: .Zoomed)
+                    player.radarSprite.textureId(.baseRadar(upgrade: .false, isSelected: true), scale: .zoomed)
+                    player.baseSprite.textureId(.base(movementUpgrade: .false, bulletUpgrade: .false, radarUpgrade: .false, health: 100), scale: .zoomed)
+                    player.turretSprite.textureId(.baseSingleTurret(bulletUpgrade: .false), scale: .zoomed)
                     player.position = CGPoint(x: -200)
                     player.scaleTo(1, start: 4, duration: 3)
                     player.fadeTo(1, start: 0, duration: 2).onFaded {
-                        player.radarSprite.textureId(.BaseRadar(upgrade: .False, isSelected: true))
-                        player.baseSprite.textureId(.Base(movementUpgrade: .False, bulletUpgrade: .False, radarUpgrade: .False, health: 100))
-                        player.turretSprite.textureId(.BaseSingleTurret(bulletUpgrade: .False))
+                        player.radarSprite.textureId(.baseRadar(upgrade: .false, isSelected: true))
+                        player.baseSprite.textureId(.base(movementUpgrade: .false, bulletUpgrade: .false, radarUpgrade: .false, health: 100))
+                        player.turretSprite.textureId(.baseSingleTurret(bulletUpgrade: .false))
                     }
                     parent << player
                 },
@@ -177,8 +177,8 @@ class IntroductionCutSceneWorld: World {
                     player.rotateToComponent?.target = TAU_2
 
                     let drone1 = DroneNode(at: player.position + CGPoint(r: 100, a: TAU_2 - TAU_16))
-                    drone1.movementUpgrade = .True
-                    drone1.radarUpgrade = .True
+                    drone1.movementUpgrade = .true
+                    drone1.radarUpgrade = .true
                     parent << drone1
 
                     let cannon = CannonNode(at: player.position + CGPoint(x: -150, y: -80))
@@ -233,7 +233,7 @@ class IntroductionCutSceneWorld: World {
         let dy: CGFloat = SmallFont.lineHeight
         while scenes.indices.contains(sceneIndex) {
             let scene = scenes[sceneIndex]
-            timeline.at(.At(time)) {
+            timeline.at(.at(time)) {
                 let delay: CGFloat
                 if let prevScene = prevScene {
                     prevScene.cleanup(self)
@@ -264,9 +264,9 @@ class IntroductionCutSceneWorld: World {
             time += scene.duration + scene.pause
         }
 
-        timeline.at(.At(time)) {
+        timeline.at(.at(time)) {
             prevScene!.parent.fadeTo(0, duration: fadeDuration).onFaded {
-                let world = WorldSelectWorld(beginAt: .PanIn)
+                let world = WorldSelectWorld(beginAt: .panIn)
                 self.director?.presentWorld(world)
             }
         }

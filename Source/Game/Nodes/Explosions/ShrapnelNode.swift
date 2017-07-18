@@ -6,7 +6,7 @@ class ShrapnelNode: Node {
 
     required init(type: ImageIdentifier, size: ImageIdentifier.Size) {
         super.init()
-        self << SKSpriteNode(id: .EnemyShrapnel(type, size: size))
+        self << SKSpriteNode(id: .enemyShrapnel(type, size: size))
     }
 
     func setupAround(node: Node, at location: CGPoint? = nil,

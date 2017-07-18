@@ -10,11 +10,11 @@ extension CannonNode: UpgradeableNode {
 
     func applyUpgrade(type: UpgradeType) {
         switch type {
-        case .RadarUpgrade:
+        case .radarUpgrade:
             radarUpgrade = true
-        case .BulletUpgrade:
+        case .bulletUpgrade:
             bulletUpgrade = true
-        case .MovementUpgrade:
+        case .movementUpgrade:
             movementUpgrade = true
         }
     }
@@ -24,8 +24,8 @@ extension CannonNode: UpgradeableNode {
 extension HasUpgrade {
     var cannonSweepAngle: CGFloat {
         switch self {
-        case .False: return 30.degrees
-        case .True:  return 40.degrees
+        case .false: return 30.degrees
+        case .true:  return 40.degrees
         }
     }
 
@@ -35,15 +35,15 @@ extension HasUpgrade {
 
     var cannonMaxRadarRadius: CGFloat {
         switch self {
-        case .False: return 200
-        case .True:  return 250
+        case .false: return 200
+        case .true:  return 250
         }
     }
 
     var cannonAngularSpeed: CGFloat {
         switch self {
-        case .False: return 3
-        case .True: return 7
+        case .false: return 3
+        case .true: return 7
         }
     }
 
@@ -53,43 +53,43 @@ extension HasUpgrade {
 
     var cannonBulletDamage: Float {
         switch self {
-        case .False: return 4
-        case .True:  return 6
+        case .false: return 4
+        case .true:  return 6
         }
     }
 
     var cannonBulletSpeed: CGFloat {
         switch self {
-        case .False: return 115
-        case .True:  return 140
+        case .false: return 115
+        case .true:  return 140
         }
     }
 
     var cannonSplashRadius: Int {
         switch self {
-        case .False: return 18
-        case .True:  return 25
+        case .false: return 18
+        case .true:  return 25
         }
     }
 
     var cannonCooldown: CGFloat {
         switch self {
-        case .False: return 1.4
-        case .True:  return 1
+        case .false: return 1.4
+        case .true:  return 1
         }
     }
 
     var cannonRadarColor: Int {
         switch self {
-            case .False: return CannonRadar1Color
-            case .True: return CannonRadar2Color
+            case .false: return CannonRadar1Color
+            case .true: return CannonRadar2Color
         }
     }
 
     var cannonMovementSpeed: CGFloat {
         switch self {
-        case .False: return 15
-        case .True: return 25
+        case .false: return 15
+        case .true: return 25
         }
     }
 }

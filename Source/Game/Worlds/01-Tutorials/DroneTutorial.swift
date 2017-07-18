@@ -43,7 +43,7 @@ class DroneTutorial: Tutorial {
 
         let tapButton = Button(at: drone.position)
         textNode.position = tapButton.position + CGPoint(y: -85)
-        tapButton.style = .Circle
+        tapButton.style = .circle
         tapButton.textSprite.position = CGPoint(y: -10)
         tapButton.onTapped {
             textNode.removeFromParent()
@@ -99,7 +99,7 @@ class DroneTutorial: Tutorial {
         let holdStart = drone.position
         let holdEnd = holdStart + CGPoint(x: -60, y: 40)
         let holdButton = Button(at: holdStart)
-        holdButton.style = .CircleSized(70)
+        holdButton.style = .circleSized(70)
         holdButton.text = "HOLD"
         self << holdButton
 
@@ -115,7 +115,7 @@ class DroneTutorial: Tutorial {
                 holdButton.removeFromParent()
             }
         }
-        holdButton.touchableComponent!.on(.Down) { location_ in
+        holdButton.touchableComponent!.on(.down) { location_ in
             var location = self.convert(location_, from: holdButton)
             location.y = -2 * location.x / 3
             self.drone.draggableComponent?.draggingBegan(at: location)
@@ -126,7 +126,7 @@ class DroneTutorial: Tutorial {
             moveTo.speed = 100
             holdButton.addComponent(moveTo)
         }
-        holdButton.touchableComponent!.on(.Up) { location_ in
+        holdButton.touchableComponent!.on(.up) { location_ in
             var location = self.convert(location_, from: holdButton)
             location.y = -2 * location.x / 3
             self.drone.draggableComponent?.draggingEnded(at: location)

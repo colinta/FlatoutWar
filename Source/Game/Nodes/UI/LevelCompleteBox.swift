@@ -10,7 +10,7 @@ class LevelCompleteBox: Node {
     required init() {
         super.init()
 
-        box.z = .Below
+        box.z = .below
         self << box
     }
 
@@ -46,6 +46,6 @@ class LevelCompleteBox: Node {
                 blue: Int(interpolate(complete, from: (0, 1), to: blue))
             )
         }
-        box.textureId(.FillColorBox(size: CGSize(size.width, boxHeight), color: color))
+        box.textureId(.fillColorBox(size: CGSize(size.width, boxHeight), color: color))
     }
 }

@@ -6,21 +6,21 @@ extension BulletNode.Style {
 
     var color: UIColor {
         switch self {
-        case .Slow: return UIColor(hex: 0x9F0025)
-        case .Fast: return UIColor(hex: 0xC70063)
+        case .slow: return UIColor(hex: 0x9F0025)
+        case .fast: return UIColor(hex: 0xC70063)
         }
     }
 }
 
 class BulletArtist: Artist {
     var color: UIColor
-    var upgrade: HasUpgrade = .False
+    var upgrade: HasUpgrade = .false
 
     static func bulletSize(upgrade: HasUpgrade) -> CGSize {
         switch upgrade {
-        case .False:
+        case .false:
             return 3 * CGSize(width: 2, height: 2)
-        case .True:
+        case .true:
             return 3 * CGSize(width: 3, height: 1.333)
         }
     }

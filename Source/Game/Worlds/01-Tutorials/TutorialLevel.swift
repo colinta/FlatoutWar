@@ -6,7 +6,7 @@ class TutorialLevel: Level {
 
     required init() {
         super.init()
-        levelSelect = .Tutorial
+        levelSelect = .tutorial
     }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }

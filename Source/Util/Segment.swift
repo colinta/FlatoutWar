@@ -43,22 +43,22 @@ struct Segment {
 
         // Special Cases
         // p1, q1 and p2 are colinear and p2 lies on segment p1q1
-        if o1 == .Colinear && onSegment(p: p1, q: p2, r: q1) {
+        if o1 == .colinear && onSegment(p: p1, q: p2, r: q1) {
             return true
         }
 
         // p1, q1 and p2 are colinear and q2 lies on segment p1q1
-        if o2 == .Colinear && onSegment(p: p1, q: q2, r: q1) {
+        if o2 == .colinear && onSegment(p: p1, q: q2, r: q1) {
             return true
         }
 
         // p2, q2 and p1 are colinear and p1 lies on segment p2q2
-        if o3 == .Colinear && onSegment(p: p2, q: p1, r: q2) {
+        if o3 == .colinear && onSegment(p: p2, q: p1, r: q2) {
             return true
         }
 
          // p2, q2 and q1 are colinear and q1 lies on segment p2q2
-        if o4 == .Colinear && onSegment(p: p2, q: q1, r: q2) {
+        if o4 == .colinear && onSegment(p: p2, q: q1, r: q2) {
             return true
         }
 
@@ -75,14 +75,14 @@ struct Segment {
     }
 
     enum Orientation {
-        case Colinear
-        case Clockwise
-        case CounterClockwise
+        case colinear
+        case clockwise
+        case counterclockwise
     }
 
     // 0 --> p, q and r are colinear
-    // 1 --> Clockwise
-    // 2 --> Counterclockwise
+    // 1 --> clockwise
+    // 2 --> counterclockwise
     private func orientation(p: CGPoint, q: CGPoint, r: CGPoint) -> Orientation {
         let dy1 = q.y - p.y
         let dx1 = r.x - q.x
@@ -91,10 +91,10 @@ struct Segment {
         let val = round(dy1 * dx1 - dx2 * dy2)
 
         if val == 0 {
-            return .Colinear  // colinear
+            return .colinear  // colinear
         }
 
-        return (val > 0) ? .Clockwise : .CounterClockwise // clock or counterclock wise
+        return (val > 0) ? .clockwise : .counterclockwise // clock or counterclock wise
     }
 }
 

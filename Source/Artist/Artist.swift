@@ -21,30 +21,31 @@ class Artist {
     }
 
     enum Scale {
-        case Small
-        case Normal
-        case Zoomed
-        static var Default: Scale {
+        case small
+        case normal
+        case zoomed
+
+        static var `default`: Scale {
             if UIDevice.current.userInterfaceIdiom == .pad ||
                 UIScreen.main.scale == 3
             {
-                return .Zoomed
+                return .zoomed
             }
-            return .Normal
+            return .normal
         }
 
         var drawScale: CGFloat {
             switch self {
-            case .Small: return 1
-            case .Normal: return 2
-            case .Zoomed: return 3
+            case .small: return 1
+            case .normal: return 2
+            case .zoomed: return 3
             }
         }
 
         var suffix: String {
             switch self {
-            case .Normal: return "@2x"
-            case .Zoomed: return "@3x"
+            case .normal: return "@2x"
+            case .zoomed: return "@3x"
             default:
                 return ""
             }
@@ -58,15 +59,15 @@ class Artist {
             middle = CGPoint(x: size.width / 2, y: size.height / 2)
         }
     }
-    var scale: Scale = .Small
+    var scale: Scale = .small
 
     enum Shadowed {
-        case False
-        case True
-        case Size(CGFloat)
+        case `false`
+        case `true`
+        case size(CGFloat)
     }
 
-    var shadowed = Shadowed.False
+    var shadowed = Shadowed.false
 
     required init() {
     }
@@ -95,11 +96,11 @@ class Artist {
         if shadowed.boolValue {
             let shadowSize = shadowed.floatValue
             switch scale {
-            case .Small:
+            case .small:
                 return CGPoint(shadowSize - 1)
-            case .Normal:
+            case .normal:
                 return CGPoint(shadowSize)
-            case .Zoomed:
+            case .zoomed:
                 return CGPoint(shadowSize - 2)
             }
         }
@@ -127,15 +128,15 @@ extension Artist.Shadowed {
     }
     var floatValue: CGFloat {
         switch self {
-        case .False: return 0
-        case .True: return 5
-        case let .Size(size): return size
+        case .false: return 0
+        case .true: return 5
+        case let .size(size): return size
         }
     }
 }
 
 extension Artist {
-    class func generate(_ id: ImageIdentifier, scale: Scale = .Default) -> UIImage {
+    class func generate(_ id: ImageIdentifier, scale: Scale = .default) -> UIImage {
         var cacheName: String?
         if let name = id.name {
             cacheName = "\(name)\(scale.suffix)"

@@ -128,7 +128,7 @@ class OceanLevel8CutScene: World {
         upgradedDroneNode.fadeTo(0, duration: 1)
 
         timeline.after(time: 1) {
-            self.director?.presentWorld(WorldSelectWorld(beginAt: .Ocean))
+            self.director?.presentWorld(WorldSelectWorld(beginAt: .ocean))
         }
     }
 }

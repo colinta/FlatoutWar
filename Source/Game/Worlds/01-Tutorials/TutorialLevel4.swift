@@ -31,7 +31,7 @@ class TutorialLevel4: TutorialLevel {
     // Leader w/ linear followers, scouts, and soldiers (56)
     func beginWave2(nextStep: @escaping NextStepBlock) {
         timeline.every(8...10, times: 4) {
-            let wave = self.randSideAngle(.Right)
+            let wave = self.randSideAngle(.right)
             self.generateWarning(wave)
             self.timeline.at(.Delayed(), block: self.generateLeaderWithLinearFollowers(wave))
         } ~~> nextStep()

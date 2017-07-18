@@ -40,7 +40,7 @@ class StartupWorld: World {
             enemy.zRotation = 0
             self << enemy
         }
-        timeline.every(3, start: .At(13), times: 4) {
+        timeline.every(3, start: .at(13), times: 4) {
             self.spawn()
         }
 
@@ -82,7 +82,7 @@ class StartupWorld: World {
 
             let touchableComponent = TouchableComponent()
             touchableComponent.containsTouchTest = { _ in return true }
-            touchableComponent.on(.Up) { _ in
+            touchableComponent.on(.up) { _ in
                 self.director?.presentWorld(MainMenuWorld())
             }
             let node = Node()
@@ -123,7 +123,7 @@ class StartupWorld: World {
         for text in ["FLATOUT", "WAR"] {
             let textNode = TextNode()
             textNode.position = CGPoint(x: 0, y: y)
-            textNode.font = .Big
+            textNode.font = .big
             y += textNode.size.height - 60
             textNode.text = text
             self << textNode

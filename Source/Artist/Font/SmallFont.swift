@@ -10,27 +10,27 @@ let SmallFont = Font(
     verticalSpace: 4,
     size: defaultSize,
     art: [
-    " ": Letter(style: .Line, size: CGSize(3, defaultSize.height), points: [[CGPoint]]()),
-    "|": Letter(style: .Line, size: defaultSize, points: [[
+    " ": Letter(style: .line, size: CGSize(3, defaultSize.height), points: [[CGPoint]]()),
+    "|": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(2, 0),
         CGPoint(2, 8)
     ]]),
-    ".": Letter(style: .Line, size: CGSize(0.5, defaultSize.height), points: [[
+    ".": Letter(style: .line, size: CGSize(0.5, defaultSize.height), points: [[
         CGPoint(-0.25, 6),
         CGPoint(0.25, 6),
     ]]),
-    ",": Letter(style: .Line, size: CGSize(0.5, defaultSize.height), points: [[
+    ",": Letter(style: .line, size: CGSize(0.5, defaultSize.height), points: [[
         CGPoint(0.25, 6),
         CGPoint(-0.25, 7),
     ]]),
-    "!": Letter(style: .Line, size: CGSize(0.5, defaultSize.height), points: [[
+    "!": Letter(style: .line, size: CGSize(0.5, defaultSize.height), points: [[
         CGPoint(0, 0),
         CGPoint(0, 5),
     ], [
         CGPoint(-0.25, 6),
         CGPoint(0.25, 6),
     ]]),
-    "?": Letter(style: .Line, size: defaultSize, points: [[
+    "?": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(1, 1),
         CGPoint(2, 0),
         CGPoint(3, 0),
@@ -42,7 +42,7 @@ let SmallFont = Font(
         CGPoint(2.25, 6.5),
         CGPoint(2.75, 6.5),
     ]]),
-    "$": Letter(style: .Line, size: defaultSize + CGSize(height: 2), points: [[
+    "$": Letter(style: .line, size: defaultSize + CGSize(height: 2), points: [[
         CGPoint(3.5, 2),
         CGPoint(2.5, 1),
         CGPoint(2, 1),
@@ -63,7 +63,7 @@ let SmallFont = Font(
         CGPoint(0.5, 6),
     ], [
     ]]),
-    "↑": Letter(style: .Line, size: defaultSize, points: [[
+    "↑": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(2, 0),
         CGPoint(2, 6),
     ], [
@@ -71,7 +71,7 @@ let SmallFont = Font(
         CGPoint(2, 0),
         CGPoint(4, 2),
     ]]),
-    "↓": Letter(style: .Line, size: defaultSize, points: [[
+    "↓": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(2, 0),
         CGPoint(2, 6),
     ], [
@@ -79,7 +79,7 @@ let SmallFont = Font(
         CGPoint(2, 6),
         CGPoint(4, 4),
     ]]),
-    "←": Letter(style: .Line, size: CGSize(6, defaultSize.height), points: [[
+    "←": Letter(style: .line, size: CGSize(6, defaultSize.height), points: [[
         CGPoint(0, 3),
         CGPoint(6, 3),
     ], [
@@ -87,7 +87,7 @@ let SmallFont = Font(
         CGPoint(0, 3),
         CGPoint(2, 5),
     ]]),
-    "→": Letter(style: .Line, size: CGSize(6, defaultSize.height), points: [[
+    "→": Letter(style: .line, size: CGSize(6, defaultSize.height), points: [[
         CGPoint(0, 3),
         CGPoint(6, 3),
     ], [
@@ -95,7 +95,7 @@ let SmallFont = Font(
         CGPoint(6, 3),
         CGPoint(4, 5),
     ]]),
-    "•": Letter(style: .Fill, size: defaultSize, points: [[
+    "•": Letter(style: .fill, size: defaultSize, points: [[
         CGPoint(2, 3) + CGPoint(r: 2, a: 0 * TAU_16),
         CGPoint(2, 3) + CGPoint(r: 2, a: 1 * TAU_16),
         CGPoint(2, 3) + CGPoint(r: 2, a: 2 * TAU_16),
@@ -113,7 +113,7 @@ let SmallFont = Font(
         CGPoint(2, 3) + CGPoint(r: 2, a: 14 * TAU_16),
         CGPoint(2, 3) + CGPoint(r: 2, a: 15 * TAU_16),
     ]]),
-    "◦": Letter(style: .Loop, size: defaultSize, points: [[
+    "◦": Letter(style: .loop, size: defaultSize, points: [[
         CGPoint(2, 3) + CGPoint(r: 2, a: 0 * TAU_16),
         CGPoint(2, 3) + CGPoint(r: 2, a: 1 * TAU_16),
         CGPoint(2, 3) + CGPoint(r: 2, a: 2 * TAU_16),
@@ -131,28 +131,28 @@ let SmallFont = Font(
         CGPoint(2, 3) + CGPoint(r: 2, a: 14 * TAU_16),
         CGPoint(2, 3) + CGPoint(r: 2, a: 15 * TAU_16),
     ]]),
-    "-": Letter(style: .Line, size: defaultSize, points: [[
+    "-": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 3),
         CGPoint(4, 3),
     ]]),
-    "+": Letter(style: .Line, size: defaultSize, points: [[
+    "+": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 3),
         CGPoint(4, 3),
     ], [
         CGPoint(2, 1),
         CGPoint(2, 5),
     ]]),
-    ">": Letter(style: .Line, size: defaultSize, points: [[
+    ">": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 0),
         CGPoint(4, 3),
         CGPoint(0, 6),
     ]]),
-    "<": Letter(style: .Line, size: defaultSize, points: [[
+    "<": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(4, 0),
         CGPoint(0, 3),
         CGPoint(4, 6),
     ]]),
-    "%": Letter(style: .Loop, size: defaultSize, points: [[
+    "%": Letter(style: .loop, size: defaultSize, points: [[
         CGPoint(0, 0),
         CGPoint(1, 0),
         CGPoint(1, 1),
@@ -166,7 +166,7 @@ let SmallFont = Font(
         CGPoint(4, 6),
         CGPoint(3, 6),
     ]]),
-    "0": Letter(style: .Loop, size: defaultSize, points: [[
+    "0": Letter(style: .loop, size: defaultSize, points: [[
         CGPoint(0, 0),
         CGPoint(4, 0),
         CGPoint(4, 6),
@@ -175,12 +175,12 @@ let SmallFont = Font(
         CGPoint(4, 0),
         CGPoint(0, 6),
     ]]),
-    "1": Letter(style: .Line, size: defaultSize, points: [[
+    "1": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 2),
         CGPoint(2, 0),
         CGPoint(2, 6.25),
     ]]),
-    "2": Letter(style: .Line, size: defaultSize, points: [[
+    "2": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 1),
         CGPoint(1, 0),
         CGPoint(3, 0),
@@ -189,7 +189,7 @@ let SmallFont = Font(
         CGPoint(0, 6),
         CGPoint(4, 6),
     ]]),
-    "3": Letter(style: .Line, size: defaultSize, points: [[
+    "3": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 0),
         CGPoint(4, 0),
         CGPoint(1, 3),
@@ -197,7 +197,7 @@ let SmallFont = Font(
         CGPoint(4, 6),
         CGPoint(0, 6),
     ]]),
-    "4": Letter(style: .Line, size: defaultSize, points: [[
+    "4": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(3, 0),
         CGPoint(0, 4),
         CGPoint(4, 4),
@@ -205,7 +205,7 @@ let SmallFont = Font(
         CGPoint(3, 1),
         CGPoint(3, 6.25),
     ]]),
-    "5": Letter(style: .Line, size: defaultSize, points: [[
+    "5": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(4, 0),
         CGPoint(0, 0),
         CGPoint(0, 3),
@@ -213,19 +213,19 @@ let SmallFont = Font(
         CGPoint(4, 6),
         CGPoint(0, 6),
     ]]),
-    "6": Letter(style: .Line, size: defaultSize, points: [[
+    "6": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(4, 0),
         CGPoint(0, 6),
         CGPoint(4, 6),
         CGPoint(4, 3),
         CGPoint(3, 3),
     ]]),
-    "7": Letter(style: .Line, size: defaultSize, points: [[
+    "7": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 0),
         CGPoint(4, 0),
         CGPoint(0, 6.25),
     ]]),
-    "8": Letter(style: .Loop, size: defaultSize, points: [[
+    "8": Letter(style: .loop, size: defaultSize, points: [[
         CGPoint(0, 0),
         CGPoint(4, 0),
         CGPoint(4, 3),
@@ -235,14 +235,14 @@ let SmallFont = Font(
         CGPoint(4, 3),
         CGPoint(0, 3),
     ]]),
-    "9": Letter(style: .Line, size: defaultSize, points: [[
+    "9": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(3, 3),
         CGPoint(0, 3),
         CGPoint(0, 0),
         CGPoint(4, 0),
         CGPoint(4, 6.25),
     ]]),
-    "A": Letter(style: .Line, size: defaultSize, points: [[
+    "A": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 6.25),
         CGPoint(0, 1),
         CGPoint(1, 0),
@@ -253,7 +253,7 @@ let SmallFont = Font(
         CGPoint(0, 3),
         CGPoint(4, 3),
     ]]),
-    "B": Letter(style: .Loop, size: defaultSize, points: [[
+    "B": Letter(style: .loop, size: defaultSize, points: [[
         CGPoint(0, 0),
         CGPoint(2, 0),
         CGPoint(3, 1),
@@ -264,7 +264,7 @@ let SmallFont = Font(
         CGPoint(3, 6),
         CGPoint(0, 6),
     ]]),
-    "C": Letter(style: .Line, size: defaultSize, points: [[
+    "C": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(4, 0),
         CGPoint(1, 0),
         CGPoint(0, 1),
@@ -272,7 +272,7 @@ let SmallFont = Font(
         CGPoint(1, 6),
         CGPoint(4, 6),
     ]]),
-    "D": Letter(style: .Loop, size: defaultSize, points: [[
+    "D": Letter(style: .loop, size: defaultSize, points: [[
         CGPoint(0, 0),
         CGPoint(3, 0),
         CGPoint(4, 1),
@@ -280,7 +280,7 @@ let SmallFont = Font(
         CGPoint(3, 6),
         CGPoint(0, 6),
     ]]),
-    "E": Letter(style: .Line, size: defaultSize, points: [[
+    "E": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(4, 0),
         CGPoint(0, 0),
         CGPoint(0, 6),
@@ -289,7 +289,7 @@ let SmallFont = Font(
         CGPoint(0, 3),
         CGPoint(3, 3),
     ]]),
-    "F": Letter(style: .Line, size: defaultSize, points: [[
+    "F": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 6.25),
         CGPoint(0, 0),
         CGPoint(4, 0),
@@ -297,7 +297,7 @@ let SmallFont = Font(
         CGPoint(0, 3),
         CGPoint(1.5, 3),
     ]]),
-    "G": Letter(style: .Line, size: defaultSize, points: [[
+    "G": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(4, 0),
         CGPoint(1, 0),
         CGPoint(0, 1),
@@ -307,7 +307,7 @@ let SmallFont = Font(
         CGPoint(4, 3),
         CGPoint(3, 3),
     ]]),
-    "H": Letter(style: .Line, size: defaultSize, points: [[
+    "H": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, -0.25),
         CGPoint(0, 6.25),
     ], [
@@ -317,18 +317,18 @@ let SmallFont = Font(
         CGPoint(4, -0.25),
         CGPoint(4, 6.25),
     ]]),
-    "I": Letter(style: .Line, size: CGSize(2, defaultSize.height), points: [[
+    "I": Letter(style: .line, size: CGSize(2, defaultSize.height), points: [[
         CGPoint(1, -0.25),
         CGPoint(1, 6.25),
     ]]),
-    "J": Letter(style: .Line, size: defaultSize, points: [[
+    "J": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(4, -0.25),
         CGPoint(4, 6),
         CGPoint(1, 6),
         CGPoint(0, 5),
         CGPoint(0, 4),
     ]]),
-    "K": Letter(style: .Line, size: defaultSize, points: [[
+    "K": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, -0.25),
         CGPoint(0, 6.25),
     ], [
@@ -336,25 +336,25 @@ let SmallFont = Font(
         CGPoint(0, 3),
         CGPoint(4, 6),
     ]]),
-    "L": Letter(style: .Line, size: defaultSize, points: [[
+    "L": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, -0.25),
         CGPoint(0, 6),
         CGPoint(4, 6),
     ]]),
-    "M": Letter(style: .Line, size: defaultSize, points: [[
+    "M": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 6.25),
         CGPoint(0, 0),
         CGPoint(2, 3),
         CGPoint(4, 0),
         CGPoint(4, 6.25),
     ]]),
-    "N": Letter(style: .Line, size: defaultSize, points: [[
+    "N": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 6.25),
         CGPoint(0, 0),
         CGPoint(4, 6),
         CGPoint(4, -0.25),
     ]]),
-    "O": Letter(style: .Loop, size: defaultSize, points: [[
+    "O": Letter(style: .loop, size: defaultSize, points: [[
         CGPoint(1, 0),
         CGPoint(3, 0),
         CGPoint(4, 1),
@@ -364,7 +364,7 @@ let SmallFont = Font(
         CGPoint(0, 5),
         CGPoint(0, 1),
     ]]),
-    "P": Letter(style: .Line, size: defaultSize, points: [[
+    "P": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 6.25),
         CGPoint(0, 0),
         CGPoint(3, 0),
@@ -373,7 +373,7 @@ let SmallFont = Font(
         CGPoint(3, 3),
         CGPoint(0, 3),
     ]]),
-    "Q": Letter(style: .Loop, size: defaultSize, points: [[
+    "Q": Letter(style: .loop, size: defaultSize, points: [[
         CGPoint(1, 0),
         CGPoint(3, 0),
         CGPoint(4, 1),
@@ -386,7 +386,7 @@ let SmallFont = Font(
         CGPoint(2, 4),
         CGPoint(3, 6),
     ]]),
-    "R": Letter(style: .Line, size: defaultSize, points: [[
+    "R": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 6.25),
         CGPoint(0, 0),
         CGPoint(3, 0),
@@ -396,7 +396,7 @@ let SmallFont = Font(
         CGPoint(0.5, 3),
         CGPoint(4, 6.25),
     ]]),
-    "S": Letter(style: .Line, size: defaultSize, points: [[
+    "S": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(4, 0),
         CGPoint(1, 0),
         CGPoint(0, 1),
@@ -406,14 +406,14 @@ let SmallFont = Font(
         CGPoint(3, 6),
         CGPoint(0, 6),
     ]]),
-    "T": Letter(style: .Line, size: defaultSize, points: [[
+    "T": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 0),
         CGPoint(4, 0),
     ], [
         CGPoint(2, 0),
         CGPoint(2, 6.25),
     ]]),
-    "U": Letter(style: .Line, size: defaultSize, points: [[
+    "U": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, -0.25),
         CGPoint(0, 5),
         CGPoint(1, 6),
@@ -421,26 +421,26 @@ let SmallFont = Font(
         CGPoint(4, 5),
         CGPoint(4, -0.25),
     ]]),
-    "V": Letter(style: .Line, size: defaultSize, points: [[
+    "V": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 0),
         CGPoint(2, 6),
         CGPoint(4, 0),
     ]]),
-    "W": Letter(style: .Line, size: defaultSize, points: [[
+    "W": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 0),
         CGPoint(0, 6),
         CGPoint(2, 3),
         CGPoint(4, 6),
         CGPoint(4, 0),
     ]]),
-    "X": Letter(style: .Line, size: defaultSize, points: [[
+    "X": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 0),
         CGPoint(4, 6),
     ], [
         CGPoint(0, 6),
         CGPoint(4, 0),
     ]]),
-    "Y": Letter(style: .Line, size: defaultSize, points: [[
+    "Y": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 0),
         CGPoint(2, 3),
         CGPoint(4, 0),
@@ -448,7 +448,7 @@ let SmallFont = Font(
         CGPoint(2, 3),
         CGPoint(2, 6.25),
     ]]),
-    "Z": Letter(style: .Line, size: defaultSize, points: [[
+    "Z": Letter(style: .line, size: defaultSize, points: [[
         CGPoint(0, 0),
         CGPoint(4, 0),
         CGPoint(0, 6),

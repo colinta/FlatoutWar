@@ -126,7 +126,7 @@ class OceanLevel3: OceanLevel {
     private func randPoint() -> CGPoint {
         let minRadius = self.outerRadius
         let maxRadius = minRadius + 300
-        return CGPoint(r: rand(min: minRadius, max: maxRadius), a: self.randSideAngle(.Right))
+        return CGPoint(r: rand(min: minRadius, max: maxRadius), a: self.randSideAngle(.right))
     }
 
     func generateArmyWave() {

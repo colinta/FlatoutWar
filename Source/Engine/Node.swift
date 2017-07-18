@@ -35,7 +35,7 @@ class Node: SKNode {
         return outerRadius / xScale
     }
 
-    var shape: Shape = .Circle
+    var shape: Shape = .circle
     var nodeName: String { return name ?? "" }
 
     var components: [Component] = []
@@ -351,32 +351,32 @@ extension Node {
     }
 
     func getTimeRate() -> CGFloat {
-        return getAttr(.TimeRate).timeRate
+        return getAttr(.timeRate).timeRate
     }
 
     func getAttr(_ attr: Attr) -> AttrMod {
         switch attr {
-        case .Halted:
+        case .halted:
             for mod in mods {
                 switch mod.attr {
-                case let .Halted(halt):
+                case let .halted(halt):
                     if halt {
-                        return .Halted(true)
+                        return .halted(true)
                     }
                 default: break
                 }
             }
-            return .Halted(false)
-        case .TimeRate:
+            return .halted(false)
+        case .timeRate:
             var dt = timeRate
             for mod in mods {
                 switch mod.attr {
-                case let .TimeRate(rate):
+                case let .timeRate(rate):
                     dt *= rate
                 default: break
                 }
             }
-            return .TimeRate(dt)
+            return .timeRate(dt)
         }
     }
 

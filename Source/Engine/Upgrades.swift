@@ -3,29 +3,29 @@
 //
 
 enum HasUpgrade {
-    case False
-    case True
+    case `false`
+    case `true`
 
     init(safe val: Bool?) {
         switch val {
-        case .some(true): self = .True
-        case .none, .some(false): self = .False
+        case .some(true): self = .true
+        case .none, .some(false): self = .false
         }
     }
 
     var name: String {
-        return "\(self == .True)"
+        return "\(self == .true)"
     }
 }
 
 extension HasUpgrade: ExpressibleByBooleanLiteral {
     init(booleanLiteral value: Bool) {
-        self = value ? .True : .False
+        self = value ? .true : .false
     }
 }
 
 extension HasUpgrade {
-    var boolValue: Bool { return self == .True }
+    var boolValue: Bool { return self == .true }
 }
 
 extension HasUpgrade {

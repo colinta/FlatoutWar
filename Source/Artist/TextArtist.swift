@@ -4,7 +4,7 @@
 
 private let defaultLetter: (String, CGSize) -> Letter = { char, size in
     print("unknown char: \(char)")
-    return Letter(style: .Loop, size: size, points: [[
+    return Letter(style: .loop, size: size, points: [[
         CGPoint(0, 0),
         CGPoint(size.width, 0),
         CGPoint(size.width, size.height),

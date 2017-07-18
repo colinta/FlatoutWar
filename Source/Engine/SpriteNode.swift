@@ -19,13 +19,13 @@ class SpriteNode: Node {
         self << sprite
     }
 
-    func textureId(_ spriteId: ImageIdentifier, scale: Artist.Scale = .Default) {
+    func textureId(_ spriteId: ImageIdentifier, scale: Artist.Scale = .default) {
         sprite.textureId(spriteId, scale: scale)
         size = spriteId.artist.size
     }
 
     required convenience init() {
-        self.init(id: .None)
+        self.init(id: .none)
     }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }

@@ -7,17 +7,17 @@ class BulletNode: Node {
     let sprite = SKSpriteNode()
 
     enum Style {
-        case Fast
-        case Slow
+        case fast
+        case slow
     }
 
     required init(velocity: CGPoint, style: Style) {
         super.init()
 
-        sprite.textureId(.Bullet(upgrade: .False, style: style))
-        sprite.z = .Below
+        sprite.textureId(.bullet(upgrade: .false, style: style))
+        sprite.z = .below
         self << sprite
-        size = BulletArtist.bulletSize(upgrade: .False)
+        size = BulletArtist.bulletSize(upgrade: .false)
 
         addComponent(KeepMovingComponent(velocity: velocity))
 

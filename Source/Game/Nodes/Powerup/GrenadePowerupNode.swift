@@ -7,7 +7,7 @@ class GrenadePowerupNode: Node {
     required init() {
         super.init()
 
-        let sprite = SKSpriteNode(id: .Powerup(type: .Grenade))
+        let sprite = SKSpriteNode(id: .powerup(type: .grenade))
         self << sprite
     }
 

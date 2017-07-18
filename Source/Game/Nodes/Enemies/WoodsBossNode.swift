@@ -84,7 +84,7 @@ class WoodsBossBodyNode: Node {
     let sprite = SKSpriteNode()
 
     func updateTexture() {
-        sprite.textureId(.WoodsBossBody(health: healthComponent?.healthInt ?? 100))
+        sprite.textureId(.woodsBossBody(health: healthComponent?.healthInt ?? 100))
     }
 
     required init() {
@@ -94,11 +94,11 @@ class WoodsBossBodyNode: Node {
         size = CGSize(30)
 
         let dy: CGFloat = 40
-        let line = SpriteNode(id: .ColorLine(length: 2 * dy, color: 0xFFFFFF))
+        let line = SpriteNode(id: .colorLine(length: 2 * dy, color: 0xFFFFFF))
         let foot1 = WoodsBossFootNode(at: CGPoint(0, -dy))
         let foot2 = WoodsBossFootNode(at: CGPoint(0, dy))
         line.zRotation = TAU_4
-        line.z = .Below
+        line.z = .below
         self << line
         self << foot1
         self << foot2
@@ -167,7 +167,7 @@ class WoodsBossFootNode: Node {
     let sprite = SKSpriteNode()
 
     func updateTexture() {
-        sprite.textureId(.WoodsBossFoot(health: healthComponent?.healthInt ?? 100))
+        sprite.textureId(.woodsBossFoot(health: healthComponent?.healthInt ?? 100))
     }
 
     required init() {

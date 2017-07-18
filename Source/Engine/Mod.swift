@@ -3,16 +3,16 @@
 //
 
 enum Attr {
-    case TimeRate
-    case Halted
+    case timeRate
+    case halted
 }
 
 enum AttrMod {
-    case TimeRate(CGFloat)
-    case Halted(Bool)
+    case timeRate(CGFloat)
+    case halted(Bool)
 
     var timeRate: CGFloat {
-        if case let .TimeRate(timeRate) = self {
+        if case let .timeRate(timeRate) = self {
             return timeRate
         }
         return 0

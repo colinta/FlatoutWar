@@ -8,7 +8,7 @@ class OrbitalPlayground: World {
 
     override func populateWorld() {
         20.times {
-            sprites << (SKNode(), SKSpriteNode(id: .Box(color: EnemySoldierGreen)), a: rand(TAU), offset: rand(TAU), factor: rand(min: 1, max: 3))
+            sprites << (SKNode(), SKSpriteNode(id: .box(color: EnemySoldierGreen)), a: rand(TAU), offset: rand(TAU), factor: rand(min: 1, max: 3))
         }
 
         for (node, sprite, angle, _, _) in sprites {

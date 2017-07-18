@@ -5,12 +5,12 @@
 extension Level {
 
     func generateWarning(_ screenAngles: CGFloat...) {
-        let insetSize = SKSpriteNode(id: .Warning).size + CGSize(10)
+        let insetSize = SKSpriteNode(id: .warning).size + CGSize(10)
         let innerRect = CGRect(centerSize: size - insetSize)
         for screenAngle in screenAngles {
             let warning = Node()
-            let sprite = SKSpriteNode(id: .Warning)
-            sprite.z = .UITop
+            let sprite = SKSpriteNode(id: .warning)
+            sprite.z = .uiTop
             warning << sprite
             warning.position = outsideWorld(extra: 0, angle: screenAngle, ui: true)
                 .ensureInside(innerRect)
@@ -337,7 +337,7 @@ extension Level {
                 let enemy = EnemyJetNode(at: location)
                 enemy.name = "\(enemy.nodeName) follower"
                 enemy.setRotation(prevNode.zRotation)
-                enemy.follow(leader: prevNode, scatter: .None, component: FollowTargetComponent())
+                enemy.follow(leader: prevNode, scatter: .none, component: FollowTargetComponent())
                 self << enemy
                 prevNode = enemy
             }
@@ -397,13 +397,13 @@ extension Level {
     }
 
     enum TransportSource {
-        case All
-        case Right
-        case LeftEdges
+        case all
+        case right
+        case leftEdges
     }
 
     func generateEnemyTransport(
-        _ source: TransportSource = .All,
+        _ source: TransportSource = .all,
         payload _payload: [EnemySoldierNode]? = nil
         ) -> Block
     {
@@ -421,7 +421,7 @@ extension Level {
             var start: CGPoint, control1: CGPoint, control2: CGPoint, dest: CGPoint
 
             switch source {
-            case .All:
+            case .all:
                 let routes: [ (start: CGPoint, control1: CGPoint, control2: CGPoint, dest: CGPoint) ] = [
                     (
                         start:    CGPoint(size.width / 2 + transport.size.width, size.height / 2),
@@ -450,12 +450,12 @@ extension Level {
                     dest.x = -dest.x
                     dest.y = -dest.y
                 }
-            case .Right:
+            case .right:
                 start = CGPoint(rand(min: size.width / 4 + 20, max: size.width / 2 - 20), ±(size.height / 2 + 2 * transport.size.height))
                 dest = CGPoint(start.x, -start.y)
                 control1 = (start + dest) / 2 + CGPoint(x: ±rand(50))
                 control2 = control1
-            case .LeftEdges:
+            case .leftEdges:
                 switch rand(3) as Int {
                 case 0: // top-left
                     start = CGPoint(
@@ -547,24 +547,24 @@ extension Level {
     }
 
     func generateBothSidesWarnings() {
-        generateSideWarnings(side: .Left)
-        generateSideWarnings(side: .Right)
+        generateSideWarnings(side: .left)
+        generateSideWarnings(side: .right)
     }
 
     func generateSideWarnings(side: World.Side) {
         let sideAngle: CGFloat
         let angle: CGFloat
         switch side {
-        case .Left:
+        case .left:
             angle = TAU_2
             sideAngle = size.angle
-        case .Right:
+        case .right:
             angle = 0
             sideAngle = size.angle
-        case .Top:
+        case .top:
             angle = TAU_4
             sideAngle = TAU_4 - size.angle
-        case .Bottom:
+        case .bottom:
             angle = TAU_3_4
             sideAngle = TAU_4 - size.angle
         }

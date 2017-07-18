@@ -8,21 +8,21 @@
 class IntersectsTestWorld: DemoWorld {
     let n1 = Node(at: CGPoint(x: 3, y: 0))
     let n2 = Node(at: CGPoint(x: -3, y: 0))
-    let a1 = SKSpriteNode(id: .Enemy(.Dozer, health: 50))
-    let a2 = SKSpriteNode(id: .Enemy(.Dozer, health: 50))
+    let a1 = SKSpriteNode(id: .enemy(.dozer, health: 50))
+    let a2 = SKSpriteNode(id: .enemy(.dozer, health: 50))
 
     override func populateWorld() {
         super.populateWorld()
         playerNode.removeFromParent()
 
         n1 << a1
-        n1.shape = .Rect
+        n1.shape = .rect
         n1.size = CGSize(width: 5, height: 50)
         n1.zRotation = 0.degrees
         self << n1
 
         n2 << a2
-        n2.shape = .Rect
+        n2.shape = .rect
         n2.size = CGSize(width: 5, height: 50)
         n2.zRotation = 45.degrees
         self << n2
@@ -33,7 +33,7 @@ class IntersectsTestWorld: DemoWorld {
 
         let touchableComponent = TouchableComponent()
         var rotating = false
-        touchableComponent.on(.Up) { _ in
+        touchableComponent.on(.up) { _ in
             rotating = !rotating
         }
         touchableComponent.onDragged { (prevLocation, location) in

@@ -38,7 +38,7 @@ class ShotgunArtist: PolygonArtist {
 
     override func generatePoints() -> [(CGFloat, CGFloat)] {
         let points = super.generatePoints()
-        if movementUpgrade == .False {
+        if movementUpgrade == .false {
             return points
         }
 
@@ -99,7 +99,7 @@ class ShotgunTurretArtist: Artist {
         self.hasUpgrade = hasUpgrade
         super.init()
         size = CGSize(20)
-        shadowed = .True
+        shadowed = .true
     }
 
     required init() {

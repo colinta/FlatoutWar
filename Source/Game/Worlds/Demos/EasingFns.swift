@@ -5,15 +5,15 @@
 class EasingFns: World {
     var dots: [Node] = []
     var easings: [Easing] = [
-        .Custom({ (_, initial, _) in
+        .custom({ (_, initial, _) in
             return initial
         }),
-        .Linear,
-        .EaseInBack,
-        .EaseInElastic,
-        .EaseOutCubic,
-        .EaseOutElastic,
-        .EaseOutExpo,
+        .linear,
+        .inBack,
+        .inElastic,
+        .outCubic,
+        .outElastic,
+        .outExpo,
     ]
     var easingIndex = 0
 

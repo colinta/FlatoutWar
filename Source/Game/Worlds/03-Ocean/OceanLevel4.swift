@@ -20,7 +20,7 @@ class OceanLevel4: OceanLevel {
     // exp 10 * 2 + 6 * 3 + 4 * 4 = 54
     func beginWave1(nextStep: @escaping NextStepBlock) {
         let side1: CGFloat = 0
-        let side2 = Side.Left
+        let side2 = Side.left
         generateWarning(
             side1,
             side1 + TAU_2,

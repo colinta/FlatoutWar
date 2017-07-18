@@ -10,7 +10,7 @@ class LaserBeamNode: Node {
     private var currentLength: CGFloat = 0
     private var maxLength: CGFloat = Length
     private(set) var angle: CGFloat = 0
-    private let sprite = SKSpriteNode(id: .None)
+    private let sprite = SKSpriteNode(id: .none)
     private var damaging: Node?
 
     required init(angle: CGFloat) {
@@ -19,7 +19,7 @@ class LaserBeamNode: Node {
 
         size = CGSize(2)
 
-        sprite.z = .Below
+        sprite.z = .below
         sprite.anchorPoint = CGPoint(1, 1)
         sprite.zRotation = angle
         self << sprite
@@ -58,7 +58,7 @@ class LaserBeamNode: Node {
         }
 
         currentLength = min(currentLength, maxLength)
-        sprite.textureId(.ColorLine(length: currentLength, color: PowerupRed))
+        sprite.textureId(.colorLine(length: currentLength, color: PowerupRed))
     }
 
 }

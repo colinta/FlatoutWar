@@ -10,12 +10,12 @@ class CannonballNode: Node {
         super.init()
         position = start
 
-        sprite.textureId(.Bullet(upgrade: .False, style: .Slow))
-        sprite.z = .Above
+        sprite.textureId(.bullet(upgrade: .false, style: .slow))
+        sprite.z = .above
         self << sprite
 
         let scaleDuration = (destination - start).length / speed
-        scaleTo(3, duration: scaleDuration, easing: .ReverseQuad)
+        scaleTo(3, duration: scaleDuration, easing: .reverseQuad)
         moveTo(destination, speed: speed).onArrived {
             guard let parent = (self.parentNode ?? self.world) else { return }
             let bomb = BombNode(maxRadius: radius)

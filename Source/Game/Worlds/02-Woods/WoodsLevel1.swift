@@ -23,7 +23,7 @@ class WoodsLevel1: WoodsLevel {
 
     // one sources of weak enemies in a wave
     func beginWave1(nextStep: @escaping NextStepBlock) {
-        let wave1 = randSideAngle(.Right)
+        let wave1 = randSideAngle(.right)
         generateWarning(
             wave1 - 15.degrees,
             wave1,

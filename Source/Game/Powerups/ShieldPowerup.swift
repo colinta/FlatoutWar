@@ -4,7 +4,7 @@
 
 class ShieldPowerup: Powerup {
     override var name: String { return "SHIELD" }
-    override var powerupType: ImageIdentifier.PowerupType? { return .Shield }
+    override var powerupType: ImageIdentifier.PowerupType? { return .shield }
 
     required init(count: Int) {
         super.init(count: count)

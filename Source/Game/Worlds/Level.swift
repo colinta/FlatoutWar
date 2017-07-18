@@ -56,7 +56,7 @@ class Level: World {
     }
 
     required init() {
-        levelSelect = .Select
+        levelSelect = .select
         super.init()
         pauseable = true
         multitouchEnabled = true
@@ -194,44 +194,44 @@ extension Level {
             }
         }
 
-        quitButton.fixedPosition = .Center(x: 0, y: 80)
+        quitButton.fixedPosition = .center(x: 0, y: 80)
         quitButton.visible = false
         quitButton.text = "QUIT"
-        quitButton.font = .Big
+        quitButton.font = .big
         quitButton.onTapped {
             self.goToLevelSelect()
         }
 
-        resumeButton.fixedPosition = .Center(x: 0, y: -80)
+        resumeButton.fixedPosition = .center(x: 0, y: -80)
         resumeButton.visible = false
         resumeButton.text = "RESUME"
-        resumeButton.font = .Big
+        resumeButton.font = .big
         resumeButton.onTapped {
             self.unpause()
         }
 
-        restartButton.fixedPosition = .Center(x: 0, y: 0)
+        restartButton.fixedPosition = .center(x: 0, y: 0)
         restartButton.visible = false
         restartButton.text = "RESTART"
-        restartButton.font = .Big
+        restartButton.font = .big
         restartButton.onTapped {
             self.restartWorld()
         }
 
-        backButton.fixedPosition = .Top(x: -60, y: -60)
-        backButton.style = .RectSized(110, 60)
+        backButton.fixedPosition = .top(x: -60, y: -60)
+        backButton.style = .rectSized(110, 60)
         backButton.text = "BACK"
         backButton.visible = false
-        backButton.font = .Big
+        backButton.font = .big
         backButton.onTapped {
             self.goBackToLevelSelect()
         }
 
-        nextButton.fixedPosition = .Top(x: 60, y: -60)
-        nextButton.style = .RectSized(110, 60)
+        nextButton.fixedPosition = .top(x: 60, y: -60)
+        nextButton.style = .rectSized(110, 60)
         nextButton.text = "NEXT"
         nextButton.visible = false
-        nextButton.font = .Big
+        nextButton.font = .big
         nextButton.onTapped(self.goToNextWorld)
 
         ui << pauseButton
@@ -256,11 +256,11 @@ extension Level {
         let powerups = config.availablePowerups
         self.powerups = powerups
         for (index, powerup) in powerups.enumerated() {
-            let start: Position = .Left(
+            let start: Position = .left(
                 x: -150,
                 y: 20 - CGFloat(index) * 80
             )
-            let dest: Position = .TopLeft(
+            let dest: Position = .topLeft(
                 x: 20,
                 y: -20 - CGFloat(index) * 50
             )
@@ -372,7 +372,7 @@ extension Level {
 
             let currentText = TextNode(at: CGPoint(x: 30, y: 30))
             currentText.text = "0%"
-            currentText.font = .Small
+            currentText.font = .small
             self << currentText
 
             let gained = CGFloat(gainedExperience)
@@ -401,9 +401,9 @@ extension Level {
                     }
                 }
 
-                self.restartButton.fixedPosition = .Bottom(x: 0, y: 80)
+                self.restartButton.fixedPosition = .bottom(x: 0, y: 80)
                 if self.shouldReturnToLevelSelect {
-                    self.backButton.fixedPosition = .Top(x: 0, y: -60)
+                    self.backButton.fixedPosition = .top(x: 0, y: -60)
                 }
                 self.showFinalButtons()
             }
@@ -425,7 +425,7 @@ extension Level {
     func showCutSceneButtons() {
         quitButton.visible = false
         restartButton.visible = false
-        nextButton.fixedPosition = .Center(x: 0, y: -60)
+        nextButton.fixedPosition = .center(x: 0, y: -60)
         nextButton.visible = true
     }
 

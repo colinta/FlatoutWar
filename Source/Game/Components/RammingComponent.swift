@@ -123,12 +123,12 @@ class PlayerRammingComponent: RammingComponent {
             let enemyDamage = min(struckTarget.healthComponent?.health ?? 0, node.healthComponent?.health ?? 0)
 
             switch struckTarget.playerComponent!.rammedBehavior {
-            case .Damaged:
+            case .damaged:
                 for handler in _onRammed {
                     handler(struckTarget)
                 }
                 return true
-            case .Attacks:
+            case .attacks:
                 node.healthComponent?.inflict(damage: enemyDamage)
             }
         }

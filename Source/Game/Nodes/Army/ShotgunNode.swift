@@ -5,21 +5,21 @@
 private let StartingHealth: Float = 35
 
 class ShotgunNode: Node, DraggableNode {
-    var movementUpgrade: HasUpgrade = .False { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
-    var bulletUpgrade: HasUpgrade = .False { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
-    var radarUpgrade: HasUpgrade = .False { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
+    var movementUpgrade: HasUpgrade = .false { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
+    var bulletUpgrade: HasUpgrade = .false { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
+    var radarUpgrade: HasUpgrade = .false { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
 
     let armyComponent = SelectableArmyComponent()
 
     fileprivate func updateBaseSprite() {
-        baseSprite.textureId(.ShotgunNode(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: healthComponent?.healthInt ?? 100))
-        placeholder.textureId(.ShotgunNode(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: 100))
+        baseSprite.textureId(.shotgunNode(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: healthComponent?.healthInt ?? 100))
+        placeholder.textureId(.shotgunNode(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: 100))
     }
     fileprivate func updateRadarSprite() {
-        radarSprite.textureId(.ShotgunRadar(upgrade: radarUpgrade, isSelected: armyComponent.isCurrent))
+        radarSprite.textureId(.shotgunRadar(upgrade: radarUpgrade, isSelected: armyComponent.isCurrent))
     }
     fileprivate func updateUpgrades() {
-        turretSprite.textureId(.ShotgunTurret(upgrade: bulletUpgrade))
+        turretSprite.textureId(.shotgunTurret(upgrade: bulletUpgrade))
         updateBaseSprite()
         updateRadarSprite()
 
@@ -60,9 +60,9 @@ class ShotgunNode: Node, DraggableNode {
 
         radarSprite.anchorPoint = CGPoint(0, 0.5)
 
-        baseSprite.z = .Player
-        turretSprite.z = .AbovePlayer
-        radarSprite.z = .BelowPlayer
+        baseSprite.z = .player
+        turretSprite.z = .abovePlayer
+        radarSprite.z = .belowPlayer
 
         self << baseSprite
         self << radarSprite
@@ -93,7 +93,7 @@ class ShotgunNode: Node, DraggableNode {
         addComponent(healthComponent)
 
         let touchableComponent = TouchableComponent()
-        touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest(shape: .Circle)
+        touchableComponent.containsTouchTest = TouchableComponent.defaultTouchTest(shape: .circle)
         addComponent(touchableComponent)
 
         let selectableComponent = SelectableComponent()
@@ -184,11 +184,11 @@ extension ShotgunNode {
         guard let world = world else { return }
 
         let velocity: CGFloat = bulletUpgrade.shotgunBulletSpeed ± rand(weighted: 5)
-        let bullet = BulletNode(velocity: CGPoint(r: velocity, a: angle), style: .Slow)
+        let bullet = BulletNode(velocity: CGPoint(r: velocity, a: angle), style: .slow)
         bullet.position = self.position
         bullet.timeRate = self.timeRate
 
-        bullet.size = BulletArtist.bulletSize(upgrade: .False)
+        bullet.size = BulletArtist.bulletSize(upgrade: .false)
         bullet.zRotation = angle
         bullet.damage = bulletUpgrade.shotgunBulletDamage + rand(weighted: 0.25)
         (parentNode ?? world) << bullet

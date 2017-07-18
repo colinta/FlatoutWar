@@ -13,10 +13,10 @@ class BulletRecoilExplosionNode: Node {
 
     required init() {
         super.init()
-        z = .Bottom
+        z = .bottom
 
         for _ in 0..<numSprites {
-            let sprite = SKSpriteNode(id: .None)
+            let sprite = SKSpriteNode(id: .none)
             sprite.anchorPoint = CGPoint(0, 0.5)
             sprites << sprite
             self << sprite
@@ -39,7 +39,7 @@ class BulletRecoilExplosionNode: Node {
 
         for (i, sprite) in sprites.enumerated() {
             let angle = 135.degrees + 90.degrees * CGFloat(i) / CGFloat(sprites.count - 1)
-            sprite.textureId(.HueLine(length: length, hue: hue))
+            sprite.textureId(.hueLine(length: length, hue: hue))
             sprite.position = CGPoint(r: distance, a: angle)
             sprite.zRotation = angle
             sprite.alpha = alpha

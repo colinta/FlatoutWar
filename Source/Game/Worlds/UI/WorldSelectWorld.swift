@@ -6,15 +6,15 @@
 class WorldSelectWorld: UIWorld {
     var worldLocations: [LevelId: CGPoint]!
     var worldSelect: Node!
-    var beginAt: LevelId = .Select
+    var beginAt: LevelId = .select
 
     enum LevelId {
-        case PanIn
-        case Select
-        case Tutorial
-        case Woods
-        case Ocean
-        case Base
+        case panIn
+        case select
+        case tutorial
+        case woods
+        case ocean
+        case base
     }
 
     convenience init(beginAt: LevelId) {
@@ -24,13 +24,13 @@ class WorldSelectWorld: UIWorld {
 
     override func populateWorld() {
         worldLocations = [
-            .Tutorial: CGPoint(-200, 0),
-            .Woods: CGPoint(-200, 100),
-            .Ocean: CGPoint(-100, 100),
-            .Base: CGPoint(-100, 0),
+            .tutorial: CGPoint(-200, 0),
+            .woods: CGPoint(-200, 100),
+            .ocean: CGPoint(-100, 100),
+            .base: CGPoint(-100, 0),
         ]
 
-        if beginAt == .PanIn {
+        if beginAt == .panIn {
             let startLeft = -size.width
             self.moveCamera(from: CGPoint(x: startLeft),
                 to: CGPoint(x: 0),
@@ -60,10 +60,10 @@ class WorldSelectWorld: UIWorld {
         populateCurrencies(config: summaryConfig)
 
         do {
-            let button = Button(at: worldLocations[.Tutorial]!)
+            let button = Button(at: worldLocations[.tutorial]!)
             button.background = BackgroundColor
-            button.style = .SquareSized(50)
-            button.font = .Big
+            button.style = .squareSized(50)
+            button.font = .big
             button.onTapped {
                 self.interactionEnabled = false
                 self.transitionToTutorial()
@@ -78,10 +78,10 @@ class WorldSelectWorld: UIWorld {
         }
 
         do {
-            let button = Button(at: worldLocations[.Woods]!)
+            let button = Button(at: worldLocations[.woods]!)
             button.background = BackgroundColor
-            button.style = .SquareSized(50)
-            button.font = .Big
+            button.style = .squareSized(50)
+            button.font = .big
             button.enabled = tutorialConfig.worldCompleted
             button.onTapped {
                 self.interactionEnabled = false
@@ -99,10 +99,10 @@ class WorldSelectWorld: UIWorld {
         }
 
         do {
-            let button = Button(at: worldLocations[.Ocean]!)
+            let button = Button(at: worldLocations[.ocean]!)
             button.background = BackgroundColor
-            button.style = .SquareSized(50)
-            button.font = .Big
+            button.style = .squareSized(50)
+            button.font = .big
             button.enabled = tutorialConfig.worldCompleted
             button.onTapped {
                 self.interactionEnabled = false
@@ -120,16 +120,16 @@ class WorldSelectWorld: UIWorld {
         }
 
         do {
-            let button = Button(at: worldLocations[.Base]!)
+            let button = Button(at: worldLocations[.base]!)
             button.background = BackgroundColor
-            button.style = .SquareSized(50)
-            button.font = .Big
+            button.style = .squareSized(50)
+            button.font = .big
             button.enabled = tutorialConfig.worldCompleted
             button.onTapped {
                 self.interactionEnabled = false
                 self.transitionToBase()
             }
-            button.text = "3"
+            button.text = "4"
             worldSelect << button
 
             if button.enabled {
@@ -141,11 +141,11 @@ class WorldSelectWorld: UIWorld {
         }
 
         switch beginAt {
-        case .Tutorial:
+        case .tutorial:
             transitionToTutorial(animate: false)
-        case .Woods:
+        case .woods:
             transitionToWoods(animate: false)
-        case .Base:
+        case .base:
             transitionToBase(animate: false)
         default: break
         }
@@ -177,7 +177,7 @@ class WorldSelectWorld: UIWorld {
 
         let backButton = Button(at: CGPoint(x: -200, y: 100))
         backButton.text = "<"
-        backButton.font = .Big
+        backButton.font = .big
         backButton.size = CGSize(width: 15, height: 15)
         backButton.onTapped {
             self.interactionEnabled = false
@@ -195,15 +195,15 @@ class WorldSelectWorld: UIWorld {
 
 // MARK: TUTORIAL
     func transitionToTutorial(animate: Bool = true) {
-        let levelSelect = transitionToLevel(at: worldLocations[.Tutorial]!, animate: animate)
+        let levelSelect = transitionToLevel(at: worldLocations[.tutorial]!, animate: animate)
 
         let tutorialTitle = TextNode(at: CGPoint(y: 130))
-        tutorialTitle.font = .Big
+        tutorialTitle.font = .big
         tutorialTitle.text = "IN EXILE"
         levelSelect << tutorialTitle
 
         let tutorialButton = Button(at: CGPoint(x: -200, y: 20))
-        tutorialButton.font = .Big
+        tutorialButton.font = .big
         tutorialButton.text = "?"
         tutorialButton.size = CGSize(width: 15, height: 15)
         tutorialButton.onTapped {
@@ -278,10 +278,10 @@ class WorldSelectWorld: UIWorld {
 
 // MARK: WOODS
     func transitionToWoods(animate: Bool = true) {
-        let levelSelect = transitionToLevel(at: worldLocations[.Woods]!, animate: animate)
+        let levelSelect = transitionToLevel(at: worldLocations[.woods]!, animate: animate)
 
         let tutorialTitle = TextNode(at: CGPoint(y: 130))
-        tutorialTitle.font = .Big
+        tutorialTitle.font = .big
         tutorialTitle.text = "THE WOODS"
         levelSelect << tutorialTitle
 
@@ -350,10 +350,10 @@ class WorldSelectWorld: UIWorld {
 
 // MARK: OCEAN
     func transitionToOcean(animate: Bool = true) {
-        let levelSelect = transitionToLevel(at: worldLocations[.Ocean]!, animate: animate)
+        let levelSelect = transitionToLevel(at: worldLocations[.ocean]!, animate: animate)
 
         let tutorialTitle = TextNode(at: CGPoint(y: 130))
-        tutorialTitle.font = .Big
+        tutorialTitle.font = .big
         tutorialTitle.text = "UNDER ASSAULT"
         levelSelect << tutorialTitle
 
@@ -418,10 +418,10 @@ class WorldSelectWorld: UIWorld {
 
 // MARK: BASE
     func transitionToBase(animate: Bool = true) {
-        let levelSelect = transitionToLevel(at: worldLocations[.Base]!, animate: animate)
+        let levelSelect = transitionToLevel(at: worldLocations[.base]!, animate: animate)
 
         let tutorialTitle = TextNode(at: CGPoint(y: 130))
-        tutorialTitle.font = .Big
+        tutorialTitle.font = .big
         tutorialTitle.text = "EPSILON BASE"
         levelSelect << tutorialTitle
 
@@ -493,8 +493,8 @@ extension WorldSelectWorld {
         button.background = BackgroundColor
         button.enabled = completed
         button.size = CGSize(50)
-        button.style = .Square
-        button.font = .Big
+        button.style = .square
+        button.font = .big
         button.onTapped {
             self.interactionEnabled = false
             self.fadeTo(0, duration: 0.5).onFaded {
@@ -518,7 +518,7 @@ extension WorldSelectWorld {
         info.position = position + CGPoint(x: -10, y: -40)
         info.setScale(0.75)
 
-        let experienceSquare = SKSpriteNode(id: .ExperienceIcon)
+        let experienceSquare = SKSpriteNode(id: .experienceIcon)
         experienceSquare.position = CGPoint(y: 8)
         info << experienceSquare
         let experienceText = TextNode()
@@ -582,7 +582,7 @@ extension WorldSelectWorld {
 
         let length = p0.distanceTo(p1)
         let color = enabled ? WhiteColor : 0x808080
-        let line = SKSpriteNode(id: .ColorLine(length: length, color: color))
+        let line = SKSpriteNode(id: .colorLine(length: length, color: color))
         line.anchorPoint = CGPoint(x: 0, y: 0.5)
         line.position = p0
         line.zRotation = p0.angleTo(p1)

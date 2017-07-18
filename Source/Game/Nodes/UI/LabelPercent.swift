@@ -24,7 +24,7 @@ class LabelPercent: Node {
         super.init()
 
         text.alignment = .right
-        text.font = .Tiny
+        text.font = .tiny
         if let goal = goal {
             text.text = "\(goal)/\(goal)"
         }

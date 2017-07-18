@@ -4,18 +4,18 @@
 
 class World: Node {
     enum Side {
-        case Left
-        case Right
-        case Top
-        case Bottom
+        case left
+        case right
+        case top
+        case bottom
 
         static func rand() -> Side {
             let side: Int = Int(arc4random_uniform(UInt32(4)))
             switch side {
-            case 0: return .Left
-            case 1: return .Right
-            case 2: return .Top
-            default: return .Bottom
+            case 0: return .left
+            case 1: return .right
+            case 2: return .top
+            default: return .bottom
             }
         }
     }
@@ -553,26 +553,26 @@ class World: Node {
 
     func randSideAngle(_ side: Side? = nil) -> CGFloat {
         guard let side = side else {
-            return randSideAngle(rand() ? .Left : .Right)
+            return randSideAngle(rand() ? .left : .right)
         }
 
         let spread: CGFloat
         switch side {
-        case .Left, .Right:
+        case .left, .right:
             spread = atan2(size.height, size.width)
-        case .Top, .Bottom:
+        case .top, .bottom:
             spread = atan2(size.width, size.height)
         }
 
         let angle: CGFloat
         switch side {
-        case .Right:
+        case .right:
             angle = 0
-        case .Top:
+        case .top:
             angle = TAU_4
-        case .Left:
+        case .left:
             angle = TAU_2
-        case .Bottom:
+        case .bottom:
             angle = TAU_3_4
         }
 

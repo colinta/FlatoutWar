@@ -7,28 +7,28 @@ extension ImageIdentifier.EnemyType {
         let artist: Artist
         let health = CGFloat(healthInt) / 100
         switch self {
-        case .Soldier:
+        case .soldier:
             artist = EnemySoldierArtist(health: health)
-        case .SlowSoldier:
+        case .slowSoldier:
             artist = EnemySlowSoldierArtist(health: health)
-        case .FastSoldier:
+        case .fastSoldier:
             artist = EnemyFastSoldierArtist(health: health)
-        case .GiantSoldier:
+        case .giantSoldier:
             artist = EnemySoldierArtist(health: health)
             artist.size = CGSize(100)
-        case .Leader:
+        case .leader:
             artist = EnemyLeaderArtist(health: health)
-        case .Scout:
+        case .scout:
             artist = EnemyScoutArtist(health: health)
-        case .Dozer:
+        case .dozer:
             artist = EnemyDozerArtist(health: health)
-        case .Jet:
+        case .jet:
             artist = EnemyJetArtist(health: health)
-        case .BigJet:
+        case .bigJet:
             artist = EnemyBigJetArtist(health: health)
-        case .JetTransport:
+        case .jetTransport:
             artist = EnemyJetTransportArtist(health: health)
-        case .Diamond:
+        case .diamond:
             artist = EnemyDiamondArtist(health: health)
         }
         return artist
@@ -38,25 +38,25 @@ extension ImageIdentifier.EnemyType {
 extension ImageIdentifier.PowerupType {
     func artist() -> Artist {
         switch self {
-            case .Mines:
+            case .mines:
                 return MinesPowerupArtist()
-            case .Grenade:
+            case .grenade:
                 return GrenadePowerupArtist()
-            case .Bomber:
+            case .bomber:
                 return BomberPowerupArtist()
-            case .Shield:
+            case .shield:
                 return ShieldPowerupArtist()
-            case .Soldiers:
+            case .soldiers:
                 return SoldiersPowerupArtist()
-            case .Hourglass:
+            case .hourglass:
                 return HourglassPowerupArtist()
-            case .Pulse:
+            case .pulse:
                 return PulsePowerupArtist()
-            case .Laser:
+            case .laser:
                 return LaserPowerupArtist()
-            case .Net:
+            case .net:
                 return NetPowerupArtist()
-            case .Coffee:
+            case .coffee:
                 return CoffeePowerupArtist()
         }
     }
@@ -66,9 +66,9 @@ extension ImageIdentifier.Size {
 
     var font: Font {
         switch self {
-        case .Tiny: return TinyFont
-        case .Small: return SmallFont
-        case .Big, .Actual: return BigFont
+        case .tiny: return TinyFont
+        case .small: return SmallFont
+        case .big, .actual: return BigFont
         }
     }
 }
@@ -77,141 +77,141 @@ extension ImageIdentifier {
 
     var artist: Artist {
         switch self {
-        case .None:
+        case .none:
             return Artist()
-        case .Warning:
+        case .warning:
             return WarningArtist()
-        case let .Dot(color):
+        case let .dot(color):
             let artist = DotArtist()
             artist.color = UIColor(hex: color)
             return artist
-        case .ExperienceIcon:
+        case .experienceIcon:
             let color = UIColor(hex: EnemySoldierGreen)
             let artist = RectArtist(CGSize(10), color)
             artist.drawingMode = .fill
             return artist
-        case let .Box(colorInt):
+        case let .box(colorInt):
             let color = UIColor(hex: colorInt)
             let artist = RectArtist(CGSize(10), color)
             artist.drawingMode = .fill
             return artist
-        case let .WhiteLetter(letter, size):
+        case let .whiteLetter(letter, size):
             let artist = TextArtist()
             artist.font = size.font
             artist.text = letter
 
             return artist
-        case let .Letter(letter, size, color):
+        case let .letter(letter, size, color):
             let artist = TextArtist()
             artist.font = size.font
             artist.text = letter
             artist.color = UIColor(hex: color)
 
             return artist
-        case let .Button(style, color):
+        case let .button(style, color):
             let artist = ButtonArtist()
             artist.color = UIColor(hex: color)
             switch style {
-            case .Square, .SquareSized, .RectSized:
-                artist.style = .Square
+            case .square, .squareSized, .rectSized:
+                artist.style = .square
                 artist.size = style.size
-            case .Circle, .CircleSized:
-                artist.style = .Circle
+            case .circle, .circleSized:
+                artist.style = .circle
                 artist.size = style.size
             default:
                 break
             }
             return artist
-        case let .WoodsBossFoot(healthInt):
+        case let .woodsBossFoot(healthInt):
             let health = CGFloat(healthInt) / 100
             let artist = WoodsBossFootArtist(health: health)
             return artist
-        case let .WoodsBossBody(healthInt):
+        case let .woodsBossBody(healthInt):
             let health = CGFloat(healthInt) / 100
             let artist = WoodsBossBodyArtist(health: health)
             return artist
-        case let .Enemy(enemyType, health):
+        case let .enemy(enemyType, health):
             return enemyType.artist(health: health)
-        case let .EnemyShrapnel(imageId, size):
+        case let .enemyShrapnel(imageId, size):
             let artist = imageId.artist
             switch size {
-            case .Tiny:
+            case .tiny:
                 artist.size *= 0.05
-            case .Small:
+            case .small:
                 artist.size *= 0.1
-            case .Big:
+            case .big:
                 artist.size *= 0.5
-            case .Actual:
+            case .actual:
                 break
             }
             return artist
-        case let .Powerup(type):
+        case let .powerup(type):
             return type.artist()
-        case .NoPowerup:
+        case .noPowerup:
             return NoPowerupArtist()
-        case let .Bomber(numBombs):
+        case let .bomber(numBombs):
             return BomberArtist(numBombs: numBombs)
-        case let .Bomb(radius, time):
+        case let .bomb(radius, time):
             return BombArtist(maxRadius: CGFloat(radius), time: CGFloat(time) / 250)
-        case .HourglassZone:
+        case .hourglassZone:
             let artist = HourglassZoneArtist()
             return artist
-        case .Mine:
+        case .mine:
             let artist = MinesPowerupArtist()
             artist.size = CGSize(15)
             return artist
-        case .MineExplosion:
+        case .mineExplosion:
             let artist = MineFragmentArtist()
             return artist
-        case let .Net(phase):
+        case let .net(phase):
             let artist = NetPowerupArtist()
             artist.fill = false
             artist.size = CGSize(100)
             artist.phase = CGFloat(phase) / 100
             return artist
-        case let .EnemyNet(size):
+        case let .enemyNet(size):
             let artist = NetPowerupArtist()
             artist.fill = false
             artist.size = CGSize(size)
             return artist
-        case let .Shield(phase):
+        case let .shield(phase):
             let artist = ShieldArtist()
             artist.phase = CGFloat(phase) / 100
             return artist
-        case let .ShieldSegment(healthInt):
+        case let .shieldSegment(healthInt):
             let artist = ShieldSegmentArtist()
             artist.health = CGFloat(healthInt) / 100
             return artist
-        case let .Soldier(healthInt):
+        case let .soldier(healthInt):
             let artist = SoldierArtist(health: CGFloat(healthInt) / 100)
             return artist
-        case let .PowerupTimer(percent):
+        case let .powerupTimer(percent):
             let artist = PowerupTimerArtist(percent: CGFloat(percent) / 100)
             return artist
-        case let .Percent(percent, style):
+        case let .percent(percent, style):
             let artist = PercentArtist(style: style)
             artist.complete = CGFloat(percent) / 100
             return artist
 
-        case let .Drone(movementUpgrade, bulletUpgrade, radarUpgrade, healthInt):
+        case let .drone(movementUpgrade, bulletUpgrade, radarUpgrade, healthInt):
             let health = CGFloat(healthInt) / 100
             let artist = DroneArtist(movementUpgrade, bulletUpgrade, radarUpgrade, health: health)
             return artist
-        case let .DroneRadar(upgrade):
+        case let .droneRadar(upgrade):
             let radius = upgrade.droneRadarRadius
             let artist = DroneRadarArtist(radius: radius)
             artist.color = upgrade.droneRadarColor
             artist.lineWidth = upgrade.droneRadarWidth
             return artist
 
-        case let .LaserNode(upgrade, healthInt):
+        case let .laserNode(upgrade, healthInt):
             let health = CGFloat(healthInt) / 100
             let artist = LaserNodeArtist(hasUpgrade: upgrade.boolValue, health: health)
             return artist
-        case let .LaserTurret(upgrade, isFiring):
+        case let .laserTurret(upgrade, isFiring):
             let artist = LaserTurretArtist(hasUpgrade: upgrade.boolValue, isFiring: isFiring)
             return artist
-        case let .LaserRadar(upgrade, isSelected):
+        case let .laserRadar(upgrade, isSelected):
             let width = upgrade.laserRadarRadius
             let height = upgrade.laserSweepWidth
             let artist = LaserRadarArtist(
@@ -222,13 +222,13 @@ extension ImageIdentifier {
                 )
             return artist
 
-        case let .ShotgunNode(movementUpgrade, bulletUpgrade, radarUpgrade, healthInt):
+        case let .shotgunNode(movementUpgrade, bulletUpgrade, radarUpgrade, healthInt):
             let health = CGFloat(healthInt) / 100
             let artist = ShotgunArtist(movementUpgrade, bulletUpgrade, radarUpgrade, health: health)
             return artist
-        case let .ShotgunTurret(upgrade):
+        case let .shotgunTurret(upgrade):
             return ShotgunTurretArtist(hasUpgrade: upgrade.boolValue)
-        case let .ShotgunRadar(upgrade, isSelected):
+        case let .shotgunRadar(upgrade, isSelected):
            let artist = ShotgunRadarArtist(
                 hasUpgrade: upgrade.boolValue,
                radius: upgrade.shotgunRadarRadius,
@@ -238,27 +238,27 @@ extension ImageIdentifier {
            )
            return artist
 
-        case let .Cannon(upgrade, healthInt):
+        case let .cannon(upgrade, healthInt):
             let health = CGFloat(healthInt) / 100
             let artist = CannonArtist(hasUpgrade: upgrade.boolValue, health: health)
             return artist
-        case let .CannonBox(upgrade):
+        case let .cannonBox(upgrade):
             let artist = CannonBoxArtist(
                 CGSize(width: upgrade.boolValue ? 12 : 10, height: 20),
                 UIColor(hex: CannonTurretFillColor)
                 )
             artist.strokeColor = UIColor(hex: CannonTurretStrokeColor)
             artist.shadowColor = UIColor(hex: CannonTurretFillColor)
-            artist.shadowed = .True
+            artist.shadowed = .true
             return artist
-        case let .CannonTurret(upgrade):
+        case let .cannonTurret(upgrade):
             let artist = RectArtist(
                 CGSize(width: 10, height: upgrade.boolValue ? 5 : 4),
                 UIColor(hex: CannonTurretFillColor)
                 )
             artist.strokeColor = UIColor(hex: CannonTurretStrokeColor)
             return artist
-        case let .CannonRadar(upgrade, isSelected):
+        case let .cannonRadar(upgrade, isSelected):
             let artist = CannonRadarArtist(
                 hasUpgrade: upgrade.boolValue,
                 minRadius: upgrade.cannonMinRadarRadius,
@@ -269,20 +269,20 @@ extension ImageIdentifier {
                 )
             return artist
 
-        case let .MissleSilo(upgrade, healthInt):
+        case let .missleSilo(upgrade, healthInt):
             let health = CGFloat(healthInt) / 100
             let artist = MissleSiloArtist(hasUpgrade: upgrade.boolValue, health: health)
             return artist
-        case let .MissleSiloBox(upgrade):
+        case let .missleSiloBox(upgrade):
             let artist = MissleSiloBoxArtist(
                 CGSize(width: upgrade.boolValue ? 12 : 10, height: 20),
                 UIColor(hex: MissleSiloFillColor)
                 )
             artist.strokeColor = UIColor(hex: MissleSiloStrokeColor)
             artist.shadowColor = UIColor(hex: MissleSiloFillColor)
-            artist.shadowed = .True
+            artist.shadowed = .true
             return artist
-        case let .MissleSiloRadar(upgrade, isSelected):
+        case let .missleSiloRadar(upgrade, isSelected):
             let artist = MissleRadarArtist(
                 hasUpgrade: upgrade.boolValue,
                 radius: upgrade.missleSiloRadarRadius,
@@ -290,18 +290,18 @@ extension ImageIdentifier {
                 isSelected: isSelected
                 )
             return artist
-        case .Missle:
+        case .missle:
             let artist = MissleArtist()
             return artist
 
-        case .Cursor:
+        case .cursor:
             let artist = CursorArtist()
             return artist
-        case let .Base(movementUpgrade, bulletUpgrade, radarUpgrade, healthInt):
+        case let .base(movementUpgrade, bulletUpgrade, radarUpgrade, healthInt):
             let health = CGFloat(healthInt) / 100
             let artist = BaseArtist(movementUpgrade, bulletUpgrade, radarUpgrade, health: health)
             return artist
-        case let .BaseRadar(upgrade, isSelected):
+        case let .baseRadar(upgrade, isSelected):
             let artist = BaseRadarArtist(
                 hasUpgrade: upgrade.boolValue,
                 radius: upgrade.baseRadarRadius,
@@ -310,61 +310,61 @@ extension ImageIdentifier {
                 isSelected: isSelected
                 )
             return artist
-        case let .BaseExplosion(index, total):
+        case let .baseExplosion(index, total):
             let spread = TAU / CGFloat(total)
             let angle = -spread * CGFloat(index)
             let artist = BaseExplosionArtist(angle: angle, spread: spread)
             return artist
-        case let .BaseSingleTurret(bulletUpgrade):
+        case let .baseSingleTurret(bulletUpgrade):
             let artist = BaseTurretArtist(bulletUpgrade: bulletUpgrade)
             return artist
-        case let .BaseDoubleTurret(bulletUpgrade):
+        case let .baseDoubleTurret(bulletUpgrade):
             let artist = BaseDoubleTurretArtist(bulletUpgrade: bulletUpgrade)
             return artist
-        case let .BaseBigTurret(bulletUpgrade):
+        case let .baseBigTurret(bulletUpgrade):
             let artist = BaseBigTurretArtist(bulletUpgrade: bulletUpgrade)
             return artist
-        case let .Bullet(upgrade, style):
+        case let .bullet(upgrade, style):
             let artist = BulletArtist(upgrade: upgrade, style: style)
             return artist
-        case let .ColorLine(length, color):
+        case let .colorLine(length, color):
             let color = UIColor(hex: color)
             let artist = LineArtist(length, color)
             return artist
-        case let .ColorPath(path, color):
+        case let .colorPath(path, color):
             let color = UIColor(hex: color)
             let artist = PathArtist(path, color)
             return artist
-        case let .HueLine(length, hue):
+        case let .hueLine(length, hue):
             let color = UIColor(hue: CGFloat(hue) / 255, saturation: 1, brightness: 1, alpha: 1)
             let artist = LineArtist(length, color)
             return artist
-        case let .ColorCircle(size, color):
+        case let .colorCircle(size, color):
             let color = UIColor(hex: color)
             let artist = CircleArtist(size, color)
             artist.drawingMode = .stroke
             return artist
-        case let .ColorBox(size, color):
+        case let .colorBox(size, color):
             let color = UIColor(hex: color)
             let artist = RectArtist(size, color)
             artist.drawingMode = .stroke
             return artist
-        case let .HueBox(size, hue):
+        case let .hueBox(size, hue):
             let color = UIColor(hue: CGFloat(hue) / 255, saturation: 1, brightness: 1, alpha: 1)
             let artist = RectArtist(size, color)
             artist.drawingMode = .stroke
             return artist
-        case let .FillColorCircle(size, color):
+        case let .fillColorCircle(size, color):
             let color = UIColor(hex: color)
             let artist = CircleArtist(size, color)
             artist.drawingMode = .fill
             return artist
-        case let .FillColorBox(size, color):
+        case let .fillColorBox(size, color):
             let color = UIColor(hex: color)
             let artist = RectArtist(size, color)
             artist.drawingMode = .fill
             return artist
-        case let .FillHueBox(size, hue):
+        case let .fillHueBox(size, hue):
             let color = UIColor(hue: CGFloat(hue) / 255, saturation: 1, brightness: 1, alpha: 1)
             let artist = RectArtist(size, color)
             artist.drawingMode = .fill

@@ -14,9 +14,9 @@ class ScrollNode: Node {
         self << content
 
         let touchComponent = TouchableComponent()
-        touchComponent.on(.Down, onDown)
+        touchComponent.on(.down, onDown)
         touchComponent.onDragged(onDragged)
-        touchComponent.on(.Up, onUp)
+        touchComponent.on(.up, onUp)
         addComponent(touchComponent)
     }
 

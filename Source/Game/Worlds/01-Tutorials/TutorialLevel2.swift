@@ -16,9 +16,9 @@ class TutorialLevel2: TutorialLevel {
 
     // three sources of weak enemies (20)
     func beginWave1(nextStep: @escaping NextStepBlock) {
-        let wave1 = randSideAngle(.Right)
+        let wave1 = randSideAngle(.right)
         let wave2 = wave1 ± rand(min: 10.degrees, max: 15.degrees)
-        let wave3 = randSideAngle(.Left)
+        let wave3 = randSideAngle(.left)
         generateWarning(wave1, wave2, wave3)
         timeline.every(1...5, start: .Delayed(), times: 8,
             block: generateEnemy(wave1)) ~~> nextStep()
