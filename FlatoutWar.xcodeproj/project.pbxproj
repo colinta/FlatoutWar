@@ -287,6 +287,7 @@
 		1D971CED1E1CA1BB00A167A2 /* ShotgunUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CEC1E1CA1BB00A167A2 /* ShotgunUpgrades.swift */; };
 		1D971CEF1E1EC28B00A167A2 /* RotateScanComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CEE1E1EC28B00A167A2 /* RotateScanComponent.swift */; };
 		1DBFDA001DFFB8DD0058843D /* CannonUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */; };
+		1DC78A221F1E78B800BE2413 /* BaseConfigSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A211F1E78B800BE2413 /* BaseConfigSummary.swift */; };
 		1DF0B2E01E8F3BE0001B9F97 /* WoodsLevel8CutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2DF1E8F3BE0001B9F97 /* WoodsLevel8CutScene.swift */; };
 		1DF0B2E21E8F4792001B9F97 /* WoodsBossArtists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2E11E8F4792001B9F97 /* WoodsBossArtists.swift */; };
 		1DF0B2E41E8F4A9B001B9F97 /* WoodsBossNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2E31E8F4A9B001B9F97 /* WoodsBossNode.swift */; };
@@ -612,6 +613,7 @@
 		1D971CEC1E1CA1BB00A167A2 /* ShotgunUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShotgunUpgrades.swift; sourceTree = "<group>"; };
 		1D971CEE1E1EC28B00A167A2 /* RotateScanComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotateScanComponent.swift; sourceTree = "<group>"; };
 		1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonUpgrades.swift; sourceTree = "<group>"; };
+		1DC78A211F1E78B800BE2413 /* BaseConfigSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseConfigSummary.swift; sourceTree = "<group>"; };
 		1DF0B2DF1E8F3BE0001B9F97 /* WoodsLevel8CutScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel8CutScene.swift; sourceTree = "<group>"; };
 		1DF0B2E11E8F4792001B9F97 /* WoodsBossArtists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsBossArtists.swift; sourceTree = "<group>"; };
 		1DF0B2E31E8F4A9B001B9F97 /* WoodsBossNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsBossNode.swift; sourceTree = "<group>"; };
@@ -830,6 +832,7 @@
 		1D66EE581EA1C3FB009CE669 /* 04-Base */ = {
 			isa = PBXGroup;
 			children = (
+				1DC78A211F1E78B800BE2413 /* BaseConfigSummary.swift */,
 				1D66EE591EA1C40D009CE669 /* BaseLevel.swift */,
 				1D66EE5A1EA1C40D009CE669 /* BaseLevel1.swift */,
 				1D66EE5B1EA1C40D009CE669 /* BaseLevel1Config.swift */,
@@ -1627,6 +1630,7 @@
 				1D6AA0B21DD79B5A004A0978 /* BomberArtist.swift in Sources */,
 				1D6AA0561DD79B3E004A0978 /* PlayerTargetingComponent.swift in Sources */,
 				1D66EE771EA1C40D009CE669 /* BaseLevel6Config.swift in Sources */,
+				1DC78A221F1E78B800BE2413 /* BaseConfigSummary.swift in Sources */,
 				735A1CE510017E6F8ED583D1 /* ALSource.m in Sources */,
 				1D6AA0EB1DD79B62004A0978 /* DroneArtist.swift in Sources */,
 				1D6AA0C81DD79B5D004A0978 /* SmallFont.swift in Sources */,
