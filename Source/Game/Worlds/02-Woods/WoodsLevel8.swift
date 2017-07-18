@@ -39,7 +39,7 @@ class WoodsLevel8: WoodsLevel {
             let info = TreeInfo(center: p + CGPoint(r: dr, a: rand(TAU)))
             self << generateTree(info: info)
         }
-        linkWaves(beginWave2)
+        linkWaves(beginWave1, beginWave2)
     }
 
     func beginWave1(nextStep: @escaping NextStepBlock) {
