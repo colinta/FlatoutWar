@@ -24,7 +24,7 @@ class WorldController: UIViewController {
         Defaults["colin"] = true
 #endif
         if Defaults["colin"].bool == true {
-            let world = OceanLevel1()
+            let world = WoodsLevel1()
             view.presentWorld(world)
         }
         else if Defaults["hasSeenStartup"].bool == true {
