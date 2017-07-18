@@ -7,9 +7,8 @@ class WoodsLevel8CutScene: World {
     let droneNode = DroneNode()
     let upgradedDroneNode = DroneNode()
 
-    let baseZoom = CGPoint(-45, -50)
     let droneZoom = CGPoint(-45, 50)
-    let upgradedDroneZoom = CGPoint(x: 45)
+    let upgradedDroneZoom = CGPoint(x: -45)
 
     override func populateWorld() {
         upgradedDroneNode.radarUpgrade = true
@@ -19,7 +18,7 @@ class WoodsLevel8CutScene: World {
         let zoomed = Node()
         zoomed.setScale(1.5)
 
-        basePlayerNode.rotateTo(TAU_2)
+        basePlayerNode.setRotation(0)
         basePlayerNode.radarSprite.visible = false
         basePlayerNode.position = CGPoint(-90, -75)
         zoomed << basePlayerNode
@@ -29,7 +28,7 @@ class WoodsLevel8CutScene: World {
         droneNode.growingRadar.visible = false
         zoomed << droneNode
 
-        upgradedDroneNode.position = CGPoint(x: 110)
+        upgradedDroneNode.position = CGPoint(x: -110)
         upgradedDroneNode.fixedRadar.visible = false
         upgradedDroneNode.growingRadar.visible = false
         zoomed << upgradedDroneNode
@@ -47,8 +46,8 @@ class WoodsLevel8CutScene: World {
 
         let textNode = TextNode()
         timeline.after(time: 0.5) {
-            textNode.text = "I SEE ANOTHER DODEC!"
-            textNode.position = CGPoint(-45, 75)
+            textNode.text = "EPSILON IS\nUNDER ATTACK!"
+            textNode.position = CGPoint(10, 125)
             textNode.fadeTo(1, start: 0, duration: 0.5)
             self << textNode
         }
@@ -67,8 +66,8 @@ class WoodsLevel8CutScene: World {
 
         let textNode1 = TextNode()
         timeline.after(time: 0.5) {
-            textNode1.text = "I AM FROM\nEPSILON BASE."
-            textNode1.position = CGPoint(x: 30)
+            textNode1.text = "THE QUADS ARE\nATTACKING FROM\nALL SIDES."
+            textNode1.position = CGPoint(x: -10)
             textNode1.fadeTo(1, start: 0, duration: 0.5)
             self << textNode1
         }
@@ -76,8 +75,8 @@ class WoodsLevel8CutScene: World {
         let textNode2 = TextNode()
         timeline.after(time: 3) {
             textNode1.fadeTo(0, duration: 0.5)
-            textNode2.text = "WE ARE BEING\nOVERRUN BY QUADS."
-            textNode2.position = CGPoint(x: 30)
+            textNode2.text = "WE MUST NOT\nWASTE TIME.\nTO BATTLE!"
+            textNode2.position = CGPoint(0, -100)
             textNode2.fadeTo(1, start: 0, duration: 0.5)
             self << textNode2
         }
@@ -89,15 +88,10 @@ class WoodsLevel8CutScene: World {
     }
 
     func thirdLine() {
-        self.moveCamera(
-            to: self.baseZoom,
-            duration: 0.5
-        )
-
         let textNode = TextNode()
         timeline.after(time: 0.5) {
-            textNode.text = "WE ARE ON OUR\nWAY THERE NOW."
-            textNode.position = CGPoint(-50, -50)
+            textNode.text = "I WILL PROTECT\nTHE NORTH\nGATE."
+            textNode.position = CGPoint(0, -100)
             textNode.fadeTo(1, start: 0, duration: 0.5)
             self << textNode
         }
@@ -110,14 +104,14 @@ class WoodsLevel8CutScene: World {
 
     func fourthLine() {
         self.moveCamera(
-            to: self.upgradedDroneZoom,
+            to: self.droneZoom,
             duration: 0.5
         )
 
         let textNode = TextNode()
         timeline.after(time: 0.5) {
-            textNode.text = "I WILL\nSHOW YOU THE\nWAY. WE MUST\nHURRY!"
-            textNode.position = CGPoint(x: 45)
+            textNode.text = "WE WILL JOIN\nTHE DEFENSES\nAT THE EAST WALL."
+            textNode.position = CGPoint(10, 125)
             textNode.fadeTo(1, start: 0, duration: 0.5)
             self << textNode
         }

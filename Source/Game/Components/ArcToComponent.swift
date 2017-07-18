@@ -180,7 +180,7 @@ class ArcToComponent: ApplyToNodeComponent {
             applyTo.position = nextPoint
             if self.rotate {
                 let angle = current.angleTo(nextPoint)
-                applyTo.rotateTo(angle)
+                applyTo.setRotation(angle)
             }
         }
         self.current = nextPoint

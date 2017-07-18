@@ -19,7 +19,7 @@ class WoodsLevel3CutScene: World {
         let zoomed = Node()
         zoomed.setScale(1.5)
 
-        basePlayerNode.rotateTo(TAU_2)
+        basePlayerNode.setRotation(TAU_2)
         basePlayerNode.radarSprite.visible = false
         basePlayerNode.position = CGPoint(-90, -75)
         zoomed << basePlayerNode
@@ -45,6 +45,7 @@ class WoodsLevel3CutScene: World {
             duration: 0.5
         )
         upgradedDroneNode.moveTo(CGPoint(x: 110), speed: 60)
+        basePlayerNode.rotateTo(0)
 
         let textNode = TextNode()
         timeline.after(time: 0.5) {

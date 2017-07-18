@@ -53,7 +53,7 @@ class TutorialLevel6: TutorialLevel {
                 self.timeline.at(.Delayed()) {
                     let scout = EnemyScoutNode(at: position)
                     scout.initialAimTowardsTarget = false
-                    scout.rotateTo(raycast.angle + TAU_2)
+                    scout.setRotation(raycast.angle + TAU_2)
                     scout.rammingComponent?.tempTarget = targetPosition
                     self << scout
                 } ~~> nextStep()

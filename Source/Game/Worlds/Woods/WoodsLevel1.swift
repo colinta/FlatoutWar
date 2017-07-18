@@ -122,7 +122,7 @@ class WoodsLevel1: WoodsLevel {
                 let location = ghost.position + CGPoint(r: 10, a: screenAngle) + CGPoint(r: r, a: screenAngle + 90.degrees)
                 let enemy = EnemySoldierNode(at: location)
                 enemy.name = "\(dozer.nodeName) \(enemy.nodeName)"
-                enemy.rotateTo(ghost.zRotation)
+                enemy.setRotation(ghost.zRotation)
                 enemy.follow(leader: ghost)
                 self << enemy
             }

@@ -204,6 +204,6 @@ extension DroneNode {
     func startRotatingTo(angle: CGFloat) {
     }
 
-    override func rotateTo(_ angle: CGFloat) {
+    override func setRotation(_ angle: CGFloat) {
     }
 }

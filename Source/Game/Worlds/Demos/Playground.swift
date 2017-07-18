@@ -134,7 +134,7 @@ class Playground: World {
 
         for (position, angle) in locations {
             let n = EnemyDiamondNode(at: position)
-            n.rotateTo(angle)
+            n.setRotation(angle)
             self << n
         }
     }

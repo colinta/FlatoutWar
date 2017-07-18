@@ -13,7 +13,7 @@ class TutorialCutScene: World {
         let zoomed = Node()
         zoomed.setScale(1.5)
 
-        basePlayerNode.rotateTo(TAU_2)
+        basePlayerNode.setRotation(TAU_2)
         basePlayerNode.radarSprite.visible = false
         basePlayerNode.position = CGPoint(90, 50)
         zoomed << basePlayerNode

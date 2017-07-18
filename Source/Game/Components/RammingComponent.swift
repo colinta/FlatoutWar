@@ -90,7 +90,7 @@ class RammingComponent: Component {
         }
         else {
             destAngle = node.position.angleTo(targetLocation)
-            node.rotateTo(destAngle)
+            node.setRotation(destAngle)
         }
 
         var currentSpeed = maxSpeed

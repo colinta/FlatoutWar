@@ -84,18 +84,18 @@ extension SKNode {
         return child.inParentHierarchy(self)
     }
 
-    func rotateTo(_ angle: CGFloat) {
+    func setRotation(_ angle: CGFloat) {
         zRotation = angle
     }
 
     func rotateTowards(_ node: SKNode) {
         let angle = angleTo(node)
-        rotateTo(angle)
+        setRotation(angle)
     }
 
     func rotateTowards(point: CGPoint) {
         let angle = (point - position).angle
-        rotateTo(angle)
+        setRotation(angle)
     }
 
     func distanceTo(_ node: SKNode) -> CGFloat {

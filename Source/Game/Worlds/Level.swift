@@ -48,25 +48,6 @@ class Level: World {
     }
     var powerups: [Powerup] = []
 
-    var cameraAngle: CGFloat?
-    var cameraAdjustmentEnabled = false
-    var cameraPosition: CGPoint?
-    var cameraAdjustment: CGPoint = .zero {
-        didSet {
-            let duration: CGFloat?
-            let speed: CGFloat?
-            if let currentSpeed = cameraMove.speed, currentSpeed > 10 {
-                speed = currentSpeed
-                duration = nil
-            }
-            else {
-                duration = 0.5
-                speed = nil
-            }
-            moveCamera(to: cameraPosition ?? .zero, duration: duration, rate: speed)
-        }
-    }
-
     override var currentNode: Node? {
         if worldPaused {
             return pauseButton
@@ -98,7 +79,6 @@ class Level: World {
 
         fadeTo(1, start: 0, duration: 0.5)
         timeline.after(time: 1.75, block: {
-            // self.cameraAdjustmentEnabled = true
             self.cameraZoom.target = 1.0
             self.cameraZoom.rate = 0.5
 
@@ -114,15 +94,6 @@ class Level: World {
         super.update(dt)
         for powerup in powerups {
             powerup.update(dt)
-        }
-
-        if let angle = playerNode.rotateToComponent?.target,
-            cameraAdjustmentEnabled
-        {
-            if angle != cameraAngle {
-                cameraAdjustment = CGPoint(r: 20, a: angle)
-                cameraAngle = angle
-            }
         }
     }
 
@@ -185,20 +156,12 @@ class Level: World {
         if ui { return pt }
 
         let minDist = dist + min(size.height, size.width) / 2
-        if playerNode.position.distanceTo(pt, within: minDist) {
-            let a = playerNode.position.angleTo(pt)
-            return playerNode.position + CGPoint(r: minDist, a: a)
+        let center = playerNode.position
+        if center.distanceTo(pt, within: minDist) {
+            let a = center.angleTo(pt)
+            return center + CGPoint(r: minDist, a: a)
         }
         return pt
-    }
-
-    override func moveCamera(from start: CGPoint? = nil, to target: CGPoint? = nil, zoom: CGFloat? = nil, duration: CGFloat? = nil, rate: CGFloat? = nil, handler: MoveToComponent.OnArrived? = nil) {
-        var adjustedTarget: CGPoint? = target
-        cameraPosition = target
-        if let target = target, cameraAdjustmentEnabled {
-            adjustedTarget = target + cameraAdjustment
-        }
-        super.moveCamera(from: start, to: adjustedTarget, zoom: zoom, duration: duration, rate: rate, handler: handler)
     }
 }
 
@@ -374,7 +337,6 @@ extension Level {
         pauseable = false
         levelSuccess = success
 
-        cameraAdjustmentEnabled = false
         defaultNode = nil
         selectedNode = nil
         timeRate = 1
@@ -487,7 +449,7 @@ extension Level {
         }
         else {
             if let draggableComponent = node.draggableComponent {
-                draggableComponent.maintainDistance(100, around: playerNode)
+                draggableComponent.maintainDistance(120, around: playerNode)
             }
 
             node.fadeTo(1, start: 0, duration: 1.4)

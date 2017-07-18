@@ -19,7 +19,7 @@ class FollowPathComponent: Component {
             if let node = node {
                 let (p, a) = calcPA()
                 node.position = p
-                node.rotateTo(a)
+                node.setRotation(a)
             }
         }
     }
@@ -60,7 +60,7 @@ class FollowPathComponent: Component {
     override func didAddToNode() {
         let (p, a) = calcPA()
         node.position = p
-        node.rotateTo(a)
+        node.setRotation(a)
     }
 
     private func calcPA() -> (CGPoint, CGFloat) {
@@ -93,7 +93,7 @@ class FollowPathComponent: Component {
         }
         else {
             node.position = p
-            node.rotateTo(a)
+            node.setRotation(a)
         }
     }
 

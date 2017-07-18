@@ -115,7 +115,7 @@ class WoodsLevel3: WoodsLevel {
                 for location in [location1, location2] {
                     let enemy = EnemyScoutNode(at: location)
                     enemy.name = "\(dozer.nodeName) \(enemy.nodeName)"
-                    enemy.rotateTo(ghost.zRotation)
+                    enemy.setRotation(ghost.zRotation)
                     enemy.follow(leader: ghost)
                     self << enemy
                 }

@@ -113,7 +113,7 @@ class ShotgunNode: Node, DraggableNode {
                 else {
                     angle = self.position.angle
                 }
-                self.rotateTo(angle)
+                self.setRotation(angle)
                 self.world?.reacquirePlayerTargets()
             }
         }
@@ -199,7 +199,7 @@ extension ShotgunNode {
 
 // MARK: Rotation
 extension ShotgunNode {
-    override func rotateTo(_ angle: CGFloat) {
+    override func setRotation(_ angle: CGFloat) {
         radarSprite.zRotation = angle
         get(component: RotateScanComponent.self)?.reorient()
     }

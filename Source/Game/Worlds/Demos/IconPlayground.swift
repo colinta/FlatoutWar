@@ -9,7 +9,7 @@ class IconPlayground: World {
 
         let playerNode = BasePlayerNode()
         playerNode.firingComponent?.enabled = false
-        playerNode.rotateTo(35.degrees)
+        playerNode.setRotation(35.degrees)
         self << playerNode
 
         do {
@@ -34,7 +34,7 @@ class IconPlayground: World {
         // do {
         //     let enemy = EnemyBigJetNode()
         //     enemy.position = CGPoint(x: -25, y: 25)
-        //     enemy.rotateTo(-TAU_3_8)
+        //     enemy.setRotation(-TAU_3_8)
         //     enemy.active = false
         //     self << enemy
         // }
@@ -42,7 +42,7 @@ class IconPlayground: World {
         // do {
         //     let enemy = EnemyJetNode()
         //     enemy.position = CGPoint(x: -17, y: 33)
-        //     enemy.rotateTo(-TAU_3_8)
+        //     enemy.setRotation(-TAU_3_8)
         //     enemy.active = false
         //     self << enemy
         // }
@@ -50,7 +50,7 @@ class IconPlayground: World {
         // do {
         //     let enemy = EnemyJetNode()
         //     enemy.position = CGPoint(x: -11, y: 39)
-        //     enemy.rotateTo(-TAU_3_8)
+        //     enemy.setRotation(-TAU_3_8)
         //     enemy.active = false
         //     self << enemy
         // }

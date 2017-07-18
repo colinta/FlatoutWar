@@ -209,8 +209,8 @@ extension Node {
 
 extension Node {
 
-    override func rotateTo(_ angle: CGFloat) {
-        super.rotateTo(angle)
+    override func setRotation(_ angle: CGFloat) {
+        super.setRotation(angle)
         rotateToComponent?.target = nil
     }
 

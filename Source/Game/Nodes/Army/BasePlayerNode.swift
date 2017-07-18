@@ -239,7 +239,7 @@ extension BasePlayerNode {
         rotateToComponent?.target = angle
     }
 
-    override func rotateTo(_ angle: CGFloat) {
+    override func setRotation(_ angle: CGFloat) {
         baseSprite.zRotation = angle
         radarSprite.zRotation = angle
         turretSprite.zRotation = angle

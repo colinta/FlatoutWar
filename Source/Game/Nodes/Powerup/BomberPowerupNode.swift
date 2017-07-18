@@ -35,7 +35,7 @@ class BomberPowerupNode: Node {
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
-    override func rotateTo(_ angle: CGFloat) {
+    override func setRotation(_ angle: CGFloat) {
         rotateToComponent?.target = angle
     }
 

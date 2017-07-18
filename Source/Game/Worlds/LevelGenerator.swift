@@ -134,7 +134,7 @@ extension Level {
                 let enemy = enemyGenerator()
                 enemy.position = origin
                 enemy.name = "pair of \(enemy.nodeName)"
-                enemy.rotateTo(ghost.zRotation)
+                enemy.setRotation(ghost.zRotation)
                 enemy.follow(leader: ghost)
                 self << enemy
             }
@@ -165,7 +165,7 @@ extension Level {
                 let enemy = enemyGenerator()
                 enemy.position = origin
                 enemy.name = "trio of \(enemy.nodeName)"
-                enemy.rotateTo(ghost.zRotation)
+                enemy.setRotation(ghost.zRotation)
                 enemy.follow(leader: ghost)
                 self << enemy
             }
@@ -197,7 +197,7 @@ extension Level {
                 let enemy = enemyGenerator()
                 enemy.position = origin
                 enemy.name = "quad of \(enemy.nodeName)"
-                enemy.rotateTo(ghost.zRotation)
+                enemy.setRotation(ghost.zRotation)
                 enemy.follow(leader: ghost)
                 self << enemy
             }
@@ -230,7 +230,7 @@ extension Level {
                     let enemy = enemyGenerator()
                     enemy.position = origin
                     enemy.name = "column of \(enemy.nodeName)"
-                    enemy.rotateTo(ghost.zRotation)
+                    enemy.setRotation(ghost.zRotation)
                     enemy.follow(leader: ghost)
                     self << enemy
                 }
@@ -336,7 +336,7 @@ extension Level {
                 let location = jet.position + CGVector(r: dist * CGFloat(i), a: genScreenAngle())
                 let enemy = EnemyJetNode(at: location)
                 enemy.name = "\(enemy.nodeName) follower"
-                enemy.rotateTo(prevNode.zRotation)
+                enemy.setRotation(prevNode.zRotation)
                 enemy.follow(leader: prevNode, scatter: .None, component: FollowTargetComponent())
                 self << enemy
                 prevNode = enemy
@@ -362,7 +362,7 @@ extension Level {
                 let location = leaderPosition + CGVector(r: dist * CGFloat(i), a: screenAngle)
                 let enemy = EnemySoldierNode(at: location)
                 enemy.name = "linear \(enemy.nodeName)"
-                enemy.rotateTo(enemyLeader.zRotation)
+                enemy.setRotation(enemyLeader.zRotation)
                 enemy.follow(leader: enemyLeader)
                 self << enemy
             }

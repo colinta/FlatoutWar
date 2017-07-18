@@ -24,7 +24,7 @@ class WorldController: UIViewController {
         Defaults["colin"] = true
 #endif
         if Defaults["colin"].bool == true {
-            let world = WoodsLevel8()
+            let world = BaseLevel1()
             view.presentWorld(world)
         }
         else if Defaults["hasSeenStartup"].bool == true {

@@ -101,7 +101,7 @@ class TutorialLevel2: TutorialLevel {
             for origin in origins {
                 let enemy = EnemySoldierNode(at: origin)
                 enemy.name = "formation \(enemy.nodeName)"
-                enemy.rotateTo(enemyLeader.zRotation)
+                enemy.setRotation(enemyLeader.zRotation)
                 enemy.follow(leader: enemyLeader)
                 self << enemy
             }

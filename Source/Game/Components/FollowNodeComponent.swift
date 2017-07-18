@@ -26,7 +26,7 @@ class FollowNodeComponent: FollowComponent {
         {
             let vector = CGPoint(r: vectorLength, a: follow.zRotation + vectorAngle)
             node.position = follow.position + vector
-            node.rotateTo(follow.zRotation + deltaAngle)
+            node.setRotation(follow.zRotation + deltaAngle)
         }
         else {
             let vector = node.position - follow.position

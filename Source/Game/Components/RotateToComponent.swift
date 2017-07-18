@@ -34,6 +34,12 @@ class RotateToComponent: ApplyToNodeComponent {
         _onRotated << handler
     }
 
+    func removeComponentOnRotated() {
+        self.onRotated {
+            self.removeFromNode()
+        }
+    }
+
     override func reset() {
         super.reset()
         _onRotated = []
@@ -70,4 +76,38 @@ class RotateToComponent: ApplyToNodeComponent {
         }
     }
 
+}
+
+
+extension Node {
+
+    @discardableResult
+    func rotateTo(_ dest: CGFloat, start: CGFloat? = nil, speed: CGFloat? = nil, removeComponent: Bool = true) -> RotateToComponent {
+        let rotateTo: RotateToComponent
+        if let rotateToComponent = rotateToComponent {
+            rotateTo = rotateToComponent
+        }
+        else {
+            rotateTo = RotateToComponent()
+        }
+
+        if let start = start {
+            self.rotateTo(start)
+        }
+        rotateTo.target = dest
+
+        if let speed = speed {
+            rotateTo.maxAngularSpeed = speed
+        }
+
+        if removeComponent {
+            rotateTo.removeComponentOnRotated()
+        }
+
+        if rotateToComponent == nil {
+            addComponent(rotateTo)
+        }
+
+        return rotateTo
+    }
 }

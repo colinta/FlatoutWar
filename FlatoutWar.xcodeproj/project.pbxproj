@@ -17,10 +17,45 @@
 		1D06D6D41E4AE359004FA878 /* WoodsLevel6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D06D6D11E4AE359004FA878 /* WoodsLevel6.swift */; };
 		1D06D6D51E4AE359004FA878 /* WoodsLevel7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D06D6D21E4AE359004FA878 /* WoodsLevel7.swift */; };
 		1D06D6D61E4AE359004FA878 /* WoodsLevel8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D06D6D31E4AE359004FA878 /* WoodsLevel8.swift */; };
-		1D06D6DA1E4AE360004FA878 /* WoodsLevel6Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D06D6D71E4AE360004FA878 /* WoodsLevel6Config.swift */; };
-		1D06D6DB1E4AE360004FA878 /* WoodsLevel7Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D06D6D81E4AE360004FA878 /* WoodsLevel7Config.swift */; };
-		1D06D6DC1E4AE360004FA878 /* WoodsLevel8Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D06D6D91E4AE360004FA878 /* WoodsLevel8Config.swift */; };
 		1D5C44031DDAAF6F00FDBF7E /* BasePlayerUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C44021DDAAF6F00FDBF7E /* BasePlayerUpgrades.swift */; };
+		1D66EE391EA1C317009CE669 /* WoodsConfigSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE2F1EA1C317009CE669 /* WoodsConfigSummary.swift */; };
+		1D66EE3A1EA1C317009CE669 /* WoodsLevel1Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE301EA1C317009CE669 /* WoodsLevel1Config.swift */; };
+		1D66EE3B1EA1C317009CE669 /* WoodsLevel2Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE311EA1C317009CE669 /* WoodsLevel2Config.swift */; };
+		1D66EE3C1EA1C317009CE669 /* WoodsLevel3Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE321EA1C317009CE669 /* WoodsLevel3Config.swift */; };
+		1D66EE3D1EA1C317009CE669 /* WoodsLevel4Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE331EA1C317009CE669 /* WoodsLevel4Config.swift */; };
+		1D66EE3E1EA1C317009CE669 /* WoodsLevel5Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE341EA1C317009CE669 /* WoodsLevel5Config.swift */; };
+		1D66EE3F1EA1C317009CE669 /* WoodsLevel6Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE351EA1C317009CE669 /* WoodsLevel6Config.swift */; };
+		1D66EE401EA1C317009CE669 /* WoodsLevel7Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE361EA1C317009CE669 /* WoodsLevel7Config.swift */; };
+		1D66EE411EA1C317009CE669 /* WoodsLevel8Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE371EA1C317009CE669 /* WoodsLevel8Config.swift */; };
+		1D66EE421EA1C317009CE669 /* WoodsLevelConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE381EA1C317009CE669 /* WoodsLevelConfig.swift */; };
+		1D66EE4D1EA1C320009CE669 /* TutorialConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE431EA1C320009CE669 /* TutorialConfig.swift */; };
+		1D66EE4E1EA1C320009CE669 /* TutorialConfigSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE441EA1C320009CE669 /* TutorialConfigSummary.swift */; };
+		1D66EE4F1EA1C320009CE669 /* TutorialLevel1Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE451EA1C320009CE669 /* TutorialLevel1Config.swift */; };
+		1D66EE501EA1C320009CE669 /* TutorialLevel2Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE461EA1C320009CE669 /* TutorialLevel2Config.swift */; };
+		1D66EE511EA1C320009CE669 /* TutorialLevel3Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE471EA1C320009CE669 /* TutorialLevel3Config.swift */; };
+		1D66EE521EA1C320009CE669 /* TutorialLevel4Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE481EA1C320009CE669 /* TutorialLevel4Config.swift */; };
+		1D66EE531EA1C320009CE669 /* TutorialLevel5Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE491EA1C320009CE669 /* TutorialLevel5Config.swift */; };
+		1D66EE541EA1C320009CE669 /* TutorialLevel6Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE4A1EA1C320009CE669 /* TutorialLevel6Config.swift */; };
+		1D66EE551EA1C320009CE669 /* TutorialLevel7Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE4B1EA1C320009CE669 /* TutorialLevel7Config.swift */; };
+		1D66EE561EA1C320009CE669 /* TutorialLevel8Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE4C1EA1C320009CE669 /* TutorialLevel8Config.swift */; };
+		1D66EE6B1EA1C40D009CE669 /* BaseLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE591EA1C40D009CE669 /* BaseLevel.swift */; };
+		1D66EE6C1EA1C40D009CE669 /* BaseLevel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE5A1EA1C40D009CE669 /* BaseLevel1.swift */; };
+		1D66EE6D1EA1C40D009CE669 /* BaseLevel1Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE5B1EA1C40D009CE669 /* BaseLevel1Config.swift */; };
+		1D66EE6E1EA1C40D009CE669 /* BaseLevel2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE5C1EA1C40D009CE669 /* BaseLevel2.swift */; };
+		1D66EE6F1EA1C40D009CE669 /* BaseLevel2Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE5D1EA1C40D009CE669 /* BaseLevel2Config.swift */; };
+		1D66EE701EA1C40D009CE669 /* BaseLevel3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE5E1EA1C40D009CE669 /* BaseLevel3.swift */; };
+		1D66EE711EA1C40D009CE669 /* BaseLevel3Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE5F1EA1C40D009CE669 /* BaseLevel3Config.swift */; };
+		1D66EE721EA1C40D009CE669 /* BaseLevel4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE601EA1C40D009CE669 /* BaseLevel4.swift */; };
+		1D66EE731EA1C40D009CE669 /* BaseLevel4Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE611EA1C40D009CE669 /* BaseLevel4Config.swift */; };
+		1D66EE741EA1C40D009CE669 /* BaseLevel5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE621EA1C40D009CE669 /* BaseLevel5.swift */; };
+		1D66EE751EA1C40D009CE669 /* BaseLevel5Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE631EA1C40D009CE669 /* BaseLevel5Config.swift */; };
+		1D66EE761EA1C40D009CE669 /* BaseLevel6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE641EA1C40D009CE669 /* BaseLevel6.swift */; };
+		1D66EE771EA1C40D009CE669 /* BaseLevel6Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE651EA1C40D009CE669 /* BaseLevel6Config.swift */; };
+		1D66EE781EA1C40D009CE669 /* BaseLevel7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE661EA1C40D009CE669 /* BaseLevel7.swift */; };
+		1D66EE791EA1C40D009CE669 /* BaseLevel7Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE671EA1C40D009CE669 /* BaseLevel7Config.swift */; };
+		1D66EE7A1EA1C40D009CE669 /* BaseLevel8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE681EA1C40D009CE669 /* BaseLevel8.swift */; };
+		1D66EE7B1EA1C40D009CE669 /* BaseLevel8Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE691EA1C40D009CE669 /* BaseLevel8Config.swift */; };
+		1D66EE7C1EA1C40D009CE669 /* BaseLevelConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE6A1EA1C40D009CE669 /* BaseLevelConfig.swift */; };
 		1D6A9F421DD79B05004A0978 /* Easing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F3A1DD79B05004A0978 /* Easing.swift */; };
 		1D6A9F431DD79B05004A0978 /* IntValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F3B1DD79B05004A0978 /* IntValue.swift */; };
 		1D6A9F441DD79B05004A0978 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F3C1DD79B05004A0978 /* Math.swift */; };
@@ -56,23 +91,9 @@
 		1D6A9F8B1DD79B13004A0978 /* IntersectsTestWorld.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F831DD79B13004A0978 /* IntersectsTestWorld.swift */; };
 		1D6A9F8C1DD79B13004A0978 /* OrbitalPlayground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F841DD79B13004A0978 /* OrbitalPlayground.swift */; };
 		1D6A9F8D1DD79B13004A0978 /* Playground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F851DD79B13004A0978 /* Playground.swift */; };
-		1D6A9FA01DD79B18004A0978 /* WoodsConfigSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F8E1DD79B18004A0978 /* WoodsConfigSummary.swift */; };
-		1D6A9FA11DD79B18004A0978 /* WoodsLevel1Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F8F1DD79B18004A0978 /* WoodsLevel1Config.swift */; };
-		1D6A9FA21DD79B18004A0978 /* WoodsLevel2Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F901DD79B18004A0978 /* WoodsLevel2Config.swift */; };
-		1D6A9FA31DD79B18004A0978 /* WoodsLevel3Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F911DD79B18004A0978 /* WoodsLevel3Config.swift */; };
-		1D6A9FA41DD79B18004A0978 /* WoodsLevel4Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F921DD79B18004A0978 /* WoodsLevel4Config.swift */; };
-		1D6A9FA51DD79B18004A0978 /* WoodsLevel5Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F931DD79B18004A0978 /* WoodsLevel5Config.swift */; };
 		1D6A9FA61DD79B18004A0978 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F941DD79B18004A0978 /* Config.swift */; };
 		1D6A9FA71DD79B18004A0978 /* ConfigSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F951DD79B18004A0978 /* ConfigSummary.swift */; };
 		1D6A9FA81DD79B18004A0978 /* LevelConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F961DD79B18004A0978 /* LevelConfig.swift */; };
-		1D6A9FA91DD79B18004A0978 /* TutorialConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F971DD79B18004A0978 /* TutorialConfig.swift */; };
-		1D6A9FAA1DD79B18004A0978 /* TutorialConfigSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F981DD79B18004A0978 /* TutorialConfigSummary.swift */; };
-		1D6A9FAB1DD79B18004A0978 /* TutorialLevel1Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F991DD79B18004A0978 /* TutorialLevel1Config.swift */; };
-		1D6A9FAC1DD79B18004A0978 /* TutorialLevel2Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F9A1DD79B18004A0978 /* TutorialLevel2Config.swift */; };
-		1D6A9FAD1DD79B18004A0978 /* TutorialLevel3Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F9B1DD79B18004A0978 /* TutorialLevel3Config.swift */; };
-		1D6A9FAE1DD79B18004A0978 /* TutorialLevel4Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F9C1DD79B18004A0978 /* TutorialLevel4Config.swift */; };
-		1D6A9FAF1DD79B18004A0978 /* TutorialLevel5Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F9D1DD79B18004A0978 /* TutorialLevel5Config.swift */; };
-		1D6A9FB01DD79B18004A0978 /* TutorialLevel6Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F9E1DD79B18004A0978 /* TutorialLevel6Config.swift */; };
 		1D6A9FB11DD79B18004A0978 /* GameConfigSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9F9F1DD79B18004A0978 /* GameConfigSummary.swift */; };
 		1D6A9FB81DD79B1C004A0978 /* WoodsLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9FB21DD79B1C004A0978 /* WoodsLevel.swift */; };
 		1D6A9FB91DD79B1C004A0978 /* WoodsLevel1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6A9FB31DD79B1C004A0978 /* WoodsLevel1.swift */; };
@@ -245,8 +266,6 @@
 		1D7A42DC1E118FE4002F37FA /* PolygonArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42DB1E118FE4002F37FA /* PolygonArtist.swift */; };
 		1D7A42DE1E11927D002F37FA /* MissleSiloUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42DD1E11927D002F37FA /* MissleSiloUpgrades.swift */; };
 		1D7A42E21E11A83B002F37FA /* MissleNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42E11E11A83B002F37FA /* MissleNode.swift */; };
-		1D943BF71E26FA0E0053FAF5 /* TutorialLevel7Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D943BF51E26FA0E0053FAF5 /* TutorialLevel7Config.swift */; };
-		1D943BF81E26FA0E0053FAF5 /* TutorialLevel8Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D943BF61E26FA0E0053FAF5 /* TutorialLevel8Config.swift */; };
 		1D943BFB1E26FA160053FAF5 /* TutorialLevel7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D943BF91E26FA160053FAF5 /* TutorialLevel7.swift */; };
 		1D943BFC1E26FA160053FAF5 /* TutorialLevel8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D943BFA1E26FA160053FAF5 /* TutorialLevel8.swift */; };
 		1D971CC71E14670100A167A2 /* SelectableArmyComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CC61E14670100A167A2 /* SelectableArmyComponent.swift */; };
@@ -268,7 +287,6 @@
 		1D971CED1E1CA1BB00A167A2 /* ShotgunUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CEC1E1CA1BB00A167A2 /* ShotgunUpgrades.swift */; };
 		1D971CEF1E1EC28B00A167A2 /* RotateScanComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CEE1E1EC28B00A167A2 /* RotateScanComponent.swift */; };
 		1DBFDA001DFFB8DD0058843D /* CannonUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */; };
-		1DC7EBB81E215B3D0069AA8A /* WoodsLevelConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC7EBB71E215B3D0069AA8A /* WoodsLevelConfig.swift */; };
 		1DF0B2E01E8F3BE0001B9F97 /* WoodsLevel8CutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2DF1E8F3BE0001B9F97 /* WoodsLevel8CutScene.swift */; };
 		1DF0B2E21E8F4792001B9F97 /* WoodsBossArtists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2E11E8F4792001B9F97 /* WoodsBossArtists.swift */; };
 		1DF0B2E41E8F4A9B001B9F97 /* WoodsBossNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2E31E8F4A9B001B9F97 /* WoodsBossNode.swift */; };
@@ -323,11 +341,46 @@
 		1D06D6D11E4AE359004FA878 /* WoodsLevel6.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel6.swift; sourceTree = "<group>"; };
 		1D06D6D21E4AE359004FA878 /* WoodsLevel7.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel7.swift; sourceTree = "<group>"; };
 		1D06D6D31E4AE359004FA878 /* WoodsLevel8.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel8.swift; sourceTree = "<group>"; };
-		1D06D6D71E4AE360004FA878 /* WoodsLevel6Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel6Config.swift; sourceTree = "<group>"; };
-		1D06D6D81E4AE360004FA878 /* WoodsLevel7Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel7Config.swift; sourceTree = "<group>"; };
-		1D06D6D91E4AE360004FA878 /* WoodsLevel8Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel8Config.swift; sourceTree = "<group>"; };
 		1D4DDB5AAED0E76492AA9C81 /* ALWrapper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ALWrapper.h; path = ObjectAL/OpenAL/ALWrapper.h; sourceTree = "<group>"; };
 		1D5C44021DDAAF6F00FDBF7E /* BasePlayerUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasePlayerUpgrades.swift; sourceTree = "<group>"; };
+		1D66EE2F1EA1C317009CE669 /* WoodsConfigSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsConfigSummary.swift; sourceTree = "<group>"; };
+		1D66EE301EA1C317009CE669 /* WoodsLevel1Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel1Config.swift; sourceTree = "<group>"; };
+		1D66EE311EA1C317009CE669 /* WoodsLevel2Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel2Config.swift; sourceTree = "<group>"; };
+		1D66EE321EA1C317009CE669 /* WoodsLevel3Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel3Config.swift; sourceTree = "<group>"; };
+		1D66EE331EA1C317009CE669 /* WoodsLevel4Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel4Config.swift; sourceTree = "<group>"; };
+		1D66EE341EA1C317009CE669 /* WoodsLevel5Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel5Config.swift; sourceTree = "<group>"; };
+		1D66EE351EA1C317009CE669 /* WoodsLevel6Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel6Config.swift; sourceTree = "<group>"; };
+		1D66EE361EA1C317009CE669 /* WoodsLevel7Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel7Config.swift; sourceTree = "<group>"; };
+		1D66EE371EA1C317009CE669 /* WoodsLevel8Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel8Config.swift; sourceTree = "<group>"; };
+		1D66EE381EA1C317009CE669 /* WoodsLevelConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevelConfig.swift; sourceTree = "<group>"; };
+		1D66EE431EA1C320009CE669 /* TutorialConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialConfig.swift; sourceTree = "<group>"; };
+		1D66EE441EA1C320009CE669 /* TutorialConfigSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialConfigSummary.swift; sourceTree = "<group>"; };
+		1D66EE451EA1C320009CE669 /* TutorialLevel1Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel1Config.swift; sourceTree = "<group>"; };
+		1D66EE461EA1C320009CE669 /* TutorialLevel2Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel2Config.swift; sourceTree = "<group>"; };
+		1D66EE471EA1C320009CE669 /* TutorialLevel3Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel3Config.swift; sourceTree = "<group>"; };
+		1D66EE481EA1C320009CE669 /* TutorialLevel4Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel4Config.swift; sourceTree = "<group>"; };
+		1D66EE491EA1C320009CE669 /* TutorialLevel5Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel5Config.swift; sourceTree = "<group>"; };
+		1D66EE4A1EA1C320009CE669 /* TutorialLevel6Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel6Config.swift; sourceTree = "<group>"; };
+		1D66EE4B1EA1C320009CE669 /* TutorialLevel7Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel7Config.swift; sourceTree = "<group>"; };
+		1D66EE4C1EA1C320009CE669 /* TutorialLevel8Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel8Config.swift; sourceTree = "<group>"; };
+		1D66EE591EA1C40D009CE669 /* BaseLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel.swift; sourceTree = "<group>"; };
+		1D66EE5A1EA1C40D009CE669 /* BaseLevel1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel1.swift; sourceTree = "<group>"; };
+		1D66EE5B1EA1C40D009CE669 /* BaseLevel1Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel1Config.swift; sourceTree = "<group>"; };
+		1D66EE5C1EA1C40D009CE669 /* BaseLevel2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel2.swift; sourceTree = "<group>"; };
+		1D66EE5D1EA1C40D009CE669 /* BaseLevel2Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel2Config.swift; sourceTree = "<group>"; };
+		1D66EE5E1EA1C40D009CE669 /* BaseLevel3.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel3.swift; sourceTree = "<group>"; };
+		1D66EE5F1EA1C40D009CE669 /* BaseLevel3Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel3Config.swift; sourceTree = "<group>"; };
+		1D66EE601EA1C40D009CE669 /* BaseLevel4.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel4.swift; sourceTree = "<group>"; };
+		1D66EE611EA1C40D009CE669 /* BaseLevel4Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel4Config.swift; sourceTree = "<group>"; };
+		1D66EE621EA1C40D009CE669 /* BaseLevel5.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel5.swift; sourceTree = "<group>"; };
+		1D66EE631EA1C40D009CE669 /* BaseLevel5Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel5Config.swift; sourceTree = "<group>"; };
+		1D66EE641EA1C40D009CE669 /* BaseLevel6.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel6.swift; sourceTree = "<group>"; };
+		1D66EE651EA1C40D009CE669 /* BaseLevel6Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel6Config.swift; sourceTree = "<group>"; };
+		1D66EE661EA1C40D009CE669 /* BaseLevel7.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel7.swift; sourceTree = "<group>"; };
+		1D66EE671EA1C40D009CE669 /* BaseLevel7Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel7Config.swift; sourceTree = "<group>"; };
+		1D66EE681EA1C40D009CE669 /* BaseLevel8.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel8.swift; sourceTree = "<group>"; };
+		1D66EE691EA1C40D009CE669 /* BaseLevel8Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevel8Config.swift; sourceTree = "<group>"; };
+		1D66EE6A1EA1C40D009CE669 /* BaseLevelConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseLevelConfig.swift; sourceTree = "<group>"; };
 		1D6A9F3A1DD79B05004A0978 /* Easing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Easing.swift; sourceTree = "<group>"; };
 		1D6A9F3B1DD79B05004A0978 /* IntValue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntValue.swift; sourceTree = "<group>"; };
 		1D6A9F3C1DD79B05004A0978 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
@@ -363,23 +416,9 @@
 		1D6A9F831DD79B13004A0978 /* IntersectsTestWorld.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntersectsTestWorld.swift; sourceTree = "<group>"; };
 		1D6A9F841DD79B13004A0978 /* OrbitalPlayground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalPlayground.swift; sourceTree = "<group>"; };
 		1D6A9F851DD79B13004A0978 /* Playground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Playground.swift; sourceTree = "<group>"; };
-		1D6A9F8E1DD79B18004A0978 /* WoodsConfigSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsConfigSummary.swift; sourceTree = "<group>"; };
-		1D6A9F8F1DD79B18004A0978 /* WoodsLevel1Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel1Config.swift; sourceTree = "<group>"; };
-		1D6A9F901DD79B18004A0978 /* WoodsLevel2Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel2Config.swift; sourceTree = "<group>"; };
-		1D6A9F911DD79B18004A0978 /* WoodsLevel3Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel3Config.swift; sourceTree = "<group>"; };
-		1D6A9F921DD79B18004A0978 /* WoodsLevel4Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel4Config.swift; sourceTree = "<group>"; };
-		1D6A9F931DD79B18004A0978 /* WoodsLevel5Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel5Config.swift; sourceTree = "<group>"; };
 		1D6A9F941DD79B18004A0978 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		1D6A9F951DD79B18004A0978 /* ConfigSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigSummary.swift; sourceTree = "<group>"; };
 		1D6A9F961DD79B18004A0978 /* LevelConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelConfig.swift; sourceTree = "<group>"; };
-		1D6A9F971DD79B18004A0978 /* TutorialConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialConfig.swift; sourceTree = "<group>"; };
-		1D6A9F981DD79B18004A0978 /* TutorialConfigSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialConfigSummary.swift; sourceTree = "<group>"; };
-		1D6A9F991DD79B18004A0978 /* TutorialLevel1Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel1Config.swift; sourceTree = "<group>"; };
-		1D6A9F9A1DD79B18004A0978 /* TutorialLevel2Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel2Config.swift; sourceTree = "<group>"; };
-		1D6A9F9B1DD79B18004A0978 /* TutorialLevel3Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel3Config.swift; sourceTree = "<group>"; };
-		1D6A9F9C1DD79B18004A0978 /* TutorialLevel4Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel4Config.swift; sourceTree = "<group>"; };
-		1D6A9F9D1DD79B18004A0978 /* TutorialLevel5Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel5Config.swift; sourceTree = "<group>"; };
-		1D6A9F9E1DD79B18004A0978 /* TutorialLevel6Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel6Config.swift; sourceTree = "<group>"; };
 		1D6A9F9F1DD79B18004A0978 /* GameConfigSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameConfigSummary.swift; sourceTree = "<group>"; };
 		1D6A9FB21DD79B1C004A0978 /* WoodsLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel.swift; sourceTree = "<group>"; };
 		1D6A9FB31DD79B1C004A0978 /* WoodsLevel1.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel1.swift; sourceTree = "<group>"; };
@@ -552,8 +591,6 @@
 		1D7A42DB1E118FE4002F37FA /* PolygonArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonArtist.swift; sourceTree = "<group>"; };
 		1D7A42DD1E11927D002F37FA /* MissleSiloUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleSiloUpgrades.swift; sourceTree = "<group>"; };
 		1D7A42E11E11A83B002F37FA /* MissleNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleNode.swift; sourceTree = "<group>"; };
-		1D943BF51E26FA0E0053FAF5 /* TutorialLevel7Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel7Config.swift; sourceTree = "<group>"; };
-		1D943BF61E26FA0E0053FAF5 /* TutorialLevel8Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel8Config.swift; sourceTree = "<group>"; };
 		1D943BF91E26FA160053FAF5 /* TutorialLevel7.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel7.swift; sourceTree = "<group>"; };
 		1D943BFA1E26FA160053FAF5 /* TutorialLevel8.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel8.swift; sourceTree = "<group>"; };
 		1D971CC61E14670100A167A2 /* SelectableArmyComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableArmyComponent.swift; sourceTree = "<group>"; };
@@ -575,7 +612,6 @@
 		1D971CEC1E1CA1BB00A167A2 /* ShotgunUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShotgunUpgrades.swift; sourceTree = "<group>"; };
 		1D971CEE1E1EC28B00A167A2 /* RotateScanComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotateScanComponent.swift; sourceTree = "<group>"; };
 		1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonUpgrades.swift; sourceTree = "<group>"; };
-		1DC7EBB71E215B3D0069AA8A /* WoodsLevelConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevelConfig.swift; sourceTree = "<group>"; };
 		1DF0B2DF1E8F3BE0001B9F97 /* WoodsLevel8CutScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel8CutScene.swift; sourceTree = "<group>"; };
 		1DF0B2E11E8F4792001B9F97 /* WoodsBossArtists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsBossArtists.swift; sourceTree = "<group>"; };
 		1DF0B2E31E8F4A9B001B9F97 /* WoodsBossNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsBossNode.swift; sourceTree = "<group>"; };
@@ -669,17 +705,27 @@
 		09AD8D2536FADEB416B4AFAA /* Woods */ = {
 			isa = PBXGroup;
 			children = (
+				1D66EE2F1EA1C317009CE669 /* WoodsConfigSummary.swift */,
 				1D6A9FB21DD79B1C004A0978 /* WoodsLevel.swift */,
 				1D6A9FB31DD79B1C004A0978 /* WoodsLevel1.swift */,
+				1D66EE301EA1C317009CE669 /* WoodsLevel1Config.swift */,
 				1D6A9FB41DD79B1C004A0978 /* WoodsLevel2.swift */,
+				1D66EE311EA1C317009CE669 /* WoodsLevel2Config.swift */,
 				1D6A9FB51DD79B1C004A0978 /* WoodsLevel3.swift */,
+				1D66EE321EA1C317009CE669 /* WoodsLevel3Config.swift */,
 				1D06D6CF1E4ABD6D004FA878 /* WoodsLevel3CutScene.swift */,
 				1D6A9FB61DD79B1C004A0978 /* WoodsLevel4.swift */,
+				1D66EE331EA1C317009CE669 /* WoodsLevel4Config.swift */,
 				1D6A9FB71DD79B1C004A0978 /* WoodsLevel5.swift */,
+				1D66EE341EA1C317009CE669 /* WoodsLevel5Config.swift */,
 				1D06D6D11E4AE359004FA878 /* WoodsLevel6.swift */,
+				1D66EE351EA1C317009CE669 /* WoodsLevel6Config.swift */,
 				1D06D6D21E4AE359004FA878 /* WoodsLevel7.swift */,
+				1D66EE361EA1C317009CE669 /* WoodsLevel7Config.swift */,
 				1D06D6D31E4AE359004FA878 /* WoodsLevel8.swift */,
+				1D66EE371EA1C317009CE669 /* WoodsLevel8Config.swift */,
 				1DF0B2DF1E8F3BE0001B9F97 /* WoodsLevel8CutScene.swift */,
+				1D66EE381EA1C317009CE669 /* WoodsLevelConfig.swift */,
 			);
 			path = Woods;
 			sourceTree = "<group>";
@@ -779,6 +825,31 @@
 				461025356CC12C1AE291ADA8 /* short.caf */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		1D66EE581EA1C3FB009CE669 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				1D66EE591EA1C40D009CE669 /* BaseLevel.swift */,
+				1D66EE5A1EA1C40D009CE669 /* BaseLevel1.swift */,
+				1D66EE5B1EA1C40D009CE669 /* BaseLevel1Config.swift */,
+				1D66EE5C1EA1C40D009CE669 /* BaseLevel2.swift */,
+				1D66EE5D1EA1C40D009CE669 /* BaseLevel2Config.swift */,
+				1D66EE5E1EA1C40D009CE669 /* BaseLevel3.swift */,
+				1D66EE5F1EA1C40D009CE669 /* BaseLevel3Config.swift */,
+				1D66EE601EA1C40D009CE669 /* BaseLevel4.swift */,
+				1D66EE611EA1C40D009CE669 /* BaseLevel4Config.swift */,
+				1D66EE621EA1C40D009CE669 /* BaseLevel5.swift */,
+				1D66EE631EA1C40D009CE669 /* BaseLevel5Config.swift */,
+				1D66EE641EA1C40D009CE669 /* BaseLevel6.swift */,
+				1D66EE651EA1C40D009CE669 /* BaseLevel6Config.swift */,
+				1D66EE661EA1C40D009CE669 /* BaseLevel7.swift */,
+				1D66EE671EA1C40D009CE669 /* BaseLevel7Config.swift */,
+				1D66EE681EA1C40D009CE669 /* BaseLevel8.swift */,
+				1D66EE691EA1C40D009CE669 /* BaseLevel8Config.swift */,
+				1D66EE6A1EA1C40D009CE669 /* BaseLevelConfig.swift */,
+			);
+			path = Base;
 			sourceTree = "<group>";
 		};
 		1D6A9F391DD79AF7004A0978 /* Sounds */ = {
@@ -1095,30 +1166,10 @@
 		AFE9D240644CDDED7776691E /* Config */ = {
 			isa = PBXGroup;
 			children = (
-				1D6A9F8E1DD79B18004A0978 /* WoodsConfigSummary.swift */,
-				1D6A9F8F1DD79B18004A0978 /* WoodsLevel1Config.swift */,
-				1D6A9F901DD79B18004A0978 /* WoodsLevel2Config.swift */,
-				1D6A9F911DD79B18004A0978 /* WoodsLevel3Config.swift */,
-				1D6A9F921DD79B18004A0978 /* WoodsLevel4Config.swift */,
-				1D6A9F931DD79B18004A0978 /* WoodsLevel5Config.swift */,
-				1D06D6D71E4AE360004FA878 /* WoodsLevel6Config.swift */,
-				1D06D6D81E4AE360004FA878 /* WoodsLevel7Config.swift */,
-				1D06D6D91E4AE360004FA878 /* WoodsLevel8Config.swift */,
-				1DC7EBB71E215B3D0069AA8A /* WoodsLevelConfig.swift */,
 				1D6A9F941DD79B18004A0978 /* Config.swift */,
 				1D6A9F951DD79B18004A0978 /* ConfigSummary.swift */,
 				1D6A9F9F1DD79B18004A0978 /* GameConfigSummary.swift */,
 				1D6A9F961DD79B18004A0978 /* LevelConfig.swift */,
-				1D6A9F971DD79B18004A0978 /* TutorialConfig.swift */,
-				1D6A9F981DD79B18004A0978 /* TutorialConfigSummary.swift */,
-				1D6A9F991DD79B18004A0978 /* TutorialLevel1Config.swift */,
-				1D6A9F9A1DD79B18004A0978 /* TutorialLevel2Config.swift */,
-				1D6A9F9B1DD79B18004A0978 /* TutorialLevel3Config.swift */,
-				1D6A9F9C1DD79B18004A0978 /* TutorialLevel4Config.swift */,
-				1D6A9F9D1DD79B18004A0978 /* TutorialLevel5Config.swift */,
-				1D6A9F9E1DD79B18004A0978 /* TutorialLevel6Config.swift */,
-				1D943BF51E26FA0E0053FAF5 /* TutorialLevel7Config.swift */,
-				1D943BF61E26FA0E0053FAF5 /* TutorialLevel8Config.swift */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -1179,6 +1230,7 @@
 		BEC11DB661CE6A2F69FFED28 /* Worlds */ = {
 			isa = PBXGroup;
 			children = (
+				1D66EE581EA1C3FB009CE669 /* Base */,
 				09AD8D2536FADEB416B4AFAA /* Woods */,
 				AFE9D240644CDDED7776691E /* Config */,
 				6EB4AEB0E5D1E6E346AC9C07 /* Demos */,
@@ -1228,16 +1280,26 @@
 				1D6A9F661DD79B10004A0978 /* PowerupTutorial.swift */,
 				1D6A9F671DD79B10004A0978 /* RapidFireTutorial.swift */,
 				1D6A9F691DD79B10004A0978 /* Tutorial.swift */,
+				1D66EE431EA1C320009CE669 /* TutorialConfig.swift */,
+				1D66EE441EA1C320009CE669 /* TutorialConfigSummary.swift */,
 				1D06D6BD1E3AC383004FA878 /* TutorialCutScene.swift */,
 				1D6A9F6A1DD79B10004A0978 /* TutorialLevel.swift */,
 				1D6A9F6B1DD79B10004A0978 /* TutorialLevel1.swift */,
+				1D66EE451EA1C320009CE669 /* TutorialLevel1Config.swift */,
 				1D6A9F6C1DD79B10004A0978 /* TutorialLevel2.swift */,
+				1D66EE461EA1C320009CE669 /* TutorialLevel2Config.swift */,
 				1D6A9F6D1DD79B10004A0978 /* TutorialLevel3.swift */,
+				1D66EE471EA1C320009CE669 /* TutorialLevel3Config.swift */,
 				1D6A9F6E1DD79B10004A0978 /* TutorialLevel4.swift */,
+				1D66EE481EA1C320009CE669 /* TutorialLevel4Config.swift */,
 				1D6A9F6F1DD79B10004A0978 /* TutorialLevel5.swift */,
+				1D66EE491EA1C320009CE669 /* TutorialLevel5Config.swift */,
 				1D6A9F701DD79B10004A0978 /* TutorialLevel6.swift */,
+				1D66EE4A1EA1C320009CE669 /* TutorialLevel6Config.swift */,
 				1D943BF91E26FA160053FAF5 /* TutorialLevel7.swift */,
+				1D66EE4B1EA1C320009CE669 /* TutorialLevel7Config.swift */,
 				1D943BFA1E26FA160053FAF5 /* TutorialLevel8.swift */,
+				1D66EE4C1EA1C320009CE669 /* TutorialLevel8Config.swift */,
 			);
 			path = Tutorials;
 			sourceTree = "<group>";
@@ -1404,7 +1466,6 @@
 				1D6AA0F31DD79B62004A0978 /* LetterAndFont.swift in Sources */,
 				1D6A9F431DD79B05004A0978 /* IntValue.swift in Sources */,
 				1D6A9FD01DD79B2A004A0978 /* CoffeePowerup.swift in Sources */,
-				1D943BF71E26FA0E0053FAF5 /* TutorialLevel7Config.swift in Sources */,
 				1D6AA0211DD79B37004A0978 /* EnemyScoutNode.swift in Sources */,
 				1D971CD61E1479D200A167A2 /* DroneNode.swift in Sources */,
 				1D7A42E21E11A83B002F37FA /* MissleNode.swift in Sources */,
@@ -1413,13 +1474,13 @@
 				1D6AA06B1DD79B41004A0978 /* CGFloatExt.swift in Sources */,
 				1D6AA0BB1DD79B5A004A0978 /* NoPowerupArtist.swift in Sources */,
 				1D971CD21E1479D200A167A2 /* BulletNode.swift in Sources */,
-				1D6A9FA41DD79B18004A0978 /* WoodsLevel4Config.swift in Sources */,
 				1D6A9F8D1DD79B13004A0978 /* Playground.swift in Sources */,
-				1D06D6DA1E4AE360004FA878 /* WoodsLevel6Config.swift in Sources */,
 				1D6A9FD21DD79B2A004A0978 /* HourglassPowerup.swift in Sources */,
 				1D6A9F711DD79B10004A0978 /* AutoFireTutorial.swift in Sources */,
+				1D66EE781EA1C40D009CE669 /* BaseLevel7.swift in Sources */,
 				1D6AA0FF1DD79BB4004A0978 /* Sound.swift in Sources */,
 				1D6A9FB91DD79B1C004A0978 /* WoodsLevel1.swift in Sources */,
+				1D66EE401EA1C317009CE669 /* WoodsLevel7Config.swift in Sources */,
 				1D6A9F721DD79B10004A0978 /* DroneTutorial.swift in Sources */,
 				1D06D6D61E4AE359004FA878 /* WoodsLevel8.swift in Sources */,
 				1D6A9F631DD79B0A004A0978 /* WorldSelectWorld.swift in Sources */,
@@ -1434,37 +1495,41 @@
 				1D6AA0F11DD79B62004A0978 /* ImageArtists.swift in Sources */,
 				1D6A9FBA1DD79B1C004A0978 /* WoodsLevel2.swift in Sources */,
 				1D6A9FB81DD79B1C004A0978 /* WoodsLevel.swift in Sources */,
-				1DC7EBB81E215B3D0069AA8A /* WoodsLevelConfig.swift in Sources */,
 				1D6AA05C1DD79B3E004A0978 /* StoppedComponent.swift in Sources */,
+				1D66EE741EA1C40D009CE669 /* BaseLevel5.swift in Sources */,
 				1D6AA0521DD79B3E004A0978 /* KeepRotatingComponent.swift in Sources */,
 				1D6AA0C11DD79B5A004A0978 /* ShieldSegmentArtist.swift in Sources */,
 				1D6AA01E1DD79B37004A0978 /* EnemyJetNode.swift in Sources */,
 				1D6A9F771DD79B10004A0978 /* TutorialLevel.swift in Sources */,
+				1D66EE791EA1C40D009CE669 /* BaseLevel7Config.swift in Sources */,
 				1D6AA0911DD79B53004A0978 /* CropNode.swift in Sources */,
 				1D6AA0971DD79B53004A0978 /* TimelineComponent.swift in Sources */,
+				1D66EE3F1EA1C317009CE669 /* WoodsLevel6Config.swift in Sources */,
 				1D6AA0E51DD79B62004A0978 /* BaseTurretArtist.swift in Sources */,
+				1D66EE3E1EA1C317009CE669 /* WoodsLevel5Config.swift in Sources */,
 				4A834CD7B9F12A09ACAAAF7C /* OALActionManager.m in Sources */,
 				1104ABC2B1CD7A94967503F1 /* OALAudioActions.m in Sources */,
 				1D6AA0E41DD79B62004A0978 /* BaseArtist.swift in Sources */,
 				1D6AA0091DD79B34004A0978 /* EnemyAttackExplosionNode.swift in Sources */,
 				1D6AA06F1DD79B42004A0978 /* CGVectorExt.swift in Sources */,
 				1D6AA0F61DD79B62004A0978 /* RadarArtist.swift in Sources */,
-				1D6A9FAC1DD79B18004A0978 /* TutorialLevel2Config.swift in Sources */,
 				C18E3DF53F600C1DE8882E0B /* OALUtilityActions.m in Sources */,
 				1D6AA0191DD79B37004A0978 /* EnemyBigJetNode.swift in Sources */,
 				1D6AA0F21DD79B62004A0978 /* ImageIdentifier.swift in Sources */,
 				1D6AA0901DD79B53004A0978 /* Component.swift in Sources */,
 				1D6AA1191DD79BF8004A0978 /* Currency.swift in Sources */,
+				1D66EE521EA1C320009CE669 /* TutorialLevel4Config.swift in Sources */,
 				A4D310D45BFF7B75A53C29F8 /* OALAudioTrack.m in Sources */,
 				3332E0EFC48439B66A847C28 /* OALAudioTrackNotifications.m in Sources */,
+				1D66EE501EA1C320009CE669 /* TutorialLevel2Config.swift in Sources */,
 				1D971CE51E16CD9400A167A2 /* ShotgunArtist.swift in Sources */,
 				1D6AA0271DD79B3B004A0978 /* UpgradableNode.swift in Sources */,
 				1D6AA07D1DD79B4B004A0978 /* DebugPath.swift in Sources */,
 				1D6AA0721DD79B42004A0978 /* SpriteKit.swift in Sources */,
+				1D66EE761EA1C40D009CE669 /* BaseLevel6.swift in Sources */,
 				1D6A9F591DD79B0A004A0978 /* MainMenuWorld.swift in Sources */,
 				1D6A9FF91DD79B31004A0978 /* HourglassNode.swift in Sources */,
-				1D6A9FA11DD79B18004A0978 /* WoodsLevel1Config.swift in Sources */,
-				1D6A9FAD1DD79B18004A0978 /* TutorialLevel3Config.swift in Sources */,
+				1D66EE551EA1C320009CE669 /* TutorialLevel7Config.swift in Sources */,
 				1D6AA0E61DD79B62004A0978 /* BombArtist.swift in Sources */,
 				1D6A9F5A1DD79B0A004A0978 /* PowerupDemos.swift in Sources */,
 				1D6A9FD81DD79B2A004A0978 /* ShieldPowerup.swift in Sources */,
@@ -1476,12 +1541,16 @@
 				1D6A9FE61DD79B2E004A0978 /* PauseButton.swift in Sources */,
 				1D6AA0011DD79B31004A0978 /* SoldierNode.swift in Sources */,
 				1D6AA0B31DD79B5A004A0978 /* BomberPowerupArtist.swift in Sources */,
+				1D66EE7C1EA1C40D009CE669 /* BaseLevelConfig.swift in Sources */,
 				1D6A9FFE1DD79B31004A0978 /* PathDrawingNode.swift in Sources */,
 				1D6A9FE31DD79B2E004A0978 /* CloseButton.swift in Sources */,
 				1D6A9F871DD79B13004A0978 /* CameraDemoWorld.swift in Sources */,
 				1D6AA0001DD79B31004A0978 /* ShieldNode.swift in Sources */,
+				1D66EE701EA1C40D009CE669 /* BaseLevel3.swift in Sources */,
+				1D66EE731EA1C40D009CE669 /* BaseLevel4Config.swift in Sources */,
 				1D6A9F7A1DD79B10004A0978 /* TutorialLevel3.swift in Sources */,
 				1D6AA04C1DD79B3E004A0978 /* FollowNodeComponent.swift in Sources */,
+				1D66EE531EA1C320009CE669 /* TutorialLevel5Config.swift in Sources */,
 				569491D634F9018967BC977B /* OALAudioTracks.m in Sources */,
 				1D6AA01A1DD79B37004A0978 /* EnemyDiamondNode.swift in Sources */,
 				1D6AA05A1DD79B3E004A0978 /* ScaleToComponent.swift in Sources */,
@@ -1492,19 +1561,20 @@
 				CC4AFF64B603D79C46708C0B /* OALSimpleAudio.m in Sources */,
 				5DD7800457670C21BA65DF9E /* ALBuffer.m in Sources */,
 				1D6AA0791DD79B44004A0978 /* Dot.swift in Sources */,
+				1D66EE6F1EA1C40D009CE669 /* BaseLevel2Config.swift in Sources */,
 				0022C408A8306E2FFD4ADB75 /* ALCaptureDevice.m in Sources */,
 				1D6AA0B81DD79B5A004A0978 /* MineFragmentArtist.swift in Sources */,
 				1D6A9FE21DD79B2E004A0978 /* CancelButton.swift in Sources */,
 				1D06D6D01E4ABD6D004FA878 /* WoodsLevel3CutScene.swift in Sources */,
 				1D6AA04B1DD79B3E004A0978 /* FollowComponent.swift in Sources */,
 				1D6A9F8B1DD79B13004A0978 /* IntersectsTestWorld.swift in Sources */,
-				1D6A9FA21DD79B18004A0978 /* WoodsLevel2Config.swift in Sources */,
 				1D943BFC1E26FA160053FAF5 /* TutorialLevel8.swift in Sources */,
 				1D6A9F791DD79B10004A0978 /* TutorialLevel2.swift in Sources */,
+				1D66EE4E1EA1C320009CE669 /* TutorialConfigSummary.swift in Sources */,
+				1D66EE411EA1C317009CE669 /* WoodsLevel8Config.swift in Sources */,
 				1D6AA0EC1DD79B62004A0978 /* DroneRadarArtist.swift in Sources */,
 				1D6AA0941DD79B53004A0978 /* Position.swift in Sources */,
 				1D6A9FD71DD79B2A004A0978 /* PulsePowerup.swift in Sources */,
-				1D6A9FA31DD79B18004A0978 /* WoodsLevel3Config.swift in Sources */,
 				1D6AA0E91DD79B62004A0978 /* CursorArtist.swift in Sources */,
 				1D971CEB1E1C894600A167A2 /* ShotgunNode.swift in Sources */,
 				1D6A9FF61DD79B31004A0978 /* BomberPowerupNode.swift in Sources */,
@@ -1514,8 +1584,10 @@
 				1D6AA11B1DD79BF8004A0978 /* PowerupStorage.swift in Sources */,
 				1D6AA06E1DD79B41004A0978 /* CGSizeExt.swift in Sources */,
 				1D971CC71E14670100A167A2 /* SelectableArmyComponent.swift in Sources */,
+				1D66EE3D1EA1C317009CE669 /* WoodsLevel4Config.swift in Sources */,
 				1D6AA0461DD79B3E004A0978 /* EnemyComponent.swift in Sources */,
 				1D6A9F8C1DD79B13004A0978 /* OrbitalPlayground.swift in Sources */,
+				1D66EE7A1EA1C40D009CE669 /* BaseLevel8.swift in Sources */,
 				378015F45DBFDC462B01630C /* ALChannelSource.m in Sources */,
 				C6E81D476B4D156276F53F08 /* ALContext.m in Sources */,
 				4FD64B399EE3A3C7E6C6B9D8 /* ALDevice.m in Sources */,
@@ -1523,12 +1595,14 @@
 				1D971CD51E1479D200A167A2 /* CursorNode.swift in Sources */,
 				1D6A9F441DD79B05004A0978 /* Math.swift in Sources */,
 				1D6AA00C1DD79B34004A0978 /* PlayerExplosionNode.swift in Sources */,
+				1D66EE541EA1C320009CE669 /* TutorialLevel6Config.swift in Sources */,
 				1D6AA0571DD79B3E004A0978 /* ProjectileComponent.swift in Sources */,
 				1DF0B2E21E8F4792001B9F97 /* WoodsBossArtists.swift in Sources */,
 				1D6AA0591DD79B3E004A0978 /* RotateToComponent.swift in Sources */,
 				B95F74E9E1E4D5D759B4684F /* ALListener.m in Sources */,
 				1D6AA0BD1DD79B5A004A0978 /* PowerupTimerArtist.swift in Sources */,
 				1D6AA0C31DD79B5A004A0978 /* SoldiersPowerupArtist.swift in Sources */,
+				1D66EE421EA1C317009CE669 /* WoodsLevelConfig.swift in Sources */,
 				1D6AA0B91DD79B5A004A0978 /* MinesPowerupArtist.swift in Sources */,
 				1D6A9FA71DD79B18004A0978 /* ConfigSummary.swift in Sources */,
 				1D6AA0C21DD79B5A004A0978 /* SoldierArtist.swift in Sources */,
@@ -1544,27 +1618,32 @@
 				1D6AA0F81DD79B62004A0978 /* ShapeArtist.swift in Sources */,
 				1D6A9F861DD79B13004A0978 /* BezierPaths.swift in Sources */,
 				1D6A9F7C1DD79B10004A0978 /* TutorialLevel5.swift in Sources */,
+				1D66EE6D1EA1C40D009CE669 /* BaseLevel1Config.swift in Sources */,
 				1D6A9F451DD79B05004A0978 /* Rand.swift in Sources */,
+				1D66EE391EA1C317009CE669 /* WoodsConfigSummary.swift in Sources */,
 				1D971CD31E1479D200A167A2 /* CannonballNode.swift in Sources */,
 				1D6A9FD41DD79B2A004A0978 /* MinesPowerup.swift in Sources */,
 				1D6AA09A1DD79B53004A0978 /* Upgrades.swift in Sources */,
 				1D6AA0B21DD79B5A004A0978 /* BomberArtist.swift in Sources */,
 				1D6AA0561DD79B3E004A0978 /* PlayerTargetingComponent.swift in Sources */,
-				1D6A9FA91DD79B18004A0978 /* TutorialConfig.swift in Sources */,
+				1D66EE771EA1C40D009CE669 /* BaseLevel6Config.swift in Sources */,
 				735A1CE510017E6F8ED583D1 /* ALSource.m in Sources */,
 				1D6AA0EB1DD79B62004A0978 /* DroneArtist.swift in Sources */,
 				1D6AA0C81DD79B5D004A0978 /* SmallFont.swift in Sources */,
 				1D971CDE1E1479E700A167A2 /* BackgroundAudioNode.swift in Sources */,
+				1D66EE4F1EA1C320009CE669 /* TutorialLevel1Config.swift in Sources */,
+				1D66EE6E1EA1C40D009CE669 /* BaseLevel2.swift in Sources */,
 				1D6AA0ED1DD79B62004A0978 /* EnemyDiamondArtist.swift in Sources */,
 				1D6AA0441DD79B3E004A0978 /* ArcToComponent.swift in Sources */,
 				1D6AA0FB1DD79B62004A0978 /* WarningArtist.swift in Sources */,
 				1D6AA0EE1DD79B62004A0978 /* EnemyJetArtist.swift in Sources */,
 				1D6AA0EA1DD79B62004A0978 /* DotArtist.swift in Sources */,
-				1D06D6DB1E4AE360004FA878 /* WoodsLevel7Config.swift in Sources */,
 				1D6A9FD31DD79B2A004A0978 /* LaserPowerup.swift in Sources */,
+				1D66EE6C1EA1C40D009CE669 /* BaseLevel1.swift in Sources */,
 				1D6AA01B1DD79B37004A0978 /* EnemyDozerNode.swift in Sources */,
 				1D6AA0BA1DD79B5A004A0978 /* NetPowerupArtist.swift in Sources */,
 				1D6A9FCF1DD79B2A004A0978 /* BomberPowerup.swift in Sources */,
+				1D66EE3A1EA1C317009CE669 /* WoodsLevel1Config.swift in Sources */,
 				1D6AA01C1DD79B37004A0978 /* EnemyFastSoldierNode.swift in Sources */,
 				1D6AA0231DD79B37004A0978 /* EnemySoldierNode.swift in Sources */,
 				1D6A9F5D1DD79B0A004A0978 /* TutorialSelectWorld.swift in Sources */,
@@ -1574,6 +1653,7 @@
 				1D6A9F891DD79B13004A0978 /* EasingFns.swift in Sources */,
 				1D6AA06C1DD79B41004A0978 /* CGPointExt.swift in Sources */,
 				1D6A9FC01DD79B22004A0978 /* Level.swift in Sources */,
+				1D66EE511EA1C320009CE669 /* TutorialLevel3Config.swift in Sources */,
 				1D6AA0951DD79B53004A0978 /* ScrollNode.swift in Sources */,
 				1D943BFB1E26FA160053FAF5 /* TutorialLevel7.swift in Sources */,
 				1D6A9F5E1DD79B0A004A0978 /* UIWorld.swift in Sources */,
@@ -1585,7 +1665,6 @@
 				1D6AA01D1DD79B37004A0978 /* EnemyGiantNode.swift in Sources */,
 				1D6A9F7B1DD79B10004A0978 /* TutorialLevel4.swift in Sources */,
 				1D6A9FE41DD79B2E004A0978 /* ExperienceCostText.swift in Sources */,
-				1D6A9FAE1DD79B18004A0978 /* TutorialLevel4Config.swift in Sources */,
 				1D6AA0921DD79B53004A0978 /* Mod.swift in Sources */,
 				1D6AA0E81DD79B62004A0978 /* ButtonArtist.swift in Sources */,
 				1D6A9FF81DD79B31004A0978 /* GrenadePowerupNode.swift in Sources */,
@@ -1594,7 +1673,6 @@
 				1D6A9FD51DD79B2A004A0978 /* NetPowerup.swift in Sources */,
 				1D6AA0501DD79B3E004A0978 /* JiggleComponent.swift in Sources */,
 				1D6AA05D1DD79B3E004A0978 /* TouchableComponent.swift in Sources */,
-				1D06D6DC1E4AE360004FA878 /* WoodsLevel8Config.swift in Sources */,
 				1D971CE41E16CD9400A167A2 /* LaserArtist.swift in Sources */,
 				1D6A9F471DD79B05004A0978 /* Shape.swift in Sources */,
 				1D6AA07B1DD79B44004A0978 /* TextNode.swift in Sources */,
@@ -1605,18 +1683,18 @@
 				1D6AA0981DD79B53004A0978 /* TouchSession.swift in Sources */,
 				1D971CE71E18381300A167A2 /* LaserNode.swift in Sources */,
 				825317C867A6089490B43568 /* mach_timing.c in Sources */,
-				1D6A9FA01DD79B18004A0978 /* WoodsConfigSummary.swift in Sources */,
 				1D6AA0081DD79B34004A0978 /* BulletRecoilExplosionNode.swift in Sources */,
 				1D6AA06A1DD79B41004A0978 /* ArrayExt.swift in Sources */,
 				1D6AA0781DD79B44004A0978 /* Button.swift in Sources */,
 				1D6AA09D1DD79B53004A0978 /* WorldScene.swift in Sources */,
 				1D6AA0511DD79B3E004A0978 /* KeepMovingComponent.swift in Sources */,
-				1D6A9FB01DD79B18004A0978 /* TutorialLevel6Config.swift in Sources */,
-				1D6A9FAA1DD79B18004A0978 /* TutorialConfigSummary.swift in Sources */,
+				1D66EE6B1EA1C40D009CE669 /* BaseLevel.swift in Sources */,
+				1D66EE3C1EA1C317009CE669 /* WoodsLevel3Config.swift in Sources */,
 				1D6AA0C91DD79B5D004A0978 /* TinyFont.swift in Sources */,
 				1D6A9FD61DD79B2A004A0978 /* Powerup.swift in Sources */,
 				1D6AA04D1DD79B3E004A0978 /* FollowPathComponent.swift in Sources */,
 				1D971CD41E1479D200A167A2 /* CannonNode.swift in Sources */,
+				1D66EE711EA1C40D009CE669 /* BaseLevel3Config.swift in Sources */,
 				1D6AA0C01DD79B5A004A0978 /* ShieldPowerupArtist.swift in Sources */,
 				1D6A9FFB1DD79B31004A0978 /* MineFragmentNode.swift in Sources */,
 				1D5C44031DDAAF6F00FDBF7E /* BasePlayerUpgrades.swift in Sources */,
@@ -1630,33 +1708,32 @@
 				1D6A9F761DD79B10004A0978 /* Tutorial.swift in Sources */,
 				078F5FE17274206D390670B4 /* NSMutableArray+WeakReferences.m in Sources */,
 				1D6AA09F1DD79B53004A0978 /* Z.swift in Sources */,
-				1D6A9FAF1DD79B18004A0978 /* TutorialLevel5Config.swift in Sources */,
+				1D66EE561EA1C320009CE669 /* TutorialLevel8Config.swift in Sources */,
 				275B0C2755BBFC08B0072403 /* NSMutableDictionary+WeakReferences.m in Sources */,
 				1D6AA00D1DD79B34004A0978 /* ShrapnelNode.swift in Sources */,
 				1D6AA0F01DD79B62004A0978 /* HourglassZoneArtist.swift in Sources */,
 				1D6A9FE71DD79B2E004A0978 /* PercentBar.swift in Sources */,
+				1D66EE751EA1C40D009CE669 /* BaseLevel5Config.swift in Sources */,
 				1DF0B2E41E8F4A9B001B9F97 /* WoodsBossNode.swift in Sources */,
 				1D6AA0991DD79B53004A0978 /* UINode.swift in Sources */,
 				1D971CD11E1479D200A167A2 /* BasePlayerNode.swift in Sources */,
 				1D6AA0731DD79B42004A0978 /* UIColorExt.swift in Sources */,
 				1D6AA0711DD79B42004A0978 /* NSCoding.swift in Sources */,
-				1D6A9FA51DD79B18004A0978 /* WoodsLevel5Config.swift in Sources */,
 				1D971CE91E18381B00A167A2 /* LaserUpgrades.swift in Sources */,
 				1D6AA0961DD79B53004A0978 /* SpriteNode.swift in Sources */,
 				1D6A9F731DD79B10004A0978 /* PowerupTutorial.swift in Sources */,
 				1D6AA0491DD79B3E004A0978 /* FiringComponent.swift in Sources */,
 				1D6AA09C1DD79B53004A0978 /* WorldController.swift in Sources */,
-				1D6A9FAB1DD79B18004A0978 /* TutorialLevel1Config.swift in Sources */,
 				1D6AA0FD1DD79B68004A0978 /* AppDelegate.swift in Sources */,
 				1D6A9F741DD79B10004A0978 /* RapidFireTutorial.swift in Sources */,
 				1D971CED1E1CA1BB00A167A2 /* ShotgunUpgrades.swift in Sources */,
 				AAC3E3440755015CE2D47145 /* OALAudioFile.m in Sources */,
 				1D6AA0201DD79B37004A0978 /* EnemyLeaderNode.swift in Sources */,
+				1D66EE4D1EA1C320009CE669 /* TutorialConfig.swift in Sources */,
 				1D6A9FBC1DD79B1C004A0978 /* WoodsLevel4.swift in Sources */,
 				1D06D6D51E4AE359004FA878 /* WoodsLevel7.swift in Sources */,
 				53C663A96EE4911CBE3DE53D /* OALTools.m in Sources */,
 				1D6A9FBB1DD79B1C004A0978 /* WoodsLevel3.swift in Sources */,
-				1D943BF81E26FA0E0053FAF5 /* TutorialLevel8Config.swift in Sources */,
 				1D6A9F581DD79B0A004A0978 /* IntroductionCutSceneWorld.swift in Sources */,
 				1D6A9FE81DD79B2E004A0978 /* PurchasedTextNode.swift in Sources */,
 				1D6A9F491DD79B05004A0978 /* Timers.swift in Sources */,
@@ -1664,15 +1741,18 @@
 				1D6AA0F41DD79B62004A0978 /* LightningArtist.swift in Sources */,
 				1D7A42DC1E118FE4002F37FA /* PolygonArtist.swift in Sources */,
 				1D6A9F881DD79B13004A0978 /* DemoWorld.swift in Sources */,
+				1D66EE721EA1C40D009CE669 /* BaseLevel4.swift in Sources */,
 				1D971CD71E1479D200A167A2 /* MissleSiloNode.swift in Sources */,
 				1D6AA0451DD79B3E004A0978 /* DraggableComponent.swift in Sources */,
 				1D6A9FC11DD79B22004A0978 /* LevelGenerator.swift in Sources */,
+				1D66EE3B1EA1C317009CE669 /* WoodsLevel2Config.swift in Sources */,
 				1D6AA0BC1DD79B5A004A0978 /* PowerupArtist.swift in Sources */,
 				1D6AA0471DD79B3E004A0978 /* EnemyTargetingComponent.swift in Sources */,
 				1D6A9FFA1DD79B31004A0978 /* LaserBeamNode.swift in Sources */,
 				1D6AA00A1DD79B34004A0978 /* EnemyExplosionNode.swift in Sources */,
 				1D6AA0B71DD79B5A004A0978 /* LaserPowerupArtist.swift in Sources */,
 				1D6AA01F1DD79B37004A0978 /* EnemyJetTransportNode.swift in Sources */,
+				1D66EE7B1EA1C40D009CE669 /* BaseLevel8Config.swift in Sources */,
 				1D6A9FE51DD79B2E004A0978 /* LevelCompleteBox.swift in Sources */,
 				1D6A9FF71DD79B31004A0978 /* BombNode.swift in Sources */,
 				1D06D6BE1E3AC383004FA878 /* TutorialCutScene.swift in Sources */,

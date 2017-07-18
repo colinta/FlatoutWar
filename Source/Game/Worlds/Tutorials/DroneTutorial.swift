@@ -9,7 +9,7 @@ class DroneTutorial: Tutorial {
         super.populateWorld()
 
         playerNode.firingComponent?.enabled = false
-        playerNode.rotateTo(TAU_2)
+        playerNode.setRotation(TAU_2)
         tutorialTextNode.text = "DODEC DRONE"
 
         showWhy([

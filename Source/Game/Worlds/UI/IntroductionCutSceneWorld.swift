@@ -110,7 +110,7 @@ class IntroductionCutSceneWorld: World {
                         let player = BasePlayerNode()
                         player.lightNode.removeFromParent()
                         player.radarSprite.removeFromParent()
-                        player.rotateTo(rand(TAU))
+                        player.setRotation(rand(TAU))
                         player.position = playerPositions[i]
                         parent << player
                     }
@@ -144,7 +144,7 @@ class IntroductionCutSceneWorld: World {
                 run: { parent in
                     let player = BasePlayerNode()
                     player.position = CGPoint(x: -200, y: -50)
-                    player.rotateTo(TAU_8)
+                    player.setRotation(TAU_8)
                     parent << player
 
                     8.times { (i: Int) in
@@ -172,7 +172,7 @@ class IntroductionCutSceneWorld: World {
                 run: { parent in
                     let player = BasePlayerNode()
                     player.position = CGPoint(x: 180)
-                    player.rotateTo(-TAU_8)
+                    player.setRotation(-TAU_8)
                     parent << player
                     player.rotateToComponent?.target = TAU_2
 
@@ -182,7 +182,7 @@ class IntroductionCutSceneWorld: World {
                     parent << drone1
 
                     let cannon = CannonNode(at: player.position + CGPoint(x: -150, y: -80))
-                    cannon.rotateTo(150.degrees)
+                    cannon.setRotation(150.degrees)
                     parent << cannon
 
                     self.timeline.after(time: 0.5) {

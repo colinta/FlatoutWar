@@ -13,6 +13,7 @@ class WorldSelectWorld: UIWorld {
         case Select
         case Tutorial
         case Woods
+        case Base
     }
 
     convenience init(beginAt: LevelId) {
@@ -24,6 +25,7 @@ class WorldSelectWorld: UIWorld {
         worldLocations = [
             .Tutorial: CGPoint(-200, 0),
             .Woods: CGPoint(-200, 100),
+            .Base: CGPoint(-100, 100),
         ]
 
         if beginAt == .PanIn {
@@ -44,6 +46,10 @@ class WorldSelectWorld: UIWorld {
             from: CGPoint(x: -200, y: 25),
             to: CGPoint(x: -200, y: 75)
         )
+        worldSelect << Line(
+            from: CGPoint(x: -175, y: 100),
+            to: CGPoint(x: -125, y: 100)
+        )
 
         let summaryConfig = GameConfigSummary()
         let tutorialConfig = TutorialConfigSummary()
@@ -60,7 +66,7 @@ class WorldSelectWorld: UIWorld {
                 self.interactionEnabled = false
                 self.transitionToTutorial()
             }
-            button.text = "0"
+            button.text = "1"
             worldSelect << button
 
             let box = LevelCompleteBox()
@@ -79,7 +85,28 @@ class WorldSelectWorld: UIWorld {
                 self.interactionEnabled = false
                 self.transitionToWoods()
             }
-            button.text = "1"
+            button.text = "2"
+            worldSelect << button
+
+            if button.enabled {
+                let box = LevelCompleteBox()
+                box.size = button.size
+                box.complete = baseConfig.percentCompleted
+                button << box
+            }
+        }
+
+        do {
+            let button = Button(at: worldLocations[.Base]!)
+            button.background = BackgroundColor
+            button.style = .SquareSized(50)
+            button.font = .Big
+            button.enabled = tutorialConfig.worldCompleted
+            button.onTapped {
+                self.interactionEnabled = false
+                self.transitionToBase()
+            }
+            button.text = "3"
             worldSelect << button
 
             if button.enabled {
@@ -95,6 +122,8 @@ class WorldSelectWorld: UIWorld {
             transitionToTutorial(animate: false)
         case .Woods:
             transitionToWoods(animate: false)
+        case .Base:
+            transitionToBase(animate: false)
         default: break
         }
     }
@@ -224,7 +253,7 @@ class WorldSelectWorld: UIWorld {
         }
     }
 
-// MARK: BASE
+// MARK: WOODS
     func transitionToWoods(animate: Bool = true) {
         let levelSelect = transitionToLevel(at: worldLocations[.Woods]!, animate: animate)
 
@@ -269,6 +298,74 @@ class WorldSelectWorld: UIWorld {
             (1, 1, WoodsLevel6()),
             (0, 1, WoodsLevel7()),
             (0, 2, WoodsLevel8()),
+        ]
+        let center = CGPoint(y: -20)
+        let dx: CGFloat = 65
+        let dy: CGFloat = 80
+        for (xOffset, yOffset, level) in levels {
+            let x: CGFloat = (xOffset - 1) * dx
+            let y: CGFloat = (yOffset - 1) * dy
+            let position = center + CGPoint(x, y)
+
+            let button = generateButton(
+                at: position,
+                level: level, prevLevel: prevLevel)
+            button.text = "\(levelIndex + 1)"
+            levelSelect << button
+
+            levelSelect << levelInfo(at: position, level: level)
+
+            if let prevPosition = prevPosition {
+                levelSelect << lineBetween(position, and: prevPosition, enabled: button.enabled)
+            }
+
+            prevLevel = level
+            prevPosition = position
+            levelIndex += 1
+        }
+    }
+
+// MARK: BASE
+    func transitionToBase(animate: Bool = true) {
+        let levelSelect = transitionToLevel(at: worldLocations[.Base]!, animate: animate)
+
+        let tutorialTitle = TextNode(at: CGPoint(y: 130))
+        tutorialTitle.font = .Big
+        tutorialTitle.text = "EPSILON BASE"
+        levelSelect << tutorialTitle
+
+        // wandering enemies
+        do {
+            let center = CGPoint(x: 200, y: 0)
+            let delta: CGFloat = 40
+            let enemyPositions = [
+                center + CGPoint(x: 0, y: -delta),
+                center + CGPoint(x: -delta, y: 0),
+                center + CGPoint(x: 0, y: 0),
+                center + CGPoint(x: delta, y: 0),
+                center + CGPoint(x: 0, y: delta),
+            ]
+            for pos in enemyPositions {
+                let enemyNode = EnemySlowSoldierNode(at: pos)
+                let wanderingComponent = WanderingComponent()
+                wanderingComponent.centeredAround = pos
+                enemyNode.addComponent(wanderingComponent)
+                levelSelect << enemyNode
+            }
+        }
+
+        var prevLevel: Level?
+        var prevPosition: CGPoint?
+        var levelIndex = 0
+        let levels: [(CGFloat, CGFloat, Level)] = [
+            (0, 0, BaseLevel1()),
+            (0, 1, BaseLevel2()),
+            (0, 2, BaseLevel3()),
+            (1, 2, BaseLevel4()),
+            (2, 2, BaseLevel5()),
+            (1, 1, BaseLevel6()),
+            (2, 1, BaseLevel7()),
+            (1, 0, BaseLevel8()),
         ]
         let center = CGPoint(y: -20)
         let dx: CGFloat = 65

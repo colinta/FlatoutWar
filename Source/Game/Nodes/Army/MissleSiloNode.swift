@@ -170,7 +170,7 @@ class MissleSiloNode: Node, DraggableNode {
         updateMissleSprites()
 
         radarSprite.position = CGPoint(r: 100, a: rand(TAU))
-        rotateTo(radarSprite.position.angle)
+        setRotation(radarSprite.position.angle)
     }
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
@@ -270,7 +270,7 @@ extension MissleSiloNode {
         rotateToComponent?.target = angle
     }
 
-    override func rotateTo(_ angle: CGFloat) {
+    override func setRotation(_ angle: CGFloat) {
         baseSprite.zRotation = angle
         radarSprite.zRotation = angle
         turretBox.zRotation = angle

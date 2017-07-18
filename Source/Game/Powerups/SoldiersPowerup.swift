@@ -20,7 +20,7 @@ class SoldiersPowerup: Powerup {
             let dest = playerNode.position + CGPoint(r: 60, a: angle)
             let node = SoldierNode(at: playerNode.position)
             node.restingPosition = dest
-            node.rotateTo(angle)
+            node.setRotation(angle)
             node.moveTo(dest, duration: 1)
             node.fadeTo(1, start: 0, duration: 1)
             layer << node
