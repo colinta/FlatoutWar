@@ -28,6 +28,7 @@ class Level: World {
 
     var levelSelect: WorldSelectWorld.LevelId
     var shouldReturnToLevelSelect = false
+    var shouldAutoZoomOut = true
     var levelSuccess: Bool?
     var playerDeadAudio: BackgroundAudioNode?
 
@@ -78,16 +79,20 @@ class Level: World {
         cameraZoom.rate = nil
 
         fadeTo(1, start: 0, duration: 0.5)
-        timeline.after(time: 1.75, block: {
-            self.cameraZoom.target = 1.0
-            self.cameraZoom.rate = 0.5
-
-            self.timeline.after(time: 2, block: self.populateLevel)
-        })
+        if shouldAutoZoomOut {
+            timeline.after(time: 1.75, block: self.populateZoomOut)
+        }
 
         populateUI()
         populatePlayerNodes()
         populatePowerups()
+    }
+
+    func populateZoomOut() {
+        cameraZoom.target = 1.0
+        cameraZoom.rate = 0.5
+
+        timeline.after(time: 2, block: populateLevel)
     }
 
     override func update(_ dt: CGFloat) {
@@ -243,7 +248,7 @@ extension Level {
     }
 
     fileprivate func populatePlayerNodes() {
-        for node in config.availableArmyNodes {
+        for node in config.availableArmyNodes() {
             addArmyNode(node)
         }
 
@@ -253,7 +258,7 @@ extension Level {
     }
 
     fileprivate func populatePowerups() {
-        let powerups = config.availablePowerups
+        let powerups = config.availablePowerups()
         self.powerups = powerups
         for (index, powerup) in powerups.enumerated() {
             let start: Position = .left(

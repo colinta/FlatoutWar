@@ -56,7 +56,7 @@ class WoodsLevel3CutScene: World {
         }
 
         timeline.after(time: 3) {
-            textNode.fadeTo(0, duration: 0.5)
+            textNode.fadeTo(0, duration: 0.5, removeNode: true)
         }
         timeline.after(time: 3.5, block: secondLine)
     }
@@ -77,7 +77,7 @@ class WoodsLevel3CutScene: World {
 
         let textNode2 = TextNode()
         timeline.after(time: 3) {
-            textNode1.fadeTo(0, duration: 0.5)
+            textNode1.fadeTo(0, duration: 0.5, removeNode: true)
             textNode2.text = "WE ARE BEING\nOVERRUN BY QUADS."
             textNode2.position = CGPoint(x: 30)
             textNode2.fadeTo(1, start: 0, duration: 0.5)
@@ -85,7 +85,7 @@ class WoodsLevel3CutScene: World {
         }
 
         timeline.after(time: 6) {
-            textNode2.fadeTo(0, duration: 0.5)
+            textNode2.fadeTo(0, duration: 0.5, removeNode: true)
         }
         timeline.after(time: 6.5, block: thirdLine)
     }
@@ -105,7 +105,7 @@ class WoodsLevel3CutScene: World {
         }
 
         timeline.after(time: 4) {
-            textNode.fadeTo(0, duration: 0.5)
+            textNode.fadeTo(0, duration: 0.5, removeNode: true)
         }
         timeline.after(time: 4.5, block: fourthLine)
     }
@@ -125,15 +125,15 @@ class WoodsLevel3CutScene: World {
         }
 
         timeline.after(time: 4) {
-            textNode.fadeTo(0, duration: 1)
+            textNode.fadeTo(0, duration: 1, removeNode: true)
             self.nextWorld()
         }
     }
 
     func nextWorld() {
-        basePlayerNode.fadeTo(0, duration: 1)
-        droneNode.fadeTo(0, duration: 1)
-        upgradedDroneNode.fadeTo(0, duration: 1)
+        basePlayerNode.fadeTo(0, duration: 1, removeNode: true)
+        droneNode.fadeTo(0, duration: 1, removeNode: true)
+        upgradedDroneNode.fadeTo(0, duration: 1, removeNode: true)
 
         timeline.after(time: 1) {
             self.director?.presentWorld(WorldSelectWorld(beginAt: .woods))

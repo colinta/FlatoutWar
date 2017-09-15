@@ -19,6 +19,10 @@ let SmallFont = Font(
         CGPoint(-0.25, 6),
         CGPoint(0.25, 6),
     ]]),
+    "'": Letter(style: .line, size: CGSize(0.5, defaultSize.height), points: [[
+        CGPoint(0.25, 0),
+        CGPoint(-0.25, 1),
+        ]]),
     ",": Letter(style: .line, size: CGSize(0.5, defaultSize.height), points: [[
         CGPoint(0.25, 6),
         CGPoint(-0.25, 7),

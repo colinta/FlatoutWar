@@ -27,8 +27,8 @@ class LevelConfig: Config {
         set { Defaults["\(configKey)-didSeeCutScene"] = newValue }
     }
 
-    var availableArmyNodes: [Node] { return [] }
-    var availablePowerups: [Powerup] { return [] }
+    func availableArmyNodes() -> [Node] { return [] }
+    func availablePowerups() -> [Powerup] { return [] }
 
     func updateMaxGainedExperience(_ exp: Int) {
         gainedExperience = min(max(exp, gainedExperience), possibleExperience)

@@ -5,6 +5,8 @@
 private let StartingHealth: Float = 35
 
 class ShotgunNode: Node, DraggableNode {
+    var preferredAngle: CGFloat?
+
     var movementUpgrade: HasUpgrade = .false { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
     var bulletUpgrade: HasUpgrade = .false { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
     var radarUpgrade: HasUpgrade = .false { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
@@ -109,6 +111,9 @@ class ShotgunNode: Node, DraggableNode {
                 let angle: CGFloat
                 if let playerNode = self.playerNode {
                     angle = playerNode.convertPosition(self).angle
+                }
+                else if let preferredAngle = self.preferredAngle {
+                    angle = preferredAngle
                 }
                 else {
                     angle = self.position.angle

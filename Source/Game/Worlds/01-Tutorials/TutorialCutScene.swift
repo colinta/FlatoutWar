@@ -46,7 +46,7 @@ class TutorialCutScene: World {
                 to: self.droneZoom,
                 duration: 0.5
             )
-            textNode.fadeTo(0, duration: 0.5)
+            textNode.fadeTo(0, duration: 0.5, removeNode: true)
         }
         timeline.after(time: 3.5, block: secondLine)
     }
@@ -59,7 +59,7 @@ class TutorialCutScene: World {
         self << textNode
 
         timeline.after(time: 3) {
-            textNode.fadeTo(0, duration: 0.5)
+            textNode.fadeTo(0, duration: 0.5, removeNode: true)
         }
         timeline.after(time: 3.5, block: thirdLine)
     }
@@ -76,7 +76,7 @@ class TutorialCutScene: World {
                 to: self.baseZoom,
                 duration: 0.5
             )
-            textNode.fadeTo(0, duration: 0.5)
+            textNode.fadeTo(0, duration: 0.5, removeNode: true)
         }
         timeline.after(time: 4.5, block: fourthLine)
     }
@@ -89,14 +89,17 @@ class TutorialCutScene: World {
         self << textNode
 
         timeline.after(time: 4) {
-            textNode.fadeTo(0, duration: 1)
-            self.basePlayerNode.fadeTo(0, duration: 1)
-            self.droneNode.fadeTo(0, duration: 1)
+            textNode.fadeTo(0, duration: 1, removeNode: true)
+            self.nextWorld()
         }
-        timeline.after(time: 5, block: nextWorld)
     }
 
     func nextWorld() {
-        director?.presentWorld(WorldSelectWorld(beginAt: .woods))
+        basePlayerNode.fadeTo(0, duration: 1, removeNode: true)
+        droneNode.fadeTo(0, duration: 1, removeNode: true)
+
+        timeline.after(time: 1) {
+            self.director?.presentWorld(WorldSelectWorld(beginAt: .woods))
+        }
     }
 }

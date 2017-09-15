@@ -2,7 +2,7 @@
 ///  OceanLevel5Config.swift
 //
 
-class OceanLevel5Config: OceanLevelPart2Config {
+class OceanLevel5Config: OceanLevelConfig {
     override var possibleExperience: Int { return 999 }
 
     override func nextLevel() -> Level {

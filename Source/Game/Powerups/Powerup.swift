@@ -78,11 +78,11 @@ class Powerup {
         let button = Button(at: start)
         button << powerupCountdown
         button << icon()
-        level.gameUI << button
         button << powerupCount
         button.onTapped(self.activateIfEnabled)
-        button.moveTo(dest, duration: 1)
         powerupButton = button
+        level.gameUI << button
+        button.moveTo(dest, duration: 1)
 
         let cancelButton = Button()
         cancelButton.visible = false
@@ -101,7 +101,7 @@ class Powerup {
         guard cancellable else { return }
         guard let powerupCancelButton = powerupCancelButton, let powerupButton = powerupButton else { return }
         if let parent = powerupButton.parent, parent != powerupCancelButton.parent {
-            powerupCancelButton.removeFromParent()
+            powerupCancelButton.removeFromParent(reset: false)
             parent << powerupCancelButton
         }
         powerupCancelButton.position = powerupButton.position
@@ -174,60 +174,60 @@ class Powerup {
     }
 
     func onNextTap(slowmo: Bool = false, onTap: @escaping (CGPoint) -> Void) {
-        if let level = level {
-            if slowmo {
-                self.slowmo(on: true)
-            }
+        guard let level = level else { return }
 
-            let tapNode = Node()
-            level << tapNode
-            powerupEnabled = false
-
-            let prevDefault = level.defaultNode
-            level.defaultNode = tapNode
-
-            let restore: (Bool) -> Void = { slowmo in
-                if slowmo {
-                    self.slowmo(on: false)
-                }
-
-                level.defaultNode = prevDefault
-                self.powerupEnabled = true
-                tapNode.removeFromParent()
-            }
-
-            let cancelTimeout: Block
-            if cancellable {
-                let cancel: Block = {
-                    self.powerupEnd()
-                    restore(true)
-                }
-                cancelTimeout = level.timeline.cancellable.after(time: 3 * level.timeRate, block: cancel)
-                self.powerupCancel = cancel ++ cancelTimeout
-            }
-            else {
-                cancelTimeout = {}
-            }
-
-            let touchComponent = TouchableComponent()
-            touchComponent.on(.down) { location in
-                self.powerupCancel = nil
-                cancelTimeout()
-
-                let node = Node()
-                node.position = location
-                node << SKSpriteNode(id: .colorCircle(size: CGSize(60), color: WhiteColor))
-                node.scaleTo(0, duration: 0.3, removeNode: true)
-                level.addChild(node)
-
-                let position = tapNode.convert(location, to: level)
-                onTap(position)
-
-                self.powerupRunning()
-                restore(slowmo)
-            }
-            tapNode.addComponent(touchComponent)
+        if slowmo {
+            self.slowmo(on: true)
         }
+
+        let tapNode = Node()
+        level << tapNode
+        powerupEnabled = false
+
+        let prevDefault = level.defaultNode
+        level.defaultNode = tapNode
+
+        let restore: (Bool) -> Void = { slowmo in
+            if slowmo {
+                self.slowmo(on: false)
+            }
+
+            level.defaultNode = prevDefault
+            self.powerupEnabled = true
+            tapNode.removeFromParent()
+        }
+
+        let cancelTimeout: Block
+        if cancellable {
+            let cancel: Block = {
+                self.powerupEnd()
+                restore(true)
+            }
+            cancelTimeout = level.timeline.cancellable.after(time: 3 * level.timeRate, block: cancel)
+            self.powerupCancel = cancel ++ cancelTimeout
+        }
+        else {
+            cancelTimeout = {}
+        }
+
+        let touchComponent = TouchableComponent()
+        touchComponent.on(.down) { location in
+            self.powerupCancel = nil
+            cancelTimeout()
+
+            let node = Node()
+            node.position = location
+            node << SKSpriteNode(id: .colorCircle(size: CGSize(60), color: WhiteColor))
+            node.scaleTo(0, duration: 0.3, removeNode: true)
+            level.addChild(node)
+
+            let position = tapNode.convert(location, to: level)
+            onTap(position)
+
+            self.powerupRunning()
+            restore(slowmo)
+        }
+        tapNode.addComponent(touchComponent)
     }
 
     func levelCompleted() {

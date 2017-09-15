@@ -354,7 +354,7 @@ class WorldSelectWorld: UIWorld {
 
         let tutorialTitle = TextNode(at: CGPoint(y: 130))
         tutorialTitle.font = .big
-        tutorialTitle.text = "UNDER ASSAULT"
+        tutorialTitle.text = "REINFORCEMENTS"
         levelSelect << tutorialTitle
 
         // wandering enemies
