@@ -222,14 +222,14 @@ extension ImageIdentifier {
                 )
             return artist
 
-        case let .shotgunNode(movementUpgrade, bulletUpgrade, radarUpgrade, healthInt):
+        case let .guardNode(movementUpgrade, bulletUpgrade, radarUpgrade, healthInt):
             let health = CGFloat(healthInt) / 100
-            let artist = ShotgunArtist(movementUpgrade, bulletUpgrade, radarUpgrade, health: health)
+            let artist = GuardArtist(movementUpgrade, bulletUpgrade, radarUpgrade, health: health)
             return artist
-        case let .shotgunTurret(upgrade):
-            return ShotgunTurretArtist(hasUpgrade: upgrade.boolValue)
-        case let .shotgunRadar(upgrade, isSelected):
-           let artist = ShotgunRadarArtist(
+        case let .guardTurret(upgrade):
+            return GuardTurretArtist(hasUpgrade: upgrade.boolValue)
+        case let .guardRadar(upgrade, isSelected):
+           let artist = GuardRadarArtist(
                 hasUpgrade: upgrade.boolValue,
                radius: upgrade.shotgunRadarRadius,
                sweepAngle: upgrade.shotgunSweepAngle,

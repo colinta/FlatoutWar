@@ -1,16 +1,16 @@
 ////
-///  ShotgunArtist.swift
+///  GuardArtist.swift
 //
 
-var ShotgunBaseColor = 0x983C10
-let ShotgunUpgradeColor = 0x85433A
-var ShotgunStrokeColor = 0x983C10
-var ShotgunRadar1Color = 0x7A401E
-var ShotgunRadar2Color = 0x756151
-var ShotgunTurretFillColor = 0x9F5926
-var ShotgunTurretStrokeColor = 0xB8AF8F
+var GuardBaseColor = 0x983C10
+let GuardUpgradeColor = 0x85433A
+var GuardStrokeColor = 0x983C10
+var GuardRadar1Color = 0x7A401E
+var GuardRadar2Color = 0x756151
+var GuardTurretFillColor = 0x9F5926
+var GuardTurretStrokeColor = 0xB8AF8F
 
-class ShotgunArtist: PolygonArtist {
+class GuardArtist: PolygonArtist {
     var movementUpgrade: HasUpgrade
     var bulletUpgrade: HasUpgrade
     var radarUpgrade: HasUpgrade
@@ -21,7 +21,7 @@ class ShotgunArtist: PolygonArtist {
         self.radarUpgrade = radarUpgrade
         super.init(pointCount: 7, health: health)
 
-        strokeColor = UIColor(hex: ShotgunStrokeColor)
+        strokeColor = UIColor(hex: GuardStrokeColor)
         fillColor = UIColor(hex: radarUpgrade.shotgunBaseColor)
         if movementUpgrade.boolValue {
             size = CGSize(34)
@@ -90,10 +90,10 @@ class ShotgunArtist: PolygonArtist {
     }
 }
 
-class ShotgunTurretArtist: Artist {
+class GuardTurretArtist: Artist {
     let hasUpgrade: Bool
-    let fillColor = UIColor(hex: ShotgunTurretFillColor)
-    let strokeColor = UIColor(hex: ShotgunTurretStrokeColor)
+    let fillColor = UIColor(hex: GuardTurretFillColor)
+    let strokeColor = UIColor(hex: GuardTurretStrokeColor)
 
     required init(hasUpgrade: Bool) {
         self.hasUpgrade = hasUpgrade

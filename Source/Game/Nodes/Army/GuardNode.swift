@@ -1,10 +1,10 @@
 ////
-///  ShotgunNode.swift
+///  GuardNode.swift
 //
 
 private let StartingHealth: Float = 35
 
-class ShotgunNode: Node, DraggableNode {
+class GuardNode: Node, DraggableNode {
     var preferredAngle: CGFloat?
 
     var movementUpgrade: HasUpgrade = .false { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
@@ -14,14 +14,14 @@ class ShotgunNode: Node, DraggableNode {
     let armyComponent = SelectableArmyComponent()
 
     fileprivate func updateBaseSprite() {
-        baseSprite.textureId(.shotgunNode(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: healthComponent?.healthInt ?? 100))
-        placeholder.textureId(.shotgunNode(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: 100))
+        baseSprite.textureId(.guardNode(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: healthComponent?.healthInt ?? 100))
+        placeholder.textureId(.guardNode(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: 100))
     }
     fileprivate func updateRadarSprite() {
-        radarSprite.textureId(.shotgunRadar(upgrade: radarUpgrade, isSelected: armyComponent.isCurrent))
+        radarSprite.textureId(.guardRadar(upgrade: radarUpgrade, isSelected: armyComponent.isCurrent))
     }
     fileprivate func updateUpgrades() {
-        turretSprite.textureId(.shotgunTurret(upgrade: bulletUpgrade))
+        turretSprite.textureId(.guardTurret(upgrade: bulletUpgrade))
         updateBaseSprite()
         updateRadarSprite()
 
@@ -148,7 +148,7 @@ class ShotgunNode: Node, DraggableNode {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func clone() -> Node {
-        let node = super.clone() as! ShotgunNode
+        let node = super.clone() as! GuardNode
         node.movementUpgrade = movementUpgrade
         node.bulletUpgrade = bulletUpgrade
         node.radarUpgrade = radarUpgrade
@@ -184,7 +184,7 @@ class ShotgunNode: Node, DraggableNode {
 }
 
 // MARK: Fire Bullet
-extension ShotgunNode {
+extension GuardNode {
     fileprivate func fireBullet(angle: CGFloat) {
         guard let world = world else { return }
 
@@ -203,7 +203,7 @@ extension ShotgunNode {
 }
 
 // MARK: Rotation
-extension ShotgunNode {
+extension GuardNode {
     override func setRotation(_ angle: CGFloat) {
         radarSprite.zRotation = angle
         get(component: RotateScanComponent.self)?.reorient()

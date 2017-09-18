@@ -226,7 +226,7 @@ class LaserRadarArtist: Artist {
     }
 }
 
-class ShotgunRadarArtist: Artist {
+class GuardRadarArtist: Artist {
     let hasUpgrade: Bool
     let radius: CGFloat
     let halfAngle: CGFloat

@@ -1,9 +1,9 @@
 ////
-///  ShotgunUpgrades.swift
+///  GuardUpgrades.swift
 //
 
 
-extension ShotgunNode: UpgradeableNode {
+extension GuardNode: UpgradeableNode {
     func upgradeTitle() -> String {
         return "SEPTENTRION"
     }
@@ -104,14 +104,14 @@ extension HasUpgrade {
 
     var shotgunBaseColor: Int {
         switch self {
-            case .false: return ShotgunBaseColor
-            case .true: return ShotgunUpgradeColor
+            case .false: return GuardBaseColor
+            case .true: return GuardUpgradeColor
         }
     }
     var shotgunRadarColor: Int {
         switch self {
-            case .false: return ShotgunRadar1Color
-            case .true: return ShotgunRadar2Color
+            case .false: return GuardRadar1Color
+            case .true: return GuardRadar2Color
         }
     }
 

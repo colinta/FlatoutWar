@@ -11,7 +11,7 @@ class OceanLevel1: OceanLevel {
         super.populateWorld()
 
         for player in players {
-            guard let node = player as? ShotgunNode else { continue }
+            guard let node = player as? GuardNode else { continue }
 
             node.preferredAngle = 0
             node.draggableComponent?.maintainDistance(150, around: playerNode)

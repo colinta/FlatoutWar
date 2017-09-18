@@ -15,9 +15,9 @@ class OceanLevel1Config: OceanLevelConfig {
         let nodes = super.availableArmyNodes()
         let dy: CGFloat = 40
         let septentrions: [Node] = [
-            ShotgunNode(at: CGPoint(y: dy)),
-            ShotgunNode(at: CGPoint(y: 0)),
-            ShotgunNode(at: CGPoint(y: -dy)),
+            GuardNode(at: CGPoint(y: dy)),
+            GuardNode(at: CGPoint(y: 0)),
+            GuardNode(at: CGPoint(y: -dy)),
         ]
         return nodes + septentrions
     }

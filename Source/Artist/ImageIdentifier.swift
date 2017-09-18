@@ -82,9 +82,9 @@ indirect enum ImageIdentifier {
     case laserTurret(upgrade: HasUpgrade, isFiring: Bool)
     case laserRadar(upgrade: HasUpgrade, isSelected: Bool)
 
-    case shotgunNode(movementUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, radarUpgrade: HasUpgrade, health: Int)
-    case shotgunTurret(upgrade: HasUpgrade)
-    case shotgunRadar(upgrade: HasUpgrade, isSelected: Bool)
+    case guardNode(movementUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, radarUpgrade: HasUpgrade, health: Int)
+    case guardTurret(upgrade: HasUpgrade)
+    case guardRadar(upgrade: HasUpgrade, isSelected: Bool)
 
     case cannon(upgrade: HasUpgrade, health: Int)
     case cannonBox(upgrade: HasUpgrade)
@@ -219,12 +219,12 @@ indirect enum ImageIdentifier {
         case let .laserRadar(upgrade, isSelected):
             return "laserRadar_upgrade-\(upgrade.name)_isSelected-\(isSelected)"
 
-        case let .shotgunNode(movementUpgrade, bulletUpgrade, radarUpgrade, health):
-            return "shotgunNode_movementUpgrade-\(movementUpgrade.name)_bulletUpgrade-\(bulletUpgrade.name)_radarUpgrade-\(radarUpgrade.name)_health-\(health)"
-        case let .shotgunTurret(upgrade):
-            return "shotgunTurret_upgrade-\(upgrade.name)"
-        case let .shotgunRadar(upgrade, isSelected):
-            return "shotgunRadar_upgrade-\(upgrade.name)_isSelected-\(isSelected)"
+        case let .guardNode(movementUpgrade, bulletUpgrade, radarUpgrade, health):
+            return "GuardNode_movementUpgrade-\(movementUpgrade.name)_bulletUpgrade-\(bulletUpgrade.name)_radarUpgrade-\(radarUpgrade.name)_health-\(health)"
+        case let .guardTurret(upgrade):
+            return "GuardTurret_upgrade-\(upgrade.name)"
+        case let .guardRadar(upgrade, isSelected):
+            return "GuardRadar_upgrade-\(upgrade.name)_isSelected-\(isSelected)"
 
         case let .cannon(upgrade, health):
             return "cannon_upgrade-\(upgrade.name)_health-\(health)"
