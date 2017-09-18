@@ -17,6 +17,29 @@
 		1D06D6D41E4AE359004FA878 /* WoodsLevel6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D06D6D11E4AE359004FA878 /* WoodsLevel6.swift */; };
 		1D06D6D51E4AE359004FA878 /* WoodsLevel7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D06D6D21E4AE359004FA878 /* WoodsLevel7.swift */; };
 		1D06D6D61E4AE359004FA878 /* WoodsLevel8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D06D6D31E4AE359004FA878 /* WoodsLevel8.swift */; };
+		1D3DA1A01F701DF10043B0B1 /* DroneArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA1971F701DF10043B0B1 /* DroneArtist.swift */; };
+		1D3DA1A11F701DF10043B0B1 /* DroneRadarArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA1981F701DF10043B0B1 /* DroneRadarArtist.swift */; };
+		1D3DA1A21F701DF10043B0B1 /* LaserArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA1991F701DF10043B0B1 /* LaserArtist.swift */; };
+		1D3DA1A31F701DF10043B0B1 /* ShotgunArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA19A1F701DF10043B0B1 /* ShotgunArtist.swift */; };
+		1D3DA1A41F701DF10043B0B1 /* BaseTurretArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA19B1F701DF10043B0B1 /* BaseTurretArtist.swift */; };
+		1D3DA1A51F701DF10043B0B1 /* RadarArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA19C1F701DF10043B0B1 /* RadarArtist.swift */; };
+		1D3DA1A61F701DF10043B0B1 /* MissleSiloArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA19D1F701DF10043B0B1 /* MissleSiloArtist.swift */; };
+		1D3DA1A71F701DF10043B0B1 /* CannonArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA19E1F701DF10043B0B1 /* CannonArtist.swift */; };
+		1D3DA1A81F701DF10043B0B1 /* BaseArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA19F1F701DF10043B0B1 /* BaseArtist.swift */; };
+		1D3DA1AC1F701E270043B0B1 /* BombArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA1AB1F701E270043B0B1 /* BombArtist.swift */; };
+		1D3DA1B01F701E510043B0B1 /* EnemyJetArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA1AD1F701E510043B0B1 /* EnemyJetArtist.swift */; };
+		1D3DA1B11F701E510043B0B1 /* EnemyDiamondArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA1AE1F701E510043B0B1 /* EnemyDiamondArtist.swift */; };
+		1D3DA1B21F701E510043B0B1 /* EnemySoldierArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA1AF1F701E510043B0B1 /* EnemySoldierArtist.swift */; };
+		1D3DA1B41F701E630043B0B1 /* HourglassZoneArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA1B31F701E630043B0B1 /* HourglassZoneArtist.swift */; };
+		1D3DA1B61F701E750043B0B1 /* WoodsBossArtists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA1B51F701E750043B0B1 /* WoodsBossArtists.swift */; };
+		1D3DA1BA1F7022A80043B0B1 /* BulletArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA1B91F7022A80043B0B1 /* BulletArtist.swift */; };
+		1D3DA1BC1F7022AD0043B0B1 /* ButtonArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA1BB1F7022AD0043B0B1 /* ButtonArtist.swift */; };
+		1D3DA1BE1F70236C0043B0B1 /* CursorArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA1BD1F70236C0043B0B1 /* CursorArtist.swift */; };
+		1D3DA1C31F7023730043B0B1 /* LetterAndFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA1BF1F7023730043B0B1 /* LetterAndFont.swift */; };
+		1D3DA1C41F7023730043B0B1 /* TextArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA1C01F7023730043B0B1 /* TextArtist.swift */; };
+		1D3DA1C51F7023730043B0B1 /* DotArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA1C11F7023730043B0B1 /* DotArtist.swift */; };
+		1D3DA1C61F7023730043B0B1 /* WarningArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA1C21F7023730043B0B1 /* WarningArtist.swift */; };
+		1D3DA1C81F7023760043B0B1 /* PercentArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DA1C71F7023760043B0B1 /* PercentArtist.swift */; };
 		1D5C44031DDAAF6F00FDBF7E /* BasePlayerUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C44021DDAAF6F00FDBF7E /* BasePlayerUpgrades.swift */; };
 		1D66EE391EA1C317009CE669 /* WoodsConfigSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE2F1EA1C317009CE669 /* WoodsConfigSummary.swift */; };
 		1D66EE3A1EA1C317009CE669 /* WoodsLevel1Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D66EE301EA1C317009CE669 /* WoodsLevel1Config.swift */; };
@@ -234,35 +257,15 @@
 		1D6AA0C81DD79B5D004A0978 /* SmallFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0C51DD79B5D004A0978 /* SmallFont.swift */; };
 		1D6AA0C91DD79B5D004A0978 /* TinyFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0C61DD79B5D004A0978 /* TinyFont.swift */; };
 		1D6AA0E31DD79B62004A0978 /* Artist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0CA1DD79B62004A0978 /* Artist.swift */; };
-		1D6AA0E41DD79B62004A0978 /* BaseArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0CB1DD79B62004A0978 /* BaseArtist.swift */; };
-		1D6AA0E51DD79B62004A0978 /* BaseTurretArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0CC1DD79B62004A0978 /* BaseTurretArtist.swift */; };
-		1D6AA0E61DD79B62004A0978 /* BombArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0CD1DD79B62004A0978 /* BombArtist.swift */; };
-		1D6AA0E71DD79B62004A0978 /* BulletArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0CE1DD79B62004A0978 /* BulletArtist.swift */; };
-		1D6AA0E81DD79B62004A0978 /* ButtonArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0CF1DD79B62004A0978 /* ButtonArtist.swift */; };
-		1D6AA0E91DD79B62004A0978 /* CursorArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0D01DD79B62004A0978 /* CursorArtist.swift */; };
-		1D6AA0EA1DD79B62004A0978 /* DotArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0D11DD79B62004A0978 /* DotArtist.swift */; };
-		1D6AA0EB1DD79B62004A0978 /* DroneArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0D21DD79B62004A0978 /* DroneArtist.swift */; };
-		1D6AA0EC1DD79B62004A0978 /* DroneRadarArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0D31DD79B62004A0978 /* DroneRadarArtist.swift */; };
-		1D6AA0ED1DD79B62004A0978 /* EnemyDiamondArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0D41DD79B62004A0978 /* EnemyDiamondArtist.swift */; };
-		1D6AA0EE1DD79B62004A0978 /* EnemyJetArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0D51DD79B62004A0978 /* EnemyJetArtist.swift */; };
-		1D6AA0EF1DD79B62004A0978 /* EnemySoldierArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0D61DD79B62004A0978 /* EnemySoldierArtist.swift */; };
-		1D6AA0F01DD79B62004A0978 /* HourglassZoneArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0D71DD79B62004A0978 /* HourglassZoneArtist.swift */; };
 		1D6AA0F11DD79B62004A0978 /* ImageArtists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0D81DD79B62004A0978 /* ImageArtists.swift */; };
 		1D6AA0F21DD79B62004A0978 /* ImageIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0D91DD79B62004A0978 /* ImageIdentifier.swift */; };
-		1D6AA0F31DD79B62004A0978 /* LetterAndFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0DA1DD79B62004A0978 /* LetterAndFont.swift */; };
 		1D6AA0F41DD79B62004A0978 /* LightningArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0DB1DD79B62004A0978 /* LightningArtist.swift */; };
-		1D6AA0F51DD79B62004A0978 /* PercentArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0DC1DD79B62004A0978 /* PercentArtist.swift */; };
-		1D6AA0F61DD79B62004A0978 /* RadarArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0DD1DD79B62004A0978 /* RadarArtist.swift */; };
 		1D6AA0F81DD79B62004A0978 /* ShapeArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0DF1DD79B62004A0978 /* ShapeArtist.swift */; };
-		1D6AA0F91DD79B62004A0978 /* TextArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0E01DD79B62004A0978 /* TextArtist.swift */; };
-		1D6AA0FA1DD79B62004A0978 /* CannonArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0E11DD79B62004A0978 /* CannonArtist.swift */; };
-		1D6AA0FB1DD79B62004A0978 /* WarningArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0E21DD79B62004A0978 /* WarningArtist.swift */; };
 		1D6AA0FD1DD79B68004A0978 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0FC1DD79B68004A0978 /* AppDelegate.swift */; };
 		1D6AA0FF1DD79BB4004A0978 /* Sound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA0FE1DD79BB4004A0978 /* Sound.swift */; };
 		1D6AA1191DD79BF8004A0978 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1161DD79BF8004A0978 /* Currency.swift */; };
 		1D6AA11A1DD79BF8004A0978 /* NodeStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1171DD79BF8004A0978 /* NodeStorage.swift */; };
 		1D6AA11B1DD79BF8004A0978 /* PowerupStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D6AA1181DD79BF8004A0978 /* PowerupStorage.swift */; };
-		1D7A42DA1E118C1C002F37FA /* MissleSiloArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42D91E118C1C002F37FA /* MissleSiloArtist.swift */; };
 		1D7A42DC1E118FE4002F37FA /* PolygonArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42DB1E118FE4002F37FA /* PolygonArtist.swift */; };
 		1D7A42DE1E11927D002F37FA /* MissleSiloUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42DD1E11927D002F37FA /* MissleSiloUpgrades.swift */; };
 		1D7A42E21E11A83B002F37FA /* MissleNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42E11E11A83B002F37FA /* MissleNode.swift */; };
@@ -279,8 +282,6 @@
 		1D971CDE1E1479E700A167A2 /* BackgroundAudioNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CDA1E1479E700A167A2 /* BackgroundAudioNode.swift */; };
 		1D971CDF1E1479E700A167A2 /* ExperiencePercent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CDB1E1479E700A167A2 /* ExperiencePercent.swift */; };
 		1D971CE01E1479E700A167A2 /* LabelPercent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CDC1E1479E700A167A2 /* LabelPercent.swift */; };
-		1D971CE41E16CD9400A167A2 /* LaserArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CE21E16CD9400A167A2 /* LaserArtist.swift */; };
-		1D971CE51E16CD9400A167A2 /* ShotgunArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CE31E16CD9400A167A2 /* ShotgunArtist.swift */; };
 		1D971CE71E18381300A167A2 /* LaserNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CE61E18381300A167A2 /* LaserNode.swift */; };
 		1D971CE91E18381B00A167A2 /* LaserUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CE81E18381B00A167A2 /* LaserUpgrades.swift */; };
 		1D971CEB1E1C894600A167A2 /* ShotgunNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CEA1E1C894500A167A2 /* ShotgunNode.swift */; };
@@ -310,7 +311,6 @@
 		1DC78A4C1F1EA3BA00BE2413 /* OceanLevel8CutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A371F1EA3BA00BE2413 /* OceanLevel8CutScene.swift */; };
 		1DC78A4D1F1EA3BA00BE2413 /* OceanLevelConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A381F1EA3BA00BE2413 /* OceanLevelConfig.swift */; };
 		1DF0B2E01E8F3BE0001B9F97 /* WoodsLevel8CutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2DF1E8F3BE0001B9F97 /* WoodsLevel8CutScene.swift */; };
-		1DF0B2E21E8F4792001B9F97 /* WoodsBossArtists.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2E11E8F4792001B9F97 /* WoodsBossArtists.swift */; };
 		1DF0B2E41E8F4A9B001B9F97 /* WoodsBossNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2E31E8F4A9B001B9F97 /* WoodsBossNode.swift */; };
 		216146732396C15720CD939B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F03135BA42322EAF9BCCB836 /* Foundation.framework */; };
 		275B0C2755BBFC08B0072403 /* NSMutableDictionary+WeakReferences.m in Sources */ = {isa = PBXBuildFile; fileRef = A2BBF808C8061FB024CDB563 /* NSMutableDictionary+WeakReferences.m */; };
@@ -363,6 +363,29 @@
 		1D06D6D11E4AE359004FA878 /* WoodsLevel6.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel6.swift; sourceTree = "<group>"; };
 		1D06D6D21E4AE359004FA878 /* WoodsLevel7.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel7.swift; sourceTree = "<group>"; };
 		1D06D6D31E4AE359004FA878 /* WoodsLevel8.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel8.swift; sourceTree = "<group>"; };
+		1D3DA1971F701DF10043B0B1 /* DroneArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DroneArtist.swift; sourceTree = "<group>"; };
+		1D3DA1981F701DF10043B0B1 /* DroneRadarArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DroneRadarArtist.swift; sourceTree = "<group>"; };
+		1D3DA1991F701DF10043B0B1 /* LaserArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaserArtist.swift; sourceTree = "<group>"; };
+		1D3DA19A1F701DF10043B0B1 /* ShotgunArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShotgunArtist.swift; sourceTree = "<group>"; };
+		1D3DA19B1F701DF10043B0B1 /* BaseTurretArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTurretArtist.swift; sourceTree = "<group>"; };
+		1D3DA19C1F701DF10043B0B1 /* RadarArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadarArtist.swift; sourceTree = "<group>"; };
+		1D3DA19D1F701DF10043B0B1 /* MissleSiloArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleSiloArtist.swift; sourceTree = "<group>"; };
+		1D3DA19E1F701DF10043B0B1 /* CannonArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonArtist.swift; sourceTree = "<group>"; };
+		1D3DA19F1F701DF10043B0B1 /* BaseArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseArtist.swift; sourceTree = "<group>"; };
+		1D3DA1AB1F701E270043B0B1 /* BombArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BombArtist.swift; sourceTree = "<group>"; };
+		1D3DA1AD1F701E510043B0B1 /* EnemyJetArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyJetArtist.swift; sourceTree = "<group>"; };
+		1D3DA1AE1F701E510043B0B1 /* EnemyDiamondArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyDiamondArtist.swift; sourceTree = "<group>"; };
+		1D3DA1AF1F701E510043B0B1 /* EnemySoldierArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemySoldierArtist.swift; sourceTree = "<group>"; };
+		1D3DA1B31F701E630043B0B1 /* HourglassZoneArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HourglassZoneArtist.swift; sourceTree = "<group>"; };
+		1D3DA1B51F701E750043B0B1 /* WoodsBossArtists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsBossArtists.swift; sourceTree = "<group>"; };
+		1D3DA1B91F7022A80043B0B1 /* BulletArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulletArtist.swift; sourceTree = "<group>"; };
+		1D3DA1BB1F7022AD0043B0B1 /* ButtonArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonArtist.swift; sourceTree = "<group>"; };
+		1D3DA1BD1F70236C0043B0B1 /* CursorArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CursorArtist.swift; sourceTree = "<group>"; };
+		1D3DA1BF1F7023730043B0B1 /* LetterAndFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetterAndFont.swift; sourceTree = "<group>"; };
+		1D3DA1C01F7023730043B0B1 /* TextArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextArtist.swift; sourceTree = "<group>"; };
+		1D3DA1C11F7023730043B0B1 /* DotArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotArtist.swift; sourceTree = "<group>"; };
+		1D3DA1C21F7023730043B0B1 /* WarningArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarningArtist.swift; sourceTree = "<group>"; };
+		1D3DA1C71F7023760043B0B1 /* PercentArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PercentArtist.swift; sourceTree = "<group>"; };
 		1D4DDB5AAED0E76492AA9C81 /* ALWrapper.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = ALWrapper.h; path = ObjectAL/OpenAL/ALWrapper.h; sourceTree = "<group>"; };
 		1D5C44021DDAAF6F00FDBF7E /* BasePlayerUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasePlayerUpgrades.swift; sourceTree = "<group>"; };
 		1D66EE2F1EA1C317009CE669 /* WoodsConfigSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsConfigSummary.swift; sourceTree = "<group>"; };
@@ -581,35 +604,15 @@
 		1D6AA0C51DD79B5D004A0978 /* SmallFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SmallFont.swift; sourceTree = "<group>"; };
 		1D6AA0C61DD79B5D004A0978 /* TinyFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TinyFont.swift; sourceTree = "<group>"; };
 		1D6AA0CA1DD79B62004A0978 /* Artist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Artist.swift; sourceTree = "<group>"; };
-		1D6AA0CB1DD79B62004A0978 /* BaseArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseArtist.swift; sourceTree = "<group>"; };
-		1D6AA0CC1DD79B62004A0978 /* BaseTurretArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseTurretArtist.swift; sourceTree = "<group>"; };
-		1D6AA0CD1DD79B62004A0978 /* BombArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BombArtist.swift; sourceTree = "<group>"; };
-		1D6AA0CE1DD79B62004A0978 /* BulletArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BulletArtist.swift; sourceTree = "<group>"; };
-		1D6AA0CF1DD79B62004A0978 /* ButtonArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonArtist.swift; sourceTree = "<group>"; };
-		1D6AA0D01DD79B62004A0978 /* CursorArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CursorArtist.swift; sourceTree = "<group>"; };
-		1D6AA0D11DD79B62004A0978 /* DotArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DotArtist.swift; sourceTree = "<group>"; };
-		1D6AA0D21DD79B62004A0978 /* DroneArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DroneArtist.swift; sourceTree = "<group>"; };
-		1D6AA0D31DD79B62004A0978 /* DroneRadarArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DroneRadarArtist.swift; sourceTree = "<group>"; };
-		1D6AA0D41DD79B62004A0978 /* EnemyDiamondArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyDiamondArtist.swift; sourceTree = "<group>"; };
-		1D6AA0D51DD79B62004A0978 /* EnemyJetArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyJetArtist.swift; sourceTree = "<group>"; };
-		1D6AA0D61DD79B62004A0978 /* EnemySoldierArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemySoldierArtist.swift; sourceTree = "<group>"; };
-		1D6AA0D71DD79B62004A0978 /* HourglassZoneArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HourglassZoneArtist.swift; sourceTree = "<group>"; };
 		1D6AA0D81DD79B62004A0978 /* ImageArtists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageArtists.swift; sourceTree = "<group>"; };
 		1D6AA0D91DD79B62004A0978 /* ImageIdentifier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageIdentifier.swift; sourceTree = "<group>"; };
-		1D6AA0DA1DD79B62004A0978 /* LetterAndFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LetterAndFont.swift; sourceTree = "<group>"; };
 		1D6AA0DB1DD79B62004A0978 /* LightningArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LightningArtist.swift; sourceTree = "<group>"; };
-		1D6AA0DC1DD79B62004A0978 /* PercentArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PercentArtist.swift; sourceTree = "<group>"; };
-		1D6AA0DD1DD79B62004A0978 /* RadarArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RadarArtist.swift; sourceTree = "<group>"; };
 		1D6AA0DF1DD79B62004A0978 /* ShapeArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShapeArtist.swift; sourceTree = "<group>"; };
-		1D6AA0E01DD79B62004A0978 /* TextArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextArtist.swift; sourceTree = "<group>"; };
-		1D6AA0E11DD79B62004A0978 /* CannonArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonArtist.swift; sourceTree = "<group>"; };
-		1D6AA0E21DD79B62004A0978 /* WarningArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarningArtist.swift; sourceTree = "<group>"; };
 		1D6AA0FC1DD79B68004A0978 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1D6AA0FE1DD79BB4004A0978 /* Sound.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sound.swift; sourceTree = "<group>"; };
 		1D6AA1161DD79BF8004A0978 /* Currency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		1D6AA1171DD79BF8004A0978 /* NodeStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NodeStorage.swift; sourceTree = "<group>"; };
 		1D6AA1181DD79BF8004A0978 /* PowerupStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerupStorage.swift; sourceTree = "<group>"; };
-		1D7A42D91E118C1C002F37FA /* MissleSiloArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleSiloArtist.swift; sourceTree = "<group>"; };
 		1D7A42DB1E118FE4002F37FA /* PolygonArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonArtist.swift; sourceTree = "<group>"; };
 		1D7A42DD1E11927D002F37FA /* MissleSiloUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleSiloUpgrades.swift; sourceTree = "<group>"; };
 		1D7A42E11E11A83B002F37FA /* MissleNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleNode.swift; sourceTree = "<group>"; };
@@ -626,8 +629,6 @@
 		1D971CDA1E1479E700A167A2 /* BackgroundAudioNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackgroundAudioNode.swift; sourceTree = "<group>"; };
 		1D971CDB1E1479E700A167A2 /* ExperiencePercent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExperiencePercent.swift; sourceTree = "<group>"; };
 		1D971CDC1E1479E700A167A2 /* LabelPercent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelPercent.swift; sourceTree = "<group>"; };
-		1D971CE21E16CD9400A167A2 /* LaserArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaserArtist.swift; sourceTree = "<group>"; };
-		1D971CE31E16CD9400A167A2 /* ShotgunArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShotgunArtist.swift; sourceTree = "<group>"; };
 		1D971CE61E18381300A167A2 /* LaserNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaserNode.swift; sourceTree = "<group>"; };
 		1D971CE81E18381B00A167A2 /* LaserUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LaserUpgrades.swift; sourceTree = "<group>"; };
 		1D971CEA1E1C894500A167A2 /* ShotgunNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShotgunNode.swift; sourceTree = "<group>"; };
@@ -657,7 +658,6 @@
 		1DC78A371F1EA3BA00BE2413 /* OceanLevel8CutScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel8CutScene.swift; sourceTree = "<group>"; };
 		1DC78A381F1EA3BA00BE2413 /* OceanLevelConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevelConfig.swift; sourceTree = "<group>"; };
 		1DF0B2DF1E8F3BE0001B9F97 /* WoodsLevel8CutScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel8CutScene.swift; sourceTree = "<group>"; };
-		1DF0B2E11E8F4792001B9F97 /* WoodsBossArtists.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsBossArtists.swift; sourceTree = "<group>"; };
 		1DF0B2E31E8F4A9B001B9F97 /* WoodsBossNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsBossNode.swift; sourceTree = "<group>"; };
 		2425E3A61D6520C9C8191BBB /* OALTools.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OALTools.m; path = ObjectAL/Support/OALTools.m; sourceTree = "<group>"; };
 		24FA3A3C3F172ED9299C52AE /* OALAudioTrackNotifications.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OALAudioTrackNotifications.h; path = ObjectAL/AudioTrack/OALAudioTrackNotifications.h; sourceTree = "<group>"; };
@@ -777,37 +777,18 @@
 		106EB35B379AD3F8713F2650 /* Artist */ = {
 			isa = PBXGroup;
 			children = (
+				1D3DA1B81F70229D0043B0B1 /* Game */,
+				1D3DA1B71F7022920043B0B1 /* UI */,
 				1D6AA0CA1DD79B62004A0978 /* Artist.swift */,
-				1D6AA0CB1DD79B62004A0978 /* BaseArtist.swift */,
-				1D6AA0CC1DD79B62004A0978 /* BaseTurretArtist.swift */,
-				1D6AA0CD1DD79B62004A0978 /* BombArtist.swift */,
-				1D6AA0CE1DD79B62004A0978 /* BulletArtist.swift */,
-				1D6AA0CF1DD79B62004A0978 /* ButtonArtist.swift */,
-				1D6AA0E11DD79B62004A0978 /* CannonArtist.swift */,
-				1D6AA0D01DD79B62004A0978 /* CursorArtist.swift */,
-				1D6AA0D11DD79B62004A0978 /* DotArtist.swift */,
-				1D6AA0D21DD79B62004A0978 /* DroneArtist.swift */,
-				1D6AA0D31DD79B62004A0978 /* DroneRadarArtist.swift */,
-				1D6AA0D41DD79B62004A0978 /* EnemyDiamondArtist.swift */,
-				1D6AA0D51DD79B62004A0978 /* EnemyJetArtist.swift */,
-				1D6AA0D61DD79B62004A0978 /* EnemySoldierArtist.swift */,
+				1D3DA1961F701D320043B0B1 /* Enemies */,
 				7BACBCC7F9CF6500A9C7C9D8 /* Font */,
-				1D6AA0D71DD79B62004A0978 /* HourglassZoneArtist.swift */,
 				1D6AA0D81DD79B62004A0978 /* ImageArtists.swift */,
 				1D6AA0D91DD79B62004A0978 /* ImageIdentifier.swift */,
-				1D971CE21E16CD9400A167A2 /* LaserArtist.swift */,
-				1D6AA0DA1DD79B62004A0978 /* LetterAndFont.swift */,
 				1D6AA0DB1DD79B62004A0978 /* LightningArtist.swift */,
-				1D7A42D91E118C1C002F37FA /* MissleSiloArtist.swift */,
-				1D6AA0DC1DD79B62004A0978 /* PercentArtist.swift */,
+				1D3DA1951F701D2D0043B0B1 /* Player */,
 				1D7A42DB1E118FE4002F37FA /* PolygonArtist.swift */,
 				FD21AB3B988D70E9A019434D /* Powerups */,
-				1D6AA0DD1DD79B62004A0978 /* RadarArtist.swift */,
 				1D6AA0DF1DD79B62004A0978 /* ShapeArtist.swift */,
-				1D971CE31E16CD9400A167A2 /* ShotgunArtist.swift */,
-				1D6AA0E01DD79B62004A0978 /* TextArtist.swift */,
-				1D6AA0E21DD79B62004A0978 /* WarningArtist.swift */,
-				1DF0B2E11E8F4792001B9F97 /* WoodsBossArtists.swift */,
 			);
 			path = Artist;
 			sourceTree = "<group>";
@@ -869,6 +850,55 @@
 				461025356CC12C1AE291ADA8 /* short.caf */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		1D3DA1951F701D2D0043B0B1 /* Player */ = {
+			isa = PBXGroup;
+			children = (
+				1D3DA19F1F701DF10043B0B1 /* BaseArtist.swift */,
+				1D3DA19B1F701DF10043B0B1 /* BaseTurretArtist.swift */,
+				1D3DA19E1F701DF10043B0B1 /* CannonArtist.swift */,
+				1D3DA1BD1F70236C0043B0B1 /* CursorArtist.swift */,
+				1D3DA1971F701DF10043B0B1 /* DroneArtist.swift */,
+				1D3DA1981F701DF10043B0B1 /* DroneRadarArtist.swift */,
+				1D3DA1991F701DF10043B0B1 /* LaserArtist.swift */,
+				1D3DA19D1F701DF10043B0B1 /* MissleSiloArtist.swift */,
+				1D3DA19C1F701DF10043B0B1 /* RadarArtist.swift */,
+				1D3DA19A1F701DF10043B0B1 /* ShotgunArtist.swift */,
+			);
+			path = Player;
+			sourceTree = "<group>";
+		};
+		1D3DA1961F701D320043B0B1 /* Enemies */ = {
+			isa = PBXGroup;
+			children = (
+				1D3DA1AE1F701E510043B0B1 /* EnemyDiamondArtist.swift */,
+				1D3DA1AD1F701E510043B0B1 /* EnemyJetArtist.swift */,
+				1D3DA1AF1F701E510043B0B1 /* EnemySoldierArtist.swift */,
+				1D3DA1B51F701E750043B0B1 /* WoodsBossArtists.swift */,
+			);
+			path = Enemies;
+			sourceTree = "<group>";
+		};
+		1D3DA1B71F7022920043B0B1 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				1D3DA1BB1F7022AD0043B0B1 /* ButtonArtist.swift */,
+				1D3DA1C11F7023730043B0B1 /* DotArtist.swift */,
+				1D3DA1BF1F7023730043B0B1 /* LetterAndFont.swift */,
+				1D3DA1C01F7023730043B0B1 /* TextArtist.swift */,
+				1D3DA1C21F7023730043B0B1 /* WarningArtist.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		1D3DA1B81F70229D0043B0B1 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				1D3DA1B91F7022A80043B0B1 /* BulletArtist.swift */,
+				1D3DA1C71F7023760043B0B1 /* PercentArtist.swift */,
+			);
+			path = Game;
 			sourceTree = "<group>";
 		};
 		1D66EE581EA1C3FB009CE669 /* 04-Base */ = {
@@ -1427,11 +1457,13 @@
 		FD21AB3B988D70E9A019434D /* Powerups */ = {
 			isa = PBXGroup;
 			children = (
+				1D3DA1AB1F701E270043B0B1 /* BombArtist.swift */,
 				1D6AA0A01DD79B5A004A0978 /* BomberArtist.swift */,
 				1D6AA0A11DD79B5A004A0978 /* BomberPowerupArtist.swift */,
 				1D6AA0A21DD79B5A004A0978 /* CoffeePowerupArtist.swift */,
 				1D6AA0A31DD79B5A004A0978 /* GrenadesPowerupArtist.swift */,
 				1D6AA0A41DD79B5A004A0978 /* HourglassPowerupArtist.swift */,
+				1D3DA1B31F701E630043B0B1 /* HourglassZoneArtist.swift */,
 				1D6AA0A51DD79B5A004A0978 /* LaserPowerupArtist.swift */,
 				1D6AA0A61DD79B5A004A0978 /* MineFragmentArtist.swift */,
 				1D6AA0A71DD79B5A004A0978 /* MinesPowerupArtist.swift */,
@@ -1526,7 +1558,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D6AA0FA1DD79B62004A0978 /* CannonArtist.swift in Sources */,
 				1D6AA0BF1DD79B5A004A0978 /* ShieldArtist.swift in Sources */,
 				1D6AA0E31DD79B62004A0978 /* Artist.swift in Sources */,
 				1D6A9F5C1DD79B0A004A0978 /* StartupWorld.swift in Sources */,
@@ -1538,7 +1569,6 @@
 				1D6AA09E1DD79B53004A0978 /* WorldView.swift in Sources */,
 				1D6AA0B61DD79B5A004A0978 /* HourglassPowerupArtist.swift in Sources */,
 				1D6A9F481DD79B05004A0978 /* SwiftUserDefaults.swift in Sources */,
-				1D6AA0F31DD79B62004A0978 /* LetterAndFont.swift in Sources */,
 				1D6A9F431DD79B05004A0978 /* IntValue.swift in Sources */,
 				1D6A9FD01DD79B2A004A0978 /* CoffeePowerup.swift in Sources */,
 				1D6AA0211DD79B37004A0978 /* EnemyScoutNode.swift in Sources */,
@@ -1546,9 +1576,11 @@
 				1D7A42E21E11A83B002F37FA /* MissleNode.swift in Sources */,
 				1D6A9FFC1DD79B31004A0978 /* MineNode.swift in Sources */,
 				1D6AA05B1DD79B3E004A0978 /* SelectableComponent.swift in Sources */,
+				1D3DA1A81F701DF10043B0B1 /* BaseArtist.swift in Sources */,
 				1D6AA06B1DD79B41004A0978 /* CGFloatExt.swift in Sources */,
 				1D6AA0BB1DD79B5A004A0978 /* NoPowerupArtist.swift in Sources */,
 				1D971CD21E1479D200A167A2 /* BulletNode.swift in Sources */,
+				1D3DA1B41F701E630043B0B1 /* HourglassZoneArtist.swift in Sources */,
 				1D6A9F8D1DD79B13004A0978 /* Playground.swift in Sources */,
 				1DC78A3C1F1EA3BA00BE2413 /* OceanLevel1Config.swift in Sources */,
 				1D6A9FD21DD79B2A004A0978 /* HourglassPowerup.swift in Sources */,
@@ -1562,14 +1594,13 @@
 				1D6A9F631DD79B0A004A0978 /* WorldSelectWorld.swift in Sources */,
 				1D6A9FFF1DD79B31004A0978 /* PulseNode.swift in Sources */,
 				1D6AA0B41DD79B5A004A0978 /* CoffeePowerupArtist.swift in Sources */,
-				1D6AA0E71DD79B62004A0978 /* BulletArtist.swift in Sources */,
 				1D6A9FB11DD79B18004A0978 /* GameConfigSummary.swift in Sources */,
 				1D6AA07A1DD79B44004A0978 /* Line.swift in Sources */,
 				1D971CEF1E1EC28B00A167A2 /* RotateScanComponent.swift in Sources */,
 				1D6AA05E1DD79B3E004A0978 /* TouchEmulationComponent.swift in Sources */,
-				1D6AA0F91DD79B62004A0978 /* TextArtist.swift in Sources */,
 				1D6AA0F11DD79B62004A0978 /* ImageArtists.swift in Sources */,
 				1D6A9FBA1DD79B1C004A0978 /* WoodsLevel2.swift in Sources */,
+				1D3DA1A11F701DF10043B0B1 /* DroneRadarArtist.swift in Sources */,
 				1D6A9FB81DD79B1C004A0978 /* WoodsLevel.swift in Sources */,
 				1D6AA05C1DD79B3E004A0978 /* StoppedComponent.swift in Sources */,
 				1D66EE741EA1C40D009CE669 /* BaseLevel5.swift in Sources */,
@@ -1578,17 +1609,16 @@
 				1D6AA01E1DD79B37004A0978 /* EnemyJetNode.swift in Sources */,
 				1D6A9F771DD79B10004A0978 /* TutorialLevel.swift in Sources */,
 				1D66EE791EA1C40D009CE669 /* BaseLevel7Config.swift in Sources */,
+				1D3DA1C41F7023730043B0B1 /* TextArtist.swift in Sources */,
 				1D6AA0911DD79B53004A0978 /* CropNode.swift in Sources */,
+				1D3DA1B21F701E510043B0B1 /* EnemySoldierArtist.swift in Sources */,
 				1D6AA0971DD79B53004A0978 /* TimelineComponent.swift in Sources */,
 				1D66EE3F1EA1C317009CE669 /* WoodsLevel6Config.swift in Sources */,
-				1D6AA0E51DD79B62004A0978 /* BaseTurretArtist.swift in Sources */,
 				1D66EE3E1EA1C317009CE669 /* WoodsLevel5Config.swift in Sources */,
 				4A834CD7B9F12A09ACAAAF7C /* OALActionManager.m in Sources */,
 				1104ABC2B1CD7A94967503F1 /* OALAudioActions.m in Sources */,
-				1D6AA0E41DD79B62004A0978 /* BaseArtist.swift in Sources */,
 				1D6AA0091DD79B34004A0978 /* EnemyAttackExplosionNode.swift in Sources */,
 				1D6AA06F1DD79B42004A0978 /* CGVectorExt.swift in Sources */,
-				1D6AA0F61DD79B62004A0978 /* RadarArtist.swift in Sources */,
 				1DC78A3A1F1EA3BA00BE2413 /* OceanLevel.swift in Sources */,
 				C18E3DF53F600C1DE8882E0B /* OALUtilityActions.m in Sources */,
 				1D6AA0191DD79B37004A0978 /* EnemyBigJetNode.swift in Sources */,
@@ -1599,7 +1629,6 @@
 				A4D310D45BFF7B75A53C29F8 /* OALAudioTrack.m in Sources */,
 				3332E0EFC48439B66A847C28 /* OALAudioTrackNotifications.m in Sources */,
 				1D66EE501EA1C320009CE669 /* TutorialLevel2Config.swift in Sources */,
-				1D971CE51E16CD9400A167A2 /* ShotgunArtist.swift in Sources */,
 				1D6AA0271DD79B3B004A0978 /* UpgradableNode.swift in Sources */,
 				1D6AA07D1DD79B4B004A0978 /* DebugPath.swift in Sources */,
 				1D6AA0721DD79B42004A0978 /* SpriteKit.swift in Sources */,
@@ -1607,17 +1636,18 @@
 				1D6A9F591DD79B0A004A0978 /* MainMenuWorld.swift in Sources */,
 				1D6A9FF91DD79B31004A0978 /* HourglassNode.swift in Sources */,
 				1D66EE551EA1C320009CE669 /* TutorialLevel7Config.swift in Sources */,
-				1D6AA0E61DD79B62004A0978 /* BombArtist.swift in Sources */,
 				1D6A9F5A1DD79B0A004A0978 /* PowerupDemos.swift in Sources */,
 				1D6A9FD81DD79B2A004A0978 /* ShieldPowerup.swift in Sources */,
 				1DC78A401F1EA3BA00BE2413 /* OceanLevel3Config.swift in Sources */,
 				1D6A9F7D1DD79B10004A0978 /* TutorialLevel6.swift in Sources */,
-				1D6AA0F51DD79B62004A0978 /* PercentArtist.swift in Sources */,
 				1D6AA04F1DD79B3E004A0978 /* HealthComponent.swift in Sources */,
 				1D6A9FFD1DD79B31004A0978 /* NetNode.swift in Sources */,
+				1D3DA1C51F7023730043B0B1 /* DotArtist.swift in Sources */,
 				1DBFDA001DFFB8DD0058843D /* CannonUpgrades.swift in Sources */,
+				1D3DA1AC1F701E270043B0B1 /* BombArtist.swift in Sources */,
 				1D6A9FE61DD79B2E004A0978 /* PauseButton.swift in Sources */,
 				1D6AA0011DD79B31004A0978 /* SoldierNode.swift in Sources */,
+				1D3DA1A61F701DF10043B0B1 /* MissleSiloArtist.swift in Sources */,
 				1D6AA0B31DD79B5A004A0978 /* BomberPowerupArtist.swift in Sources */,
 				1D66EE7C1EA1C40D009CE669 /* BaseLevelConfig.swift in Sources */,
 				1D6A9FFE1DD79B31004A0978 /* PathDrawingNode.swift in Sources */,
@@ -1651,10 +1681,8 @@
 				1DC78A431F1EA3BA00BE2413 /* OceanLevel4Config.swift in Sources */,
 				1D66EE4E1EA1C320009CE669 /* TutorialConfigSummary.swift in Sources */,
 				1D66EE411EA1C317009CE669 /* WoodsLevel8Config.swift in Sources */,
-				1D6AA0EC1DD79B62004A0978 /* DroneRadarArtist.swift in Sources */,
 				1D6AA0941DD79B53004A0978 /* Position.swift in Sources */,
 				1D6A9FD71DD79B2A004A0978 /* PulsePowerup.swift in Sources */,
-				1D6AA0E91DD79B62004A0978 /* CursorArtist.swift in Sources */,
 				1D971CEB1E1C894600A167A2 /* ShotgunNode.swift in Sources */,
 				1D6A9FF61DD79B31004A0978 /* BomberPowerupNode.swift in Sources */,
 				1D6AA0581DD79B3E004A0978 /* RammingComponent.swift in Sources */,
@@ -1677,7 +1705,6 @@
 				1D6AA00C1DD79B34004A0978 /* PlayerExplosionNode.swift in Sources */,
 				1D66EE541EA1C320009CE669 /* TutorialLevel6Config.swift in Sources */,
 				1D6AA0571DD79B3E004A0978 /* ProjectileComponent.swift in Sources */,
-				1DF0B2E21E8F4792001B9F97 /* WoodsBossArtists.swift in Sources */,
 				1DC78A451F1EA3BA00BE2413 /* OceanLevel5Config.swift in Sources */,
 				1D6AA0591DD79B3E004A0978 /* RotateToComponent.swift in Sources */,
 				B95F74E9E1E4D5D759B4684F /* ALListener.m in Sources */,
@@ -1688,14 +1715,15 @@
 				1D6AA0B91DD79B5A004A0978 /* MinesPowerupArtist.swift in Sources */,
 				1D6A9FA71DD79B18004A0978 /* ConfigSummary.swift in Sources */,
 				1D6AA0C21DD79B5A004A0978 /* SoldierArtist.swift in Sources */,
+				1D3DA1B01F701E510043B0B1 /* EnemyJetArtist.swift in Sources */,
 				1D6AA0C71DD79B5D004A0978 /* BigFont.swift in Sources */,
-				1D7A42DA1E118C1C002F37FA /* MissleSiloArtist.swift in Sources */,
 				1D6A9F421DD79B05004A0978 /* Easing.swift in Sources */,
-				1D6AA0EF1DD79B62004A0978 /* EnemySoldierArtist.swift in Sources */,
 				1D6AA0701DD79B42004A0978 /* ChevronExt.swift in Sources */,
 				1D6AA0BE1DD79B5A004A0978 /* PulsePowerupArtist.swift in Sources */,
+				1D3DA1A01F701DF10043B0B1 /* DroneArtist.swift in Sources */,
 				1D6AA0551DD79B3E004A0978 /* PlayerComponent.swift in Sources */,
 				195C943B7A4309BBE875B57D /* ALSoundSourcePool.m in Sources */,
+				1D3DA1B61F701E750043B0B1 /* WoodsBossArtists.swift in Sources */,
 				1D6AA11A1DD79BF8004A0978 /* NodeStorage.swift in Sources */,
 				1D6AA0F81DD79B62004A0978 /* ShapeArtist.swift in Sources */,
 				1DC78A3E1F1EA3BA00BE2413 /* OceanLevel2Config.swift in Sources */,
@@ -1712,21 +1740,19 @@
 				1D66EE771EA1C40D009CE669 /* BaseLevel6Config.swift in Sources */,
 				1DC78A221F1E78B800BE2413 /* BaseConfigSummary.swift in Sources */,
 				735A1CE510017E6F8ED583D1 /* ALSource.m in Sources */,
-				1D6AA0EB1DD79B62004A0978 /* DroneArtist.swift in Sources */,
+				1D3DA1BE1F70236C0043B0B1 /* CursorArtist.swift in Sources */,
 				1D6AA0C81DD79B5D004A0978 /* SmallFont.swift in Sources */,
 				1D971CDE1E1479E700A167A2 /* BackgroundAudioNode.swift in Sources */,
 				1D66EE4F1EA1C320009CE669 /* TutorialLevel1Config.swift in Sources */,
 				1D66EE6E1EA1C40D009CE669 /* BaseLevel2.swift in Sources */,
 				1DC78A461F1EA3BA00BE2413 /* OceanLevel6.swift in Sources */,
-				1D6AA0ED1DD79B62004A0978 /* EnemyDiamondArtist.swift in Sources */,
 				1D6AA0441DD79B3E004A0978 /* ArcToComponent.swift in Sources */,
-				1D6AA0FB1DD79B62004A0978 /* WarningArtist.swift in Sources */,
 				1DC78A4B1F1EA3BA00BE2413 /* OceanLevel8Config.swift in Sources */,
-				1D6AA0EE1DD79B62004A0978 /* EnemyJetArtist.swift in Sources */,
-				1D6AA0EA1DD79B62004A0978 /* DotArtist.swift in Sources */,
+				1D3DA1A41F701DF10043B0B1 /* BaseTurretArtist.swift in Sources */,
 				1DC78A391F1EA3BA00BE2413 /* OceanConfigSummary.swift in Sources */,
 				1D6A9FD31DD79B2A004A0978 /* LaserPowerup.swift in Sources */,
 				1D66EE6C1EA1C40D009CE669 /* BaseLevel1.swift in Sources */,
+				1D3DA1A71F701DF10043B0B1 /* CannonArtist.swift in Sources */,
 				1D6AA01B1DD79B37004A0978 /* EnemyDozerNode.swift in Sources */,
 				1D6AA0BA1DD79B5A004A0978 /* NetPowerupArtist.swift in Sources */,
 				1D6A9FCF1DD79B2A004A0978 /* BomberPowerup.swift in Sources */,
@@ -1750,18 +1776,17 @@
 				1D6AA06D1DD79B41004A0978 /* CGRectExt.swift in Sources */,
 				EAE6BF0191C6F74DD68CC34B /* OpenALManager.m in Sources */,
 				1D6A9FA81DD79B18004A0978 /* LevelConfig.swift in Sources */,
+				1D3DA1A21F701DF10043B0B1 /* LaserArtist.swift in Sources */,
 				1D6AA01D1DD79B37004A0978 /* EnemyGiantNode.swift in Sources */,
 				1D6A9F7B1DD79B10004A0978 /* TutorialLevel4.swift in Sources */,
 				1D6A9FE41DD79B2E004A0978 /* ExperienceCostText.swift in Sources */,
 				1D6AA0921DD79B53004A0978 /* Mod.swift in Sources */,
-				1D6AA0E81DD79B62004A0978 /* ButtonArtist.swift in Sources */,
 				1D6A9FF81DD79B31004A0978 /* GrenadePowerupNode.swift in Sources */,
 				1DF0B2E01E8F3BE0001B9F97 /* WoodsLevel8CutScene.swift in Sources */,
 				593AB352CDA97BA259A18960 /* OALAudioSession.m in Sources */,
 				1D6A9FD51DD79B2A004A0978 /* NetPowerup.swift in Sources */,
 				1D6AA0501DD79B3E004A0978 /* JiggleComponent.swift in Sources */,
 				1D6AA05D1DD79B3E004A0978 /* TouchableComponent.swift in Sources */,
-				1D971CE41E16CD9400A167A2 /* LaserArtist.swift in Sources */,
 				1D6A9F471DD79B05004A0978 /* Shape.swift in Sources */,
 				1D6AA07B1DD79B44004A0978 /* TextNode.swift in Sources */,
 				DB58E927772704BC90468B8B /* OALSuspendHandler.m in Sources */,
@@ -1771,6 +1796,7 @@
 				1D6AA0981DD79B53004A0978 /* TouchSession.swift in Sources */,
 				1D971CE71E18381300A167A2 /* LaserNode.swift in Sources */,
 				825317C867A6089490B43568 /* mach_timing.c in Sources */,
+				1D3DA1A31F701DF10043B0B1 /* ShotgunArtist.swift in Sources */,
 				1D6AA0081DD79B34004A0978 /* BulletRecoilExplosionNode.swift in Sources */,
 				1D6AA06A1DD79B41004A0978 /* ArrayExt.swift in Sources */,
 				1D6AA0781DD79B44004A0978 /* Button.swift in Sources */,
@@ -1784,6 +1810,7 @@
 				1D971CD41E1479D200A167A2 /* CannonNode.swift in Sources */,
 				1D66EE711EA1C40D009CE669 /* BaseLevel3Config.swift in Sources */,
 				1D6AA0C01DD79B5A004A0978 /* ShieldPowerupArtist.swift in Sources */,
+				1D3DA1C81F7023760043B0B1 /* PercentArtist.swift in Sources */,
 				1D6A9FFB1DD79B31004A0978 /* MineFragmentNode.swift in Sources */,
 				1DC78A491F1EA3BA00BE2413 /* OceanLevel7Config.swift in Sources */,
 				1D5C44031DDAAF6F00FDBF7E /* BasePlayerUpgrades.swift in Sources */,
@@ -1800,13 +1827,15 @@
 				1D66EE561EA1C320009CE669 /* TutorialLevel8Config.swift in Sources */,
 				275B0C2755BBFC08B0072403 /* NSMutableDictionary+WeakReferences.m in Sources */,
 				1D6AA00D1DD79B34004A0978 /* ShrapnelNode.swift in Sources */,
-				1D6AA0F01DD79B62004A0978 /* HourglassZoneArtist.swift in Sources */,
 				1D6A9FE71DD79B2E004A0978 /* PercentBar.swift in Sources */,
 				1D66EE751EA1C40D009CE669 /* BaseLevel5Config.swift in Sources */,
 				1DF0B2E41E8F4A9B001B9F97 /* WoodsBossNode.swift in Sources */,
 				1D6AA0991DD79B53004A0978 /* UINode.swift in Sources */,
 				1DC78A3D1F1EA3BA00BE2413 /* OceanLevel2.swift in Sources */,
 				1D971CD11E1479D200A167A2 /* BasePlayerNode.swift in Sources */,
+				1D3DA1C31F7023730043B0B1 /* LetterAndFont.swift in Sources */,
+				1D3DA1A51F701DF10043B0B1 /* RadarArtist.swift in Sources */,
+				1D3DA1BC1F7022AD0043B0B1 /* ButtonArtist.swift in Sources */,
 				1DC78A441F1EA3BA00BE2413 /* OceanLevel5.swift in Sources */,
 				1D6AA0731DD79B42004A0978 /* UIColorExt.swift in Sources */,
 				1D6AA0711DD79B42004A0978 /* NSCoding.swift in Sources */,
@@ -1842,13 +1871,16 @@
 				1D6AA0BC1DD79B5A004A0978 /* PowerupArtist.swift in Sources */,
 				1D6AA0471DD79B3E004A0978 /* EnemyTargetingComponent.swift in Sources */,
 				1D6A9FFA1DD79B31004A0978 /* LaserBeamNode.swift in Sources */,
+				1D3DA1C61F7023730043B0B1 /* WarningArtist.swift in Sources */,
 				1D6AA00A1DD79B34004A0978 /* EnemyExplosionNode.swift in Sources */,
 				1DC78A4A1F1EA3BA00BE2413 /* OceanLevel8.swift in Sources */,
+				1D3DA1BA1F7022A80043B0B1 /* BulletArtist.swift in Sources */,
 				1D6AA0B71DD79B5A004A0978 /* LaserPowerupArtist.swift in Sources */,
 				1D6AA01F1DD79B37004A0978 /* EnemyJetTransportNode.swift in Sources */,
 				1D66EE7B1EA1C40D009CE669 /* BaseLevel8Config.swift in Sources */,
 				1DC78A481F1EA3BA00BE2413 /* OceanLevel7.swift in Sources */,
 				1D6A9FE51DD79B2E004A0978 /* LevelCompleteBox.swift in Sources */,
+				1D3DA1B11F701E510043B0B1 /* EnemyDiamondArtist.swift in Sources */,
 				1D6A9FF71DD79B31004A0978 /* BombNode.swift in Sources */,
 				1DC78A421F1EA3BA00BE2413 /* OceanLevel4.swift in Sources */,
 				1D06D6BE1E3AC383004FA878 /* TutorialCutScene.swift in Sources */,
