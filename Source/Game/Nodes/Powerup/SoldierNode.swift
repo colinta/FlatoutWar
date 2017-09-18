@@ -16,7 +16,7 @@ class SoldierNode: Node {
     required init() {
         super.init()
 
-        sprite.z = .below
+        sprite.z = .abovePlayer
         self << sprite
 
         let healthComponent = HealthComponent(health: StartingHealth)
