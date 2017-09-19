@@ -292,7 +292,6 @@ indirect enum ImageIdentifier {
 
     var atlasName: String? {
         switch self {
-        // case .DroneRadar: return "Drone"
         default: return nil
         }
     }
