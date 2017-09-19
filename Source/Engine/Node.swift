@@ -7,6 +7,7 @@ class Node: SKNode {
     var processed = false
     var interactive = true
     var timeRate: CGFloat = 1
+    var autoReset = true
     fileprivate var mods: [Mod] = []
 
     var fixedPosition: Position? {
@@ -104,11 +105,11 @@ class Node: SKNode {
     }
 
 
-    var autoReset = true
     override func move(toParent node: SKNode) {
+        let oldVal = autoReset
         autoReset = false
         super.move(toParent: node)
-        autoReset = true
+        autoReset = oldVal
     }
 
     func move(toParent node: SKNode, preservePosition: Bool) {
@@ -135,21 +136,24 @@ class Node: SKNode {
     }
 
     func removeFromParent(reset: Bool) {
+        let oldVal = autoReset
         autoReset = reset
         removeFromParent()
-        autoReset = true
+        autoReset = oldVal
     }
 
     override func removeFromParent() {
         if let world = world {
             world.willRemove([self] + allChildNodes(recursive: true))
         }
+
         if autoReset {
             for handler in _onDeath {
                 handler()
             }
             reset()
         }
+
         super.removeFromParent()
     }
 

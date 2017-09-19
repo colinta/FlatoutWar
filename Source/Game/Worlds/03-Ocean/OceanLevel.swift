@@ -45,7 +45,7 @@ class OceanLevel: Level {
         let offset = cameraNode.position
 
         let ocean = SpriteNode(id: .fillColorBox(size: CGSize(oceanWidth, size.height), color: 0x2895F3))
-        ocean.z = .below
+        ocean.z = .bottom
         ocean.alpha = 0.6
         ocean.position = offset + CGPoint(size.width / 2 - oceanWidth / 2, 0)
         self << ocean
@@ -54,6 +54,7 @@ class OceanLevel: Level {
             let start = offset + CGPoint(size.width / 2 + waveWidth / 2, 0)
             let destination = start + CGPoint(x: -waveWidth)
             let wave = SpriteNode(id: .fillColorBox(size: CGSize(waveWidth, size.height), color: 0x2895F3))
+            wave.z = .bottom
             wave.position = start
             wave.moveTo(destination, duration: 3)
             wave.fadeTo(0, duration: 3)

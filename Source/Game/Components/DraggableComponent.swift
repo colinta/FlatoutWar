@@ -80,27 +80,27 @@ class DraggableComponent: Component {
     }
 
     override func update(_ dt: CGFloat) {
-        if let target = target {
-            if let speed = speed,
-                let position = node.position.pointTowards(target, speed: speed, dt: dt)
-            {
-                node.position = position
-                updateDragMoving(isMoving: true)
-            }
-            else {
-                node.position = target
-                self.target = nil
-                updateDragMoving(isMoving: false)
-            }
+        guard let target = target else { return }
+
+        if let speed = speed,
+            let position = node.position.pointTowards(target, speed: speed, dt: dt)
+        {
+            node.position = position
+            updateDragMoving(isMoving: true)
+        }
+        else {
+            node.position = target
+            self.target = nil
+            updateDragMoving(isMoving: false)
         }
     }
 
     private func updateDragMoving(isMoving: Bool) {
-        if isDragMoving != isMoving {
-            isDragMoving = isMoving
-            for handler in _onDragChange {
-                handler(isMoving)
-            }
+        guard isDragMoving != isMoving else { return }
+
+        isDragMoving = isMoving
+        for handler in _onDragChange {
+            handler(isMoving)
         }
     }
 
