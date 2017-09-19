@@ -145,6 +145,8 @@ extension ImageIdentifier {
                 break
             }
             return artist
+        case .enemyBoat:
+            return EnemyBoatArtist()
         case let .powerup(type):
             return type.artist()
         case .noPowerup:

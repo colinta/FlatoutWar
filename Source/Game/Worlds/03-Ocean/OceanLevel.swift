@@ -6,6 +6,13 @@ class OceanLevel: Level {
     var droneNode: Node!
     var upgradedDroneNode: Node!
 
+    let oceanWidth: CGFloat = 60
+    var oceanStartX: CGFloat {
+        let scale = min(xScale, 1)
+        let scaledSize = size / scale
+        return scaledSize.width / 2 - oceanWidth + cameraNode.position.x / scale
+    }
+
     required init() {
         super.init()
         levelSelect = .ocean
@@ -34,7 +41,6 @@ class OceanLevel: Level {
 
     func generateOcean() {
         let size = self.size
-        let oceanWidth: CGFloat = 60
         let waveWidth = oceanWidth + 40
         let offset = cameraNode.position
 

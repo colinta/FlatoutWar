@@ -15,10 +15,8 @@ class OceanLevelConfig: LevelConfig {
         upgraded.radarUpgrade = true
         upgraded.bulletUpgrade = true
         upgraded.movementUpgrade = true
-        upgraded << SKLightNode.defaultLight()
 
         let drone = DroneNode(at: CGPoint(r: 80, a: a2))
-        drone << SKLightNode.defaultLight()
 
         return [
             drone,

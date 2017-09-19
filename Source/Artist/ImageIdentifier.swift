@@ -57,6 +57,7 @@ indirect enum ImageIdentifier {
 
     case enemy(EnemyType, health: Int)
     case enemyShrapnel(ImageIdentifier, size: Size)
+    case enemyBoat
 
     case woodsBossFoot(health: Int)
     case woodsBossBody(health: Int)
@@ -177,6 +178,8 @@ indirect enum ImageIdentifier {
         case let .enemyShrapnel(type, size):
             let typeName = type.name ?? ""
             return "enemyShrapnel_type-(\(typeName))_size-\(size.name)"
+        case .enemyBoat:
+            return "enemyBoat"
         case let .woodsBossFoot(health):
             return "woodsBossFoot_health-\(health)"
         case let .woodsBossBody(health):

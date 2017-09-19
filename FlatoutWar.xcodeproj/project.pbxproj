@@ -269,6 +269,7 @@
 		1D7A42DC1E118FE4002F37FA /* PolygonArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42DB1E118FE4002F37FA /* PolygonArtist.swift */; };
 		1D7A42DE1E11927D002F37FA /* MissleSiloUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42DD1E11927D002F37FA /* MissleSiloUpgrades.swift */; };
 		1D7A42E21E11A83B002F37FA /* MissleNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D7A42E11E11A83B002F37FA /* MissleNode.swift */; };
+		1D8A56451F716DB100E8EC77 /* EnemyBoatArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8A56441F716DB100E8EC77 /* EnemyBoatArtist.swift */; };
 		1D943BFB1E26FA160053FAF5 /* TutorialLevel7.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D943BF91E26FA160053FAF5 /* TutorialLevel7.swift */; };
 		1D943BFC1E26FA160053FAF5 /* TutorialLevel8.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D943BFA1E26FA160053FAF5 /* TutorialLevel8.swift */; };
 		1D971CC71E14670100A167A2 /* SelectableArmyComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CC61E14670100A167A2 /* SelectableArmyComponent.swift */; };
@@ -310,6 +311,7 @@
 		1DC78A4B1F1EA3BA00BE2413 /* OceanLevel8Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A361F1EA3BA00BE2413 /* OceanLevel8Config.swift */; };
 		1DC78A4C1F1EA3BA00BE2413 /* OceanLevel8CutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A371F1EA3BA00BE2413 /* OceanLevel8CutScene.swift */; };
 		1DC78A4D1F1EA3BA00BE2413 /* OceanLevelConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A381F1EA3BA00BE2413 /* OceanLevelConfig.swift */; };
+		1DCE4E2C1F7162500090DA85 /* EnemyBoatNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DCE4E2B1F7162500090DA85 /* EnemyBoatNode.swift */; };
 		1DF0B2E01E8F3BE0001B9F97 /* WoodsLevel8CutScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2DF1E8F3BE0001B9F97 /* WoodsLevel8CutScene.swift */; };
 		1DF0B2E41E8F4A9B001B9F97 /* WoodsBossNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DF0B2E31E8F4A9B001B9F97 /* WoodsBossNode.swift */; };
 		216146732396C15720CD939B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F03135BA42322EAF9BCCB836 /* Foundation.framework */; };
@@ -616,6 +618,7 @@
 		1D7A42DB1E118FE4002F37FA /* PolygonArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolygonArtist.swift; sourceTree = "<group>"; };
 		1D7A42DD1E11927D002F37FA /* MissleSiloUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleSiloUpgrades.swift; sourceTree = "<group>"; };
 		1D7A42E11E11A83B002F37FA /* MissleNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MissleNode.swift; sourceTree = "<group>"; };
+		1D8A56441F716DB100E8EC77 /* EnemyBoatArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyBoatArtist.swift; sourceTree = "<group>"; };
 		1D943BF91E26FA160053FAF5 /* TutorialLevel7.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel7.swift; sourceTree = "<group>"; };
 		1D943BFA1E26FA160053FAF5 /* TutorialLevel8.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TutorialLevel8.swift; sourceTree = "<group>"; };
 		1D971CC61E14670100A167A2 /* SelectableArmyComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectableArmyComponent.swift; sourceTree = "<group>"; };
@@ -657,6 +660,7 @@
 		1DC78A361F1EA3BA00BE2413 /* OceanLevel8Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel8Config.swift; sourceTree = "<group>"; };
 		1DC78A371F1EA3BA00BE2413 /* OceanLevel8CutScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevel8CutScene.swift; sourceTree = "<group>"; };
 		1DC78A381F1EA3BA00BE2413 /* OceanLevelConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanLevelConfig.swift; sourceTree = "<group>"; };
+		1DCE4E2B1F7162500090DA85 /* EnemyBoatNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnemyBoatNode.swift; sourceTree = "<group>"; };
 		1DF0B2DF1E8F3BE0001B9F97 /* WoodsLevel8CutScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsLevel8CutScene.swift; sourceTree = "<group>"; };
 		1DF0B2E31E8F4A9B001B9F97 /* WoodsBossNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WoodsBossNode.swift; sourceTree = "<group>"; };
 		2425E3A61D6520C9C8191BBB /* OALTools.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OALTools.m; path = ObjectAL/Support/OALTools.m; sourceTree = "<group>"; };
@@ -872,6 +876,7 @@
 		1D3DA1961F701D320043B0B1 /* Enemies */ = {
 			isa = PBXGroup;
 			children = (
+				1D8A56441F716DB100E8EC77 /* EnemyBoatArtist.swift */,
 				1D3DA1AE1F701E510043B0B1 /* EnemyDiamondArtist.swift */,
 				1D3DA1AD1F701E510043B0B1 /* EnemyJetArtist.swift */,
 				1D3DA1AF1F701E510043B0B1 /* EnemySoldierArtist.swift */,
@@ -1250,6 +1255,7 @@
 		A8877D6611B138E9E47D10FF /* Enemies */ = {
 			isa = PBXGroup;
 			children = (
+				1DCE4E2B1F7162500090DA85 /* EnemyBoatNode.swift */,
 				1D6AA00E1DD79B37004A0978 /* EnemyBigJetNode.swift */,
 				1D6AA00F1DD79B37004A0978 /* EnemyDiamondNode.swift */,
 				1D6AA0101DD79B37004A0978 /* EnemyDozerNode.swift */,
@@ -1657,6 +1663,7 @@
 				1D66EE701EA1C40D009CE669 /* BaseLevel3.swift in Sources */,
 				1D66EE731EA1C40D009CE669 /* BaseLevel4Config.swift in Sources */,
 				1D6A9F7A1DD79B10004A0978 /* TutorialLevel3.swift in Sources */,
+				1D8A56451F716DB100E8EC77 /* EnemyBoatArtist.swift in Sources */,
 				1D6AA04C1DD79B3E004A0978 /* FollowNodeComponent.swift in Sources */,
 				1D66EE531EA1C320009CE669 /* TutorialLevel5Config.swift in Sources */,
 				569491D634F9018967BC977B /* OALAudioTracks.m in Sources */,
@@ -1848,6 +1855,7 @@
 				1D6A9F741DD79B10004A0978 /* RapidFireTutorial.swift in Sources */,
 				1D971CED1E1CA1BB00A167A2 /* GuardUpgrades.swift in Sources */,
 				AAC3E3440755015CE2D47145 /* OALAudioFile.m in Sources */,
+				1DCE4E2C1F7162500090DA85 /* EnemyBoatNode.swift in Sources */,
 				1DC78A3B1F1EA3BA00BE2413 /* OceanLevel1.swift in Sources */,
 				1D6AA0201DD79B37004A0978 /* EnemyLeaderNode.swift in Sources */,
 				1D66EE4D1EA1C320009CE669 /* TutorialConfig.swift in Sources */,

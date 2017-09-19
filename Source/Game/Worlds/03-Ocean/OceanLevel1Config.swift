@@ -19,9 +19,6 @@ class OceanLevel1Config: OceanLevelConfig {
             GuardNode(at: CGPoint(y: 0)),
             GuardNode(at: CGPoint(y: -dy)),
         ]
-        for node in septentrions {
-            node << SKLightNode.defaultLight()
-        }
         return nodes + septentrions
     }
 

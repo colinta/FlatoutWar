@@ -483,6 +483,33 @@ extension Level {
         }
     }
 
+    func generateBoat(payload: EnemyBoatNode.Payload, destX: CGFloat, _ genScreenAngle: @escaping @autoclosure () -> CGFloat) -> Block {
+        return {
+            let enemyNode = EnemyBoatNode(payload: payload)
+
+            let screenAngle = genScreenAngle()
+            let start = self.outsideWorld(node: enemyNode, angle: screenAngle)
+            let dest = CGPoint(x: destX, y: start.y)
+
+            enemyNode.position = start
+            enemyNode.setRotation(TAU_2)
+            enemyNode.moveTo(dest, speed: EnemyBoatNode.DefaultSpeed)
+                .onArrived { enemyNode.deploy() }
+            self << enemyNode
+        }
+    }
+
+    func generateGiant(_ genScreenAngle: @escaping @autoclosure () -> CGFloat) -> Block {
+        return {
+            let screenAngle = genScreenAngle()
+            let enemyNode = EnemyGiantNode()
+            enemyNode.position = self.outsideWorld(node: enemyNode, angle: screenAngle)
+            self << enemyNode
+        }
+    }
+}
+
+extension Level {
     func generateEnemyGhost(mimic: Node, angle screenAngle: CGFloat, extra: CGFloat = 0) -> Node {
         let position = outsideWorld(extra: extra, angle: screenAngle)
         let enemyGhost = Node(at: position)
@@ -512,17 +539,6 @@ extension Level {
         return enemyGhost
     }
 
-    func generateGiant(_ genScreenAngle: @escaping @autoclosure () -> CGFloat) -> Block {
-        return {
-            let screenAngle = genScreenAngle()
-            let enemyNode = EnemyGiantNode()
-            enemyNode.position = self.outsideWorld(node: enemyNode, angle: screenAngle)
-            self << enemyNode
-        }
-    }
-}
-
-extension Level {
     func generateAllSidesWarnings() {
         10.times { (i: Int) in
             generateWarning(TAU * CGFloat(i) / 10)
