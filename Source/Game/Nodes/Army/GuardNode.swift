@@ -6,6 +6,7 @@ private let StartingHealth: Float = 35
 
 class GuardNode: Node, DraggableNode {
     var preferredAngle: CGFloat?
+    fileprivate var dragStart: CGPoint?
 
     var movementUpgrade: HasUpgrade = .false { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
     var bulletUpgrade: HasUpgrade = .false { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
@@ -105,8 +106,14 @@ class GuardNode: Node, DraggableNode {
 
         let draggableComponent = DraggableComponent()
         draggableComponent.bindTo(touchableComponent: touchableComponent)
+        draggableComponent.onDragging { isMoving, location in
+            if isMoving && self.dragStart == nil {
+                self.dragStart = self.position
+            }
+        }
         draggableComponent.onDragChange { isMoving in
             self.armyComponent.isMoving = isMoving
+
             if !isMoving {
                 let angle: CGFloat
                 if let playerNode = self.playerNode {
@@ -114,6 +121,10 @@ class GuardNode: Node, DraggableNode {
                 }
                 else if let preferredAngle = self.preferredAngle {
                     angle = preferredAngle
+                }
+                else if let dragStart = self.dragStart {
+                    angle = dragStart.angleTo(self.position)
+                    self.dragStart = nil
                 }
                 else {
                     angle = self.position.angle
