@@ -27,6 +27,8 @@ class OceanLevel: Level {
         for player in players {
             guard let someDrone = player as? DroneNode else { continue }
 
+            player.playerComponent?.targetable = true
+
             if someDrone.radarUpgrade == .true {
                 upgradedDroneNode = someDrone
             }
