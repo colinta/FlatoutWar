@@ -71,7 +71,7 @@ class BasePlayerNode: Node {
         lightNode = SKLightNode.defaultLight()
         super.init()
 
-        // self << lightNode
+        self << lightNode
 
         radarSprite.anchorPoint = CGPoint(0, 0.5)
         radarSprite.z = .belowPlayer
