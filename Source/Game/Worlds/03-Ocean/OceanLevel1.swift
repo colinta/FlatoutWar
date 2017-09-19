@@ -18,6 +18,12 @@ class OceanLevel1: OceanLevel {
     }
 
     override func populateZoomOut() {
+        guard config.defaults("didSeeIntro").bool != true else {
+            super.populateZoomOut()
+            return
+        }
+        config.defaults("didSeeIntro", set: true)
+
         let guardTextNode = TextNode()
         timeline.after(time: 0.5) {
             guardTextNode.text = "SEPTENTRION\nGUARDS\n\nWORK BEST\nIN GROUPS."

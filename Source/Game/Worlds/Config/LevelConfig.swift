@@ -7,24 +7,24 @@ class LevelConfig: Config {
 
     var possibleExperience: Int { return 0 }
     var gainedExperience: Int {
-        get { return Defaults["\(configKey)-gainedExperience"].int ?? 0 }
-        set { return Defaults["\(configKey)-gainedExperience"] = newValue }
+        get { return defaults("gainedExperience").int ?? 0 }
+        set { return defaults("gainedExperience", set: newValue) }
     }
     var percentCompleted: CGFloat {
         guard possibleExperience > 0 else { return 0 }
         return min(CGFloat(gainedExperience) / CGFloat(possibleExperience), 1)
     }
     var levelCompleted: Bool {
-        get { return Defaults.hasKey("\(configKey)-gainedExperience") }
+        get { return defaults(has: "gainedExperience") }
         set {
             if !newValue {
-                Defaults.remove("\(configKey)-gainedExperience")
+                defaults(remove: "gainedExperience")
             }
         }
     }
     var didSeeCutScene: Bool {
-        get { return Defaults["\(configKey)-didSeeCutScene"].bool == true }
-        set { Defaults["\(configKey)-didSeeCutScene"] = newValue }
+        get { return defaults("didSeeCutScene").bool == true }
+        set { defaults("didSeeCutScene", set: newValue) }
     }
 
     func availableArmyNodes() -> [Node] { return [] }
@@ -40,8 +40,8 @@ class LevelConfig: Config {
 
     var hasTutorial: Bool { return tutorial() != nil }
     var seenTutorial: Bool {
-        get { return Defaults["\(configKey)-seenTutorial"].bool ?? false }
-        set { Defaults["\(configKey)-seenTutorial"] = newValue }
+        get { return defaults("seenTutorial").bool ?? false }
+        set { defaults("seenTutorial", set: newValue) }
     }
     func tutorial() -> Tutorial? {
         return nil
