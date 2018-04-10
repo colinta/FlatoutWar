@@ -401,6 +401,7 @@ class WorldSelectWorld: UIWorld {
             let button = generateButton(
                 at: position,
                 level: level, prevLevel: prevLevel)
+            button.enabled = false
             button.text = "\(levelIndex + 1)"
             levelSelect << button
 

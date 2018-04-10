@@ -4,7 +4,7 @@
 
 private let StartingHealth: Float = 20
 
-class DroneNode: Node, DraggableNode {
+class DroneNode: Node {
     var radarUpgrade: HasUpgrade = .false { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
     var bulletUpgrade: HasUpgrade = .false { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
     var movementUpgrade: HasUpgrade = .false { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
@@ -15,7 +15,7 @@ class DroneNode: Node, DraggableNode {
 
     fileprivate func updateBaseSprite() {
         sprite.textureId(.drone(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: healthComponent?.healthInt ?? 100))
-        placeholder.textureId(.drone(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: 100))
+        placeholder?.textureId(.drone(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: 100))
     }
     fileprivate func updateUpgrades() {
         fixedRadar.textureId(.droneRadar(upgrade: radarUpgrade))
@@ -53,7 +53,7 @@ class DroneNode: Node, DraggableNode {
     let scaleNode = SKSpriteNode()
     let growingRadar = SKSpriteNode()
     var sprite = SKSpriteNode()
-    let placeholder = SKSpriteNode()
+    var placeholder: SKSpriteNode? { return draggableComponent?.placeholder as? SKSpriteNode }
 
     override var position: CGPoint {
         didSet {
@@ -73,10 +73,6 @@ class DroneNode: Node, DraggableNode {
         super.init()
 
         self << sprite
-        self << placeholder
-
-        placeholder.alpha = 0.5
-        placeholder.isHidden = true
 
         let playerComponent = PlayerComponent()
         playerComponent.targetable = false
@@ -150,6 +146,10 @@ class DroneNode: Node, DraggableNode {
             }
         }
         addComponent(draggableComponent)
+
+        let placeholder = SKSpriteNode()
+        draggableComponent.placeholder = placeholder
+        self << placeholder
 
         updateUpgrades()
     }

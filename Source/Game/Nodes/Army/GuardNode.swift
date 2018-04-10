@@ -4,7 +4,7 @@
 
 private let StartingHealth: Float = 35
 
-class GuardNode: Node, DraggableNode {
+class GuardNode: Node {
     var preferredAngle: CGFloat?
     fileprivate var dragStart: CGPoint?
 
@@ -16,7 +16,7 @@ class GuardNode: Node, DraggableNode {
 
     fileprivate func updateBaseSprite() {
         baseSprite.textureId(.guardNode(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: healthComponent?.healthInt ?? 100))
-        placeholder.textureId(.guardNode(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: 100))
+        placeholder?.textureId(.guardNode(movementUpgrade: movementUpgrade, bulletUpgrade: bulletUpgrade, radarUpgrade: radarUpgrade, health: 100))
     }
     fileprivate func updateRadarSprite() {
         radarSprite.textureId(.guardRadar(upgrade: radarUpgrade, isSelected: armyComponent.isCurrent))
@@ -47,8 +47,8 @@ class GuardNode: Node, DraggableNode {
     let radarSprite = SKSpriteNode()
     let baseSprite = SKSpriteNode()
     let turretSprite = SKSpriteNode()
-    let placeholder = SKSpriteNode()
     var playerNode: SKNode?
+    var placeholder: SKSpriteNode? { return draggableComponent?.placeholder as? SKSpriteNode }
 
     var isRotating = false
     var targetSpinRate: CGFloat = 0
@@ -56,10 +56,6 @@ class GuardNode: Node, DraggableNode {
 
     required init() {
         super.init()
-
-        self << placeholder
-        placeholder.alpha = 0.5
-        placeholder.isHidden = true
 
         radarSprite.anchorPoint = CGPoint(0, 0.5)
 
@@ -134,6 +130,10 @@ class GuardNode: Node, DraggableNode {
             }
         }
         addComponent(draggableComponent)
+
+        let placeholder = SKSpriteNode()
+        draggableComponent.placeholder = placeholder
+        self << placeholder
 
         let keepRotatingComponent = KeepRotatingComponent()
         keepRotatingComponent.applyTo = turretSprite

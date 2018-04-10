@@ -17,7 +17,10 @@ class LevelConfig: Config {
     var levelCompleted: Bool {
         get { return defaults(has: "gainedExperience") }
         set {
-            if !newValue {
+            if newValue {
+                updateMaxGainedExperience(0)
+            }
+            else {
                 defaults(remove: "gainedExperience")
             }
         }

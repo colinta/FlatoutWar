@@ -4,7 +4,7 @@
 
 private let StartingHealth: Float = 60
 
-class LaserNode: Node, DraggableNode {
+class LaserNode: Node {
     var radarUpgrade: HasUpgrade = .false { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
     var bulletUpgrade: HasUpgrade = .false { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
     var movementUpgrade: HasUpgrade = .false { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
@@ -19,7 +19,7 @@ class LaserNode: Node, DraggableNode {
     }
     fileprivate func updateUpgrades() {
         baseSprite.textureId(.laserNode(upgrade: movementUpgrade, health: healthComponent?.healthInt ?? 100))
-        placeholder.textureId(.laserNode(upgrade: movementUpgrade, health: 100))
+        placeholder?.textureId(.laserNode(upgrade: movementUpgrade, health: 100))
         updateRadarSprite()
         updateTurretSprite()
 
@@ -38,8 +38,8 @@ class LaserNode: Node, DraggableNode {
     let baseSprite = SKSpriteNode()
     let turretSprite = SKSpriteNode()
     let beamSprite = SKSpriteNode()
-    let placeholder = SKSpriteNode()
     let forceFirePercent = PercentBar()
+    var placeholder: SKSpriteNode? { return draggableComponent?.placeholder as? SKSpriteNode }
 
     var isRotating = false
     var isFiring = false { didSet {
@@ -53,10 +53,6 @@ class LaserNode: Node, DraggableNode {
 
     required init() {
         super.init()
-
-        self << placeholder
-        placeholder.alpha = 0.5
-        placeholder.isHidden = true
 
         radarSprite.position = CGPoint(x: -5)
         radarSprite.anchorPoint = CGPoint(0, 0.5)
@@ -114,7 +110,6 @@ class LaserNode: Node, DraggableNode {
         touchableComponent.on(.dragBeganInside, draggableComponent.draggingBegan)
         touchableComponent.on(.dragEnded, draggableComponent.draggingEnded)
         touchableComponent.onDragged(draggableComponent.draggingMoved)
-
         draggableComponent.onDragChange { isMoving in
             self.armyComponent.isMoving = isMoving
             if !isMoving {
@@ -122,6 +117,10 @@ class LaserNode: Node, DraggableNode {
             }
         }
         addComponent(draggableComponent)
+
+        let placeholder = SKSpriteNode()
+        draggableComponent.placeholder = placeholder
+        self << placeholder
 
         let rotateToComponent = RotateToComponent()
         rotateToComponent.applyTo = baseSprite

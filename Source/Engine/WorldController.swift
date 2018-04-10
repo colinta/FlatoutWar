@@ -20,11 +20,8 @@ class WorldController: UIViewController {
         let view = WorldView(frame: UIScreen.main.bounds)
         self.worldView = view
         self.view = worldView
-#if DEBUG
-        Defaults["colin"] = true
-#endif
         if Defaults["colin"].bool == true {
-            let world = OceanLevel1()
+            let world = MainMenuWorld()
             view.presentWorld(world)
         }
         else if Defaults["hasSeenStartup"].bool == true {

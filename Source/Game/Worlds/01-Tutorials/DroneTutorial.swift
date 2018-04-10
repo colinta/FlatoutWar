@@ -110,7 +110,7 @@ class DroneTutorial: Tutorial {
             location.y = -2 * location.x / 3
             self.drone.draggableComponent?.draggingMoved(from: prev, to: location)
 
-            if self.drone.placeholder.position.x < -70 {
+            if let x = self.drone.placeholder?.position.x, x < -70 {
                 self.drone.draggableComponent!.draggingEnded(at: location)
                 holdButton.removeFromParent()
             }

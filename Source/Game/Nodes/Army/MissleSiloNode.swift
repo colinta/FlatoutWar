@@ -4,7 +4,7 @@
 
 private let StartingHealth: Float = 50
 
-class MissleSiloNode: Node, DraggableNode {
+class MissleSiloNode: Node {
     var radarUpgrade: HasUpgrade = .false { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
     var bulletUpgrade: HasUpgrade = .false { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
     var movementUpgrade: HasUpgrade = .false { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
@@ -17,7 +17,7 @@ class MissleSiloNode: Node, DraggableNode {
     fileprivate func updateUpgrades() {
         turretBox.textureId(.missleSiloBox(upgrade: bulletUpgrade))
         baseSprite.textureId(.missleSilo(upgrade: movementUpgrade, health: healthComponent?.healthInt ?? 100))
-        placeholder.textureId(.missleSilo(upgrade: movementUpgrade, health: 100))
+        placeholder?.textureId(.missleSilo(upgrade: movementUpgrade, health: 100))
         updateRadarSprite()
 
         draggableComponent?.speed = movementUpgrade.missleSiloMovementSpeed
@@ -78,7 +78,7 @@ class MissleSiloNode: Node, DraggableNode {
         }
     }
     fileprivate var missleSprites: [SKSpriteNode] = []
-    let placeholder = SKSpriteNode()
+    var placeholder: SKSpriteNode? { return draggableComponent?.placeholder as? SKSpriteNode }
 
     var isDragging = false
     var dragStart: CGPoint?
@@ -86,10 +86,6 @@ class MissleSiloNode: Node, DraggableNode {
     required init() {
         missleCount = maxMissleCount
         super.init()
-
-        self << placeholder
-        placeholder.alpha = 0.5
-        placeholder.isHidden = true
 
         baseSprite.z = .player
         radarSprite.z = .belowPlayer
@@ -140,7 +136,6 @@ class MissleSiloNode: Node, DraggableNode {
         touchableComponent.on(.dragBeganInside, draggableComponent.draggingBegan)
         touchableComponent.on(.dragEnded, draggableComponent.draggingEnded)
         touchableComponent.onDragged(draggableComponent.draggingMoved)
-
         draggableComponent.onDragChange { isMoving in
             self.armyComponent.isMoving = isMoving
             self.world?.unselectNode(self)
@@ -149,6 +144,10 @@ class MissleSiloNode: Node, DraggableNode {
             }
         }
         addComponent(draggableComponent)
+
+        let placeholder = SKSpriteNode()
+        draggableComponent.placeholder = placeholder
+        self << placeholder
 
         let rotateToComponent = RotateToComponent()
         rotateToComponent.applyTo = baseSprite

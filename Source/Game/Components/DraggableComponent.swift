@@ -2,13 +2,15 @@
 ///  DraggableComponent.swift
 //
 
-protocol DraggableNode: class {
-    var placeholder: SKSpriteNode { get }
-}
-
 class DraggableComponent: Component {
     var speed: CGFloat? = 30
-    var placeholder: SKNode? { return (node as? DraggableNode)?.placeholder }
+    var placeholder: SKNode? {
+        didSet {
+            guard let placeholder = placeholder else { return }
+            placeholder.alpha = 0.5
+            placeholder.isHidden = true
+        }
+    }
     var target: CGPoint?
     var shouldAdjustEnabled: Bool?
 

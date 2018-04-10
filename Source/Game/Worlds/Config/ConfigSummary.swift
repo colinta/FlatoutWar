@@ -27,7 +27,7 @@ class ConfigSummary: Config {
 
     func completeAll() {
         for c in configs {
-            c.updateMaxGainedExperience(c.possibleExperience)
+            c.levelCompleted = true
         }
     }
 

@@ -7,10 +7,14 @@ class EnemyBoatNode: Node {
 
     enum Payload {
         case twoSoldiers
+        case scouts
+        case leader
 
         var nodes: [EnemySoldierNode] {
             switch self {
             case .twoSoldiers: return [EnemySoldierNode(), EnemySoldierNode()]
+            case .scouts: return [EnemyScoutNode(), EnemyScoutNode(), EnemyScoutNode()]
+            case .leader: return [EnemyLeaderNode(), EnemySoldierNode()]
             }
         }
     }

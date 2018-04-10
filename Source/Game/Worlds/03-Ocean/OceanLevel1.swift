@@ -60,8 +60,8 @@ class OceanLevel1: OceanLevel {
 
     override func populateLevel() {
         linkWaves(
-            beginWave1
-        //     beginWave2
+            beginWave1,
+            beginWave2
             )
     }
 
@@ -71,7 +71,13 @@ class OceanLevel1: OceanLevel {
            block: self.generateBoat(payload: .twoSoldiers, destX: oceanStartX, self.randSideAngle(.right))) ~~> nextStep()
     }
 
-    //
+    // BOATS onslaught
     func beginWave2(nextStep: @escaping NextStepBlock) {
+        timeline.every(1.5...2.5, start: .Delayed(), times: 20,
+           block: self.generateBoat(payload: .twoSoldiers, destX: oceanStartX, self.randSideAngle(.right))) ~~> nextStep()
+        timeline.every(3...5, start: .Delayed(), times: 8,
+           block: self.generateBoat(payload: .leader, destX: oceanStartX, self.randSideAngle(.right))) ~~> nextStep()
+        timeline.every(2.5...4, start: .Delayed(), times: 12,
+           block: self.generateBoat(payload: .scouts, destX: oceanStartX, self.randSideAngle(.right))) ~~> nextStep()
     }
 }

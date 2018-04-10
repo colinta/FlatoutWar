@@ -5,6 +5,9 @@
 class MainMenuWorld: World {
 
     override func populateWorld() {
+        TutorialConfigSummary().completeAll()
+        WoodsConfigSummary().completeAll()
+
         let twoDim = TextNode(fixed: .top(x: 0, y: -20))
         twoDim.setScale(0.75)
         twoDim.text = "2DIM"

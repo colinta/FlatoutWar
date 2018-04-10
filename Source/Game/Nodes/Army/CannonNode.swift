@@ -4,7 +4,7 @@
 
 private let StartingHealth: Float = 50
 
-class CannonNode: Node, DraggableNode {
+class CannonNode: Node {
     var radarUpgrade: HasUpgrade = .false { didSet { if radarUpgrade != oldValue { updateUpgrades() } } }
     var bulletUpgrade: HasUpgrade = .false { didSet { if bulletUpgrade != oldValue { updateUpgrades() } } }
     var movementUpgrade: HasUpgrade = .false { didSet { if movementUpgrade != oldValue { updateUpgrades() } } }
@@ -21,7 +21,7 @@ class CannonNode: Node, DraggableNode {
             turretSprite.textureId(.cannonTurret(upgrade: bulletUpgrade))
         }
         baseSprite.textureId(.cannon(upgrade: movementUpgrade, health: healthComponent?.healthInt ?? 100))
-        placeholder.textureId(.cannon(upgrade: movementUpgrade, health: 100))
+        placeholder?.textureId(.cannon(upgrade: movementUpgrade, health: 100))
         updateRadarSprite()
 
         draggableComponent?.speed = movementUpgrade.cannonMovementSpeed
@@ -49,16 +49,12 @@ class CannonNode: Node, DraggableNode {
     let turretSprites = [
         SKSpriteNode(), SKSpriteNode()
     ]
-    let placeholder = SKSpriteNode()
+    var placeholder: SKSpriteNode? { return draggableComponent?.placeholder as? SKSpriteNode }
 
     var isRotating = false
 
     required init() {
         super.init()
-
-        self << placeholder
-        placeholder.alpha = 0.5
-        placeholder.isHidden = true
 
         radarSprite.position = CGPoint(x: -5)
         radarSprite.anchorPoint = CGPoint(0, 0.5)
@@ -124,7 +120,6 @@ class CannonNode: Node, DraggableNode {
         touchableComponent.on(.dragBeganInside, draggableComponent.draggingBegan)
         touchableComponent.on(.dragEnded, draggableComponent.draggingEnded)
         touchableComponent.onDragged(draggableComponent.draggingMoved)
-
         draggableComponent.onDragChange { isMoving in
             self.armyComponent.isMoving = isMoving
             if !isMoving {
@@ -132,6 +127,10 @@ class CannonNode: Node, DraggableNode {
             }
         }
         addComponent(draggableComponent)
+
+        let placeholder = SKSpriteNode()
+        draggableComponent.placeholder = placeholder
+        self << placeholder
 
         let rotateToComponent = RotateToComponent()
         rotateToComponent.applyTo = baseSprite
