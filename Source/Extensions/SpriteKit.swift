@@ -84,6 +84,7 @@ extension SKNode {
         return child.inParentHierarchy(self)
     }
 
+    @objc
     func setRotation(_ angle: CGFloat) {
         zRotation = angle
     }

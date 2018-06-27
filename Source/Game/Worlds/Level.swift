@@ -95,6 +95,9 @@ class Level: World {
         timeline.after(time: 2, block: populateLevel)
     }
 
+    func populateLevel() {
+    }
+
     override func update(_ dt: CGFloat) {
         super.update(dt)
         for powerup in powerups {
@@ -168,20 +171,13 @@ class Level: World {
         }
         return pt
     }
-}
 
-extension Level {
     func addToPossibleExperience(_ exp: Int) {
         possibleExperience += exp
     }
 
     func addToGainedExperience(_ exp: Int) {
         gainedExperience += exp
-    }
-}
-
-extension Level {
-    func populateLevel() {
     }
 
     fileprivate func populateUI() {
@@ -190,7 +186,7 @@ extension Level {
             ui << experiencePercent!
         }
 
-        pauseButton.onTapped { _ in
+        pauseButton.onTapped {
             if self.worldPaused {
                 self.unpause()
             }
@@ -272,9 +268,7 @@ extension Level {
             powerup.addToLevel(self, playerNode: playerNode, start: calculateFixedPosition(start), dest: dest)
         }
     }
-}
 
-extension Level {
     fileprivate func updatePlayer(_ node: Node) {
         node.healthComponent?.onKilled {
             if self.playerNode == node {
@@ -287,9 +281,7 @@ extension Level {
 
         shouldPopulatePlayer = false
     }
-}
 
-extension Level {
     func goBackToLevelSelect() {
         goToLevelSelect()
     }
@@ -445,9 +437,7 @@ extension Level {
             nextButton.visible = true
         }
     }
-}
 
-extension Level {
     func addArmyNode(_ node: Node) {
         if node is BasePlayerNode {
             fatalError("player node should not be added in this way")
@@ -461,24 +451,18 @@ extension Level {
             self << node
         }
     }
-}
 
-extension Level {
     func linkWaves(_ waves: ((@escaping NextStepBlock) -> Void)...) {
         guard let beginWave1 = waves.first else { return }
 
-        var nextWave: Block = {
-            self.completeLevel()
-        }
-        var nextStep = afterAllWaves(nextWave: nextWave)
+        var nextStep = afterAllWaves(nextWave: { self.completeLevel() })
         if waves.count > 1 {
             for wave in waves[1..<waves.count].reversed() {
                 let prevStep = nextStep
-                nextWave = {
+                nextStep = afterAllWaves(nextWave: {
                     self.printStatus()
                     wave(prevStep)
-                }
-                nextStep = afterAllWaves(nextWave: nextWave)
+                })
             }
         }
         beginWave1(nextStep)

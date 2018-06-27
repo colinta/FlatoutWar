@@ -22,13 +22,7 @@ extension HasUpgrade: ExpressibleByBooleanLiteral {
     init(booleanLiteral value: Bool) {
         self = value ? .true : .false
     }
-}
-
-extension HasUpgrade {
     var boolValue: Bool { return self == .true }
-}
-
-extension HasUpgrade {
     var targetsPreemptively: Bool {
         return self.boolValue
     }

@@ -25,7 +25,7 @@
 import Foundation
 import CoreFoundation
 
-public extension UserDefaults {
+extension UserDefaults {
     class Proxy {
         fileprivate let defaults: UserDefaults
         fileprivate let key: String
@@ -37,43 +37,43 @@ public extension UserDefaults {
 
         // MARK: Getters
 
-        public var object: NSObject? {
+        var object: NSObject? {
             return defaults.object(forKey: key) as? NSObject
         }
 
-        public var string: String? {
+        var string: String? {
             return defaults.string(forKey: key)
         }
 
-        public var array: [Any]? {
+        var array: [Any]? {
             return defaults.array(forKey: key)
         }
 
-        public var dictionary: [String: Any]? {
+        var dictionary: [String: Any]? {
             return defaults.dictionary(forKey: key)
         }
 
-        public var data: Data? {
+        var data: Data? {
             return defaults.data(forKey: key)
         }
 
-        public var date: NSDate? {
+        var date: NSDate? {
             return object as? NSDate
         }
 
-        public var number: NSNumber? {
+        var number: NSNumber? {
             return object as? NSNumber
         }
 
-        public var int: Int? {
+        var int: Int? {
             return number?.intValue
         }
 
-        public var double: Double? {
+        var double: Double? {
             return number?.doubleValue
         }
 
-        public var point: CGPoint? {
+        var point: CGPoint? {
             let x = Proxy(defaults, key + ".x").double
             let y = Proxy(defaults, key + ".y").double
             if let x = x, let y = y {
@@ -82,20 +82,20 @@ public extension UserDefaults {
             return nil
         }
 
-        public var bool: Bool? {
+        var bool: Bool? {
             return number?.boolValue
         }
     }
 
     /// Returns getter proxy for `key`
 
-    public subscript(key: String) -> Proxy {
+    subscript(key: String) -> Proxy {
         return Proxy(self, key)
     }
 
     /// Sets value for `key`
 
-    public subscript(key: String) -> Any? {
+    subscript(key: String) -> Any? {
         get {
             return self[key]
         }
@@ -121,13 +121,13 @@ public extension UserDefaults {
 
     /// Returns `true` if `key` exists
 
-    public func hasKey(_ key: String) -> Bool {
+    func hasKey(_ key: String) -> Bool {
         return object(forKey: key) != nil
     }
 
     /// Removes value for `key`
 
-    public func remove(_ key: String) {
+    func remove(_ key: String) {
         removeObject(forKey: key)
     }
 }
@@ -138,7 +138,7 @@ infix operator ?= : AssignmentPrecedence
 /// Note: This isn't the same as `Defaults.registerDefaults`. This method saves the new value to disk, whereas `registerDefaults` only modifies the defaults in memory.
 /// Note: If key already exists, the expression after ?= isn't evaluated
 
-public func ?= (proxy: UserDefaults.Proxy, expr: @autoclosure () -> Any) {
+func ?= (proxy: UserDefaults.Proxy, expr: @autoclosure () -> Any) {
     if !proxy.defaults.hasKey(proxy.key) {
         proxy.defaults[proxy.key] = expr()
     }
@@ -147,12 +147,12 @@ public func ?= (proxy: UserDefaults.Proxy, expr: @autoclosure () -> Any) {
 /// Adds `b` to the key (and saves it as an integer)
 /// If key doesn't exist or isn't a number, sets value to `b`
 
-public func += (proxy: UserDefaults.Proxy, b: Int) {
+func += (proxy: UserDefaults.Proxy, b: Int) {
     let a = proxy.defaults[proxy.key].int ?? 0
     proxy.defaults[proxy.key] = a + b
 }
 
-public func += (proxy: UserDefaults.Proxy, b: Double) {
+func += (proxy: UserDefaults.Proxy, b: Double) {
     let a = proxy.defaults[proxy.key].double ?? 0
     proxy.defaults[proxy.key] = a + b
 }
@@ -160,8 +160,8 @@ public func += (proxy: UserDefaults.Proxy, b: Double) {
 /// Icrements key by one (and saves it as an integer)
 /// If key doesn't exist or isn't a number, sets value to 1
 
-public postfix func ++ (proxy: UserDefaults.Proxy) {
+postfix func ++ (proxy: UserDefaults.Proxy) {
     proxy += 1
 }
 
-public let Defaults = UserDefaults.standard
+let Defaults = UserDefaults.standard

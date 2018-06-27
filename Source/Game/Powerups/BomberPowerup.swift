@@ -41,7 +41,7 @@ class BomberPowerup: Powerup {
             bomber.timeRate = 1 / slowmo
             bomber.scaleTo(1, start: 1.5, duration: 1)
             bomber.fadeTo(1, start: 0, duration: 1)
-            bomber.followPathComponent.pathFn = pathNode.pathFn
+            bomber.followPathComponent.pathFn = { t, v in return pathNode.pathFn((t, v)) }
             bomber.followPathComponent.onArrived {
                 bomber.timeRate = 1
                 level.timeRate = 1

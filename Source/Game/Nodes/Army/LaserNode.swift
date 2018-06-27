@@ -103,7 +103,7 @@ class LaserNode: Node {
 
         let selectableComponent = SelectableComponent()
         selectableComponent.bindTo(touchableComponent: touchableComponent)
-        selectableComponent.onSelected { self.armyComponent.isCurrentSelected = $0 }
+        selectableComponent.onSelected { self.armyComponent.isCurrentSelected = ($0, $1) }
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()
@@ -213,7 +213,6 @@ class LaserNode: Node {
     }
 }
 
-// MARK: Touch events
 extension LaserNode {
     func onDraggingOutside(at location: CGPoint) {
         isRotating = true
@@ -231,7 +230,6 @@ extension LaserNode {
     }
 }
 
-// MARK: Rotation
 extension LaserNode {
     func startRotatingTo(angle: CGFloat) {
         rotateToComponent?.target = angle

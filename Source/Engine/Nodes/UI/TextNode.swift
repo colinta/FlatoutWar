@@ -52,13 +52,13 @@ class TextNode: Node {
     func updateTextNodes() {
         textSprite.removeAllChildren()
 
-        let lines: [String] = text.characters.split { $0 == "\n" }.map { String($0) }
+        let lines: [String] = text.split { $0 == "\n" }.map { String($0) }
         let verticalSpace: CGFloat = font.font.verticalSpace
         let letterSpace = font.font.space
         let heightOffset = 2 * font.font.scale
 
         let spriteCollection = lines.map { line in
-            return line.characters.map { (char: Character) -> SKSpriteNode in
+            return line.map { (char: Character) -> SKSpriteNode in
                 if color == WhiteColor {
                     return SKSpriteNode(id: .whiteLetter(String(char), size: font))
                 }

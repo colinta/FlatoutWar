@@ -129,7 +129,7 @@ class MissleSiloNode: Node {
 
         let selectableComponent = SelectableComponent()
         selectableComponent.bindTo(touchableComponent: touchableComponent)
-        selectableComponent.onSelected { self.armyComponent.isCurrentSelected = $0 }
+        selectableComponent.onSelected { self.armyComponent.isCurrentSelected = ($0, $1) }
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()
@@ -208,7 +208,6 @@ class MissleSiloNode: Node {
     }
 }
 
-// MARK: Fire Bullet
 extension MissleSiloNode {
     fileprivate func fireBullet(target: Node) {
         guard let world = world else { return }
@@ -234,7 +233,6 @@ extension MissleSiloNode {
     }
 }
 
-// MARK: Touch events
 extension MissleSiloNode {
     func onDraggingBegan(at location: CGPoint) {
         isDragging = true
@@ -263,7 +261,6 @@ extension MissleSiloNode {
     }
 }
 
-// MARK: Rotation
 extension MissleSiloNode {
     func startRotatingTo(angle: CGFloat) {
         rotateToComponent?.target = angle

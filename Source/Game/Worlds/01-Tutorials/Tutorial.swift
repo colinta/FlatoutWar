@@ -61,7 +61,7 @@ class Tutorial: World {
         ui << tutorialTextNode
 
         closeButton.visible = false
-        closeButton.onTapped { _ in
+        closeButton.onTapped {
             self.goToNextWorld()
         }
         ui << closeButton

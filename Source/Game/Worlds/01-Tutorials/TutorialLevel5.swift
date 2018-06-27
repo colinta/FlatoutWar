@@ -40,7 +40,7 @@ class TutorialLevel5: TutorialLevel {
     func beginWave4(nextStep: @escaping NextStepBlock) {
         var trios = 7
         var quads = 6
-        let angles = [
+        let angles: [CGFloat] = [
             size.angle,
             size.angle / 2,
             size.angle / 6,

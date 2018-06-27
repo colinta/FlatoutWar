@@ -122,8 +122,10 @@ class PathDrawingNode: Node {
 
             let firstPoint = points.first ?? .zero
             let lastPoint = points.last ?? .zero
-            self.pathFn = { time, velocity in
+            self.pathFn = { (arg) in
                 // hack to return the totalLength and totalTime
+
+                let (time, velocity) = arg
                 if time < 0 { return CGPoint(totalLength, totalLength / velocity) }
                 // don't bother calculating for t=0
                 if time == 0 { return firstPoint }

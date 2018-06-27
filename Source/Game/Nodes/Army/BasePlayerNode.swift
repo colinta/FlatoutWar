@@ -98,7 +98,7 @@ class BasePlayerNode: Node {
         addComponent(touchAimingComponent)
 
         let selectableComponent = SelectableComponent()
-        selectableComponent.onSelected { _ in
+        selectableComponent.onSelected { _,_  in
             self.updateRadarSprite()
         }
         addComponent(selectableComponent)
@@ -161,8 +161,6 @@ class BasePlayerNode: Node {
 
 }
 
-// MARK: Aiming helpers
-
 extension BasePlayerNode {
 
     func aimAt(node: Node, location: CGPoint? = nil) {
@@ -179,8 +177,6 @@ extension BasePlayerNode {
     }
 
 }
-
-// MARK: Fire Bullet
 
 extension BasePlayerNode {
 
@@ -219,8 +215,6 @@ extension BasePlayerNode {
     }
 
 }
-
-// MARK: Touch events
 
 extension BasePlayerNode {
 

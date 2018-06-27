@@ -113,7 +113,7 @@ class CannonNode: Node {
 
         let selectableComponent = SelectableComponent()
         selectableComponent.bindTo(touchableComponent: touchableComponent)
-        selectableComponent.onSelected { self.armyComponent.isCurrentSelected = $0 }
+        selectableComponent.onSelected { self.armyComponent.isCurrentSelected = ($0, $1) }
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()
@@ -172,7 +172,6 @@ class CannonNode: Node {
     }
 }
 
-// MARK: Fire Bullet
 extension CannonNode {
     fileprivate func fireBullet(enemyPosition: CGPoint) {
         guard let world = world else { return }
@@ -201,7 +200,6 @@ extension CannonNode {
     }
 }
 
-// MARK: Touch events
 extension CannonNode {
     func onDraggingOutside(at location: CGPoint) {
         isRotating = true
@@ -219,7 +217,6 @@ extension CannonNode {
     }
 }
 
-// MARK: Rotation
 extension CannonNode {
     func startRotatingTo(angle: CGFloat) {
         rotateToComponent?.target = angle

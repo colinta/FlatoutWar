@@ -131,7 +131,7 @@ class DroneNode: Node {
 
         let selectableComponent = SelectableComponent()
         selectableComponent.bindTo(touchableComponent: touchableComponent)
-        selectableComponent.onSelected { self.armyComponent.isCurrentSelected = $0 }
+        selectableComponent.onSelected { self.armyComponent.isCurrentSelected = ($0, $1) }
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()
@@ -178,8 +178,6 @@ class DroneNode: Node {
     }
 }
 
-// MARK: Fire Bullet
-
 extension DroneNode {
     fileprivate func fireBullet(angle: CGFloat) {
         guard let world = world else { return }
@@ -199,7 +197,6 @@ extension DroneNode {
     }
 }
 
-// MARK: Rotation
 extension DroneNode {
     func startRotatingTo(angle: CGFloat) {
     }

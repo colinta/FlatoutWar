@@ -2,28 +2,22 @@
 ///  CGRectExt.swift
 //
 
-public extension CGRect {
-
-// MARK: convenience
+extension CGRect {
 
     init(x: CGFloat, y: CGFloat, right: CGFloat, bottom: CGFloat) {
-        origin = CGPoint(x: x, y: y)
-        size = CGSize(width: right - x, height: bottom - y)
+        self.init(origin: CGPoint(x: x, y: y), size: CGSize(width: right - x, height: bottom - y))
     }
 
     init(size: CGSize) {
-        origin = .zero
-        self.size = size
+        self.init(origin: .zero, size: size)
     }
 
     init(centerSize size: CGSize) {
-        origin = CGPoint(-size.width / 2, -size.height / 2)
-        self.size = size
+        self.init(origin: CGPoint(-size.width / 2, -size.height / 2), size: size)
     }
 
     init(center: CGPoint, size: CGSize) {
-        origin = CGPoint(center.x - size.width / 2, center.y - size.height / 2)
-        self.size = size
+        self.init(origin: CGPoint(center.x - size.width / 2, center.y - size.height / 2), size: size)
     }
 
     init(center: CGPoint, radius: CGFloat) {
@@ -35,7 +29,6 @@ public extension CGRect {
         return CGRect(x: x, y: y, width: 0, height: 0)
     }
 
-// MARK: helpers
     var x: CGFloat { return self.origin.x }
     var y: CGFloat { return self.origin.y }
     var center: CGPoint {

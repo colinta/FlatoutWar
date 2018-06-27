@@ -8,7 +8,7 @@ class FollowPathComponent: Component {
     private(set) var totalTime: CGFloat = 0
     var time: CGFloat = 0
     var velocity: CGFloat = 50
-    var pathFn: (CGFloat, CGFloat) -> (CGPoint) {
+    var pathFn: ((CGFloat, CGFloat) -> CGPoint) {
         didSet {
             time = 0
 
@@ -53,7 +53,7 @@ class FollowPathComponent: Component {
     }
 
     required override init() {
-        pathFn = { _ in return .zero }
+        pathFn = { _,_  in return .zero }
         super.init()
     }
 

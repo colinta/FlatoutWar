@@ -89,9 +89,6 @@ class WorldScene: SKScene {
         prevTime = currentTime
     }
 
-}
-
-extension WorldScene {
     func gameShook() {
         world.worldShook()
     }

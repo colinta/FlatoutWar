@@ -10,7 +10,7 @@ class DemoWorld: World {
         self << playerNode
 
         let closeButton = CloseButton()
-        closeButton.onTapped { _ in
+        closeButton.onTapped {
             self.director?.presentWorld(TutorialSelectWorld())
         }
         ui << closeButton
@@ -20,7 +20,7 @@ class DemoWorld: World {
         restartButton.setScale(0.5)
         restartButton.size = CGSize(60)
         restartButton.text = "O"
-        restartButton.onTapped { _ in
+        restartButton.onTapped {
             self.restartWorld()
         }
         ui << restartButton

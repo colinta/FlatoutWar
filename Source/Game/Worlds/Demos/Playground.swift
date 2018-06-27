@@ -109,7 +109,7 @@ class Playground: World {
 
     func diamond() {
         let closeButton = CloseButton()
-        closeButton.onTapped { _ in
+        closeButton.onTapped {
             self.director?.presentWorld(MainMenuWorld())
         }
         ui << closeButton

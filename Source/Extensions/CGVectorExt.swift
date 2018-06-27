@@ -5,8 +5,7 @@
 extension CGVector {
 
     init(r: CGFloat, a: CGFloat) {
-        dx = r * cos(a)
-        dy = r * sin(a)
+        self.init(dx: r * cos(a), dy: r * sin(a))
     }
 
 }

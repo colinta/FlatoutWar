@@ -104,6 +104,13 @@ class Node: SKNode {
         return type(of: self).init()
     }
 
+    func update(_ dt: CGFloat) {
+    }
+
+    override func setRotation(_ angle: CGFloat) {
+        super.setRotation(angle)
+        rotateToComponent?.target = nil
+    }
 
     override func move(toParent node: SKNode) {
         let oldVal = autoReset
@@ -162,7 +169,7 @@ class Node: SKNode {
             return []
         }
 
-        let nodes: [Node] = children.flatMap { sknode in
+        let nodes: [Node] = children.compactMap { sknode in
             if let node = sknode as? Node, interactive == nil || node.interactive == interactive
             {
                 return node
@@ -175,8 +182,6 @@ class Node: SKNode {
     }
 
 }
-
-// MARK: Update Cycle
 
 extension Node {
 
@@ -203,19 +208,9 @@ extension Node {
         }
     }
 
-    func update(_ dt: CGFloat) {
-    }
-
 }
 
-// MARK: Positions and Angles
-
 extension Node {
-
-    override func setRotation(_ angle: CGFloat) {
-        super.setRotation(angle)
-        rotateToComponent?.target = nil
-    }
 
     func touchingLocation(_ node: Node) -> CGPoint? {
         if touches(node) {
@@ -226,8 +221,6 @@ extension Node {
     }
 
 }
-
-// MARK: Node Intersections
 
 extension Node {
 
@@ -240,8 +233,6 @@ extension Node {
     }
 
 }
-
-// MARK: Add/Remove Components
 
 extension Node {
 
@@ -327,10 +318,6 @@ extension Node {
     fileprivate func unarchiveComponents() {
         fatalError("no support for addComponent(assign: false)")
     }
-
-}
-
-extension Node {
 
     @discardableResult
     func addMod(_ mod: Mod) -> NSUUID {

@@ -97,7 +97,7 @@ class GuardNode: Node {
 
         let selectableComponent = SelectableComponent()
         selectableComponent.bindTo(touchableComponent: touchableComponent)
-        selectableComponent.onSelected { self.armyComponent.isCurrentSelected = $0 }
+        selectableComponent.onSelected { self.armyComponent.isCurrentSelected = ($0, $1) }
         addComponent(selectableComponent)
 
         let draggableComponent = DraggableComponent()
@@ -194,7 +194,6 @@ class GuardNode: Node {
     }
 }
 
-// MARK: Fire Bullet
 extension GuardNode {
     fileprivate func fireBullet(angle: CGFloat) {
         guard let world = world else { return }
@@ -213,7 +212,6 @@ extension GuardNode {
     }
 }
 
-// MARK: Rotation
 extension GuardNode {
     override func setRotation(_ angle: CGFloat) {
         radarSprite.zRotation = angle

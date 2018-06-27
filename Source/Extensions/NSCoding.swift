@@ -2,7 +2,7 @@
 ///  NSCoding.swift
 //
 
-public extension NSCoder {
+extension NSCoder {
 
     func decode<T>(key: String) -> T {
         return decodeObject(forKey: key) as! T

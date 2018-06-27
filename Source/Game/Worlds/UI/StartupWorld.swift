@@ -81,7 +81,7 @@ class StartupWorld: World {
             self.drawTitle()
 
             let touchableComponent = TouchableComponent()
-            touchableComponent.containsTouchTest = { _ in return true }
+            touchableComponent.containsTouchTest = { node, pt in return true }
             touchableComponent.on(.up) { _ in
                 self.director?.presentWorld(MainMenuWorld())
             }
