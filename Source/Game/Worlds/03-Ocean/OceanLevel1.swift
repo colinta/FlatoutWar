@@ -2,8 +2,6 @@
 ///  OceanLevel1.swift
 //
 
-//
-
 class OceanLevel1: OceanLevel {
     override func loadConfig() -> LevelConfig { return OceanLevel1Config() }
 

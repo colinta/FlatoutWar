@@ -52,12 +52,22 @@ class WorldSelectWorld: UIWorld {
             from: CGPoint(x: -175, y: 100),
             to: CGPoint(x: -125, y: 100)
         )
+        worldSelect << Line(
+            from: CGPoint(x: -100, y: 100),
+            to: CGPoint(x: -100, y: 25)
+        )
+        worldSelect << Line(
+            from: CGPoint(x: -75),
+            to: CGPoint.zero
+        )
 
         let summaryConfig = GameConfigSummary()
-        let tutorialConfig = TutorialConfigSummary()
-        let baseConfig = WoodsConfigSummary()
-
         populateCurrencies(config: summaryConfig)
+
+        let tutorialConfig = TutorialConfigSummary()
+        let woodsConfig = WoodsConfigSummary()
+        let oceanConfig = OceanConfigSummary()
+        let baseConfig = OceanConfigSummary()
 
         do {
             let button = Button(at: worldLocations[.tutorial]!)
@@ -93,7 +103,7 @@ class WorldSelectWorld: UIWorld {
             if button.enabled {
                 let box = LevelCompleteBox()
                 box.size = button.size
-                box.complete = baseConfig.percentCompleted
+                box.complete = woodsConfig.percentCompleted
                 button << box
             }
         }
@@ -103,7 +113,7 @@ class WorldSelectWorld: UIWorld {
             button.background = BackgroundColor
             button.style = .squareSized(50)
             button.font = .big
-            button.enabled = tutorialConfig.worldCompleted
+            button.enabled = woodsConfig.worldCompleted
             button.onTapped {
                 self.interactionEnabled = false
                 self.transitionToOcean()
@@ -114,7 +124,7 @@ class WorldSelectWorld: UIWorld {
             if button.enabled {
                 let box = LevelCompleteBox()
                 box.size = button.size
-                box.complete = baseConfig.percentCompleted
+                box.complete = oceanConfig.percentCompleted
                 button << box
             }
         }
@@ -124,7 +134,7 @@ class WorldSelectWorld: UIWorld {
             button.background = BackgroundColor
             button.style = .squareSized(50)
             button.font = .big
-            button.enabled = tutorialConfig.worldCompleted
+            button.enabled = oceanConfig.worldCompleted
             button.onTapped {
                 self.interactionEnabled = false
                 self.transitionToBase()
@@ -401,7 +411,6 @@ class WorldSelectWorld: UIWorld {
             let button = generateButton(
                 at: position,
                 level: level, prevLevel: prevLevel)
-            button.enabled = false
             button.text = "\(levelIndex + 1)"
             levelSelect << button
 

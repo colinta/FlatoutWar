@@ -7,7 +7,7 @@ typealias TreeInfo = WoodsLevel.TreeInfo
 class WoodsLevelConfig: LevelConfig {
 
     override func availablePowerups() -> [Powerup] { return [
-        GrenadePowerup(count: 2),
+        GrenadePowerup(count: 20),
         LaserPowerup(count: 1),
         MinesPowerup(count: 1),
     ] }
