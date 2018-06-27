@@ -25,8 +25,8 @@ class AutoFireTutorial: Tutorial {
 
         timeline.at(1) {
             self.showWhy([
-                "DESTROY ENEMIES FOR EXPERIENCE",
-                "AND TO PURCHASE UPGRADES",
+                "CLOSER ENEMIES ARE",
+                "TARGETED FIRST",
             ])
             self.showFirstEnemies()
         }

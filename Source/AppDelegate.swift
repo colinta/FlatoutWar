@@ -14,16 +14,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var soundBuffer: [ALBuffer] = []
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        justOnce("2017-01-12") {
-            TutorialLevel1Config().gainedExperience = 0
-            TutorialLevel2Config().gainedExperience = 0
-            TutorialLevel3Config().gainedExperience = 0
-            TutorialLevel4Config().gainedExperience = 0
-            TutorialLevel5Config().gainedExperience = 0
-            TutorialLevel6Config().gainedExperience = 0
-            TutorialLevel7Config().gainedExperience = 0
-            TutorialLevel8Config().gainedExperience = 0
-        }
 
         device = ALDevice(deviceSpecifier: nil)
         context = ALContext(on: device, attributes: nil)

@@ -32,10 +32,12 @@ class TutorialLevel2: TutorialLevel {
     func beginWave2(nextStep: @escaping NextStepBlock) {
         var delay: CGFloat = 0
         5.times { (i: Int) in
+            let done = nextStep()
             timeline.at(.Delayed(delay)) {
                 let wave: CGFloat = rand(TAU)
                 self.generateWarning(wave)
                 self.timeline.at(.Delayed(), block: self.generateEnemyFormation(wave)) ~~> nextStep()
+                done()
             }
             delay += 10
         }
