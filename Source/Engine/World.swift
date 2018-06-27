@@ -325,18 +325,20 @@ class World: Node {
 
             if hadEnemies {
                 if enemies.count == 0 {
-                    for handler in _onNoMoreEnemies {
+                    let handlers = _onNoMoreEnemies
+                    _onNoMoreEnemies = []
+                    for handler in handlers {
                         handler()
                     }
-                    _onNoMoreEnemies = []
                 }
 
                 let noMoreBlockingEnemies = enemies.none { $0.enemyComponent!.blocksNextWave }
                 if noMoreBlockingEnemies {
-                    for handler in _onNoMoreBlockingEnemies {
+                    let handlers = _onNoMoreBlockingEnemies
+                    _onNoMoreBlockingEnemies = []
+                    for handler in handlers {
                         handler()
                     }
-                    _onNoMoreBlockingEnemies = []
                 }
             }
         }
