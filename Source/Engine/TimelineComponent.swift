@@ -309,7 +309,7 @@ class TimelineComponent: Component {
 
 }
 
-protocol FinishableEvent: class {
+protocol FinishableEvent: AnyObject {
     var finallyBlock: Block { get set }
 }
 

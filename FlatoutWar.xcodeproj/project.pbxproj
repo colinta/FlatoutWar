@@ -288,6 +288,7 @@
 		1D971CEB1E1C894600A167A2 /* GuardNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CEA1E1C894500A167A2 /* GuardNode.swift */; };
 		1D971CED1E1CA1BB00A167A2 /* GuardUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CEC1E1CA1BB00A167A2 /* GuardUpgrades.swift */; };
 		1D971CEF1E1EC28B00A167A2 /* RotateScanComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D971CEE1E1EC28B00A167A2 /* RotateScanComponent.swift */; };
+		1DB6C11B21518C5B00760496 /* CrosshairsArtist.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB6C11A21518C5B00760496 /* CrosshairsArtist.swift */; };
 		1DBFDA001DFFB8DD0058843D /* CannonUpgrades.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */; };
 		1DC78A221F1E78B800BE2413 /* BaseConfigSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A211F1E78B800BE2413 /* BaseConfigSummary.swift */; };
 		1DC78A391F1EA3BA00BE2413 /* OceanConfigSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC78A241F1EA3BA00BE2413 /* OceanConfigSummary.swift */; };
@@ -637,6 +638,7 @@
 		1D971CEA1E1C894500A167A2 /* GuardNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuardNode.swift; sourceTree = "<group>"; };
 		1D971CEC1E1CA1BB00A167A2 /* GuardUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GuardUpgrades.swift; sourceTree = "<group>"; };
 		1D971CEE1E1EC28B00A167A2 /* RotateScanComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotateScanComponent.swift; sourceTree = "<group>"; };
+		1DB6C11A21518C5B00760496 /* CrosshairsArtist.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrosshairsArtist.swift; sourceTree = "<group>"; };
 		1DBFD9FF1DFFB8DD0058843D /* CannonUpgrades.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CannonUpgrades.swift; sourceTree = "<group>"; };
 		1DC78A211F1E78B800BE2413 /* BaseConfigSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseConfigSummary.swift; sourceTree = "<group>"; };
 		1DC78A241F1EA3BA00BE2413 /* OceanConfigSummary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OceanConfigSummary.swift; sourceTree = "<group>"; };
@@ -721,7 +723,7 @@
 		DDC5C18E8FA47466AEC3FD13 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.3.sdk/System/Library/Frameworks/OpenAL.framework; sourceTree = DEVELOPER_DIR; };
 		DF01659B487992A6459A463C /* OALAction.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OALAction.h; path = ObjectAL/Actions/OALAction.h; sourceTree = "<group>"; };
 		E1E52672172749598336EBDF /* mach_timing.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = mach_timing.h; path = ObjectAL/Support/mach_timing.h; sourceTree = "<group>"; };
-		E4C5F48739BAC50FA4603152 /* 2Dim: Flatout War.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "2Dim: Flatout War.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E4C5F48739BAC50FA4603152 /* Flatout War.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Flatout War.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E6070410F0F054A36519E801 /* ALChannelSource.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ALChannelSource.m; path = ObjectAL/OpenAL/ALChannelSource.m; sourceTree = "<group>"; };
 		EAD444DCDB1833205E351CCE /* OALSimpleAudio.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = OALSimpleAudio.h; path = ObjectAL/OALSimpleAudio.h; sourceTree = "<group>"; };
 		ED12A8CB25CD4D341D662862 /* OpenALManager.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = OpenALManager.m; path = ObjectAL/OpenAL/OpenALManager.m; sourceTree = "<group>"; };
@@ -862,6 +864,7 @@
 				1D3DA19F1F701DF10043B0B1 /* BaseArtist.swift */,
 				1D3DA19B1F701DF10043B0B1 /* BaseTurretArtist.swift */,
 				1D3DA19E1F701DF10043B0B1 /* CannonArtist.swift */,
+				1DB6C11A21518C5B00760496 /* CrosshairsArtist.swift */,
 				1D3DA1BD1F70236C0043B0B1 /* CursorArtist.swift */,
 				1D3DA1971F701DF10043B0B1 /* DroneArtist.swift */,
 				1D3DA1981F701DF10043B0B1 /* DroneRadarArtist.swift */,
@@ -1363,7 +1366,7 @@
 		C66F92F2477D7AC0AB3E400B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E4C5F48739BAC50FA4603152 /* 2Dim: Flatout War.app */,
+				E4C5F48739BAC50FA4603152 /* Flatout War.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1490,9 +1493,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		E664A8B8EE094407A57103DD /* 2Dim: Flatout War */ = {
+		E664A8B8EE094407A57103DD /* Flatout War */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8F7D4229BA2ED6D5A7D5BAE7 /* Build configuration list for PBXNativeTarget "2Dim: Flatout War" */;
+			buildConfigurationList = 8F7D4229BA2ED6D5A7D5BAE7 /* Build configuration list for PBXNativeTarget "Flatout War" */;
 			buildPhases = (
 				897FD9DD53114F37023A18A2 /* Frameworks */,
 				CA5AF057E6E1044EA81C3947 /* Sources */,
@@ -1502,9 +1505,9 @@
 			);
 			dependencies = (
 			);
-			name = "2Dim: Flatout War";
+			name = "Flatout War";
 			productName = "2Dim: Flatout War";
-			productReference = E4C5F48739BAC50FA4603152 /* 2Dim: Flatout War.app */;
+			productReference = E4C5F48739BAC50FA4603152 /* Flatout War.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -1515,28 +1518,29 @@
 			attributes = {
 				CLASSPREFIX = FW;
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1250;
 				ORGANIZATIONNAME = colinta;
 				TargetAttributes = {
 					E664A8B8EE094407A57103DD = {
-						DevelopmentTeam = 5QDS9Z456R;
-						LastSwiftMigration = 0940;
+						DevelopmentTeam = 325ZCV49Y4;
+						LastSwiftMigration = 1250;
 					};
 				};
 			};
 			buildConfigurationList = 7DDA1026A74E04041ABB1D1E /* Build configuration list for PBXProject "FlatoutWar" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = E4808FF7B43E7A187F06A5AE;
 			productRefGroup = C66F92F2477D7AC0AB3E400B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E664A8B8EE094407A57103DD /* 2Dim: Flatout War */,
+				E664A8B8EE094407A57103DD /* Flatout War */,
 			);
 		};
 /* End PBXProject section */
@@ -1646,6 +1650,7 @@
 				1D6A9FD81DD79B2A004A0978 /* ShieldPowerup.swift in Sources */,
 				1DC78A401F1EA3BA00BE2413 /* OceanLevel3Config.swift in Sources */,
 				1D6A9F7D1DD79B10004A0978 /* TutorialLevel6.swift in Sources */,
+				1DB6C11B21518C5B00760496 /* CrosshairsArtist.swift in Sources */,
 				1D6AA04F1DD79B3E004A0978 /* HealthComponent.swift in Sources */,
 				1D6A9FFD1DD79B31004A0978 /* NetNode.swift in Sources */,
 				1D3DA1C51F7023730043B0B1 /* DotArtist.swift in Sources */,
@@ -1905,11 +1910,11 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 5QDS9Z456R;
+				DEVELOPMENT_TEAM = 325ZCV49Y4;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Support/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colinta.FlatoutWar;
@@ -1917,7 +1922,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = Support/BridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -1929,18 +1934,18 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 5QDS9Z456R;
+				DEVELOPMENT_TEAM = 325ZCV49Y4;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = Support/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.colinta.FlatoutWar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = Support/BridgingHeader.h;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -1949,6 +1954,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1968,12 +1974,13 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application: colinta, LLC (5QDS9Z456R)";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1994,6 +2001,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -2013,12 +2021,13 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "Developer ID Application: colinta, LLC (5QDS9Z456R)";
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -2053,7 +2062,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8F7D4229BA2ED6D5A7D5BAE7 /* Build configuration list for PBXNativeTarget "2Dim: Flatout War" */ = {
+		8F7D4229BA2ED6D5A7D5BAE7 /* Build configuration list for PBXNativeTarget "Flatout War" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1AD0229B6CB8B7A82E93FF52 /* Debug */,

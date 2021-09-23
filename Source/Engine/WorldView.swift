@@ -12,7 +12,7 @@ class WorldView: SKView {
 
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
-    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+    override func motionEnded(_ motion: UIEvent.EventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
             (scene as? WorldScene)?.gameShook()
         }

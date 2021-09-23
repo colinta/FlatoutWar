@@ -207,17 +207,13 @@ class World: Node {
     func processNewNode(_ node: Node) {
         let newNodes = [node] + node.allChildNodes(recursive: true)
         for childNode in newNodes {
-            if !childNode.processed {
-                didAdd(childNode)
-                childNode.processed = true
-            }
+            guard !childNode.processedByWorld else { continue }
+            didAdd(childNode)
+            childNode.processedByWorld = true
         }
 
         if let cachedNodes = _cachedNodes {
             _cachedNodes = cachedNodes + newNodes
-        }
-        else {
-            _cachedNodes = cachedNodes()
         }
 
         var reacquire = false
@@ -226,17 +222,11 @@ class World: Node {
                 if let cachedEnemies = _cachedEnemies {
                     _cachedEnemies = cachedEnemies + [child]
                 }
-                else {
-                    _cachedEnemies = cachedEnemies()
-                }
             }
 
             if child.isPlayer {
                 if let cachedPlayers = _cachedPlayers {
                     _cachedPlayers = cachedPlayers + [child]
-                }
-                else {
-                    _cachedPlayers = cachedPlayers()
                 }
                 reacquire = true
             }

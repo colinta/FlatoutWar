@@ -2,7 +2,7 @@
 ///  UpgradeableNode.swift
 //
 
-protocol UpgradeableNode: class {
+protocol UpgradeableNode: AnyObject {
     func upgradeTitle() -> String
     func applyUpgrade(type: UpgradeType)
 }

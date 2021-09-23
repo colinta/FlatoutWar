@@ -56,9 +56,9 @@ class Playground: World {
     }
 
     private func generateEnemies() {
-        let angle: CGFloat = [
+        let angle: CGFloat = ([
             0, 1, 2, 3, 4, 5, 6, 7, 8
-        ].rand()! * TAU_8
+        ] as [CGFloat]).rand()! * TAU_8
         for time in [0,1,2] {
             delay(TimeInterval(time)) {
                 let enemyNode = EnemySoldierNode()

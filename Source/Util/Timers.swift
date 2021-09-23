@@ -124,7 +124,7 @@ public func once(_ block: @escaping Block) -> Block {
 
 public func timeout(_ duration: TimeInterval, block: @escaping Block) -> Block {
     let handler = once(block)
-    _ = delay(duration) {
+    delay(duration) {
         handler()
     }
     return handler

@@ -102,7 +102,7 @@ extension Array {
 
 extension RangeReplaceableCollection {
     mutating func removeMatches(_ test: (Iterator.Element) -> Bool) {
-        while let index = self.index(where: test) {
+        while let index = self.firstIndex(where: test) {
             remove(at: index)
         }
     }
@@ -110,7 +110,7 @@ extension RangeReplaceableCollection {
 
 extension RangeReplaceableCollection where Iterator.Element: Equatable {
     mutating func remove(_ item: Iterator.Element) {
-        if let index = self.index(of: item) {
+        if let index = self.firstIndex(of: item) {
             remove(at: index)
         }
     }

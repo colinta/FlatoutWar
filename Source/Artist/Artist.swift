@@ -12,7 +12,7 @@ class Artist {
     static func saveCache() {
         let documents = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
         for (name, image) in generatedImages {
-            let data = UIImagePNGRepresentation(image)
+            let data = image.pngData()
             let filename = "\(name.replacingOccurrences(of: ":", with: ";")).png"
             if let data = data, let path = NSURL(fileURLWithPath: documents).appendingPathComponent(filename) {
                 try! data.write(to: path, options: [.atomicWrite])

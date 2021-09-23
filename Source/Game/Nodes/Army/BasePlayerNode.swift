@@ -64,6 +64,7 @@ class BasePlayerNode: Node {
         node.movementUpgrade = movementUpgrade
         node.bulletUpgrade = bulletUpgrade
         node.radarUpgrade = radarUpgrade
+        enemyTargetingComponent?.radarUpgrade = radarUpgrade
         return node
     }
 

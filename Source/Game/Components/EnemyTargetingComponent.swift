@@ -7,20 +7,24 @@ class EnemyTargetingComponent: Component {
     var radius: CGFloat?
     var sweepAngle: CGFloat?
     var sweepWidth: CGFloat?
+    var showsTarget = false
+    var radarUpgrade: HasUpgrade = .false { didSet { updateTarget() } }
     private var avoidTarget: Node?
     var currentTarget: Node? {
         didSet {
             if currentTarget != oldValue {
                 currentTargetVector = nil
                 currentTargetPrevLocation = nil
+                updateTarget()
             }
         }
     }
-    var turret: SKNode?
     var reallySmart = false
     var bulletSpeed: CGFloat?
-    var currentTargetVector: CGPoint?
-    var currentTargetPrevLocation: CGPoint?
+    private var currentTargetVector: CGPoint?
+    private var currentTargetPrevLocation: CGPoint?
+    var turret: SKNode?
+    private var crosshairsNode: SKNode?
 
     typealias OnTargetAcquired = (Node?) -> Void
     var _onTargetAcquired: [OnTargetAcquired] = []
@@ -73,6 +77,19 @@ class EnemyTargetingComponent: Component {
             }
             currentTargetPrevLocation = currentTarget?.position
         }
+    }
+
+    private func updateTarget() {
+        if let crosshairsNode = self.crosshairsNode, crosshairsNode.parent != nil {
+            crosshairsNode.removeFromParent()
+        }
+        guard showsTarget, let currentTarget = currentTarget else {
+            return
+        }
+
+        let crosshairsNode = SKSpriteNode(id: .crosshairs(upgrade: radarUpgrade))
+        currentTarget << crosshairsNode
+        self.crosshairsNode = crosshairsNode
     }
 
     func isViableTarget(_ enemy: Node) -> Bool {

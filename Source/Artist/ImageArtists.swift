@@ -296,9 +296,10 @@ extension ImageIdentifier {
             let artist = MissleArtist()
             return artist
 
+        case let .crosshairs(upgrade):
+            return CrosshairsArtist(hasUpgrade: upgrade.boolValue)
         case .cursor:
-            let artist = CursorArtist()
-            return artist
+            return CursorArtist()
         case let .base(movementUpgrade, bulletUpgrade, radarUpgrade, healthInt):
             let health = CGFloat(healthInt) / 100
             let artist = BaseArtist(movementUpgrade, bulletUpgrade, radarUpgrade, health: health)

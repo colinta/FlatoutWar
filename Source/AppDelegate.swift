@@ -13,7 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var context: ALContext!
     var soundBuffer: [ALBuffer] = []
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
         device = ALDevice(deviceSpecifier: nil)
         context = ALContext(on: device, attributes: nil)
@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryAmbient)
+            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient)
         }
         catch {}
 
@@ -71,4 +71,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
 }
-

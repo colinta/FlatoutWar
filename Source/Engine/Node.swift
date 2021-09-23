@@ -4,7 +4,7 @@
 
 class Node: SKNode {
     var active = true
-    var processed = false
+    var processedByWorld = false
     var interactive = true
     var timeRate: CGFloat = 1
     var autoReset = true
@@ -67,6 +67,7 @@ class Node: SKNode {
             node.reset()
         }
         _onDeath = []
+        processedByWorld = false
     }
 
     weak var draggableComponent: DraggableComponent?
@@ -291,7 +292,7 @@ extension Node {
     }
 
     func removeComponent(_ component: Component) {
-        if let index = components.index(of: component) {
+        if let index = components.firstIndex(of: component) {
             components.remove(at: index)
 
             if component == draggableComponent { draggableComponent = nil }
@@ -310,7 +311,7 @@ extension Node {
             else if component == touchableComponent { touchableComponent = nil }
         }
 
-        if let index = assignedComponents.index(of: component) {
+        if let index = assignedComponents.firstIndex(of: component) {
             assignedComponents.remove(at: index)
         }
     }

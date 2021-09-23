@@ -97,6 +97,7 @@ indirect enum ImageIdentifier {
     case missleSiloRadar(upgrade: HasUpgrade, isSelected: Bool)
     case missle
 
+    case crosshairs(upgrade: HasUpgrade)
     case cursor
     case base(movementUpgrade: HasUpgrade, bulletUpgrade: HasUpgrade, radarUpgrade: HasUpgrade, health: Int)
     case baseRadar(upgrade: HasUpgrade, isSelected: Bool)
@@ -124,13 +125,13 @@ indirect enum ImageIdentifier {
         case .warning:
             return "warning"
         case let .dot(color):
-            return "dot_color-\(color)"
+            return "dot:color-\(color)"
         case .experienceIcon:
             return "experienceIcon"
         case let .box(color):
-            return "box_color-\(color)"
+            return "box:color-\(color)"
         case let .percent(percent, style):
-            return "percent_percent-\(percent)_style-\(style)"
+            return "percent:percent-\(percent):style-\(style)"
         case let .whiteLetter(letter, size):
             let nameLetter: String
             switch letter {
@@ -149,7 +150,7 @@ indirect enum ImageIdentifier {
             default:
                 nameLetter = letter
             }
-            return "whiteLetter_letter-\(nameLetter)_size-\(size.name)"
+            return "whiteLetter:letter-\(nameLetter):size-\(size.name)"
         case let .letter(letter, size, color):
             let nameLetter: String
             switch letter {
@@ -168,32 +169,32 @@ indirect enum ImageIdentifier {
             default:
                 nameLetter = letter
             }
-            return "letter_\(nameLetter)_size-\(size.name)_color-\(color)"
+            return "letter:\(nameLetter):size-\(size.name):color-\(color)"
         case let .button(style, color):
-            return "button_style-\(style.name)_color-\(color)"
+            return "button:style-\(style.name):color-\(color)"
 
         case let .enemy(type, health):
             let typeName = type.name
-            return "enemy_type-(\(typeName))_health-\(health)"
+            return "enemy:type-(\(typeName)):health-\(health)"
         case let .enemyShrapnel(type, size):
             let typeName = type.name ?? ""
-            return "enemyShrapnel_type-(\(typeName))_size-\(size.name)"
+            return "enemyShrapnel:type-(\(typeName)):size-\(size.name)"
         case .enemyBoat:
             return "enemyBoat"
         case let .woodsBossFoot(health):
-            return "woodsBossFoot_health-\(health)"
+            return "woodsBossFoot:health-\(health)"
         case let .woodsBossBody(health):
-            return "woodsBossBody_health-\(health)"
+            return "woodsBossBody:health-\(health)"
 
         case let .powerup(type):
             let typeName = type.name
-            return "powerup_type-(\(typeName))"
+            return "powerup:type-(\(typeName))"
         case .noPowerup:
             return "noPowerup"
         case let .bomber(numBombs):
-            return "bomber_numBombs-\(numBombs)"
+            return "bomber:numBombs-\(numBombs)"
         case let .bomb(radius, time):
-            return "bomb_radius-\(radius)_time-\(time)"
+            return "bomb:radius-\(radius):time-\(time)"
         case .hourglassZone:
             return "hourglassZone"
         case .mine:
@@ -201,92 +202,94 @@ indirect enum ImageIdentifier {
         case .mineExplosion:
             return "mineExplosion"
         case let .net(phase):
-            return "net_phase-\(phase)"
+            return "net:phase-\(phase)"
         case let .enemyNet(size):
             let roundedSize = Int(round(size * 20))
-            return "enemyNet_size-\(roundedSize)"
+            return "enemyNet:size-\(roundedSize)"
         case let .soldier(health):
-            return "soldier_health-\(health)"
+            return "soldier:health-\(health)"
         case let .powerupTimer(percent):
-            return "powerupTimer_percent-\(percent)"
+            return "powerupTimer:percent-\(percent)"
 
         case let .drone(movementUpgrade, bulletUpgrade, radarUpgrade, health):
-            return "drone_movementUpgrade-\(movementUpgrade.name)_bulletUpgrade-\(bulletUpgrade.name)_radarUpgrade-\(radarUpgrade.name)_health-\(health)"
+            return "drone:movementUpgrade-\(movementUpgrade.name):bulletUpgrade-\(bulletUpgrade.name):radarUpgrade-\(radarUpgrade.name):health-\(health)"
         case let .droneRadar(upgrade):
-            return "droneRadar_upgrade-\(upgrade.name)"
+            return "droneRadar:upgrade-\(upgrade.name)"
 
         case let .laserNode(upgrade, health):
-            return "laserNode_upgrade-\(upgrade.name)_health-\(health)"
+            return "laserNode:upgrade-\(upgrade.name):health-\(health)"
         case let .laserTurret(upgrade, isFiring):
-            return "laserTurret_upgrade-\(upgrade.name)_isFiring-\(isFiring)"
+            return "laserTurret:upgrade-\(upgrade.name):isFiring-\(isFiring)"
         case let .laserRadar(upgrade, isSelected):
-            return "laserRadar_upgrade-\(upgrade.name)_isSelected-\(isSelected)"
+            return "laserRadar:upgrade-\(upgrade.name):isSelected-\(isSelected)"
 
         case let .guardNode(movementUpgrade, bulletUpgrade, radarUpgrade, health):
-            return "GuardNode_movementUpgrade-\(movementUpgrade.name)_bulletUpgrade-\(bulletUpgrade.name)_radarUpgrade-\(radarUpgrade.name)_health-\(health)"
+            return "GuardNode:movementUpgrade-\(movementUpgrade.name):bulletUpgrade-\(bulletUpgrade.name):radarUpgrade-\(radarUpgrade.name):health-\(health)"
         case let .guardTurret(upgrade):
-            return "GuardTurret_upgrade-\(upgrade.name)"
+            return "GuardTurret:upgrade-\(upgrade.name)"
         case let .guardRadar(upgrade, isSelected):
-            return "GuardRadar_upgrade-\(upgrade.name)_isSelected-\(isSelected)"
+            return "GuardRadar:upgrade-\(upgrade.name):isSelected-\(isSelected)"
 
         case let .cannon(upgrade, health):
-            return "cannon_upgrade-\(upgrade.name)_health-\(health)"
+            return "cannon:upgrade-\(upgrade.name):health-\(health)"
         case let .cannonBox(upgrade):
-            return "cannonBox_upgrade-\(upgrade.name)"
+            return "cannonBox:upgrade-\(upgrade.name)"
         case let .cannonTurret(upgrade):
-            return "cannonTurret_upgrade-\(upgrade.name)"
+            return "cannonTurret:upgrade-\(upgrade.name)"
         case let .cannonRadar(upgrade, isSelected):
-            return "cannonRadar_upgrade-\(upgrade.name)_isSelected-\(isSelected)"
+            return "cannonRadar:upgrade-\(upgrade.name):isSelected-\(isSelected)"
 
         case let .missleSilo(upgrade, health):
-            return "missleSilo_upgrade-\(upgrade.name)_health-\(health)"
+            return "missleSilo:upgrade-\(upgrade.name):health-\(health)"
         case let .missleSiloBox(upgrade):
-            return "missleSiloBox_upgrade-\(upgrade.name)"
+            return "missleSiloBox:upgrade-\(upgrade.name)"
         case let .missleSiloRadar(upgrade, isSelected):
-            return "missleSiloRadar_upgrade-\(upgrade.name)_isSelected-\(isSelected)"
+            return "missleSiloRadar:upgrade-\(upgrade.name):isSelected-\(isSelected)"
         case .missle:
             return "missle"
 
+        case let .crosshairs(upgrade):
+            return "crosshairs:upgrade-\(upgrade)"
         case .cursor:
             return "cursor"
         case let .shield(phase):
-            return "shield_phase-\(phase)"
+            return "shield:phase-\(phase)"
         case let .shieldSegment(health):
-            return "shieldSegment_health-\(health)"
+            return "shieldSegment:health-\(health)"
         case let .base(movementUpgrade, bulletUpgrade, radarUpgrade, health):
-            return "base_movementUpgrade-\(movementUpgrade.name)_bulletUpgrade-\(bulletUpgrade.name)_radarUpgrade-\(radarUpgrade.name)_health-\(health)"
+            return "base:movementUpgrade-\(movementUpgrade.name):bulletUpgrade-\(bulletUpgrade.name):radarUpgrade-\(radarUpgrade.name):health-\(health)"
         case let .baseRadar(upgrade, isSelected):
-            return "baseRadar_upgrade-\(upgrade.name)_isSelected-\(isSelected)"
+            return "baseRadar:upgrade-\(upgrade.name):isSelected-\(isSelected)"
         case let .baseExplosion(index, total):
-            return "baseExplosion_index-\(index)_total-\(total)"
+            return "baseExplosion:index-\(index):total-\(total)"
         case let .baseSingleTurret(bulletUpgrade):
-            return "baseSingleTurret_bulletUpgrade-\(bulletUpgrade.name)"
+            return "baseSingleTurret:bulletUpgrade-\(bulletUpgrade.name)"
         case let .baseDoubleTurret(bulletUpgrade):
-            return "baseDoubleTurret_bulletUpgrade-\(bulletUpgrade.name)"
+            return "baseDoubleTurret:bulletUpgrade-\(bulletUpgrade.name)"
         case let .baseBigTurret(bulletUpgrade):
-            return "baseBigTurret_bulletUpgrade-\(bulletUpgrade.name)"
+            return "baseBigTurret:bulletUpgrade-\(bulletUpgrade.name)"
         case let .bullet(upgrade, style):
-            return "BaseTurretBullet_upgrade-\(upgrade.name)_style-\(style)"
+            return "BaseTurretBullet:upgrade-\(upgrade.name):style-\(style)"
         case .colorPath:
             return nil
         case let .colorLine(length, color):
             let roundedLength = Int(round(length * 20))
-            return "colorLine_length-\(roundedLength)_color-\(color)"
+            return "colorLine:length-\(roundedLength):color-\(color)"
         case let .hueLine(length, hue):
             let roundedLength = Int(round(length * 20))
-            return "hueLine_length-\(roundedLength)_hue-\(hue)"
+            return "hueLine:length-\(roundedLength):hue-\(hue)"
         case let .colorCircle(size, color):
-            return "colorCircle_size\(Int(size.width))x\(Int(size.height))_color-\(color)"
+            return "colorCircle:size\(Int(size.width))x\(Int(size.height)):color-\(color)"
         case let .colorBox(size, color):
-            return "colorBox_size\(Int(size.width))x\(Int(size.height))_color-\(color)"
+            return "colorBox:size\(Int(size.width))x\(Int(size.height)):color-\(color)"
         case let .hueBox(size, hue):
-            return "hueBox_size\(Int(size.width))x\(Int(size.height))_hue-\(hue)"
+            return "hueBox:size\(Int(size.width))x\(Int(size.height)):hue-\(hue)"
         case let .fillColorCircle(size, color):
-            return "fillColorCircle_size\(Int(size.width))x\(Int(size.height))_color-\(color)"
+            return "fillColorCircle:size\(Int(size.width))x\(Int(size.height)):color-\(color)"
         case let .fillColorBox(size, color):
-            return "fillColorBox_size\(Int(size.width))x\(Int(size.height))_color-\(color)"
+            return "fillColorBox:size\(Int(size.width))x\(Int(size.height)):color-\(color)"
         case let .fillHueBox(size, hue):
-            return "fillHueBox_size\(Int(size.width))x\(Int(size.height))_hue-\(hue)"
+            return "fillHueBox:size\(Int(size.width))x\(Int(size.height)):hue-\(hue)"
         }
     }
 
