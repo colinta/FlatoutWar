@@ -14,11 +14,15 @@ class WorldView: SKView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-        (scene as? WorldScene)?.updateLayout(in: self)
+        updateWorldLayout()
     }
 
     override func safeAreaInsetsDidChange() {
         super.safeAreaInsetsDidChange()
+        updateWorldLayout()
+    }
+
+    func updateWorldLayout() {
         (scene as? WorldScene)?.updateLayout(in: self)
     }
 

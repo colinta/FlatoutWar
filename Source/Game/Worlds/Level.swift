@@ -262,8 +262,8 @@ class Level: World {
                 y: 20 - CGFloat(index) * 80
             )
             let dest: Position = .topLeft(
-                x: 20,
-                y: -20 - CGFloat(index) * 50
+                x: 40,
+                y: -40 - CGFloat(index) * 50
             )
             powerup.addToLevel(self, playerNode: playerNode, start: calculateFixedPosition(start), dest: dest)
         }

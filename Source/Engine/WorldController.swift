@@ -24,6 +24,7 @@ class WorldController: UIViewController {
 
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        worldView?.updateWorldLayout()
         guard let view = worldView, view.bounds.width > 0, view.bounds.height > 0,
               view.scene == nil else { return }
 
@@ -39,6 +40,18 @@ class WorldController: UIViewController {
         }
 
         // view.showsFPS = true
+    }
+
+    override func viewSafeAreaInsetsDidChange() {
+        super.viewSafeAreaInsetsDidChange()
+        worldView?.updateWorldLayout()
+    }
+
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: nil) { [weak self] _ in
+            self?.worldView?.updateWorldLayout()
+        }
     }
 
     func halt() {

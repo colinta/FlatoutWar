@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F40000000000000000000001 /* ViewportLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = F40000000000000000000002 /* ViewportLayout.swift */; };
 		0022C408A8306E2FFD4ADB75 /* ALCaptureDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = CE8542F71B52285549695D4E /* ALCaptureDevice.m */; };
 		078F5FE17274206D390670B4 /* NSMutableArray+WeakReferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 44B3EF0E380C4B5BA1F0D83B /* NSMutableArray+WeakReferences.m */; };
 		1104ABC2B1CD7A94967503F1 /* OALAudioActions.m in Sources */ = {isa = PBXBuildFile; fileRef = 4E827DF3F4200044750FA7AF /* OALAudioActions.m */; };
@@ -353,6 +354,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F40000000000000000000002 /* ViewportLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewportLayout.swift; sourceTree = "<group>"; };
 		00EE266DC384C9FC816153A2 /* ObjectAL (iOS)-Prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = "ObjectAL (iOS)-Prefix.pch"; path = "ObjectAL/ObjectAL (iOS)-Prefix.pch"; sourceTree = "<group>"; };
 		0213924B8251BA275F8459BA /* BridgingHeader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = BridgingHeader.h; path = Support/BridgingHeader.h; sourceTree = "<group>"; };
 		0326D920AD1A33C22EF4C831 /* ALListener.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; name = ALListener.m; path = ObjectAL/OpenAL/ALListener.m; sourceTree = "<group>"; };
@@ -1151,6 +1153,7 @@
 				1D6AA0811DD79B53004A0978 /* Mod.swift */,
 				1D6AA0821DD79B53004A0978 /* Node.swift */,
 				1D6AA0831DD79B53004A0978 /* Position.swift */,
+				F40000000000000000000002 /* ViewportLayout.swift */,
 				1D6AA0841DD79B53004A0978 /* ScrollNode.swift */,
 				1D6AA0851DD79B53004A0978 /* SpriteNode.swift */,
 				1D6AA0861DD79B53004A0978 /* TimelineComponent.swift */,
@@ -1694,6 +1697,7 @@
 				1D66EE4E1EA1C320009CE669 /* TutorialConfigSummary.swift in Sources */,
 				1D66EE411EA1C317009CE669 /* WoodsLevel8Config.swift in Sources */,
 				1D6AA0941DD79B53004A0978 /* Position.swift in Sources */,
+				F40000000000000000000001 /* ViewportLayout.swift in Sources */,
 				1D6A9FD71DD79B2A004A0978 /* PulsePowerup.swift in Sources */,
 				1D971CEB1E1C894600A167A2 /* GuardNode.swift in Sources */,
 				1D6A9FF61DD79B31004A0978 /* BomberPowerupNode.swift in Sources */,

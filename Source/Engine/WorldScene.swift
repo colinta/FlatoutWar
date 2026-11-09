@@ -2,9 +2,6 @@
 ///  WorldScene.swift
 //
 
-private var CalculatedWorldScale: CGFloat?
-private var DesiredSize = CGSize(width: 667, height: 375)
-
 class WorldScene: SKScene {
     var world: World
     private var worldScalingNode = SKNode()
@@ -15,29 +12,24 @@ class WorldScene: SKScene {
     var prevTime: TimeInterval?
     var touchSessions: [UITouch: TouchSession] = [:]
 
-    static var worldScale: CGFloat {
-        if let scale = CalculatedWorldScale {
-            return scale
-        }
-        let screenSize = UIScreen.main.bounds
-        let scale = CGPoint(x: screenSize.width / DesiredSize.width, y: screenSize.height / DesiredSize.height)
-        let worldScale = max(min(scale.x, scale.y), 1)
-        CalculatedWorldScale = worldScale
-        return worldScale
-    }
+    private(set) var worldScale: CGFloat
+    private var lastLayout: ViewportLayout?
 
     required init(size: CGSize, world: World) {
+        let bounds = CGRect(origin: .zero, size: size)
+        let layout = ViewportLayout(viewBounds: bounds, safeFrame: bounds)
         self.world = world
-        world.size = size / WorldScene.worldScale
+        worldScale = layout.worldScale
+        world.size = layout.worldSize
         world.screenSize = size
         uiNode = world.ui
         gameUINode = world.gameUI
         super.init(size: size)
         anchorPoint = CGPoint(0.5, 0.5)
 
-        uiNode.setScale(WorldScene.worldScale)
-        gameUINode.setScale(WorldScene.worldScale)
-        worldScalingNode.setScale(WorldScene.worldScale)
+        uiNode.setScale(worldScale)
+        gameUINode.setScale(worldScale)
+        worldScalingNode.setScale(worldScale)
         worldScalingNode << world
         self << worldScalingNode
 
@@ -55,17 +47,24 @@ class WorldScene: SKScene {
 
     func updateLayout(in view: WorldView) {
         guard view.bounds.width > 0, view.bounds.height > 0 else { return }
-        size = view.bounds.size
-        world.size = size / WorldScene.worldScale
-        world.screenSize = size
+        let layout = ViewportLayout(viewBounds: view.bounds, safeFrame: view.safeAreaLayoutGuide.layoutFrame)
+        guard layout != lastLayout else { return }
+        lastLayout = layout
 
-        // Convert UIKit's top-left-origin safe area into scaled UI coordinates.
-        let safeFrame = view.bounds.inset(by: view.safeAreaInsets)
-        let topLeft = uiNode.convert(convertPoint(fromView: safeFrame.origin), from: self)
-        let bottomRight = uiNode.convert(convertPoint(fromView: CGPoint(x: safeFrame.maxX, y: safeFrame.maxY)), from: self)
-        world.uiBounds = CGRect(x: topLeft.x, y: bottomRight.y,
-                                width: bottomRight.x - topLeft.x,
-                                height: topLeft.y - bottomRight.y)
+        size = view.bounds.size
+        worldScale = layout.worldScale
+        uiNode.setScale(worldScale)
+        gameUINode.setScale(worldScale)
+        worldScalingNode.setScale(worldScale)
+        world.size = layout.worldSize
+        world.screenSize = size
+        world.uiBounds = layout.uiBounds
+
+        // A paused scene uses a snapshot; it must not retain the old viewport.
+        if pauseNode != nil {
+            worldUnpaused()
+            worldPaused()
+        }
     }
 
     func worldPaused() {
@@ -97,6 +96,11 @@ class WorldScene: SKScene {
     required init?(coder: NSCoder) { fatalError("init(coder:) has not been implemented") }
 
     override func update(_ currentTime: TimeInterval) {
+        // UIKit can deliver bounds and safe-area updates in different passes
+        // during a display transition. Recheck cheaply before rendering, too.
+        if let view = view as? WorldView {
+            updateLayout(in: view)
+        }
         if let prevTime = prevTime {
             let dt = CGFloat(currentTime - prevTime)
             world.updateWorld(dt)

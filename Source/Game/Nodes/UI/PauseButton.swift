@@ -8,7 +8,9 @@ class PauseButton: Button {
         super.init()
 
         setScale(0.75)
-        fixedPosition = .topRight(x: -20, y: -20)
+        // Leave room for the full hit target, even on displays whose safe area
+        // has zero top/side insets (such as Duo's expanded display).
+        fixedPosition = .topRight(x: -40, y: -40)
         text = "||"
         size = CGSize(80)
 
