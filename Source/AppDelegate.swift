@@ -4,17 +4,13 @@
 
 import AVFoundation
 
-
-@UIApplicationMain
+@main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
-    var window: UIWindow?
     var device: ALDevice!
     var context: ALContext!
     var soundBuffer: [ALBuffer] = []
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-
         device = ALDevice(deviceSpecifier: nil)
         context = ALContext(on: device, attributes: nil)
         if let manager = OpenALManager.sharedInstance() {
@@ -35,21 +31,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         do {
-            try AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient)
+            try AVAudioSession.sharedInstance().setCategory(.ambient)
         }
         catch {}
 
-        let window = UIWindow(frame: UIScreen.main.bounds)
-        self.window = window
-
         var i = 0
         srand48(time(&i))
-
-        window.makeKeyAndVisible()
-
-        let ctlr = WorldController()
-        window.rootViewController = ctlr
-
         return true
     }
 
@@ -57,17 +44,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Artist.clearCache()
         SKTexture.clearCache()
     }
+}
 
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-        // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+// Keep window ownership and gameplay lifecycle tied to the scene, not the app.
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+    var window: UIWindow?
+
+    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        guard let windowScene = scene as? UIWindowScene else { return }
+        let window = UIWindow(windowScene: windowScene)
+        window.rootViewController = WorldController()
+        self.window = window
+        window.makeKeyAndVisible()
+    }
+
+    func sceneWillResignActive(_ scene: UIScene) {
         (window?.rootViewController as? WorldController)?.halt()
     }
 
-
-    func applicationDidBecomeActive(_ application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    func sceneDidBecomeActive(_ scene: UIScene) {
         (window?.rootViewController as? WorldController)?.resume()
     }
-
 }

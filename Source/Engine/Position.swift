@@ -2,6 +2,8 @@
 ///  Position.swift
 //
 
+import CoreGraphics
+
 enum Position {
     case topLeft(x: CGFloat, y: CGFloat)
     case top(x: CGFloat, y: CGFloat)
@@ -14,27 +16,31 @@ enum Position {
     case bottomRight(x: CGFloat, y: CGFloat)
 
     func positionIn(screenSize size: CGSize) -> CGPoint {
-        let half = size / 2
+        return positionIn(bounds: CGRect(x: -size.width / 2, y: -size.height / 2,
+                                         width: size.width, height: size.height))
+    }
 
+    // SpriteKit coordinates: the top edge is maxY, not minY.
+    func positionIn(bounds: CGRect) -> CGPoint {
         switch self {
         case let .topLeft(x, y):
-            return CGPoint(x: -half.width + x, y: half.height + y)
+            return CGPoint(x: bounds.minX + x, y: bounds.maxY + y)
         case let .top(x, y):
-            return CGPoint(x: x, y: half.height + y)
+            return CGPoint(x: bounds.midX + x, y: bounds.maxY + y)
         case let .topRight(x, y):
-            return CGPoint(x: half.width + x, y: half.height + y)
+            return CGPoint(x: bounds.maxX + x, y: bounds.maxY + y)
         case let .left(x, y):
-            return CGPoint(x: -half.width + x, y: y)
+            return CGPoint(x: bounds.minX + x, y: bounds.midY + y)
         case let .center(x, y):
-            return CGPoint(x: x, y: y)
+            return CGPoint(x: bounds.midX + x, y: bounds.midY + y)
         case let .right(x, y):
-            return CGPoint(x: half.width + x, y: y)
+            return CGPoint(x: bounds.maxX + x, y: bounds.midY + y)
         case let .bottomLeft(x, y):
-            return CGPoint(x: -half.width + x, y: -half.height + y)
+            return CGPoint(x: bounds.minX + x, y: bounds.minY + y)
         case let .bottom(x, y):
-            return CGPoint(x: x, y: -half.height + y)
+            return CGPoint(x: bounds.midX + x, y: bounds.minY + y)
         case let .bottomRight(x, y):
-            return CGPoint(x: half.width + x, y: -half.height + y)
+            return CGPoint(x: bounds.maxX + x, y: bounds.minY + y)
         }
     }
 

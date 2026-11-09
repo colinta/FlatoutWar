@@ -53,6 +53,21 @@ class WorldScene: SKScene {
         self << uiNode
     }
 
+    func updateLayout(in view: WorldView) {
+        guard view.bounds.width > 0, view.bounds.height > 0 else { return }
+        size = view.bounds.size
+        world.size = size / WorldScene.worldScale
+        world.screenSize = size
+
+        // Convert UIKit's top-left-origin safe area into scaled UI coordinates.
+        let safeFrame = view.bounds.inset(by: view.safeAreaInsets)
+        let topLeft = uiNode.convert(convertPoint(fromView: safeFrame.origin), from: self)
+        let bottomRight = uiNode.convert(convertPoint(fromView: CGPoint(x: safeFrame.maxX, y: safeFrame.maxY)), from: self)
+        world.uiBounds = CGRect(x: topLeft.x, y: bottomRight.y,
+                                width: bottomRight.x - topLeft.x,
+                                height: topLeft.y - bottomRight.y)
+    }
+
     func worldPaused() {
         if let view = view {
             if let texture = view.texture(from: self) {

@@ -17,9 +17,16 @@ class WorldController: UIViewController {
     }
 
     override func loadView() {
-        let view = WorldView(frame: UIScreen.main.bounds)
+        let view = WorldView(frame: .zero)
         self.worldView = view
-        self.view = worldView
+        self.view = view
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        guard let view = worldView, view.bounds.width > 0, view.bounds.height > 0,
+              view.scene == nil else { return }
+
         if Defaults["colin"].bool == true {
             let world = OceanLevel1()
             view.presentWorld(world)

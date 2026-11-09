@@ -2,11 +2,11 @@
 ///  FreeMethods.swift
 //
 
-public func inBackground(_ block: @escaping Block) {
+public func inBackground(_ block: @escaping @Sendable () -> Void) {
     DispatchQueue.global(qos: .userInitiated).async(execute: block)
 }
 
-public func inForeground(_ block: @escaping Block) {
+public func inForeground(_ block: @escaping @MainActor @Sendable () -> Void) {
     DispatchQueue.main.async(execute: block)
 }
 

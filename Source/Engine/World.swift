@@ -25,6 +25,16 @@ class World: Node {
             updateFixedNodes()
         }
     }
+    // Safe-area bounds in the shared coordinate system of ui and gameUI.
+    // Gameplay size and camera bounds deliberately remain full-screen.
+    var uiBounds: CGRect? {
+        didSet {
+            if uiBounds != oldValue {
+                updateFixedNodes()
+            }
+        }
+    }
+
     var cameraNode: Node
     var ui = UINode()
     var gameUI = UINode()
@@ -690,6 +700,9 @@ class World: Node {
     }
 
     func calculateFixedPosition(_ position: Position) -> CGPoint {
+        if let uiBounds = uiBounds {
+            return position.positionIn(bounds: uiBounds)
+        }
         return position.positionIn(screenSize: size)
     }
 

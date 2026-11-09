@@ -105,6 +105,7 @@ class Powerup {
             parent << powerupCancelButton
         }
         powerupCancelButton.position = powerupButton.position
+        powerupCancelButton.fixedPosition = powerupButton.fixedPosition
         powerupCancelButton.visible = true
         powerupCancelButton.zPosition = powerupButton.zPosition + 1
         powerupButton.enabled = false

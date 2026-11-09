@@ -4,6 +4,7 @@
 
 class MoveToComponent: ApplyToNodeComponent {
     fileprivate var resetTarget = false
+    fileprivate var fixedTarget: Position?
     var target: CGPoint? {
         didSet {
             resetTarget = false
@@ -61,9 +62,16 @@ class MoveToComponent: ApplyToNodeComponent {
     override func reset() {
         super.reset()
         _onArrived = []
+        fixedTarget = nil
     }
 
     override func update(_ dt: CGFloat) {
+        if let fixedTarget = fixedTarget, let world = node?.world {
+            let destination = world.calculateFixedPosition(fixedTarget)
+            if target != destination {
+                target = destination
+            }
+        }
         guard let target = target else { return }
 
         let speed: CGFloat
@@ -90,6 +98,7 @@ class MoveToComponent: ApplyToNodeComponent {
 
             if resetTarget {
                 self.target = nil
+                self.fixedTarget = nil
             }
         }
         else {
@@ -109,9 +118,9 @@ extension Node {
 
     @discardableResult
     func moveTo(_ dest: Position, duration: CGFloat? = nil, speed: CGFloat? = nil) -> MoveToComponent {
-        let screenSize = world!.screenSize
-        let position = dest.positionIn(screenSize: screenSize)
+        let position = world!.calculateFixedPosition(dest)
         let moveTo = self.moveTo(position, duration: duration, speed: speed)
+        moveTo.fixedTarget = dest
         moveTo.onArrived {
             self.fixedPosition = dest
         }
@@ -132,6 +141,7 @@ extension Node {
         if let start = start {
             self.position = start
         }
+        moveTo.fixedTarget = nil
         moveTo.target = dest
         if let duration = duration {
             moveTo.duration = duration

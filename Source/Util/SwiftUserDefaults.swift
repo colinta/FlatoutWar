@@ -97,7 +97,7 @@ extension UserDefaults {
 
     subscript(key: String) -> Any? {
         get {
-            return self[key]
+            return object(forKey: key)
         }
         set {
             if let v = newValue as? Int {
